@@ -46,26 +46,27 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</span></div>
-<ul>
-<li>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
-<ul>
-<li>Display product without tax in website</li>
-</ul>
-</li>
-</ul>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">A shop that sells to consumers and to companies usually shows prices with tax, while a company buyer wants the net price. This module adds a line with the price without tax to the product page of the website.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-tag" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Net price line</span><div>The price block of the product page gets a muted line <em>Pre&#539; f&#259;r&#259; TVA:</em> (Romanian for "price without VAT") with the amount in the website currency. The line is hidden when the amount is zero.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Follows the display mode</span><div>When the website shows prices tax excluded, the line repeats the displayed price. Otherwise the product taxes are taken out of the displayed price, as if every tax were included in it.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Display only</span><div>The module adds a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">list_price_without_tax</code> entry to the product price data and a template that shows it. Other prices, the cart, orders and invoices are not touched.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-sliders" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Optional view</span><div>The line is an optional view called <em>Product Price without tax</em>, active after installation, which can be disabled for one website.</div></div></div></li></ul>
+<p>The module depends on Website and eCommerce (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">website_sale</code>); every visitor sees the line. The label is written in Romanian in the template and has no translation. The amount comes from the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">list_price</code> entry, not from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">price</code>, so test products that have a pricelist discount.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;"><span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">19.0.1.0.6</span></h2>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.8 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-11)</span></h2>
 <ul>
-<li>Fix: the "Price without tax" shown on the product page was wrong when the website
+<li>
+<p>Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.</p>
+</li>
+<li>
+<p>Fix: the "Price without tax" shown on the product page was wrong when the website
   display mode and the tax "included in price" setting differed. With prices displayed
   tax included and a tax excluded from price, the gross price was shown as net (121
   instead of 100); with prices displayed tax excluded and a tax included in price, the
   net price was reduced again (82.64 instead of 100). The net price now follows the
   website display mode: it is taken as is when prices are shown tax excluded, and the
-  taxes are removed from the displayed gross price otherwise.</li>
+  taxes are removed from the displayed gross price otherwise.</p>
+</li>
 </ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;"><span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">19.0.1.0.5</span></h2>
 <ul>

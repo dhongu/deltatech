@@ -1,5 +1,10 @@
 # 19.0.1.0.6
 
+
+## 19.0.1.0.8 (2026-11-11)
+
+- Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.
+
 - Fix: the "Price without tax" shown on the product page was wrong when the website
   display mode and the tax "included in price" setting differed. With prices displayed
   tax included and a tax excluded from price, the gross price was shown as net (121
