@@ -31,11 +31,32 @@
   </div>
 </div>
 
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
+</ul>
+<div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module generates a report which shows what payments should be
-expected until a certain date A cron job can be scheduled to
-automatically generate the report</p>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Finance teams need to know when invoices will really be paid. This module estimates the payments expected on open customer and vendor invoices, from how fast each partner usually pays.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Generate the forecast</span><div>The <em>Generate payment forecast</em> menu asks for an <em>End Date</em>. <em>Compute forecast</em> stores a line for each posted, unpaid or partly paid invoice, bill or credit note due by then.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Payment estimate</span><div>A partner's usual delay is the average payment time of its invoices from the last 365 days. If the invoice date plus that delay is after the end date, the <em>Payment amount</em> is zero; otherwise it is the open amount.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Report</span><div><em>Payment forecast report</em> lists partner, invoice, dates, amount and open amount, with form, pivot and graph views and grouping by <em>Days</em> and <em>Move type</em>.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Snapshots</span><div>A manual run replaces all earlier <em>Custom</em> lines. The wizard method <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">get_forecast_cron(days)</code> refreshes the snapshot labeled with that many days; the scheduled action is not included.</div></div></li></ul>
+<p>The module depends on <em>Invoicing</em> and <em>Deltatech Average Payment Period</em>, and the <em>Payment forecast</em> group sees the menus. The history comes from accounts whose code contains 4111 (customers) or 401 (suppliers), as in the Romanian chart; a partner without history counts in full. The forecast covers every company active in the session; its lines carry no company.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">18.0.0.0.5 (2026-11-11)</h2>
+<ul>
+<li>Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.</li>
+</ul>
+</div>
 </div>
 
 <div class="row text-center mt-4 mb-1 g-3">
@@ -207,7 +228,7 @@ automatically generate the report</p>
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Invoice Number</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Invoice Numbering Control</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
             </span>
           </div>
