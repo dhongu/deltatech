@@ -10,9 +10,9 @@ Sale Contact
    !! source digest: sha256:b5325b8cbd44c78548614624e034d8af1c9fbf68bdc9cc501396b44c605268c7
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_contact
     :alt: dhongu/deltatech
@@ -22,9 +22,31 @@ Sale Contact
 
 |badge1| |badge2| |badge_tests|
 
-- Features:
+Sales orders and invoices should be issued to the company, with the
+invoice and delivery addresses taken from its contacts. This module
+keeps the selection lists on those documents to the right partners and
+lets you mark which address of a customer is proposed by default.
 
-  - Limitare selectare contacte
+- **Company as customer**: The customer field of sales orders and
+  invoices lists only partners without a parent company, so a contact
+  person cannot be picked in place of the company.
+- **Matching addresses**: On a sales order, the invoice address lists
+  only the *Invoice* addresses of the chosen customer, and the delivery
+  address only its *Delivery* addresses.
+- **Default address**: A *Contact Default* checkbox on the invoice and
+  delivery addresses marks the one that Odoo proposes on new documents.
+  Ticking it clears the mark on the other addresses of the same type of
+  that customer.
+- **Green Invoice**: A *Green Invoice* checkbox on the customer form is
+  for customers who prefer paperless invoices. When their invoice is
+  sent, the PDF is no longer downloaded by default and the invoice is
+  e-mailed instead; the PDF can still be downloaded by ticking it in the
+  sending window.
+
+The module depends on Sales, Contacts, Invoicing and *Contact Personal
+Data* (``deltatech_contact``). The restrictions are filters on the
+selection lists of the forms: records created by import or through the
+API are not checked.
 
 **Table of contents**
 
@@ -33,6 +55,29 @@ Sale Contact
 
 Changelog
 =========
+
+20.0.1.1.2 (2026-11-11)
+-----------------------
+
+- Apps Store page: a fuller description (what the module does, the
+  problem it solves, its main functions, dependencies and limits). No
+  change in behavior.
+
+20.0.1.1.1 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
+
+20.0.1.1.0 (2026-10-14)
+-----------------------
+
+- "Green Invoice" works again, on the Odoo 20 sending flow: for a
+  partner with the flag, sending an invoice no longer downloads the PDF
+  by default (the *Download* sending method is replaced by e-mail). The
+  PDF can still be downloaded by ticking it in the wizard. In 18.0 the
+  flag unticked the download in the old wizard; the override was removed
+  in 19.0 because that wizard field no longer exists.
 
 20.0.1.0.24 (2026-10-02)
 ------------------------
