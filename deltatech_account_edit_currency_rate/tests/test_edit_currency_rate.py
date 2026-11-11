@@ -11,7 +11,6 @@ from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 @tagged("post_install", "-at_install")
 class TestEditCurrencyRate(AccountTestInvoicingCommon):
     @classmethod
-    @AccountTestInvoicingCommon.setup_country("ro")
     def setUpClass(cls):
         super().setUpClass()
         # valută străină față de moneda companiei (RON), cu curs oficial

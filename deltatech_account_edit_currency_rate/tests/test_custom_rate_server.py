@@ -12,7 +12,6 @@ class TestCustomRateServer(AccountTestInvoicingCommon):
     """CUSTOMRATE-001: the custom rate is applied on create/write, not only in the onchange."""
 
     @classmethod
-    @AccountTestInvoicingCommon.setup_country("ro")
     def setUpClass(cls):
         super().setUpClass()
         # official rate: 1 RON = 2 EUR, i.e. 100 EUR = 50 RON
