@@ -4,7 +4,7 @@
 {
     "name": "Purchase picking status",
     "summary": "Filters, list column and tracking for the standard receipt status",
-    "version": "20.0.2.0.1",
+    "version": "20.0.2.0.2",
     "category": "Purchase",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
