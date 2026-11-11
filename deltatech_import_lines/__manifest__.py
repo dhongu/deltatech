@@ -11,6 +11,7 @@
     "category": "Productivity",
     "depends": ["product", "base_import"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [
         "security/ir.model.access.csv",
         "security/import_lines_security.xml",
