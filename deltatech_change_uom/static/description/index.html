@@ -2,10 +2,10 @@
 <!-- tb-gen v1 -->
 <div class="rounded-4 shadow px-4 py-4 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
   <div class="d-flex flex-wrap align-items-center">
-    <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Change Unit of measure" style="width:80px;height:80px;border:none;"/></span>
+    <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Change Unit of Measure" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
-      <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Change Unit of measure</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Change unit of measure in product</p>
+      <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Change Unit of Measure</h1>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Change a product&#x27;s unit of measure even after it has been used in documents</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 18.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Accounting</span>
@@ -28,17 +28,32 @@
   </div>
 </div>
 
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
+</ul>
+<div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">A product created with the wrong unit of measure is often already used on orders, invoices and stock moves. This module adds a <em>Change Uom</em> action that replaces the unit on the product and those documents in one step.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Change Uom action</span><div>The product form's action menu offers <em>Change Uom</em>. Its window shows the current <em>Unit of Measure</em> and <em>Purchase Unit of Measure</em>; <em>Apply</em> runs the change.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Unit choices</span><div><em>Unit of Measure</em> accepts any unit, and choosing one sets <em>Purchase Unit of Measure</em> to the same unit. A purchase unit outside the category of the <em>Unit of Measure</em> is replaced by that unit.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Documents updated</span><div>For every variant, lines in the old unit move to the new one on sales orders, invoices, stock moves and stock move lines. Purchase order lines in the old purchase unit move to the new <em>Purchase Unit of Measure</em>.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">No conversion</span><div>Quantities, prices and amounts stay as they are. The update goes straight to the database, so posted invoices and locked periods do not stop it.</div></div></li></ul>
+<p>It depends on <em>Products</em>, <em>Invoicing</em>, <em>Inventory</em>, <em>Sales</em> and <em>Purchase</em>. Any internal user who can open the product form can use the action.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">18.0.1.0.1 (2026-11-11)</h2>
 <ul>
-<li>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
-<ul>
-<li>Forces modification of unit of measurement purchase orders, sales orders, invoices</li>
-<li>Fortare modificare unitate de masura in produs, comenzi de achizitie, comenzi de vanzare si facturi.</li>
+<li>Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.</li>
 </ul>
-</li>
-</ul>
+</div>
 </div>
 
 <div class="row text-center mt-4 mb-1 g-3">
@@ -190,7 +205,7 @@
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Invoice Number</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Invoice Numbering Control</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting</span>
             </span>
           </div>
