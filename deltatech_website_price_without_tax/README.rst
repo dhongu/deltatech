@@ -19,12 +19,35 @@ Price Without Tax on Website
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_website_price_without_tax/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-7%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_price_without_tax/tests
+    :alt: 7 automated tests
 
-|badge1| |badge2| |badge_fisa|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
-- Features:
+A shop that sells to consumers and to companies usually shows prices
+with tax, while a company buyer wants the net price. This module adds a
+line with the price without tax to the product page of the website.
 
-  - Display product without tax in website
+- **Net price line**: The price block of the product page gets a muted
+  line *Preț fără TVA:* (Romanian for "price without VAT") with the
+  amount in the website currency. The line is hidden when the amount is
+  zero.
+- **Follows the display mode**: When prices are shown tax excluded, the
+  line repeats the displayed price. Otherwise the product taxes are
+  taken out of the displayed price, as if every tax were included in it.
+  A pricelist setting overrides the website one.
+- **Display only**: The module adds a ``list_price_without_tax`` entry
+  to the product price data and a template that shows it. Prices in the
+  cart, orders and invoices are not touched.
+- **Optional view**: The line is an optional view called *Product Price
+  without tax*, active after installation, which can be disabled for one
+  website.
+
+The module depends on Website and eCommerce (``website_sale``); every
+visitor sees the line. The label is written in Romanian in the template
+and has no translation. The amount comes from the ``list_price`` entry,
+not from ``price``, so test products that have a pricelist discount.
 
 **Table of contents**
 
@@ -33,6 +56,13 @@ Price Without Tax on Website
 
 Changelog
 =========
+
+20.0.1.0.8 (2026-11-11)
+=======================
+
+- Apps Store page: a fuller description (what the module does, the
+  problem it solves, its main functions, dependencies and limits). No
+  change in behavior.
 
 19.0.1.0.6
 ==========
@@ -54,6 +84,13 @@ Changelog
 
 History
 =======
+
+20.0.1.0.7 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Price Without Tax on Website* (was *eCommerce
+  Product Price Without Tax*). The technical name
+  ``deltatech_website_price_without_tax`` does not change.
 
 19.0.1.0.4 (2026-09-26)
 -----------------------
