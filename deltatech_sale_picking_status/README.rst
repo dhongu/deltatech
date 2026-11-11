@@ -10,34 +10,46 @@ Sale Delivery Status
    !! source digest: sha256:84c906a5b5716466a0b5f56d9b4224b964b81c427a9424e1dcca7ad0328adc06
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_picking_status
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_sale_picking_status/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 .. |badge_tests| image:: https://img.shields.io/badge/-5%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_sale_picking_status
     :alt: 5 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
-Extends the standard **Delivery Status** of the sales order
-(``delivery_status``: Not Delivered, Started, Partially Delivered, Fully
-Delivered), computed by Odoo from the delivery orders:
+Sales teams need to see which sales orders still have deliveries to
+make. This module builds on the standard delivery status of sales orders
+and makes it easier to show, filter and follow.
 
-- the status is shown by default in the quotations and sales orders
-  lists;
-- search filters *Delivery in Progress*, *Partially Delivered* and
-  *Fully Delivered*, and grouping by delivery status;
-- the status changes are tracked in the chatter of the order.
+- **Standard status**: The module adds no status of its own. It works on
+  the standard ``delivery_status`` field of the sales order and leaves
+  its values and calculation unchanged.
+- **List column**: The delivery status shows by default as a column in
+  the quotation and order lists, as a colored badge in the quotation
+  list.
+- **Filters and grouping**: Three search filters, *Delivery in
+  Progress*, *Partially Delivered* and *Fully Delivered*, select orders
+  by delivery status. *Delivery in Progress* covers the pending, started
+  and partial values. A *Delivery Status* group-by option is added next
+  to the customer one.
+- **Chatter tracking**: Each change of the delivery status is tracked in
+  the order's chatter.
 
-Up to version 19 the module computed its own *Picking Status* (Done / In
-Progress). On upgrade, saved filters, export templates and grouping on
-the old field are moved to the standard delivery status.
+The module depends on ``sale_stock`` and ``mail_tracking`` and adds no
+groups, so anyone who can see sales orders sees the status. On upgrade
+from earlier versions, saved filters and export templates that used the
+former own status are rewritten on the standard one.
 
 **Table of contents**
 
@@ -46,6 +58,26 @@ the old field are moved to the standard delivery status.
 
 Changelog
 =========
+
+20.0.2.0.3 (2026-11-11)
+-----------------------
+
+- Apps Store page: a fuller description (what the module does, the
+  problem it solves, its main functions, dependencies and limits). No
+  change in behavior.
+
+20.0.2.0.2 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Sale Delivery Status* (was *Sale order picking
+  status*). The technical name ``deltatech_sale_picking_status`` does
+  not change.
+
+20.0.2.0.1 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
 
 20.0.2.0.0 (2026-10-03)
 -----------------------

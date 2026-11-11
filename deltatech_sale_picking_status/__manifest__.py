@@ -4,7 +4,7 @@
 {
     "name": "Sale Delivery Status",
     "summary": "Filters, list column and tracking for the standard delivery status",
-    "version": "20.0.2.0.2",
+    "version": "20.0.2.0.3",
     "category": "Sales",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
