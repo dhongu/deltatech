@@ -11,6 +11,7 @@
     "category": "Administration",
     "depends": ["base", "contacts"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [
         "views/res_partner_view.xml",
     ],

@@ -8,6 +8,7 @@
     "category": "Purchases",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "website": "https://www.terrabit.ro",
     "depends": ["purchase_stock", "account"],
     "data": [

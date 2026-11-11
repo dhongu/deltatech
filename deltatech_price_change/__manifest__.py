@@ -12,6 +12,7 @@
     "category": "Generic Modules",
     "depends": ["base", "stock", "product", "sale"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [
         "views/product_view.xml",
         "views/product_price_change_view.xml",

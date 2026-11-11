@@ -11,6 +11,7 @@
     "category": "Administration",
     "depends": ["account", "account_edi_ubl_cii"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [
         "security/ir.model.access.csv",
         "data/uom.unece.code.csv",

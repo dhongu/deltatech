@@ -16,6 +16,7 @@
         "views/stock_picking_batch.xml",
     ],
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "development_status": "Beta",
     "images": ["static/description/main_screenshot.png"],
     "maintainers": ["danila12"],

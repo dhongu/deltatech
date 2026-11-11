@@ -30,6 +30,7 @@
     "pre_init_hook": "pre_init_hook",
     "post_init_hook": "post_init_hook",
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "installable": True,
     "application": False,
     "development_status": "Production/Stable",

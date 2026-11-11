@@ -11,6 +11,7 @@
     ],
     "images": ["static/description/main_screenshot.png"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "installable": True,
     "development_status": "Beta",
     "maintainers": ["VoicuStefan2001"],

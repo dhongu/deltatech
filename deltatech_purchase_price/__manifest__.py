@@ -8,6 +8,7 @@
     "version": "19.0.1.2.14",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "website": "https://www.terrabit.ro",
     "category": "Purchase",
     "depends": [

@@ -16,6 +16,7 @@
         "purchase",
     ],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [
         "security/record_type_security.xml",
         "views/record_type_view.xml",

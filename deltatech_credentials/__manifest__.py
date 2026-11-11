@@ -10,6 +10,7 @@
     "category": "Administration",
     "depends": ["base"],
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "data": [
         "security/ir.model.access.csv",
         "views/access_credentials_view.xml",

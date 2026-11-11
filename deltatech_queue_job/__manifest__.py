@@ -8,6 +8,7 @@
     "author": "Terrabit, Dorin Hongu",
     "version": "19.0.1.4.6",
     "license": "AGPL-3",
+    "consultant_sheet": "full",
     "website": "https://www.terrabit.ro",
     "category": "Others",
     "depends": ["queue_job", "queue_job_cron_jobrunner"],

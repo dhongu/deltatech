@@ -11,6 +11,7 @@
     "website": "https://www.terrabit.ro",
     "depends": ["purchase"],
     "license": "LGPL-3",
+    "consultant_sheet": "full",
     "data": ["views/purchase_view.xml"],
     "assets": {
         "web.assets_backend": [

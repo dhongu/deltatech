@@ -19,6 +19,7 @@
     "price": 0.00,
     "currency": "EUR",
     "license": "AGPL-3",
+    "consultant_sheet": "full",
     # "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
     "maintainers": ["dhongu", "danila12"],

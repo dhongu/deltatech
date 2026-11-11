@@ -11,6 +11,7 @@
     "category": "Accounting",
     "depends": ["product", "account", "stock", "sale", "purchase", "deltatech_uom_domain"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [
         "security/sale_security.xml",
         "wizard/product_change_uom_view.xml",

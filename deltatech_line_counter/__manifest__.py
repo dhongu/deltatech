@@ -15,4 +15,5 @@
     "development_status": "Mature",
     "maintainers": ["VoicuStefan2001"],
     "license": "OPL-1",
+    "consultant_sheet": "simple",
 }

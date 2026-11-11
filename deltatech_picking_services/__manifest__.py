@@ -10,6 +10,7 @@
     "website": "https://www.terrabit.ro",
     "depends": ["stock"],
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "data": ["security/ir.model.access.csv", "security/security.xml", "views/stock_picking.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",

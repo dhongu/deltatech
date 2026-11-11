@@ -10,6 +10,7 @@
     "category": "Sale",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
+    "consultant_sheet": "simple",
     "company": "Terrabit",
     "maintainer": "Terrabit",
     "website": "https://www.terrabit.ro",

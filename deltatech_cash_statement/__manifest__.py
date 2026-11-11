@@ -8,6 +8,7 @@
     "version": "19.0.3.1.4",
     "author": "Terrabit,Dorin Hongu",
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
     "depends": ["account"],

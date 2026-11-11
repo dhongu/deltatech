@@ -8,6 +8,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "summary": "Print product and lot labels from products, sale orders and transfers",
     "depends": ["product", "sale", "stock"],
     "data": [

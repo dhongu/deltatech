@@ -9,6 +9,7 @@
     "website": "https://www.terrabit.ro",
     "support": "support@terrabit.ro",
     "license": "LGPL-3",
+    "consultant_sheet": "simple",
     "category": "Sales/CRM",
     "depends": [
         "sale_stock",

@@ -13,6 +13,7 @@
         "stock_account",
     ],
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "data": [
         "security/ir.model.access.csv",
         "security/stock_picking_report_security.xml",
