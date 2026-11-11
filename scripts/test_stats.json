@@ -174,9 +174,9 @@
       "tests": 61
     },
     "deltatech_expenses": {
-      "coverage": 91.2,
-      "lines": 672,
-      "tests": 68
+      "coverage": 91.0,
+      "lines": 688,
+      "tests": 72
     },
     "deltatech_expenses_hr_expense": {
       "coverage": 82.6,
@@ -313,7 +313,7 @@
       "tests": 5
     },
     "deltatech_lot": {
-      "coverage": 83.7,
+      "coverage": 86.0,
       "lines": 43,
       "tests": 7
     },
@@ -517,6 +517,8 @@
       "tests": 2
     },
     "deltatech_pricelist_bulk": {
+      "coverage": 91.1,
+      "lines": 190,
       "tests": 19
     },
     "deltatech_pricelist_line_viewer": {
@@ -705,7 +707,7 @@
       "tests": 12
     },
     "deltatech_record_type": {
-      "coverage": 79.6,
+      "coverage": 78.0,
       "lines": 191,
       "tests": 16
     },
@@ -903,7 +905,7 @@
       "tests": 0
     },
     "deltatech_secondary_uom": {
-      "coverage": 91.8,
+      "coverage": 92.8,
       "lines": 208,
       "tests": 17
     },
@@ -1249,7 +1251,7 @@
     }
   },
   "branch": "19.0",
-  "commit": "b395ddb543c0a739ff339b34c9fc09a73c26db9e",
-  "generated": "2026-11-09",
+  "commit": "1ad868edc302620ded32779ea61717f1fb7276c8",
+  "generated": "2026-11-11",
   "source": "codecov:dhongu/deltatech"
 }
