@@ -1,7 +1,7 @@
 {
     "name": "Product MPN",
     "summary": "Manufacturer Part Number (MPN) on products, searchable",
-    "version": "19.0.0.0.2",
+    "version": "19.0.0.0.3",
     "author": "Terrabit, Voicu Stefan",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
