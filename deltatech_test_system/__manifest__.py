@@ -6,7 +6,7 @@
 {
     "name": "Test System Indicator",
     "summary": "Set system status: test or production",
-    "version": "20.0.0.0.11",
+    "version": "20.0.0.0.12",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Tools",
