@@ -54,19 +54,18 @@ it.
 Changelog
 =========
 
-19.0.1.0.3 (2026-10-17)
-=======================
-
 19.0.1.0.5 (2026-11-11)
------------------------
+=======================
 
 - Apps Store page: a fuller description (what the module does, the
   problem it solves, its main functions, dependencies and limits). No
   change in behavior.
 
+19.0.1.0.3 (2026-10-17)
+=======================
+
 - Setting a dimension to zero now resets the volume to zero, instead of
   keeping the previous value.
-
 - The volume computed from the dimensions is now expressed in the
   configured volume unit: with volumes in cubic feet, 100 x 100 x 100 cm
   gives about 35.31 ft³, not 1.
