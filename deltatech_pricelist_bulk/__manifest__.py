@@ -9,6 +9,7 @@
     "category": "Sales",
     "depends": ["product"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [
         "security/ir.model.access.csv",
         "wizard/pricelist_bulk_add_views.xml",
