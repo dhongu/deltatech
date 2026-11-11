@@ -10,9 +10,9 @@ Product Dimensions
    !! source digest: sha256:0a8e4e0aa6989c296400518379ecde99c473e239a09887e4d9282e421bb1b369
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_product_dimension
     :alt: dhongu/deltatech
@@ -25,9 +25,27 @@ Product Dimensions
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
-- Features:
+Transport, storage and delivery quotes need to know how much room a
+product takes. This module adds length, width and height to the product
+form and calculates the volume from them.
 
-  - Additional fields in product: length, width, height
+- **Dimension row**: The product form shows a *Dimension* row above
+  *Volume*: three fields for length, width and height, written as L x W
+  x H and followed by "cm". Each starts at 1 on a new product.
+- **Automatic volume**: Changing any of the three values recalculates
+  *Volume* as length × width × height ÷ 1,000,000, which gives cubic
+  meters from centimeters.
+- **Volume unit**: The module does not convert the result to the volume
+  unit configured for the database, so it stays in cubic meters.
+- **Zero dimension**: If one of the three values is zero, the volume is
+  not recalculated and keeps its previous value.
+- **Product level**: The fields belong to the product template, so all
+  variants of a product share the same dimensions.
+
+The module depends only on Product (``product``) and defines no access
+rules or menus of its own. The volume is recalculated only when a
+dimension is edited in the form, so imports and API writes do not update
+it.
 
 **Table of contents**
 
@@ -36,6 +54,26 @@ Product Dimensions
 
 Changelog
 =========
+
+20.0.1.0.4 (2026-11-11)
+-----------------------
+
+- Apps Store page: a fuller description (what the module does, the
+  problem it solves, its main functions, dependencies and limits). No
+  change in behavior.
+
+20.0.1.0.3 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Product Dimensions* (was *Products
+  Dimension*). The technical name ``deltatech_product_dimension`` does
+  not change.
+
+20.0.1.0.2 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
 
 20.0.1.0.1 (2026-10-02)
 -----------------------
