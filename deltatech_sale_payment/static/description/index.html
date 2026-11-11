@@ -43,110 +43,16 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Adds full payment visibility directly on the sale order, without having to open invoices or payment transactions.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Features</h2>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Payment button on sale order</h3>
-<p>Generates a payment link directly from the sale order, automatically computing the remaining amount due (order total minus amount already paid on posted invoices).</p>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Payment fields on sale order</h3>
-<table class="table table-bordered" style="font-size:14px;">
-<thead>
-<tr>
-<th>Field</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">payment_amount</code></td>
-<td>Total amount paid (done transactions + paid/partial invoices)</td>
-</tr>
-<tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">payment_status</code></td>
-<td>Payment status (see below)</td>
-</tr>
-<tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">provider_id</code></td>
-<td>Payment provider used (Stripe, PayPal, etc.)</td>
-</tr>
-</tbody>
-</table>
-<p>All fields are <strong>stored in the database</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">store=True</code>) &#8212; filtering and sorting use SQL directly, with no recomputation on every query.</p>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Payment statuses</h3>
-<table class="table table-bordered" style="font-size:14px;">
-<thead>
-<tr>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">without</code></td>
-<td>No payment transaction on the order</td>
-</tr>
-<tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">initiated</code></td>
-<td>Transaction in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">draft</code> or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">error</code> state</td>
-</tr>
-<tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pending</code></td>
-<td>Transaction awaiting confirmation (e.g. bank transfer)</td>
-</tr>
-<tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">authorized</code></td>
-<td>Amount authorized (held) but not yet captured</td>
-</tr>
-<tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">partial</code></td>
-<td>Order partially paid</td>
-</tr>
-<tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">done</code></td>
-<td>Order fully paid</td>
-</tr>
-<tr>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">cancelled</code></td>
-<td>Transaction cancelled</td>
-</tr>
-</tbody>
-</table>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">payment_amount</code> computation logic</h3>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">done</code> transactions</span><div>&#8212; summed directly</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">paid</code>/<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">partial</code> invoices</span><div>&#8212; the reconciled amount is added (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">amount_total_signed &#8722; amount_residual_signed</code>); post-processed transactions for those invoices are removed from <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">done_tx</code> to avoid double counting</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">in_payment</code> invoices</span><div>&#8212; excluded from the calculation (their payment already appears through direct <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">done</code> transactions)</div></div></li></ul>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Visual decorations</h3>
-<p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">payment_amount</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">payment_status</code> are color-coded in both form and list views:</p>
-<table class="table table-bordered" style="font-size:14px;">
-<thead>
-<tr>
-<th>Color</th>
-<th>Statuses</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Green (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">success</code>)</td>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">done</code></td>
-</tr>
-<tr>
-<td>Yellow (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">warning</code>)</td>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">partial</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pending</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">initiated</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">authorized</code></td>
-</tr>
-<tr>
-<td>Red (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">danger</code>)</td>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">cancelled</code></td>
-</tr>
-<tr>
-<td>Grey (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">muted</code>)</td>
-<td><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">without</code></td>
-</tr>
-</tbody>
-</table>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Filters in the order list</h3>
-<p>Quick filters for all payment statuses: Without payment, Initiated, Pending, Authorized, Done, Cancelled.</p>
-<h3 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Data migration</h3>
-<p>When upgrading to version <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">18.0.1.2.0</code>, a SQL script automatically populates the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">payment_amount</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">payment_status</code> columns for all existing orders without locking the database.</p>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Sales staff need to see from the order whether the customer has paid. This module adds the collected amount and a payment status to sales orders and lets a user record a payment from the order.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Payment on the order</span><div>The order form shows <em>Payment</em>, the amount collected, next to the payment provider, followed by <em>Payment Status</em>.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Seven statuses</span><div>Orders get one of <em>Without</em>, <em>Initiated</em>, <em>Pending</em>, <em>Authorized</em>, <em>Partial</em>, <em>Done</em> or <em>Cancelled</em>. The quotation and order lists show the status by default, and the search view has a filter for each status except <em>Partial</em>.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Confirm Payment</span><div>The <em>Confirm Payment</em> action of the order opens a window that asks for the provider, the payment method and the amount. The window starts from the last transaction of the order when that one is pending or authorized.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Confirm or Add</span><div>The <em>Confirm</em> button marks the transaction as done, so the amount counts as collected on the order. <em>Add</em> only records a pending transaction.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Checks</span><div>The window offers only providers that are not disabled and refuses a negative amount.</div></div></li></ul>
+<p>It depends on <em>Sales</em> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">payment</code>. The <em>Confirm Payment</em> action has no group of its own, and salespeople can read the payment providers.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">18.0.1.2.2 (2026-11-11)</h2>
+<ul>
+<li>Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">18.0.1.2.1 (2026-09-23)</h2>
 <ul>
 <li>Fix: amount paid = max(amount paid on the posted invoices, amount of the confirmed transactions). A transaction confirmed on a provider without a journal (e.g. Shopify card) has no accounting payment and reaches the invoice only when the processor's settlement is reconciled, so the data cannot tell whether it is already in the invoice amount. Subtracting it (18.0.1.2.0) lost it: an order paid 382 by card plus 44 through a payment link showed 44 instead of 426, with status <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">partial</code>. Adding it (19.0.1.1.5) doubled it once the settlement was reconciled. The maximum is right in both cases; it only underestimates an unsettled card payment completed by a manual payment on the invoice.</li>
@@ -199,12 +105,12 @@
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">EC</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CI</span>
               <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_account_edit_currency_rate/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Edit Currency Rate</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Custom Invoice Exchange Rate</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>
@@ -219,12 +125,12 @@
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PA</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AP</span>
               <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_alternative/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Products Alternative</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Alternative Product Codes</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>
@@ -299,12 +205,12 @@
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IP</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AI</span>
               <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_invoice_picking_automatically/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Invoice Pickings Automatically</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Auto-Invoice from Delivery</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>
@@ -319,12 +225,12 @@
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PL</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PC</span>
               <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_pricelist/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Price List Currency Extension</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Pricelist Currency Extension</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>

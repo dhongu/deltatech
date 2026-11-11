@@ -1,3 +1,7 @@
+## 18.0.1.2.2 (2026-11-11)
+
+- Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.
+
 ## 18.0.1.2.1 (2026-09-23)
 
 - Fix: amount paid = max(amount paid on the posted invoices, amount of the confirmed transactions). A transaction confirmed on a provider without a journal (e.g. Shopify card) has no accounting payment and reaches the invoice only when the processor's settlement is reconciled, so the data cannot tell whether it is already in the invoice amount. Subtracting it (18.0.1.2.0) lost it: an order paid 382 by card plus 44 through a payment link showed 44 instead of 426, with status `partial`. Adding it (19.0.1.1.5) doubled it once the settlement was reconciled. The maximum is right in both cases; it only underestimates an unsettled card payment completed by a manual payment on the invoice.
