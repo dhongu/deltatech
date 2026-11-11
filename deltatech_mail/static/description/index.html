@@ -51,20 +51,9 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</span></div>
-<ul>
-<li>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
-<ul>
-<li>email filtration and redirecting to another address</li>
-</ul>
-</li>
-<li>
-<p>Functionalitati:</p>
-<ul>
-<li>filtrare emailuri si redirectionare la alta adresa</li>
-</ul>
-</li>
-</ul>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Test and training databases must not send real emails to customers. This module redirects outgoing emails to another address, sets the sender, and rewrites text in posted messages.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Redirect recipients</span><div>A <em>Receiver</em> rule under <em>Substitution</em> sends the emails of its <em>Related Document Model</em> to its <em>Substitution</em> address instead of the real recipients, and drops the CC copies. With no model, it redirects every email.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Fixed sender</span><div>A <em>Sender</em> rule sets its address as the sender of the matching outgoing emails; the first matching rule applies.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-building-o" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Company sender</span><div>When the system parameter <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">mail.use_company_email</code> is <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">True</code>, posted messages and queued emails go out from the company email address. Posting a message is refused if the company has no email.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Body text replacement</span><div>Under <em>Body Substitution</em>, the <em>Body Part</em> text is replaced by the <em>Substitution</em> text in every message posted on a record. Messages already posted stay as they are, and the match includes formatting.</div></div></div></li></ul>
+<p>The module depends on Discuss (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">mail</code>). The rules apply to all users and companies; only Settings administrators can change them, and other internal users can only read them. A <em>Receiver</em> rule with no model redirects every outgoing email, so remove it before going live.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</span></div>
@@ -156,13 +145,17 @@ only read them.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.8 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-11)</span></h2>
+<ul>
+<li>Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.7 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-07)</span></h2>
 <ul>
 <li>Security: only administrators (Settings) can create or change email and body
   substitutions. Before, any internal user could add a "Receiver" rule that
   redirected every outgoing email of the database, or a body rule that changed
   the messages of all users. Internal users keep read access.
-  (<a href="https://github.com/dhongu/deltatech/issues/3540">#3540</a>)</li>
+  (#3540)</li>
 <li>The body substitutions are read with sudo when posting, so authors without
   access to the rules (portal) still get them applied.</li>
 </ul>

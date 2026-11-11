@@ -1,3 +1,7 @@
+# 19.0.1.0.15 (2026-11-11)
+
+- Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.
+
 # 19.0.1.0.14
 
 - Fix: printing the Declaration of Conformity from a lot or an invoice no
