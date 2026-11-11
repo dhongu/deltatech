@@ -25,9 +25,26 @@ Product Dimensions
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
-- Features:
+Transport, storage and delivery quotes need to know how much room a
+product takes. This module adds length, width and height to the product
+form and calculates the volume from them.
 
-  - Additional fields in product: length, width, height
+- **Dimension row**: The product form shows a *Dimension* row above
+  *Volume*: three fields for length, width and height, written as L x W
+  x H and followed by "cm". Each starts at 1 on a new product.
+- **Automatic volume**: Changing any of the three values recalculates
+  *Volume* as length × width × height ÷ 1,000,000, which gives cubic
+  meters from centimeters.
+- **Volume unit**: The result is converted to the volume unit configured
+  for the database, cubic meters or cubic feet.
+- **Zero dimension**: If one dimension is zero, the volume becomes zero.
+- **Product level**: The fields belong to the product template, so all
+  variants of a product share the same dimensions.
+
+The module depends only on Product (``product``) and defines no access
+rules or menus of its own. The volume is recalculated only when a
+dimension is edited in the form, so imports and API writes do not update
+it.
 
 **Table of contents**
 
@@ -36,6 +53,13 @@ Product Dimensions
 
 Changelog
 =========
+
+19.0.1.0.5 (2026-11-11)
+=======================
+
+- Apps Store page: a fuller description (what the module does, the
+  problem it solves, its main functions, dependencies and limits). No
+  change in behavior.
 
 19.0.1.0.3 (2026-10-17)
 =======================

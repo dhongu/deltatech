@@ -6,7 +6,7 @@
 {
     "name": "Product Dimensions",
     "summary": "Length, width and height fields on products",
-    "version": "19.0.1.0.4",
+    "version": "19.0.1.0.5",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "consultant_sheet": "simple",
