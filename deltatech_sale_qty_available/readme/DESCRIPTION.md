@@ -1,16 +1,8 @@
-Provides real-time stock availability indicators on sales orders, helping warehouse and sales teams quickly identify which orders can be fulfilled immediately.
+Salespeople and warehouse staff need to see at a glance which orders can ship. This module computes an *Is ready* flag for open quotations and sales orders and shows the ready ones in green in their lists.
 
-## Features
+- **Green rows**: The quotation and sales order lists show a ready order in green. An *Is Ready* filter in the order search returns the ready ones.
+- **Quotations**: A draft or sent quotation is ready when stock on hand minus outgoing quantity covers the quantity left to deliver on every line, or on at least one line when the `picking_policy` is `direct`.
+- **Confirmed orders**: A confirmed order is ready when its transfers have reserved stock: any reserved move under `direct`, every move of the transfers not yet done otherwise. Orders stay ready after delivery until fully invoiced; cancelled ones never are.
+- **Available column**: An optional *Available* column on the order lines, hidden by default and shown to Inventory users, gives the forecast with its on hand, outgoing and incoming parts, or *N/A* when all are zero. It reads the source location of the line's route, when it has one.
 
-- **Ready indicator on list view**: Sales orders that are ready for delivery are highlighted in green in the orders list, giving an instant visual overview without opening each order.
-- **Is Ready field**: A computed, stored boolean field (`is_ready`) that evaluates whether stock is available to fulfill the order based on the delivery policy:
-  - *Direct policy*: at least one order line has sufficient stock on hand.
-  - *One policy*: all order lines have sufficient stock on hand.
-  - For confirmed orders, readiness is determined by reserved quantities on outgoing pickings.
-- **Available quantity on order lines**: An optional column (`Available`) on the order line shows the current stock situation per product: virtual available = on hand − outgoing + incoming.
-- **Is Ready filter**: A quick filter in the search bar lets users display only orders that are ready to ship.
-- **Multi-warehouse support**: Stock availability at date is computed across all warehouses for accurate forecasting.
-
-## Technical notes
-
-The `is_ready` field is stored in the database and recomputed automatically when relevant data changes (state, invoice status, product stock levels, picking moves). This avoids expensive on-the-fly stock queries when loading the orders list.
+It depends on `sale_stock`. The flag is stored on the order and can be searched. The module also sets the context key `all_warehouses` when the quantity at date of an order line is computed.
