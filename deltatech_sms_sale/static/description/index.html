@@ -31,13 +31,32 @@
   </div>
 </div>
 
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
+</ul>
+<div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Customers like to hear straight away that their order went through. This module sends them an SMS when a sales order is confirmed and when its confirmation e-mail is sent, using SMS templates you can edit.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Confirmation SMS</span><div>When a sales order is confirmed, the customer receives the message of the <em>SMS Template</em> chosen under <em>SMS Sale Order Confirm</em>, if that option is on and the customer has a phone number.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Post SMS</span><div>Each time Odoo sends the order confirmation e-mail, the message chosen under <em>SMS Sale Order Post</em> goes out the same way. The settings call this posting the order (help text: from website).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Default texts</span><div>Both default templates begin with the company name and state that the order number has been confirmed or posted.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Company settings</span><div>Both options sit in the sales settings, are set per company and are on by default. A template is required while its option is on.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Template rights</span><div>Sales managers can create, edit and delete the SMS templates of sales orders, and only those.</div></div></li></ul>
+<p>The module depends on <em>Sales</em>, <em>Sales Teams</em> and <em>SMS</em>. It has no SMS provider of its own: the customer's phone number and the message text go to the SMS service configured in Odoo, and messages are sent immediately, not queued.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">18.0.1.0.2 (2026-11-11)</h2>
 <ul>
-<li>can send " We are glad to inform you that your order n&#176; ' + object.name + ' has been confirmed.'" when you confirm or
-  post sa SO</li>
+<li>Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.</li>
 </ul>
+</div>
 </div>
 
 <div class="row text-center mt-4 mb-1 g-3">
@@ -129,7 +148,7 @@
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Account Analytic</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Account Analytic Split</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>
@@ -184,12 +203,12 @@
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">EC</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">CI</span>
               <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_account_edit_currency_rate/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Edit Currency Rate</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Custom Invoice Exchange Rate</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Sales</span>
             </span>
           </div>
@@ -224,12 +243,12 @@
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AC</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DC</span>
               <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_actions/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Actions</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Database Cleanup Actions</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Other</span>
             </span>
           </div>
