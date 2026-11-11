@@ -46,23 +46,23 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</span></div>
-<ul>
-<li>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
-<ul>
-<li>Declaration of Conformity</li>
-<li>Declaration of Conformity printing at billing</li>
-</ul>
-</li>
-</ul>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Customers often ask suppliers for a declaration that delivered goods meet their technical standards. This module stores each product's quality references and prints a numbered Declaration of Conformity for lots, invoices and deliveries.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check-square-o" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Quality references</span><div>A <em>Quality Control</em> tab on the product holds <em>Standard of Company</em>, <em>Data Sheet</em>, <em>Technical Specification</em> and <em>Standards</em>, printed when filled in.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Declaration records</span><div>A <em>Declaration of Conformity</em> list (Sales product catalog menu) shows <em>Number</em>, <em>Date of Declaration</em>, <em>Product</em> and <em>Lot</em>. Printing numbers them from the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">DC/</code> sequence; by hand, you type the number.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-print" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Print and create</span><div>The print action on a lot, a posted invoice or a delivery creates the missing declarations and prints them: one per lot, or per product and date without a lot. Services are skipped.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-cube" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Production date</span><div>The lot's <em>Production Date</em> dates its declaration (today when empty) and prints as the quality plan date for lots with an expiration date.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-truck" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Second delivery form</span><div><em>Declaration of Conformity 2</em> on a delivery prints one declaration for all its lines, with product, quantity, lot, use date and storage conditions, and creates no records.</div></div></div></li></ul>
+<p>The module depends on Sales, Manufacturing, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product_expiry</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock_account</code>. Internal users can edit declarations of their companies. The wording is fixed in the templates; the second form reads a partner <em>NRC</em> field that this module does not add.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;"><span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">19.0.1.0.14</span></h2>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.15 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-11)</span></h2>
 <ul>
-<li>Fix: printing the Declaration of Conformity from a lot or an invoice no
+<li>
+<p>Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.</p>
+</li>
+<li>
+<p>Fix: printing the Declaration of Conformity from a lot or an invoice no
   longer fails for lots without a production date; the declaration date falls
-  back to today, as on the delivery report.</li>
+  back to today, as on the delivery report.</p>
+</li>
 <li>Fix: declarations generated from a lot, invoice or delivery belong to the
   company of the source document (or of the lot), are searched only within
   that company, and the report prints that company as issuer instead of the

@@ -1,5 +1,10 @@
 # 19.0.1.0.14
 
+
+## 19.0.1.0.15 (2026-11-11)
+
+- Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.
+
 - Fix: printing the Declaration of Conformity from a lot or an invoice no
   longer fails for lots without a production date; the declaration date falls
   back to today, as on the delivery report.
