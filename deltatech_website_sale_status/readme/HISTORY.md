@@ -1,3 +1,9 @@
+## 20.0.2.0.14 (2026-11-06)
+
+- Port of 19.0.2.0.13: an order whose transfers were all cancelled, with nothing
+  shipped, stays *To be delivered*; it is *Delivered* by its transfers only when at
+  least one of them was validated. The limitation is removed from the description.
+
 ## 20.0.2.0.13 (2026-11-03)
 
 - Description rewritten in English after the code: the stages actually set, the

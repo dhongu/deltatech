@@ -1,3 +1,9 @@
+## 20.0.1.1.6 (2026-11-06)
+
+- Port of 19.0.1.1.4: in the XLSX summary, the order reference, product code and line
+  description are always written as text; a value starting with "=" is no longer stored
+  as an Excel formula. The limitation is removed from the description.
+
 ## 20.0.1.1.5 (2026-11-03)
 
 - Description, summary and banner rewritten after the code: the orders must

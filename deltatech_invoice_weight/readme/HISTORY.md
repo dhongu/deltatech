@@ -1,3 +1,10 @@
+## 20.0.1.0.6 (2026-11-06)
+
+- Port of 19.0.1.0.5: weights on invoices, sale and purchase orders convert the line
+  quantity to the product unit (one dozen of a 2 kg product gives 24 kg, not 2 kg).
+- The gross weight is converted to kg when product weights are configured in pounds.
+- The two limitations are removed from the description.
+
 ## 20.0.1.0.5 (2026-11-03)
 
 - Description rewritten from the code: removed the weight analysis in the

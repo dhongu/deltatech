@@ -22,11 +22,8 @@ Purchase Orders Bulk Email with XLSX
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_purchase_mail/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-7%20automated%20tests%20%C2%B7%2093%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_purchase_mail
-    :alt: 7 automated tests · 93% code coverage
 
-|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge3| |badge_fisa|
 
 When several requests for quotation or purchase orders go to the same
 vendor, sending them one by one means one email per order. This module
@@ -40,7 +37,8 @@ email composer opens with the vendor as recipient.
 
 **XLSX summary**: the email carries an Excel file with one row per order
 line: order reference, product code, description, quantity and unit
-price without taxes.
+price without taxes. Text columns are written as text, so a value
+starting with "=" is not read as a formula.
 
 **PDF of each order**: the standard purchase order PDF of every selected
 order is attached to the same email.
@@ -63,8 +61,6 @@ Limitations
   the only problem is the missing email.
 - The vendor's address is the only recipient filled in; other recipients
   are added by hand in the composer.
-- In the XLSX summary, a reference, product code or description that
-  starts with "=" is written as a formula, not as text.
 
 **Table of contents**
 
@@ -73,6 +69,14 @@ Limitations
 
 Changelog
 =========
+
+20.0.1.1.6 (2026-11-06)
+-----------------------
+
+- Port of 19.0.1.1.4: in the XLSX summary, the order reference, product
+  code and line description are always written as text; a value starting
+  with "=" is no longer stored as an Excel formula. The limitation is
+  removed from the description.
 
 20.0.1.1.5 (2026-11-03)
 -----------------------

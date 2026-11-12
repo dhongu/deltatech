@@ -16,11 +16,8 @@ eCommerce Sale Order status
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_sale_status
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-38%20automated%20tests%20%C2%B7%2095%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_website_sale_status
-    :alt: 38 automated tests · 95% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2|
 
 The standard order status (Quotation, Sales Order, Cancelled) does not
 tell a shop customer, or the sales team, where the order is: waiting for
@@ -47,8 +44,8 @@ chatter:
 - **Pre advice**: an AWB was generated for the parcel (detailed stage
   only).
 - **In Delivery**: the parcel is with the courier.
-- **Delivered**: all the transfers are done or cancelled, or, with the
-  detailed stage, the courier delivered the parcel.
+- **Delivered**: all the transfers are done, or, with the detailed
+  stage, the courier delivered the parcel.
 - **Canceled**: the order was cancelled.
 
 Website carts that were never sent have no stage.
@@ -81,8 +78,6 @@ Limitations
 
 - The **Returned** value exists in the stage list but no rule sets it: a
   returned order is not shown as such.
-- An order whose transfers were all cancelled, with nothing shipped, is
-  shown as **Delivered**.
 - In Odoo 20 the *Unpaid Orders* action has no menu; it opens only from
   a link or a custom menu.
 - The *Unpaid Orders* domain uses the payment status field added by the
@@ -96,6 +91,14 @@ Limitations
 
 Changelog
 =========
+
+20.0.2.0.14 (2026-11-06)
+------------------------
+
+- Port of 19.0.2.0.13: an order whose transfers were all cancelled, with
+  nothing shipped, stays *To be delivered*; it is *Delivered* by its
+  transfers only when at least one of them was validated. The limitation
+  is removed from the description.
 
 20.0.2.0.13 (2026-11-03)
 ------------------------

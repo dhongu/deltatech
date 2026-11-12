@@ -6,7 +6,7 @@
 {
     "name": "Invoice Receipt",
     "summary": "Create the purchase order and the receipt from the vendor bill",
-    "version": "20.0.2.0.4",
+    "version": "20.0.2.0.5",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

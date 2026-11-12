@@ -7,8 +7,8 @@ bill, every line with a storable product that is not linked to a purchase order
 is put on a purchase order: a new order with the vendor, the bill date, the bill
 reference, the fiscal position and the currency of the bill, or, when the other
 lines of the bill already come from a single purchase order, that order. The
-order lines take the product, unit, quantity, unit price and taxes of the bill
-lines, and the bill lines are linked to them. A note with a link to the
+order lines take the product, unit, quantity, unit price, discount and taxes of
+the bill lines, and the bill lines are linked to them. A note with a link to the
 new order is posted on the bill.
 
 **Confirm the order, then post the bill.** A new order is created as a request
@@ -33,4 +33,3 @@ return.
 - Lines added to a regular purchase order (one not created from a bill) are not
   received automatically.
 - The purchase order is not confirmed automatically.
-- The discount of the bill lines is not copied to the purchase order lines.

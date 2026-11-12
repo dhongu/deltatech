@@ -55,7 +55,9 @@ each order.</p>
 Orders</strong> and choose <strong>Actions &gt; Send Email</strong>. The standard email composer opens with
 the vendor as recipient.</p>
 <p><strong>XLSX summary</strong>: the email carries an Excel file with one row per order line:
-order reference, product code, description, quantity and unit price without taxes.</p>
+order reference, product code, description, quantity and unit price without taxes.
+Text columns are written as text, so a value starting with "=" is not read as a
+formula.</p>
 <p><strong>PDF of each order</strong>: the standard purchase order PDF of every selected order is
 attached to the same email.</p>
 <p><strong>Trace on every order</strong>: only when the email is actually sent, each order gets a note
@@ -64,14 +66,22 @@ in draft move to <strong>RFQ Sent</strong>. Closing the composer without sending
 <p><strong>Email template</strong>: the text comes from the template <strong>Purchase Orders: Send with
 XLSX</strong>, editable in <strong>Settings &gt; Technical &gt; Email &gt; Templates</strong> (developer mode).</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>All the selected orders must have the same vendor, and the vendor must have an email
+<ul>
+<li>All the selected orders must have the same vendor, and the vendor must have an email
   address. Otherwise the action stops with the message "You must select exactly one
-  vendor to send the email to.", also when the only problem is the missing email.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The vendor's address is the only recipient filled in; other recipients are added by
-  hand in the composer.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>In the XLSX summary, a reference, product code or description that starts with "="
-  is written as a formula, not as text.</div></div></li></ul>
+  vendor to send the email to.", also when the only problem is the missing email.</li>
+<li>The vendor's address is the only recipient filled in; other recipients are added by
+  hand in the composer.</li>
+</ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.1.6 (2026-11-06)</h2>
+<ul>
+<li>Port of 19.0.1.1.4: in the XLSX summary, the order reference, product code and line
+  description are always written as text; a value starting with "=" is no longer stored
+  as an Excel formula. The limitation is removed from the description.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.1.1.5 (2026-11-03)</h2>
 <ul>
 <li>Description, summary and banner rewritten after the code: the orders must

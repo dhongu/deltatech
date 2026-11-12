@@ -54,8 +54,8 @@ bill, every line with a storable product that is not linked to a purchase order
 is put on a purchase order: a new order with the vendor, the bill date, the bill
 reference, the fiscal position and the currency of the bill, or, when the other
 lines of the bill already come from a single purchase order, that order. The
-order lines take the product, unit, quantity, unit price and taxes of the bill
-lines, and the bill lines are linked to them. A note with a link to the
+order lines take the product, unit, quantity, unit price, discount and taxes of
+the bill lines, and the bill lines are linked to them. A note with a link to the
 new order is posted on the bill.</p>
 <p><strong>Confirm the order, then post the bill.</strong> A new order is created as a request
 for quotation, so posting stops with the message <em>Please confirm purchase order
@@ -72,10 +72,16 @@ return.</p>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Limitations</h2>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The automatic purchase order and receipt work only for vendor bills; vendor
   credit notes are not processed when posted.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>Lines added to a regular purchase order (one not created from a bill) are not
-  received automatically.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The purchase order is not confirmed automatically.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The discount of the bill lines is not copied to the purchase order lines.</div></div></li></ul>
+  received automatically.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex gap-2"><span class="flex-shrink-0 text-center fw-bold rounded d-inline-block" style="background-color:#57B952;color:#04331f;width:22px;height:22px;line-height:22px;font-size:13px;">&#10003;</span><div>The purchase order is not confirmed automatically.</div></div></li></ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.2.0.5 (2026-11-06)</h2>
+<ul>
+<li>Port of 19.0.2.0.4: the discount of the bill line is copied to the purchase order
+  line generated from the bill (5 x 100 with 10% discount is 450 on the order, not 500).
+  The limitation is removed from the description.</li>
+</ul>
 <h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">20.0.2.0.4 (2026-11-03)</h2>
 <ul>
 <li>Description rewritten from the code: the purchase order created from the bill stays a request
