@@ -14,5 +14,5 @@
     "data": ["security/ir.model.access.csv", "security/security.xml", "views/stock_picking.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
-    "maintainers": ["danila12"],
+    "maintainers": ["dhongu", "VoicuStefan2001", "danila12"],
 }

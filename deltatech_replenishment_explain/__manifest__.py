@@ -17,5 +17,5 @@
         "data/replenishment_explain_server_action.xml",
     ],
     "development_status": "Beta",
-    "maintainers": ["VoicuStefan2001"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
 }

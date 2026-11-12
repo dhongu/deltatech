@@ -8,6 +8,7 @@
     "version": "19.0.1.1.6",
     "author": "Deltatech, Terrabit",
     "license": "LGPL-3",
+    "maintainers": ["dhongu"],
     "consultant_sheet": "simple",
     "category": "Purchases",
     "website": "https://www.terrabit.ro",

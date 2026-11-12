@@ -15,5 +15,5 @@
         "views/stock_warehouse_orderpoint_views.xml",
     ],
     "development_status": "Production/Stable",
-    "maintainers": ["VoicuStefan2001"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
 }

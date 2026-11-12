@@ -10,6 +10,6 @@
     "depends": ["product"],
     "data": ["security/security.xml"],
     "development_status": "Beta",
-    "maintainers": ["VoicuStefan2001"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
     "images": ["static/description/main_screenshot.png"],
 }

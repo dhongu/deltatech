@@ -13,6 +13,7 @@
     "category": "Accounting/Accounting",
     "depends": ["account"],
     "license": "OPL-1",
+    "maintainers": ["dhongu"],
     "consultant_sheet": "full",
     "price": 0.00,
     "currency": "EUR",

@@ -9,7 +9,7 @@
     "license": "AGPL-3",
     "category": "Tools",
     "development_status": "Beta",
-    "maintainers": ["danila12"],
+    "maintainers": ["dhongu", "danila12"],
     "depends": [
         "sale",
         "account",

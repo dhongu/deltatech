@@ -26,5 +26,5 @@
     "license": "OPL-1",
     "consultant_sheet": "full",
     "development_status": "Alpha",
-    "maintainers": ["VoicuStefan2001"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
 }

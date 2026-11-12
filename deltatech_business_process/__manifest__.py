@@ -40,6 +40,6 @@
     ],
     "development_status": "Mature",
     "images": ["static/description/main_screenshot.png"],
-    "maintainers": ["dhongu"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
     "application": True,
 }

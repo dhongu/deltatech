@@ -10,5 +10,5 @@
     "depends": ["deltatech_partner_generic"],
     "data": [],
     "development_status": "Production/Stable",
-    "maintainers": ["cojocariudaniel1"],
+    "maintainers": ["dhongu", "VoicuStefan2001", "cojocariudaniel1"],
 }

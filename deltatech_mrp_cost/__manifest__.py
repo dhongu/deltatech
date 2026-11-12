@@ -13,5 +13,5 @@
     "data": ["views/mrp_view.xml", "views/mrp_production_templates.xml", "views/mrp_bom_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
-    "maintainers": ["dhongu"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
 }

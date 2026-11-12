@@ -18,5 +18,5 @@
     "license": "LGPL-3",
     "development_status": "Production/Stable",
     "images": ["static/description/main_screenshot.png"],
-    "maintainers": ["dhongu"],
+    "maintainers": ["dhongu", "danila12", "VoicuStefan2001"],
 }

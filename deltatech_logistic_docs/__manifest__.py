@@ -8,6 +8,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
+    "maintainers": ["dhongu", "VoicuStefan2001"],
     "category": "Generic Modules",
     "depends": ["purchase_stock", "sale_stock"],
     "data": [

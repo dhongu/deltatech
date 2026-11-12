@@ -3,6 +3,7 @@
     "name": "Transport Change",
     "version": "19.0.0.1.9",
     "license": "LGPL-3",
+    "maintainers": ["dhongu"],
     "category": "Technical",
     "summary": "Export configuration data to CSV in a Git module, to carry it between databases",
     "author": "Terrabit, Dorin Hongu",

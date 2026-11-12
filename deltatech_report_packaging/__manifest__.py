@@ -16,5 +16,5 @@
         "wizard/invoice_packaging_material_view.xml",
     ],
     "development_status": "Beta",
-    "maintainers": ["cojocariudaniel1", "dhongu"],
+    "maintainers": ["dhongu", "VoicuStefan2001", "cojocariudaniel1"],
 }

@@ -12,6 +12,7 @@
     "category": "Sales",
     "depends": ["sale_stock", "deltatech_stock_inventory"],
     "license": "OPL-1",
+    "maintainers": ["dhongu"],
     "data": ["views/sale_order.xml"],
     "development_status": "Production/Stable",
     "installable": True,

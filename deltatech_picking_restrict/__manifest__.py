@@ -14,5 +14,5 @@
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",
-    "maintainers": ["danila12"],
+    "maintainers": ["dhongu", "VoicuStefan2001", "danila12"],
 }

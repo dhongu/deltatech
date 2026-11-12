@@ -40,5 +40,5 @@
     "images": ["images/main_screenshot.png"],
     "installable": True,
     "development_status": "Production/Stable",
-    "maintainers": ["dhongu"],
+    "maintainers": ["dhongu", "danila12", "VoicuStefan2001"],
 }
