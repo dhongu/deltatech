@@ -4,3 +4,4 @@
 
 
 from . import test_product_code
+from . import test_screenshots

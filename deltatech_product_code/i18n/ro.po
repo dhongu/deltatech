@@ -55,7 +55,7 @@ msgstr ""
 #. module: deltatech_product_code
 #: model:ir.model.fields,field_description:deltatech_product_code.field_product_category__prefix_barcode
 msgid "Prefix Barcode"
-msgstr ""
+msgstr "Prefix cod de bare"
 
 #. module: deltatech_product_code
 #: model:ir.model,name:deltatech_product_code.model_product_template
@@ -75,7 +75,7 @@ msgstr "Variantă produs"
 #. module: deltatech_product_code
 #: model_terms:ir.ui.view,arch_db:deltatech_product_code.product_category_form_view
 msgid "Products"
-msgstr ""
+msgstr "Produse"
 
 #. module: deltatech_product_code
 #: model:ir.model.fields,field_description:deltatech_product_code.field_product_category__barcode_source
