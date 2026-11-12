@@ -22,14 +22,181 @@ Sale Payment
 
 |badge1| |badge2| |badge3|
 
-- Features:
+Sales staff need to see from the order whether the customer has paid.
+This module adds the collected amount and a payment status to sales
+orders and lets a user record a payment from the order.
 
-  - Add payment button in sale order
+- **Payment on the order**: The order form shows *Payment*, the amount
+  collected, next to the payment provider, followed by *Payment Status*.
+- **Seven statuses**: Orders get one of *Without*, *Initiated*,
+  *Pending*, *Authorized*, *Partial*, *Done* or *Cancelled*. The
+  quotation and order lists show the status by default, and the search
+  view has a filter for each status except *Partial*.
+- **Confirm Payment**: The *Confirm Payment* action of the order opens a
+  window that asks for the provider, the payment method and the amount.
+  The window starts from the last transaction of the order when that one
+  is pending or authorized.
+- **Confirm or Add**: The *Confirm* button marks the transaction as
+  done, so the amount counts as collected on the order. *Add* only
+  records a pending transaction.
+- **Checks**: The window offers only providers that are not disabled and
+  refuses a negative amount.
+
+It depends on *Sales* and ``payment``. The *Confirm Payment* action has
+no group of its own, and salespeople can read the payment providers.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Known issues / Roadmap
+======================
+
+Roadmap: deltatech_sale_payment — Îmbunătățiri
+==============================================
+
+Rezolvate
+---------
+
+1. ✅ Starea ``pending`` adăugată ca status distinct
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Anterior, tranzacțiile ``pending`` apăreau ca ``initiated``. Acum au
+propriul status distinct, cu filtre și decorații dedicate.
+
+2. ✅ ``store=True`` pe câmpurile computate
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``payment_amount``, ``payment_status`` și ``provider_id`` sunt acum
+stocate în DB. ``@api.depends`` complet: ``amount_total``,
+``currency_id``, ``transaction_ids.state/amount/provider_id``,
+``invoice_ids.state/payment_state/amount_residual_signed/amount_total_signed/transaction_ids.is_post_processed``.
+Datele existente populate prin migrare SQL
+``18.0.1.2.0/post_migrate.py``.
+
+4. ✅ ``provider_id`` populat în migrare
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Adăugat pasul 4 în ``post_migrate.py``: populează ``provider_id`` pentru
+toate comenzile existente cu prioritate
+``done > authorized > pending > cancel > orice``, folosind ultimul id
+din fiecare grup. Legătura corectă ``sale_order → account_move`` se face
+prin
+``sale_order_line → sale_order_line_invoice_rel → account_move_line → account_move``
+(nu printr-un join direct, care producea produs cartezian).
+
+3. ✅ Facturile ``in_payment`` excluse din ``payment_amount``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Facturile cu ``payment_state = 'in_payment'`` (înregistrate dar
+nereconciliate cu banca) nu mai sunt incluse în suma plătită — plata lor
+rămâne vizibilă prin tranzacțiile ``done`` direct. Doar facturile
+``paid`` și ``partial`` contribuie la ``invoice_paid``.
+
+4. ✅ ``_search_payment_status`` eliminat
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Cu ``store=True``, Odoo generează SQL direct pe coloană — nu mai e
+nevoie de metoda ``_search``. Eliminat împreună cu aproximările inexacte
+per status.
+
+5. ✅ Decorații complete pentru ``payment_status`` în formular
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+======================================================= ================
+Status                                                  Culoare
+======================================================= ================
+``done``                                                success (verde)
+``partial``, ``pending``, ``initiated``, ``authorized`` warning (galben)
+``cancelled``                                           danger (roșu)
+``without``                                             muted (gri)
+======================================================= ================
+
+6. ✅ Filtre complete în lista de comenzi
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Adăugate filtre pentru toate stările: fără plată, inițiată, în
+așteptare, autorizată, efectuată, anulată.
+
+7. ✅ ``action_payment_link`` — calcul sumă corect
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Folosește ``amount_residual`` pe facturile postate în loc de
+``amount_total`` pe toate facturile.
+
+8. ✅ Teste actualizate și fixate
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Fix ``base_unit_count`` în setUp (câmp required în Odoo 18 — folosit
+produs existent din DB). Adăugate teste noi pentru ``pending``,
+``cancelled``, ``authorized``, combinații multiple.
+
+--------------
+
+Rămase de rezolvat
+------------------
+
+9. Reconciliere automată după confirmare manuală
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+În ``do_confirm()`` din wizard, liniile de reconciliere sunt comentate:
+
+.. code:: python
+
+   # transaction._finalize_post_processing()
+   # transaction._reconcile_after_transaction_done()
+
+Fără ele, plata confirmată manual nu se leagă automat de factură. De
+investigat compatibilitatea cu provider-ul ``"none"`` în Odoo 18.
+
+10. Câmpul ``payment_date`` nu ajunge pe tranzacție
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: python
+
+   # "date": self.payment_date,  ← comentat în wizard
+
+Data plății selectată în wizard nu se stochează pe
+``payment.transaction``.
+
+11. Teste lipsă pentru cazurile ``partial``, ``done`` și wizard
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- ``test_compute_payment_partial_and_done`` — comentat, necesită
+  secvență ``draft → pending → done``
+- ``test_sale_confirm_payment`` — comentat
+- ``test_action_payment_link`` — lipsă complet
+
+Changelog
+=========
+
+18.0.1.2.2 (2026-11-11)
+-----------------------
+
+- Apps Store page: a fuller description (what the module does, the
+  problem it solves, its main functions, dependencies and limits). No
+  change in behavior.
+
+18.0.1.2.1 (2026-09-23)
+-----------------------
+
+- Fix: amount paid = max(amount paid on the posted invoices, amount of
+  the confirmed transactions). A transaction confirmed on a provider
+  without a journal (e.g. Shopify card) has no accounting payment and
+  reaches the invoice only when the processor's settlement is
+  reconciled, so the data cannot tell whether it is already in the
+  invoice amount. Subtracting it (18.0.1.2.0) lost it: an order paid 382
+  by card plus 44 through a payment link showed 44 instead of 426, with
+  status ``partial``. Adding it (19.0.1.1.5) doubled it once the
+  settlement was reconciled. The maximum is right in both cases; it only
+  underestimates an unsettled card payment completed by a manual payment
+  on the invoice.
+- Migration: the stored payment fields of every sale order are
+  recomputed in SQL, set-based; only the rows that change are written,
+  and the receipts that ``deltatech_sale_store`` adds to ``invoice_ids``
+  are included; the SQL was checked against ``_compute_payment`` order
+  by order.
 
 Bug Tracker
 ===========
