@@ -384,6 +384,7 @@ class ProductProductLabelLine(models.TransientModel):
                 location_line = location_lines[0]
         return location_line
 
+    @api.depends("product_id", "label_id.pricelist_id")
     def _compute_price(self):
         for label_line in self:
             if not label_line.product_id:
