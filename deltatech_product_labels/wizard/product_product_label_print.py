@@ -386,7 +386,9 @@ class ProductProductLabelLine(models.TransientModel):
 
     def _compute_price(self):
         for label_line in self:
-            if label_line.label_id.pricelist_id:
+            if not label_line.product_id:
+                label_line.price = 0.0
+            elif label_line.label_id.pricelist_id:
                 # compute price based on pricelist
                 label_line.price = label_line.label_id.pricelist_id._get_product_price(
                     label_line.product_id, quantity=1
