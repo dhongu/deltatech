@@ -77,13 +77,28 @@ class ProductTemplate(models.Model):
 
     @api.onchange("list_price")
     def onchange_list_price(self):
+        self._recompute_trade_markup()
+
+    def _recompute_trade_markup(self):
+        """Derive the trade markup from the sale price (without taxes) and the last purchase price."""
         AccountTax = self.env["account.tax"]
-        list_price = AccountTax._fix_tax_included_price_company(
-            self.list_price, self.taxes_id, AccountTax, self.company_id
-        )
-        if self.last_purchase_price:
-            trade_markup = (list_price - self.last_purchase_price) / self.last_purchase_price * 100
-            self.trade_markup = trade_markup
+        for product in self:
+            if not product.last_purchase_price:
+                continue
+            list_price = AccountTax._fix_tax_included_price_company(
+                product.list_price, product.taxes_id, AccountTax, product.company_id
+            )
+            product.trade_markup = (list_price - product.last_purchase_price) / product.last_purchase_price * 100
+
+    @api.onchange("last_purchase_price")
+    def _onchange_last_purchase_price_keep_list_price(self):
+        # Without the automatic sale price update, the sale price stays as it is, so the markup must
+        # follow the new purchase price; otherwise it keeps the value computed with the old one
+        # (e.g. -98.23% left from a mistyped purchase price corrected afterwards).
+        get_str = self.env["ir.config_parameter"].sudo().get_str
+        if safe_eval(get_str("purchase.update_list_price", "False")):
+            return
+        self._recompute_trade_markup()
 
     @api.onchange("last_purchase_price", "trade_markup")
     def onchange_last_purchase_price(self):
