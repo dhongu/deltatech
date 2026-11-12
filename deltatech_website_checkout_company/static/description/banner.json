@@ -1,0 +1,10 @@
+{
+  "title": "Website Checkout Company",
+  "summary": "Romanian address order and company billing by VAT number",
+  "features": [
+    "Address fields in the Romanian order",
+    "Optional \"buying as a company\" section",
+    "Company created or matched by CUI"
+  ],
+  "ro": true
+}
