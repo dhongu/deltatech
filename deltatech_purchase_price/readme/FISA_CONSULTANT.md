@@ -31,11 +31,12 @@ Context operațional:
 - **adaosul comercial** este aici un procent față de **ultimul preț de achiziție**, fără TVA:
   preț de vânzare fără TVA = ultimul preț de achiziție × (1 + adaos / 100);
 - **ultimul preț de achiziție** este, de regulă, prețul unitar de pe comanda de achiziție a ultimei
-  recepții, în moneda companiei și în unitatea de măsură a produsului. Se mai schimbă când se
-  modifică prețul unei linii de furnizor din fila **Achiziții** a produsului (de mână, la adăugarea
-  unui furnizor nou sau, cu **Forțează prețul furnizorului…**, la validarea facturii furnizorului).
-  Cu **Actualizează prețul de listă** bifat, fiecare dintre aceste schimbări recalculează și prețul
-  de vânzare. Ultimul preț de achiziție nu este **costul** produsului, care vine din evaluarea
+  recepții, în moneda companiei și în unitatea de măsură a produsului. Se mai schimbă doar prin
+  editare manuală pe produs. Prețul unei linii de furnizor din fila **Achiziții** (modificat de mână,
+  la adăugarea unui furnizor nou sau, cu **Forțează prețul furnizorului…**, la confirmarea comenzii
+  ori validarea facturii) **nu** schimbă ultimul preț de achiziție și nici prețul de vânzare.
+  Cu **Actualizează prețul de listă** bifat, schimbarea ultimului preț de achiziție recalculează
+  prețul de vânzare. Ultimul preț de achiziție nu este **costul** produsului, care vine din evaluarea
   stocului (cost standard, CMP sau FIFO, după categoria produsului);
 - la unitățile care țin evidența mărfurilor **la preț de vânzare** (371 cu 378 „Diferențe de preț la
   mărfuri”), noul preț de vânzare calculat aici nu se contabilizează automat: înregistrarea
@@ -200,11 +201,11 @@ procesului-verbal de modificare a prețurilor.
 | Liste de prețuri (`product`) | o regulă de listă de prețuri poate folosi ca bază **Ultimul preț de achiziție** |
 | `deltatech_price_change` | dacă e instalat, notează modificările prețului de vânzare făcute la recepție și le aduce în procesul-verbal de modificare a prețurilor |
 
-**Ce e automat:** ultimul preț de achiziție la validarea recepției și la orice schimbare a
-prețului unei linii de furnizor de pe produs; prețul furnizorului (după setare); prețul de vânzare din adaos (după setare); adaosul, recalculat din prețul de vânzare când
+**Ce e automat:** ultimul preț de achiziție la validarea recepției; prețul furnizorului (după setare); prețul de vânzare din adaos (după setare); adaosul, recalculat din prețul de vânzare când
 prețul de vânzare nu se actualizează automat.
 
-**Ce rămâne manual:** stabilirea adaosului pe produs; prețul de vânzare când **Actualizează prețul
+**Ce rămâne manual:** stabilirea adaosului pe produs; corectarea ultimului preț de achiziție în
+afara unei recepții; prețul de vânzare când **Actualizează prețul
 de listă** e debifat; înregistrarea diferențelor de preț la evidența la preț de vânzare.
 
 ## 8. Verificări pentru consultant
@@ -221,6 +222,8 @@ de listă** e debifat; înregistrarea diferențelor de preț la evidența la pre
       exemplu, cost standard 100,00 lei).
 - [ ] Cu **Actualizează prețul de listă** debifat, schimbarea **Ultimului preț de achiziție** pe
       produs (10,00 → 12,50) lasă prețul de vânzare la 13,00 lei și schimbă adaosul la 4,00.
+- [ ] Modificarea prețului unei linii de furnizor din fila **Achiziții** (sau adăugarea unui
+      furnizor nou) lasă neschimbate **Ultimul preț de achiziție** și prețul de vânzare.
 - [ ] Un produs fără adaos (0) nu își schimbă prețul de vânzare la recepție.
 - [ ] La o comandă în altă monedă, ultimul preț de achiziție apare convertit în lei.
 
@@ -228,10 +231,9 @@ de listă** e debifat; înregistrarea diferențelor de preț la evidența la pre
 
 | Mesaj | Cauză | Remediere |
 |---|---|---|
-| *You cannot update the supplier price here. Please edit the supplier info separately* | linia de preț a furnizorului nu are unitate de măsură, iar produsul nici el | completați unitatea de măsură pe produs sau pe linia furnizorului |
 | Prețul de vânzare nu se schimbă la recepție | **Actualizează prețul de listă** e debifat, adaosul produsului e 0 sau recepția nu vine dintr-o comandă de achiziție | bifați opțiunea, completați adaosul, recepționați pe comandă |
 | Prețul furnizorului nu se actualizează | **Actualizează prețul produsului** e debifat sau linia furnizorului are cantitate minimă peste 1 ori perioadă de valabilitate | bifați opțiunea; liniile cu cantitate minimă sau perioadă se actualizează de mână |
-| Prețul de vânzare s-a schimbat fără recepție | cu **Actualizează prețul de listă** bifat, s-a modificat prețul unei linii de furnizor pe produs sau s-a validat o factură de furnizor cu **Forțează prețul furnizorului…** | este comportamentul așteptat; debifați opțiunea dacă prețul de vânzare se stabilește de mână |
+| Prețul de vânzare s-a schimbat fără recepție | cu **Actualizează prețul de listă** bifat, s-a modificat de mână **Ultimul preț de achiziție** sau **Adaosul comercial** pe produs | este comportamentul așteptat; debifați opțiunea dacă prețul de vânzare se stabilește de mână |
 | Adaosul arată o valoare absurdă (de exemplu −99%) | a fost calculat cu un ultim preț de achiziție greșit | corectați **Ultimul preț de achiziție**: adaosul se recalculează |
 
 ## 10. Capturi de ecran
