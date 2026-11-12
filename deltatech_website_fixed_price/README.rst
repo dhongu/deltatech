@@ -19,17 +19,40 @@ eCommerce Display Fixed Price As Discount
 
 |badge1| |badge2|
 
-- Features:
+Shops often give a product a special price through a fixed-price
+pricelist rule and want customers to see the old price crossed out. This
+module makes the eCommerce shop treat fixed-price rules as rules whose
+discount is displayed.
 
-  - The comparison price will show even if you use fixed price in
-    pricelist rules
-  - By default, odoo will not show the slashed price if the fixed price
-    is bigger than the comparison price
+- **Fixed-price rules**: A pricelist rule whose computation is a fixed
+  price now always tells the shop to display its discount. Any other
+  rule keeps the answer given by the standard code.
+- **Where it applies**: According to the code comment, the change covers
+  the shop, the product page and the product configurators, not the cart
+  or the checkout.
+- **Price comparison**: The module does not compare prices itself. Its
+  summary says the cut-off price appears when the fixed price is lower
+  than the list price.
+- **No configuration**: The module adds no settings, fields, screens or
+  menus. It applies to all pricelist rules as soon as it is installed.
+
+The module depends on *eCommerce* (``website_sale``) and needs no access
+rights of its own.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+18.0.0.0.1 (2026-11-11)
+-----------------------
+
+- Apps Store page: a fuller description (what the module does, the
+  problem it solves, its main functions, dependencies and limits). No
+  change in behavior.
 
 Bug Tracker
 ===========

@@ -4,7 +4,7 @@
 {
     "name": "Sale Delivery Status",
     "summary": "Get sale order status from pickings",
-    "version": "18.0.1.0.2",
+    "version": "18.0.1.0.3",
     "category": "Sales",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
