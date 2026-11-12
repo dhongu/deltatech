@@ -1,7 +1,7 @@
 Checkout address form for Romanian shops, with optional company billing.
 
-- The address is asked in the Romanian order: last name, first name, country, county, city,
-  street, then email and phone. The last name and the first name are kept together in the
+- The address is asked in the Romanian order: last name, first name, country, county, street,
+  city, zip code, then email and phone. The last name and the first name are kept together in the
   name of the contact.
 - Below the address, an optional **Billing details** section: a customer who buys as a
   company ticks *I am buying as a legal entity (company)* and types the company name, its
@@ -18,4 +18,11 @@ Checkout address form for Romanian shops, with optional company billing.
   **not** attached to it: typing a CUI must not give a visitor the documents of another
   company. The form asks the same fields whether or not the CUI is known. The invoice
   addresses typed this way can be reviewed or merged by the backend users.
-- Customers who already belong to a company keep the standard company name and VAT fields.
+- The company billing is available only for deliveries in Romania: the fiscal position of the
+  order follows the customer and the delivery address, not the invoice address, and the
+  domestic VAT of a Romanian company applies to goods delivered in Romania.
+- The CUI is saved as typed, without spaces, dots and hyphens (with or without the RO prefix); whether the company is registered
+  for VAT is not checked with ANAF, so the accountant reviews the new companies before
+  invoicing.
+- Customers who already belong to a company, or are one, keep the standard company name and VAT
+  fields.

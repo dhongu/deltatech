@@ -176,6 +176,13 @@ class TestCheckoutCompanyController(WebsiteSaleCommon):
         self.assertFalse(self._companies())
         self.assertFalse(self.customer.parent_id)
 
+    def test_company_billing_only_for_deliveries_in_romania(self):
+        # Delivered abroad, the domestic VAT of a Romanian company would not apply.
+        hungary = self.env.ref("base.hu")
+        feedback = self._submit(country_id=str(hungary.id), state_id="", zip="1011")
+        self.assertIn("tb_company", feedback["invalid_fields"])
+        self.assertFalse(self._companies())
+
     def test_registered_office_is_required_even_for_a_recorded_company(self):
         # The form asks the same whether or not the CUI belongs to a customer.
         self.env["res.partner"].create({"name": "Existing SRL", "is_company": True, "vat": VALID_CUI})

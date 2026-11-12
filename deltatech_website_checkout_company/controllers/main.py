@@ -87,6 +87,17 @@ class TbWebsiteSale(TbAddressNameMixin, WebsiteSale):
         if not str2bool(kwargs.get("tb_company") or "false"):
             return invalid_fields, missing_fields, error_messages
         Partner = request.env["res.partner"]
+        romania = request.env.ref("base.ro")
+        # The fiscal position of the order follows the customer and the delivery address, not
+        # the invoice address: a Romanian company is invoiced the domestic VAT only when the
+        # goods are delivered in Romania, so the company billing is limited to those.
+        if address_type == "delivery" or use_delivery_as_billing:
+            delivery_country_id = address_values.get("country_id")
+        else:
+            delivery_country_id = request.cart.partner_shipping_id.country_id.id
+        if delivery_country_id and delivery_country_id != romania.id:
+            invalid_fields.add("tb_company")
+            error_messages.append(request.env._("Billing to a company is available only for deliveries in Romania."))
         company_missing = {
             fname for fname in ("tb_company_name", "tb_company_vat") if not (kwargs.get(fname) or "").strip()
         }
@@ -97,7 +108,6 @@ class TbWebsiteSale(TbAddressNameMixin, WebsiteSale):
         # The invoice address is the registered office, a complete address in Romania. It is
         # asked whether or not the company is already recorded, so the form does not tell
         # a visitor which VAT numbers belong to our customers.
-        romania = request.env.ref("base.ro")
         address = self._tb_company_address_values(kwargs)
         for fname in self._get_mandatory_address_fields(romania) - {"country_id"}:
             if not address.get(fname):
@@ -145,6 +155,7 @@ class TbWebsiteSale(TbAddressNameMixin, WebsiteSale):
             form_data.get("tb_company_vat"),
             address=self._tb_company_address_values(form_data),
         )
-        # As the standard checkout does: the fiscal position and the taxes follow the address.
+        # The cart update of the standard checkout; the fiscal position does not depend on the
+        # invoice address (see the delivery country check of the validation).
         order_sudo._update_address(invoice_address.id, {"partner_invoice_id"})
         return result
