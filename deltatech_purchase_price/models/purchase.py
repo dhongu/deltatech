@@ -91,7 +91,6 @@ class PurchaseOrder(models.Model):
             self.env["product.supplierinfo"].sudo().create(all_supplierinfo_vals)
 
     def button_confirm(self):
-        self = self.with_context(from_po_confirmation=True)
         to_confirm = self.filtered(lambda o: o.state in ["draft", "sent"])
         res = super().button_confirm()
         to_confirm.filtered(lambda o: o.state in ["purchase", "to approve"])._add_supplier_to_product()

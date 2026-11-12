@@ -3,7 +3,6 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
 
 
@@ -136,40 +135,3 @@ class SupplierInfo(models.Model):
         if "default_price" in self.env.context:
             self = self.with_context(default_price=0.0)  # pylint: disable=self-cls-assignment
         return super().default_get(fields)
-
-    def update_last_purchase_price(self):
-        date = self.env.context.get("date") or fields.Date.today()
-        for item in self:
-            from_uom = item.uom_id or item.product_tmpl_id.uom_id
-            to_uom = item.product_tmpl_id.uom_id
-            if not from_uom or not to_uom:
-                raise UserError(
-                    self.env._("You cannot update the supplier price here. Please edit the supplier info separately")
-                )
-            price = from_uom._compute_price(item.price, to_uom)
-
-            company = item.company_id or self.env.company
-            if item.currency_id:
-                to_currency = company.currency_id
-                price = item.currency_id._convert(price, to_currency, company, date)
-            if price:
-                if item.product_id:
-                    item.product_id.with_company(company).last_purchase_price = price
-                    item.product_id.with_company(company).onchange_last_purchase_price()
-                else:
-                    item.product_tmpl_id.with_company(company).last_purchase_price = price
-                    item.product_tmpl_id.with_company(company).onchange_last_purchase_price()
-
-    def write(self, vals):
-        res = super().write(vals)
-        if "price" in vals:
-            if not self.env.context.get("from_po_confirmation"):
-                self.update_last_purchase_price()
-        return res
-
-    @api.model_create_multi
-    def create(self, vals_list):
-        res = super().create(vals_list)
-        if not self.env.context.get("from_po_confirmation"):
-            res.update_last_purchase_price()
-        return res

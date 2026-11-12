@@ -1,3 +1,12 @@
+## 20.0.1.2.13 (2026-11-12)
+
+- **Change: editing the price on a vendor line (`product.supplierinfo`) no
+  longer updates the last purchase price of the product.** The last purchase
+  price is now changed only by a manual edit on the product or by a receipt,
+  not as a side effect of creating or changing a vendor price.
+  Removed the `update_last_purchase_price` method and the
+  `from_po_confirmation` context key it needed. Port of 19.0.1.2.15.
+
 ## 20.0.1.2.12 (2026-10-15)
 
 - **New vendor pricing rows no longer take the product cost as unit price.**
