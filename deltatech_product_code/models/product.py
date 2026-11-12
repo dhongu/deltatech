@@ -190,7 +190,7 @@ class ProductTemplate(models.Model):
     @api.model
     def get_new_code(self, categ, default_code, barcode):
         values = {}
-        if default_code in [False, "/", "auto"] or self.env.context.get("force_code", False):
+        if not default_code or default_code in ["/", "auto"] or self.env.context.get("force_code", False):
             if categ.sequence_id:
                 default_code = self._get_free_code(categ.sequence_id)
                 values["default_code"] = default_code
