@@ -16,8 +16,9 @@ Checkout address form for Romanian shops, with optional company billing.
   address. Of the recorded company only its name shows (as the parent of the address, a
   public data of the CUI); its recorded address and contacts do not, and the customer is
   **not** attached to it: typing a CUI must not give a visitor the documents of another
-  company. The form asks the same fields whether or not the CUI is known. The invoice
-  addresses typed this way can be reviewed or merged by the backend users.
+  company. The form asks the same fields whether or not the CUI is known. An invoice
+  address with the same name and registered office under that company is reused, so the
+  same data typed again do not add duplicates.
 - The company billing is available only for deliveries in Romania: the fiscal position of the
   order follows the customer and the delivery address, not the invoice address, and the
   domestic VAT of a Romanian company applies to goods delivered in Romania.

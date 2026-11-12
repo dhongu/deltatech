@@ -4,28 +4,17 @@
 
 from odoo import models
 
+# Fields of the registered office compared to reuse an invoice address already typed.
+TB_OFFICE_FIELDS = ("name", "street", "zip", "city", "state_id")
+
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    def _tb_set_invoice_company(self, name, vat, address=None):
-        """Invoices the order to a company (see `_tb_prepare_invoice_company`); the taxes
-        follow a change of fiscal position. On the website the cart is updated through
-        `_update_address` instead, which also refreshes the session.
-
-        :return: the invoice address, sudoed
-        """
-        self.ensure_one()
-        invoice_address = self._tb_prepare_invoice_company(name, vat, address)
-        fiscal_position = self.fiscal_position_id
-        self.sudo().partner_invoice_id = invoice_address
-        if self.fiscal_position_id != fiscal_position:
-            self.sudo()._recompute_taxes()
-        return invoice_address
-
     def _tb_prepare_invoice_company(self, name, vat, address=None):
         """The invoice address of a company, given by the name, the VAT number and the
-        registered office typed on the website; the order is left as it is.
+        registered office typed on the website; the order is left as it is (the website
+        sets it through `_update_address`).
 
         The invoice address always holds the name and the registered office typed by the
         visitor; of a company already recorded, only its name shows on the address (as its
@@ -34,10 +23,10 @@ class SaleOrder(models.Model):
         - No company recorded with this VAT number: the company is created with its
           registered office and the customer becomes one of its delivery addresses, keeping
           its own address.
-        - A company already recorded with this VAT number: a new invoice address is created
-          under it, so the invoice goes to that company (its commercial partner). The
-          customer is not attached to the company and does not get to see its documents in
-          the portal.
+        - A company already recorded with this VAT number: the invoice address with the same
+          name and registered office under it is reused, or a new one is created, so the
+          invoice goes to that company (its commercial partner). The customer is not attached
+          to the company and does not get to see its documents in the portal.
 
         :param dict address: the registered office, as `res.partner` values (state_id, city,
                              street, zip); the country is Romania.
@@ -57,7 +46,11 @@ class SaleOrder(models.Model):
         }
         company = Partner._tb_find_company_by_vat(vat, self.company_id)
         if company:
-            invoice_address = Partner.create({**values, "parent_id": company.id, "type": "invoice"})
+            domain = [("parent_id", "=", company.id), ("type", "=", "invoice")]
+            domain += [(fname, "=", values.get(fname) or False) for fname in TB_OFFICE_FIELDS]
+            invoice_address = Partner.search(domain, order="id", limit=1)
+            if not invoice_address:
+                invoice_address = Partner.create({**values, "parent_id": company.id, "type": "invoice"})
         else:
             invoice_address = Partner.create({**values, "is_company": True, "vat": vat})
             if not customer.is_company and not customer.parent_id:
