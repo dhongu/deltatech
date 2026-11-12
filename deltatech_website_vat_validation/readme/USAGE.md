@@ -43,3 +43,15 @@ rewritten by a partner sync, and without the module it falls back to **Tax Exclu
 module, the saved value stays.
 
 ![Website settings: Display Product Prices highlighted, with Tax Included selected](static/description/en/04_afisare_preturi_pastrata.png)
+
+**5. The buying company is created from the billing address**
+
+At checkout, in the billing address, a customer who buys for a company fills in the standard
+**Company Name** and **VAT** fields. When the address is saved, the company is created as a partner
+(a **Company**, with the address and the tax code typed) and the customer becomes its contact, so
+the order and its invoice go to the company. This happens only when the address is used for billing,
+the customer is not already a company or the contact of one, both fields are filled in and no other
+customer has this tax code. A visitor (not logged in) who types the tax code of a customer keeps it on
+their own address and is not attached to that company.
+
+![Contacts: the partner Beta Construct SRL, a Company, with its VAT number highlighted and, in the Contacts tab, the customer Mihai Pop highlighted](static/description/en/05_firma_creata_la_comanda.png)

@@ -7,6 +7,8 @@
 # Seed:
 #   - clientul existent „Alfa Distribuție SRL", cod fiscal RO1234567, e-mail comenzi@alfa-distributie.example;
 #   - clienta „Ioana Marin", utilizator de portal, cu un coș deschis pe site;
+#   - firma „Beta Construct SRL", cod fiscal RO18547290, creată din adresa de facturare a clientului
+#     „Mihai Pop", care a devenit contactul ei;
 #   - setarea site-ului „Afișarea prețurilor produselor" = cu taxe, păstrată după o modificare a
 #     adresei companiei (care recalculează setarea).
 #
@@ -32,6 +34,8 @@ EXISTING_VAT = "RO1234567"
 # același cod, scris altfel: cu litere mici, spații și cu spații în jur
 TYPED_VAT = " ro 12 34 567 "
 EXISTING_EMAIL = "comenzi@alfa-distributie.example"
+# codul fiscal (valid) al firmei create la comandă, la Pasul 5
+NEW_VAT = "RO18547290"
 
 # completează câmpurile formularului de adresă, apasă butonul de salvare și aduce mesajele în
 # mijlocul ecranului; câmpurile se scriu direct, apoi formularul se trimite prin JS (RPC)
@@ -177,6 +181,25 @@ class TestVatValidationScreenshots(ScreenshotCase or object):
         cls.website.invalidate_recordset()
         assert cls.website.show_line_subtotals_tax_selection == "tax_included"
 
+        # Pasul 5 — firma creată din adresa de facturare a unei comenzi: persoana a completat
+        # numele firmei și codul fiscal (nou), iar la salvare firma a fost creată, cu persoana contact
+        buyer = env["res.partner"].create(
+            {
+                "name": "Mihai Pop",
+                "email": "mihai.pop@beta-construct.example",
+                "phone": "+40 744 123 456",
+                "company_name": "Beta Construct SRL",
+                "vat": NEW_VAT,
+                "street": "Bd. Independenței nr. 7",
+                "city": "Iași",
+                "zip": "700001",
+                "country_id": country_ro.id,
+            }
+        )
+        buyer.create_company()
+        buyer.company_name = False
+        cls.created_company = buyer.parent_id
+
         cls.settings_action = env.ref("website.action_website_configuration")
         env.flush_all()
 
@@ -231,10 +254,29 @@ class TestVatValidationScreenshots(ScreenshotCase or object):
             },
         ]
 
+    def _company_shots(self):
+        return [
+            # Pasul 5 — firma creată la comandă: companie, cu adresa și codul fiscal tastate, iar
+            # persoana care a comandat este contactul ei
+            {
+                "url": f"model=res.partner&id={self.created_company.id}&view_type=form",
+                "name": "05_firma_creata_la_comanda.png",
+                "wait": ".o_form_view .o_field_widget[name='child_ids']",
+                "timeout": 60000,
+                "highlight": [
+                    ".o_field_widget[name='vat']",
+                    ".o_field_widget[name='child_ids']",
+                ],
+                "settle": 2500,
+            },
+        ]
+
     def test_capture_fise(self):
         self.capture_screenshots(self._customer_shots(), login=CUSTOMER_LOGIN, viewport=VIEWPORT)
         self.capture_screenshots(self._admin_shots(), viewport=SETTINGS_VIEWPORT)
+        self.capture_screenshots(self._company_shots(), viewport=VIEWPORT)
 
     def test_capture_usage(self):
         self.capture_screenshots(self._customer_shots(), login=CUSTOMER_LOGIN, viewport=VIEWPORT, lang="en_US")
         self.capture_screenshots(self._admin_shots(), viewport=SETTINGS_VIEWPORT, lang="en_US")
+        self.capture_screenshots(self._company_shots(), viewport=VIEWPORT, lang="en_US")
