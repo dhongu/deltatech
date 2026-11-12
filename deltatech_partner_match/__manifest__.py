@@ -8,6 +8,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "LGPL-3",
+    "maintainers": ["dhongu"],
     "consultant_sheet": "full",
     "category": "Hidden/Tools",
     "depends": ["base"],
