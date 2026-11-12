@@ -2,7 +2,7 @@
 
 ## 20.0.1.2.4 (2026-11-12)
 
-- The *Purchase Price*, *Margin* and *Margin (%)* columns of the sale order lines are shown only to users in the *Show purchase price on sale order lines and customer invoice* group, like the margin total on the order. Before, any internal user could add them from the optional columns menu.
+- The *Cost*, *Margin* and *Margin (%)* columns of the sale order lines are shown only to users in the *Show purchase price on sale order lines and customer invoice* group, like the margin total on the order. Before, any internal user could add them from the optional columns menu.
 
 ## 20.0.1.2.3 (2026-10-22)
 
