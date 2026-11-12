@@ -94,20 +94,31 @@ class TbWebsiteSale(TbAddressNameMixin, WebsiteSale):
         if "tb_company_vat" not in company_missing and not Partner._tb_is_valid_company_vat(vat):
             invalid_fields.add("tb_company_vat")
             error_messages.append(request.env._("The company VAT number (CUI) is not valid."))
-        elif not Partner._tb_find_company_by_vat(vat, request.website.company_id):
-            # A new company is invoiced at its registered office, which must be a complete
-            # address in Romania; a company already recorded keeps its own address.
-            romania = request.env.ref("base.ro")
-            address = self._tb_company_address_values(kwargs)
-            for fname in self._get_mandatory_address_fields(romania) - {"country_id"}:
-                if not address.get(fname):
-                    company_missing.add(self.TB_COMPANY_ADDRESS_FIELDS[fname])
+        # The invoice address is the registered office, a complete address in Romania. It is
+        # asked whether or not the company is already recorded, so the form does not tell
+        # a visitor which VAT numbers belong to our customers.
+        romania = request.env.ref("base.ro")
+        address = self._tb_company_address_values(kwargs)
+        for fname in self._get_mandatory_address_fields(romania) - {"country_id"}:
+            if not address.get(fname):
+                company_missing.add(self.TB_COMPANY_ADDRESS_FIELDS[fname])
         if company_missing:
             missing_fields |= company_missing
             error_messages.append(
                 request.env._("Fill in the company details: name, VAT number (CUI) and registered office.")
             )
         return invalid_fields, missing_fields, error_messages
+
+    def _prepare_checkout_page_values(self, order_sudo, **kwargs):
+        """The invoice address created under a company already recorded (billing section)
+        is not one of the customer's addresses: it is added to the billing choices, so the
+        checkout shows it selected instead of the customer's own address."""
+        values = super()._prepare_checkout_page_values(order_sudo, **kwargs)
+        invoice_address = order_sudo.partner_invoice_id
+        billing_addresses = values.get("billing_addresses")
+        if invoice_address and billing_addresses is not None and invoice_address not in billing_addresses:
+            values["billing_addresses"] = invoice_address.with_context(show_address=1) | billing_addresses
+        return values
 
     def shop_address_submit(
         self, partner_id=None, address_type="billing", use_delivery_as_billing=None, callback=None, **form_data
@@ -129,9 +140,11 @@ class TbWebsiteSale(TbAddressNameMixin, WebsiteSale):
         order_sudo = request.cart
         if not order_sudo or not order_sudo.partner_id or order_sudo._is_anonymous_cart():
             return result
-        order_sudo._tb_set_invoice_company(
+        invoice_address = order_sudo._tb_prepare_invoice_company(
             (form_data.get("tb_company_name") or "").strip(),
             form_data.get("tb_company_vat"),
             address=self._tb_company_address_values(form_data),
         )
+        # As the standard checkout does: the fiscal position and the taxes follow the address.
+        order_sudo._update_address(invoice_address.id, {"partner_invoice_id"})
         return result

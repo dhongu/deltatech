@@ -127,11 +127,6 @@
                                 <label class="col-form-label" for="o_tb_company_zip">Zip Code</label>
                                 <input id="o_tb_company_zip" type="text" name="tb_company_zip" class="form-control" />
                             </div>
-                            <div class="col-12">
-                                <small class="form-text text-muted">
-                                    The registered office is asked only for a company that is not yet our customer.
-                                </small>
-                            </div>
                         </div>
                     </div>
                 </div>

@@ -5,14 +5,17 @@ Checkout address form for Romanian shops, with optional company billing.
   name of the contact.
 - Below the address, an optional **Billing details** section: a customer who buys as a
   company ticks *I am buying as a legal entity (company)* and types the company name, its
-  VAT number (CUI) and the county and city of its registered office. The CUI is checked
-  (checksum) before the order goes further.
+  VAT number (CUI) and its registered office (county, city, street, zip code). The CUI is
+  checked (checksum) before the order goes further.
 - When no company is recorded with this CUI, the company is created as a company partner,
   with its registered office, and the customer becomes one of its delivery addresses, keeping
-  its own address. The order is
-  invoiced to the company and delivered to the customer.
-- When a company is already recorded with this CUI (with or without the RO prefix), the order
-  is invoiced to it and the customer is **not** attached to it: typing a CUI on the website
-  must not give a visitor access to the documents of the company in the portal. Attaching the
-  contact to the company is left to the backend users.
+  its own address. The order is invoiced to the company and delivered to the customer.
+- When a company is already recorded with this CUI (with or without the RO prefix), a new
+  invoice address is created under it with the name and the registered office typed by the
+  customer, and the order is invoiced to it; the checkout shows it as the selected billing
+  address. Of the recorded company only its name shows (as the parent of the address, a
+  public data of the CUI); its recorded address and contacts do not, and the customer is
+  **not** attached to it: typing a CUI must not give a visitor the documents of another
+  company. The form asks the same fields whether or not the CUI is known. The invoice
+  addresses typed this way can be reviewed or merged by the backend users.
 - Customers who already belong to a company keep the standard company name and VAT fields.
