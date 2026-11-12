@@ -7,3 +7,4 @@ from . import test_force_price
 from . import test_multi_company
 from . import test_seller_default_price
 from . import test_trade_markup_stale
+from . import test_screenshots
