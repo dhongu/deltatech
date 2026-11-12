@@ -1,0 +1,125 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-12 18:57+0000\n"
+"PO-Revision-Date: 2026-11-12 18:57+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#. module: deltatech_website_checkout_company
+#: model_terms:ir.ui.view,arch_db:deltatech_website_checkout_company.address_form_fields
+msgid "<option value=\"\">County...</option>"
+msgstr "<option value=\"\">Județ...</option>"
+
+#. module: deltatech_website_checkout_company
+#: model_terms:ir.ui.view,arch_db:deltatech_website_checkout_company.address_form_fields
+msgid ""
+"Billing details\n"
+"                        <small class=\"text-muted fw-normal\">(optional)</small>"
+msgstr ""
+"Date de facturare\n"
+"                        <small class=\"text-muted fw-normal\">(opțional)</small>"
+
+#. module: deltatech_website_checkout_company
+#. odoo-python
+#: code:addons/deltatech_website_checkout_company/controllers/main.py:0
+msgid "Billing to a company is available only for deliveries in Romania."
+msgstr ""
+"Facturarea pe firmă este disponibilă doar pentru livrările în România."
+
+#. module: deltatech_website_checkout_company
+#: model_terms:ir.ui.view,arch_db:deltatech_website_checkout_company.address_form_fields
+msgid "Company name"
+msgstr "Nume firmă"
+
+#. module: deltatech_website_checkout_company
+#: model:ir.model,name:deltatech_website_checkout_company.model_res_partner
+msgid "Contact"
+msgstr "Contact"
+
+#. module: deltatech_website_checkout_company
+#: model:ir.model,website_form_label:deltatech_website_checkout_company.model_res_partner
+msgid "Create a Customer"
+msgstr "Creează un client"
+
+#. module: deltatech_website_checkout_company
+#: model:ir.model.fields,field_description:deltatech_website_checkout_company.field_res_partner__display_name
+#: model:ir.model.fields,field_description:deltatech_website_checkout_company.field_sale_order__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_website_checkout_company
+#. odoo-python
+#: code:addons/deltatech_website_checkout_company/controllers/main.py:0
+msgid ""
+"Fill in the company details: name, VAT number (CUI) and registered office."
+msgstr "Completați datele firmei: nume, cod fiscal (CUI) și sediul social."
+
+#. module: deltatech_website_checkout_company
+#: model_terms:ir.ui.view,arch_db:deltatech_website_checkout_company.address_form_fields
+msgid "First name"
+msgstr "Prenume"
+
+#. module: deltatech_website_checkout_company
+#: model_terms:ir.ui.view,arch_db:deltatech_website_checkout_company.address_form_fields
+msgid "I am buying as a legal entity (company)"
+msgstr "Cumpăr ca persoană juridică (firmă)"
+
+#. module: deltatech_website_checkout_company
+#: model:ir.model.fields,field_description:deltatech_website_checkout_company.field_res_partner__id
+#: model:ir.model.fields,field_description:deltatech_website_checkout_company.field_sale_order__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_website_checkout_company
+#: model_terms:ir.ui.view,arch_db:deltatech_website_checkout_company.address_form_fields
+msgid "Last name"
+msgstr "Nume"
+
+#. module: deltatech_website_checkout_company
+#: model_terms:ir.ui.view,arch_db:deltatech_website_checkout_company.address_form_fields
+msgid "RO12345678"
+msgstr "RO12345678"
+
+#. module: deltatech_website_checkout_company
+#: model_terms:ir.ui.view,arch_db:deltatech_website_checkout_company.address_form_fields
+msgid "Registered office address"
+msgstr "Adresă sediu social"
+
+#. module: deltatech_website_checkout_company
+#: model_terms:ir.ui.view,arch_db:deltatech_website_checkout_company.address_form_fields
+msgid "Registered office city"
+msgstr "Localitate sediu social"
+
+#. module: deltatech_website_checkout_company
+#: model_terms:ir.ui.view,arch_db:deltatech_website_checkout_company.address_form_fields
+msgid "Registered office county"
+msgstr "Județ sediu social"
+
+#. module: deltatech_website_checkout_company
+#: model:ir.model,name:deltatech_website_checkout_company.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_website_checkout_company
+#. odoo-python
+#: code:addons/deltatech_website_checkout_company/controllers/main.py:0
+msgid "The company VAT number (CUI) is not valid."
+msgstr "Codul fiscal (CUI) al firmei nu este valid."
+
+#. module: deltatech_website_checkout_company
+#: model_terms:ir.ui.view,arch_db:deltatech_website_checkout_company.address_form_fields
+msgid "VAT number (CUI)"
+msgstr "Cod fiscal (CUI)"
+
+#. module: deltatech_website_checkout_company
+#: model_terms:ir.ui.view,arch_db:deltatech_website_checkout_company.address_form_fields
+msgid "Zip Code"
+msgstr "Cod poștal"
