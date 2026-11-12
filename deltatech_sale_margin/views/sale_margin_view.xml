@@ -45,6 +45,27 @@
         </field>
     </record>
 
+    <!-- The cost and margin columns of the order lines (optional, hidden by default)
+         follow the same group as the order margin: without it any internal user could
+         show them from the optional columns menu. -->
+    <record id="sale_margin_sale_order" model="ir.ui.view">
+        <field name="name">sale.order.margin.view.form</field>
+        <field name="model">sale.order</field>
+        <field name="priority">150</field>
+        <field name="inherit_id" ref="sale_margin.sale_margin_sale_order" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']//list//field[@name='margin']" position="attributes">
+                <attribute name="groups">deltatech_sale_margin.group_sale_margin</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//list//field[@name='margin_percent']" position="attributes">
+                <attribute name="groups">deltatech_sale_margin.group_sale_margin</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//list//field[@name='purchase_price']" position="attributes">
+                <attribute name="groups">deltatech_sale_margin.group_sale_margin</attribute>
+            </xpath>
+        </field>
+    </record>
+
     <!-- 19.0: `sale_margin_sale_order` restricted the order margin shown under
          `tax_totals` to `group_sale_margin`. In 20.0 `sale_margin` renders the order
          margin as a line of `extra_total_fields`, so the restriction moved to
