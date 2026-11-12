@@ -167,8 +167,9 @@
 </div>
 <ol start="7">
 <li>With the VAT number of a company already recorded (with or without RO), the form asks the same
-   fields and does not show the recorded data. A new invoice address is created under that
-   company, with the name and the registered office typed by the customer, and is selected as
+   fields and does not show the recorded data. The invoice address under that company with the
+   name and the registered office typed by the customer is used, or created when none matches
+   (the company itself is used when its own data are typed), and is selected as
    <strong>Billing address</strong>. The customer is <strong>not</strong> attached to the company.</li>
 </ol>
 <div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
@@ -183,8 +184,9 @@
 </div>
 <ol start="8">
 <li>On that order, <strong>Customer</strong> and <strong>Delivery Address</strong> are the customer, and <strong>Invoice Address</strong>
-   is the new address under the recorded company. Each such order adds an invoice address to the
-   company; backend users can merge the duplicates from <strong>Contacts</strong>.</li>
+   is the address under the recorded company. Another order with the same name and registered
+   office uses the same address; only different data add a new one, which backend users can merge
+   from <strong>Contacts</strong> when it differs only in spelling.</li>
 </ol>
 <div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
   <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
@@ -213,6 +215,7 @@ section too, but saving it there does not create a company.</p>
 <li>For a CUI already recorded, the company itself or an invoice address under it with the
   same name and registered office is reused instead of adding a duplicate (from 19.0).</li>
 <li>The county of the registered office is accepted only from Romania.</li>
+<li>Consultant sheet and usage describe the reuse of the invoice address.</li>
 </ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.0 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-12)</span></h2>
 <ul>

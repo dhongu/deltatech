@@ -8,6 +8,7 @@
 - For a CUI already recorded, the company itself or an invoice address under it with the
   same name and registered office is reused instead of adding a duplicate (from 19.0).
 - The county of the registered office is accepted only from Romania.
+- Consultant sheet and usage describe the reuse of the invoice address.
 
 ## 19.0.1.0.0 (2026-11-12)
 

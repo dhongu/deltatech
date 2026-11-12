@@ -65,7 +65,7 @@ class TbWebsiteSale(TbAddressNameMixin, WebsiteSale):
             if fname == "state_id":
                 # Only a county of Romania, the country of the registered office; any other id
                 # is dropped and the county is then reported as missing.
-                state = request.env["res.country.state"].sudo().browse(int(value)) if value.isdigit() else None
+                state = request.env["res.country.state"].sudo().browse(int(value)) if value.isdecimal() else None
                 value = state.id if state and state.exists() and state.country_id.code == "RO" else False
             values[fname] = value or False
         return values
