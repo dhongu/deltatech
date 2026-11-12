@@ -1,6 +1,7 @@
 # 19.0.1.2.2 (2026-11-12)
 
 - Fix: an empty-string Internal Reference (from imports or API calls) is now treated like an empty one, so the code is generated from the category sequence instead of leaving the reference empty and giving a random barcode.
+- Consultant sheet (`readme/FISA_CONSULTANT.md`), usage guide with screenshots and Romanian translation of the "Prefix Barcode" and "Products" labels on the category form.
 
 # 19.0.1.2.1 (2026-10-14)
 
