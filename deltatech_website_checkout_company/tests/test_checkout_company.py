@@ -106,6 +106,12 @@ class TestCheckoutCompany(TransactionCase):
         self.assertFalse(self.customer.parent_id)
         self.assertEqual(self.customer.commercial_partner_id, self.customer)
 
+    def test_company_typed_again_is_reused(self):
+        company = self.order._tb_prepare_invoice_company("Test Agro SRL", VALID_CUI, self.office)
+        again = self.order._tb_prepare_invoice_company("Test Agro SRL", f"RO{VALID_CUI}", self.office)
+        self.assertEqual(again, company)
+        self.assertFalse(company.child_ids.filtered(lambda child: child.type == "invoice"))
+
     def test_company_of_another_company_is_not_used(self):
         other_company = self.env["res.company"].create({"name": "Other Co"})
         self.Partner.create(

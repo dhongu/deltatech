@@ -46,7 +46,9 @@ class SaleOrder(models.Model):
         }
         company = Partner._tb_find_company_by_vat(vat, self.company_id)
         if company:
-            domain = [("parent_id", "=", company.id), ("type", "=", "invoice")]
+            # The company itself (e.g. created by a previous order with the same data) or one
+            # of its invoice addresses, when the name and the registered office match.
+            domain = ["|", ("id", "=", company.id), "&", ("parent_id", "=", company.id), ("type", "=", "invoice")]
             domain += [(fname, "=", values.get(fname) or False) for fname in TB_OFFICE_FIELDS]
             invoice_address = Partner.search(domain, order="id", limit=1)
             if not invoice_address:
