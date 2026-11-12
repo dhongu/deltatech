@@ -28,17 +28,32 @@
   </div>
 </div>
 
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
+</ul>
+<div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Phone numbers typed on a website checkout come in many formats, and wrong ones are found only when someone calls. This module checks the number when the customer submits an address at checkout or the details form of the customer portal, and rewrites it in the international format.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Trimmed input</span><div>Spaces before and after the phone number are removed before the standard checks run.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">International format</span><div>The number is read for the country selected in the form and rewritten in the international format, so a local number gets the country prefix. At checkout, this is skipped when the standard checks already flag the number.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Invalid numbers</span><div>A number that cannot be read for that country is reported as invalid. The checkout shows the message <em>The phone number is not valid:</em> followed by the reason, and the portal shows the reason alone.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Any address type</span><div>The check applies to the phone number of every address submitted at checkout, whatever its type.</div></div></li></ul>
+<p>The module depends on <em>eCommerce</em> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">website_sale</code>) and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">phone_validation</code>, and needs the Python library <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">phonenumbers</code> on the server. It overrides the address validation of the website checkout and the validation of the customer portal details form, and acts only on the phone field.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">18.0.1.0.1 (2026-11-11)</h2>
 <ul>
-<li>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
-<ul>
-<li>Validation of phone number from frontend</li>
-<li>Validare telefon in frontend</li>
+<li>Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.</li>
 </ul>
-</li>
-</ul>
+</div>
 </div>
 
 <div class="row text-center mt-4 mb-1 g-3">
@@ -145,12 +160,12 @@
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">GS</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">LG</span>
               <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_lot/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Generate/Select lot</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Lot Generation &amp; Selection</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules</span>
             </span>
           </div>

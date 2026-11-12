@@ -2,9 +2,9 @@
 <!-- tb-gen v1 -->
 <div class="rounded-4 shadow px-4 py-4 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
   <div class="d-flex flex-wrap align-items-center">
-    <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Deltatech Picking Service Lines" style="width:80px;height:80px;border:none;"/></span>
+    <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Picking Services" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
-      <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Deltatech Picking Service Lines</h1>
+      <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Picking Services</h1>
       <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Service lines in pickings</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 18.0</span>
@@ -31,16 +31,36 @@
   </div>
 </div>
 
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
+</ul>
+<div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Besides the goods, a transfer sometimes has services tied to it, such as transport or packing. This module adds a <em>Services</em> tab to the transfer, where the operator records them with a quantity, a unit price and a subtotal.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Services tab</span><div>A <em>Services</em> tab after the operations tab of every transfer lists the services in an editable list, and <em>Add a Service</em> adds a row.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Service lines</span><div>Each row has a <em>Service</em> (only products of type service), a <em>Description</em> (hidden by default), a <em>Quantity</em> (1 by default), a <em>Unit of Measure</em> (for users in the units of measure group) and a <em>Unit Price</em>.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Defaults and totals</span><div>Choosing a service fills in its unit of measure and description. The price is typed in, not taken from the product. The <em>Subtotal</em> is quantity times unit price, with the total shown under the column.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Copy</span><div>Duplicating a transfer copies its service lines.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Record only</span><div>The lines create no stock moves, invoices or accounting entries.</div></div></li></ul>
+<p>The module depends on <em>Inventory</em> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock</code>). Inventory users have full access to the lines. The tab has no state restriction: lines can be edited in every state of the transfer.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">18.0.1.0.4 (2026-11-11)</h2>
 <ul>
-<li>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
+<li>Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.</li>
+</ul>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">18.0.1.0.3 (2026-10-22)</h2>
 <ul>
-<li>Adds a new tab in picking, with service type products only</li>
+<li>Listed on Odoo Apps as <em>Picking Services</em> (was <em>Deltatech Picking Service Lines</em>). The technical name <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_picking_services</code> does not change.</li>
 </ul>
-</li>
-</ul>
+</div>
 </div>
 
 <div class="row text-center mt-4 mb-1 g-3">
@@ -92,7 +112,7 @@
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Auto Reorder Rule</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Auto Reorder Rules</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
             </span>
           </div>
@@ -112,7 +132,7 @@
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Batch Transfer</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Batch Transfer Extension</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
             </span>
           </div>
@@ -167,12 +187,12 @@
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">RP</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PR</span>
               <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_report_prn/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Raport PRN</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">PRN Report</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Stock</span>
             </span>
           </div>

@@ -28,17 +28,32 @@
   </div>
 </div>
 
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
+</ul>
+<div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Provides real-time stock availability indicators on sales orders, helping warehouse and sales teams quickly identify which orders can be fulfilled immediately.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Features</h2>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Ready indicator on list view</span><div>Sales orders that are ready for delivery are highlighted in green in the orders list, giving an instant visual overview without opening each order.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Is Ready field</span><div>A computed, stored boolean field (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">is_ready</code>) that evaluates whether stock is available to fulfill the order based on the delivery policy:<ul class="ps-3 mt-1 mb-0">
-<li class="small"><em>Direct policy</em>: at least one order line has sufficient stock on hand.</li>
-<li class="small"><em>One policy</em>: all order lines have sufficient stock on hand.</li>
-<li class="small">For confirmed orders, readiness is determined by reserved quantities on outgoing pickings.</li>
-</ul></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Available quantity on order lines</span><div>An optional column (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Available</code>) on the order line shows the current stock situation per product: virtual available = on hand &#8722; outgoing + incoming.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Is Ready filter</span><div>A quick filter in the search bar lets users display only orders that are ready to ship.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Multi-warehouse support</span><div>Stock availability at date is computed across all warehouses for accurate forecasting.</div></div></li></ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Technical notes</h2>
-<p>The <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">is_ready</code> field is stored in the database and recomputed automatically when relevant data changes (state, invoice status, product stock levels, picking moves). This avoids expensive on-the-fly stock queries when loading the orders list.</p>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Salespeople and warehouse staff need to see at a glance which orders can ship. This module computes an <em>Is ready</em> flag for open quotations and sales orders and shows the ready ones in green in their lists.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Green rows</span><div>The quotation and sales order lists show a ready order in green. An <em>Is Ready</em> filter in the order search returns the ready ones.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Quotations</span><div>A draft or sent quotation is ready when stock on hand minus outgoing quantity covers the quantity left to deliver on every line, or on at least one line when the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">picking_policy</code> is <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">direct</code>.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Confirmed orders</span><div>A confirmed order is ready when its transfers have reserved stock: any reserved move under <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">direct</code>, every move of the transfers not yet done otherwise. Orders stay ready after delivery until fully invoiced; cancelled ones never are.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Available column</span><div>An optional <em>Available</em> column on the order lines, hidden by default and shown to Inventory users, gives the forecast with its on hand, outgoing and incoming parts, or <em>N/A</em> when all are zero. It reads the source location of the line's route, when it has one.</div></div></li></ul>
+<p>It depends on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale_stock</code>. The flag is stored on the order and can be searched. The module also sets the context key <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">all_warehouses</code> when the quantity at date of an order line is computed.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">18.0.1.0.3 (2026-11-11)</h2>
+<ul>
+<li>Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.</li>
+</ul>
+</div>
 </div>
 
 <div class="row text-center mt-4 mb-1 g-3">
@@ -150,7 +165,7 @@
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Promissory Note</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Promissory Notes</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Generic Modules/Stock</span>
             </span>
           </div>
@@ -230,7 +245,7 @@
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech Account Analytic</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Account Analytic Split</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
             </span>
           </div>

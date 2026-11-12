@@ -22,34 +22,36 @@ Deltatech Web Site Blog
 
 |badge1| |badge2| |badge3|
 
-Key Features
-============
+A blog is usually read from the newest post to the oldest, by the date
+each post was published. This module sets that as the default sort order
+of blog posts.
 
-This module enhances the blog section of the Odoo website by providing
-better sorting and organization of blog posts.
+- **Publication date**: Blog posts are sorted by their publication date
+  (``published_date``), newest first.
+- **Same date**: Posts with the same publication date are sorted by
+  record ID, highest first, so the most recently created post comes
+  first.
+- **Default order only**: The order is set on the blog post model
+  itself, so it applies wherever posts are read without a requested
+  order. A screen, filter or query that asks for its own order keeps it.
 
-Features:
----------
-
-- Sorts blog posts by the published date in descending order by default.
-- Ensures that the most recent content is shown first on the blog page.
-- Improves the user experience for readers by making the blog easier to
-  navigate chronologically.
-- Adds better default sorting in the backend for easier blog management.
-
-Usage:
-------
-
-- No special configuration is required.
-- After installation, all blog lists on the website will be sorted based
-  on their publication date.
-- Blog posts with the same publication date will be sorted by their ID
-  in descending order as a fallback.
+The module depends on ``website_blog``. It adds no field, view, menu,
+setting or access right, and it does not change the posts themselves.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Changelog
+=========
+
+18.0.1.0.1 (2026-11-11)
+-----------------------
+
+- Apps Store page: a fuller description (what the module does, the
+  problem it solves, its main functions, dependencies and limits). No
+  change in behavior.
 
 Bug Tracker
 ===========

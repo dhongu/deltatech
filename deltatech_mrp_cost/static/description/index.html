@@ -31,16 +31,32 @@
   </div>
 </div>
 
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;">Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
+       style="padding:10px 22px;">Versions</a>
+  </li>
+</ul>
+<div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Labor, utilities and overhead are production costs that components do not show. This module records them on the bill of materials and the manufacturing order and adds them to the order cost.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Costs tab</span><div>A <em>Costs</em> tab on the bill of materials and the manufacturing order holds <em>Overhead</em>, <em>Utility consumption</em>, <em>Net Salary Rate</em>, <em>Salary Contributions</em> and a <em>Duration</em>. A new order copies <em>Overhead</em>, <em>Utility consumption</em>, <em>Net Salary Rate</em> and <em>Salary Contributions</em> from its bill of materials.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Order cost</span><div><em>Overhead</em> is a fixed amount; utilities, net salary and contributions are rates multiplied by the <em>Duration</em>. <em>Production Amount</em> and <em>Calculate Price</em> show the total and unit cost: storable components at standard price plus these costs, or, once produced, the stock valuation of the finished moves.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Finished product cost</span><div>Before Odoo prices the finished product, the module sets the order's <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">extra_cost</code> to the costs divided by the order quantity, when they are not zero, then runs the standard calculation.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100"><span class="fw-bold">Printed order</span><div>The production order report adds the start date, the non-zero cost values, a <em>Finished Products</em> table, and <em>Effective Quantity</em>, <em>Price</em> and <em>Amount</em> columns on the components.</div></div></li></ul>
+<p>It depends on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">mrp_account</code>. Later changes to a bill of materials do not reach existing orders, and costs typed on a new order are replaced by those of its bill of materials at the first save.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
+<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">18.0.2.0.7 (2026-11-11)</h2>
 <ul>
-<li>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
-<ul>
-<li>adaugare de costuri suplimentare in comanda de productie</li>
+<li>Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.</li>
 </ul>
-</li>
-</ul>
+</div>
 </div>
 
 <div class="row text-center mt-4 mb-1 g-3">
@@ -87,12 +103,12 @@
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">MB</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">TB</span>
               <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_mrp_bom/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">MRP Bom</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Template BoMs for Variants</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Manufacturing</span>
             </span>
           </div>
@@ -107,12 +123,12 @@
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">RI</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">BI</span>
               <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_mrp_set_delivery/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech restrict incomplete set deliveries</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Block Incomplete Kit Deliveries</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Manufacturing</span>
             </span>
           </div>
@@ -187,12 +203,12 @@
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">RA</span>
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">RP</span>
               <img src="https://apps.odoocdn.com/apps/assets/18.0/deltatech_ral/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">RAL</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">RAL Pigments</span>
               <span class="d-block" style="font-size:13px;color:#3d4752;">Manufacturing</span>
             </span>
           </div>
