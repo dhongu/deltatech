@@ -22,6 +22,11 @@ country-neutral.
   since colleagues share the company phone and relatives a home phone.
 - **Guest checkout unchanged**: the duplicate checks run only for logged-in customers. For an anonymous visitor the
   message would tell anyone that an e-mail address or a tax code belongs to an existing customer.
+- **No second company at checkout**: a person who fills in a company name and a tax code in the billing address buys
+  for that company; Odoo 20 creates the company as a partner with this address and tax code and makes the person its
+  contact. The module lets this happen only for a tax code no other customer has: a visitor (not logged in) who types
+  the tax code of a customer keeps it on their own address, no second company with the same tax code is created and the
+  visitor is not attached to the existing company, so they never see its documents.
 - **Price display kept**: the website setting *Display Product Prices* (tax included or excluded) keeps its saved value
   when Odoo recomputes it, for example after the address of the company's own partner is updated by an ANAF sync.
   Without the module, Odoo puts it back to tax excluded.

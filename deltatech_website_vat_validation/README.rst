@@ -19,9 +19,9 @@ Website VAT Validation
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_website_vat_validation/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-13%20automated%20tests%20%C2%B7%2093%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_website_vat_validation
-    :alt: 13 automated tests · 93% code coverage
+.. |badge_tests| image:: https://img.shields.io/badge/-11%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_vat_validation/tests
+    :alt: 11 automated tests
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
@@ -60,6 +60,14 @@ Features
   logged-in customers. For an anonymous visitor the message would tell
   anyone that an e-mail address or a tax code belongs to an existing
   customer.
+- **No second company at checkout**: a person who fills in a company
+  name and a tax code in the billing address buys for that company; Odoo
+  20 creates the company as a partner with this address and tax code and
+  makes the person its contact. The module lets this happen only for a
+  tax code no other customer has: a visitor (not logged in) who types
+  the tax code of a customer keeps it on their own address, no second
+  company with the same tax code is created and the visitor is not
+  attached to the existing company, so they never see its documents.
 - **Price display kept**: the website setting *Display Product Prices*
   (tax included or excluded) keeps its saved value when Odoo recomputes
   it, for example after the address of the company's own partner is
@@ -145,13 +153,41 @@ falls back to **Tax Excluded**. With the module, the saved value stays.
 |Website settings: Display Product Prices highlighted, with Tax Included
 selected|
 
+**5. The buying company is created from the billing address**
+
+At checkout, in the billing address, a customer who buys for a company
+fills in the standard **Company** and **VAT** fields. When the address
+is saved, Odoo 20 creates the company as a partner (a **Company**, with
+the address and the tax code typed) and the customer becomes its
+contact, so the order and its invoice go to the company. The module
+stops this when another customer already has the tax code: a visitor
+(not logged in) who types the tax code of a customer keeps it on their
+own address, no second company with the same tax code is created and the
+visitor is not attached to the existing company.
+
+|Contacts: the partner Beta Construct SRL, a Company, with its VAT
+number highlighted and, in the Contacts tab, the customer Mihai Pop
+highlighted|
+
 .. |Address step of the checkout: the VAT field with ro 12 34 56 07 marked in red and, in the red alert at the top of the page, the message that a company with this tax code already has an account, asking to get access from a colleague or to contact the shop| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_vat_validation/static/description/en/01_cod_fiscal_duplicat_checkout.png
 .. |Address step of the checkout: the Email field with an address of another customer marked in red and the message that this e-mail address belongs to another account| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_vat_validation/static/description/en/02_email_duplicat_checkout.png
 .. |Details page of the customer portal: the VAT field with ro 12 34 56 07 marked in red and the message that a company with this tax code already has an account| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_vat_validation/static/description/en/03_cod_fiscal_duplicat_portal.png
 .. |Website settings: Display Product Prices highlighted, with Tax Included selected| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_vat_validation/static/description/en/04_afisare_preturi_pastrata.png
+.. |Contacts: the partner Beta Construct SRL, a Company, with its VAT number highlighted and, in the Contacts tab, the customer Mihai Pop highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_vat_validation/static/description/en/05_firma_creata_la_comanda.png
 
 Changelog
 =========
+
+20.0.0.3.0 (2026-11-13)
+-----------------------
+
+- Ported from 19.0: a person who fills in a company name and a tax code
+  in the billing address at checkout buys for that company. In 20.0 Odoo
+  itself creates the company from the address (with this address and tax
+  code) and makes the person its contact; this module only stops it when
+  another customer already has the tax code, so a visitor is never given
+  a second company with the same tax code and keeps the tax code on
+  their own address.
 
 20.0.0.2.1 (2026-11-03)
 -----------------------

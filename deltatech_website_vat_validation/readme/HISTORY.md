@@ -1,3 +1,11 @@
+## 20.0.0.3.0 (2026-11-13)
+
+- Ported from 19.0: a person who fills in a company name and a tax code in the billing address at
+  checkout buys for that company. In 20.0 Odoo itself creates the company from the address (with
+  this address and tax code) and makes the person its contact; this module only stops it when
+  another customer already has the tax code, so a visitor is never given a second company with the
+  same tax code and keeps the tax code on their own address.
+
 ## 20.0.0.2.1 (2026-11-03)
 
 - Description rewritten to match the code: duplicate e-mail check, checks only for logged-in

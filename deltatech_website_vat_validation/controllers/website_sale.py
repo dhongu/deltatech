@@ -3,6 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo.http import request
+from odoo.tools import str2bool
 
 from odoo.addons.website_sale.controllers.main import WebsiteSale
 
@@ -74,6 +75,34 @@ class WebsiteSaleVATValidation(WebsiteSale):
                 )
 
         return invalid_fields, missing_fields, error_messages
+
+    def _create_or_update_address(
+        self, partner_sudo, address_type="billing", use_delivery_as_billing=False, **form_data
+    ):
+        is_billing = address_type == "billing" or str2bool(use_delivery_as_billing or "false")
+        if is_billing and form_data.get("parent_name") and self._is_duplicate_company(partner_sudo, form_data):
+            # the standard creates the company from the company name; not for a tax code another
+            # customer has: the tax code stays on the address of the person
+            form_data = dict(form_data, parent_name="")
+        return super()._create_or_update_address(
+            partner_sudo, address_type=address_type, use_delivery_as_billing=use_delivery_as_billing, **form_data
+        )
+
+    def _is_duplicate_company(self, partner_sudo, form_data):
+        """Whether the company typed in the billing address would duplicate another customer.
+
+        A person who fills in a company name and a tax code in the billing address buys for that
+        company: the standard creates the company with this address and makes the person its
+        contact. Only for a tax code no other customer has: a logged-in customer is stopped earlier
+        by the duplicate check, a visitor keeps the tax code on their own address and no second
+        company with the same tax code is created."""
+        if partner_sudo and partner_sudo.parent_id:
+            return False
+        vat = form_data.get("vat") or (partner_sudo and partner_sudo.vat)
+        if not vat:
+            return False
+        own_company = partner_sudo.commercial_partner_id if partner_sudo else request.env["res.partner"]
+        return self._vat_duplicate(vat, own_company)
 
     def _vat_duplicate(self, vat, own_company):
         """Whether another customer has this tax code, written with or without its country prefix."""
