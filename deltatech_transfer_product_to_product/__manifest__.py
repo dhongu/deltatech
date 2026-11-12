@@ -13,5 +13,5 @@
     "images": ["images/main_screenshot.png"],
     "installable": True,
     "development_status": "Beta",
-    "maintainers": ["VoicuStefan2001"],
+    "maintainers": ["VoicuStefan2001", "dhongu"],
 }

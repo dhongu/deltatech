@@ -20,7 +20,7 @@
         "data/ir_cron_data.xml",
     ],
     "development_status": "Beta",
-    "maintainers": ["danila12"],
+    "maintainers": ["danila12", "dhongu"],
     "installable": True,
     "images": ["static/description/main_screenshot.png"],
 }

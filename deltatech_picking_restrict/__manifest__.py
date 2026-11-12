@@ -14,5 +14,5 @@
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
-    "maintainers": ["danila12"],
+    "maintainers": ["VoicuStefan2001", "dhongu", "danila12"],
 }

@@ -15,5 +15,5 @@
     "data": ["security/security.xml", "views/sale_view.xml", "data/server_action.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",
-    "maintainers": ["dhongu"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
 }

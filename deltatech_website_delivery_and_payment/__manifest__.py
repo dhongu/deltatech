@@ -19,7 +19,7 @@
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "development_status": "Mature",
-    "maintainers": ["dhongu"],
+    "maintainers": ["dhongu", "danila12"],
     "assets": {
         "web.assets_frontend": ["deltatech_website_delivery_and_payment/static/src/js/payment_form.esm.js"],
     },

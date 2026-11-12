@@ -11,5 +11,5 @@
     "data": ["views/account_view_jurnal.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",
-    "maintainers": ["cojocariudaniel1"],
+    "maintainers": ["dhongu", "VoicuStefan2001", "cojocariudaniel1"],
 }

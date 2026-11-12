@@ -16,5 +16,5 @@
     "images": ["images/main_screenshot.png"],
     "development_status": "Mature",
     "sequence": 100,
-    "maintainers": ["dhongu"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
 }

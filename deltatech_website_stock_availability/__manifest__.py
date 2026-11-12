@@ -25,5 +25,5 @@
     "currency": "EUR",
     "license": "OPL-1",
     "development_status": "Production/Stable",
-    "maintainers": ["dhongu"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
 }

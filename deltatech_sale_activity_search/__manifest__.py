@@ -10,5 +10,5 @@
     "data": [],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
-    "maintainers": ["VoicuStefan2001"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
 }

@@ -14,5 +14,5 @@
     "data": ["security/service_security.xml", "views/product_category_view.xml", "views/stock_picking_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
-    "maintainers": ["dhongu"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
 }

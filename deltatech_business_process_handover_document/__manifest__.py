@@ -20,6 +20,6 @@
     ],
     "development_status": "Beta",
     "images": ["static/description/main_screenshot.png"],
-    "maintainers": ["VoicuStefan2001"],
+    "maintainers": ["VoicuStefan2001", "dhongu"],
     "application": True,
 }

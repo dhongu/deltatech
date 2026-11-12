@@ -17,6 +17,6 @@
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
-    "maintainers": ["dhongu"],
+    "maintainers": ["dhongu", "feketemihai", "danila12"],
     "application": True,
 }

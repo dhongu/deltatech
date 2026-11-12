@@ -14,6 +14,6 @@
         "views/stock_picking_type_view.xml",
     ],
     "development_status": "Beta",
-    "maintainers": ["VoicuStefan2001"],
+    "maintainers": ["VoicuStefan2001", "dhongu"],
     "images": ["static/description/main_screenshot.png"],
 }
