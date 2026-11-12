@@ -57,7 +57,13 @@ class SaleOrder(models.Model):
         }
         company = Partner._tb_find_company_by_vat(vat, self.company_id)
         if company:
-            invoice_address = Partner.create({**values, "parent_id": company.id, "type": "invoice"})
+            # The form submitted again (back to the address, Confirm again) must not add one
+            # more invoice address: the company or one of its invoice addresses holding exactly
+            # the data typed is used again.
+            candidates = company | company.child_ids.filtered(lambda p: p.type == "invoice")
+            invoice_address = candidates.filtered(lambda p: self._tb_same_invoice_address(p, values))[:1]
+            if not invoice_address:
+                invoice_address = Partner.create({**values, "parent_id": company.id, "type": "invoice"})
         else:
             invoice_address = Partner.create({**values, "vat": vat})
             if not customer.is_company and not customer.parent_id:
@@ -65,3 +71,14 @@ class SaleOrder(models.Model):
                 # would take the address of the company (the registered office).
                 customer.write({"parent_id": invoice_address.id, "type": "delivery"})
         return invoice_address
+
+    @staticmethod
+    def _tb_same_invoice_address(partner, values):
+        """Whether the partner holds the name and the registered office typed (`values`)."""
+        for fname in ("name", "street", "city", "zip", "state_id", "country_id"):
+            value = partner[fname]
+            value = value.id if fname.endswith("_id") else (value or "").strip()
+            typed = values.get(fname) or (False if fname.endswith("_id") else "")
+            if value != (typed.strip() if isinstance(typed, str) else typed):
+                return False
+        return True

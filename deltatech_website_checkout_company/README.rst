@@ -173,6 +173,8 @@ Changelog
   list.
 - Company billing only for deliveries in Romania; consultant sheet (from
   19.0).
+- The form submitted again uses the invoice address already holding the
+  typed data, instead of adding a duplicate under the company.
 
 19.0.1.0.0 (2026-11-12)
 -----------------------

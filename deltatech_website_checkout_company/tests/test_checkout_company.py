@@ -212,3 +212,23 @@ class TestCheckoutCompanyController(WebsiteSaleCommon):
             values = self.controller._prepare_checkout_page_values(self.order)
         self.assertIn(invoice_address, values["billing_addresses"])
         self.assertFalse(self.order.partner_id.parent_id)
+
+    def test_form_submitted_again_does_not_duplicate_the_invoice_address(self):
+        existing = self.env["res.partner"].sudo().create({"name": "Existing SRL", "vat": VALID_CUI})
+        self._submit(tb_company_name="Typed name")
+        first = self.order.partner_invoice_id
+        self._submit(tb_company_name="Typed name")
+        self.assertEqual(self.order.partner_invoice_id, first)
+        self.assertEqual(len(existing.child_ids.filtered(lambda p: p.type == "invoice")), 1)
+        # Other data typed: another invoice address.
+        self._submit(tb_company_name="Typed name", tb_company_street="Str. Alta 3")
+        self.assertNotEqual(self.order.partner_invoice_id, first)
+        self.assertEqual(len(existing.child_ids.filtered(lambda p: p.type == "invoice")), 2)
+
+    def test_new_company_submitted_again_is_invoiced_to_the_same_company(self):
+        self._submit()
+        company = self._companies()
+        self._submit()
+        self.assertEqual(self._companies(), company)
+        self.assertEqual(self.order.partner_invoice_id, company)
+        self.assertFalse(company.child_ids.filtered(lambda p: p.type == "invoice"))
