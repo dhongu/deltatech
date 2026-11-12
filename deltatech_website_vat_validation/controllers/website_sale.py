@@ -3,6 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo.http import request
+from odoo.tools import str2bool
 
 from odoo.addons.website_sale.controllers.main import WebsiteSale
 
@@ -74,6 +75,32 @@ class WebsiteSaleVATValidation(WebsiteSale):
                 )
 
         return invalid_fields, missing_fields, error_messages
+
+    def _create_or_update_address(self, partner_sudo, address_type="billing", use_delivery_as_billing=False, **kwargs):
+        partner_sudo, feedback = super()._create_or_update_address(
+            partner_sudo, address_type=address_type, use_delivery_as_billing=use_delivery_as_billing, **kwargs
+        )
+        is_billing = address_type == "billing" or str2bool(use_delivery_as_billing or "false")
+        if is_billing and partner_sudo and not feedback.get("invalid_fields"):
+            self._create_customer_company(partner_sudo)
+        return partner_sudo, feedback
+
+    def _create_customer_company(self, partner_sudo):
+        """A person who fills in a company name and a tax code in the billing address buys for that
+        company: the company is created with this address and the person becomes its contact, so
+        the invoices go to the company.
+
+        Only for a tax code no other customer has: a logged-in customer is stopped earlier by the
+        duplicate check, a visitor keeps the tax code on their own address and is not attached to
+        the company of somebody else."""
+        if partner_sudo.is_company or partner_sudo.parent_id:
+            return
+        if not (partner_sudo.company_name and partner_sudo.vat):
+            return
+        if self._vat_duplicate(partner_sudo.vat, partner_sudo):
+            return
+        partner_sudo.create_company()
+        partner_sudo.company_name = False
 
     def _vat_duplicate(self, vat, own_company):
         """Whether another customer has this tax code, written with or without its country prefix."""

@@ -1,3 +1,10 @@
+## 19.0.0.3.0 (2026-11-13)
+
+- A person who fills in a company name and a tax code in the billing address at checkout gets the
+  company created as a partner, with this address and tax code, and becomes its contact: the order
+  is invoiced to the company. Only for a tax code no other customer has; a visitor who types the
+  tax code of a customer is not attached to that company.
+
 ## 19.0.0.2.1 (2026-11-03)
 
 - Description rewritten to match the code: duplicate e-mail check, checks only for logged-in

@@ -152,6 +152,21 @@ sincronizare ANAF), setarea arată în continuare **Taxe incluse**, dacă aceast
 
 ![Setările aplicației Pagină web: setarea Afișează prețurile produselor evidențiată, cu opțiunea Taxe incluse bifată și Fără taxe nebifată](../static/description/04_afisare_preturi_pastrata.png)
 
+### Pasul 5 — Firma este creată din adresa de facturare
+
+La finalizarea comenzii, în adresa de facturare, clientul completează **Nume firmă** și **TVA**
+(câmpurile standard). La salvarea adresei, firma este creată ca partener (**Este o companie**),
+cu adresa și codul fiscal tastate, iar persoana devine contactul ei. Comanda și factura merg pe
+firmă (partenerul comercial).
+
+Firma se creează doar pentru un cod fiscal pe care nu-l are niciun alt client. Un client
+autentificat care tastează codul fiscal al altei firme este oprit la Pasul 1. Un vizitator
+neautentificat nu este oprit (mesajul ar arăta oricui că firma este client), dar codul fiscal
+rămâne doar pe adresa lui: nu este legat de firma existentă și nu îi vede documentele.
+
+**Ce verificați pe ecran:** **Contacte**, căutați firma după cod fiscal: este o companie, are
+adresa din comandă, iar în fila **Contacte și adrese** apare persoana care a comandat.
+
 ### Note de monografie și raportare
 
 Modulul nu generează note contabile și nu are rapoarte. Efectul contabil este indirect: un
