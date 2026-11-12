@@ -19,9 +19,9 @@ Sale Margin & Profit
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_sale_margin/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-43%20automated%20tests%20%C2%B7%2081%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-45%20automated%20tests%20%C2%B7%2082%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_sale_margin
-    :alt: 43 automated tests · 81% code coverage
+    :alt: 45 automated tests · 82% code coverage
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
@@ -247,6 +247,20 @@ Changelog
 
 Changelog
 =========
+
+19.0.1.3.4 (2026-10-28)
+-----------------------
+
+- Profit report: the purchase price is shown per product unit, like the
+  quantity (it was per unit of the invoice line, so a line sold by the
+  dozen showed the cost of a dozen next to a quantity in units).
+  Changing it in the report converts it back to the unit of the line.
+- Profit report: a line without a unit of measure keeps its quantity
+  instead of an empty one.
+- *Update Purchase Price* without *Price from delivery* converts the
+  product cost to the unit of the invoice line.
+- Profit report: new *Storable Products* filter (*Track Inventory* on
+  the product), on by default.
 
 19.0.1.3.3 (2026-10-22)
 -----------------------

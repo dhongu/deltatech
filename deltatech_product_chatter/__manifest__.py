@@ -5,6 +5,7 @@
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "category": "Product",
     "depends": ["product", "mail"],
     "data": [

@@ -4,12 +4,13 @@
 {
     "name": "Mail Substitution",
     "summary": "Filter outgoing emails and redirect them to another address per model",
-    "version": "19.0.1.0.7",
+    "version": "19.0.1.0.8",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Productivity/Discuss",
     "depends": ["mail"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [
         "security/ir.model.access.csv",
         "views/mail_substitution_view.xml",

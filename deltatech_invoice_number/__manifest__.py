@@ -8,6 +8,7 @@
     "category": "Accounting",
     "depends": ["account"],
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "data": [
         "security/sale_security.xml",
         "views/account_journal.xml",

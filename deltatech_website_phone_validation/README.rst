@@ -16,16 +16,32 @@ Website Phone Validation
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_phone_validation
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests%20%C2%B7%2089%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_website_phone_validation
-    :alt: 3 automated tests · 89% code coverage
+    :alt: 3 automated tests · 100% code coverage
 
 |badge1| |badge2| |badge_tests|
 
-- Features:
+Phone numbers typed on a website checkout come in many formats, and
+wrong ones are found only when someone calls. This module checks the
+number when the customer submits an address and rewrites it in the
+international format.
 
-  - Validation of phone number from frontend
-  - Validare telefon in frontend
+- **Trimmed input**: Spaces before and after the phone number are
+  removed before the standard checks run.
+- **International format**: If the standard checks pass, the number is
+  read for the country selected in the address and rewritten in the
+  international format, so a local number gets the country prefix.
+- **Invalid numbers**: A number that cannot be read for that country is
+  reported as invalid, with the message *The phone number is not valid:*
+  followed by the reason.
+- **Any address type**: The check applies to the phone number of every
+  address submitted this way, whatever its type.
+
+The module depends on *eCommerce* (``website_sale``) and
+``phone_validation``, and needs the Python library ``phonenumbers`` on
+the server. It overrides only the address validation of the website
+checkout and acts only on the phone field.
 
 **Table of contents**
 
@@ -34,6 +50,13 @@ Website Phone Validation
 
 Changelog
 =========
+
+19.0.1.0.4 (2026-11-11)
+-----------------------
+
+- Apps Store page: a fuller description (what the module does, the
+  problem it solves, its main functions, dependencies and limits). No
+  change in behavior.
 
 19.0.1.0.3 (2026-09-29)
 -----------------------

@@ -1,3 +1,8 @@
+## 19.0.1.3.3 (2026-11-12)
+
+- Adding a new label line no longer fails when a price list is selected: the price is
+  computed only after a product is chosen.
+
 ## 19.0.1.3.2 (2026-10-22)
 
 - New flat module icon: printer with a label accent, on a transparent background.

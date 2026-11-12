@@ -9,6 +9,7 @@
     "version": "19.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
     "depends": ["deltatech_sale_commission", "deltatech_product_extension"],

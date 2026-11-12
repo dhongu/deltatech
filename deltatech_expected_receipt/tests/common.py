@@ -108,7 +108,9 @@ class ExpectedReceiptCommon(AccountTestInvoicingCommon):
             )
         )
         if confirm:
-            order.action_confirm()
+            # Ca la un job: confirmarea lansează regulile de stoc (mrp.bom, stock.rule), la care
+            # casierul nu are drepturi. Cu `mrp` instalat în CI dădea AccessError.
+            order.sudo().action_confirm()
         return order
 
     def _statement_line(self, amount, day=None, journal=None):

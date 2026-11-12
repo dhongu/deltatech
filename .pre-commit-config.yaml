@@ -66,17 +66,6 @@ repos:
       - id: oca-update-pre-commit-excluded-addons
       - id: oca-fix-manifest-website
         args: ["https://www.terrabit.ro"]
-      - id: oca-gen-addon-readme
-        stages: [manual]
-        args:
-          - --addons-dir=.
-          - --org-name=dhongu
-          - --repo-name=deltatech
-          - --branch=19.0
-          - --if-source-changed
-          - --keep-source-digest
-          - --convert-fragments-to-markdown
-          - --template-filename=gen_addon_readme.rst.jinja
 
       # This job could easily produce conflicts when it runs on every commit,
       # so it's added as a manual job. If you automate it, beware.
@@ -168,11 +157,13 @@ repos:
           - --rcfile=.pylintrc-mandatory
 
   # Pagina Apps Store, la cerere: `pre-commit run --hook-stage manual --all-files`.
-  # Ordinea contează: tb-test-stats -> tb-gen-index -> tb-fisa-badge, după oca-gen-addon-readme.
+  # README.rst cu insignele (fișă, teste) îl face tb-gen-readme, fără oca-gen-addon-readme.
+  # Ordinea contează: tb-test-stats -> tb-gen-readme -> tb-gen-index.
   - repo: https://github.com/dhongu/terrabit-pre-commit-hooks
-    rev: v1.8.1
+    rev: v1.11.1
     hooks:
       - id: tb-test-stats
+      - id: tb-gen-readme
+        stages: [manual]
+        args: [--org-name=dhongu, --repo-name=deltatech, --branch=19.0, --no-roadmap]
       - id: tb-gen-index
-      - id: tb-fisa-badge
-      - id: tb-test-badge

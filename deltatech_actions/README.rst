@@ -19,9 +19,9 @@ Database Cleanup Actions
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_actions/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-48%20automated%20tests%20%C2%B7%2085%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-52%20automated%20tests%20%C2%B7%2085%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_actions
-    :alt: 48 automated tests · 85% code coverage
+    :alt: 52 automated tests · 85% code coverage
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
@@ -220,6 +220,28 @@ To activate it, create a **Server Action** manually:
 
 Changelog
 =========
+
+19.0.0.9.13 (2026-11-02)
+------------------------
+
+- The *Database Cleanup* section of the general settings is placed
+  before the developer tools, no longer at the very end of the page,
+  after *About*.
+
+19.0.0.9.12 (2026-10-30)
+------------------------
+
+- The PDF and label cleanups delete in chunks of 200 attachments. Inside
+  a cron, each chunk is committed and reported on the cron's progress,
+  and the cleanup stops when no time is left for another chunk. Before
+  this, a batch of thousands of attachments was deleted in one
+  transaction. On a staging database the worker was killed when odoo.sh
+  put the idle build to sleep (the log calls this a memory limit), the
+  whole batch was rolled back, and the next run started over.
+- Indexed ``account_edi_document.attachment_id``. Every deleted
+  attachment checks this foreign key; without the index each check
+  scanned the whole table, and a 1000-row ``DELETE FROM ir_attachment``
+  ran past odoo.sh's 66 s statement limit.
 
 19.0.0.9.11 (2026-10-22)
 ------------------------

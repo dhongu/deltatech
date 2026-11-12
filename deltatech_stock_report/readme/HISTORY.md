@@ -1,3 +1,7 @@
+## 19.0.1.0.10 (2026-11-11)
+
+- Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.
+
 ## 19.0.1.0.9 (2026-11-08)
 
 - Test `TestStockPickingReportCompany` creates its product without a company,

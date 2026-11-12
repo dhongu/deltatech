@@ -30,3 +30,7 @@ Cr 765 (gain).
 
 Example: an advance of 1,000 RON and receipts of 800 RON leave 200 RON to be returned by the
 employee; after validation, the employee's 542 balance is zero.
+
+**Per diem.** A line of type *Per Diem* is the per diem of a trip, without a receipt and without VAT. On
+validation it is booked as Dr 625 = Cr 542 with the employee as partner, in the same entry as the per diem
+of the header; several lines can cover several trips. The account (625 by default) comes from the report.

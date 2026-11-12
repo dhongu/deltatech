@@ -7,6 +7,7 @@
     "summary": "Daily journal of the changes each user makes on sales orders",
     "depends": ["sale", "data_recycle"],
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "data": [
         "security/ir.model.access.csv",
         "security/ir_rule.xml",

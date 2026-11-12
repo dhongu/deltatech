@@ -11,6 +11,7 @@
     "category": "Sales",
     "depends": ["deltatech_price_change", "deltatech_product_labels"],
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "data": ["views/product_price_change_view.xml", "views/report_shelf_label.xml"],
     "auto_install": True,
     "installable": True,

@@ -1,10 +1,15 @@
-## 19.0.1.0.4 (2026-11-10)
+## 19.0.1.0.5 (2026-11-12)
 
 - Fix CUSTOMRATE-002: the custom currency rate is accepted only on invoices. On a journal
   entry it was saved (through import/RPC) without being applied to the company-currency
   amounts; it is now rejected, and journal entry lines always use the official rate.
   A reversal copies the custom rate only from invoices.
   The field is hidden on journal entries in the form.
+- Consultant sheet with screenshots (RO) and `readme/USAGE.md` with screenshots (EN).
+
+## 19.0.1.0.4 (2026-11-11)
+
+- Tests no longer require `l10n_ro` (the module only depends on `account`), so they run in CI instead of being skipped. Coverage of the module goes from about 58% to about 96%.
 
 ## 19.0.1.0.3 (2026-10-22)
 

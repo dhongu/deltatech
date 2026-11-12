@@ -16,8 +16,14 @@ Markdown Field Widget
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_markdown_field
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_markdown_field/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_markdown_field/tests
+    :alt: 3 automated tests
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 **Markdown Field Widget** adds a new OWL field widget — **``markdown``**
 — for any ``Text`` field in the Odoo backend.
@@ -87,8 +93,60 @@ Supported options:
 The widget honors ``readonly``: in read-only mode it renders the
 Markdown as HTML, without the toolbar.
 
+**Editing.** In edit mode the toolbar sits above the field; select text
+and press a button to format it. The value is saved as Markdown when you
+leave the field and save the record.
+
+|Form in edit mode: the Markdown toolbar (bold, italic, strikethrough,
+H1-H3, paragraph, lists, quote, code, link, clear formatting) above a
+text with a heading, a bulleted list, a link and a quote|
+
+**Read-only.** The text is shown formatted, without the toolbar.
+
+|Read-only Markdown field showing a heading, a numbered list with bold
+items, a paragraph and inline code, with no toolbar|
+
+**Safe display.** Since 19.0.1.0.5 the HTML produced from the Markdown
+is sanitized before it is displayed, in edit and read-only mode,
+including for values stored earlier. Harmless inline HTML such as
+``<kbd>`` or ``<mark>`` keeps its formatting; scripts, inline event
+handlers, ``javascript:`` links and embedded content (``<iframe>``,
+``<object>``, ``<embed>``) are not displayed. Replace embedded videos or
+maps with a regular link.
+
+Strikethrough, inline HTML such as ``<kbd>`` or ``<mark>`` and tables
+are not kept when the text is edited and saved: only standard Markdown
+is stored.
+
+|Read-only Markdown field where the Ctrl and S keys are boxed and a word
+is highlighted, while the embedded frame placed between the two
+paragraphs is not displayed|
+
+.. |Form in edit mode: the Markdown toolbar (bold, italic, strikethrough, H1-H3, paragraph, lists, quote, code, link, clear formatting) above a text with a heading, a bulleted list, a link and a quote| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_markdown_field/static/description/en/01_editare_markdown.png
+.. |Read-only Markdown field showing a heading, a numbered list with bold items, a paragraph and inline code, with no toolbar| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_markdown_field/static/description/en/02_afisare_doar_citire.png
+.. |Read-only Markdown field where the Ctrl and S keys are boxed and a word is highlighted, while the embedded frame placed between the two paragraphs is not displayed| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_markdown_field/static/description/en/03_html_filtrat.png
+
 Changelog
 =========
+
+19.0.1.0.6 (2026-11-08)
+-----------------------
+
+- Fix: strikethrough, tables and task lists are no longer lost when the
+  editor is left. The HTML → Markdown step now writes them back as
+  ``~~text~~``, GFM tables (with column alignment) and ``[x]`` / ``[ ]``
+  items; a table Markdown cannot express (merged cells, lists or
+  paragraphs in a cell) is kept as HTML instead of being flattened.
+  Values already flattened by an earlier save cannot be recovered.
+
+19.0.1.0.5 (2026-11-07)
+-----------------------
+
+- Fix: the HTML produced from the Markdown is sanitized (DOMPurify)
+  before it is displayed, in edit and in read-only mode. Scripts, inline
+  event handlers, ``javascript:`` links and embedded content
+  (``<iframe>``, ``<object>``, ``<embed>``) are removed; Markdown
+  formatting and harmless inline HTML stay as they were.
 
 19.0.1.0.4 (2026-10-22)
 -----------------------

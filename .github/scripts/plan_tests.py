@@ -87,8 +87,8 @@ NEUTRAL_ROOT_FILES = frozenset(
 )
 
 # Manifest keys that change neither what gets installed nor what the tests run: a
-# version bump with its HISTORY entry, a new Apps Store image or a repriced module
-# touch the manifest but not the behaviour of the addon. If ONLY these keys differ,
+# version bump with its HISTORY entry, a new Apps Store image, a repriced module or a
+# discount campaign (`price` + `full_price`) touch the manifest but not the behaviour of the addon. If ONLY these keys differ,
 # the manifest is treated as a neutral file. Any other key (`depends`, `data`,
 # `assets`, `excludes`, hooks, `installable`...) or a new / unreadable manifest
 # keeps the usual rule: the addon goes into the tests.
@@ -102,6 +102,7 @@ MANIFEST_METADATA_KEYS = frozenset(
         "version",
         "images",
         "price",
+        "full_price",
         "currency",
         "author",
         "maintainers",
@@ -314,6 +315,21 @@ def usable(sha):
     return subprocess.run(["git", "cat-file", "-e", f"{sha}^{{commit}}"]).returncode == 0
 
 
+def target_tip(head_sha):
+    """First parent of `head_sha` when it is a merge commit, else None.
+
+    On a pull request the checked-out HEAD is the merge of the PR into the target branch, and
+    its first parent is the current tip of that branch. The `base.sha` of the event is the base
+    as it was when the PR was opened: if the target moved since, `base.sha..HEAD` also lists
+    what other people changed (even under `.github/`), which forced a full run for a PR that
+    touches one addon.
+    """
+    if subprocess.run(["git", "rev-parse", "-q", "--verify", f"{head_sha}^2"], capture_output=True).returncode != 0:
+        return None
+    result = subprocess.run(["git", "rev-parse", f"{head_sha}^1"], capture_output=True, text=True)
+    return result.stdout.strip() if result.returncode == 0 else None
+
+
 def is_neutral(path):
     """True for files that cannot change a test outcome.
 
@@ -427,6 +443,9 @@ def select(manifests):
     if not usable(base_sha):
         print(f"Base commit {base_sha!r} not available -> full run.")
         return set(manifests), True
+    if event == "pull_request":
+        # Diff against the current tip of the target branch, not the stale base of the event.
+        base_sha = target_tip(head_sha) or base_sha
 
     touched = changed_addons(manifests, base_sha, head_sha)
     if touched is None:

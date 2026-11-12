@@ -3,13 +3,14 @@
 {
     "name": "Expected Card Receipts",
     "summary": "Card payments registered when received, settled against the grouped bank transfer to the cent",
-    "version": "19.0.1.0.4",
+    "version": "19.0.1.0.5",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "live_test_url": "https://www.terrabit.ro/demo/deltatech_expected_receipt?v=19.0",
     "category": "Accounting/Accounting",
     "depends": ["account", "sale"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [
         "security/security.xml",
         "security/ir.model.access.csv",

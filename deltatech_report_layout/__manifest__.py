@@ -8,6 +8,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "category": "Manufacturing",
     "depends": ["web"],
     "data": ["views/report_template_style1.xml", "views/report_template_style2.xml", "data/report_layout.xml"],

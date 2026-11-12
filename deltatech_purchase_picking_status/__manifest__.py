@@ -4,7 +4,7 @@
 {
     "name": "Purchase picking status",
     "summary": "Get purchase status from pickings",
-    "version": "19.0.1.0.3",
+    "version": "19.0.1.0.4",
     "category": "Purchase",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",

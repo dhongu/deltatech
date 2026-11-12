@@ -16,8 +16,14 @@ Doc Screenshots
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_doc_screenshots
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_doc_screenshots/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_doc_screenshots/tests
+    :alt: 8 automated tests
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 A **development tooling** module: it adds no business feature.
 

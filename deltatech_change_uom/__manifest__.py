@@ -5,12 +5,13 @@
 {
     "name": "Change Unit of measure",
     "summary": "Change unit of measure in product",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
     "depends": ["product", "account", "stock", "sale", "purchase", "deltatech_uom_domain"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [
         "security/sale_security.xml",
         "wizard/product_change_uom_view.xml",

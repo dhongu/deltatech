@@ -22,9 +22,9 @@ Cron Monitor Webhook
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_cron_monitor_webhook/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_cron_monitor_webhook/tests
-    :alt: 3 automated tests
+.. |badge_tests| image:: https://img.shields.io/badge/-11%20automated%20tests%20%C2%B7%2081%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_cron_monitor_webhook
+    :alt: 11 automated tests · 81% code coverage
 
 |badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
@@ -43,7 +43,7 @@ Key Features:
 - **Dedicated Endpoints**:
 
   - Trigger: ``/cron/webhook/<webhook_code>`` (POST/GET)
-  - Status: ``/cron/webhook/<webhook_code>/status`` (GET)
+  - Status: ``/cron/webhook/<webhook_code>/status`` (GET, same token)
 
 - **Easy Configuration**: A single global token manages access for all
   enabled webhooks, simplifying integration with external services.
@@ -143,6 +143,17 @@ response or the Odoo logs for more details.
 
 Changelog
 =========
+
+19.0.1.0.3 (2026-10-29)
+-----------------------
+
+- The status endpoint ``/cron/webhook/<webhook_code>/status`` now
+  requires the global token (HTTP 401 without it), like the trigger
+  endpoint.
+- Both endpoints check the token before the webhook code, so an unknown
+  code cannot be told apart from a wrong token.
+- A ``GET`` call of the trigger endpoint no longer fails with HTTP 500
+  (*read-only transaction*): the route is declared ``readonly=False``.
 
 19.0.1.0.2 (2026-10-22)
 -----------------------

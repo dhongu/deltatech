@@ -4,12 +4,13 @@
 {
     "name": "Sale Payment",
     "summary": "Payment button in sale order",
-    "version": "19.0.1.3.6",
+    "version": "19.0.1.3.7",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "depends": ["sale", "payment", "account_payment"],
     "license": "LGPL-3",
+    "consultant_sheet": "full",
     "data": [
         "views/sale_view.xml",
         "wizard/sale_confirm_payment_view.xml",

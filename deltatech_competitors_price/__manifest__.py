@@ -9,6 +9,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "depends": ["product"],
     "external_dependencies": {"python": ["extruct", "w3lib"]},
     "data": [

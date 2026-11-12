@@ -8,6 +8,7 @@
     "version": "19.0.0.0.5",
     "author": "Terrabit, Voicu Stefan",
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "website": "https://www.terrabit.ro",
     "summary": "Purchase cost and margin on sale order lines",
     "category": "Sales",

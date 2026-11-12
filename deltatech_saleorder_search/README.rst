@@ -40,13 +40,74 @@ standard search view. Nothing needs to be configured.
 The search looks at the e-mail and phone of the contact set as
 *Customer* on the order, not at the other contacts of the same company.
 
+Odoo Online
+===========
+
+The module contains no Python code, only a search view extension.
+Besides Odoo.sh and on-premise installations, it can be used on Odoo
+Online (Custom plan): download the zip and load it from **Apps > Import
+Module**.
+
 **Table of contents**
 
 .. contents::
    :local:
 
+Usage
+=====
+
+1. Open **Sales > Orders > Orders** (or **Quotations**). Type an e-mail
+   address, or part of it, in the search bar and choose **Search E-mail
+   for: ...**.
+
+   |The search bar of Sales Orders: after the text anna.smith@ the
+   option Search E-mail for is highlighted, followed by Search Phone
+   for|
+
+2. The list keeps the orders whose customer has an e-mail containing the
+   text. A common part, such as the domain ``@example.com``, finds the
+   orders of every customer on that domain.
+
+   |Sales Orders filtered with E-mail @example.com: the orders of TEST
+   John Brown and TEST Anna Smith|
+
+3. To search by phone, type the number or part of it and choose **Search
+   Phone for: ...**. The text is matched as typed, so a short fragment
+   without spaces or prefix finds the most variants.
+
+   |Sales Orders filtered with Phone 900111: the two orders of TEST Anna
+   Smith|
+
+.. |The search bar of Sales Orders: after the text anna.smith@ the option Search E-mail for is highlighted, followed by Search Phone for| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_saleorder_search/static/description/en/01_cautare_email.png
+.. |Sales Orders filtered with E-mail @example.com: the orders of TEST John Brown and TEST Anna Smith| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_saleorder_search/static/description/en/02_comenzi_dupa_email.png
+.. |Sales Orders filtered with Phone 900111: the two orders of TEST Anna Smith| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_saleorder_search/static/description/en/03_comenzi_dupa_telefon.png
+
 Changelog
 =========
+
+19.0.1.1.1 (2026-11-09)
+-----------------------
+
+- The "(importable, Odoo Online)" suffix was removed from the module
+  name. Odoo Apps already shows the module as available on Odoo Online
+  (Manifest > Availability), and the Apps banner now carries an "Odoo
+  Online" label instead.
+
+19.0.1.1.0 (2026-11-09)
+-----------------------
+
+- Data-only module: the empty ``__init__.py`` was removed, so the module
+  has no Python code. It can be installed on Odoo Online (Custom plan)
+  as a zip from Apps > Import Module, as well as on Odoo.sh and
+  on-premise.
+- Odoo Apps does not mark data-only modules as available on Odoo Online,
+  so the module name, the summary, the banner and the Apps Store page
+  now say it: "Sale Order Search by Contact (importable, Odoo Online)".
+- Fixed: expanding the arrow next to **Search E-mail for** or **Search
+  Phone for** and picking a contact returned an empty list (the filter
+  received the contact id instead of the typed text). Both criteria now
+  search on a text field, so they have no arrow and always use the typed
+  text.
 
 19.0.1.0.6 (2026-11-03)
 -----------------------

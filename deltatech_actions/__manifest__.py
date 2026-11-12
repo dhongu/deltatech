@@ -10,6 +10,7 @@
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "depends": [
         "account_edi",
         "sale",

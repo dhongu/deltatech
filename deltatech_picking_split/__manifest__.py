@@ -3,7 +3,7 @@
 {
     "name": "Picking Split",
     "summary": "Split a transfer into a backorder manually, line by line",
-    "version": "19.0.1.0.4",
+    "version": "19.0.1.0.5",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",

@@ -11,6 +11,7 @@
     "depends": ["stock_dropshipping", "sale_purchase"],
     "data": ["views/stock_picking_view.xml", "views/purchase_order_view.xml"],
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",
     "maintainers": ["dhongu"],

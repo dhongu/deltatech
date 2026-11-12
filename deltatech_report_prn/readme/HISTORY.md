@@ -1,3 +1,7 @@
+## 19.0.1.1.3 (2026-11-11)
+
+- Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.
+
 ## 19.0.1.1.2 (2026-10-22)
 
 - Listed on Odoo Apps as *PRN Report* (was *Raport PRN*). The technical name `deltatech_report_prn` does not change.

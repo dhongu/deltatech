@@ -8,6 +8,7 @@
     "author": "Terrabit, Dorin Hongu",
     "version": "19.0.1.0.7",
     "license": "AGPL-3",
+    "consultant_sheet": "simple",
     "website": "https://www.terrabit.ro",
     "category": "Purchase",
     "depends": ["purchase_stock"],

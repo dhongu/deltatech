@@ -11,6 +11,7 @@
     "category": "Generic Modules",
     "depends": ["sale_stock"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [
         "security/ir.model.access.csv",
         "wizard/stock_quant_report_view.xml",

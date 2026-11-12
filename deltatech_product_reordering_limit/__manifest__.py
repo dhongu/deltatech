@@ -9,6 +9,7 @@
     "depends": ["product", "stock"],
     "external_dependencies": {"python": ["xlsxwriter"]},
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "data": [
         "security/ir.model.access.csv",
         "views/product_template_view.xml",

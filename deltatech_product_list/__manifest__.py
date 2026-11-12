@@ -6,10 +6,11 @@
 {
     "name": "Product Lists",
     "summary": "Define reusable product lists based on a domain filter",
-    "version": "19.0.1.0.3",
+    "version": "19.0.1.0.4",
     "category": "Sale",
     "author": "Terrabit, Dorin Hongu",
     "license": "LGPL-3",
+    "consultant_sheet": "simple",
     "company": "Terrabit",
     "maintainer": "Terrabit",
     "website": "https://www.terrabit.ro",

@@ -16,11 +16,14 @@ Sale Cost on Order
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_cost_product
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_sale_cost_product/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-9%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_sale_cost_product
-    :alt: 8 automated tests · 100% code coverage
+    :alt: 9 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 This module provides specialized tools for monitoring and analyzing the
 costs and margins of sales orders in Odoo. It's designed for sales
@@ -70,6 +73,13 @@ Usage
 
 Changelog
 =========
+
+19.0.0.0.5 (2026-10-26)
+-----------------------
+
+- Cost of Goods is no longer copied when an order is duplicated, so
+  users outside the "Can See Cost Of Goods" group can duplicate orders
+  without an access error.
 
 19.0.0.0.4 (2026-10-16)
 -----------------------

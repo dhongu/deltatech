@@ -1,24 +1,24 @@
 <div class="mx-auto px-3 py-3 rounded-4" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;font-weight:400;background-color:#ffffff;--bs-body-color:#212529;--bs-body-bg:#ffffff;--bs-emphasis-color:#212529;--bs-border-color:#dee2e6;--bs-card-bg:#ffffff;--bs-card-color:#212529;--bs-card-border-color:#dee2e6;--bs-link-color:#006F42;--bs-link-hover-color:#00432a;--bs-nav-link-color:#212529;--bs-nav-pills-link-active-bg:#006F42;--bs-nav-pills-link-active-color:#ffffff;--bs-code-color:#b4266b;--bs-heading-color:#212529;">
 <!-- tb-gen v1 -->
-<div class="rounded-4 shadow px-4 py-4 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
+<div class="rounded-4 shadow px-4 py-4 mt-2 mb-4" style="background-color:#006F42;background-image:radial-gradient(circle at 92% 8%, rgba(87,185,82,0.45), rgba(87,185,82,0) 38%),radial-gradient(circle at 4% 100%, rgba(255,255,255,0.12), rgba(255,255,255,0) 32%),linear-gradient(135deg, #007a49 0%, #005c38 55%, #00432a 100%);color:#ffffff;">
   <div class="d-flex flex-wrap align-items-center">
     <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Purchase Price" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Purchase Price</h1>
       <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Auto-update cost &amp; sale price on receipt</p>
       <div>
-        <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 19.0</span>
-        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Purchase</span>
-        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Odoo.sh &bull; On-premise</span>
-        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px dashed #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">OPL-1</span>
+        <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;"><span class="fa fa-check-circle" style="margin-right:6px;" aria-hidden="true"></span>Odoo 19.0</span>
+        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;"><span class="fa fa-folder-open-o" style="margin-right:6px;" aria-hidden="true"></span>Purchase</span>
+        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;"><span class="fa fa-cloud" style="margin-right:6px;" aria-hidden="true"></span>Odoo.sh &bull; On-premise</span>
+        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px dashed #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;"><span class="fa fa-balance-scale" style="margin-right:6px;" aria-hidden="true"></span>OPL-1</span>
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 16 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 21 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
-        <div class="rounded-pill" style="height:8px;width:90%;background-color:#57B952;"></div>
+        <div class="rounded-pill" style="height:8px;width:91%;background-color:#57B952;"></div>
       </div>
-      <div class="mt-1" style="font-size:13px;color:#cdeccf;">90% code coverage</div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">91% code coverage</div>
     </div>
   </div>
 </div>
@@ -31,8 +31,21 @@
   </div>
 </div>
 
+<ul class="nav nav-pills justify-content-center mb-4 pb-3 border-bottom" style="--bs-nav-pills-link-active-bg:#006F42;">
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
+       style="padding:10px 22px;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</a>
+  </li>
+</ul>
+<div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
-<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
+<div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</span></div>
 <ul>
 <li>
 <p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Features:</p>
@@ -82,6 +95,117 @@
 </li>
 </ul>
 </div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</span></div>
+<p>The sale price is computed as <strong>last purchase price &#215; (1 + trade markup / 100)</strong>, without taxes.</p>
+<ol>
+<li>
+<p>Go to <strong>Settings &#8594; Purchase</strong>, section <strong>Products</strong>, and choose the options:</p>
+<ul>
+<li><strong>Update product price</strong>: at receipt, the vendor price on the product's <em>Purchase</em> tab is
+ replaced with the purchase order price (vendor lines without a minimum quantity above 1 and
+ without a validity period);</li>
+<li><strong>Update list price</strong>: the sales price is recomputed from the last purchase price and the
+ trade markup: at receipt, when the markup is set on several products, and when you change the
+ markup or the last purchase price on the product;</li>
+<li><strong>Add supplier to product</strong>: the vendor and its price are added to the product when a purchase
+ order is confirmed;</li>
+<li><strong>Force supplier price at PO and bill confirmation</strong>: the vendor price is also updated when the
+ purchase order is confirmed and when the vendor bill is posted.</li>
+</ul>
+</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Purchase settings, Products section: Update product price and Update list price are checked and marked 1 and 2" src="en/01_setari_achizitii.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Purchase settings, Products section: Update product price and Update list price are checked and marked 1 and 2</span>
+  </div>
+</div>
+<ol start="2">
+<li>Open a product (<strong>Sales &#8594; Products &#8594; Products</strong>, <em>General Information</em> tab). Set the <strong>Trade
+   Markup</strong> (30.00 means 30%). The <strong>Last Purchase Price</strong> is shown in green when it is not above the
+   <strong>Cost</strong>, and in red when it is. With <strong>Update list price</strong> enabled: 100.00 &#215; 1.30 = <strong>130.00</strong>.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Product form: Last Purchase Price 100.00, Trade Markup 30.00, Sales Price 130.00 lei" src="en/02_produs_adaos.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">2</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Product form: Last Purchase Price 100.00, Trade Markup 30.00, Sales Price 130.00 lei</span>
+  </div>
+</div>
+<ol start="3">
+<li>To set the markup on several products, select them in the list view and use <strong>Actions &#8594; Set
+   Trade Markup</strong>. Check <strong>Selected Line</strong> to apply it to the selected products; unchecked, choose a
+   <strong>Vendor</strong> and the markup applies to all the products of that vendor. Click <strong>Set</strong>.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Products list with two products selected and the Set Trade Markup dialog: Selected Line checked, Trade Markup 30.00 and the Set button" src="en/03_wizard_adaos.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">3</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Products list with two products selected and the Set Trade Markup dialog: Selected Line checked, Trade Markup 30.00 and the Set button</span>
+  </div>
+</div>
+<ol start="4">
+<li>Confirm a purchase order and validate its receipt. For each product received on the order, the
+   <strong>Last Purchase Price</strong> becomes the order unit price, converted to the company currency and to the
+   product unit of measure. Receipts without a purchase order do not change prices.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Validated receipt from the vendor, 20.00 units received" src="en/04_receptie_validata.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">4</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Validated receipt from the vendor, 20.00 units received</span>
+  </div>
+</div>
+<ol start="5">
+<li>After the receipt at 110.00, the product shows <strong>Last Purchase Price</strong> 110.00 (in red, above the
+   cost), <strong>Trade Markup</strong> 30.00 and <strong>Sales Price</strong> 110.00 &#215; 1.30 = <strong>143.00</strong>. The <strong>Cost</strong> is not
+   changed by the module: it comes from the stock valuation. A product without markup keeps its
+   sales price.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Product after the receipt: Last Purchase Price 110.00, Trade Markup 30.00, Sales Price 143.00 lei" src="en/05_produs_dupa_receptie.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">5</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Product after the receipt: Last Purchase Price 110.00, Trade Markup 30.00, Sales Price 143.00 lei</span>
+  </div>
+</div>
+<ol start="6">
+<li>With <strong>Update list price</strong> disabled, the sales price is set by hand and the markup follows it:
+   changing the last purchase price (or the sales price) recomputes the markup. For a sales price of
+   13.00 and a corrected purchase price of 12.50, the markup becomes (13.00 &#8722; 12.50) / 12.50 &#215; 100 =
+   <strong>4.00</strong>. A markup typed by hand is kept.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Product with Update list price disabled: Last Purchase Price 12.50, Trade Markup recomputed to 4.00, Sales Price unchanged at 13.00 lei" src="en/06_adaos_recalculat.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">6</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Product with Update list price disabled: Last Purchase Price 12.50, Trade Markup recomputed to 4.00, Sales Price unchanged at 13.00 lei</span>
+  </div>
+</div>
+<p>The rounding of the computed sales price is set by the system parameter <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sale.list_price_round</code>
+(number of decimals, default 2). A pricelist rule can use <strong>Last Purchase Price</strong> as its base price.</p>
+</div>
+</div>
 
 <div class="row text-center mt-4 mb-1 g-3">
   <div class="col-md-6">
@@ -120,6 +244,26 @@
     <a href="https://apps.odoo.com/apps/browse?author=Terrabit" target="_blank" rel="noopener"
        class="fw-semibold" style="color:#006F42;">All apps &rarr;</a></p>
   <div class="row g-3">
+    <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_import_lines_purchase" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">IL</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_import_lines_purchase/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Import Lines in Purchase Orders</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Purchase</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Load purchase order lines from an XLSX, XLS, CSV or TXT file, also by vendor product code</p>
+        </div>
+      </a>
+    </div>
     <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_purchase_phase" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
@@ -201,6 +345,26 @@
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_purchase_target" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">PT</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_purchase_target/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Purchase Targets by Manufacturer</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Purchase</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Quarterly purchase targets per manufacturer and eCommerce category, achieved vs target</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_purchase_xls" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
@@ -216,7 +380,7 @@
               <span class="d-block" style="font-size:13px;color:#3d4752;">Purchase</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Import/export purchase line from/to Excel</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Import purchase order lines from Excel and export them to Excel</p>
         </div>
       </a>
     </div>
@@ -237,46 +401,6 @@
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Compatibility module: vendor choice in replenishment is now standard in Odoo 19</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Shared base for the Deltatech suite: common technical extensions used by all modules</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AE</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Accounting Extensions</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting &amp; Finance</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Extra invoice views, journal options and an Anglo-Saxon cost recognition setting</p>
         </div>
       </a>
     </div>

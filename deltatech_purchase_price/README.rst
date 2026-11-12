@@ -16,11 +16,14 @@ Purchase Price
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_purchase_price
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-16%20automated%20tests%20%C2%B7%2090%25%20code%20coverage-2ea44f.png
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_purchase_price/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-21%20automated%20tests%20%C2%B7%2091%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_purchase_price
-    :alt: 16 automated tests · 90% code coverage
+    :alt: 21 automated tests · 91% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 - Features:
 
@@ -66,8 +69,102 @@ Purchase Price
 .. contents::
    :local:
 
+Usage
+=====
+
+The sale price is computed as **last purchase price × (1 + trade markup
+/ 100)**, without taxes.
+
+1. Go to **Settings → Purchase**, section **Products**, and choose the
+   options:
+
+   - **Update product price**: at receipt, the vendor price on the
+     product's *Purchase* tab is replaced with the purchase order price
+     (vendor lines without a minimum quantity above 1 and without a
+     validity period);
+   - **Update list price**: the sales price is recomputed from the last
+     purchase price and the trade markup: at receipt, when the markup is
+     set on several products, and when you change the markup or the last
+     purchase price on the product;
+   - **Add supplier to product**: the vendor and its price are added to
+     the product when a purchase order is confirmed;
+   - **Force supplier price at PO and bill confirmation**: the vendor
+     price is also updated when the purchase order is confirmed and when
+     the vendor bill is posted.
+
+   |Purchase settings, Products section: Update product price and Update
+   list price are checked and marked 1 and 2|
+
+2. Open a product (**Sales → Products → Products**, *General
+   Information* tab). Set the **Trade Markup** (30.00 means 30%). The
+   **Last Purchase Price** is shown in green when it is not above the
+   **Cost**, and in red when it is. With **Update list price** enabled:
+   100.00 × 1.30 = **130.00**.
+
+   |Product form: Last Purchase Price 100.00, Trade Markup 30.00, Sales
+   Price 130.00 lei|
+
+3. To set the markup on several products, select them in the list view
+   and use **Actions → Set Trade Markup**. Check **Selected Line** to
+   apply it to the selected products; unchecked, choose a **Vendor** and
+   the markup applies to all the products of that vendor. Click **Set**.
+
+   |Products list with two products selected and the Set Trade Markup
+   dialog: Selected Line checked, Trade Markup 30.00 and the Set button|
+
+4. Confirm a purchase order and validate its receipt. For each product
+   received on the order, the **Last Purchase Price** becomes the order
+   unit price, converted to the company currency and to the product unit
+   of measure. Receipts without a purchase order do not change prices.
+
+   |Validated receipt from the vendor, 20.00 units received|
+
+5. After the receipt at 110.00, the product shows **Last Purchase
+   Price** 110.00 (in red, above the cost), **Trade Markup** 30.00 and
+   **Sales Price** 110.00 × 1.30 = **143.00**. The **Cost** is not
+   changed by the module: it comes from the stock valuation. A product
+   without markup keeps its sales price.
+
+   |Product after the receipt: Last Purchase Price 110.00, Trade Markup
+   30.00, Sales Price 143.00 lei|
+
+6. With **Update list price** disabled, the sales price is set by hand
+   and the markup follows it: changing the last purchase price (or the
+   sales price) recomputes the markup. For a sales price of 13.00 and a
+   corrected purchase price of 12.50, the markup becomes (13.00 − 12.50)
+   / 12.50 × 100 = **4.00**. A markup typed by hand is kept.
+
+   |Product with Update list price disabled: Last Purchase Price 12.50,
+   Trade Markup recomputed to 4.00, Sales Price unchanged at 13.00 lei|
+
+The rounding of the computed sales price is set by the system parameter
+``sale.list_price_round`` (number of decimals, default 2). A pricelist
+rule can use **Last Purchase Price** as its base price.
+
+.. |Purchase settings, Products section: Update product price and Update list price are checked and marked 1 and 2| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_purchase_price/static/description/en/01_setari_achizitii.png
+.. |Product form: Last Purchase Price 100.00, Trade Markup 30.00, Sales Price 130.00 lei| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_purchase_price/static/description/en/02_produs_adaos.png
+.. |Products list with two products selected and the Set Trade Markup dialog: Selected Line checked, Trade Markup 30.00 and the Set button| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_purchase_price/static/description/en/03_wizard_adaos.png
+.. |Validated receipt from the vendor, 20.00 units received| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_purchase_price/static/description/en/04_receptie_validata.png
+.. |Product after the receipt: Last Purchase Price 110.00, Trade Markup 30.00, Sales Price 143.00 lei| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_purchase_price/static/description/en/05_produs_dupa_receptie.png
+.. |Product with Update list price disabled: Last Purchase Price 12.50, Trade Markup recomputed to 4.00, Sales Price unchanged at 13.00 lei| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_purchase_price/static/description/en/06_adaos_recalculat.png
+
 Changelog
 =========
+
+19.0.1.2.14 (2026-11-06)
+------------------------
+
+- **Fix: the trade markup no longer keeps a value computed with an old
+  purchase price.** With *Update list price* disabled, changing the last
+  purchase price on the product form did not touch the markup, so a
+  markup derived from a mistyped purchase price stayed on the product
+  after the price was corrected (e.g. -98.23% instead of ~10%). The
+  markup is now recomputed from the current sale price (without taxes)
+  and the new purchase price; the sale price is left unchanged.
+- Consultant sheet (``readme/FISA_CONSULTANT.md``), usage guide with
+  screenshots (``readme/USAGE.md``) and the screenshot test. Romanian
+  translation: the trade markup is labelled *Adaos comercial* in the
+  bulk action too, and the *Force supplier price* setting is translated.
 
 19.0.1.2.13 (2026-10-07)
 ------------------------

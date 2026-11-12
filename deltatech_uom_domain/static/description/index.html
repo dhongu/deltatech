@@ -1,20 +1,20 @@
 <div class="mx-auto px-3 py-3 rounded-4" style="max-width:1100px;font-family:'Segoe UI','Avenir Next','Helvetica Neue',Arial,sans-serif;color:#212529;font-weight:400;background-color:#ffffff;--bs-body-color:#212529;--bs-body-bg:#ffffff;--bs-emphasis-color:#212529;--bs-border-color:#dee2e6;--bs-card-bg:#ffffff;--bs-card-color:#212529;--bs-card-border-color:#dee2e6;--bs-link-color:#006F42;--bs-link-hover-color:#00432a;--bs-nav-link-color:#212529;--bs-nav-pills-link-active-bg:#006F42;--bs-nav-pills-link-active-color:#ffffff;--bs-code-color:#b4266b;--bs-heading-color:#212529;">
 <!-- tb-gen v1 -->
-<div class="rounded-4 shadow px-4 py-4 mt-2 mb-4" style="background-color:#006F42;color:#ffffff;">
+<div class="rounded-4 shadow px-4 py-4 mt-2 mb-4" style="background-color:#006F42;background-image:radial-gradient(circle at 92% 8%, rgba(87,185,82,0.45), rgba(87,185,82,0) 38%),radial-gradient(circle at 4% 100%, rgba(255,255,255,0.12), rgba(255,255,255,0) 32%),linear-gradient(135deg, #007a49 0%, #005c38 55%, #00432a 100%);color:#ffffff;">
   <div class="d-flex flex-wrap align-items-center">
     <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="UoM Domain by Reference" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">UoM Domain by Reference</h1>
       <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">Every convertible unit offered, as before Odoo 19</p>
       <div>
-        <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;">Odoo 19.0</span>
-        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Inventory</span>
-        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">Odoo.sh &bull; On-premise</span>
-        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px dashed #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;">LGPL-3</span>
+        <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;"><span class="fa fa-check-circle" style="margin-right:6px;" aria-hidden="true"></span>Odoo 19.0</span>
+        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;"><span class="fa fa-folder-open-o" style="margin-right:6px;" aria-hidden="true"></span>Inventory</span>
+        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;"><span class="fa fa-cloud" style="margin-right:6px;" aria-hidden="true"></span>Odoo.sh &bull; On-premise</span>
+        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px dashed #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;"><span class="fa fa-balance-scale" style="margin-right:6px;" aria-hidden="true"></span>LGPL-3</span>
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 19 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 21 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
         <div class="rounded-pill" style="height:8px;width:100%;background-color:#57B952;"></div>
       </div>
@@ -35,17 +35,22 @@
   <li class="nav-item mx-1 mb-2">
     <a class="nav-link active fw-semibold rounded-pill border" id="tb-tab-overview"
        data-bs-toggle="pill" data-bs-target="#tb-panel-overview" href="#tb-panel-overview"
-       style="padding:10px 22px;">Overview</a>
+       style="padding:10px 22px;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</a>
   </li>
   <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
-       style="padding:10px 22px;">Versions</a>
+       style="padding:10px 22px;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</a>
   </li>
 </ul>
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
-<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Overview</h2>
+<div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</span></div>
 <p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">P&#226;n&#259; &#238;n 18.0, lista de unit&#259;&#539;i de m&#259;sur&#259; dintr-un document con&#539;inea toate unit&#259;&#539;ile
 din categoria unit&#259;&#539;ii produsului: creai o dat&#259; &#8222;10 buc" &#238;n categoria &#8222;Unitate" &#537;i
 era disponibil&#259; pe orice produs m&#259;surat &#238;n buc&#259;&#539;i.</p>
@@ -71,13 +76,13 @@ raportul 1), care apare automat la toate produsele &#238;n metri.</p>
 <p>Ce calculeaz&#259; standardul se p&#259;streaz&#259;: unitatea produsului, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom_ids</code> &#537;i unitatea de
 pe linia de furnizor r&#259;m&#226;n &#238;n list&#259;. Pe comenzi &#537;i facturi modulul doar adaug&#259;;
 singura restr&#226;ngere e pe linia de furnizor, unde standardul nu avea niciun domeniu.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">De ce conteaz&#259; limita la acela&#537;i arbore</h2>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">De ce conteaz&#259; limita la acela&#537;i <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">arbore</span></h2>
 <p>&#206;n 19.0, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom.uom._compute_quantity()</code> nu mai valideaz&#259; nimic - parametrul
 <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">raise_if_failure</code> a r&#259;mas &#238;n semn&#259;tur&#259;, dar corpul metodei nu &#238;l folose&#537;te, iar pe
 linii nu exist&#259; nicio constr&#226;ngere de compatibilitate. Domeniul c&#226;mpului a r&#259;mas
 singurul lucru care &#238;mpiedic&#259; o conversie f&#259;r&#259; sens. De aceea modulul l&#259;rge&#537;te
 domeniul p&#226;n&#259; la marginea arborelui de conversie, &#537;i nu mai departe.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">De ce nu &#537;i pe facturile de v&#226;nzare</h2>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">De ce nu &#537;i pe facturile de <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">v&#226;nzare</span></h2>
 <p>Extinderea se aplic&#259; doar documentelor de achizi&#539;ie. Facturile emise pleac&#259; la ANAF prin
 e-Factura, iar <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom.uom._get_unece_code()</code> cade pe codul <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">C62</code> (&#8222;one/piece") pentru orice
 unitate f&#259;r&#259; cod UNECE mapat. O factur&#259; emis&#259; &#238;n &#8222;10 buc" ar declara cantitatea 2 cu
@@ -87,7 +92,7 @@ recep&#539;ia se converte&#537;te oricum &#238;n unitatea produsului, deci pe fl
 problema nu apare.</p>
 <p>Dac&#259; totu&#537;i v&#259; trebuie unitatea &#537;i pe v&#226;nz&#259;ri, mai &#238;nt&#226;i mapa&#539;i-i un cod UNECE real
 (modulul <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_uom_unece</code>) - altfel cantitatea transmis&#259; c&#259;tre ANAF e fals&#259;.</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Ce nu acoper&#259;</h2>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Ce nu <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">acoper&#259;</span></h2>
 <p>Multiplul de pe regula de reaprovizionare &#537;i codurile de bare pe ambalaj citesc
 <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.uom_ids</code>, nu domeniul c&#226;mpului - pentru ele unitatea tot trebuie trecut&#259; pe
 produs. V&#226;nz&#259;rile, mi&#537;c&#259;rile de stoc &#537;i rebutul sunt l&#259;sate inten&#539;ionat neatinse:
@@ -95,7 +100,7 @@ implicit, mi&#537;carea de stoc generat&#259; de o achizi&#539;ie se converte&#5
 produsului (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_adjust_uom_quantities</code>, c&#226;t timp parametrul <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.propagate_uom</code> nu e
 activat), iar pe eCommerce num&#259;rul de unit&#259;&#539;i disponibile schimb&#259; comportamentul
 butonului &#8222;Adaug&#259; &#238;n co&#537;".</p>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Unitatea implicit&#259; de achizi&#539;ie</h2>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Unitatea implicit&#259; de <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">achizi&#539;ie</span></h2>
 <p>P&#226;n&#259; &#238;n 18.0 produsul avea o unitate de achizi&#539;ie proprie (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom_po_id</code>). &#206;n 19.0 c&#226;mpul
 a disp&#259;rut: unitatea de pe comand&#259; vine doar de pe linia de furnizor valabil&#259; la data
 comenzii. Dac&#259; linia lipse&#537;te (produs nou, creat prin duplicare), a expirat (dat&#259; de
@@ -113,9 +118,95 @@ cu unit&#259;&#539;ile din arborele unit&#259;&#539;ii produsului. C&#226;nd e c
 <p>Liniile de furnizor existente nu se modific&#259;: dac&#259; au alt&#259; unitate, se corecteaz&#259;
 manual, odat&#259; cu pre&#539;ul, care e exprimat &#238;n unitatea liniei.</p>
 </div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</span></div>
+<p>Install the module and enable <strong>Units of Measure</strong> in <strong>Inventory &#8594; Configuration &#8594; Settings</strong>. No
+other configuration is needed: the unit lists are widened as soon as the module is installed. A new
+unit joins a tree through its reference unit (for example "Cutie 100 buc", reference Units, ratio
+100); it does not have to be added to each product.</p>
+<ol>
+<li><strong>Set the default purchase unit</strong> &#8212; on the product, <strong>Purchase</strong> tab, fill in <strong>Default Purchase
+   Unit</strong> (1) with the unit you buy in. Only units convertible to the product's unit are offered. In
+   the example, the beam is stocked per piece of 0.0384 m&#179; and has no vendor line.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Purchase tab of the product Grind&#259; molid 8x8 cm, 6 m: no vendor line, Default Purchase Unit (1) set to m&#179;" src="en/01_produs_um_implicita_achizitie.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Purchase tab of the product Grind&#259; molid 8x8 cm, 6 m: no vendor line, Default Purchase Unit (1) set to m&#179;</span>
+  </div>
+</div>
+<ol start="2">
+<li><strong>The request for quotation takes it</strong> &#8212; create a request for quotation (<strong>Purchase &#8594; Orders &#8594;
+   Requests for Quotation</strong>, <strong>New</strong>) and add the product. The line is in <strong>m&#179;</strong> even though the vendor
+   has no pricelist line, and no other unit can be chosen. The proposed price is the cost converted
+   to m&#179;. On receipt, the 4.50 m&#179; enter the stock converted to pieces; without the module they would
+   have entered as 4.50 pieces.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Request for quotation to Gater Bistri&#539;a SRL: the line of Grind&#259; molid 8x8 cm, 6 m is 4.50 in the highlighted unit m&#179;, at 1,250.00, amount 5,625.00 lei" src="en/02_cerere_oferta_um_implicita.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">2</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Request for quotation to Gater Bistri&#539;a SRL: the line of Grind&#259; molid 8x8 cm, 6 m is 4.50 in the highlighted unit m&#179;, at 1,250.00, amount 5,625.00 lei</span>
+  </div>
+</div>
+<ol start="3">
+<li><strong>Choose any convertible unit</strong> &#8212; for a product without a default purchase unit, the <strong>Unit</strong> list
+   of a request for quotation, purchase order or vendor bill line offers every unit of the product's
+   unit tree. A product in Units with no packaging offers Cutie 100 buc, Dozens, Pack of 6 and Units;
+   it does not offer kg. Standard Odoo 19 would offer only Units. Next to each unit, the list shows
+   what the line quantity would mean in the product's unit (500 Cutie 100 buc = 50000 Units):
+   changing the unit does not recalculate the quantity, so correct both together.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Request for quotation to Feronerie Nord SRL: the Unit list of the &#536;urub autoforant 4,2x13 line shows Cutie 100 buc, Dozens, Pack of 6 and Units" src="en/03_cerere_oferta_lista_um.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">3</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Request for quotation to Feronerie Nord SRL: the Unit list of the &#536;urub autoforant 4,2x13 line shows Cutie 100 buc, Dozens, Pack of 6 and Units</span>
+  </div>
+</div>
+<ol start="4">
+<li><strong>Vendor lines</strong> &#8212; on the product, <strong>Purchase</strong> tab, the unit of a vendor line can only be the
+   product's unit or a unit of the same tree. A unit from another tree (ml for a cable sold in meters)
+   can no longer be chosen. When the product has a default purchase unit, a new vendor line takes it
+   and its unit cannot be changed. Existing vendor lines are not changed: when you correct their unit,
+   correct their price as well, since the price is expressed in the unit of the line.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Purchase tab of the product &#536;urub autoforant 4,2x13: the Unit list of the Feronerie Nord SRL vendor line shows Units, Pack of 6, Dozens and Cutie 100 buc" src="en/04_furnizor_lista_um.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">4</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Purchase tab of the product &#536;urub autoforant 4,2x13: the Unit list of the Feronerie Nord SRL vendor line shows Units, Pack of 6, Dozens and Cutie 100 buc</span>
+  </div>
+</div>
+<p>Sales orders, customer invoices and stock moves keep the standard unit lists: customer invoices are
+sent with the UNECE code of the unit, and a unit without a mapped code would be declared as a piece.</p>
+</div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
-<h2 class="fw-bold mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">Versions</h2>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.2.0 (2026-10-20)</h2>
+<div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.2.1 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-03)</span></h2>
+<ul>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/USAGE.md</code> for the Apps Store: wider unit lists on purchases, the vendor
+  line restriction and the default purchase unit, with English screenshots in
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">static/description/en/</code>.</li>
+<li>Consultant sheet <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/FISA_CONSULTANT.md</code> with Romanian screenshots, generated
+  by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests/test_screenshots.py</code> in both languages.</li>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">i18n/ro.po</code>: Romanian translation of <em>Default Purchase Unit</em>, its help and the
+  constraint message.</li>
+</ul>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.2.0 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-10-20)</span></h2>
 <ul>
 <li>Default purchase unit on the product (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_uom_id</code>, Purchase tab), restricted
   to the units of the product unit's reference tree. When it is set, it is the only
@@ -124,16 +215,16 @@ manual, odat&#259; cu pre&#539;ul, care e exprimat &#238;n unitatea liniei.</p>
   unit, and without a valid vendor line the order fell back to the product unit, so
   4.894 m&#179; of timber were received as 4.894 pieces.</li>
 </ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.2 (2026-10-16)</h2>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.1.2 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-10-16)</span></h2>
 <ul>
 <li>Development status raised from Beta to Production/Stable: the module has been in
   production use at customers for a long time.</li>
 </ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.1 (2026-10-09)</h2>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.1.1 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-10-09)</span></h2>
 <ul>
 <li>Apps Store banner (banner.json).</li>
 </ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.1.0 (2026-10-07)</h2>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.1.0 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-10-07)</span></h2>
 <ul>
 <li>Vendor pricelist lines (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">product.supplierinfo</code>) now restrict the vendor unit
   to the product unit, its packagings and the units of the same reference tree.
@@ -141,11 +232,11 @@ manual, odat&#259; cu pre&#539;ul, care e exprimat &#238;n unitatea liniei.</p>
   accepted silently: "ml" (millilitre) on a product in metres turned 22.5 m
   into 22,500 ml on the generated RFQ.</li>
 </ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.1 (2026-09-30)</h2>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.1 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-09-30)</span></h2>
 <ul>
 <li>Own module icon, instead of the generic gears it had.</li>
 </ul>
-<h2 class="fw-bold mt-4 mb-3" style="border:none;border-left:4px solid #57B952;padding-left:16px;font-size:24px;letter-spacing:-0.3px;line-height:1.2;">19.0.1.0.0 (2026-09-29)</h2>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.0 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-09-29)</span></h2>
 <ul>
 <li>Add: offer every unit sharing the product unit's reference tree on purchase order lines and invoice lines, restoring the pre-19.0 category-based selection that Odoo replaced with the per-product <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom_ids</code> list.</li>
 </ul>

@@ -4,9 +4,10 @@
 
 {
     "name": "Custom Invoice Exchange Rate",
-    "version": "19.0.1.0.4",
+    "version": "19.0.1.0.5",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "website": "https://www.terrabit.ro",
     "summary": "Edit the currency rate on the invoice",
     "category": "Sales",

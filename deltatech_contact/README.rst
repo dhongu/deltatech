@@ -19,9 +19,9 @@ Contact Personal Data
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_contact/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-5%20automated%20tests-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-7%20automated%20tests-2ea44f.png
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_contact/tests
-    :alt: 5 automated tests
+    :alt: 7 automated tests
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 

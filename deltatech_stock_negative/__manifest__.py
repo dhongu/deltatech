@@ -11,6 +11,7 @@
     "category": "Inventory/Inventory",
     "depends": ["stock"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": ["views/res_config_view.xml", "views/stock_location_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "installable": True,

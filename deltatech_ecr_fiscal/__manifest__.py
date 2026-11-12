@@ -13,6 +13,7 @@
     "category": "Accounting/Accounting",
     "depends": ["account"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "price": 0.00,
     "currency": "EUR",
     "pre_init_hook": "pre_init_hook",

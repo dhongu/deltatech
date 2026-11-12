@@ -4,12 +4,13 @@
 {
     "name": "PRN Report",
     "summary": "Print .prn files (Zebra label printer syntax) from Odoo reports",
-    "version": "19.0.1.1.2",
+    "version": "19.0.1.1.3",
     "category": "Stock",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "depends": ["web"],
     "license": "LGPL-3",
+    "consultant_sheet": "simple",
     "data": [
         # "views/assets.xml"
     ],

@@ -11,6 +11,7 @@
     "category": "Accounting",
     "depends": ["account"],
     "license": "LGPL-3",
+    "consultant_sheet": "full",
     "data": ["views/account_invoice_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",

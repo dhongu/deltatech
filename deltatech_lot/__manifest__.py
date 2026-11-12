@@ -11,6 +11,7 @@
     "depends": ["stock"],
     "data": ["views/stock_move_line_view.xml", "views/stock_production_lot.xml"],
     "license": "LGPL-3",
+    "consultant_sheet": "full",
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",
     "maintainers": ["dhongu"],

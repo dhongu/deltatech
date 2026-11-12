@@ -4,7 +4,7 @@
 {
     "name": "Sale Margin & Profit",
     "summary": "Check price in sale order, cost price on invoices and profit report",
-    "version": "19.0.1.3.4",
+    "version": "19.0.1.3.5",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
@@ -14,6 +14,7 @@
     # behaviour does not depend on install order
     "depends": ["sale_margin", "sale_stock_margin", "account", "stock_account", "delivery"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [
         "security/sale_security.xml",
         "security/ir.model.access.csv",

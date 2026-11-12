@@ -177,7 +177,7 @@
                                         name="tax_ids"
                                         widget="many2many_tags"
                                         optional="show"
-                                        readonly="type == 'supplier_payment'"
+                                        readonly="type != 'expenses'"
                                         domain="[('type_tax_use','=','purchase')]"
                                         context="{'default_type_tax_use': 'purchase'}"
                                     />
@@ -185,7 +185,7 @@
                                     <field
                                         name="partner_id"
                                         string="Supplier"
-                                        required="type != 'expenses'"
+                                        required="type == 'supplier_payment'"
                                         context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1}"
                                     />
                                     <field
@@ -227,7 +227,7 @@
                                     <field
                                         name="tax_ids"
                                         widget="many2many_tags"
-                                        readonly="type == 'supplier_payment'"
+                                        readonly="type != 'expenses'"
                                         domain="[('type_tax_use','=','purchase')]"
                                         context="{'default_type_tax_use': 'purchase'}"
                                     />

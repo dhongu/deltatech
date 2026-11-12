@@ -16,15 +16,40 @@ Picking Services
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_picking_services
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_picking_services/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 .. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%2093%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_picking_services
     :alt: 4 automated tests · 93% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
-- Features:
+Besides the goods, a transfer sometimes has services tied to it, such as
+transport or packing. This module adds a *Services* tab to the transfer,
+where the operator records them with a quantity, a unit price and a
+subtotal.
 
-  - Adds a new tab in picking, with service type products only
+- **Services tab**: A *Services* tab after the operations tab of every
+  transfer lists the services in an editable list, and *Add a Service*
+  adds a row.
+- **Service lines**: Each row has a *Service* (only products of type
+  service), a *Description* (hidden by default), a *Quantity* (1 by
+  default), a *Unit of Measure* (for users in the units of measure
+  group) and a *Unit Price*.
+- **Defaults and totals**: Choosing a service fills in its unit of
+  measure and description. The price is typed in, not taken from the
+  product. The *Subtotal* is quantity times unit price, with the total
+  shown under the column.
+- **Copy and delete**: Duplicating a transfer copies its service lines,
+  and deleting the transfer deletes them.
+- **Record only**: The lines create no stock moves, invoices or
+  accounting entries.
+
+The module depends on *Inventory* (``stock``). Inventory users have full
+access to the lines, which follow a multi-company rule based on the
+company of their transfer. The tab has no state restriction: lines can
+be edited in every state of the transfer.
 
 **Table of contents**
 
@@ -33,6 +58,13 @@ Picking Services
 
 Changelog
 =========
+
+19.0.1.0.4 (2026-11-11)
+-----------------------
+
+- Apps Store page: a fuller description (what the module does, the
+  problem it solves, its main functions, dependencies and limits). No
+  change in behavior.
 
 19.0.1.0.3 (2026-10-22)
 -----------------------
