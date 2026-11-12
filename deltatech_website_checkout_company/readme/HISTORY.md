@@ -4,6 +4,7 @@
   number (`is_company` is computed), the mandatory registered office fields come from
   `res.partner`, the city is typed as text also when the country enforces a choice from
   the city list.
+- Company billing only for deliveries in Romania; consultant sheet (from 19.0).
 
 ## 19.0.1.0.0 (2026-11-12)
 

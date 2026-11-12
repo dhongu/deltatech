@@ -28,6 +28,13 @@ msgstr ""
 "                        <small class=\"text-muted fw-normal\">(opțional)</small>"
 
 #. module: deltatech_website_checkout_company
+#. odoo-python
+#: code:addons/deltatech_website_checkout_company/controllers/main.py:0
+msgid "Billing to a company is available only for deliveries in Romania."
+msgstr ""
+"Facturarea pe firmă este disponibilă doar pentru livrările în România."
+
+#. module: deltatech_website_checkout_company
 #: model_terms:ir.ui.view,arch_db:deltatech_website_checkout_company.address_form_fields
 msgid "Company name"
 msgstr "Nume firmă"
