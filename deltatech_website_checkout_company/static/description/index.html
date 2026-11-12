@@ -50,17 +50,17 @@
   street, then email and phone. The last name and the first name are kept together in the
   name of the contact.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-sliders" style="" aria-hidden="true"></span></span><div>Below the address, an optional <strong>Billing details</strong> section: a customer who buys as a
   company ticks <em>I am buying as a legal entity (company)</em> and types the company name, its
-  VAT number (CUI) and the county and city of its registered office. The CUI is checked
-  (checksum) before the order goes further.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-building-o" style="" aria-hidden="true"></span></span><div>When no company is recorded with this CUI, the company is created as a company partner,
+  VAT number (CUI) and its registered office (county, city, street, zip code). The CUI is
+  checked (checksum) before the order goes further.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-building-o" style="" aria-hidden="true"></span></span><div>When no company is recorded with this CUI, the company is created as a company partner,
   with its registered office, and the customer becomes one of its delivery addresses, keeping
-  its own address. The order is
-  invoiced to the company and delivered to the customer.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-building-o" style="" aria-hidden="true"></span></span><div>When a company is already recorded with this CUI (with or without the RO prefix), the order
-  is invoiced to it and the customer is <strong>not</strong> attached to it: typing a CUI on the website
-  must not give a visitor access to the documents of the company in the portal. Attaching the
-  contact to the company is left to the backend users. The checkout and payment pages show
-  the company as the billing address (name, registered office, CUI): these are the public
-  details of the company in the trade register and at ANAF, found by anyone from the CUI;
-  the contacts, the documents and the other data of the company are not shown.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-users" style="" aria-hidden="true"></span></span><div>Customers who already belong to a company keep the standard company name and VAT fields.</div></div></li></ul>
+  its own address. The order is invoiced to the company and delivered to the customer.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-building-o" style="" aria-hidden="true"></span></span><div>When a company is already recorded with this CUI (with or without the RO prefix), a new
+  invoice address is created under it with the name and the registered office typed by the
+  customer, and the order is invoiced to it; the checkout shows it as the selected billing
+  address. Of the recorded company only its name shows (as the parent of the address, a
+  public data of the CUI); its recorded address and contacts do not, and the customer is
+  <strong>not</strong> attached to it: typing a CUI must not give a visitor the documents of another
+  company. The form asks the same fields whether or not the CUI is known. The invoice
+  addresses typed this way can be reviewed or merged by the backend users.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-users" style="" aria-hidden="true"></span></span><div>Customers who already belong to a company keep the standard company name and VAT fields.</div></div></li></ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</span></div>
@@ -82,17 +82,14 @@
   number (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">is_company</code> is computed), the mandatory registered office fields come from
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">res.partner</code>, the city is typed as text also when the country enforces a choice from
   the city list.</li>
-<li>Fix: a company already recorded with the CUI typed is shown, selected, among the billing
-  addresses of the checkout page; before, no billing address was selected and the order
-  could not be confirmed. Only the public details of the company (name, registered office,
-  CUI) are shown to the visitor.</li>
 </ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.0 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-12)</span></h2>
 <ul>
 <li>First version: checkout address in the Romanian order (last name and first name, country,
   county, city, street, email, phone) and an optional <em>Billing details</em> section that invoices
-  the order to a company: created from the name and the CUI typed, or the company already
-  recorded with that CUI, without attaching the customer to it.</li>
+  the order to a company: created from the name, the CUI and the registered office typed, or,
+  for a CUI already recorded, a new invoice address under that company with the typed data,
+  without attaching the customer to it and without showing the recorded company data.</li>
 </ul>
 </div>
 </div>

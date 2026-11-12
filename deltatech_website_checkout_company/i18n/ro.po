@@ -21,17 +21,6 @@ msgstr "<option value=\"\">Județ...</option>"
 #. module: deltatech_website_checkout_company
 #: model_terms:ir.ui.view,arch_db:deltatech_website_checkout_company.address_form_fields
 msgid ""
-"<small class=\"form-text text-muted\">\n"
-"                                    The registered office is asked only for a company that is not yet our customer.\n"
-"                                </small>"
-msgstr ""
-"<small class=\"form-text text-muted\">\n"
-"                                    Sediul social se cere doar pentru o firmă care nu este încă clientul nostru.\n"
-"                                </small>"
-
-#. module: deltatech_website_checkout_company
-#: model_terms:ir.ui.view,arch_db:deltatech_website_checkout_company.address_form_fields
-msgid ""
 "Billing details\n"
 "                        <small class=\"text-muted fw-normal\">(optional)</small>"
 msgstr ""
