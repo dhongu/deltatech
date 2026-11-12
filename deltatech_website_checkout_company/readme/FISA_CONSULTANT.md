@@ -30,8 +30,10 @@ comenzii urmează clientul și adresa de livrare, nu adresa de facturare, iar TV
 firme românești se aplică bunurilor livrate în România.
 
 Dacă CUI-ul nu există în baza de date, firma se creează ca partener nou. Dacă există deja, comanda
-se facturează pe o adresă de facturare nouă a firmei înregistrate, fără ca vizitatorul să vadă
-datele acesteia și fără să fie atașat la ea.
+se facturează pe o adresă de facturare a firmei înregistrate, cu numele și sediul scrise de client,
+fără ca vizitatorul să vadă datele acesteia și fără să fie atașat la ea. Când numele și sediul
+scrise sunt aceleași cu ale firmei sau ale unei adrese de facturare existente a ei, se folosește
+aceea; o adresă nouă apare doar când datele diferă.
 
 ## 2. Bază legală și context
 
@@ -54,7 +56,7 @@ factură.
 - **Operator vânzări online** — verifică pe comandă **Adresă de facturare** și **Adresă livrare**
   (**Vânzări → Comenzi → Oferte** / **Comenzi**) și partenerii creați (aplicația **Contacte**).
 - **Contabil** — emite factura pe adresa de facturare a comenzii și unifică, la nevoie, adresele de
-  facturare duplicate ale aceleiași firme.
+  facturare ale aceleiași firme scrise cu mici diferențe (de exemplu „Str.” față de „Strada”).
 
 Roluri recomandate pentru testare:
 - un vizitator neautentificat (sesiune privată de browser), care pune un produs în coș;
@@ -198,11 +200,13 @@ clienții magazinului.
 
 1. **Găsiți pe ecran** — **Client** ①, **Adresă de facturare** ② și **Adresă livrare** ③.
 2. **Verificați** — **Client** și **Adresă livrare** sunt **Ionescu Andrei**, persoană fizică;
-   **Adresă de facturare** este **Ana Agro SRL, Ana Agro SRL**, o adresă de facturare nouă sub firma
-   înregistrată. Factura se emite pe Ana Agro SRL (CUI-ul firmei înregistrate), cu adresa scrisă de
-   client.
-3. **Continuați** — dacă adresa scrisă de client e aceeași cu sediul înregistrat, contabilul poate
-   unifica adresele duplicate ale firmei din **Contacte** (selectați adresele în listă → ⚙ **Acțiuni → Îmbină**).
+   **Adresă de facturare** este **Ana Agro SRL, Ana Agro SRL**, o adresă de facturare sub firma
+   înregistrată, cu numele și sediul scrise de client. Factura se emite pe Ana Agro SRL (CUI-ul
+   firmei înregistrate), cu adresa scrisă de client.
+3. **Continuați** — o comandă nouă cu același CUI, același nume și același sediu (stradă, cod
+   poștal, localitate, județ) se facturează pe aceeași adresă, fără duplicat; o adresă nouă apare
+   doar când datele scrise diferă. Adresele care diferă doar prin scriere le poate unifica
+   contabilul din **Contacte** (selectați adresele în listă → ⚙ **Acțiuni → Îmbină**).
 
 ![Antetul comenzii S00139: Client Ionescu Andrei, Str. Horea nr. 3, Cluj-Napoca, evidențiat cu 1; Adresă de facturare Ana Agro SRL, Ana Agro SRL, evidențiată cu 2; Adresă livrare Ionescu Andrei, evidențiată cu 3](../static/description/08_comanda_firma_inregistrata.png)
 
@@ -231,8 +235,9 @@ blocarea facturării pe firmă când livrarea nu e în România.
 
 **Ce rămâne manual:** revizuirea firmelor noi de către contabil înainte de facturare: verificarea
 la ANAF (existență, înregistrare în scopuri de TVA), completarea datelor lipsă ale
-firmei noi (de exemplu contul bancar) și unificarea adreselor de facturare duplicate: fiecare
-comandă cu CUI-ul unei firme înregistrate creează o adresă de facturare nouă.
+firmei noi (de exemplu contul bancar) și unificarea adreselor de facturare ale aceleiași firme
+scrise cu mici diferențe: o comandă cu CUI-ul unei firme înregistrate refolosește firma sau
+adresa de facturare cu același nume și sediu și creează una nouă doar când datele diferă.
 
 ## 8. Verificări pentru consultant
 
@@ -249,9 +254,12 @@ comandă cu CUI-ul unei firme înregistrate creează o adresă de facturare nou�
 - [ ] Cu un CUI nou: în **Contacte** apare firma (Companie, cu CIF și sediul social), iar clientul e
       în tab-ul **Contacte** ca adresă de livrare, cu adresa lui.
 - [ ] Pe comandă: **Client** și **Adresă livrare** = clientul, **Adresă de facturare** = firma.
-- [ ] Cu CUI-ul unei firme înregistrate (cu sau fără „RO”): **Adresă de facturare** = adresă nouă
+- [ ] Cu CUI-ul unei firme înregistrate (cu sau fără „RO”): **Adresă de facturare** = adresă
       sub firmă, cu datele scrise de client; clientul **nu** devine contact al firmei; formularul nu
       arată datele înregistrate ale firmei.
+- [ ] A doua comandă cu același CUI, același nume și același sediu se facturează pe aceeași adresă
+      (în **Contacte**, sub firmă, nu apare o adresă de facturare în plus); cu altă stradă apare o
+      adresă nouă.
 - [ ] Un client care e deja contact al unei firme (sau e el însuși firmă) vede câmpurile standard de firmă, nu secțiunea
       **Date de facturare**.
 - [ ] Factura creată din comandă are ca partener adresa de facturare a firmei.
@@ -267,7 +275,7 @@ comandă cu CUI-ul unei firme înregistrate creează o adresă de facturare nou�
 | **Județ sediu social** e marcat cu * dar comanda trece fără el | Formularul marchează toate câmpurile firmei cu *, dar județul se verifică doar dacă țara România are bifa **Stat/Județ obligatoriu**. | Bifați **Stat/Județ obligatoriu** pe țara România, dacă vreți județul obligatoriu în toate adresele. |
 | Secțiunea **Date de facturare** nu apare | Clientul e deja contact al unei firme (sau e firmă) ori editează o adresă de livrare ori o adresă secundară. | Clientul folosește câmpurile standard de firmă; secțiunea apare doar pe adresa principală de facturare a unei persoane fizice. |
 | În portal, după **Salvați adresa** cu bifa de firmă, nu apare nicio firmă | Secțiunea **Date de facturare** se afișează și se verifică și în formularul de adresă din portal, dar firma se creează doar în checkout-ul magazinului. | Clientul cere factura pe firmă la următoarea comandă, din checkout; până atunci, operatorul creează firma în backend. |
-| Firma are mai multe adrese de facturare cu același nume | Fiecare comandă cu CUI-ul unei firme înregistrate creează o adresă de facturare nouă. | Unificați adresele din **Contacte** (selectați-le în listă → ⚙ **Acțiuni → Îmbină**). |
+| Firma are mai multe adrese de facturare cu același nume | Clienții au scris sediul diferit (altă stradă, alt cod poștal sau altă scriere); la date identice adresa se refolosește. | Unificați adresele din **Contacte** (selectați-le în listă → ⚙ **Acțiuni → Îmbină**). |
 
 ## 10. Capturi de ecran
 
@@ -285,7 +293,7 @@ local (vezi Observații pentru manual).
 | `04_checkout_facturare_firma.png` | Pasul de livrare: firma nouă ca adresă de facturare, clientul ca adresă de livrare. |
 | `05_comanda_adrese.png` | Comanda în backend: Client, Adresă de facturare (firma) și Adresă livrare. |
 | `06_firma_noua_contacte.png` | Firma nouă în Contacte, cu CIF și clientul ca adresă de livrare. |
-| `07_checkout_firma_inregistrata.png` | Pasul de livrare cu CUI-ul unei firme înregistrate: adresă de facturare nouă sub firmă. |
+| `07_checkout_firma_inregistrata.png` | Pasul de livrare cu CUI-ul unei firme înregistrate: adresa de facturare sub firmă, cu datele scrise de client. |
 | `08_comanda_firma_inregistrata.png` | Comanda în backend pentru firma înregistrată. |
 
 ## 11. Observații pentru manual

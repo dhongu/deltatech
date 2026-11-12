@@ -131,19 +131,21 @@ Usage
 
 7. With the VAT number of a company already recorded (with or without
    RO), the form asks the same fields and does not show the recorded
-   data. A new invoice address is created under that company, with the
-   name and the registered office typed by the customer, and is selected
-   as **Billing address**. The customer is **not** attached to the
-   company.
+   data. The invoice address under that company with the name and the
+   registered office typed by the customer is used, or created when none
+   matches (the company itself is used when its own data are typed), and
+   is selected as **Billing address**. The customer is **not** attached
+   to the company.
 
    |Delivery step for a recorded company: the selected billing address
    is Ana Agro SRL, Ana Agro SRL, with the typed registered office; the
    delivery address is the customer alone|
 
 8. On that order, **Customer** and **Delivery Address** are the
-   customer, and **Invoice Address** is the new address under the
-   recorded company. Each such order adds an invoice address to the
-   company; backend users can merge the duplicates from **Contacts**.
+   customer, and **Invoice Address** is the address under the recorded
+   company. Another order with the same name and registered office uses
+   the same address; only different data add a new one, which backend
+   users can merge from **Contacts** when it differs only in spelling.
 
    |Sales order header for a recorded company: Customer and Delivery
    Address are the customer, Invoice Address is Ana Agro SRL, Ana Agro
@@ -179,6 +181,8 @@ Changelog
   that company with the typed data, without attaching the customer to it
   and without showing the recorded company data.
 - The county of the registered office is accepted only from Romania.
+- The consultant sheet and the usage describe the reuse of the invoice
+  address typed again.
 
 Bug Tracker
 ===========
