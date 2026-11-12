@@ -162,6 +162,7 @@ o Cutie 12 kg costă 36 lei, deci **30 lei/cutie este sub cost**, chiar dacă �
 |---|---|
 | rândul colorat + bannerul | marja e sub pragul configurat |
 | **Marja** din josul comenzii | cifra concretă — **doar** pentru cine are dreptul să vadă costul |
+| coloanele opționale **Cost**, **Marja** și **Marjă (%)** de pe liniile comenzii (și **Cost** din formularul liniei, pe mobil) | tot **doar** pentru grupul de cost; fără el, coloanele nu apar nici în meniul de coloane opționale al liniilor |
 | butonul **Confirmă** activ | comanda nu e blocată (politica „Doar avertisment") |
 | nimic, deși prețul pare mic | costul nu e completat pe produs, sau unitățile nu sunt comparabile |
 
@@ -319,6 +320,9 @@ cost.
       achiziție**.
 - [ ] Un operator **fără** grupul de cost vede rândul marcat și bannerul, **nu** vede marja și **nu**
       primește eroare de drepturi.
+- [ ] Pe liniile unei comenzi, un utilizator **fără** grupul de cost **nu** găsește **Cost**,
+      **Marja** și **Marjă (%)** în meniul de coloane opționale (nici **Cost** în formularul
+      liniei, pe mobil); unul **din** grupul de cost le găsește și le poate afișa.
 - [ ] Prag **−10**: o pierdere de 5% nu alertează, una de 25% da. Prag **20**: o marjă de 10% e
       semnalată.
 - [ ] Produs cu unitatea de bază din **altă familie** decât unitatea liniei: **niciun** semnal (garda
@@ -337,7 +341,7 @@ cost.
 | Ne-a blocat brusc comenzile pe o companie nouă | Politica e **per companie**; una nouă pornește pe „Blochează vânzarea" | Setați politica pe compania respectivă |
 | Vânzare vizibil sub cost, dar **niciun** semnal | Costul produsului este **0** | Completați costul de achiziție pe produs |
 | Un anume produs nu se marchează niciodată | Unitatea liniei și unitatea de bază a produsului sunt din **familii diferite** — garda tace ca să nu marcheze fals fiecare linie | Corectați unitatea de măsură pe fișa produsului |
-| Coloana **Marjă** nu apare | Utilizatorul nu e în grupul de cost | Comportament corect; marcajul și bannerul rămân vizibile |
+| Coloanele **Cost**, **Marja** și **Marjă (%)** nu apar pe liniile comenzii (nici în meniul de coloane opționale) | Utilizatorul nu e în grupul de cost | Comportament corect; marcajul și bannerul rămân vizibile |
 | Comenzile din website nu sunt verificate | Comportament intenționat (`sale.check_price_website`), ca promoțiile să fie posibile | Nimic |
 | Profit greșit, cost 0 sau costul de listă în raport | Livrarea nu era validată la facturare, sau produsul nu are cost | **Actualizare preț achiziție**, după validarea livrării sau corectarea costului |
 | Meniul *Raport analiză profit* lipsește | Utilizatorul nu e în grupul de cost și nici administrator Vânzări | Dați grupul de cost sau rolul **Administrator** pe Vânzări |

@@ -55,6 +55,18 @@
             <xpath expr="//field[@name='margin']/parent::div" position="attributes">
                 <attribute name="groups">deltatech_sale_margin.group_sale_margin</attribute>
             </xpath>
+            <xpath expr="//field[@name='order_line']//form//field[@name='purchase_price']" position="attributes">
+                <attribute name="groups">deltatech_sale_margin.group_sale_margin</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//list//field[@name='purchase_price']" position="attributes">
+                <attribute name="groups">deltatech_sale_margin.group_sale_margin</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//list//field[@name='margin']" position="attributes">
+                <attribute name="groups">deltatech_sale_margin.group_sale_margin</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//list//field[@name='margin_percent']" position="attributes">
+                <attribute name="groups">deltatech_sale_margin.group_sale_margin</attribute>
+            </xpath>
         </field>
     </record>
 
