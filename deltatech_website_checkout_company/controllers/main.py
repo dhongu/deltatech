@@ -144,7 +144,9 @@ class TbWebsiteSale(TbAddressNameMixin, WebsiteSale):
         values = super()._prepare_checkout_page_values(order_sudo, **kwargs)
         # A company already recorded is invoiced without the customer being attached to it, so
         # it is not one of the customer's addresses: shown among them, it stays selected and
-        # the checkout can go on.
+        # the checkout can go on. Deliberately, the card shows only its name, registered office
+        # and CUI, the public details of the company (trade register, ANAF) that anyone finds
+        # from the CUI typed; nothing else of the company is exposed to the visitor.
         invoice_partner = order_sudo.partner_invoice_id
         billing_addresses = values.get("billing_addresses")
         if (

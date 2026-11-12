@@ -37,7 +37,12 @@ Checkout address form for Romanian shops, with optional company billing.
   RO prefix), the order is invoiced to it and the customer is **not**
   attached to it: typing a CUI on the website must not give a visitor
   access to the documents of the company in the portal. Attaching the
-  contact to the company is left to the backend users.
+  contact to the company is left to the backend users. The checkout and
+  payment pages show the company as the billing address (name,
+  registered office, CUI): these are the public details of the company
+  in the trade register and at ANAF, found by anyone from the CUI; the
+  contacts, the documents and the other data of the company are not
+  shown.
 - Customers who already belong to a company keep the standard company
   name and VAT fields.
 
@@ -73,7 +78,9 @@ Changelog
   list.
 - Fix: a company already recorded with the CUI typed is shown, selected,
   among the billing addresses of the checkout page; before, no billing
-  address was selected and the order could not be confirmed.
+  address was selected and the order could not be confirmed. Only the
+  public details of the company (name, registered office, CUI) are shown
+  to the visitor.
 
 19.0.1.0.0 (2026-11-12)
 -----------------------

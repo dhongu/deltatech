@@ -6,7 +6,8 @@
   the city list.
 - Fix: a company already recorded with the CUI typed is shown, selected, among the billing
   addresses of the checkout page; before, no billing address was selected and the order
-  could not be confirmed.
+  could not be confirmed. Only the public details of the company (name, registered office,
+  CUI) are shown to the visitor.
 
 ## 19.0.1.0.0 (2026-11-12)
 
