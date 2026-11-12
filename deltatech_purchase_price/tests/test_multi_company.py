@@ -40,9 +40,7 @@ class TestPurchasePriceMultiCompany(TransactionCase):
             {"name": "Shared product", "is_storable": True, "trade_markup": 100, "taxes_id": [(6, 0, [])]}
         )
 
-    def test_supplier_price_in_company_b(self):
-        self.assertEqual(self.env.company, self.company_a)
-        self.assertEqual(self.product.currency_id, self.company_a.currency_id)
+    def test_supplier_price_does_not_change_last_purchase_price(self):
         self.env["product.supplierinfo"].create(
             {
                 "partner_id": self.partner.id,
@@ -52,13 +50,8 @@ class TestPurchasePriceMultiCompany(TransactionCase):
                 "price": 100.0,
             }
         )
-        self.assertEqual(self.product.with_company(self.company_b).last_purchase_price, 100.0)
-        # cost 100 in B currency + 100% markup = 200 in B currency = 1000 in the product (A) currency
-        expected = self.company_b.currency_id._convert(
-            200.0, self.product.currency_id, self.company_b, fields.Date.today()
-        )
-        self.assertAlmostEqual(expected, 1000.0, places=2)
-        self.assertAlmostEqual(self.product.list_price, expected, places=2)
+        self.assertEqual(self.product.with_company(self.company_b).last_purchase_price, 0.0)
+        self.assertEqual(self.product.list_price, 1.0)
 
     def test_onchange_with_active_company_b(self):
         product = self.product.with_company(self.company_b)

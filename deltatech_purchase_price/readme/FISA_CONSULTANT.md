@@ -228,7 +228,6 @@ de listă** e debifat; înregistrarea diferențelor de preț la evidența la pre
 
 | Mesaj | Cauză | Remediere |
 |---|---|---|
-| *You cannot update the supplier price here. Please edit the supplier info separately* | linia de preț a furnizorului nu are unitate de măsură, iar produsul nici el | completați unitatea de măsură pe produs sau pe linia furnizorului |
 | Prețul de vânzare nu se schimbă la recepție | **Actualizează prețul de listă** e debifat, adaosul produsului e 0 sau recepția nu vine dintr-o comandă de achiziție | bifați opțiunea, completați adaosul, recepționați pe comandă |
 | Prețul furnizorului nu se actualizează | **Actualizează prețul produsului** e debifat sau linia furnizorului are cantitate minimă peste 1 ori perioadă de valabilitate | bifați opțiunea; liniile cu cantitate minimă sau perioadă se actualizează de mână |
 | Prețul de vânzare s-a schimbat fără recepție | cu **Actualizează prețul de listă** bifat, s-a modificat prețul unei linii de furnizor pe produs sau s-a validat o factură de furnizor cu **Forțează prețul furnizorului…** | este comportamentul așteptat; debifați opțiunea dacă prețul de vânzare se stabilește de mână |
