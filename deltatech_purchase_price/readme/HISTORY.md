@@ -1,3 +1,22 @@
+## 20.0.1.2.13 (2026-11-12)
+
+- **Change: editing the price on a vendor line (`product.supplierinfo`) no
+  longer updates the last purchase price of the product.** The last purchase
+  price is now changed only by a manual edit on the product or by a receipt,
+  not as a side effect of creating or changing a vendor price.
+  Removed the `update_last_purchase_price` method and the
+  `from_po_confirmation` context key it needed. Port of 19.0.1.2.15.
+- **Fix: the trade markup no longer keeps a value computed with an old
+  purchase price.** With *Update list price* disabled, changing the last
+  purchase price on the product form did not touch the markup, so a markup
+  derived from a mistyped purchase price stayed on the product after the price
+  was corrected. The markup is now recomputed from the current sale price
+  (without taxes) and the new purchase price; the sale price is left unchanged.
+  Port of 19.0.1.2.14.
+- **Docs: consultant sheet (`readme/FISA_CONSULTANT.md`), usage guide and
+  screenshots**, ported from 19.0 and updated to the new behaviour; the
+  screenshots are generated on 20.0 by `tests/test_screenshots.py`.
+
 ## 20.0.1.2.12 (2026-10-15)
 
 - **New vendor pricing rows no longer take the product cost as unit price.**

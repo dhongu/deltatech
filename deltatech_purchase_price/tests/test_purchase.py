@@ -127,7 +127,9 @@ class TestPurchase(TransactionCase):
                 "price": 20,
             }
         )
-        # furnizorul actualizeaza pretul variantei, iar sablonul il preia
+        # pretul de la furnizor nu mai modifica ultimul pret de achizitie
+        self.assertEqual(variant_l.last_purchase_price, 0.0)
+        variant_l.last_purchase_price = 20.0
         self.assertEqual(variant_l.last_purchase_price, 20.0)
         self.assertEqual(template.last_purchase_price, 20.0)
 
@@ -168,6 +170,7 @@ class TestPurchase(TransactionCase):
                 "price": 20,
             }
         )
+        template.product_variant_ids[-1].last_purchase_price = 20.0
         public_user = self.env.ref("base.public_user")
         template.invalidate_recordset(["last_purchase_price"])
         # nu trebuie sa ridice AccessError pe product.supplierinfo

@@ -3,7 +3,6 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
 
 
@@ -78,13 +77,28 @@ class ProductTemplate(models.Model):
 
     @api.onchange("list_price")
     def onchange_list_price(self):
+        self._recompute_trade_markup()
+
+    def _recompute_trade_markup(self):
+        """Derive the trade markup from the sale price (without taxes) and the last purchase price."""
         AccountTax = self.env["account.tax"]
-        list_price = AccountTax._fix_tax_included_price_company(
-            self.list_price, self.taxes_id, AccountTax, self.company_id
-        )
-        if self.last_purchase_price:
-            trade_markup = (list_price - self.last_purchase_price) / self.last_purchase_price * 100
-            self.trade_markup = trade_markup
+        for product in self:
+            if not product.last_purchase_price:
+                continue
+            list_price = AccountTax._fix_tax_included_price_company(
+                product.list_price, product.taxes_id, AccountTax, product.company_id
+            )
+            product.trade_markup = (list_price - product.last_purchase_price) / product.last_purchase_price * 100
+
+    @api.onchange("last_purchase_price")
+    def _onchange_last_purchase_price_keep_list_price(self):
+        # Without the automatic sale price update, the sale price stays as it is, so the markup must
+        # follow the new purchase price; otherwise it keeps the value computed with the old one
+        # (e.g. -98.23% left from a mistyped purchase price corrected afterwards).
+        get_str = self.env["ir.config_parameter"].sudo().get_str
+        if safe_eval(get_str("purchase.update_list_price", "False")):
+            return
+        self._recompute_trade_markup()
 
     @api.onchange("last_purchase_price", "trade_markup")
     def onchange_last_purchase_price(self):
@@ -136,40 +150,3 @@ class SupplierInfo(models.Model):
         if "default_price" in self.env.context:
             self = self.with_context(default_price=0.0)  # pylint: disable=self-cls-assignment
         return super().default_get(fields)
-
-    def update_last_purchase_price(self):
-        date = self.env.context.get("date") or fields.Date.today()
-        for item in self:
-            from_uom = item.uom_id or item.product_tmpl_id.uom_id
-            to_uom = item.product_tmpl_id.uom_id
-            if not from_uom or not to_uom:
-                raise UserError(
-                    self.env._("You cannot update the supplier price here. Please edit the supplier info separately")
-                )
-            price = from_uom._compute_price(item.price, to_uom)
-
-            company = item.company_id or self.env.company
-            if item.currency_id:
-                to_currency = company.currency_id
-                price = item.currency_id._convert(price, to_currency, company, date)
-            if price:
-                if item.product_id:
-                    item.product_id.with_company(company).last_purchase_price = price
-                    item.product_id.with_company(company).onchange_last_purchase_price()
-                else:
-                    item.product_tmpl_id.with_company(company).last_purchase_price = price
-                    item.product_tmpl_id.with_company(company).onchange_last_purchase_price()
-
-    def write(self, vals):
-        res = super().write(vals)
-        if "price" in vals:
-            if not self.env.context.get("from_po_confirmation"):
-                self.update_last_purchase_price()
-        return res
-
-    @api.model_create_multi
-    def create(self, vals_list):
-        res = super().create(vals_list)
-        if not self.env.context.get("from_po_confirmation"):
-            res.update_last_purchase_price()
-        return res
