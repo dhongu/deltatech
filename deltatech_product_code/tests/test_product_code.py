@@ -71,6 +71,21 @@ class TestProductCode(TransactionCase):
         # verificare daca a fost generat codul
         self.assertEqual(product_product.default_code, "TEST/0001")
 
+    def test_new_product_product_empty_string_code(self):
+        # un sir gol (import, API) e tratat ca lipsa codului: codul vine din secventa,
+        # iar barcode-ul din cod, nu aleatoriu
+        self.product_category.write({"barcode_random": False})
+        product_product = self.env["product.product"].create(
+            {
+                "name": "Test",
+                "categ_id": self.product_category.id,
+                "default_code": "",
+                "barcode": "",
+            }
+        )
+        self.assertEqual(product_product.default_code, "TEST/0001")
+        self.assertEqual(product_product.barcode, "2000000000015")
+
     def test_now_product_with_barcode(self):
         self.product_category.write({"generate_barcode": True, "barcode_random": False})
         product_template = self.env["product.template"].create(
