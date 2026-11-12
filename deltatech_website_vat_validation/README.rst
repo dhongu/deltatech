@@ -60,6 +60,13 @@ Features
   logged-in customers. For an anonymous visitor the message would tell
   anyone that an e-mail address or a tax code belongs to an existing
   customer.
+- **Company created at checkout**: a person who fills in a company name
+  and a tax code in the billing address buys for that company. The
+  company is created as a partner with this address and tax code, the
+  person becomes its contact and the order is invoiced to the company.
+  Only for a tax code no other customer has: a visitor (not logged in)
+  who types the tax code of a customer keeps it on their own address and
+  is not attached to that company, so they never see its documents.
 - **Price display kept**: the website setting *Display Product Prices*
   (tax included or excluded) keeps its saved value when Odoo recomputes
   it, for example after the address of the company's own partner is
@@ -144,13 +151,40 @@ falls back to **Tax Excluded**. With the module, the saved value stays.
 |Website settings: Display Product Prices highlighted, with Tax Included
 selected|
 
+**5. The buying company is created from the billing address**
+
+At checkout, in the billing address, a customer who buys for a company
+fills in the standard **Company Name** and **VAT** fields. When the
+address is saved, the company is created as a partner (a **Company**,
+with the address and the tax code typed) and the customer becomes its
+contact, so the order and its invoice go to the company. This happens
+only when the address is used for billing, the customer is not already a
+company or the contact of one, both fields are filled in and no other
+customer has this tax code. A visitor (not logged in) who types the tax
+code of a customer keeps it on their own address and is not attached to
+that company.
+
+|Contacts: the partner Beta Construct SRL, a Company, with its VAT
+number highlighted and, in the Contacts tab, the customer Mihai Pop
+highlighted|
+
 .. |Address step of the checkout: the VAT field with ro 12 34 567 marked in red and, above the form, the message that a company with this tax code already has an account, asking to get access from a colleague or to contact the shop| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_vat_validation/static/description/en/01_cod_fiscal_duplicat_checkout.png
 .. |Address step of the checkout: the Email field with an address of another customer marked in red and the message that this e-mail address belongs to another account| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_vat_validation/static/description/en/02_email_duplicat_checkout.png
 .. |Details page of the customer portal: the VAT field with ro 12 34 567 marked in red and the message that a company with this tax code already has an account| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_vat_validation/static/description/en/03_cod_fiscal_duplicat_portal.png
 .. |Website settings: Display Product Prices highlighted, with Tax Included selected| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_vat_validation/static/description/en/04_afisare_preturi_pastrata.png
+.. |Contacts: the partner Beta Construct SRL, a Company, with its VAT number highlighted and, in the Contacts tab, the customer Mihai Pop highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_vat_validation/static/description/en/05_firma_creata_la_comanda.png
 
 Changelog
 =========
+
+19.0.0.3.0 (2026-11-13)
+-----------------------
+
+- A person who fills in a company name and a tax code in the billing
+  address at checkout gets the company created as a partner, with this
+  address and tax code, and becomes its contact: the order is invoiced
+  to the company. Only for a tax code no other customer has; a visitor
+  who types the tax code of a customer is not attached to that company.
 
 19.0.0.2.1 (2026-11-03)
 -----------------------

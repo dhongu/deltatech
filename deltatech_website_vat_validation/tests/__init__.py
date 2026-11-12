@@ -5,3 +5,4 @@
 from . import test_website_sale
 from . import test_website_tax_display
 from . import test_screenshots
+from . import test_company_creation

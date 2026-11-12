@@ -1,7 +1,11 @@
 {
   "title": "Website VAT Validation",
-  "summary": "No duplicate customers from the website checkout",
+  "summary": "No duplicate customers, the buying company created at checkout",
   "icon": "clipboard",
   "lang": "en",
-  "features": ["Duplicate tax codes blocked", "Duplicate e-mails blocked", "Price display setting kept"]
+  "features": [
+    "Duplicate tax codes and e-mails blocked",
+    "Buying company created at checkout",
+    "Price display setting kept"
+  ]
 }
