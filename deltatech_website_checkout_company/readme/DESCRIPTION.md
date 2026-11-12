@@ -18,7 +18,10 @@ Checkout address form for Romanian shops, with optional company billing.
   **not** attached to it: typing a CUI must not give a visitor the documents of another
   company. The form asks the same fields whether or not the CUI is known. An invoice
   address with the same name and registered office under that company is reused, so the
-  same data typed again do not add duplicates.
+  same data typed again do not add duplicates. By decision, these invoice addresses are
+  created under the recorded company (so the invoice goes to its CUI) and, like any address
+  of the company, they show among its addresses, also to its portal users; the backend users
+  review or archive the ones that do not belong to the company.
 - The company billing is available only for deliveries in Romania: the fiscal position of the
   order follows the customer and the delivery address, not the invoice address, and the
   domestic VAT of a Romanian company applies to goods delivered in Romania.
