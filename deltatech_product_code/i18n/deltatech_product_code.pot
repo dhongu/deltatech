@@ -110,6 +110,12 @@ msgid ""
 msgstr ""
 
 #. module: deltatech_product_code
+#: model_terms:ir.ui.view,arch_db:deltatech_product_code.product_normal_form_view
+#: model_terms:ir.ui.view,arch_db:deltatech_product_code.product_template_only_form_view
+msgid "New internal code"
+msgstr ""
+
+#. module: deltatech_product_code
 #: model:ir.model.fields,field_description:deltatech_product_code.field_product_category__prefix_barcode
 msgid "Prefix Barcode"
 msgstr ""

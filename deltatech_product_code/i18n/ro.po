@@ -50,7 +50,7 @@ msgstr "Referința internă '%(code)s' există deja la produsul '%(name)s'!"
 #: model_terms:ir.ui.view,arch_db:deltatech_product_code.product_normal_form_view
 #: model_terms:ir.ui.view,arch_db:deltatech_product_code.product_template_only_form_view
 msgid "New internal code"
-msgstr ""
+msgstr "Generare cod"
 
 #. module: deltatech_product_code
 #: model:ir.model.fields,field_description:deltatech_product_code.field_product_category__prefix_barcode

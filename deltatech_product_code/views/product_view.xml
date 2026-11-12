@@ -25,32 +25,42 @@
                 </group>
             </field>
         </record>
-      <!--  <record id="product_template_only_form_view" model="ir.ui.view">
+        <!-- in 19.0 formularul de produs nu mai are <header>: butonul sta langa referinta interna -->
+        <record id="product_template_only_form_view" model="ir.ui.view">
             <field name="name">product.template.form</field>
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_only_form_view" />
             <field name="arch" type="xml">
-                <xpath expr="//header" position="inside">
+                <field name="default_code" position="after">
                     <button
-                    name="button_new_code"
-                    string="New internal code"
-                    type="object"
-                    class="oe_edit_only"
-                    invisible="product_variant_count>1"
-                />
-                </xpath>
+                        name="button_new_code"
+                        string="New internal code"
+                        type="object"
+                        icon="fa-refresh"
+                        class="btn-link oe_inline"
+                        colspan="2"
+                        invisible="product_variant_count > 1"
+                    />
+                </field>
             </field>
-        </record>-->
-     <!--   <record id="product_normal_form_view" model="ir.ui.view">
+        </record>
+        <record id="product_normal_form_view" model="ir.ui.view">
             <field name="name">product.product.form</field>
             <field name="model">product.product</field>
             <field name="inherit_id" ref="product.product_normal_form_view" />
             <field name="arch" type="xml">
-                <xpath expr="//header" position="inside">
-                    <button name="button_new_code" string="New internal code" type="object" class="oe_edit_only" />
-                </xpath>
+                <field name="default_code" position="after">
+                    <button
+                        name="button_new_code"
+                        string="New internal code"
+                        type="object"
+                        icon="fa-refresh"
+                        class="btn-link oe_inline"
+                        colspan="2"
+                    />
+                </field>
             </field>
-        </record>-->
+        </record>
         <record id="action_find_duplicate" model="ir.actions.server">
             <field name="name">Find Duplicate</field>
             <field name="model_id" ref="model_product_template" />

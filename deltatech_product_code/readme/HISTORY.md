@@ -1,3 +1,7 @@
+# 19.0.1.2.2 (2026-11-12)
+
+- The "New internal code" button is back on the product form. The 19.0 port had commented it out because Odoo 19 removed the `<header>` from the product form; it now sits next to the internal reference, on the product template (single variant) and on the variant form. Romanian translation: "Generare cod".
+
 # 19.0.1.2.1 (2026-10-14)
 
 - The Python uniqueness check of the internal reference honours the "Allow duplicate product codes" group of `deltatech_product_unique_code` when that module is installed: users in the group can again save duplicate codes.
