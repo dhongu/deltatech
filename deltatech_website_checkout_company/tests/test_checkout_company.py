@@ -235,3 +235,14 @@ class TestCheckoutCompanyController(WebsiteSaleCommon):
         self._submit(tb_company_name="Typed name", tb_company_street="Str. Alta 3")
         self.assertNotEqual(self.order.partner_invoice_id, first)
         self.assertEqual(len(existing.child_ids.filtered(lambda p: p.type == "invoice")), 2)
+
+    def test_registered_office_county_must_be_of_romania(self):
+        other_state = self.env["res.country.state"].search([("country_id.code", "!=", "RO")], limit=1)
+        self.romania.sudo().state_required = True
+        feedback = self._submit(tb_company_state_id=str(other_state.id))
+        # Dropped, the county is then missing: it is required in Romania.
+        self.assertIn("tb_company_state_id", feedback["invalid_fields"])
+        self.assertFalse(self._companies())
+        self.romania.sudo().state_required = False
+        self._submit(tb_company_state_id=str(other_state.id))
+        self.assertFalse(self._companies().state_id)
