@@ -43,3 +43,15 @@ rewritten by a partner sync, and without the module it falls back to **Tax Exclu
 module, the saved value stays.
 
 ![Website settings: Display Product Prices highlighted, with Tax Included selected](static/description/en/04_afisare_preturi_pastrata.png)
+
+**5. The buying company is created from the billing address**
+
+At checkout, in the billing address, a customer who buys for a company fills in the standard
+**Company** and **VAT** fields. When the address is saved, Odoo 20 creates the company as a partner
+(a **Company**, with the address and the tax code typed) and the customer becomes its contact, so
+the order and its invoice go to the company. The module stops this when another customer already
+has the tax code: a visitor (not logged in) who types the tax code of a customer keeps it on their
+own address, no second company with the same tax code is created and the visitor is not attached to
+the existing company.
+
+![Contacts: the partner Beta Construct SRL, a Company, with its VAT number highlighted and, in the Contacts tab, the customer Mihai Pop highlighted](static/description/en/05_firma_creata_la_comanda.png)
