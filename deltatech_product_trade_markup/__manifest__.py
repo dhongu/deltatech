@@ -12,6 +12,6 @@
     "data": ["views/product_view.xml"],
     "license": "LGPL-3",
     "development_status": "Mature",
-    "maintainers": ["dhongu"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
     "images": ["static/description/main_screenshot.png"],
 }

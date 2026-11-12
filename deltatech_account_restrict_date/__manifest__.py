@@ -17,5 +17,5 @@
     # "data": ["views/product_view.xml", "security/ir.model.access.csv"],
     "images": ["images/main_screenshot.png"],
     "development_status": "Beta",
-    "maintainers": ["danila12"],
+    "maintainers": ["dhongu", "VoicuStefan2001", "danila12"],
 }

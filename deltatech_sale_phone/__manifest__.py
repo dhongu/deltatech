@@ -15,5 +15,5 @@
     "data": ["views/sale_order_view.xml", "views/account_move_view.xml"],
     "development_status": "Beta",
     "images": ["static/description/main_screenshot.png"],
-    "maintainers": ["dhongu"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
 }

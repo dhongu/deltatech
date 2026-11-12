@@ -19,5 +19,5 @@
     },
     "qweb": ["static/src/xml/*.xml"],
     "development_status": "Beta",
-    "maintainers": ["dhongu"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
 }

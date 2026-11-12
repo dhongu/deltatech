@@ -15,5 +15,5 @@
     "data": ["security/security.xml", "views/account_move_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
-    "maintainers": ["dhongu"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
 }

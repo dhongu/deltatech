@@ -13,5 +13,5 @@
     "data": ["views/sale_view.xml"],
     "development_status": "Beta",
     "images": ["static/description/main_screenshot.png"],
-    "maintainers": ["danila12"],
+    "maintainers": ["dhongu", "VoicuStefan2001", "danila12"],
 }

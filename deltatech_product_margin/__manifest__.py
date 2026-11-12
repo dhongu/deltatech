@@ -14,5 +14,5 @@
     "data": ["views/product_view.xml"],
     "development_status": "Beta",
     "images": ["static/description/main_screenshot.png"],
-    "maintainers": ["dhongu"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
 }

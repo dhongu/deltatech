@@ -16,5 +16,5 @@
     "images": ["static/description/main_screenshot.png"],
     "license": "OPL-1",
     "development_status": "Alpha",
-    "maintainers": ["VoicuStefan2001"],
+    "maintainers": ["VoicuStefan2001", "dhongu"],
 }

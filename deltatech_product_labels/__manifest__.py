@@ -16,6 +16,6 @@
         # "views/product_view.xml",
     ],
     "development_status": "Mature",
-    "maintainers": ["dhongu"],
+    "maintainers": ["dhongu", "danila12", "VoicuStefan2001"],
     "images": ["static/description/main_screenshot.png"],
 }

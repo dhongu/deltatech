@@ -10,5 +10,5 @@
     "license": "LGPL-3",
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
-    "maintainers": ["cojocariudaniel1"],
+    "maintainers": ["dhongu", "VoicuStefan2001", "cojocariudaniel1"],
 }

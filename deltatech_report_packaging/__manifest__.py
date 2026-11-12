@@ -15,5 +15,5 @@
     "depends": ["account", "base", "product"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Beta",
-    "maintainers": ["cojocariudaniel1", "dhongu"],
+    "maintainers": ["dhongu", "VoicuStefan2001", "cojocariudaniel1"],
 }
