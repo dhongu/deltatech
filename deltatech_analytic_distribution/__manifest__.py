@@ -10,6 +10,7 @@
     "author": "Terrabit, Voicu Stefan",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
+    "maintainers": ["dhongu", "VoicuStefan2001"],
     "depends": [
         "account",
     ],

@@ -5,6 +5,7 @@
     "author": "Terrabit",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
+    "maintainers": ["dhongu"],
     "consultant_sheet": "full",
     "category": "Tools",
     "depends": ["base", "deltatech_partner_match"],

@@ -14,5 +14,5 @@
     "data": ["views/product_view.xml", "views/invoice_view.xml", "views/sale_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",
-    "maintainers": ["dhongu"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
 }

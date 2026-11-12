@@ -12,5 +12,5 @@
     "data": ["security/picking_security.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Production/Stable",
-    "maintainers": ["VoicuStefan2001"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
 }

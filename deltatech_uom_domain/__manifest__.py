@@ -14,5 +14,5 @@
     "depends": ["purchase"],
     "data": ["views/product_template_views.xml"],
     "development_status": "Production/Stable",
-    "maintainers": ["VoicuStefan2001"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
 }

@@ -19,5 +19,5 @@
     "consultant_sheet": "simple",
     "development_status": "Beta",
     "images": ["static/description/main_screenshot.png"],
-    "maintainers": ["danila12"],
+    "maintainers": ["dhongu", "danila12"],
 }

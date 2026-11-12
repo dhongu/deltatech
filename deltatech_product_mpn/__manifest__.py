@@ -10,5 +10,5 @@
     "data": ["views/product_template_view.xml"],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",
-    "maintainers": ["VoicuStefan2001"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
 }

@@ -9,6 +9,7 @@
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
+    "maintainers": ["dhongu", "VoicuStefan2001"],
     "consultant_sheet": "simple",
     "depends": ["stock", "purchase_stock", "sale_stock"],
     "data": [

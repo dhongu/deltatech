@@ -10,6 +10,7 @@
     "website": "https://www.terrabit.ro",
     "category": "Sales/Project",
     "license": "LGPL-3",
+    "maintainers": ["dhongu"],
     "depends": [
         "sale_project",  # brings project + sale integration
     ],

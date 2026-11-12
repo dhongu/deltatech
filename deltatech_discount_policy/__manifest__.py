@@ -14,5 +14,5 @@
     "license": "OPL-1",
     "development_status": "Beta",
     "images": ["static/description/main_screenshot.png"],
-    "maintainers": ["VoicuStefan2001"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
 }

@@ -14,5 +14,5 @@
     "consultant_sheet": "full",
     "installable": True,
     "development_status": "Beta",
-    "maintainers": ["VoicuStefan2001"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
 }

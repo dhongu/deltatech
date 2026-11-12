@@ -21,6 +21,6 @@
     ],
     "development_status": "Production/Stable",
     "images": ["static/description/main_screenshot.png"],
-    "maintainers": ["VoicuStefan2001"],
+    "maintainers": ["dhongu", "VoicuStefan2001"],
     "application": True,
 }

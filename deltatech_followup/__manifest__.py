@@ -24,5 +24,5 @@
     "consultant_sheet": "full",
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Alpha",
-    "maintainers": ["danila12"],
+    "maintainers": ["dhongu", "danila12"],
 }

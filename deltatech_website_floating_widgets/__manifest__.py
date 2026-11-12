@@ -22,5 +22,5 @@
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "development_status": "Mature",
-    "maintainers": ["VoicuStefan2001"],
+    "maintainers": ["VoicuStefan2001", "dhongu"],
 }

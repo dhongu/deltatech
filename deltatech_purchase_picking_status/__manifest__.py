@@ -12,6 +12,6 @@
     "license": "LGPL-3",
     "data": ["views/purchase_view.xml"],
     "development_status": "Production/Stable",
-    "maintainers": ["danila12"],
+    "maintainers": ["dhongu", "VoicuStefan2001", "danila12"],
     "images": ["static/description/main_screenshot.png"],
 }

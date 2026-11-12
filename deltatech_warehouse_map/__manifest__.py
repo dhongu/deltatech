@@ -6,6 +6,7 @@
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
+    "maintainers": ["dhongu"],
     "category": "Inventory/Inventory",
     "depends": ["stock", "web", "deltatech_putaway_strategy"],
     "data": [
