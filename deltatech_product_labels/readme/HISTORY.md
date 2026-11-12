@@ -1,3 +1,8 @@
+## 19.0.1.3.4 (2026-11-12)
+
+- The price of a new label line is computed as soon as the product is chosen, not only after
+  printing.
+
 ## 19.0.1.3.3 (2026-11-12)
 
 - Adding a new label line no longer fails when a price list is selected: the price is
