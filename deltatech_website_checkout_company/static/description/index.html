@@ -59,8 +59,9 @@
   address. Of the recorded company only its name shows (as the parent of the address, a
   public data of the CUI); its recorded address and contacts do not, and the customer is
   <strong>not</strong> attached to it: typing a CUI must not give a visitor the documents of another
-  company. The form asks the same fields whether or not the CUI is known. The invoice
-  addresses typed this way can be reviewed or merged by the backend users.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-building-o" style="" aria-hidden="true"></span></span><div>The company billing is available only for deliveries in Romania: the fiscal position of the
+  company. The form asks the same fields whether or not the CUI is known. An invoice
+  address with the same name and registered office under that company is reused, so the
+  same data typed again do not add duplicates.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-building-o" style="" aria-hidden="true"></span></span><div>The company billing is available only for deliveries in Romania: the fiscal position of the
   order follows the customer and the delivery address, not the invoice address, and the
   domestic VAT of a Romanian company applies to goods delivered in Romania.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-building-o" style="" aria-hidden="true"></span></span><div>The CUI is saved as typed, without spaces, dots and hyphens (with or without the RO prefix); whether the company is registered
   for VAT is not checked with ANAF, so the accountant reviews the new companies before
@@ -209,8 +210,8 @@ section too, but saving it there does not create a company.</p>
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">res.partner</code>, the city is typed as text also when the country enforces a choice from
   the city list.</li>
 <li>Company billing only for deliveries in Romania; consultant sheet (from 19.0).</li>
-<li>The form submitted again uses the invoice address already holding the typed data,
-  instead of adding a duplicate under the company.</li>
+<li>For a CUI already recorded, the invoice address with the same name and registered office
+  under the company is reused instead of adding a duplicate (from 19.0).</li>
 </ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.0 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-12)</span></h2>
 <ul>

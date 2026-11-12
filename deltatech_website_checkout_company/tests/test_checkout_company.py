@@ -50,7 +50,7 @@ class TestCheckoutCompany(TransactionCase):
         self.assertFalse(self.Partner._tb_is_valid_company_vat(""))
 
     def test_new_company_is_created_and_customer_becomes_its_delivery_address(self):
-        company = self.order._tb_set_invoice_company("Test Agro SRL", f"ro {VALID_CUI}", self.office)
+        company = self.order._tb_prepare_invoice_company("Test Agro SRL", f"ro {VALID_CUI}", self.office)
         self.assertRecordValues(
             company,
             [
@@ -72,12 +72,11 @@ class TestCheckoutCompany(TransactionCase):
             self.customer,
             [{"parent_id": company.id, "type": "delivery", "street": "Str. Livrare 1", "city": "Bacau"}],
         )
-        self.assertEqual(self.order.partner_invoice_id, company)
         self.assertEqual(self.order.partner_id, self.customer)
 
     def test_existing_company_gets_a_new_invoice_address_with_the_typed_data(self):
         existing = self.Partner.create({"name": "Existing SRL", "vat": VALID_CUI, "street": "Secret 1", "city": "Cluj"})
-        invoice_address = self.order._tb_set_invoice_company("Typed name", f"RO{VALID_CUI}", self.office)
+        invoice_address = self.order._tb_prepare_invoice_company("Typed name", f"RO{VALID_CUI}", self.office)
         # The order shows only what the visitor typed, the company recorded is left as it is.
         self.assertRecordValues(
             invoice_address,
@@ -93,7 +92,13 @@ class TestCheckoutCompany(TransactionCase):
             ],
         )
         self.assertEqual(invoice_address.commercial_partner_id, existing)
-        self.assertEqual(self.order.partner_invoice_id, invoice_address)
+        # The same name and registered office typed again reuse the invoice address.
+        again = self.order._tb_prepare_invoice_company("Typed name", VALID_CUI, self.office)
+        self.assertEqual(again, invoice_address)
+        other_office = dict(self.office, street="Str. Alta 3")
+        other = self.order._tb_prepare_invoice_company("Typed name", VALID_CUI, other_office)
+        self.assertNotEqual(other, invoice_address)
+        self.assertEqual(other.parent_id, existing)
         self.assertRecordValues(existing, [{"name": "Existing SRL", "street": "Secret 1", "city": "Cluj"}])
         # The customer is not attached to the company.
         self.assertFalse(self.customer.parent_id)
@@ -102,7 +107,7 @@ class TestCheckoutCompany(TransactionCase):
     def test_company_of_another_company_is_not_used(self):
         other_company = self.env["res.company"].create({"name": "Other Co"})
         self.Partner.create({"name": "Foreign SRL", "vat": VALID_CUI, "company_id": other_company.id})
-        company = self.order._tb_set_invoice_company("Test Agro SRL", VALID_CUI, self.office)
+        company = self.order._tb_prepare_invoice_company("Test Agro SRL", VALID_CUI, self.office)
         self.assertTrue(company.is_company)
         self.assertEqual(company.name, "Test Agro SRL")
         self.assertFalse(company.company_id)
@@ -224,11 +229,3 @@ class TestCheckoutCompanyController(WebsiteSaleCommon):
         self._submit(tb_company_name="Typed name", tb_company_street="Str. Alta 3")
         self.assertNotEqual(self.order.partner_invoice_id, first)
         self.assertEqual(len(existing.child_ids.filtered(lambda p: p.type == "invoice")), 2)
-
-    def test_new_company_submitted_again_is_invoiced_to_the_same_company(self):
-        self._submit()
-        company = self._companies()
-        self._submit()
-        self.assertEqual(self._companies(), company)
-        self.assertEqual(self.order.partner_invoice_id, company)
-        self.assertFalse(company.child_ids.filtered(lambda p: p.type == "invoice"))

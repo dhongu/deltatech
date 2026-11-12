@@ -5,8 +5,8 @@
   `res.partner`, the city is typed as text also when the country enforces a choice from
   the city list.
 - Company billing only for deliveries in Romania; consultant sheet (from 19.0).
-- The form submitted again uses the invoice address already holding the typed data,
-  instead of adding a duplicate under the company.
+- For a CUI already recorded, the invoice address with the same name and registered office
+  under the company is reused instead of adding a duplicate (from 19.0).
 
 ## 19.0.1.0.0 (2026-11-12)
 
