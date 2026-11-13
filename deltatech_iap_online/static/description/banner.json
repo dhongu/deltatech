@@ -1,0 +1,11 @@
+{
+  "title": "IAP Services for Odoo Online",
+  "summary": "Terrabit services for data-only modules, importable as a zip",
+  "edition": "community",
+  "online": true,
+  "features": [
+    "One-click activation, no token to copy",
+    "Buy and refresh service credits",
+    "Request queue with webhook answers"
+  ]
+}

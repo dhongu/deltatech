@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- The answer of a Terrabit service. The URL (/web/hook/<uuid>) is the secret: the service posts
+         there the result of a request, identified by its token. Only a request still waiting ('sent')
+         can be answered, never another record: the default record getter would accept any model and
+         id from the payload. -->
+    <record id="automation_iap_online_callback" model="base.automation">
+        <field name="name">Terrabit: answer of a service</field>
+        <field name="model_id" ref="model_x_iap_online_request" />
+        <field name="trigger">on_webhook</field>
+        <field
+            name="record_getter"
+        >model.search([('x_token', '=', str(payload.get('token') or '-')), ('x_state', '=', 'sent')], limit=1)</field>
+    </record>
+    <record id="action_iap_online_callback" model="ir.actions.server">
+        <field name="name">Terrabit: apply the answer</field>
+        <field name="model_id" ref="model_x_iap_online_request" />
+        <field name="base_automation_id" ref="automation_iap_online_callback" />
+        <field name="usage">base_automation</field>
+        <field name="state">code</field>
+        <field name="code">answer = payload or {}
+result = answer.get('result') or {}
+service = record.x_service_id
+if 'balance' in answer:
+    service.write({'x_balance': answer.get('balance') or 0})
+if answer.get('state') != 'done':
+    record.write({'x_state': 'error', 'x_error': answer.get('error') or 'error', 'x_result': str(answer)})
+elif record.x_kind == 'register' and not result.get('account_token'):
+    # An incomplete answer never removes the token of a service that works
+    record.write({'x_state': 'error', 'x_error': 'The answer has no account token', 'x_result': str(answer)})
+elif record.x_kind == 'register':
+    token = result.get('account_token')
+    service.write({'x_token': token})
+    if service.x_send_action_id:
+        service.x_send_action_id.write({
+            'webhook_url': service.x_server.rstrip('/') + '/iap_online/' + service.x_code + '?token=' + token,
+        })
+    record.write({'x_state': 'done', 'x_error': False, 'x_result': 'Service activated'})
+elif record.x_kind == 'balance' or not service.x_apply_action_id:
+    record.write({'x_state': 'done', 'x_error': False, 'x_result': str(result)})
+else:
+    # The service module writes the answer on its document, and the state of the request
+    service.x_apply_action_id.with_context(
+        active_id=record.id, active_ids=record.ids, active_model='x_iap_online_request', iap_answer=answer,
+    ).run()
+    if record.x_state == 'sent':
+        record.write({'x_state': 'done', 'x_result': str(result)})</field>
+    </record>
+
+    <!-- A new request: token, callback URL, database (and the company, at registration), then the
+         webhook of its service, only when it can be sent -->
+    <record id="automation_iap_online_request_create" model="base.automation">
+        <field name="name">Terrabit: send a new request</field>
+        <field name="model_id" ref="model_x_iap_online_request" />
+        <field name="trigger">on_create</field>
+    </record>
+    <record id="action_iap_online_prepare" model="ir.actions.server">
+        <field name="name">Terrabit: prepare and send the request</field>
+        <field name="model_id" ref="model_x_iap_online_request" />
+        <field name="base_automation_id" ref="automation_iap_online_request_create" />
+        <field name="usage">base_automation</field>
+        <field name="state">code</field>
+        <field name="code">service = record.x_service_id
+hook = env.ref('deltatech_iap_online.automation_iap_online_callback').sudo()
+values = {
+    'x_token': '%s-%s' % (record.id, int(datetime.datetime.now().timestamp() * 1000000)),
+    'x_callback_url': hook.url,
+    'x_db_uuid': env['ir.config_parameter'].sudo().get_str('database.uuid'),
+    'x_kind': record.x_kind or 'request',
+    'x_name': record.x_name or record.x_input or record.x_kind,
+}
+if record.x_kind == 'register':
+    values.update({'x_company_vat': env.company.vat or False, 'x_company_name': env.company.name})
+if values['x_kind'] not in ('register', 'balance', 'request'):
+    values.update({'x_state': 'error', 'x_error': 'Unknown request type'})
+    record.write(values)
+elif values['x_kind'] == 'register' and not record.create_uid.has_group('base.group_system'):
+    # Any internal user may create requests; the activation (company data, new token) is for administrators
+    values.update({'x_state': 'error', 'x_error': 'Only administrators can activate the service'})
+    record.write(values)
+elif not service.x_send_action_id or (record.x_kind != 'register' and not service.x_token):
+    values.update({'x_state': 'error', 'x_error': 'The service is not active yet: Settings > Technical > Terrabit Services'})
+    record.write(values)
+else:
+    values['x_state'] = 'sent'
+    record.write(values)
+    service.x_send_action_id.sudo().with_context(
+        active_id=record.id, active_ids=record.ids, active_model='x_iap_online_request',
+    ).run()</field>
+    </record>
+
+    <!-- The webhook gives up after one second and Odoo never sends it again: a request still waiting
+         10 minutes after its creation is sent once more, with the same token -->
+    <record id="automation_iap_online_retry" model="base.automation">
+        <field name="name">Terrabit: send again a request without answer</field>
+        <field name="model_id" ref="model_x_iap_online_request" />
+        <field name="trigger">on_time_created</field>
+        <field name="trg_date_range">10</field>
+        <field name="trg_date_range_type">minutes</field>
+        <field name="filter_domain">[('x_state', '=', 'sent')]</field>
+    </record>
+    <record id="action_iap_online_retry" model="ir.actions.server">
+        <field name="name">Terrabit: send the request again</field>
+        <field name="model_id" ref="model_x_iap_online_request" />
+        <field name="base_automation_id" ref="automation_iap_online_retry" />
+        <field name="usage">base_automation</field>
+        <field name="state">code</field>
+        <field name="code">send = record.x_service_id.x_send_action_id.sudo()
+if send:
+    send.with_context(active_id=record.id, active_ids=record.ids, active_model='x_iap_online_request').run()</field>
+    </record>
+</odoo>
