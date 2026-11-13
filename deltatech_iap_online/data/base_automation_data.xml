@@ -71,7 +71,14 @@ values = {
 }
 if record.x_kind == 'register':
     values.update({'x_company_vat': env.company.vat or False, 'x_company_name': env.company.name})
-if not service.x_send_action_id or (record.x_kind != 'register' and not service.x_token):
+if values['x_kind'] not in ('register', 'balance', 'request'):
+    values.update({'x_state': 'error', 'x_error': 'Unknown request type'})
+    record.write(values)
+elif values['x_kind'] == 'register' and not record.create_uid.has_group('base.group_system'):
+    # Any internal user may create requests; the activation (company data, new token) is for administrators
+    values.update({'x_state': 'error', 'x_error': 'Only administrators can activate the service'})
+    record.write(values)
+elif not service.x_send_action_id or (record.x_kind != 'register' and not service.x_token):
     values.update({'x_state': 'error', 'x_error': 'The service is not active yet: Settings > Technical > Terrabit Services'})
     record.write(values)
 else:

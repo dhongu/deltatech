@@ -56,7 +56,8 @@ its own fields, buttons and the way it writes the answer.</p>
   server; <strong>Refresh Credits</strong> asks the credits left, which are also updated with every answer.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Requests you can follow</span><div><em>Terrabit Services &gt; Requests</em> shows each request, its status and the
   error, if any. A request without answer after 10 minutes is sent once more.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Safe answers</span><div>the answer comes on an <em>On webhook</em> automation whose secret URL accepts only a
   request still waiting, identified by its token.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Secrets kept for administrators</span><div>the account token and the callback URL are read by
-  administrators only; other users can create requests, not read them. A service module gives
+  administrators only; other users can create requests of the services, not read them, and only
+  administrators can activate a service. A service module gives
   its users read access to the service when its buttons need the token.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">What leaves your database</span><div>the input of the request, its token, the address and the UUID of
   your database (for the answer) and, at activation, the name and the Tax ID of the company.</div></div></div></li></ul>
 <p>For developers: a service module creates an <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">x_iap_online_service</code> record (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">x_code</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">x_server</code>) and,
@@ -194,13 +195,9 @@ users create requests from the buttons of the service modules, without reading t
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;"><span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">19.0.1.0.0</span></h2>
 <ul>
-<li>
-<p>Consultant sheet (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/FISA_CONSULTANT.md</code>), <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/USAGE.md</code> and screenshots (RO, EN).</p>
-</li>
-<li>
-<p>First version: services and requests, activation by callback, credits (refresh, buy), retry of a
-  request without answer.</p>
-</li>
+<li>First version: services and requests, activation by callback, credits (refresh, buy), retry of a
+  request without answer.</li>
+<li>Consultant sheet (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/FISA_CONSULTANT.md</code>), <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/USAGE.md</code> and screenshots (RO, EN).</li>
 </ul>
 </div>
 </div>

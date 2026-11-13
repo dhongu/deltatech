@@ -48,8 +48,9 @@ adds only its own fields, buttons and the way it writes the answer.
   token.
 - **Secrets kept for administrators**: the account token and the
   callback URL are read by administrators only; other users can create
-  requests, not read them. A service module gives its users read access
-  to the service when its buttons need the token.
+  requests of the services, not read them, and only administrators can
+  activate a service. A service module gives its users read access to
+  the service when its buttons need the token.
 - **What leaves your database**: the input of the request, its token,
   the address and the UUID of your database (for the answer) and, at
   activation, the name and the Tax ID of the company.
@@ -166,11 +167,10 @@ Changelog
 19.0.1.0.0
 ==========
 
-- Consultant sheet (``readme/FISA_CONSULTANT.md``), ``readme/USAGE.md``
-  and screenshots (RO, EN).
-
 - First version: services and requests, activation by callback, credits
   (refresh, buy), retry of a request without answer.
+- Consultant sheet (``readme/FISA_CONSULTANT.md``), ``readme/USAGE.md``
+  and screenshots (RO, EN).
 
 Bug Tracker
 ===========
