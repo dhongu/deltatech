@@ -44,9 +44,9 @@ Modulul **nu generează note contabile** și nu atinge conturi. Date minime pent
 
 | Categorie | Culoare aleasă | Produs din exemplu |
 |---|---|---|
-| Toate / Alimente congelate | albastru | Mazăre congelată 1 kg |
-| Toate / Detergenți | roșu | Detergent lichid 5 l |
-| Toate / Ambalaje | verde | Cutie carton 40×30 |
+| Alimente congelate | albastru | Mazăre congelată 1 kg |
+| Detergenți | roșu | Detergent lichid 5 l |
+| Ambalaje | verde | Cutie carton 40×30 |
 
 - o recepție de la furnizorul **Frig Distribuție SRL** cu mazăre congelată și cutii de carton;
 - o livrare către **Casa Verde SRL** cu detergent lichid;
@@ -56,8 +56,9 @@ Modulul **nu generează note contabile** și nu atinge conturi. Date minime pent
 
 1. Instalați `deltatech_product_category_color` (dependențe: `product`, `stock`). Nu e nevoie de
    altă setare.
-2. La instalare, fiecare categorie existentă primește o culoare **aleasă la întâmplare**; la fel
-   orice categorie creată ulterior. Treceți prin categorii (secțiunea 6, pasul 1) și alegeți culori
+2. La instalare, categoriile existente primesc toate aceeași culoare (valoarea implicită se calculează o
+   singură dată pentru rândurile existente), iar fiecare categorie creată ulterior primește o culoare
+   **aleasă la întâmplare**. Treceți prin categorii (secțiunea 6, pasul 1) și alegeți culori
    care au un sens pentru echipă.
 3. Stabiliți cu echipa depozitului semnificația culorilor (de exemplu, albastru = marfă congelată)
    și treceți-o în procedura internă.
@@ -67,8 +68,10 @@ Modulul **nu generează note contabile** și nu atinge conturi. Date minime pent
 ### Pasul 1 — Alegerea culorii unei categorii
 
 Deschideți **Inventar → Configurare → Categorii de produse** și alegeți categoria (de exemplu
-„Toate / Alimente congelate”). În formular, sub **Părinte**, apare câmpul **Index culoare**, cu
+„Alimente congelate”). În formular, sub **Părinte**, apare câmpul **Index culoare**, cu
 paleta de culori Odoo. Apăsați pe culoarea dorită (albastru); formularul se salvează ca de obicei.
+
+![Formularul categoriei, cu paleta câmpului Index culoare](../static/description/01_categorie_culoare.png)
 
 Repetați pentru celelalte categorii din exemplu: roșu pentru „Detergenți”, verde pentru „Ambalaje”.
 Prima căsuță a paletei înseamnă **fără culoare**: categoria apare atunci pe carduri ca etichetă gri.
@@ -78,6 +81,8 @@ Prima căsuță a paletei înseamnă **fără culoare**: categoria apare atunci 
 Deschideți **Inventar → Operații → Transferuri** (sau **Recepții** ori **Livrări**) și treceți pe
 vizualizarea **Kanban** din dreapta sus. Fiecare card de transfer are, sub starea lui, câte o
 etichetă pentru fiecare categorie a produselor din transfer, în culoarea categoriei.
+
+![Transferurile în Kanban, cu etichetele colorate ale categoriilor](../static/description/02_transferuri_kanban.png)
 
 **Găsiți pe ecran:** pe cardul recepției de la Frig Distribuție SRL, etichetele „Alimente congelate”
 (albastru) și „Ambalaje” (verde); pe cardul livrării către Casa Verde SRL, eticheta „Detergenți”
@@ -94,7 +99,8 @@ etichetă pentru fiecare categorie a produselor din transfer, în culoarea categ
 
 Dacă schimbați culoarea unei categorii (pasul 1), toate cardurile transferurilor care conțin
 produse din ea își schimbă imediat culoarea etichetei, inclusiv transferurile deja finalizate. Nu e
-nevoie de nicio actualizare a transferurilor.
+nevoie de nicio actualizare a transferurilor. Pasul nu are o captură proprie: ecranele sunt cele din
+pașii 1 (alegerea culorii) și 2 (efectul pe carduri).
 
 ### Note de monografie și raportare
 
@@ -108,7 +114,7 @@ vizualizarea Kanban a transferurilor; lista și formularul transferului rămân 
 | `product` | categoriile de produse, unde se alege culoarea |
 | `stock` | transferurile (recepții, livrări, transferuri interne) și vizualizarea lor Kanban |
 
-Ce este automat: culoarea inițială a fiecărei categorii (aleatoare), lista categoriilor de pe fiecare
+Ce este automat: culoarea inițială a categoriilor (aceeași pentru cele existente la instalare, aleatoare pentru cele noi), lista categoriilor de pe fiecare
 transfer, actualizarea etichetelor când se schimbă culoarea sau liniile transferului.
 
 Ce rămâne manual: alegerea culorilor cu sens pentru echipă și convenția internă despre ce înseamnă
@@ -131,20 +137,19 @@ fiecare culoare.
 |---|---|---|
 | Etichetele nu apar pe transferuri | Transferurile sunt afișate ca **listă**, nu ca **Kanban** | Treceți pe vizualizarea **Kanban** din dreapta sus |
 | Eticheta categoriei e gri | Categoria are prima căsuță a paletei (fără culoare) | Alegeți o culoare în **Index culoare** |
-| Două categorii au aceeași culoare | Culorile inițiale sunt alese la întâmplare, iar paleta are puține culori | Alegeți manual culori diferite pentru categoriile importante |
+| Două categorii au aceeași culoare | Categoriile existente la instalare au aceeași culoare, iar cele noi primesc una aleatoare dintr-o paletă cu puține culori | Alegeți manual culori diferite pentru categoriile importante |
 | Nu se poate modifica culoarea | Utilizatorul nu are drept de modificare a categoriilor de produse | Cereți dreptul **Produse: Creează** (fila **Drepturi de acces** a utilizatorului, categoria **Date de bază**) |
 
 ## 10. Capturi de ecran
 
-Fișa este, deocamdată, **doar text**: nu are capturi de ecran. Capturile planificate, în ordinea
-pașilor din secțiunea 6:
+Capturile sunt în `static/description/`, în limba română, pe compania de test „Demo Depozit SRL”,
+în ordinea pașilor din secțiunea 6:
 
-1. `01_categorie_culoare.png` — formularul categoriei „Alimente congelate”, cu câmpul „Index culoare”.
+1. `01_categorie_culoare.png` — formularul categoriei „Alimente congelate”, cu paleta câmpului „Index culoare” deschisă.
 2. `02_transferuri_kanban.png` — transferurile în Kanban, cu etichetele colorate ale categoriilor.
 
-Ele se pot genera ulterior cu skill-ul `fisa-screenshots` (test `tests/test_screenshots.py`, mixinul
-`ScreenshotCase` din `l10n_ro_doc_screenshots`), în limba română, după care se leagă în pașii din
-secțiunea 6.
+Se regenerează cu testul `tests/test_screenshots.py` (mixinul `ScreenshotCase` din
+`deltatech_doc_screenshots`).
 
 ## 11. Observații pentru manual
 
