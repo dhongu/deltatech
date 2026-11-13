@@ -47,7 +47,7 @@ Roluri recomandate pentru testare:
 
 Modulul **nu generează note contabile** și nu atinge conturi. Date minime pentru demo:
 
-- categoria **Toate / Electrocasnice**, cu 5 produse vandabile (de exemplu „Fierbător electric
+- categoria **Electrocasnice**, cu 5 produse vandabile (de exemplu „Fierbător electric
   1,7 l”, „Prăjitor de pâine”, „Mixer vertical”, „Cafetieră”, „Storcător”) și un produs nevandabil
   („Piesă de schimb mixer”, cu **Vânzări** debifat);
 - lista **Electrocasnice — feed eMAG**, cu filtrul **Vânzări** este setat și **Categorie produs** este „Electrocasnice”,
@@ -67,6 +67,8 @@ Modulul **nu generează note contabile** și nu atinge conturi. Date minime pent
 Deschideți **Vânzări → Produse → Listă produse**. Ecranul arată listele existente, după **Nume**.
 Apăsați **Nou** pentru o listă nouă.
 
+![Lista listelor de produse](../static/description/01_liste_produse.png)
+
 ### Pasul 2 — Crearea unei liste
 
 În formular completați:
@@ -79,6 +81,8 @@ Apăsați **Nou** pentru o listă nouă.
 - **Limită** — numărul maxim de produse folosite din listă (implicit 80).
 
 Salvați.
+
+![Formularul listei, cu filtrul și limita](../static/description/02_lista_formular_filtru.png)
 
 **Verificați:** numărul de înregistrări afișat sub filtru este 5 (cele cinci produse vandabile din
 categorie); piesa de schimb, care nu se vinde, nu este numărată. Filtrul se aplică pe **variantele**
@@ -93,6 +97,8 @@ peste numărul de produse din nomenclator.
 O listă care nu mai e folosită se arhivează din rotița ⚙ → **Arhivează**; formularul ei primește
 banda roșie **Arhivat** și nu mai apare în **Listă produse**. Înainte de arhivare, verificați că
 lista nu mai este folosită de un feed sau de o integrare.
+
+![Listă arhivată, cu banda Arhivat](../static/description/03_lista_arhivata.png)
 
 ### Note de monografie și raportare
 
@@ -134,16 +140,16 @@ Ce rămâne manual: definirea filtrului și a limitei, arhivarea listelor nefolo
 
 ## 10. Capturi de ecran
 
-Fișa este, deocamdată, **doar text**: nu are capturi de ecran. Capturile planificate, în ordinea
-pașilor din secțiunea 6:
+Capturile sunt în `static/description/`, în limba română, pe „RO Company” în RON, și sunt legate
+în pașii din secțiunea 6:
 
-1. `01_liste_produse.png` — lista „Listă produse” din meniul Vânzări.
-2. `02_lista_formular_filtru.png` — formularul listei „Electrocasnice — feed eMAG”, cu filtrul și limita.
-3. `03_lista_arhivata.png` — o listă arhivată, cu banda „Arhivat”.
+1. `01_liste_produse.png` — lista „Listă produse” din meniul Vânzări (pasul 1).
+2. `02_lista_formular_filtru.png` — formularul listei „Electrocasnice — feed eMAG”, cu numele,
+   filtrul (numărul de produse găsite) și limita (pasul 2).
+3. `03_lista_arhivata.png` — o listă arhivată, cu banda „Arhivat” (pasul 3).
 
-Ele se pot genera ulterior cu skill-ul `fisa-screenshots` (test `tests/test_screenshots.py`, mixinul
-`ScreenshotCase` din `l10n_ro_doc_screenshots`), în limba română, după care se leagă în pașii din
-secțiunea 6.
+Se regenerează cu testul `tests/test_screenshots.py` (mixinul `ScreenshotCase` din
+`deltatech_doc_screenshots`), prin tag-ul `fise_screenshots`.
 
 ## 11. Observații pentru manual
 
