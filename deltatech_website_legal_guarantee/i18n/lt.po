@@ -1,0 +1,284 @@
+# Translation of Odoo Server.
+# AI-assisted translation, not reviewed by a native speaker.
+# This file contains the translation of the following modules:
+# 	* deltatech_website_legal_guarantee
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-13 12:01+0000\n"
+"PO-Revision-Date: 2026-11-13 12:01+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: lt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);\n"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_page
+msgid ""
+"<li class=\"o_translate_inline\">\n"
+"                                    Contact us as soon as possible after you notice the problem, by phone,\n"
+"                                    e-mail or through the <a href=\"/contactus\">contact form</a>.\n"
+"                                </li>"
+msgstr ""
+"<li class=\"o_translate_inline\">\n"
+"                                    Kreipkitės į mus kuo greičiau po to, kai pastebėjote problemą, telefonu, el. paštu arba per <a href=\"/contactus\">kontaktų formą</a>.\n"
+"                                </li>"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_page
+msgid ""
+"<p class=\"o_translate_inline\">\n"
+"                                Sellers and producers may also offer commercial guarantees. These apply in\n"
+"                                addition to the legal guarantee and do not replace it. The EU GARAN label\n"
+"                                marks a commercial guarantee of durability offered by the producer at no\n"
+"                                extra cost, covering the whole good, for more than two years.\n"
+"                                <a href=\"https://europa.eu/youreurope/commercial-guarantee-durability/index.htm\" target=\"_blank\" rel=\"noopener\">More about the GARAN label</a>.\n"
+"                            </p>"
+msgstr ""
+"<p class=\"o_translate_inline\">\n"
+"                                Pardavėjai ir gamintojai taip pat gali siūlyti komercines garantijas. Jos taikomos kartu su teisine garantija ir jos nepakeičia. ES ženklas GARAN žymi gamintojo nemokamai siūlomą komercinę ilgaamžiškumo garantiją, apimančią visą prekę ilgiau nei dvejus metus.\n"
+"                                <a href=\"https://europa.eu/youreurope/commercial-guarantee-durability/index.htm\" target=\"_blank\" rel=\"noopener\">Daugiau apie GARAN ženklą</a>.\n"
+"                            </p>"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_page
+msgid "<span>E-mail:</span>"
+msgstr "<span>El. paštas:</span>"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_page
+msgid "<span>Phone:</span>"
+msgstr "<span>Telefonas:</span>"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_page
+msgid "<span>Tax ID:</span>"
+msgstr "<span>Mokesčių mokėtojo kodas:</span>"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_page
+msgid ""
+"A lack of conformity which becomes apparent within one year of\n"
+"                                    delivery (or longer, where national law so provides) is presumed to\n"
+"                                    have existed at delivery, unless proven otherwise."
+msgstr "Atitikties trūkumas, išryškėjęs per vienus metus nuo pristatymo (arba ilgesnį laikotarpį, jei taip numatyta nacionalinėje teisėje), laikomas esančiu pristatymo metu, jei neįrodyta kitaip."
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.national_ro
+msgid "Alternative dispute resolution:"
+msgstr "Alternatyvus ginčų sprendimas:"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_modal
+msgid "Close"
+msgstr "Uždaryti"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_page
+msgid "Commercial guarantees"
+msgstr "Komercinės garantijos"
+
+#. module: deltatech_website_legal_guarantee
+#: model:ir.model,name:deltatech_website_legal_guarantee.model_res_config_settings
+msgid "Config Settings"
+msgstr "Konfigūracijos nustatymai"
+
+#. module: deltatech_website_legal_guarantee
+#: model:ir.model.fields,field_description:deltatech_website_legal_guarantee.field_res_config_settings__display_name model:ir.model.fields,field_description:deltatech_website_legal_guarantee.field_website__display_name
+msgid "Display Name"
+msgstr "Rodomas pavadinimas"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_notice
+msgid "Download the notice (PDF)"
+msgstr "Atsisiųsti pranešimą (PDF)"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.res_config_settings_view_form
+msgid "EU legal guarantee notice"
+msgstr "ES teisinės garantijos pranešimas"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_page
+msgid "EU notice on the legal guarantee"
+msgstr "ES pranešimas apie teisinę garantiją"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_page
+msgid ""
+"For goods bought by consumers, the seller is liable for any lack of conformity\n"
+"                        which exists at the time of delivery and becomes apparent within two years.\n"
+"                        Below you can find the official notice of the European Union, a short summary\n"
+"                        of your rights and how to report a problem."
+msgstr "Vartotojų įsigytoms prekėms pardavėjas atsako už bet kokį atitikties trūkumą, buvusį pristatymo metu ir išryškėjusį per dvejus metus. Žemiau rasite oficialų Europos Sąjungos pranešimą, trumpą jūsų teisių santrauką ir informaciją, kaip pranešti apie problemą."
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_page
+msgid ""
+"Harmonised notice of the European Commission (Commission Implementing\n"
+"                                Regulation (EU) 2025/1960, Annex I)."
+msgstr "Suderintas Europos Komisijos pranešimas (Komisijos įgyvendinimo reglamentas (ES) 2025/1960, I priedas)."
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_notice
+msgid "Harmonised notice of the European Union on the legal guarantee of conformity"
+msgstr "Suderintas Europos Sąjungos pranešimas apie teisinę atitikties garantiją"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.res_config_settings_view_form
+msgid "Harmonised notice on the legal guarantee of conformity (Regulation (EU) 2025/1960), on the /garantie page"
+msgstr "Suderintas pranešimas apie teisinę atitikties garantiją (Reglamentas (ES) 2025/1960) puslapyje /garantie"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_page
+msgid "How to report a problem"
+msgstr "Kaip pranešti apie problemą"
+
+#. module: deltatech_website_legal_guarantee
+#: model:ir.model.fields,field_description:deltatech_website_legal_guarantee.field_res_config_settings__id model:ir.model.fields,field_description:deltatech_website_legal_guarantee.field_website__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_page
+msgid ""
+"If we cannot reach an agreement, you can contact the consumer\n"
+"                                    protection authority or an alternative dispute resolution body in your\n"
+"                                    country, or the European Consumer Centre."
+msgstr "Jei nepavyksta susitarti, galite kreiptis į savo šalies vartotojų teisių apsaugos instituciją arba alternatyvaus ginčų sprendimo įstaigą, arba į Europos vartotojų centrą."
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.national_ro
+msgid "In Romania the Directive is transposed by Government Emergency Ordinance no. 140/2021:"
+msgstr "Rumunijoje direktyva perkelta Vyriausybės skubos tvarka priimtu potvarkiu Nr. 140/2021:"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_page
+msgid ""
+"In some cases you may ask for a price reduction or terminate the\n"
+"                                    contract, for example when repair or replacement was refused or not\n"
+"                                    carried out."
+msgstr "Kai kuriais atvejais galite reikalauti sumažinti kainą arba nutraukti sutartį, pavyzdžiui, kai atsisakyta taisyti ar pakeisti prekę arba to nepadaryta."
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_footer
+msgid "Legal guarantee"
+msgstr "Teisinė garantija"
+
+#. module: deltatech_website_legal_guarantee
+#: model:ir.model.fields,field_description:deltatech_website_legal_guarantee.field_res_config_settings__legal_guarantee_checkout model:ir.model.fields,field_description:deltatech_website_legal_guarantee.field_website__legal_guarantee_checkout
+msgid "Legal guarantee at checkout"
+msgstr "Teisinė garantija atsiskaitant"
+
+#. module: deltatech_website_legal_guarantee
+#: model:ir.model.fields,field_description:deltatech_website_legal_guarantee.field_res_config_settings__legal_guarantee_footer model:ir.model.fields,field_description:deltatech_website_legal_guarantee.field_website__legal_guarantee_footer
+msgid "Legal guarantee link in footer"
+msgstr "Nuoroda į teisinę garantiją puslapio apačioje"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_modal model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_page
+msgid "Legal guarantee of conformity"
+msgstr "Teisinė atitikties garantija"
+
+#. module: deltatech_website_legal_guarantee
+#: model:ir.model.fields,field_description:deltatech_website_legal_guarantee.field_res_config_settings__legal_guarantee_product model:ir.model.fields,field_description:deltatech_website_legal_guarantee.field_website__legal_guarantee_product
+msgid "Legal guarantee on product page"
+msgstr "Teisinė garantija prekės puslapyje"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_notice
+msgid "More information:"
+msgstr "Daugiau informacijos:"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.national_ro
+msgid "National Authority for Consumer Protection:"
+msgstr "Nacionalinė vartotojų teisių apsaugos tarnyba:"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.national_ro
+msgid "National rules in Romania"
+msgstr "Nacionalinės taisyklės Rumunijoje"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_page
+msgid ""
+"Provide proof of purchase, such as the invoice, the receipt, the bank\n"
+"                                    statement or the order number."
+msgstr "Pateikite pirkimo įrodymą, pavyzdžiui, sąskaitą faktūrą, kvitą, banko išrašą arba užsakymo numerį."
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.national_ro
+msgid ""
+"Repair or replacement is done free of charge, within a reasonable period agreed in\n"
+"                writing, of no more than 15 calendar days from the date you informed the seller."
+msgstr "Taisymas arba keitimas atliekamas nemokamai per pagrįstą, raštu suderintą laikotarpį, ne ilgesnį kaip 15 kalendorinių dienų nuo tos dienos, kai informavote pardavėją."
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_page
+msgid "The seller"
+msgstr "Pardavėjas"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_page
+msgid ""
+"The seller is liable for any lack of conformity which exists at\n"
+"                                    delivery and becomes apparent within two years of delivery (for second-hand\n"
+"                                    goods, a shorter period may apply, but not less than one year)."
+msgstr "Pardavėjas atsako už bet kokį atitikties trūkumą, buvusį pristatymo metu ir išryškėjusį per dvejus metus nuo pristatymo (naudotoms prekėms gali būti taikomas trumpesnis laikotarpis, bet ne trumpesnis nei vieni metai)."
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_page
+msgid ""
+"These rights cannot be excluded or limited by contract to your\n"
+"                                    detriment."
+msgstr "Šių teisių negalima pašalinti ar apriboti sutartimi jūsų nenaudai."
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_page
+msgid ""
+"Under Directive (EU) 2019/771 on certain aspects concerning contracts for\n"
+"                                the sale of goods, as transposed into national law:"
+msgstr "Pagal Direktyvą (ES) 2019/771 dėl tam tikrų prekių pardavimo sutarčių aspektų, perkeltą į nacionalinę teisę:"
+
+#. module: deltatech_website_legal_guarantee
+#: model:ir.model,name:deltatech_website_legal_guarantee.model_website
+msgid "Website"
+msgstr "Svetainė"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_page
+msgid ""
+"You may choose between repair and replacement, free of charge, within\n"
+"                                    a reasonable time and without significant inconvenience to you."
+msgstr "Galite rinktis tarp taisymo ir keitimo nemokamai, per pagrįstą laikotarpį ir be didelių nepatogumų jums."
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_link
+msgid "Your legal guarantee rights"
+msgstr "Jūsų teisinės garantijos teisės"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_modal
+msgid "Your rights and how to report a problem"
+msgstr "Jūsų teisės ir kaip pranešti apie problemą"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.legal_guarantee_page
+msgid "Your rights in short"
+msgstr "Jūsų teisės trumpai"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.national_ro
+msgid "anpc.ro"
+msgstr "anpc.ro"
+
+#. module: deltatech_website_legal_guarantee
+#: model_terms:ir.ui.view,arch_db:deltatech_website_legal_guarantee.national_ro
+msgid "reclamatiisal.anpc.ro"
+msgstr "reclamatiisal.anpc.ro"

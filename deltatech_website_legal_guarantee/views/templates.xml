@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- Notificarea armonizată UE, întreagă și nemodificată (ghidul DG JUST, cap. 2.3) -->
+    <template id="legal_guarantee_notice" name="EU legal guarantee notice">
+        <t t-set="notice" t-value="website._get_legal_guarantee_notice()" />
+        <figure class="o_legal_guarantee_notice mb-0">
+            <a t-att-href="notice['pdf_url']" target="_blank" rel="noopener">
+                <img
+                    t-att-src="notice['image_url']"
+                    class="img-fluid w-100"
+                    width="1654"
+                    height="2339"
+                    loading="lazy"
+                    alt="Harmonised notice of the European Union on the legal guarantee of conformity"
+                />
+            </a>
+            <figcaption class="small mt-2">
+                More information:
+                <a t-att-href="notice['link_url']" target="_blank" rel="noopener" t-out="notice['link_text']" />
+                ·
+                <a t-att-href="notice['pdf_url']" target="_blank" rel="noopener">Download the notice (PDF)</a>
+            </figcaption>
+        </figure>
+    </template>
+
+    <!-- Link care deschide notificarea la primul clic (pagina de produs, finalizarea comenzii) -->
+    <template id="legal_guarantee_link" name="EU legal guarantee link">
+        <div class="o_legal_guarantee mb-3">
+            <a
+                href="/garantie"
+                class="o_legal_guarantee_link"
+                data-bs-toggle="modal"
+                data-bs-target="#o_legal_guarantee_modal"
+                aria-haspopup="dialog"
+            >Your legal guarantee rights</a>
+        </div>
+    </template>
+
+    <!-- Fereastra cu notificarea, la nivelul body (în coloana sticky a produsului ar rămâne sub alte elemente) -->
+    <template id="legal_guarantee_modal" inherit_id="web.frontend_layout" priority="510">
+        <xpath expr="//div[@id='wrapwrap']" position="after">
+            <t
+                t-if="website and (website.legal_guarantee_product or website.legal_guarantee_checkout)"
+            >
+                <div
+                    id="o_legal_guarantee_modal"
+                    class="modal fade"
+                    tabindex="-1"
+                    aria-labelledby="o_legal_guarantee_modal_title"
+                    aria-hidden="true"
+                >
+                    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 id="o_legal_guarantee_modal_title" class="modal-title">Legal guarantee of conformity</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+                            </div>
+                            <div class="modal-body">
+                                <t t-call="deltatech_website_legal_guarantee.legal_guarantee_notice" />
+                            </div>
+                            <div class="modal-footer">
+                                <a href="/garantie" class="btn btn-link">Your rights and how to report a problem</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="legal_guarantee_page" name="Legal guarantee of conformity">
+        <t t-call="website.layout" additional_title.translate="Legal guarantee of conformity">
+            <div id="wrap" class="o_legal_guarantee_page">
+                <div class="oe_structure" id="oe_structure_legal_guarantee_1" />
+                <div class="container py-4">
+                    <h1>Legal guarantee of conformity</h1>
+                    <p class="lead">
+                        For goods bought by consumers, the seller is liable for any lack of conformity
+                        which exists at the time of delivery and becomes apparent within two years.
+                        Below you can find the official notice of the European Union, a short summary
+                        of your rights and how to report a problem.
+                    </p>
+                    <div class="row g-4">
+                        <div class="col-lg-7">
+                            <h2 class="h4">EU notice on the legal guarantee</h2>
+                            <p class="small text-muted">
+                                Harmonised notice of the European Commission (Commission Implementing
+                                Regulation (EU) 2025/1960, Annex I).
+                            </p>
+                            <t t-call="deltatech_website_legal_guarantee.legal_guarantee_notice" />
+                        </div>
+                        <div class="col-lg-5">
+                            <h2 class="h4">Your rights in short</h2>
+                            <p>
+                                Under Directive (EU) 2019/771 on certain aspects concerning contracts for
+                                the sale of goods, as transposed into national law:
+                            </p>
+                            <ul>
+                                <li>
+                                    The seller is liable for any lack of conformity which exists at
+                                    delivery and becomes apparent within two years of delivery (for second-hand
+                                    goods, a shorter period may apply, but not less than one year).
+                                </li>
+                                <li>
+                                    A lack of conformity which becomes apparent within one year of
+                                    delivery (or longer, where national law so provides) is presumed to
+                                    have existed at delivery, unless proven otherwise.
+                                </li>
+                                <li>
+                                    You may choose between repair and replacement, free of charge, within
+                                    a reasonable time and without significant inconvenience to you.
+                                </li>
+                                <li>
+                                    In some cases you may ask for a price reduction or terminate the
+                                    contract, for example when repair or replacement was refused or not
+                                    carried out.
+                                </li>
+                                <li>
+                                    These rights cannot be excluded or limited by contract to your
+                                    detriment.
+                                </li>
+                            </ul>
+                            <t t-set="national" t-value="website._get_legal_guarantee_national_template()" />
+                            <t t-if="national" t-call="{{national}}" />
+                            <h2 class="h4">How to report a problem</h2>
+                            <ul>
+                                <li class="o_translate_inline">
+                                    Contact us as soon as possible after you notice the problem, by phone,
+                                    e-mail or through the <a href="/contactus">contact form</a>.
+                                </li>
+                                <li>
+                                    Provide proof of purchase, such as the invoice, the receipt, the bank
+                                    statement or the order number.
+                                </li>
+                                <li>
+                                    If we cannot reach an agreement, you can contact the consumer
+                                    protection authority or an alternative dispute resolution body in your
+                                    country, or the European Consumer Centre.
+                                </li>
+                            </ul>
+                            <h2 class="h4">Commercial guarantees</h2>
+                            <p class="o_translate_inline">
+                                Sellers and producers may also offer commercial guarantees. These apply in
+                                addition to the legal guarantee and do not replace it. The EU GARAN label
+                                marks a commercial guarantee of durability offered by the producer at no
+                                extra cost, covering the whole good, for more than two years.
+                                <a
+                                    href="https://europa.eu/youreurope/commercial-guarantee-durability/index.htm"
+                                    target="_blank"
+                                    rel="noopener"
+                                >More about the GARAN label</a>.
+                            </p>
+                            <h2 class="h4">The seller</h2>
+                            <div class="o_legal_guarantee_seller mb-3">
+                                <t t-set="seller" t-value="website._get_legal_guarantee_seller()" />
+                                <div><strong t-out="seller['name']" /></div>
+                                <div t-if="seller['vat']"><span>Tax ID:</span> <t t-out="seller['vat']" /></div>
+                                <div
+                                    t-if="seller['address']"
+                                    style="white-space: pre-line"
+                                    t-out="seller['address']"
+                                />
+                                <div t-if="seller['phone']">
+                                    <span>Phone:</span>
+                                    <a t-att-href="'tel:%s' % seller['phone']" t-out="seller['phone']" />
+                                </div>
+                                <div t-if="seller['email']">
+                                    <span>E-mail:</span>
+                                    <a t-att-href="'mailto:%s' % seller['email']" t-out="seller['email']" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure" id="oe_structure_legal_guarantee_2" />
+            </div>
+        </t>
+    </template>
+
+    <template id="legal_guarantee_footer" inherit_id="web.frontend_layout" priority="510">
+        <xpath expr="//div[hasclass('o_footer_copyright')]/div/div" position="inside">
+            <div t-if="website and website.legal_guarantee_footer" class="o_footer_legal_guarantee col-md-auto text-center">
+                <a href="/garantie">Legal guarantee</a>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="legal_guarantee_product" inherit_id="website_sale.product">
+        <xpath expr="//div[@id='o_wsale_product_details_content']" position="inside">
+            <t t-if="website.legal_guarantee_product" t-call="deltatech_website_legal_guarantee.legal_guarantee_link" />
+        </xpath>
+    </template>
+
+    <template id="legal_guarantee_payment" inherit_id="website_sale.payment">
+        <xpath expr="//div[@id='address_on_payment']" position="after">
+            <t t-if="website.legal_guarantee_checkout" t-call="deltatech_website_legal_guarantee.legal_guarantee_link" />
+        </xpath>
+    </template>
+
+</odoo>
