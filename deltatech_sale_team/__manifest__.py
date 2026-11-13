@@ -5,7 +5,7 @@
 {
     "name": "Sale Team Access Control",
     "summary": "Restrict users to their own sales team, with a default warehouse per team",
-    "version": "20.0.1.0.4",
+    "version": "20.0.1.0.5",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
