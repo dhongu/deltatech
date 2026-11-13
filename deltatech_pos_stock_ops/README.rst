@@ -19,9 +19,9 @@ POS Stock Operations
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pos_stock_ops
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-11%20automated%20tests-2ea44f.png
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pos_stock_ops/tests
-    :alt: 6 automated tests
+    :alt: 11 automated tests
 
 |badge1| |badge2| |badge3| |badge_tests|
 
@@ -32,13 +32,16 @@ Key features:
 
 - Burger-menu entries *Receipt* and *Delivery*, enabled per point of
   sale.
-- Scan a product barcode, or a pack barcode (a unit of measure linked to
-  the product), or search by name.
-- Optional partner, taken from the POS partner list.
+- **Receipts only against a purchase order:** pick a confirmed order of
+  the register's warehouse, adjust the quantity received and validate;
+  what did not arrive stays as a backorder. There is no free receipt.
+- **Deliveries:** scan a product barcode, a pack barcode (a unit of
+  measure linked to the product) or search by name; optional partner
+  from the POS partner list.
 - Creates and validates a standard transfer; if Odoo asks for a manual
   step, the transfer is left in Inventory and the cashier is told.
-- Journal of POS stock operations under Point of Sale, with who did what
-  and in which session.
+- Journal of POS stock operations under Point of Sale, with who did
+  what, in which session and for which purchase order.
 - Only drives the standard stock flow: accounting entries come from the
   installed localization.
 
@@ -53,8 +56,10 @@ Changelog
 19.0.1.0.0 (2026-11-13)
 -----------------------
 
-- Initial version: receipts and deliveries from the POS session, by
-  piece or by pack.
+- Initial version: deliveries from the POS session, by piece or by pack,
+  and receipts against a purchase order (the quantity not received
+  becomes a backorder). A receipt without a purchase order is not
+  possible.
 
 Bug Tracker
 ===========

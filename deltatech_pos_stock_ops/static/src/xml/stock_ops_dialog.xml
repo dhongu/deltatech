@@ -7,17 +7,29 @@
                     <input
                         type="text"
                         class="form-control"
-                        placeholder="Scan a barcode or type a product"
+                        t-att-placeholder="isReceipt and !state.picking ? placeholderOrders : placeholderProducts"
                         t-model="state.search"
                         t-on-keydown="onSearchKeydown"
                         autofocus="autofocus"
                     />
-                    <button class="btn btn-secondary text-nowrap" t-on-click="selectPartner">
+                    <button t-if="!isReceipt" class="btn btn-secondary text-nowrap" t-on-click="selectPartner">
                         <t t-if="state.partner" t-esc="state.partner.name" />
                         <t t-else="">Partner</t>
                     </button>
                 </div>
-                <div t-if="suggestions.length" class="list-group">
+                <div t-if="isReceipt and !state.picking" class="list-group">
+                    <t t-foreach="state.pickings" t-as="picking" t-key="picking.id">
+                        <button class="list-group-item list-group-item-action text-start" t-on-click="() => this.selectPicking(picking)">
+                            <strong t-esc="picking.purchase_name" /> · <span t-esc="picking.name" /> · <span t-esc="picking.partner_name" />
+                        </button>
+                    </t>
+                    <div t-if="!state.pickings.length" class="text-muted p-2">No purchase order to receive.</div>
+                </div>
+                <div t-if="isReceipt and state.picking" class="d-flex align-items-center gap-2">
+                    <button class="btn btn-sm btn-link p-0" t-on-click="backToOrders"><i class="fa fa-arrow-left" /></button>
+                    <strong t-esc="state.picking.purchase_name" /> · <span t-esc="state.picking.partner_name" />
+                </div>
+                <div t-if="!isReceipt and suggestions.length" class="list-group">
                     <t t-foreach="suggestions" t-as="product" t-key="product.id">
                         <div class="list-group-item d-flex justify-content-between align-items-center">
                             <button class="btn btn-link text-start p-0" t-on-click="() => this.addLine(product)">
@@ -43,7 +55,7 @@
                     <tbody>
                         <t t-foreach="state.lines" t-as="line" t-key="line_index">
                             <tr>
-                                <td t-esc="line.product.display_name" />
+                                <td t-esc="line.name or line.product.display_name" />
                                 <td class="text-end">
                                     <input
                                         type="number"

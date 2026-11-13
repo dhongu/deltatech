@@ -21,7 +21,50 @@ export class StockOpsDialog extends Component {
             partner: null,
             lines: [],
             busy: false,
+            // Receipts only: the transfer of a purchase order being received.
+            picking: null,
+            pickings: [],
         });
+        if (this.isReceipt) {
+            this.searchPickings("");
+        }
+    }
+
+    get placeholderOrders() {
+        return _t("Search a purchase order or a supplier");
+    }
+
+    get placeholderProducts() {
+        return _t("Scan a barcode or type a product");
+    }
+
+    get isReceipt() {
+        return this.props.operationType === "receipt";
+    }
+
+    async searchPickings(term) {
+        this.state.pickings = await this.orm.call("pos.stock.operation", "pos_search_receipts", [
+            this.pos.config.id,
+            term,
+        ]);
+    }
+
+    selectPicking(picking) {
+        this.state.picking = picking;
+        this.state.lines = picking.moves.map((move) => ({
+            moveId: move.id,
+            productId: move.product_id,
+            name: move.name,
+            demand: move.qty,
+            qty: move.qty,
+            uomName: move.uom_name,
+        }));
+        this.state.search = "";
+    }
+
+    backToOrders() {
+        this.state.picking = null;
+        this.state.lines = [];
     }
 
     get title() {
@@ -52,7 +95,15 @@ export class StockOpsDialog extends Component {
             return;
         }
         const code = this.state.search.trim();
+        if (this.isReceipt && !this.state.picking) {
+            this.searchPickings(code);
+            return;
+        }
         if (!code) {
+            return;
+        }
+        if (this.isReceipt) {
+            this.scanReceived(code);
             return;
         }
         const product = this.pos.models["product.product"].getBy("barcode", code);
@@ -73,6 +124,21 @@ export class StockOpsDialog extends Component {
         this.notification.add(_t("No product found for %s.", code), {type: "warning"});
     }
 
+    /** Receipts: a scanned barcode adds one to the matching line of the order. */
+    scanReceived(code) {
+        const product =
+            this.pos.models["product.product"].getBy("barcode", code) ||
+            this.pos.models["product.uom"].getBy("barcode", code)?.product_id;
+        const line = product && this.state.lines.find((l) => l.productId === product.id);
+        if (!line) {
+            this.notification.add(_t("%s is not on this purchase order.", code), {type: "warning"});
+            return;
+        }
+        line.qty = this.state.lines.some((l) => l === line && l.scanned) ? line.qty + 1 : 1;
+        line.scanned = true;
+        this.state.search = "";
+    }
+
     addLine(product, uom = null) {
         const uomId = uom?.id || product.uom_id?.id;
         const line = this.state.lines.find((l) => l.product.id === product.id && l.uomId === uomId);
@@ -85,6 +151,9 @@ export class StockOpsDialog extends Component {
     }
 
     uomName(line) {
+        if (line.uomName) {
+            return line.uomName;
+        }
         const uom = this.pos.models["uom.uom"].get(line.uomId);
         return uom?.name || "";
     }
@@ -95,7 +164,7 @@ export class StockOpsDialog extends Component {
 
     onQtyChange(line, ev) {
         const value = parseFloat(ev.target.value);
-        line.qty = value > 0 ? value : 1;
+        line.qty = value > 0 || (this.isReceipt && value === 0) ? value : 1;
     }
 
     async selectPartner() {
@@ -111,16 +180,22 @@ export class StockOpsDialog extends Component {
         }
         this.state.busy = true;
         try {
-            const result = await this.orm.call("pos.stock.operation", "pos_create_operation", [
-                this.pos.config.id,
-                this.props.operationType,
-                this.state.partner?.id || false,
-                this.state.lines.map((l) => ({
-                    product_id: l.product.id,
-                    qty: l.qty,
-                    uom_id: l.uomId,
-                })),
-            ]);
+            const result = this.isReceipt
+                ? await this.orm.call("pos.stock.operation", "pos_receive_picking", [
+                      this.pos.config.id,
+                      this.state.picking.id,
+                      this.state.lines.map((l) => ({move_id: l.moveId, qty: l.qty})),
+                  ])
+                : await this.orm.call("pos.stock.operation", "pos_create_operation", [
+                      this.pos.config.id,
+                      this.props.operationType,
+                      this.state.partner?.id || false,
+                      this.state.lines.map((l) => ({
+                          product_id: l.product.id,
+                          qty: l.qty,
+                          uom_id: l.uomId,
+                      })),
+                  ]);
             this.notification.add(result.message, {
                 type: result.state === "done" ? "success" : "warning",
             });

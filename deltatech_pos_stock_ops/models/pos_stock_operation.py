@@ -15,6 +15,7 @@ class PosStockOperation(models.Model):
     user_id = fields.Many2one("res.users", default=lambda self: self.env.user, required=True)
     operation_type = fields.Selection([("receipt", "Receipt"), ("delivery", "Delivery")], required=True, index=True)
     partner_id = fields.Many2one("res.partner", check_company=True)
+    purchase_id = fields.Many2one("purchase.order", string="Purchase Order", check_company=True)
     picking_id = fields.Many2one("stock.picking", required=True, index=True, ondelete="cascade")
     state = fields.Selection(
         [("done", "Done"), ("pending", "Needs confirmation")],
@@ -25,16 +26,11 @@ class PosStockOperation(models.Model):
     )
     note = fields.Char()
 
+    # ------------------------------------------------------------------
+    # Checks shared by every entry point
+    # ------------------------------------------------------------------
     @api.model
-    def pos_create_operation(self, config_id, operation_type, partner_id, lines):
-        """Create and validate a standard transfer on behalf of the POS cashier.
-
-        This only drives the standard stock flow: any accounting (receipt or delivery notes,
-        valuation entries) comes from the installed localization, not from here.
-
-        :param lines: list of dicts ``{"product_id", "qty", "uom_id"?}``
-        :return: dict with ``picking_id``, ``picking_name``, ``state`` and ``message``
-        """
+    def _pos_get_config(self, config_id, operation_type):
         config = self.env["pos.config"].browse(config_id).exists()
         if not config:
             raise UserError(self.env._("The point of sale does not exist."))
@@ -44,24 +40,140 @@ class PosStockOperation(models.Model):
             raise UserError(self.env._("Unknown operation type."))
         if not getattr(config, f"stock_ops_{operation_type}"):
             raise UserError(self.env._("This operation is not enabled on this point of sale."))
+        return config.sudo().with_company(config.company_id)
+
+    @api.model
+    def _pos_finish_picking(self, config, operation_type, picking, partner, purchase=None, allow_backorder=False):
+        """Validate ``picking`` and log the operation; a wizard from Odoo leaves it pending."""
+        picking = picking.with_context(skip_sms=True)
+        if allow_backorder:
+            picking = picking.with_context(skip_backorder=True)
+        result = picking.button_validate()
+        pending = isinstance(result, dict)
+        operation = self.sudo().create(
+            {
+                "config_id": config.id,
+                "session_id": config.current_session_id.id,
+                "operation_type": operation_type,
+                "partner_id": partner.id,
+                "purchase_id": purchase.id if purchase else False,
+                "picking_id": picking.id,
+                "state": "pending" if pending else "done",
+            }
+        )
+        message = (
+            self.env._("Transfer %s created, but it needs a manual step in Inventory.", picking.name)
+            if pending
+            else self.env._("Transfer %s validated.", picking.name)
+        )
+        return {
+            "operation_id": operation.id,
+            "picking_id": picking.id,
+            "picking_name": picking.name,
+            "state": operation.state,
+            "message": message,
+        }
+
+    # ------------------------------------------------------------------
+    # Receipts: only against a purchase order
+    # ------------------------------------------------------------------
+    @api.model
+    def pos_search_receipts(self, config_id, term=""):
+        """Transfers still to receive for a confirmed purchase order, in this register's receipt type."""
+        config = self._pos_get_config(config_id, "receipt")
+        domain = [
+            ("picking_type_id", "=", config.stock_ops_receipt_type_id.id),
+            ("purchase_id.state", "=", "purchase"),
+            ("state", "in", ("confirmed", "waiting", "assigned")),
+        ]
+        term = (term or "").strip()
+        if term:
+            domain += [
+                "|",
+                "|",
+                ("purchase_id.name", "ilike", term),
+                ("partner_id.name", "ilike", term),
+                ("name", "ilike", term),
+            ]
+        pickings = self.env["stock.picking"].sudo().search(domain, limit=10, order="scheduled_date, id")
+        return [
+            {
+                "id": picking.id,
+                "name": picking.name,
+                "purchase_id": picking.purchase_id.id,
+                "purchase_name": picking.purchase_id.name,
+                "partner_name": picking.partner_id.name or "",
+                "moves": [
+                    {
+                        "id": move.id,
+                        "product_id": move.product_id.id,
+                        "name": move.product_id.display_name,
+                        "qty": move.product_uom_qty,
+                        "uom_name": move.product_uom.name,
+                    }
+                    for move in picking.move_ids.filtered(lambda m: m.state not in ("done", "cancel"))
+                ],
+            }
+            for picking in pickings
+        ]
+
+    @api.model
+    def pos_receive_picking(self, config_id, picking_id, lines):
+        """Receive what arrived against a purchase order's transfer; the rest becomes a backorder.
+
+        :param lines: list of dicts ``{"move_id", "qty"}`` — the quantity actually received
+        """
+        config = self._pos_get_config(config_id, "receipt")
+        picking = self.env["stock.picking"].sudo().browse(picking_id).exists()
+        if (
+            not picking
+            or not picking.purchase_id
+            or picking.picking_type_id != config.stock_ops_receipt_type_id
+            or picking.state not in ("confirmed", "waiting", "assigned")
+        ):
+            raise UserError(self.env._("Receipts can only be made against a confirmed purchase order."))
+        received = {int(line["move_id"]): float(line.get("qty") or 0) for line in lines or []}
+        if not any(qty > 0 for qty in received.values()):
+            raise UserError(self.env._("Enter the received quantity for at least one product."))
+        for move in picking.move_ids:
+            if move.id not in received and move.state not in ("done", "cancel"):
+                move.quantity = 0
+            elif move.id in received:
+                if received[move.id] < 0:
+                    raise UserError(self.env._("Each line needs a product and a positive quantity."))
+                move.quantity = received[move.id]
+        return self._pos_finish_picking(
+            config, "receipt", picking, picking.partner_id, purchase=picking.purchase_id, allow_backorder=True
+        )
+
+    # ------------------------------------------------------------------
+    # Deliveries
+    # ------------------------------------------------------------------
+    @api.model
+    def pos_create_operation(self, config_id, operation_type, partner_id, lines):
+        """Create and validate a standard transfer on behalf of the POS cashier.
+
+        This only drives the standard stock flow: any accounting (delivery notes, valuation
+        entries) comes from the installed localization, not from here. Receipts are not made
+        here: they go through ``pos_receive_picking``, against a purchase order.
+
+        :param lines: list of dicts ``{"product_id", "qty", "uom_id"?}``
+        """
+        if operation_type == "receipt":
+            raise UserError(self.env._("Receipts can only be made against a confirmed purchase order."))
+        config = self._pos_get_config(config_id, operation_type)
         if not lines:
             raise UserError(self.env._("Add at least one product."))
-
-        config = config.sudo().with_company(config.company_id)
-        picking_type = (
-            config.stock_ops_receipt_type_id if operation_type == "receipt" else config.stock_ops_delivery_type_id
-        )
+        picking_type = config.stock_ops_delivery_type_id
         if not picking_type:
             raise UserError(self.env._("Set the operation type for this point of sale first."))
         partner = self.env["res.partner"].sudo().browse(partner_id) if partner_id else self.env["res.partner"]
         source = picking_type.default_location_src_id
-        destination = picking_type.default_location_dest_id
-        if operation_type == "receipt":
-            source = source or partner.property_stock_supplier or self.env.ref("stock.stock_location_suppliers")
-        else:
-            destination = (
-                destination or partner.property_stock_customer or self.env.ref("stock.stock_location_customers")
-            )
+        destination = (
+            picking_type.default_location_dest_id
+            or partner.property_stock_customer
+            or self.env.ref("stock.stock_location_customers")
+        )
         if not source or not destination:
             raise UserError(self.env._("The operation type has no locations set."))
 
@@ -84,31 +196,7 @@ class PosStockOperation(models.Model):
         picking.action_assign()
         for move in picking.move_ids:
             move.quantity = move.product_uom_qty
-        result = picking.with_context(skip_sms=True).button_validate()
-        pending = isinstance(result, dict)
-        session = config.current_session_id
-        operation = self.sudo().create(
-            {
-                "config_id": config.id,
-                "session_id": session.id,
-                "operation_type": operation_type,
-                "partner_id": partner.id,
-                "picking_id": picking.id,
-                "state": "pending" if pending else "done",
-            }
-        )
-        message = (
-            self.env._("Transfer %s created, but it needs a manual step in Inventory.", picking.name)
-            if pending
-            else self.env._("Transfer %s validated.", picking.name)
-        )
-        return {
-            "operation_id": operation.id,
-            "picking_id": picking.id,
-            "picking_name": picking.name,
-            "state": operation.state,
-            "message": message,
-        }
+        return self._pos_finish_picking(config, operation_type, picking, partner)
 
     @api.model
     def _prepare_move_vals(self, line, source, destination):

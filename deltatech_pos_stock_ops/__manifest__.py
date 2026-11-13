@@ -6,7 +6,7 @@
     "summary": "Receipts and deliveries from the POS session, by piece or by pack",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "depends": ["point_of_sale", "stock", "deltatech_pos_stock"],
+    "depends": ["point_of_sale", "stock", "purchase_stock", "deltatech_pos_stock"],
     "data": [
         "security/security.xml",
         "security/ir.model.access.csv",

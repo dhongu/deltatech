@@ -3,8 +3,8 @@
   "summary": "Stock in and out from the POS",
   "icon": "box",
   "features": [
-    "Receipts and deliveries from the register",
-    "Scan products or pack barcodes",
+    "Receive against purchase orders",
+    "Deliver by piece or by pack",
     "Standard transfers, validated for you"
   ]
 }

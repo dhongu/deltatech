@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-13 06:07+0000\n"
-"PO-Revision-Date: 2026-11-13 06:07+0000\n"
+"POT-Creation-Date: 2026-11-13 06:33+0000\n"
+"PO-Revision-Date: 2026-11-13 06:33+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ro\n"
@@ -15,6 +15,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2);\n"
+
+#. module: deltatech_pos_stock_ops
+#. odoo-javascript
+#: code:addons/deltatech_pos_stock_ops/static/src/js/stock_ops_dialog.esm.js:0
+msgid "%s is not on this purchase order."
+msgstr "%s nu se află pe această comandă de achiziție."
 
 #. module: deltatech_pos_stock_ops
 #. odoo-python
@@ -92,6 +98,12 @@ msgid "Each line needs a product and a positive quantity."
 msgstr "Fiecare linie are nevoie de un produs și de o cantitate pozitivă."
 
 #. module: deltatech_pos_stock_ops
+#. odoo-python
+#: code:addons/deltatech_pos_stock_ops/models/pos_stock_operation.py:0
+msgid "Enter the received quantity for at least one product."
+msgstr "Introduceți cantitatea recepționată pentru cel puțin un produs."
+
+#. module: deltatech_pos_stock_ops
 #: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_config__id
 #: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_stock_operation__id
 #: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_res_config_settings__id
@@ -118,6 +130,12 @@ msgstr "Necesită confirmare"
 #: code:addons/deltatech_pos_stock_ops/static/src/js/stock_ops_dialog.esm.js:0
 msgid "No product found for %s."
 msgstr "Nu s-a găsit niciun produs pentru %s."
+
+#. module: deltatech_pos_stock_ops
+#. odoo-javascript
+#: code:addons/deltatech_pos_stock_ops/static/src/xml/stock_ops_dialog.xml:0
+msgid "No purchase order to receive."
+msgstr "Nicio comandă de achiziție de recepționat."
 
 #. module: deltatech_pos_stock_ops
 #: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_stock_operation__note
@@ -177,6 +195,11 @@ msgid "Product"
 msgstr "Produs"
 
 #. module: deltatech_pos_stock_ops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_stock_operation__purchase_id
+msgid "Purchase Order"
+msgstr "Comandă de achiziție"
+
+#. module: deltatech_pos_stock_ops
 #. odoo-javascript
 #: code:addons/deltatech_pos_stock_ops/static/src/xml/stock_ops_dialog.xml:0
 msgid "Quantity"
@@ -202,6 +225,12 @@ msgid "Receipts and deliveries made from the POS session"
 msgstr "Recepții și livrări făcute din sesiunea POS"
 
 #. module: deltatech_pos_stock_ops
+#. odoo-python
+#: code:addons/deltatech_pos_stock_ops/models/pos_stock_operation.py:0
+msgid "Receipts can only be made against a confirmed purchase order."
+msgstr "Recepțiile se pot face doar pe o comandă de achiziție confirmată."
+
+#. module: deltatech_pos_stock_ops
 #: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_config__stock_ops_receipt
 #: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_res_config_settings__pos_stock_ops_receipt
 msgid "Receipts from the POS"
@@ -214,9 +243,15 @@ msgstr "Referință"
 
 #. module: deltatech_pos_stock_ops
 #. odoo-javascript
-#: code:addons/deltatech_pos_stock_ops/static/src/xml/stock_ops_dialog.xml:0
+#: code:addons/deltatech_pos_stock_ops/static/src/js/stock_ops_dialog.esm.js:0
 msgid "Scan a barcode or type a product"
 msgstr "Scanați un cod de bare sau scrieți un produs"
+
+#. module: deltatech_pos_stock_ops
+#. odoo-javascript
+#: code:addons/deltatech_pos_stock_ops/static/src/js/stock_ops_dialog.esm.js:0
+msgid "Search a purchase order or a supplier"
+msgstr "Căutați o comandă de achiziție sau un furnizor"
 
 #. module: deltatech_pos_stock_ops
 #: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_stock_operation__session_id
