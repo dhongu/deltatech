@@ -66,6 +66,8 @@ Date minime pentru demo:
 Website-ul afișează prețurile cu TVA (**Tax Included**). Vizitatorul deschide produsul de 100 lei
 plus TVA 21%. Prețul principal este 121,00 lei, iar sub el apare rândul **Preț fără TVA:** 100,00 lei.
 
+![Pagina produsului cu prețul afișat cu TVA: 121,00 lei și, sub el, Preț fără TVA: 100,00 lei](../static/description/01_pret_cu_tva.png)
+
 Prețul net se calculează scăzând din prețul afișat taxele produsului, ca și cum ar fi incluse în
 preț, oricum ar fi configurată taxa. Un produs cu taxa „inclusă în preț” și prețul de 121 lei arată
 tot 121,00 lei și, sub el, 100,00 lei.
@@ -82,6 +84,8 @@ Website-ul (sau lista de prețuri a clientului) afișează prețurile fără TVA
 Prețul principal este deja net, 100,00 lei, iar rândul **Preț fără TVA:** repetă aceeași valoare,
 100,00 lei, chiar dacă taxa produsului este „inclusă în preț”.
 
+![Pagina produsului cu prețul afișat fără TVA: 100,00 lei, iar rândul Preț fără TVA: repetă 100,00 lei](../static/description/02_pret_fara_tva.png)
+
 **Ce verificați pe ecran:**
 - rândul **Preț fără TVA:** este egal cu prețul principal;
 - pe o listă de prețuri cu **Price Display** = **Taxes Excluded**, rândul este net chiar dacă
@@ -95,6 +99,8 @@ oprește din vizualizări: cu modul de dezvoltare activ, **Setări → Tehnic �
 Vizualizări**, căutați „Product Price without tax”, deschideți vizualizarea și debifați **Activ**.
 Dacă website-ul are o copie proprie a vizualizării, opriți copia acelui website: celelalte
 website-uri își păstrează opțiunea.
+
+![Vizualizarea Product Price without tax, cu comutatorul Activ evidențiat](../static/description/03_vizualizare_activa.png)
 
 ### Note de monografie și raportare
 
@@ -136,9 +142,15 @@ taxelor corecte pe produse.
 
 ## 10. Capturi de ecran
 
-Fișa este, deocamdată, doar text: nu are capturi de ecran. Pașii din secțiunea 6 descriu ecranele
-în cuvinte. Când se vor adăuga capturi, se generează cu skill-ul `fisa-screenshots` (mixinul
-`ScreenshotCase` din `l10n_ro_doc_screenshots`, în română), câte una pentru fiecare pas.
+Capturile sunt generate în română, pe „Magazin Demo SRL” în RON, cu produsul „Birou de lucru stejar”
+(100 lei, TVA 21%), și se regenerează cu mixinul `ScreenshotCase` din `deltatech_doc_screenshots`
+(`tests/test_screenshots.py`). Câte una pentru fiecare pas din secțiunea 6:
+
+| Captură | Pas | Ce arată |
+|---|---|---|
+| `../static/description/01_pret_cu_tva.png` | Pasul 1 | pagina produsului cu prețurile afișate cu TVA: 121,00 lei și rândul Preț fără TVA: 100,00 lei |
+| `../static/description/02_pret_fara_tva.png` | Pasul 2 | pagina produsului cu prețurile afișate fără TVA: prețul principal și rândul sunt 100,00 lei |
+| `../static/description/03_vizualizare_activa.png` | Pasul 3 | vizualizarea Product Price without tax, cu comutatorul Activ, care oprește rândul |
 
 ## 11. Observații pentru manual
 
