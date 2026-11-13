@@ -1,3 +1,7 @@
+## 19.0.1.1.5 (2026-11-13)
+
+- "Create Bills" no longer brings the lines with nothing to invoice (for example a product left in backorder after a partial receipt, which arrived with quantity 0). Sections left without lines are removed too. If no order has a quantity to invoice, a clear message is shown instead of an empty bill.
+
 ## 19.0.1.1.4 (2026-10-17)
 
 - A bill created from several purchase orders with "Create Bills" now keeps the vendor references of all the orders in its Reference, not only the first one. When the orders have different vendor references, the Payment Reference is left empty.

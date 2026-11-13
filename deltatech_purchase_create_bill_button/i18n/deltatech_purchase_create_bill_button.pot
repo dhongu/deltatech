@@ -39,3 +39,9 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_create_bill_button.purchase_order_kpis_tree
 msgid "Create Bills"
 msgstr ""
+
+#. module: deltatech_purchase_create_bill_button
+#. odoo-python
+#: code:addons/deltatech_purchase_create_bill_button/models/purchase_order.py:0
+msgid "There is nothing to bill: no quantity left to invoice on the selected orders."
+msgstr ""

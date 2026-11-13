@@ -2,6 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import fields
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase, tagged
 
 
@@ -122,3 +123,47 @@ class TestPurchaseOrderCreateBill(TransactionCase):
         self.assertEqual(len(bill), 1)
         self.assertEqual(bill.ref, "REF-SAME")
         self.assertEqual(bill.payment_reference, "REF-SAME")
+
+    def test_bill_skips_backordered_line(self):
+        if "stock.picking" not in self.env:
+            self.skipTest("stock is not installed")
+        product2 = self.env["product.product"].create(
+            {"name": "Product 2", "type": "consu", "is_storable": True, "purchase_method": "receive"}
+        )
+        self.product.write({"is_storable": True, "purchase_method": "receive"})
+        order = self.env["purchase.order"].create(
+            {
+                "partner_id": self.partner_vendor.id,
+                "order_line": [
+                    (0, 0, {"product_id": prod.id, "product_qty": 5.0, "price_unit": 10.0})
+                    for prod in (self.product, product2)
+                ],
+            }
+        )
+        order.button_confirm()
+        picking = order.picking_ids
+        picking.move_ids[0].quantity = 5.0
+        picking.move_ids[1].quantity = 0.0
+        picking.with_context(skip_backorder=True, picking_ids_not_to_backorder=[]).button_validate()
+        received = order.order_line.filtered(lambda line: line.qty_received)
+        action = order.action_create_invoice()
+        bill = self.env["account.move"].browse(action["res_id"])
+        self.assertEqual(bill.invoice_line_ids.purchase_line_id, received)
+        self.assertEqual(bill.invoice_line_ids.quantity, 5.0)
+
+    def test_bill_nothing_to_invoice(self):
+        if "stock.picking" not in self.env:
+            self.skipTest("stock is not installed")
+        product2 = self.env["product.product"].create(
+            {"name": "Product 2", "type": "consu", "is_storable": True, "purchase_method": "receive"}
+        )
+        self.product.write({"is_storable": True, "purchase_method": "receive"})
+        order = self.env["purchase.order"].create(
+            {
+                "partner_id": self.partner_vendor.id,
+                "order_line": [(0, 0, {"product_id": product2.id, "product_qty": 5.0, "price_unit": 10.0})],
+            }
+        )
+        order.button_confirm()
+        with self.assertRaises(UserError):
+            order.action_create_invoice()
