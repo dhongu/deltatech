@@ -83,7 +83,7 @@ Date minime pentru demo:
 
 1. **Meniu → Delivery.**
 2. Scanați codul de bare al produsului sau scrieți primele litere din nume și alegeți produsul din
-   lista care apare. Un cod de bare de bax adaugă linia în unitatea baxului.
+   lista care apare. Un cod de bare de bax adaugă linia în unitatea baxului. Dacă nu se găsește niciun produs pentru codul sau textul introdus, apare avertizarea „No product found for …"; verificați codul sau căutați după nume.
 3. Corectați cantitatea; opțional alegeți **Partner**.
 4. Apăsați **Validate**. Transferul de livrare se creează și se validează; mesajul „Transfer … validated"
    confirmă operația, iar stocul scade.
@@ -111,7 +111,7 @@ Livrarea din POS mută doar stocul: nu înregistrează vânzarea (venit, TVA). M
 
 3. Pentru fiecare linie, introduceți cantitatea **primită efectiv**. Puteți scana codul de bare al
    produsului pentru a seta cantitatea la 1 și a număra apoi bucată cu bucată. La recepție se scanează bucata sau se introduce cantitatea manual: codul de bare al unui bax adaugă 1 în unitatea liniei, nu cantitatea baxului. O linie cu 0 nu se
-   recepționează.
+   recepționează, iar cantitatea nu poate depăși cea comandată pe linie (altfel apare „You cannot receive more than ordered"; excedentul se tratează din Inventar).
 4. Apăsați **Validate**.
 
 ![Dialogul Receipt pentru comanda P00020, furnizor TEST Furnizor POS: Large Cabinet cu cantitatea 5 și Pedal Bin cu 8, unitatea Units și butonul Validate activ](../static/description/06_receptie_linii.png)
@@ -159,6 +159,8 @@ comandă (se fac din Inventar), cazurile în care Odoo cere un pas suplimentar l
 - [ ] Un casier fără dreptul *POS stock operations* nu vede operațiile și serverul refuză apelul.
 - [ ] La recepție apar doar comenzile confirmate din depozitul casei.
 - [ ] Recepția cu cantitate parțială creează un transfer restant cu diferența.
+- [ ] O cantitate primită mai mare decât cea comandată pe linie este refuzată cu mesaj.
+- [ ] La livrare, un cod de bare necunoscut produce avertizarea „No product found for …".
 - [ ] Cantitatea recepționată pe comandă (Achiziții) corespunde cu cea introdusă în POS.
 - [ ] Livrarea de 1 bucată scade stocul cu 1 și stocul de pe cardul produsului se actualizează.
 - [ ] Livrarea în bax scade stocul cu cantitatea baxului înmulțită cu numărul de baxuri.
@@ -173,6 +175,8 @@ comandă (se fac din Inventar), cazurile în care Odoo cere un pas suplimentar l
 | You cannot receive more than ordered: …, ordered … | Cantitatea introdusă depășește cantitatea comandată pe linie | Introduceți cel mult cantitatea comandată; excedentul se tratează din Inventar |
 | The partner does not exist. | Partenerul ales a fost șters sau nu e accesibil | Alegeți din nou partenerul |
 | A line does not belong to this transfer. | Linia trimisă nu face parte din transferul comenzii alese | Redeschideți comanda și reîncercați |
+| Each line needs a product and a positive quantity. | La livrare, o linie fără produs sau cu cantitate ≤ 0; la recepție, o cantitate negativă | Corectați linia sau ștergeți-o |
+| No product found for … | La livrare, codul de bare sau textul nu corespunde niciunui produs (avertizare, nu eroare) | Verificați codul sau căutați după nume |
 | Enter the received quantity for at least one product. | Toate cantitățile sunt 0 | Introduceți cantitatea primită pe cel puțin o linie |
 | You are not allowed to do stock operations from the POS. | Utilizatorul nu are dreptul *POS stock operations* | Acordați dreptul în Setări → Utilizatori |
 | This operation is not enabled on this point of sale. | Operația nu e bifată pe această casă | Bifați-o în Setările punctului de vânzare |
