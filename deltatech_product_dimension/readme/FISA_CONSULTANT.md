@@ -62,6 +62,8 @@ exemplu „Cutie carton 40×30×25”) și mergeți în fila **Inventar**. În g
 rândului **Volum**, apare rândul **Dimensiune**, cu trei câmpuri: **Lungime** × **Latime** ×
 **Inaltime** (etichetele sunt traduse fără diacritice), urmate de „cm”. Completați 40, 30 și 25.
 
+![Fila Inventar a produsului, cu rândul Dimensiune completat](../static/description/01_produs_dimensiuni.png)
+
 Fila **Inventar** și grupul **Logistică** apar doar la produsele de tip **Bunuri**; la servicii și
 combo-uri dimensiunile nu se afișează. Dimensiunile sunt ale produsului, nu ale variantei: la un
 produs cu variante (mărimi, culori), toate variantele primesc aceleași dimensiuni și același volum.
@@ -70,6 +72,8 @@ produs cu variante (mărimi, culori), toate variantele primesc aceleași dimensi
 
 Imediat ce modificați una dintre dimensiuni, **Volum** se recalculează: lungime × lățime × înălțime
 / 1.000.000. Pentru cutia din exemplu: 40 × 30 × 25 = 30.000 cm³ = **0,03 m³**. Salvați produsul.
+
+![Volumul de 0,03 m³ calculat din dimensiuni](../static/description/02_volum_calculat.png)
 
 **Verificați:**
 - **Volum** este 0,03 și unitatea afișată lângă el este m³;
@@ -116,15 +120,13 @@ volumului când produsul nu are formă de cutie.
 
 ## 10. Capturi de ecran
 
-Fișa este, deocamdată, **doar text**: nu are capturi de ecran. Capturile planificate, în ordinea
-pașilor din secțiunea 6:
+Capturile sunt în limba română, pe compania „RO Company”, și se regenerează cu testul
+`tests/test_screenshots.py` (skill-ul `fisa-screenshots`). Ordinea este cea a pașilor din
+secțiunea 6:
 
-1. `01_produs_dimensiuni.png` — fila „Inventar” a produsului, cu rândul „Dimensiune” completat.
-2. `02_volum_calculat.png` — volumul 0,03 m³ calculat din dimensiuni.
-
-Ele se pot genera ulterior cu skill-ul `fisa-screenshots` (test `tests/test_screenshots.py`, mixinul
-`ScreenshotCase` din `l10n_ro_doc_screenshots`), în limba română, după care se leagă în pașii din
-secțiunea 6.
+1. `../static/description/01_produs_dimensiuni.png` — fila „Inventar” a produsului, cu rândul
+   „Dimensiune” completat (40 × 30 × 25 cm), câmpurile marcate 1–3.
+2. `../static/description/02_volum_calculat.png` — „Volum” de 0,03 m³, calculat din dimensiuni.
 
 ## 11. Observații pentru manual
 
