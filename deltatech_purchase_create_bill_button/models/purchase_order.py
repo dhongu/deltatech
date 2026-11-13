@@ -21,20 +21,25 @@ class PurchaseOrder(models.Model):
 
     def action_create_invoice(self, attachment_ids=False):
         precision = self.env["decimal.precision"].precision_get("Product Unit")
-        if not any(
-            line.display_type not in ("line_section", "line_subsection", "line_note")
-            and not float_is_zero(line.qty_to_invoice, precision_digits=precision)
-            for line in self.order_line
-        ):
+        # Orders with nothing to bill are left out: otherwise the native grouping by
+        # vendor would create a bill without lines for them.
+        billable = self.filtered(
+            lambda order: any(
+                line.display_type not in ("line_section", "line_subsection", "line_note")
+                and not float_is_zero(line.qty_to_invoice, precision_digits=precision)
+                for line in order.order_line
+            )
+        )
+        if not billable:
             raise UserError(self.env._("There is nothing to bill: no quantity left to invoice on the selected orders."))
-        bills_before = self.invoice_ids
-        res = super().action_create_invoice(attachment_ids=attachment_ids)
-        self._remove_zero_quantity_bill_lines(self.invoice_ids - bills_before, precision)
+        bills_before = billable.invoice_ids
+        res = super(PurchaseOrder, billable).action_create_invoice(attachment_ids=attachment_ids)
+        self._remove_zero_quantity_bill_lines(billable.invoice_ids - bills_before, precision)
         # The native grouping keeps the scalar values of the first order only: put back
         # the vendor references of all the orders billed together (same policy as the
         # grouped customer invoices: every reference in "ref", the payment reference
         # only when it is the same for all the orders).
-        for bill in self.invoice_ids - bills_before:
+        for bill in billable.invoice_ids - bills_before:
             orders = bill.invoice_line_ids.purchase_line_id.order_id
             refs = list(dict.fromkeys(ref for ref in orders.sorted("id").mapped("partner_ref") if ref))
             if len(orders) > 1 and len(refs) > 1:
@@ -54,15 +59,22 @@ class PurchaseOrder(models.Model):
                 and float_is_zero(line.quantity, precision_digits=precision)
             )
             kept = lines - to_remove
-            pending = self.env["account.move.line"]
+            # A section owns the notes under it: when no product line is left under a
+            # section, the section and its notes go away together.
             orphans = self.env["account.move.line"]
+            block = self.env["account.move.line"]
+            has_product = False
             for line in kept:
                 if line.display_type in ("line_section", "line_subsection"):
-                    orphans |= pending
-                    pending = line
-                elif line.display_type == "line_note":
+                    if block and not has_product:
+                        orphans |= block
+                    block = line
+                    has_product = False
                     continue
-                else:
-                    pending = self.env["account.move.line"]
-            orphans |= pending
+                if block:
+                    block |= line
+                if line.display_type == "product":
+                    has_product = True
+            if block and not has_product:
+                orphans |= block
             (to_remove | orphans).unlink()
