@@ -74,10 +74,25 @@
             height: auto;
         }
 
-        // On a wide window the form is laid out as a row (sheet and chatter): the sheet
-        // takes the width of the panel instead of keeping the width of its content.
+        // On a wide window (the class o_xxl_form_view follows the width of the window, not of
+        // the panel) the form is laid out as a row of flex items, and a flex item does not
+        // shrink below its content: the sheet kept the width of the window, up to 1500px, and
+        // overflowed the panel. Every level may shrink, so the form follows the panel.
+        .o_form_view .o_content,
+        .o_form_view_container,
+        .o_form_renderer,
+        .o_form_sheet_bg,
+        .o_form_sheet {
+            min-width: 0;
+            max-width: 100%;
+        }
+
         .o_form_renderer {
             flex-grow: 1;
+        }
+
+        .o_form_sheet_bg {
+            flex: 1 1 0;
         }
     }
 }

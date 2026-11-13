@@ -1,3 +1,10 @@
+## 19.0.1.1.1 (2026-11-13)
+
+- The form of the panel follows the width of the panel on a wide window. On a window of 1500px or
+  more the form sheet kept the width of the window (up to 1500px) and overflowed the panel: the
+  right-hand fields were cut off and resizing the panel changed nothing in the form. The sheet and
+  the levels above it may now shrink to the panel.
+
 ## 19.0.1.1.0 (2026-11-13)
 
 - The side panel can be resized: drag the handle on its left edge (or use the arrow keys on it,
