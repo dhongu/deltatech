@@ -4,7 +4,7 @@
 {
     "name": "IAP Services for Odoo Online",
     "summary": "Use Terrabit services (credits, activation, buy credits) from data-only modules; importable on Odoo Online",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Hidden/Tools",
