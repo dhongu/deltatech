@@ -7,7 +7,6 @@ from odoo.tests.common import TransactionCase
 
 
 class TestProduct(TransactionCase):
-
     def test_alternative_code_cache_refresh(self):
         product = self.env["product.template"].create({"name": "Test ALT-002"})
         alt1 = self.env["product.alternative"].create({"name": "A1", "product_tmpl_id": product.id})
