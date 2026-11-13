@@ -1,0 +1,14 @@
+{
+  "title": "EU Legal Guarantee Notice",
+  "summary": "The harmonised EU notice on your website",
+  "icon": "globe",
+  "lang": "en",
+  "edition": "community",
+  "eu": true,
+  "ro": false,
+  "features": [
+    "Official notice on the /garantie page",
+    "Links in footer, product and checkout",
+    "Country block for national rules"
+  ]
+}
