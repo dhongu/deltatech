@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Button of a service: create its webhook (the URL carries the account token, not known yet)
+         and send the registration; the token comes back on the callback -->
+    <record id="action_iap_online_activate" model="ir.actions.server">
+        <field name="name">Activate</field>
+        <field name="model_id" ref="model_x_iap_online_service" />
+        <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
+        <field name="state">code</field>
+        <field name="code">for service in records:
+    if not service.x_code or not service.x_server:
+        raise UserError('Fill in the service code and the server URL first.')
+    url = service.x_server.rstrip('/') + '/iap_online/' + service.x_code
+    if service.x_token:
+        url += '?token=' + service.x_token
+    send = service.x_send_action_id
+    if not send:
+        payload_fields = env['ir.model.fields'].search([
+            ('model', '=', 'x_iap_online_request'),
+            ('name', 'in', ['x_kind', 'x_input', 'x_token', 'x_callback_url', 'x_db_uuid',
+                            'x_company_vat', 'x_company_name']),
+        ])
+        send = env['ir.actions.server'].create({
+            'name': 'Terrabit: send to ' + service.x_code,
+            'model_id': env.ref('deltatech_iap_online.model_x_iap_online_request').id,
+            'state': 'webhook',
+            'webhook_url': url,
+            'webhook_field_ids': [Command.set(payload_fields.ids)],
+        })
+        service.write({'x_send_action_id': send.id})
+    else:
+        send.write({'webhook_url': url})
+    env['x_iap_online_request'].create({'x_name': 'Activation', 'x_kind': 'register', 'x_service_id': service.id})
+action = {
+    'type': 'ir.actions.client',
+    'tag': 'display_notification',
+    'params': {
+        'title': 'Terrabit',
+        'message': 'Activation sent. The service answers in a few seconds.',
+        'type': 'info',
+        'next': {'type': 'ir.actions.client', 'tag': 'soft_reload'},
+    },
+}</field>
+    </record>
+
+    <!-- Button of a service: ask the credits left -->
+    <record id="action_iap_online_balance" model="ir.actions.server">
+        <field name="name">Refresh Credits</field>
+        <field name="model_id" ref="model_x_iap_online_service" />
+        <field name="state">code</field>
+        <field name="code">for service in records:
+    env['x_iap_online_request'].create({'x_name': 'Credits', 'x_kind': 'balance', 'x_service_id': service.id})
+action = {
+    'type': 'ir.actions.client',
+    'tag': 'display_notification',
+    'params': {
+        'title': 'Terrabit',
+        'message': 'Request sent: the credits are updated in a few seconds.',
+        'type': 'info',
+        'next': {'type': 'ir.actions.client', 'tag': 'soft_reload'},
+    },
+}</field>
+    </record>
+
+    <!-- Button of a service: the credit page of the Terrabit server, for this account -->
+    <record id="action_iap_online_buy" model="ir.actions.server">
+        <field name="name">Buy Credits</field>
+        <field name="model_id" ref="model_x_iap_online_service" />
+        <field name="group_ids" eval="[(4, ref('base.group_system'))]" />
+        <field name="state">code</field>
+        <field name="code">service = records[:1]
+if not service.x_token:
+    raise UserError('Activate the service first.')
+action = {
+    'type': 'ir.actions.act_url',
+    'target': 'new',
+    'url': '%s/iap/1/credit?dbuuid=%s&amp;service_name=%s&amp;account_token=%s' % (
+        service.x_server.rstrip('/'),
+        env['ir.config_parameter'].sudo().get_param('database.uuid'),
+        service.x_code,
+        service.x_token,
+    ),
+}</field>
+    </record>
+</odoo>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Data-only module (importable on Odoo Online): models and fields are manual, prefixed x_.
+     Manual fields ignore `groups` (ir.model._instanciate_attrs): the account token and the callback
+     URL (the secret of the answers) are protected by the access rights of the models instead. -->
+<odoo>
+    <!-- A Terrabit service used by this database: one account (token, credits) per service -->
+    <record id="model_x_iap_online_service" model="ir.model">
+        <field name="name">Terrabit Online Service</field>
+        <field name="model">x_iap_online_service</field>
+        <field name="info">Terrabit services used by the data-only modules: account token and credits</field>
+    </record>
+    <record id="field_x_iap_online_service_x_name" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_service" />
+        <field name="name">x_name</field>
+        <field name="field_description">Service</field>
+        <field name="ttype">char</field>
+    </record>
+    <record id="field_x_iap_online_service_x_code" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_service" />
+        <field name="name">x_code</field>
+        <field name="field_description">Service Code</field>
+        <field name="ttype">char</field>
+        <field name="help">The code of the service on the Terrabit server, e.g. anaf_partner_online</field>
+    </record>
+    <record id="field_x_iap_online_service_x_server" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_service" />
+        <field name="name">x_server</field>
+        <field name="field_description">Server URL</field>
+        <field name="ttype">char</field>
+    </record>
+    <record id="field_x_iap_online_service_x_token" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_service" />
+        <field name="name">x_token</field>
+        <field name="field_description">Account Token</field>
+        <field name="ttype">char</field>
+    </record>
+    <record id="field_x_iap_online_service_x_balance" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_service" />
+        <field name="name">x_balance</field>
+        <field name="field_description">Credits Left</field>
+        <field name="ttype">float</field>
+    </record>
+    <record id="field_x_iap_online_service_x_send_action_id" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_service" />
+        <field name="name">x_send_action_id</field>
+        <field name="field_description">Send Action</field>
+        <field name="ttype">many2one</field>
+        <field name="relation">ir.actions.server</field>
+        <field name="on_delete">set null</field>
+        <field name="help">The webhook to the service, created at activation</field>
+    </record>
+    <record id="field_x_iap_online_service_x_apply_action_id" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_service" />
+        <field name="name">x_apply_action_id</field>
+        <field name="field_description">Apply Action</field>
+        <field name="ttype">many2one</field>
+        <field name="relation">ir.actions.server</field>
+        <field name="on_delete">set null</field>
+        <field name="help">Server action of the service module that writes the answer of a request (context: iap_answer)</field>
+    </record>
+
+    <!-- A request to a service: sent by webhook, answered on the 'On webhook' automation -->
+    <record id="model_x_iap_online_request" model="ir.model">
+        <field name="name">Terrabit Online Request</field>
+        <field name="model">x_iap_online_request</field>
+        <field name="order">id desc</field>
+        <field name="info">Requests sent to the Terrabit services</field>
+    </record>
+    <record id="field_x_iap_online_request_x_name" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_request" />
+        <field name="name">x_name</field>
+        <field name="field_description">Name</field>
+        <field name="ttype">char</field>
+    </record>
+    <record id="field_x_iap_online_request_x_service_id" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_request" />
+        <field name="name">x_service_id</field>
+        <field name="field_description">Service</field>
+        <field name="ttype">many2one</field>
+        <field name="relation">x_iap_online_service</field>
+        <field name="on_delete">cascade</field>
+    </record>
+    <record id="field_x_iap_online_request_x_kind" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_request" />
+        <field name="name">x_kind</field>
+        <field name="field_description">Request Type</field>
+        <field name="ttype">char</field>
+        <field name="help">register: activation; balance: credits left; request: a request of the service</field>
+    </record>
+    <record id="field_x_iap_online_request_x_input" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_request" />
+        <field name="name">x_input</field>
+        <field name="field_description">Input</field>
+        <field name="ttype">char</field>
+    </record>
+    <record id="field_x_iap_online_request_x_res_model" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_request" />
+        <field name="name">x_res_model</field>
+        <field name="field_description">Document Model</field>
+        <field name="ttype">char</field>
+    </record>
+    <record id="field_x_iap_online_request_x_res_id" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_request" />
+        <field name="name">x_res_id</field>
+        <field name="field_description">Document ID</field>
+        <field name="ttype">integer</field>
+    </record>
+    <record id="field_x_iap_online_request_x_token" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_request" />
+        <field name="name">x_token</field>
+        <field name="field_description">Request Token</field>
+        <field name="ttype">char</field>
+        <field name="index">True</field>
+    </record>
+    <record id="field_x_iap_online_request_x_callback_url" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_request" />
+        <field name="name">x_callback_url</field>
+        <field name="field_description">Callback URL</field>
+        <field name="ttype">char</field>
+    </record>
+    <record id="field_x_iap_online_request_x_db_uuid" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_request" />
+        <field name="name">x_db_uuid</field>
+        <field name="field_description">Database UUID</field>
+        <field name="ttype">char</field>
+    </record>
+    <record id="field_x_iap_online_request_x_company_vat" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_request" />
+        <field name="name">x_company_vat</field>
+        <field name="field_description">Company Tax ID</field>
+        <field name="ttype">char</field>
+    </record>
+    <record id="field_x_iap_online_request_x_company_name" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_request" />
+        <field name="name">x_company_name</field>
+        <field name="field_description">Company Name</field>
+        <field name="ttype">char</field>
+    </record>
+    <record id="field_x_iap_online_request_x_state" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_request" />
+        <field name="name">x_state</field>
+        <field name="field_description">Status</field>
+        <field name="ttype">selection</field>
+        <field name="selection">[('sent', 'Sent'), ('done', 'Done'), ('error', 'Error')]</field>
+    </record>
+    <record id="field_x_iap_online_request_x_error" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_request" />
+        <field name="name">x_error</field>
+        <field name="field_description">Error</field>
+        <field name="ttype">char</field>
+    </record>
+    <record id="field_x_iap_online_request_x_result" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_request" />
+        <field name="name">x_result</field>
+        <field name="field_description">Answer</field>
+        <field name="ttype">text</field>
+    </record>
+</odoo>
