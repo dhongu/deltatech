@@ -107,6 +107,41 @@ class TestPosStockOperation(TransactionCase):
         with self.assertRaises(UserError):
             self.Operation.pos_receive_picking(self.config.id, picking.id, [{"move_id": picking.move_ids.id, "qty": 0}])
 
+    def test_over_receipt_is_blocked(self):
+        picking = self._purchase(8).picking_ids
+        with self.assertRaises(UserError):
+            self.Operation.pos_receive_picking(
+                self.config.id, picking.id, [{"move_id": picking.move_ids.id, "qty": 1000}]
+            )
+
+    def test_foreign_move_is_rejected(self):
+        picking = self._purchase(8).picking_ids
+        other = self._purchase(3).picking_ids
+        with self.assertRaises(UserError):
+            self.Operation.pos_receive_picking(
+                self.config.id,
+                picking.id,
+                [{"move_id": picking.move_ids.id, "qty": 2}, {"move_id": other.move_ids.id, "qty": 3}],
+            )
+
+    def test_register_of_another_company_is_refused(self):
+        company = self.env["res.company"].create({"name": "Other Co Ops"})
+        user = self.env["res.users"].create(
+            {
+                "name": "Other Co POS user",
+                "login": "other_co_pos_ops",
+                "company_id": company.id,
+                "company_ids": [(6, 0, company.ids)],
+                "group_ids": [
+                    (6, 0, [self.env.ref("deltatech_pos_stock_ops.group_pos_stock_ops").id]),
+                ],
+            }
+        )
+        with self.assertRaises(AccessError):
+            self.Operation.with_user(user).pos_create_operation(
+                self.config.id, "delivery", False, [{"product_id": self.product.id, "qty": 1}]
+            )
+
     # --- deliveries ---------------------------------------------------
     def _receive(self, qty):
         picking = self._purchase(qty).picking_ids

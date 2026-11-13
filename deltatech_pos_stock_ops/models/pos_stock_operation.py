@@ -38,6 +38,10 @@ class PosStockOperation(models.Model):
             raise AccessError(self.env._("You are not allowed to do stock operations from the POS."))
         if operation_type not in ("receipt", "delivery"):
             raise UserError(self.env._("Unknown operation type."))
+        # Rights of the current user on the register, before anything runs with sudo().
+        config.check_access("read")
+        if config.company_id not in self.env.companies:
+            raise AccessError(self.env._("You are not allowed to do stock operations from the POS."))
         if not getattr(config, f"stock_ops_{operation_type}"):
             raise UserError(self.env._("This operation is not enabled on this point of sale."))
         return config.sudo().with_company(config.company_id)
@@ -133,15 +137,24 @@ class PosStockOperation(models.Model):
         ):
             raise UserError(self.env._("Receipts can only be made against a confirmed purchase order."))
         received = {int(line["move_id"]): float(line.get("qty") or 0) for line in lines or []}
+        open_moves = picking.move_ids.filtered(lambda m: m.state not in ("done", "cancel"))
+        if set(received) - set(open_moves.ids):
+            raise UserError(self.env._("A line does not belong to this transfer."))
         if not any(qty > 0 for qty in received.values()):
             raise UserError(self.env._("Enter the received quantity for at least one product."))
-        for move in picking.move_ids:
-            if move.id not in received and move.state not in ("done", "cancel"):
-                move.quantity = 0
-            elif move.id in received:
-                if received[move.id] < 0:
-                    raise UserError(self.env._("Each line needs a product and a positive quantity."))
-                move.quantity = received[move.id]
+        for move in open_moves:
+            qty = received.get(move.id, 0.0)
+            if qty < 0:
+                raise UserError(self.env._("Each line needs a product and a positive quantity."))
+            if qty > move.product_uom_qty:
+                raise UserError(
+                    self.env._(
+                        "You cannot receive more than ordered: %(product)s, ordered %(ordered)s.",
+                        product=move.product_id.display_name,
+                        ordered=move.product_uom_qty,
+                    )
+                )
+            move.quantity = qty
         return self._pos_finish_picking(
             config, "receipt", picking, picking.partner_id, purchase=picking.purchase_id, allow_backorder=True
         )

@@ -22,9 +22,9 @@ POS Stock Operations
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_pos_stock_ops/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-11%20automated%20tests-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-14%20automated%20tests-2ea44f.png
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pos_stock_ops/tests
-    :alt: 11 automated tests
+    :alt: 14 automated tests
 
 |badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
