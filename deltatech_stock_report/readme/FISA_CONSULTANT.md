@@ -57,6 +57,10 @@ Date minime pentru demo:
 **Inventory → Reporting → Picking Analysis**. Raportul se deschide în vizualizarea pivot, cu rândurile
 grupate pe **Picking Type** și apoi pe **Commercial Entity**, iar ca măsuri **Quantity** și **Amount**.
 
+![Meniul Inventar → Raportare → Analiză transferuri stoc](../static/description/01_meniu_raport.png)
+
+![Pivotul implicit: rânduri pe tip operație și entitate comercială, coloane Cantitate și Valoare](../static/description/02_pivot_implicit.png)
+
 ### Pasul 2 — Filtrarea și gruparea
 
 Din bara de căutare:
@@ -68,10 +72,14 @@ Din bara de căutare:
 - grupări după **Picking type**, **Partner**, **Commercial Entity**, **Category**, **Product**,
   **Location**, **Location Destination**, **Date** și **Company**.
 
+![Panoul de filtre și grupări din bara de căutare](../static/description/03_filtre_grupari.png)
+
 ### Pasul 3 — Citirea și verificarea datelor
 
 Găsiți pe ecran: fiecare rând al pivotului este un tip de operație și, sub el, o entitate comercială;
 coloanele **Quantity** și **Amount** dau cantitatea și valoarea pozițiilor efectuate.
+
+![Citirea pivotului: totalul general pe Cantitate și Valoare, apoi pe tip de operație](../static/description/04_pivot_citire.png)
 
 Verificați înainte de a folosi cifrele:
 
@@ -87,10 +95,16 @@ entitatea comercială, partenerul, produsul, cantitatea și valoarea, cu totalur
 **Amount**. Coloanele **Date**, **Location**, **Location Destination** și **Category** sunt ascunse implicit
 și se afișează din selectorul de coloane.
 
+![Vizualizarea listă cu pozițiile transferurilor și totalurile](../static/description/05_lista_pozitii.png)
+
 ### Pasul 4 — Exportul
 
 Abia după verificarea datelor pe ecran, exportați: în pivot, butonul de descărcare (**Download xlsx**); în
 listă, selectați rândurile și **Actions → Export**.
+
+![Butonul de descărcare din pivot](../static/description/06_export_pivot.png)
+
+![Lista cu rândurile selectate și meniul Acțiuni → Export](../static/description/07_export_lista.png)
 
 ### Note de monografie și raportare
 
@@ -130,10 +144,21 @@ evaluarea stocului, restricția pe companie.
 
 ## 10. Capturi de ecran
 
-Fișa este doar text: modulul nu are capturi ale fluxului în `static/description/` (acolo sunt doar
-iconița, bannerul, sigla și imaginea principală pentru Odoo Apps) și nici test
-`tests/test_screenshots.py`. Dacă se doresc capturi, ele se generează cu skill-ul `fisa-screenshots`
-(pivotul implicit, filtrele și grupările, lista de poziții) și se leagă apoi în pașii din secțiunea 6.
+Capturile sunt generate de `tests/test_screenshots.py` (cu „RO Company”, în RON, interfața în română) și
+stau în `static/description/`:
+
+| Captură | Pas |
+|---|---|
+| `01_meniu_raport.png` | Pasul 1 — meniul Inventar → Raportare → Analiză transferuri stoc |
+| `02_pivot_implicit.png` | Pasul 1 — pivotul implicit (rânduri pe tip operație și entitate comercială, indicatorii Cantitate și Valoare) |
+| `03_filtre_grupari.png` | Pasul 2 — filtrele rapide și grupările din bara de căutare |
+| `04_pivot_citire.png` | Pasul 3 — citirea totalurilor pe Cantitate și Valoare |
+| `05_lista_pozitii.png` | Pasul 3 — vizualizarea listă cu pozițiile și totalurile |
+| `06_export_pivot.png` | Pasul 4 — butonul de descărcare din pivot |
+| `07_export_lista.png` | Pasul 4 — selecția rândurilor și Acțiuni → Export în listă |
+
+Fișierul XLSX exportat nu are captură proprie: se descarcă din browser și conține aceleași totaluri ca
+pe ecran.
 
 ## 11. Observații pentru manual
 

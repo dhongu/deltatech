@@ -63,12 +63,12 @@ msgstr ""
 #. module: deltatech_stock_report
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
 msgid "Incoming"
-msgstr ""
+msgstr "Intrări"
 
 #. module: deltatech_stock_report
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
 msgid "Internal"
-msgstr ""
+msgstr "Interne"
 
 #. module: deltatech_stock_report
 #: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_picking_report____last_update
@@ -104,7 +104,7 @@ msgstr "Mi;care"
 #. module: deltatech_stock_report
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_report.view_stock_picking_report_filter
 msgid "Outgoing"
-msgstr "ieșiri"
+msgstr "Ieșiri"
 
 #. module: deltatech_stock_report
 #: model:ir.model.fields,field_description:deltatech_stock_report.field_stock_picking_report__partner_id
