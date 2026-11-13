@@ -19,5 +19,6 @@
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Alpha",
+    "consultant_sheet": "full",
     "maintainers": ["dhongu"],
 }
