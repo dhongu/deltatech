@@ -65,7 +65,7 @@ hook = env.ref('deltatech_iap_online.automation_iap_online_callback').sudo()
 values = {
     'x_token': '%s-%s' % (record.id, int(datetime.datetime.now().timestamp() * 1000000)),
     'x_callback_url': hook.url,
-    'x_db_uuid': env['ir.config_parameter'].sudo().get_param('database.uuid'),
+    'x_db_uuid': env['ir.config_parameter'].sudo().get_str('database.uuid'),
     'x_kind': record.x_kind or 'request',
     'x_name': record.x_name or record.x_input or record.x_kind,
 }

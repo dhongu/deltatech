@@ -17,10 +17,10 @@ IAP Services for Odoo Online
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_iap_online
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_iap_online
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_iap_online/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_iap_online/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
 
 |badge1| |badge2| |badge3| |badge_fisa|
@@ -152,17 +152,24 @@ Only administrators read the services (account token) and the requests
 (callback URL); other users create requests from the buttons of the
 service modules, without reading them.
 
-.. |Technical menu of Settings scrolled to the Terrabit Services section, with the Services and Requests entries highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_iap_online/static/description/en/01_meniu_servicii.png
-.. |Terrabit Services list with one line: the ANAF Partner Data service, the code anaf_partner_online and the credits left| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_iap_online/static/description/en/02_lista_servicii.png
-.. |Form of the ANAF Partner Data service not yet active: only the Activate button in the header, highlighted (1), then Service Code anaf_partner_online, the Server URL and Credits Left at 0.00| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_iap_online/static/description/en/03_activare_serviciu.png
-.. |Form of the active ANAF Partner Data service: Activate Again, Refresh Credits (1) and Buy Credits (2) in the header, then Service Code, Server URL and Credits Left (3)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_iap_online/static/description/en/04_formular_serviciu.png
-.. |Service form after Refresh Credits, with the Terrabit notification: Request sent: the credits are updated in a few seconds| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_iap_online/static/description/en/05_actualizare_credite.png
-.. |Credit page of the Terrabit server: Buy credits for ANAF Partner (Odoo Online) and the Your account box with the credits of the account| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_iap_online/static/description/en/06_cumparare_credite.png
-.. |Terrabit Requests list, newest first, with credit (balance) and partner lookup (request) requests: the lines with the Error status are red and their Invalid CUI errors are highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_iap_online/static/description/en/07_lista_cereri.png
-.. |Read-only form of an ANAF Partner Data request with Input 1234567 on res.partner 7: Status Error (1) and Error Invalid CUI (2) highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_iap_online/static/description/en/08_cerere_eroare.png
+.. |Technical menu of Settings scrolled to the Terrabit Services section, with the Services and Requests entries highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_iap_online/static/description/en/01_meniu_servicii.png
+.. |Terrabit Services list with one line: the ANAF Partner Data service, the code anaf_partner_online and the credits left| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_iap_online/static/description/en/02_lista_servicii.png
+.. |Form of the ANAF Partner Data service not yet active: only the Activate button in the header, highlighted (1), then Service Code anaf_partner_online, the Server URL and Credits Left at 0.00| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_iap_online/static/description/en/03_activare_serviciu.png
+.. |Form of the active ANAF Partner Data service: Activate Again, Refresh Credits (1) and Buy Credits (2) in the header, then Service Code, Server URL and Credits Left (3)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_iap_online/static/description/en/04_formular_serviciu.png
+.. |Service form after Refresh Credits, with the Terrabit notification: Request sent: the credits are updated in a few seconds| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_iap_online/static/description/en/05_actualizare_credite.png
+.. |Credit page of the Terrabit server: Buy credits for ANAF Partner (Odoo Online) and the Your account box with the credits of the account| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_iap_online/static/description/en/06_cumparare_credite.png
+.. |Terrabit Requests list, newest first, with credit (balance) and partner lookup (request) requests: the lines with the Error status are red and their Invalid CUI errors are highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_iap_online/static/description/en/07_lista_cereri.png
+.. |Read-only form of an ANAF Partner Data request with Input 1234567 on res.partner 7: Status Error (1) and Error Invalid CUI (2) highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_iap_online/static/description/en/08_cerere_eroare.png
 
 Changelog
 =========
+
+20.0.1.0.0
+==========
+
+- Migration to 20.0: access rights in ``security/ir.access.csv``,
+  ``get_str`` for the database UUID, ``index`` of a manual field is a
+  selection (``btree``).
 
 19.0.1.0.0
 ==========
@@ -200,6 +207,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_iap_online>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_iap_online>`_ project on GitHub.
 
 You are welcome to contribute.

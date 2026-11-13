@@ -76,7 +76,7 @@ action = {
     'target': 'new',
     'url': '%s/iap/1/credit?dbuuid=%s&amp;service_name=%s&amp;account_token=%s' % (
         service.x_server.rstrip('/'),
-        env['ir.config_parameter'].sudo().get_param('database.uuid'),
+        env['ir.config_parameter'].sudo().get_str('database.uuid'),
         service.x_code,
         service.x_token,
     ),

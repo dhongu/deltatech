@@ -110,7 +110,7 @@
         <field name="name">x_token</field>
         <field name="field_description">Request Token</field>
         <field name="ttype">char</field>
-        <field name="index">True</field>
+        <field name="index">btree</field>
     </record>
     <record id="field_x_iap_online_request_x_callback_url" model="ir.model.fields">
         <field name="model_id" ref="model_x_iap_online_request" />
