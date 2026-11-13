@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="deltatech_web_side_panel.SidePanel">
+        <aside class="o_side_panel d-flex flex-column" role="complementary">
+            <div
+                class="o_side_panel_header d-flex align-items-center justify-content-between gap-2 px-3 py-2 border-bottom"
+            >
+                <span class="o_side_panel_position text-muted small" t-out="positionLabel" />
+                <div class="btn-group">
+                    <button
+                        type="button"
+                        class="btn btn-secondary o_side_panel_prev"
+                        title="Previous record"
+                        aria-label="Previous record"
+                        t-on-click="props.onPrev"
+                    >
+                        <i class="fa fa-chevron-left" />
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-secondary o_side_panel_next"
+                        title="Next record"
+                        aria-label="Next record"
+                        t-on-click="props.onNext"
+                    >
+                        <i class="fa fa-chevron-right" />
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-secondary o_side_panel_open"
+                        title="Open the full form"
+                        aria-label="Open the full form"
+                        t-on-click="props.onOpen"
+                    >
+                        <i class="fa fa-external-link" />
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-secondary o_side_panel_refresh"
+                        title="Refresh"
+                        aria-label="Refresh"
+                        t-on-click="props.onRefresh"
+                    >
+                        <i class="fa fa-refresh" />
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-secondary o_side_panel_close"
+                        title="Close the panel"
+                        aria-label="Close the panel"
+                        t-on-click="props.onClose"
+                    >
+                        <i class="fa fa-times" />
+                    </button>
+                </div>
+            </div>
+            <div class="o_side_panel_body flex-grow-1 overflow-auto">
+                <View t-props="viewProps" />
+            </div>
+        </aside>
+    </t>
+
+    <t t-name="deltatech_web_side_panel.ListView" t-inherit="web.ListView" t-inherit-mode="primary">
+        <xpath expr="//t[@t-component='props.Renderer']" position="after">
+            <SidePanel t-if="sidePanelVisible" t-key="sidePanelState.resId" t-props="sidePanelProps" />
+        </xpath>
+    </t>
+
+    <t t-name="deltatech_web_side_panel.KanbanView" t-inherit="web.KanbanView" t-inherit-mode="primary">
+        <xpath expr="//t[@t-component='props.Renderer']" position="after">
+            <SidePanel t-if="sidePanelVisible" t-key="sidePanelState.resId" t-props="sidePanelProps" />
+        </xpath>
+    </t>
+
+</templates>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- A working example on contacts: the same panel for a kanban and for a list. -->
+    <record id="view_partner_form_side_panel_quick" model="ir.ui.view">
+        <field name="name">res.partner.form.side.panel.quick</field>
+        <field name="model">res.partner</field>
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="email" widget="email" />
+                            <field name="phone" widget="phone" />
+                        </group>
+                        <group>
+                            <field name="country_id" />
+                            <field name="city" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Address" name="address">
+                            <group>
+                                <field name="street" />
+                                <field name="zip" />
+                            </group>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="comment" />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_partner_kanban_side_panel" model="ir.ui.view">
+        <field name="name">res.partner.kanban.side.panel</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <kanban js_class="side_panel_kanban">
+                <templates>
+                    <t t-name="card">
+                        <field name="complete_name" class="fw-bold" />
+                        <field name="email" />
+                        <field name="phone" />
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_partner_list_side_panel" model="ir.ui.view">
+        <field name="name">res.partner.list.side.panel</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <list js_class="side_panel_list" create="0">
+                <field name="complete_name" />
+                <field name="email" />
+                <field name="phone" />
+                <field name="city" />
+            </list>
+        </field>
+    </record>
+
+    <record id="action_demo_partners" model="ir.actions.act_window">
+        <field name="name">Contacts with side panel (demo)</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field
+            name="context"
+            eval="{'side_panel_view_ref': 'deltatech_web_side_panel.view_partner_form_side_panel_quick'}"
+        />
+    </record>
+    <record id="action_demo_partners_kanban" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1" />
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="view_partner_kanban_side_panel" />
+        <field name="act_window_id" ref="action_demo_partners" />
+    </record>
+    <record id="action_demo_partners_list" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2" />
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_partner_list_side_panel" />
+        <field name="act_window_id" ref="action_demo_partners" />
+    </record>
+</odoo>
