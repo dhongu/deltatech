@@ -7,7 +7,7 @@
             <list>
                 <field name="x_name" />
                 <field name="x_code" />
-                <field name="x_balance" />
+                <field name="x_balance" digits="[16, 3]" />
             </list>
         </field>
     </record>
@@ -56,7 +56,7 @@
                         <group>
                             <field name="x_code" />
                             <field name="x_server" />
-                            <field name="x_balance" />
+                            <field name="x_balance" digits="[16, 3]" />
                         </group>
                         <group groups="base.group_no_one">
                             <field name="x_token" />
