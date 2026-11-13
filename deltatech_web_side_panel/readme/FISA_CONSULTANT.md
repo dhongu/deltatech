@@ -93,7 +93,8 @@ aceleași butoane. Selecția nu se transmite la schimbarea vederii: după trecer
 - **Înregistrarea anterioară** / **următoarea** mută selecția pe rândul vecin; după ultimul rând se
   revine la primul, și invers;
 - **Deschide formularul complet** (săgeata care iese din pătrat) duce la formularul obișnuit, pentru
-  modificări; panoul e doar pentru citire;
+  modificări; panoul e doar pentru citire. Același lucru face un **dublu clic** pe card sau pe rând
+  (un clic simplu doar selectează);
 - **Reîncarcă** reîncarcă lista și citește din nou înregistrarea din panou, după o modificare
   făcută în altă parte;
 - **Închide panoul** (crucea) îl ascunde până la următorul clic pe o înregistrare.
@@ -145,7 +146,8 @@ dezactivarea panoului sub 1200 px.
       panoul, fără să se deschidă formularul complet.
 - [ ] Același lucru pe vederea listă, cu rândul evidențiat.
 - [ ] Săgețile anterior / următor mută selecția, iar poziția din antet („1 / 9") se schimbă.
-- [ ] Butonul de deschidere duce la formularul complet al aceleiași înregistrări.
+- [ ] Butonul de deschidere, ca și dublu clic pe card sau pe rând, duce la formularul complet al
+      aceleiași înregistrări; un clic simplu doar selectează.
 - [ ] Mânerul se trage, se mișcă cu săgețile (Shift = pas mare) și revine la lățimea implicită la
       dublu clic; lățimea nu coboară sub 300 px și nu trece de 70% din conținut.
 - [ ] După reîncărcarea paginii, lățimea aleasă se păstrează.

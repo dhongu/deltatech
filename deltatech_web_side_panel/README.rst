@@ -35,7 +35,8 @@ screen.
 - **One click selects** — a click on a card or on a row shows the record
   in the panel and highlights it, instead of opening its full form. The
   panel has buttons to move to the previous or the next record, open the
-  full form, refresh and close.
+  full form, refresh and close. A double click on a card or on a row
+  opens the full form.
 - **The form is yours** — the panel embeds a form view, read-only, so a
   module defines what the panel shows in XML (header, fields, notebook,
   buttons) and the usual widgets work.
@@ -72,11 +73,11 @@ action *Contacts with side panel (demo)*
 
 For the user: click a card or a row to see the record on the right. Use
 the arrows in the header of the panel to move through the records, the
-arrow-out button to open the full form and the cross to close the panel.
-To change the width of the panel, drag the handle on its left edge (or
-focus it and use the left and right arrow keys); a double click on the
-handle restores the default width. The chosen width is remembered in the
-browser.
+arrow-out button, or a double click on the card or on the row, to open
+the full form and the cross to close the panel. To change the width of
+the panel, drag the handle on its left edge (or focus it and use the
+left and right arrow keys); a double click on the handle restores the
+default width. The chosen width is remembered in the browser.
 
 Select a record in a kanban card to see it in the panel:
 
@@ -101,6 +102,15 @@ use the arrow keys):
 
 Changelog
 =========
+
+19.0.1.2.0 (2026-11-13)
+-----------------------
+
+- A double click on a card or on a row opens the full form of that
+  record. A single click still selects it and shows it in the panel.
+  Buttons, links and fields inside a card or a row keep their own
+  behaviour, and on a small screen, where the panel is off, a click
+  opens the form as before.
 
 19.0.1.1.1 (2026-11-13)
 -----------------------
