@@ -7,6 +7,8 @@ the user selected, without leaving the screen.
 - **The form is yours** — the panel embeds a form view, read-only, so a module defines what the
   panel shows in XML (header, fields, notebook, buttons) and the usual widgets work.
 - **Kanban and list, one behaviour** — the views `side_panel_kanban` and `side_panel_list` share the
-  same panel and the same selection.
+  same panel and the same behaviour: a click selects the record in either view.
+- **Resizable** — drag the handle on the left edge of the panel to change its width; the width is
+  remembered in the browser.
 - **Small screens keep the usual views** — below the extra-large breakpoint the click opens the form
   as before.

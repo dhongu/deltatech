@@ -11,16 +11,73 @@
 }
 
 .o_side_panel {
+    position: relative;
     flex: 0 0 clamp(340px, 34%, 480px);
-    min-width: 0;
+    min-width: 300px;
+    max-width: 70%;
     border-left: 1px solid var(--border-color, #dee2e6);
     background-color: var(--o-view-background-color, var(--body-bg, #fff));
+
+    // The handle on the left edge: wide enough to be caught, drawn thin.
+    .o_side_panel_resizer {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: -3px;
+        width: 7px;
+        z-index: 3;
+        cursor: col-resize;
+        touch-action: none;
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 3px;
+            width: 1px;
+            background-color: transparent;
+        }
+
+        &:hover::after,
+        &:focus-visible::after {
+            left: 2px;
+            width: 3px;
+            background-color: var(--primary, #714b67);
+        }
+
+        &:focus-visible {
+            outline: none;
+        }
+    }
+
+    // While dragging: no text selection, and nothing inside the panel steals the pointer.
+    &.o_side_panel_resizing {
+        user-select: none;
+
+        .o_side_panel_resizer::after {
+            left: 2px;
+            width: 3px;
+            background-color: var(--primary, #714b67);
+        }
+
+        .o_side_panel_body,
+        .o_side_panel_header {
+            pointer-events: none;
+        }
+    }
 
     .o_side_panel_body {
         min-height: 0;
 
         .o_form_view {
             height: auto;
+        }
+
+        // On a wide window the form is laid out as a row (sheet and chatter): the sheet
+        // takes the width of the panel instead of keeping the width of its content.
+        .o_form_renderer {
+            flex-grow: 1;
         }
     }
 }

@@ -4,7 +4,7 @@
     "images": ["static/description/main_screenshot.png"],
     "name": "Side Panel",
     "summary": "A side panel with the details of the selected record, for kanban and list views",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Hidden/Tools",
@@ -20,6 +20,7 @@
             "deltatech_web_side_panel/static/tests/**/*",
         ],
     },
+    "consultant_sheet": "full",
     "development_status": "Beta",
     "maintainers": ["dhongu"],
 }

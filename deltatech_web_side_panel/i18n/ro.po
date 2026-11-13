@@ -42,3 +42,15 @@ msgstr "Înregistrarea anterioară"
 #: code:addons/deltatech_web_side_panel/static/src/side_panel/side_panel.xml:0
 msgid "Refresh"
 msgstr "Reîncarcă"
+
+#. module: deltatech_web_side_panel
+#. odoo-javascript
+#: code:addons/deltatech_web_side_panel/static/src/side_panel/side_panel.xml:0
+msgid "Resize the panel"
+msgstr "Redimensionează panoul"
+
+#. module: deltatech_web_side_panel
+#. odoo-javascript
+#: code:addons/deltatech_web_side_panel/static/src/side_panel/side_panel.xml:0
+msgid "Resize the panel (double click to reset)"
+msgstr "Redimensionează panoul (dublu clic pentru lățimea implicită)"
