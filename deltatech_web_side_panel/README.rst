@@ -19,11 +19,14 @@ Side Panel
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_web_side_panel
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-1%20automated%20test-2ea44f.png
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_web_side_panel/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests-2ea44f.png
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_web_side_panel/tests
-    :alt: 1 automated test
+    :alt: 3 automated tests
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
 A technical module: a panel on the right of a kanban or a list that
 shows the form of the record the user selected, without leaving the
@@ -37,7 +40,10 @@ screen.
   module defines what the panel shows in XML (header, fields, notebook,
   buttons) and the usual widgets work.
 - **Kanban and list, one behaviour** — the views ``side_panel_kanban``
-  and ``side_panel_list`` share the same panel and the same selection.
+  and ``side_panel_list`` share the same panel and the same behaviour: a
+  click selects the record in either view.
+- **Resizable** — drag the handle on the left edge of the panel to
+  change its width; the width is remembered in the browser.
 - **Small screens keep the usual views** — below the extra-large
   breakpoint the click opens the form as before.
 
@@ -67,9 +73,54 @@ action *Contacts with side panel (demo)*
 For the user: click a card or a row to see the record on the right. Use
 the arrows in the header of the panel to move through the records, the
 arrow-out button to open the full form and the cross to close the panel.
+To change the width of the panel, drag the handle on its left edge (or
+focus it and use the left and right arrow keys); a double click on the
+handle restores the default width. The chosen width is remembered in the
+browser.
+
+Select a record in a kanban card to see it in the panel:
+
+|Kanban view with the selected card highlighted and its form in the side
+panel|
+
+The list view uses the same panel and the same behaviour; the arrows in
+the header move to the previous or the next record, and the arrow-out
+button opens the full form:
+
+|List view with the selected row highlighted and its form in the side
+panel|
+
+The handle on the left edge of the panel changes its width (drag it, or
+use the arrow keys):
+
+|Kanban view with a wider side panel and the resize handle highlighted|
+
+.. |Kanban view with the selected card highlighted and its form in the side panel| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_web_side_panel/static/description/en/01_kanban_cu_panou.png
+.. |List view with the selected row highlighted and its form in the side panel| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_web_side_panel/static/description/en/02_lista_cu_panou.png
+.. |Kanban view with a wider side panel and the resize handle highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_web_side_panel/static/description/en/03_redimensionare_panou.png
 
 Changelog
 =========
+
+19.0.1.1.1 (2026-11-13)
+-----------------------
+
+- The form of the panel follows the width of the panel on a wide window.
+  On a window of 1500px or more the form sheet kept the width of the
+  window (up to 1500px) and overflowed the panel: the right-hand fields
+  were cut off and resizing the panel changed nothing in the form. The
+  sheet and the levels above it may now shrink to the panel.
+
+19.0.1.1.0 (2026-11-13)
+-----------------------
+
+- The side panel can be resized: drag the handle on its left edge (or
+  use the arrow keys on it, Home and End for the limits). The width
+  stays between 300 px and 70% of the content area, a double click on
+  the handle restores the default width, and the chosen width is
+  remembered in the browser for every view that uses the panel. On a
+  wide window (extra-large and up) the form sheet now follows the width
+  of the panel instead of keeping the width of its content.
 
 19.0.1.0.0 (2026-11-13)
 -----------------------
