@@ -1,0 +1,236 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_iap_online
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-13 06:26+0000\n"
+"PO-Revision-Date: 2026-11-13 06:26+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_service_x_token
+msgid "Account Token"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.actions.server,name:deltatech_iap_online.action_iap_online_activate
+#: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_service_form
+msgid "Activate"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_service_form
+msgid "Activate Again"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_result
+msgid "Answer"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_service_x_apply_action_id
+msgid "Apply Action"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.actions.server,name:deltatech_iap_online.action_iap_online_buy
+#: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_service_form
+msgid "Buy Credits"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_callback_url
+msgid "Callback URL"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_company_name
+msgid "Company Name"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_company_vat
+msgid "Company Tax ID"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_service_x_balance
+msgid "Credits Left"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_db_uuid
+msgid "Database UUID"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_res_id
+msgid "Document ID"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_res_model
+msgid "Document Model"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_error
+msgid "Error"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_request_search
+msgid "Errors"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_input
+msgid "Input"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_name
+msgid "Name"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.actions.server,name:deltatech_iap_online.action_iap_online_balance
+#: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_service_form
+msgid "Refresh Credits"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_token
+msgid "Request Token"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_kind
+msgid "Request Type"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.ui.menu,name:deltatech_iap_online.menu_x_iap_online_request
+msgid "Requests"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_service_x_send_action_id
+msgid "Send Action"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_service_x_server
+msgid "Server URL"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,help:deltatech_iap_online.field_x_iap_online_service_x_apply_action_id
+msgid ""
+"Server action of the service module that writes the answer of a request "
+"(context: iap_answer)"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_service_id
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_service_x_name
+msgid "Service"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_service_x_code
+msgid "Service Code"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.ui.menu,name:deltatech_iap_online.menu_x_iap_online_service
+msgid "Services"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_state
+msgid "Status"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model,name:deltatech_iap_online.model_x_iap_online_request
+msgid "Terrabit Online Request"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model,name:deltatech_iap_online.model_x_iap_online_service
+msgid "Terrabit Online Service"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.actions.act_window,name:deltatech_iap_online.action_x_iap_online_request
+msgid "Terrabit Requests"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.actions.act_window,name:deltatech_iap_online.action_x_iap_online_service
+#: model:ir.ui.menu,name:deltatech_iap_online.menu_iap_online_root
+msgid "Terrabit Services"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:base.automation,name:deltatech_iap_online.automation_iap_online_callback
+msgid "Terrabit: answer of a service"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.actions.server,name:deltatech_iap_online.action_iap_online_callback
+msgid "Terrabit: apply the answer"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.actions.server,name:deltatech_iap_online.action_iap_online_prepare
+msgid "Terrabit: prepare and send the request"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:base.automation,name:deltatech_iap_online.automation_iap_online_request_create
+msgid "Terrabit: send a new request"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:base.automation,name:deltatech_iap_online.automation_iap_online_retry
+msgid "Terrabit: send again a request without answer"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.actions.server,name:deltatech_iap_online.action_iap_online_retry
+msgid "Terrabit: send the request again"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,help:deltatech_iap_online.field_x_iap_online_service_x_code
+msgid ""
+"The code of the service on the Terrabit server, e.g. anaf_partner_online"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,help:deltatech_iap_online.field_x_iap_online_service_x_send_action_id
+msgid "The webhook to the service, created at activation"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_request_search
+msgid "Waiting"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,help:deltatech_iap_online.field_x_iap_online_request_x_kind
+msgid ""
+"register: activation; balance: credits left; request: a request of the "
+"service"
+msgstr ""
