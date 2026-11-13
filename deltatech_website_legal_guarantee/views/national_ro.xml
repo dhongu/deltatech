@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- Partea națională pentru România; alte țări adaugă propriul șablon national_<cod țară> -->
+    <template id="national_ro" name="Legal guarantee: national rules, Romania">
+        <h3 class="h5">National rules in Romania</h3>
+        <p>
+            In Romania the Directive is transposed by Government Emergency Ordinance no. 140/2021:
+        </p>
+        <ul>
+            <li>
+                Repair or replacement is done free of charge, within a reasonable period agreed in
+                writing, of no more than 15 calendar days from the date you informed the seller.
+            </li>
+            <li>
+                National Authority for Consumer Protection:
+                <a href="https://anpc.ro" target="_blank" rel="noopener">anpc.ro</a>
+            </li>
+            <li>
+                Alternative dispute resolution:
+                <a href="https://reclamatiisal.anpc.ro/" target="_blank" rel="noopener">reclamatiisal.anpc.ro</a>
+            </li>
+        </ul>
+    </template>
+
+</odoo>
