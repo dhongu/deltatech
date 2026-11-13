@@ -1,3 +1,9 @@
+## 19.0.1.2.0 (2026-11-13)
+
+- A double click on a card or on a row opens the full form of that record. A single click still
+  selects it and shows it in the panel. Buttons, links and fields inside a card or a row keep their
+  own behaviour, and on a small screen, where the panel is off, a click opens the form as before.
+
 ## 19.0.1.1.1 (2026-11-13)
 
 - The form of the panel follows the width of the panel on a wide window. On a window of 1500px or

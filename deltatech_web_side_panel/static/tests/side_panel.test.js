@@ -205,3 +205,29 @@ test("the chosen width is kept and applied when the panel opens again", async ()
     await animationFrame();
     expect(panelWidth()).toBe(320);
 });
+
+test("a double click on a row opens the full form, a click only selects", async () => {
+    await mountView({
+        type: "list",
+        resModel: "partner",
+        arch: LIST_ARCH,
+        selectRecord: (resId) => expect.step(`open ${resId}`),
+    });
+    await click(".o_data_row:eq(1) .o_data_cell:first");
+    await waitFor(".o_side_panel");
+    expect.verifySteps([]);
+
+    await dblclick(".o_data_row:first .o_data_cell:first");
+    expect.verifySteps(["open 1"]);
+});
+
+test("a double click on a kanban card opens the full form", async () => {
+    await mountView({
+        type: "kanban",
+        resModel: "partner",
+        arch: KANBAN_ARCH,
+        selectRecord: (resId) => expect.step(`open ${resId}`),
+    });
+    await dblclick(".o_kanban_record:first");
+    expect.verifySteps(["open 1"]);
+});

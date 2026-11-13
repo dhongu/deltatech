@@ -36,11 +36,17 @@ export function withSidePanel(Controller, template) {
                 if (root) {
                     this.sidePanelObserver = new MutationObserver(() => this.scheduleSidePanelSync());
                     this.sidePanelObserver.observe(root, {childList: true, subtree: true});
+                    // A click selects, a double click opens the full form.
+                    this.sidePanelDblClick = (ev) => this.onSidePanelDblClick(ev);
+                    root.addEventListener("dblclick", this.sidePanelDblClick);
                 }
             });
             onPatched(() => this.syncSidePanelSelection());
             onWillUnmount(() => {
                 this.sidePanelObserver?.disconnect();
+                if (this.sidePanelDblClick) {
+                    this.rootRef?.el?.removeEventListener("dblclick", this.sidePanelDblClick);
+                }
                 cancelAnimationFrame(this.sidePanelSyncFrame);
             });
         }
@@ -120,8 +126,28 @@ export function withSidePanel(Controller, template) {
             this.sidePanelState.resId = next.resId;
         }
 
-        async openSidePanelRecord() {
-            const record = this.sidePanelRecords.find((rec) => rec.resId === this.sidePanelState.resId);
+        /**
+         * A double click on a card or on a row opens the full form of that record (a single
+         * click selects it). Off when the panel is off: the click already opens the form.
+         */
+        onSidePanelDblClick(ev) {
+            if (!this.sidePanelEnabled || !ev.target.closest) {
+                return;
+            }
+            // What is inside the panel, and the buttons or links of a card or of a row, keep
+            // their own behaviour
+            if (ev.target.closest(".o_side_panel, a, button, input, textarea, select")) {
+                return;
+            }
+            const element = ev.target.closest(".o_kanban_record[data-id], .o_data_row[data-id]");
+            const record = element && this.sidePanelRecords.find((rec) => rec.id === element.dataset.id);
+            if (record) {
+                this.openSidePanelRecord(record);
+            }
+        }
+
+        async openSidePanelRecord(selected) {
+            const record = selected || this.sidePanelRecords.find((rec) => rec.resId === this.sidePanelState.resId);
             if (record) {
                 // The original behaviour: the full form. `force` opens it even when the
                 // action has no form view of its own.
