@@ -13,3 +13,6 @@ The demo data of this module has a working example on contacts: open the action
 For the user: click a card or a row to see the record on the right. Use the arrows in the header of
 the panel to move through the records, the arrow-out button to open the full form and the cross to
 close the panel.
+To change the width of the panel, drag the handle on its left edge (or focus it and use the left and
+right arrow keys); a double click on the handle restores the default width. The chosen width is
+remembered in the browser.

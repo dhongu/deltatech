@@ -2,7 +2,30 @@
 <templates xml:space="preserve">
 
     <t t-name="deltatech_web_side_panel.SidePanel">
-        <aside class="o_side_panel d-flex flex-column" role="complementary">
+        <aside
+            class="o_side_panel d-flex flex-column"
+            t-att-class="{'o_side_panel_resizing': state.resizing}"
+            t-att-style="rootStyle"
+            t-ref="root"
+            role="complementary"
+        >
+            <div
+                class="o_side_panel_resizer"
+                role="separator"
+                aria-orientation="vertical"
+                tabindex="0"
+                title="Resize the panel (double click to reset)"
+                aria-label="Resize the panel"
+                t-att-aria-valuenow="state.current"
+                t-att-aria-valuemin="minWidth"
+                t-att-aria-valuemax="state.max"
+                t-on-pointerdown="onResizeStart"
+                t-on-pointermove="onResizeMove"
+                t-on-pointerup="onResizeEnd"
+                t-on-pointercancel="onResizeEnd"
+                t-on-dblclick="onResizeReset"
+                t-on-keydown="onResizeKeydown"
+            />
             <div
                 class="o_side_panel_header d-flex align-items-center justify-content-between gap-2 px-3 py-2 border-bottom"
             >
