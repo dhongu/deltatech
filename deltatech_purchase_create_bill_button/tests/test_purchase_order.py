@@ -2,6 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import fields
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase, tagged
 
 
@@ -122,3 +123,105 @@ class TestPurchaseOrderCreateBill(TransactionCase):
         self.assertEqual(len(bill), 1)
         self.assertEqual(bill.ref, "REF-SAME")
         self.assertEqual(bill.payment_reference, "REF-SAME")
+
+    def test_bill_skips_backordered_line(self):
+        if "stock.picking" not in self.env:
+            self.skipTest("stock is not installed")
+        product2 = self.env["product.product"].create(
+            {"name": "Product 2", "type": "consu", "is_storable": True, "purchase_method": "receive"}
+        )
+        self.product.write({"is_storable": True, "purchase_method": "receive"})
+        order = self.env["purchase.order"].create(
+            {
+                "partner_id": self.partner_vendor.id,
+                "order_line": [
+                    (0, 0, {"product_id": prod.id, "product_qty": 5.0, "price_unit": 10.0})
+                    for prod in (self.product, product2)
+                ],
+            }
+        )
+        order.button_confirm()
+        picking = order.picking_ids
+        picking.move_ids[0].quantity = 5.0
+        picking.move_ids[1].quantity = 0.0
+        picking.with_context(skip_backorder=True, picking_ids_not_to_backorder=[]).button_validate()
+        received = order.order_line.filtered(lambda line: line.qty_received)
+        action = order.action_create_invoice()
+        bill = self.env["account.move"].browse(action["res_id"])
+        self.assertEqual(bill.invoice_line_ids.purchase_line_id, received)
+        self.assertEqual(bill.invoice_line_ids.quantity, 5.0)
+
+    def test_bill_nothing_to_invoice(self):
+        if "stock.picking" not in self.env:
+            self.skipTest("stock is not installed")
+        product2 = self.env["product.product"].create(
+            {"name": "Product 2", "type": "consu", "is_storable": True, "purchase_method": "receive"}
+        )
+        self.product.write({"is_storable": True, "purchase_method": "receive"})
+        order = self.env["purchase.order"].create(
+            {
+                "partner_id": self.partner_vendor.id,
+                "order_line": [(0, 0, {"product_id": product2.id, "product_qty": 5.0, "price_unit": 10.0})],
+            }
+        )
+        order.button_confirm()
+        with self.assertRaises(UserError):
+            order.action_create_invoice()
+
+    def _stock_products(self, count=2):
+        if "stock.picking" not in self.env:
+            self.skipTest("stock is not installed")
+        return self.env["product.product"].create(
+            [
+                {"name": f"Stock {i}", "type": "consu", "is_storable": True, "purchase_method": "receive"}
+                for i in range(count)
+            ]
+        )
+
+    def _receive_only(self, order, product):
+        picking = order.picking_ids
+        for move in picking.move_ids:
+            move.quantity = move.product_uom_qty if move.product_id == product else 0.0
+        picking.with_context(skip_backorder=True, picking_ids_not_to_backorder=[]).button_validate()
+
+    def test_bill_removes_orphan_sections_and_notes(self):
+        prod_a, prod_b = self._stock_products()
+        section = {"display_type": "line_section", "name": "Section", "product_qty": 0.0}
+        note = {"display_type": "line_note", "name": "Note", "product_qty": 0.0}
+        order = self.env["purchase.order"].create(
+            {
+                "partner_id": self.partner_vendor.id,
+                "order_line": [
+                    (0, 0, section | {"name": "S1"}),
+                    (0, 0, note | {"name": "N1"}),
+                    (0, 0, {"product_id": prod_a.id, "product_qty": 5.0, "price_unit": 10.0}),
+                    (0, 0, section | {"name": "S2"}),
+                    (0, 0, note | {"name": "N2"}),
+                    (0, 0, {"product_id": prod_b.id, "product_qty": 5.0, "price_unit": 10.0}),
+                ],
+            }
+        )
+        order.button_confirm()
+        self._receive_only(order, prod_b)
+        bill = self.env["account.move"].browse(order.action_create_invoice()["res_id"])
+        self.assertEqual(
+            bill.invoice_line_ids.sorted("sequence").mapped("name"),
+            ["S2", "N2", bill.invoice_line_ids.filtered("product_id").name],
+        )
+
+    def test_no_empty_bill_for_other_vendor(self):
+        prod_a, prod_b = self._stock_products()
+        other_vendor = self.env["res.partner"].create({"name": "Other Vendor"})
+        orders = self.env["purchase.order"]
+        for partner, product in ((other_vendor, prod_a), (self.partner_vendor, prod_b)):
+            orders |= self.env["purchase.order"].create(
+                {
+                    "partner_id": partner.id,
+                    "order_line": [(0, 0, {"product_id": product.id, "product_qty": 5.0, "price_unit": 10.0})],
+                }
+            )
+        orders.button_confirm()
+        self._receive_only(orders[1], prod_b)
+        orders.action_create_invoice()
+        self.assertFalse(orders[0].invoice_ids)
+        self.assertEqual(len(orders[1].invoice_ids), 1)

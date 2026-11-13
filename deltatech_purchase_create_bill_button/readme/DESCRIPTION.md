@@ -15,3 +15,5 @@ button was kept only on the "Purchase Orders" list, while the Requests for Quota
 list (the default dashboard list) lost it. This module restores it there as well, so
 several purchase orders can be selected and billed in one go — including returns,
 which Odoo converts automatically into a vendor credit note when the total is negative.
+
+Bills created this way contain only the lines that still have a quantity to bill: a product left in backorder after a partial receipt is no longer copied to the bill with quantity 0, and sections left without lines are removed. If nothing is left to bill, a clear message is shown instead of an empty bill.
