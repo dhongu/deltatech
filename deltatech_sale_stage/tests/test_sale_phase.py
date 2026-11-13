@@ -1,4 +1,4 @@
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError
 from odoo.tests import common, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
@@ -150,4 +150,29 @@ class TestSaleOrderInvoicedPhase(AccountTestInvoicingCommon):
         self.assertEqual(order.phase_id, self.phase_confirmed)
         invoice.action_post()
         self.assertEqual(order.invoice_status, "invoiced")
+        self.assertEqual(order.phase_id, self.phase_invoiced)
+
+    def test_invoice_post_without_phase_access(self):
+        # contabilul fără drepturi pe fazele comenzii poate valida factura;
+        # faza „facturat” se setează fără AccessError
+        order = self.env["sale.order"].create(
+            {
+                "partner_id": self.partner_a.id,
+                "order_line": [(0, 0, {"product_id": self.service.id, "product_uom_qty": 1})],
+            }
+        )
+        order.action_confirm()
+        invoice = order._create_invoices()
+        accountant = self.env["res.users"].create(
+            {
+                "name": "Accountant without sales rights",
+                "login": "accountant_no_phase",
+                "company_id": self.env.company.id,
+                "company_ids": [(6, 0, self.env.company.ids)],
+                "group_ids": [(6, 0, self.env.ref("account.group_account_manager").ids)],
+            }
+        )
+        with self.assertRaises(AccessError):
+            self.env["sale.order.phase"].with_user(accountant).search([])
+        invoice.with_user(accountant).action_post()
         self.assertEqual(order.phase_id, self.phase_invoiced)

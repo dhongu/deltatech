@@ -5,7 +5,7 @@
 
 {
     "name": "Sale Order Phases",
-    "version": "19.0.1.2.9",
+    "version": "19.0.1.2.10",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "consultant_sheet": "simple",
