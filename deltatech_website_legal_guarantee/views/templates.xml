@@ -18,7 +18,7 @@
             <figcaption class="small mt-2">
                 More information:
                 <a t-att-href="notice['link_url']" target="_blank" rel="noopener" t-out="notice['link_text']" />
-                &#183;
+                ·
                 <a t-att-href="notice['pdf_url']" target="_blank" rel="noopener">Download the notice (PDF)</a>
             </figcaption>
         </figure>
@@ -70,8 +70,7 @@
     </template>
 
     <template id="legal_guarantee_page" name="Legal guarantee of conformity">
-        <t t-call="website.layout">
-            <t t-set="additional_title">Legal guarantee of conformity</t>
+        <t t-call="website.layout" additional_title.translate="Legal guarantee of conformity">
             <div id="wrap" class="o_legal_guarantee_page">
                 <div class="oe_structure" id="oe_structure_legal_guarantee_1" />
                 <div class="container py-4">

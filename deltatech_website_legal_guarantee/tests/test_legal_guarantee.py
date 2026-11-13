@@ -14,7 +14,7 @@ class TestLegalGuarantee(HttpCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.website = cls.env.ref("website.default_website")
+        cls.website = cls.env.ref("base.default_website")
         cls.product = cls.env["product.template"].create(
             {
                 "name": "Legal guarantee test product",

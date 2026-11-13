@@ -2,7 +2,7 @@
 # See README.rst file on addons root folder for license details
 {
     "name": "EU Legal Guarantee Notice",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "category": "Website/Website",
     "summary": "Displays the EU harmonised notice on the legal guarantee of conformity on the website, in all EU languages",
     "author": "Terrabit, Dorin Hongu",

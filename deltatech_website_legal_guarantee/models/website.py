@@ -81,7 +81,7 @@ class Website(models.Model):
         """Datele vânzătorului: compania website-ului, fără numele repetat în adresă și fără linii goale."""
         self.ensure_one()
         company = self.company_id
-        address = company.partner_id._display_address(without_company=True)
+        address = company.partner_id._display_address(without_name=True)
         return {
             "name": company.name,
             "vat": company.vat,
