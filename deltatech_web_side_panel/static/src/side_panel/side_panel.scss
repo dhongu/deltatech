@@ -73,6 +73,12 @@
         .o_form_view {
             height: auto;
         }
+
+        // On a wide window the form is laid out as a row (sheet and chatter): the sheet
+        // takes the width of the panel instead of keeping the width of its content.
+        .o_form_renderer {
+            flex-grow: 1;
+        }
     }
 }
 

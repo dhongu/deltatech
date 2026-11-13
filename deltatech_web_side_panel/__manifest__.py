@@ -20,6 +20,7 @@
             "deltatech_web_side_panel/static/tests/**/*",
         ],
     },
+    "consultant_sheet": "full",
     "development_status": "Beta",
     "maintainers": ["dhongu"],
 }
