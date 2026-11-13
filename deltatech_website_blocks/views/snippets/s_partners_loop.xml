@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="s_deltatech_partners_loop" name="Partners Loop">
+        <section
+            class="s_deltatech_partners_loop partners-loop js-partners-loop oe_img_bg o_colored_level"
+            data-snippet="s_deltatech_partners_loop"
+            data-name="Partners Loop"
+        >
+            <div class="container">
+                <h2 class="partners-title">OUR PARTNERS</h2>
+            </div>
+            <div class="partners-container">
+                <button class="partners-nav prev d-none" aria-label="Previous">
+                    <i class="fa fa-chevron-left" />
+                </button>
+                <div class="partners-track">
+                    <div class="partner-item">
+                        <div class="partner-logo">
+                            <img
+                                src="/web/static/img/placeholder.png"
+                                class="img img-fluid mx-auto"
+                                alt="Partner 1"
+                                loading="lazy"
+                                style="width: 100%;"
+                            />
+                        </div>
+                    </div>
+                    <div class="partner-item">
+                        <div class="partner-logo">
+                            <img
+                                src="/web/static/img/placeholder.png"
+                                class="img img-fluid mx-auto"
+                                alt="Partner 2"
+                                loading="lazy"
+                                style="width: 100%;"
+                            />
+                        </div>
+                    </div>
+                    <div class="partner-item">
+                        <div class="partner-logo">
+                            <img
+                                src="/web/static/img/placeholder.png"
+                                class="img img-fluid mx-auto"
+                                alt="Partner 3"
+                                loading="lazy"
+                                style="width: 100%;"
+                            />
+                        </div>
+                    </div>
+                    <div class="partner-item">
+                        <div class="partner-logo">
+                            <img
+                                src="/web/static/img/placeholder.png"
+                                class="img img-fluid mx-auto"
+                                alt="Partner 4"
+                                loading="lazy"
+                                style="width: 100%;"
+                            />
+                        </div>
+                    </div>
+                    <div class="partner-item">
+                        <div class="partner-logo">
+                            <img
+                                src="/web/static/img/placeholder.png"
+                                class="img img-fluid mx-auto"
+                                alt="Partner 5"
+                                loading="lazy"
+                                style="width: 100%;"
+                            />
+                        </div>
+                    </div>
+                    <div class="partner-item">
+                        <div class="partner-logo">
+                            <img
+                                src="/web/static/img/placeholder.png"
+                                class="img img-fluid mx-auto"
+                                alt="Partner 6"
+                                loading="lazy"
+                                style="width: 100%;"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <button class="partners-nav next d-none" aria-label="Next">
+                    <i class="fa fa-chevron-right" />
+                </button>
+            </div>
+        </section>
+    </template>
+</odoo>
