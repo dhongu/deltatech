@@ -3,7 +3,7 @@
     "name": "POS Stock Operations",
     "version": "19.0.1.0.0",
     "category": "Point of Sale",
-    "summary": "Receipts and deliveries from the POS session, by piece or by pack",
+    "summary": "Receipts against a purchase order and deliveries by pack, from the POS session",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "depends": ["point_of_sale", "stock", "purchase_stock", "deltatech_pos_stock"],

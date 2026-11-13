@@ -1,4 +1,4 @@
-Receipts and deliveries made from the Point of Sale session, by piece or by pack.
+Receipts against a purchase order and deliveries by piece or by pack, from the Point of Sale session.
 
 Key features:
 

@@ -9,6 +9,7 @@
                 <field name="name" />
                 <field name="operation_type" />
                 <field name="partner_id" />
+                <field name="purchase_id" optional="show" />
                 <field name="config_id" />
                 <field name="user_id" />
                 <field name="state" widget="badge" decoration-warning="state == 'pending'" decoration-success="state == 'done'" />
