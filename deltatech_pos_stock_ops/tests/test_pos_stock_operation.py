@@ -142,6 +142,27 @@ class TestPosStockOperation(TransactionCase):
                 self.config.id, "delivery", False, [{"product_id": self.product.id, "qty": 1}]
             )
 
+    def test_unknown_partner_is_refused(self):
+        with self.assertRaises(UserError):
+            self.Operation.pos_create_operation(
+                self.config.id, "delivery", 999999999, [{"product_id": self.product.id, "qty": 1}]
+            )
+
+    def test_partner_of_another_company_is_refused(self):
+        company = self.env["res.company"].create({"name": "Partner Co Ops"})
+        partner = self.env["res.partner"].create({"name": "Foreign Customer", "company_id": company.id})
+        user = self.env["res.users"].create(
+            {
+                "name": "Partner check user",
+                "login": "partner_check_ops",
+                "group_ids": [(6, 0, [self.env.ref("deltatech_pos_stock_ops.group_pos_stock_ops").id])],
+            }
+        )
+        with self.assertRaises(AccessError):
+            self.Operation.with_user(user).pos_create_operation(
+                self.config.id, "delivery", partner.id, [{"product_id": self.product.id, "qty": 1}]
+            )
+
     # --- deliveries ---------------------------------------------------
     def _receive(self, qty):
         picking = self._purchase(qty).picking_ids

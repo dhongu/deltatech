@@ -171,6 +171,7 @@ comandă (se fac din Inventar), cazurile în care Odoo cere un pas suplimentar l
 |---|---|---|
 | Receipts can only be made against a confirmed purchase order. | Recepție fără comandă sau pe un transfer care nu aparține unei comenzi confirmate din depozitul casei | Confirmați comanda sau faceți recepția din Inventar |
 | You cannot receive more than ordered: …, ordered … | Cantitatea introdusă depășește cantitatea comandată pe linie | Introduceți cel mult cantitatea comandată; excedentul se tratează din Inventar |
+| The partner does not exist. | Partenerul ales a fost șters sau nu e accesibil | Alegeți din nou partenerul |
 | A line does not belong to this transfer. | Linia trimisă nu face parte din transferul comenzii alese | Redeschideți comanda și reîncercați |
 | Enter the received quantity for at least one product. | Toate cantitățile sunt 0 | Introduceți cantitatea primită pe cel puțin o linie |
 | You are not allowed to do stock operations from the POS. | Utilizatorul nu are dreptul *POS stock operations* | Acordați dreptul în Setări → Utilizatori |

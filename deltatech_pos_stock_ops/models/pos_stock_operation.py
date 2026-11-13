@@ -180,11 +180,17 @@ class PosStockOperation(models.Model):
         picking_type = config.stock_ops_delivery_type_id
         if not picking_type:
             raise UserError(self.env._("Set the operation type for this point of sale first."))
-        partner = self.env["res.partner"].sudo().browse(partner_id) if partner_id else self.env["res.partner"]
+        partner = self.env["res.partner"]
+        if partner_id:
+            # Under the cashier's own rights (no sudo): a partner of another company is refused.
+            partner = self.env["res.partner"].browse(partner_id).exists()
+            if not partner:
+                raise UserError(self.env._("The partner does not exist."))
+            partner.check_access("read")
         source = picking_type.default_location_src_id
         destination = (
             picking_type.default_location_dest_id
-            or partner.property_stock_customer
+            or partner.sudo().property_stock_customer
             or self.env.ref("stock.stock_location_customers")
         )
         if not source or not destination:
