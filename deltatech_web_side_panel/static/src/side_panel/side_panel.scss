@@ -1,0 +1,42 @@
+// The content area becomes a row: the renderer takes what is left, the panel keeps its width.
+.o_has_side_panel .o_content {
+    display: flex;
+    flex-wrap: nowrap;
+
+    > .o_renderer {
+        flex: 1 1 0;
+        min-width: 0;
+        overflow: auto;
+    }
+}
+
+.o_side_panel {
+    flex: 0 0 clamp(340px, 34%, 480px);
+    min-width: 0;
+    border-left: 1px solid var(--border-color, #dee2e6);
+    background-color: var(--o-view-background-color, var(--body-bg, #fff));
+
+    .o_side_panel_body {
+        min-height: 0;
+
+        .o_form_view {
+            height: auto;
+        }
+    }
+}
+
+// The selected record, in the kanban and in the list.
+.o_has_side_panel {
+    .o_kanban_record.o_side_panel_selected {
+        background-color: color-mix(in srgb, var(--primary, #714b67) 10%, transparent);
+        box-shadow: inset 3px 0 0 var(--primary, #714b67);
+    }
+
+    .o_data_row.o_side_panel_selected > td {
+        background-color: color-mix(in srgb, var(--primary, #714b67) 10%, transparent);
+    }
+
+    .o_data_row.o_side_panel_selected > td:first-child {
+        box-shadow: inset 3px 0 0 var(--primary, #714b67);
+    }
+}
