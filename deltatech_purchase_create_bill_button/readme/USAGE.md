@@ -20,4 +20,6 @@ Open the new bill from the order's **Bills** smart button, or from **Accounting 
 
 ![Generated bill with Reference and Payment Reference taken from the order](https://apps.odoocdn.com/apps/assets/19.0/deltatech_purchase_create_bill_button/bill_button_generated_bill.png)
 
+Only the lines that still have a quantity to bill are copied to the bill. If a product was left in backorder after a partial receipt, it does not show up with quantity 0: it will be billed when it is received. A section (and the notes under it) is kept only if at least one billed product line remains under it. When several orders are selected from the list, an order with nothing to bill is skipped instead of producing an empty bill. If none of the selected orders has a quantity left to bill, no bill is created and the message "There is nothing to bill: no quantity left to invoice on the selected orders." is shown.
+
 As with any bill generated from purchases, review the amounts, taxes and accounts on the lines before confirming it.
