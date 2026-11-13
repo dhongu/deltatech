@@ -83,7 +83,7 @@ Date minime pentru demo:
 
 1. **Meniu → Delivery.**
 2. Scanați codul de bare al produsului sau scrieți primele litere din nume și alegeți produsul din
-   lista care apare. Un cod de bare de bax adaugă linia în unitatea baxului. Dacă nu se găsește niciun produs pentru codul sau textul introdus, apare avertizarea „No product found for …"; verificați codul sau căutați după nume.
+   lista care apare. Un cod de bare de bax adaugă linia în unitatea baxului. În lista de sugestii, lângă fiecare produs apar și butoane pentru unitățile de tip bax definite pe produs: alegerea unuia adaugă linia direct în acea unitate. Dacă nu se găsește niciun produs pentru codul sau textul introdus, apare avertizarea „No product found for …"; verificați codul sau căutați după nume.
 3. Corectați cantitatea; opțional alegeți **Partner**.
 4. Apăsați **Validate**. Transferul de livrare se creează și se validează; mesajul „Transfer … validated"
    confirmă operația, iar stocul scade.
@@ -105,7 +105,7 @@ Livrarea din POS mută doar stocul: nu înregistrează vânzarea (venit, TVA). M
 1. **Meniu → Receipt.** Dialogul listează comenzile de achiziție confirmate, cu transfer de intrare
    în așteptare în depozitul casei. Puteți căuta după numărul comenzii, furnizor sau numărul
    transferului.
-2. Alegeți comanda: liniile ei apar cu cantitatea comandată. Lista arată cel mult 10 comenzi, în ordinea datei planificate; când sunt multe deschise, căutați după număr sau furnizor.
+2. Alegeți comanda (săgeata din stânga numărului comenzii vă readuce la lista de comenzi, dacă ați greșit): liniile ei apar cu cantitatea comandată. Lista arată cel mult 10 comenzi, în ordinea datei planificate; când sunt multe deschise, căutați după număr sau furnizor.
 
 ![Dialogul Receipt cu lista comenzilor de achiziție de recepționat: număr comandă, număr transfer și furnizor pe fiecare rând](../static/description/05_receptie_comenzi.png)
 
@@ -131,7 +131,7 @@ Factura furnizorului se înregistrează separat, în Contabilitate, și regulari
 ### Pasul 4 — Jurnalul operațiunilor
 
 **Punct de vânzare → Comenzi → Operațiuni de stoc (Stock Operations)** listează fiecare operație: data, transferul creat, tipul
-(Receipt / Delivery), partenerul, casa, utilizatorul și starea. Starea **Needs confirmation**
+(Receipt / Delivery), partenerul, comanda de achiziție (doar la recepții; coloană opțională, afișată implicit), casa, utilizatorul și starea. Starea **Needs confirmation**
 înseamnă că Odoo a cerut un pas manual (de exemplu un asistent la validare): transferul există, dar
 trebuie terminat în Inventar.
 

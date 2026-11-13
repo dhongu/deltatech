@@ -9,14 +9,14 @@ class PosStockOperation(models.Model):
     _check_company_auto = True
 
     name = fields.Char(related="picking_id.name", store=True)
-    config_id = fields.Many2one("pos.config", required=True, index=True, ondelete="cascade")
-    session_id = fields.Many2one("pos.session", index=True, ondelete="set null")
+    config_id = fields.Many2one("pos.config", required=True, index=True, ondelete="cascade", check_company=True)
+    session_id = fields.Many2one("pos.session", index=True, ondelete="set null", check_company=True)
     company_id = fields.Many2one("res.company", related="config_id.company_id", store=True)
     user_id = fields.Many2one("res.users", default=lambda self: self.env.user, required=True)
     operation_type = fields.Selection([("receipt", "Receipt"), ("delivery", "Delivery")], required=True, index=True)
     partner_id = fields.Many2one("res.partner", check_company=True)
     purchase_id = fields.Many2one("purchase.order", string="Purchase Order", check_company=True)
-    picking_id = fields.Many2one("stock.picking", required=True, index=True, ondelete="cascade")
+    picking_id = fields.Many2one("stock.picking", required=True, index=True, ondelete="cascade", check_company=True)
     state = fields.Selection(
         [("done", "Done"), ("pending", "Needs confirmation")],
         required=True,
