@@ -1,3 +1,7 @@
+## 20.0.0.0.5 (2026-11-11)
+
+- Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.
+
 ## 20.0.0.0.4 (2026-10-01)
 
 - Migration to Odoo 20.0: access rights and the multi-company restriction of the forecast lines in `security/ir.access.csv` (replaces `ir.model.access.csv` and the `ir.rule`).

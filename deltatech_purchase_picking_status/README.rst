@@ -10,9 +10,9 @@ Purchase picking status
    !! source digest: sha256:63ad66ac85eac22e1bea4b93cf1d8e0775ebd8b28817671f9913ff30f3982159
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/license-LGPL--3-blue.png
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
@@ -25,19 +25,28 @@ Purchase picking status
 
 |badge1| |badge2| |badge3| |badge_tests|
 
-Extends the standard **Receipt Status** of the purchase order
-(``receipt_status``: Not Received, Partially Received, Fully Received),
-computed by Odoo from the receipts:
+Buyers who receive goods in several deliveries need to see which
+purchase orders are still waiting for goods. This module builds on the
+standard receipt status of purchase orders and makes it easier to show,
+filter and follow.
 
-- the status is shown by default in the requests for quotation and
-  purchase orders lists;
-- search filters *Receipt in Progress*, *Partially Received* and *Fully
-  Received*, and grouping by receipt status;
-- the status changes are tracked in the chatter of the order.
+- **Standard status**: The module adds no status of its own. It works on
+  the standard ``receipt_status`` field of the purchase order and leaves
+  its values and calculation unchanged.
+- **List column**: The receipt status column is shown by default in the
+  RFQ and purchase order lists.
+- **Filters and grouping**: Three search filters, *Receipt in Progress*,
+  *Partially Received* and *Fully Received*, select orders by receipt
+  status. *Receipt in Progress* covers orders that are pending or
+  partially received. A *Receipt Status* group-by option is added next
+  to the vendor one.
+- **Chatter tracking**: Each change of the receipt status is tracked in
+  the order's chatter.
 
-Up to version 19 the module computed its own *Delivery Status* (Done /
-In Progress). On upgrade, saved filters, export templates and grouping
-on the old field are moved to the standard receipt status.
+The module depends on ``purchase_stock`` and ``mail_tracking`` and adds
+no groups, so anyone who can see purchase orders sees the status. On
+upgrade from earlier versions, saved filters and export templates that
+used the former own status are rewritten on the standard one.
 
 **Table of contents**
 
@@ -46,6 +55,19 @@ on the old field are moved to the standard receipt status.
 
 Changelog
 =========
+
+20.0.2.0.2 (2026-11-11)
+-----------------------
+
+- Apps Store page: a fuller description (what the module does, the
+  problem it solves, its main functions, dependencies and limits). No
+  change in behavior.
+
+20.0.2.0.1 (2026-10-16)
+-----------------------
+
+- Development status raised from Beta to Production/Stable: the module
+  has been in production use at customers for a long time.
 
 20.0.2.0.0 (2026-10-03)
 -----------------------
