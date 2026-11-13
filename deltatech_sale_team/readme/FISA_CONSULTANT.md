@@ -79,6 +79,10 @@ Agentul deschide **Vânzări → Comenzi → Oferte → Nou**. Echipa de vânză
 schimbă echipa pe comandă, depozitul se schimbă odată cu ea. Echipele fără depozit implicit nu modifică
 depozitul ales.
 
+![Formularul echipei Magazin Cluj cu Depozit implicit](../static/description/01_echipa_depozit.png)
+
+![Oferta agentului din Cluj, cu echipa și depozitul preluat din echipă](../static/description/02_comanda_depozit.png)
+
 ### Pasul 2 — Lucrul agentului pe documentele proprii
 
 Agentul vede în **Vânzări → Comenzi → Comenzi** doar comenzile la care este vânzător și pe cele fără
@@ -86,15 +90,25 @@ vânzător, iar în
 **Vânzări → Comenzi → Clienți** doar clienții pe care îi urmărește, pe care îi are alocați sau care nu
 au vânzător. Clienții altor agenți nu apar nici la căutare, nici în selecția de pe comandă.
 
+![Comenzile agentului: doar ale lui și cele fără vânzător](../static/description/03_comenzi_agent.png)
+
+![Clienții agentului: ai lui și cei fără vânzător](../static/description/04_clienti_agent.png)
+
 ### Pasul 3 — Lucrul șefului de echipă
 
 Șeful de echipă deschide **Vânzări → Comenzi → Comenzi** și **Raportare → Vânzări**:
 
 1. **Găsiți pe ecran** — grupați lista după **Echipa de vânzări**; apar echipa proprie, comenzile fără
    echipă și eventualele comenzi la care șeful de echipă este el însuși vânzător.
+
+   ![Comenzile șefului de echipă, grupate pe echipă](../static/description/05_lista_sef_echipa.png)
 2. **Verificați** — comenzile celorlalte echipe nu apar; totalurile din analiza vânzărilor corespund
    doar echipei proprii; facturile din **Facturare → Clienți → Facturi** sunt doar ale echipei proprii
    sau fără echipă.
+
+   ![Analiza vânzărilor a șefului de echipă](../static/description/06_analiza_vanzari_sef.png)
+
+   ![Facturile vizibile șefului de echipă](../static/description/07_facturi_sef.png)
 3. **Treceți mai departe** — șeful de echipă poate crea și modifica comenzile echipei (inclusiv ale
    colegilor), dar nu le poate șterge.
 
@@ -102,6 +116,8 @@ au vânzător. Clienții altor agenți nu apar nici la căutare, nici în selec�
 
 În **Vânzări → Configurare → Echipe de vânzări**, șeful de echipă vede doar echipa proprie. Agenții,
 utilizatorii cu **Toate documentele** și administratorii văd toate echipele.
+
+![Echipele de vânzări vizibile șefului de echipă](../static/description/08_echipe_sef.png)
 
 ### Note de monografie și raportare
 
@@ -149,16 +165,20 @@ depozitului implicit pe fiecare echipă.
 
 ## 10. Capturi de ecran
 
-Fișa este **doar text**, fără capturi. Dacă se vor adăuga, capturile planificate, în ordinea pașilor:
+Capturile sunt generate cu skill-ul `fisa-screenshots` (test `tests/test_screenshots.py`, mixinul
+`ScreenshotCase` din `deltatech_doc_screenshots`), în română, pe date de demo. Ordinea corespunde pașilor
+din secțiunea 6:
 
-| # | Fișier planificat | Conținut |
-|---|---|---|
-| 1 | `01_echipa_depozit.png` | Formularul echipei de vânzări cu **Default Warehouse** |
-| 2 | `02_comanda_depozit.png` | Comanda nouă cu depozitul preluat din echipă |
-| 3 | `03_lista_sef_echipa.png` | Lista de comenzi a șefului de echipă, grupată pe echipă |
-
-Generarea lor se face cu skill-ul `fisa-screenshots` (test `tests/test_screenshots.py`, mixinul
-`ScreenshotCase` din `l10n_ro_doc_screenshots`), în română.
+| # | Fișier | Conținut | Pas |
+|---|---|---|---|
+| 1 | `01_echipa_depozit.png` | Formularul echipei de vânzări cu **Default Warehouse** (Depozit implicit) | 1 |
+| 2 | `02_comanda_depozit.png` | Oferta, fila **Alte informații**: echipa și depozitul preluat din echipă | 1 |
+| 3 | `03_comenzi_agent.png` | Comenzile agentului: doar ale lui și cele fără vânzător | 2 |
+| 4 | `04_clienti_agent.png` | Clienții agentului: ai lui și cei fără vânzător | 2 |
+| 5 | `05_lista_sef_echipa.png` | Comenzile șefului de echipă, grupate pe echipă | 3 |
+| 6 | `06_analiza_vanzari_sef.png` | Analiza vânzărilor a șefului de echipă | 3 |
+| 7 | `07_facturi_sef.png` | Facturile șefului de echipă: ale echipei sau fără echipă | 3 |
+| 8 | `08_echipe_sef.png` | Echipele de vânzări vizibile șefului de echipă | 4 |
 
 ## 11. Observații pentru manual
 
