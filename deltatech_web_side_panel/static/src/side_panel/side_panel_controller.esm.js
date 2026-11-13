@@ -59,8 +59,10 @@ export function withSidePanel(Controller, template) {
         }
 
         get sidePanelRecords() {
-            const root = this.model.root;
-            return root.isGrouped ? root.groups.flatMap((group) => group.list.records) : root.records;
+            // Grouped lists nest: a group's list may be grouped again, at any depth.
+            const collect = (list) =>
+                list.isGrouped ? list.groups.flatMap((group) => collect(group.list)) : list.records;
+            return collect(this.model.root);
         }
 
         get sidePanelVisible() {
@@ -91,7 +93,8 @@ export function withSidePanel(Controller, template) {
          * Both renderers call this on a click on a record.
          */
         async openRecord(record, options = {}) {
-            if (this.sidePanelEnabled && !options.newWindow && !options.force) {
+            const known = this.sidePanelRecords.some((rec) => rec.resId === record.resId);
+            if (this.sidePanelEnabled && known && !options.newWindow && !options.force) {
                 this.sidePanelState.resId = record.resId;
                 return undefined;
             }

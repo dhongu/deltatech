@@ -8,11 +8,12 @@ class Partner extends models.Model {
     _name = "partner";
 
     name = fields.Char();
+    category = fields.Char();
 
     _records = [
-        {id: 1, name: "Alpha"},
-        {id: 2, name: "Beta"},
-        {id: 3, name: "Gamma"},
+        {id: 1, name: "Alpha", category: "A"},
+        {id: 2, name: "Beta", category: "A"},
+        {id: 3, name: "Gamma", category: "B"},
     ];
 
     _views = {
@@ -87,4 +88,20 @@ test("on a small screen a click opens the form as usual", async () => {
     await click(".o_data_row:first .o_data_cell:first");
     expect(".o_side_panel").toHaveCount(0);
     expect.verifySteps(["open 1"]);
+});
+
+test("the panel opens in a list grouped on two levels", async () => {
+    await mountView({
+        type: "list",
+        resModel: "partner",
+        arch: LIST_ARCH,
+        groupBy: ["category", "name"],
+    });
+    await click(".o_group_header:first");
+    await waitFor(".o_group_header:contains('Alpha')");
+    await click(".o_group_header:contains('Alpha')");
+    await waitFor(".o_data_row");
+    await click(".o_data_row:first .o_data_cell:first");
+    await waitFor(".o_side_panel");
+    expect(".o_side_panel_position").toHaveText("1 / 1");
 });
