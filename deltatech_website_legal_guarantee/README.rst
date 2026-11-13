@@ -14,10 +14,10 @@ EU Legal Guarantee Notice
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_legal_guarantee
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_legal_guarantee
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_website_legal_guarantee/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_website_legal_guarantee/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
 
 |badge1| |badge2| |badge_fisa|
@@ -136,14 +136,21 @@ setup.
 Extra content, such as your own service terms, can be added from the
 website editor, in the areas above and below the page content.
 
-.. |Website settings, EU legal guarantee notice section: three ticked options, link in footer, legal guarantee on product page and legal guarantee at checkout| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_legal_guarantee/static/description/en/01_setari_website.png
-.. |The public legal guarantee page: the official EU notice on the left, consumer rights, national rules, how to report a problem and the seller details on the right| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_legal_guarantee/static/description/en/02_pagina_garantie.png
-.. |Website footer: the Legal guarantee link, highlighted, in the copyright row| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_legal_guarantee/static/description/en/03_footer_link.png
-.. |Product page: the Your legal guarantee rights link, highlighted, under the Add to cart button| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_legal_guarantee/static/description/en/04_pagina_produs_link.png
-.. |The window opened by the link, showing the official EU notice in English| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_legal_guarantee/static/description/en/05_fereastra_notificare.png
+.. |Website settings, EU legal guarantee notice section: three ticked options, link in footer, legal guarantee on product page and legal guarantee at checkout| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_legal_guarantee/static/description/en/01_setari_website.png
+.. |The public legal guarantee page: the official EU notice on the left, consumer rights, national rules, how to report a problem and the seller details on the right| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_legal_guarantee/static/description/en/02_pagina_garantie.png
+.. |Website footer: the Legal guarantee link, highlighted, in the copyright row| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_legal_guarantee/static/description/en/03_footer_link.png
+.. |Product page: the Your legal guarantee rights link, highlighted, under the Add to cart button| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_legal_guarantee/static/description/en/04_pagina_produs_link.png
+.. |The window opened by the link, showing the official EU notice in English| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_legal_guarantee/static/description/en/05_fereastra_notificare.png
 
 Changelog
 =========
+
+20.0.1.0.0 (2026-11-13)
+-----------------------
+
+- Migration to 20.0: ``_display_address(without_name=True)``,
+  ``base.default_website`` in tests, ``additional_title.translate`` on
+  the page layout.
 
 19.0.1.0.0 (2026-11-13)
 -----------------------
@@ -193,6 +200,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_legal_guarantee>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_legal_guarantee>`_ project on GitHub.
 
 You are welcome to contribute.
