@@ -76,9 +76,9 @@ Fluxul de mai jos îl parcurge operatorul pe acțiunea demo, cu fereastra de cel
 Deschideți acțiunea demo în vederea **kanban**, apoi dați clic pe un card. În loc să se deschidă
 formularul complet, cardul se evidențiază, iar în dreapta apare panoul cu formularul înregistrării în
 mod doar-citire. Antetul panoului arată poziția („1 / 9") și cinci butoane: **înregistrarea anterioară**,
-**următoarea**, **deschide formularul complet**, **reîmprospătează** și **închide panoul**.
+**următoarea**, **deschide formularul complet**, **reîncarcă** și **închide panoul**.
 
-**Verificați:** cardul ales are contur colorat, iar datele din panou (nume, email, telefon, localitate)
+**Verificați:** cardul ales are fundal nuanțat și o bară colorată pe marginea stângă, iar datele din panou (nume, email, telefon, localitate)
 sunt ale aceluiași contact.
 
 ![Vederea kanban a contactelor: cardul Agro Prod SRL este evidențiat, iar în dreapta panoul arată formularul lui, cu numele, emailul, telefonul, țara, localitatea și filele Address și Notes; antetul panoului arată poziția 1 / 9 și butoanele de navigare](../static/description/01_kanban_cu_panou.png)
@@ -94,9 +94,12 @@ aceleași butoane. Selecția nu se transmite la schimbarea vederii: după trecer
   revine la primul, și invers;
 - **Deschide formularul complet** (săgeata care iese din pătrat) duce la formularul obișnuit, pentru
   modificări; panoul e doar pentru citire;
-- **Reîmprospătează** reîncarcă lista și citește din nou înregistrarea din panou, după o modificare
+- **Reîncarcă** reîncarcă lista și citește din nou înregistrarea din panou, după o modificare
   făcută în altă parte;
 - **Închide panoul** (crucea) îl ascunde până la următorul clic pe o înregistrare.
+
+Navigarea și poziția („1 / 9”) privesc doar înregistrările afișate pe pagina curentă; pentru restul,
+schimbați pagina din pager.
 
 ![Vederea listă a contactelor: rândul Agro Prod SRL este evidențiat, iar în dreapta panoul arată aceeași înregistrare; sunt marcate butonul pentru înregistrarea anterioară și cel care deschide formularul complet](../static/description/02_lista_cu_panou.png)
 
@@ -156,7 +159,7 @@ dezactivarea panoului sub 1200 px.
 | Panoul nu apare la clic | fereastra are sub 1200 px lățime, sau acțiunea are `disable_side_panel` | lărgiți fereastra sau scoateți cheia din context |
 | Panoul nu apare, deși fereastra e largă | vederea nu are `js_class="side_panel_kanban"` / `"side_panel_list"` | adăugați atributul pe `<kanban>` sau pe `<list>` |
 | Panoul arată formularul implicit, nu cel scurt | lipsește `side_panel_view_ref` din contextul acțiunii sau identificatorul e greșit | corectați cheia, cu forma `modul.id_vedere` |
-| Lățimea aleasă nu se păstrează | browserul blochează stocarea locală (fereastră privată) | lățimea se păstrează doar până la reîncărcarea paginii |
+| Lățimea aleasă nu se păstrează | browserul blochează datele site-ului | permiteți stocarea pentru domeniul Odoo; altfel lățimea ține doar până la reîncărcarea paginii |
 | Clicul pe un card nu închide panoul | comportament normal: panoul se schimbă pe noua înregistrare | folosiți butonul de închidere (crucea) |
 
 ## 10. Capturi de ecran
