@@ -27,7 +27,7 @@ export function withSidePanel(Controller, template) {
         setup() {
             super.setup();
             this.ui = useService("ui");
-            this.sidePanelState = useState({resId: false});
+            this.sidePanelState = useState({resId: false, refreshCount: 0});
             onMounted(() => {
                 this.syncSidePanelSelection();
                 // The records are drawn again after a reload, often after this controller
@@ -70,6 +70,11 @@ export function withSidePanel(Controller, template) {
             return Boolean(
                 this.sidePanelEnabled && resId && this.sidePanelRecords.some((record) => record.resId === resId)
             );
+        }
+
+        // Changes with the record and with each refresh: the embedded form is mounted again.
+        get sidePanelKey() {
+            return `${this.sidePanelState.resId}-${this.sidePanelState.refreshCount}`;
         }
 
         get sidePanelProps() {
@@ -126,6 +131,8 @@ export function withSidePanel(Controller, template) {
 
         async refreshSidePanel() {
             await this.model.root.load();
+            // The form of the panel is a separate view: mount it again to read the record anew.
+            this.sidePanelState.refreshCount += 1;
         }
 
         syncSidePanelSelection() {

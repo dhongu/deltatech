@@ -1,7 +1,8 @@
 /** @odoo-module **/
 import {describe, expect, test} from "@odoo/hoot";
 import {click, resize, waitFor, waitForNone} from "@odoo/hoot-dom";
-import {defineModels, fields, models, mountView, webModels} from "@web/../tests/web_test_helpers";
+import {animationFrame} from "@odoo/hoot-mock";
+import {defineModels, fields, models, mountView, onRpc, webModels} from "@web/../tests/web_test_helpers";
 import "@deltatech_web_side_panel/side_panel/side_panel_views.esm";
 
 class Partner extends models.Model {
@@ -104,4 +105,17 @@ test("the panel opens in a list grouped on two levels", async () => {
     await click(".o_data_row:first .o_data_cell:first");
     await waitFor(".o_side_panel");
     expect(".o_side_panel_position").toHaveText("1 / 1");
+});
+
+test("refresh reads the record of the panel again", async () => {
+    onRpc("partner", "web_read", () => expect.step("web_read"));
+    await mountView({type: "list", resModel: "partner", arch: LIST_ARCH});
+    await click(".o_data_row:first .o_data_cell:first");
+    await waitFor(".o_side_panel .o_field_widget[name='name']");
+    expect.verifySteps(["web_read"]);
+
+    await click(".o_side_panel_refresh");
+    await animationFrame();
+    await waitFor(".o_side_panel .o_field_widget[name='name']");
+    expect.verifySteps(["web_read"]);
 });

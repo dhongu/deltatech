@@ -63,13 +63,13 @@
 
     <t t-name="deltatech_web_side_panel.ListView" t-inherit="web.ListView" t-inherit-mode="primary">
         <xpath expr="//t[@t-component='props.Renderer']" position="after">
-            <SidePanel t-if="sidePanelVisible" t-key="sidePanelState.resId" t-props="sidePanelProps" />
+            <SidePanel t-if="sidePanelVisible" t-key="sidePanelKey" t-props="sidePanelProps" />
         </xpath>
     </t>
 
     <t t-name="deltatech_web_side_panel.KanbanView" t-inherit="web.KanbanView" t-inherit-mode="primary">
         <xpath expr="//t[@t-component='props.Renderer']" position="after">
-            <SidePanel t-if="sidePanelVisible" t-key="sidePanelState.resId" t-props="sidePanelProps" />
+            <SidePanel t-if="sidePanelVisible" t-key="sidePanelKey" t-props="sidePanelProps" />
         </xpath>
     </t>
 
