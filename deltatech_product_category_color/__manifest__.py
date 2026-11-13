@@ -6,7 +6,7 @@
 {
     "name": "Product Category Colors",
     "summary": "Assign a color to product categories for quicker visual identification",
-    "version": "20.0.1.0.3",
+    "version": "20.0.1.0.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales",

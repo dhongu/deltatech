@@ -25,9 +25,28 @@ Product Category Colors
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
-- Features:
+In a busy warehouse, operators want to see at a glance what kind of
+goods a transfer holds. This module gives every product category a color
+and shows the categories of each transfer as colored tags on its Kanban
+card.
 
-  - Add color in product category
+- **Category color**: The product category form gets a color picker,
+  labeled *Color Index*. A new category starts with a random color index
+  between 1 and 11.
+- **Colored tags on transfers**: Each card of the transfers Kanban view
+  shows, after the state, one tag for each category of the products in
+  the transfer, in the color of the category.
+- **Taken from the moves**: The categories come from the stock moves of
+  the transfer, not from its move lines, so a transfer that is not
+  reserved yet shows them too. Cancelled moves are ignored.
+- **Always current**: The tags are computed, not stored. They follow
+  changes to the moves, their states and the category of a product, and
+  a changed color applies to every card.
+
+The module depends on ``product`` and ``stock``. It changes only the
+Kanban view of transfers: the list and the form of a transfer stay as
+they are. The color is a display setting and has no effect on stock or
+accounting.
 
 **Table of contents**
 
@@ -36,6 +55,27 @@ Product Category Colors
 
 Changelog
 =========
+
+20.0.1.0.4 (2026-11-11)
+-----------------------
+
+- Apps Store page: a fuller description (what the module does, the
+  problem it solves, its main functions, dependencies and limits). No
+  change in behavior.
+
+20.0.1.0.3 (2026-10-22)
+-----------------------
+
+- Listed on Odoo Apps as *Product Category Colors* (was *Products
+  Category Color*). The technical name
+  ``deltatech_product_category_color`` does not change.
+
+20.0.1.0.2 (2026-10-15)
+-----------------------
+
+- ``stock.picking.categ_ids`` is computed from the moves (not cancelled)
+  instead of the move lines: transfers that are not reserved yet have no
+  move lines, so they showed no category. Tests added.
 
 20.0.1.0.1 (2026-10-02)
 -----------------------
