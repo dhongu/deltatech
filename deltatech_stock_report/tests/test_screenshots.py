@@ -60,10 +60,10 @@ class TestStockReportScreenshots(ScreenshotCase or object):
         def partner(name, **kw):
             return env["res.partner"].create({"name": name, **kw})
 
-        furn1 = partner("Metal Trade SRL", is_company=True)
-        furn2 = partner("Fixing Supply SRL", is_company=True)
-        cli1 = partner("Depozite Nord SRL", is_company=True)
-        cli2 = partner("Magazin Sud SRL", is_company=True)
+        furn1 = partner("Metal Trade SRL")
+        furn2 = partner("Fixing Supply SRL")
+        cli1 = partner("Depozite Nord SRL")
+        cli2 = partner("Magazin Sud SRL")
         contact = partner("Ioana Marinescu", parent_id=cli2.id, type="contact")
 
         def validate(ptype, src, dst, partner_rec, lines):
