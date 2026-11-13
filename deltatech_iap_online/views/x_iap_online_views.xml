@@ -8,7 +8,6 @@
                 <field name="x_name" />
                 <field name="x_code" />
                 <field name="x_balance" />
-                <field name="x_token" column_invisible="1" />
             </list>
         </field>
     </record>
@@ -23,27 +22,28 @@
                         type="action"
                         string="Activate"
                         class="btn-primary"
-                        invisible="x_token"
+                        invisible="x_send_action_id"
                         groups="base.group_system"
                     />
                     <button
                         name="%(action_iap_online_activate)d"
                         type="action"
                         string="Activate Again"
-                        invisible="not x_token"
+                        invisible="not x_send_action_id"
                         groups="base.group_system"
                     />
                     <button
                         name="%(action_iap_online_balance)d"
                         type="action"
                         string="Refresh Credits"
-                        invisible="not x_token"
+                        invisible="not x_send_action_id"
                     />
                     <button
                         name="%(action_iap_online_buy)d"
                         type="action"
                         string="Buy Credits"
-                        invisible="not x_token"
+                        invisible="not x_send_action_id"
+                        groups="base.group_system"
                     />
                 </header>
                 <sheet>

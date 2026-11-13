@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- Data-only module (importable on Odoo Online): models and fields are manual, prefixed x_ -->
+<!-- Data-only module (importable on Odoo Online): models and fields are manual, prefixed x_.
+     Manual fields ignore `groups` (ir.model._instanciate_attrs): the account token and the callback
+     URL (the secret of the answers) are protected by the access rights of the models instead. -->
 <odoo>
     <!-- A Terrabit service used by this database: one account (token, credits) per service -->
     <record id="model_x_iap_online_service" model="ir.model">

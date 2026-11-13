@@ -25,8 +25,11 @@ if 'balance' in answer:
     service.write({'x_balance': answer.get('balance') or 0})
 if answer.get('state') != 'done':
     record.write({'x_state': 'error', 'x_error': answer.get('error') or 'error', 'x_result': str(answer)})
+elif record.x_kind == 'register' and not result.get('account_token'):
+    # An incomplete answer never removes the token of a service that works
+    record.write({'x_state': 'error', 'x_error': 'The answer has no account token', 'x_result': str(answer)})
 elif record.x_kind == 'register':
-    token = result.get('account_token') or ''
+    token = result.get('account_token')
     service.write({'x_token': token})
     if service.x_send_action_id:
         service.x_send_action_id.write({

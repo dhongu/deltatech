@@ -14,6 +14,9 @@ its own fields, buttons and the way it writes the answer.
   error, if any. A request without answer after 10 minutes is sent once more.
 - **Safe answers**: the answer comes on an *On webhook* automation whose secret URL accepts only a
   request still waiting, identified by its token.
+- **Secrets kept for administrators**: the account token and the callback URL are read by
+  administrators only; other users can create requests, not read them. A service module gives
+  its users read access to the service when its buttons need the token.
 - **What leaves your database**: the input of the request, its token, the address of your database
   (for the answer) and, at activation, the name and the Tax ID of the company.
 
