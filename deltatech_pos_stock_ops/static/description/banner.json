@@ -1,0 +1,10 @@
+{
+  "title": "POS Stock Operations",
+  "summary": "Stock in and out from the POS",
+  "icon": "box",
+  "features": [
+    "Receipts and deliveries from the register",
+    "Scan products or pack barcodes",
+    "Standard transfers, validated for you"
+  ]
+}

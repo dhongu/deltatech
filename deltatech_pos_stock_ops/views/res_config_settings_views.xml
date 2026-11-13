@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.deltatech_pos_stock_ops</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='pos_interface_section']" position="inside">
+                <setting
+                    string="Stock Operations"
+                    help="Receipts and deliveries made from the POS session"
+                    invisible="not pos_config_id"
+                >
+                    <div class="content-group">
+                        <div>
+                            <field name="pos_stock_ops_receipt" />
+                            <label for="pos_stock_ops_receipt" class="fw-normal me-1" />
+                        </div>
+                        <div class="mt-1" invisible="not pos_stock_ops_receipt">
+                            <label for="pos_stock_ops_receipt_type_id" class="fw-normal me-1" />
+                            <field name="pos_stock_ops_receipt_type_id" class="o_light_label" />
+                        </div>
+                        <div>
+                            <field name="pos_stock_ops_delivery" />
+                            <label for="pos_stock_ops_delivery" class="fw-normal me-1" />
+                        </div>
+                        <div class="mt-1" invisible="not pos_stock_ops_delivery">
+                            <label for="pos_stock_ops_delivery_type_id" class="fw-normal me-1" />
+                            <field name="pos_stock_ops_delivery_type_id" class="o_light_label" />
+                        </div>
+                    </div>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

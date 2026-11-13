@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="group_pos_stock_ops" model="res.groups">
+        <field name="name">POS stock operations</field>
+        <field name="privilege_id" ref="point_of_sale.res_groups_privilege_point_of_sale" />
+        <field name="implied_ids" eval="[(4, ref('point_of_sale.group_pos_user'))]" />
+    </record>
+    <record id="point_of_sale.group_pos_manager" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_pos_stock_ops'))]" />
+    </record>
+    <record id="pos_stock_operation_company_rule" model="ir.rule">
+        <field name="name">POS stock operation: multi-company</field>
+        <field name="model_id" ref="model_pos_stock_operation" />
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

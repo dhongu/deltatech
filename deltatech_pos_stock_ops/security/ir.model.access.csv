@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pos_stock_operation_user,pos.stock.operation user,model_pos_stock_operation,deltatech_pos_stock_ops.group_pos_stock_ops,1,0,0,0
+access_pos_stock_operation_manager,pos.stock.operation manager,model_pos_stock_operation,point_of_sale.group_pos_manager,1,1,1,1

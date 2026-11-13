@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+    <t t-name="deltatech_pos_stock_ops.StockOpsDialog">
+        <Dialog title="title" size="'lg'">
+            <div class="d-flex flex-column gap-3">
+                <div class="d-flex gap-2">
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Scan a barcode or type a product"
+                        t-model="state.search"
+                        t-on-keydown="onSearchKeydown"
+                        autofocus="autofocus"
+                    />
+                    <button class="btn btn-secondary text-nowrap" t-on-click="selectPartner">
+                        <t t-if="state.partner" t-esc="state.partner.name" />
+                        <t t-else="">Partner</t>
+                    </button>
+                </div>
+                <div t-if="suggestions.length" class="list-group">
+                    <t t-foreach="suggestions" t-as="product" t-key="product.id">
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <button class="btn btn-link text-start p-0" t-on-click="() => this.addLine(product)">
+                                <t t-esc="product.display_name" />
+                            </button>
+                            <div class="d-flex gap-1">
+                                <t t-foreach="packsOf(product)" t-as="pack" t-key="pack.id">
+                                    <button
+                                        class="btn btn-sm btn-outline-secondary"
+                                        t-on-click="() => this.addLine(product, pack.uom_id)"
+                                    >
+                                        <t t-esc="pack.uom_id.name" />
+                                    </button>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+                <table class="table table-sm" t-if="state.lines.length">
+                    <thead>
+                        <tr><th>Product</th><th class="text-end">Quantity</th><th>Unit</th><th /></tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="state.lines" t-as="line" t-key="line_index">
+                            <tr>
+                                <td t-esc="line.product.display_name" />
+                                <td class="text-end">
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        step="any"
+                                        class="form-control form-control-sm text-end"
+                                        t-att-value="line.qty"
+                                        t-on-change="(ev) => this.onQtyChange(line, ev)"
+                                    />
+                                </td>
+                                <td t-esc="uomName(line)" />
+                                <td class="text-end">
+                                    <button class="btn btn-sm btn-link text-danger" t-on-click="() => this.removeLine(line)">
+                                        <i class="fa fa-trash" />
+                                    </button>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+            <t t-set-slot="footer">
+                <button class="btn btn-primary" t-att-disabled="!state.lines.length or state.busy" t-on-click="confirm">
+                    Validate
+                </button>
+                <button class="btn btn-secondary" t-on-click="props.close">Discard</button>
+            </t>
+        </Dialog>
+    </t>
+</templates>

@@ -1,0 +1,306 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_pos_stock_ops
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-13 06:07+0000\n"
+"PO-Revision-Date: 2026-11-13 06:07+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2);\n"
+
+#. module: deltatech_pos_stock_ops
+#. odoo-python
+#: code:addons/deltatech_pos_stock_ops/models/pos_stock_operation.py:0
+msgid "Add at least one product."
+msgstr "Adăugați cel puțin un produs."
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_stock_operation__company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_stock_operation__config_id
+msgid "Config"
+msgstr "Configurare"
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model,name:deltatech_pos_stock_ops.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_stock_operation__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_stock_operation__create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_config__stock_ops_delivery
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_res_config_settings__pos_stock_ops_delivery
+msgid "Deliveries from the POS"
+msgstr "Livrări din POS"
+
+#. module: deltatech_pos_stock_ops
+#. odoo-javascript
+#: code:addons/deltatech_pos_stock_ops/static/src/js/stock_ops_dialog.esm.js:0
+#: code:addons/deltatech_pos_stock_ops/static/src/xml/navbar.xml:0
+#: model:ir.model.fields.selection,name:deltatech_pos_stock_ops.selection__pos_stock_operation__operation_type__delivery
+msgid "Delivery"
+msgstr "Livrare"
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_config__stock_ops_delivery_type_id
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_res_config_settings__pos_stock_ops_delivery_type_id
+msgid "Delivery Operation Type"
+msgstr "Tip operațiune de livrare"
+
+#. module: deltatech_pos_stock_ops
+#. odoo-javascript
+#: code:addons/deltatech_pos_stock_ops/static/src/xml/stock_ops_dialog.xml:0
+msgid "Discard"
+msgstr "Renunță"
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_config__display_name
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_stock_operation__display_name
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model.fields.selection,name:deltatech_pos_stock_ops.selection__pos_stock_operation__state__done
+msgid "Done"
+msgstr "Efectuat"
+
+#. module: deltatech_pos_stock_ops
+#. odoo-python
+#: code:addons/deltatech_pos_stock_ops/models/pos_stock_operation.py:0
+msgid "Each line needs a product and a positive quantity."
+msgstr "Fiecare linie are nevoie de un produs și de o cantitate pozitivă."
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_config__id
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_stock_operation__id
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_res_config_settings__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_stock_operation__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare de"
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_stock_operation__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare în"
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model.fields.selection,name:deltatech_pos_stock_ops.selection__pos_stock_operation__state__pending
+msgid "Needs confirmation"
+msgstr "Necesită confirmare"
+
+#. module: deltatech_pos_stock_ops
+#. odoo-javascript
+#: code:addons/deltatech_pos_stock_ops/static/src/js/stock_ops_dialog.esm.js:0
+msgid "No product found for %s."
+msgstr "Nu s-a găsit niciun produs pentru %s."
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_stock_operation__note
+msgid "Note"
+msgstr "Notă"
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_stock_operation__operation_type
+msgid "Operation Type"
+msgstr "Tip operațiune"
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model,name:deltatech_pos_stock_ops.model_pos_stock_operation
+msgid "POS Stock Operation"
+msgstr "Operațiune de stoc din POS"
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.actions.act_window,name:deltatech_pos_stock_ops.pos_stock_operation_action
+msgid "POS Stock Operations"
+msgstr "Operațiuni de stoc din POS"
+
+#. module: deltatech_pos_stock_ops
+#: model:res.groups,name:deltatech_pos_stock_ops.group_pos_stock_ops
+msgid "POS stock operations"
+msgstr "Operațiuni de stoc din POS"
+
+#. module: deltatech_pos_stock_ops
+#. odoo-javascript
+#: code:addons/deltatech_pos_stock_ops/static/src/xml/stock_ops_dialog.xml:0
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_stock_operation__partner_id
+msgid "Partner"
+msgstr "Partener"
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model.fields,help:deltatech_pos_stock_ops.field_pos_stock_operation__state
+msgid ""
+"Pending: the transfer was created but Odoo asked for a manual step (for "
+"example a backorder), so it must be finished in Inventory."
+msgstr ""
+"În așteptare: transferul a fost creat, dar Odoo cere un pas manual (de "
+"exemplu un restant), deci trebuie finalizat în Inventar."
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_stock_operation__picking_id
+msgid "Picking"
+msgstr "Transfer"
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model,name:deltatech_pos_stock_ops.model_pos_config
+msgid "Point of Sale Configuration"
+msgstr "Configurare punct de vânzare"
+
+#. module: deltatech_pos_stock_ops
+#. odoo-javascript
+#: code:addons/deltatech_pos_stock_ops/static/src/xml/stock_ops_dialog.xml:0
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_pos_stock_ops
+#. odoo-javascript
+#: code:addons/deltatech_pos_stock_ops/static/src/xml/stock_ops_dialog.xml:0
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_pos_stock_ops
+#. odoo-javascript
+#: code:addons/deltatech_pos_stock_ops/static/src/js/stock_ops_dialog.esm.js:0
+#: code:addons/deltatech_pos_stock_ops/static/src/xml/navbar.xml:0
+#: model:ir.model.fields.selection,name:deltatech_pos_stock_ops.selection__pos_stock_operation__operation_type__receipt
+msgid "Receipt"
+msgstr "Recepție"
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_config__stock_ops_receipt_type_id
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_res_config_settings__pos_stock_ops_receipt_type_id
+msgid "Receipt Operation Type"
+msgstr "Tip operațiune de recepție"
+
+#. module: deltatech_pos_stock_ops
+#: model_terms:ir.ui.view,arch_db:deltatech_pos_stock_ops.res_config_settings_view_form
+msgid "Receipts and deliveries made from the POS session"
+msgstr "Recepții și livrări făcute din sesiunea POS"
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_config__stock_ops_receipt
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_res_config_settings__pos_stock_ops_receipt
+msgid "Receipts from the POS"
+msgstr "Recepții din POS"
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_stock_operation__name
+msgid "Reference"
+msgstr "Referință"
+
+#. module: deltatech_pos_stock_ops
+#. odoo-javascript
+#: code:addons/deltatech_pos_stock_ops/static/src/xml/stock_ops_dialog.xml:0
+msgid "Scan a barcode or type a product"
+msgstr "Scanați un cod de bare sau scrieți un produs"
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_stock_operation__session_id
+msgid "Session"
+msgstr "Sesiune"
+
+#. module: deltatech_pos_stock_ops
+#. odoo-python
+#: code:addons/deltatech_pos_stock_ops/models/pos_stock_operation.py:0
+msgid "Set the operation type for this point of sale first."
+msgstr "Setați mai întâi tipul de operațiune pentru acest punct de vânzare."
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_stock_operation__state
+msgid "State"
+msgstr "Stare"
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.ui.menu,name:deltatech_pos_stock_ops.pos_stock_operation_menu
+#: model_terms:ir.ui.view,arch_db:deltatech_pos_stock_ops.res_config_settings_view_form
+msgid "Stock Operations"
+msgstr "Operațiuni de stoc"
+
+#. module: deltatech_pos_stock_ops
+#. odoo-python
+#: code:addons/deltatech_pos_stock_ops/models/pos_stock_operation.py:0
+msgid "The operation type has no locations set."
+msgstr "Tipul de operațiune nu are locații setate."
+
+#. module: deltatech_pos_stock_ops
+#. odoo-python
+#: code:addons/deltatech_pos_stock_ops/models/pos_stock_operation.py:0
+msgid "The point of sale does not exist."
+msgstr "Punctul de vânzare nu există."
+
+#. module: deltatech_pos_stock_ops
+#. odoo-python
+#: code:addons/deltatech_pos_stock_ops/models/pos_stock_operation.py:0
+msgid "The unit does not belong to %s."
+msgstr "Unitatea nu aparține produsului %s."
+
+#. module: deltatech_pos_stock_ops
+#. odoo-python
+#: code:addons/deltatech_pos_stock_ops/models/pos_stock_operation.py:0
+msgid "This operation is not enabled on this point of sale."
+msgstr "Această operațiune nu este activată pe acest punct de vânzare."
+
+#. module: deltatech_pos_stock_ops
+#. odoo-python
+#: code:addons/deltatech_pos_stock_ops/models/pos_stock_operation.py:0
+msgid "Transfer %s created, but it needs a manual step in Inventory."
+msgstr "Transferul %s a fost creat, dar necesită un pas manual în Inventar."
+
+#. module: deltatech_pos_stock_ops
+#. odoo-python
+#: code:addons/deltatech_pos_stock_ops/models/pos_stock_operation.py:0
+msgid "Transfer %s validated."
+msgstr "Transferul %s a fost validat."
+
+#. module: deltatech_pos_stock_ops
+#. odoo-javascript
+#: code:addons/deltatech_pos_stock_ops/static/src/xml/stock_ops_dialog.xml:0
+msgid "Unit"
+msgstr "Unitate"
+
+#. module: deltatech_pos_stock_ops
+#. odoo-python
+#: code:addons/deltatech_pos_stock_ops/models/pos_stock_operation.py:0
+msgid "Unknown operation type."
+msgstr "Tip de operațiune necunoscut."
+
+#. module: deltatech_pos_stock_ops
+#: model:ir.model.fields,field_description:deltatech_pos_stock_ops.field_pos_stock_operation__user_id
+msgid "User"
+msgstr "Utilizator"
+
+#. module: deltatech_pos_stock_ops
+#. odoo-javascript
+#: code:addons/deltatech_pos_stock_ops/static/src/xml/stock_ops_dialog.xml:0
+msgid "Validate"
+msgstr "Validează"
+
+#. module: deltatech_pos_stock_ops
+#. odoo-python
+#: code:addons/deltatech_pos_stock_ops/models/pos_stock_operation.py:0
+msgid "You are not allowed to do stock operations from the POS."
+msgstr "Nu aveți dreptul să faceți operațiuni de stoc din POS."
