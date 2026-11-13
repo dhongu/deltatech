@@ -19,8 +19,11 @@ IAP Services for Odoo Online
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_iap_online
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_iap_online/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 
-|badge1| |badge2| |badge3|
+|badge1| |badge2| |badge3| |badge_fisa|
 
 The base of the Terrabit services for **Odoo Online**: data-only modules
 (no Python, imported as a zip) send their requests to a Terrabit server,
@@ -48,8 +51,8 @@ adds only its own fields, buttons and the way it writes the answer.
   requests, not read them. A service module gives its users read access
   to the service when its buttons need the token.
 - **What leaves your database**: the input of the request, its token,
-  the address of your database (for the answer) and, at activation, the
-  name and the Tax ID of the company.
+  the address and the UUID of your database (for the answer) and, at
+  activation, the name and the Tax ID of the company.
 
 For developers: a service module creates an ``x_iap_online_service``
 record (``x_code``, ``x_server``) and, optionally, an *apply* server
@@ -67,11 +70,104 @@ records with ``x_kind = 'request'``.
 .. contents::
    :local:
 
+Usage
+=====
+
+The screens of this module are for administrators, in developer mode
+(*Settings > Technical*). Install it together with a Terrabit service
+module (e.g. ``l10n_ro_anaf_partner_online``), which creates the service
+record.
+
+1. **Open the menu**: activate the developer mode, then go to *Settings
+   > Technical > Terrabit Services*. It has two entries: **Services**
+   and **Requests**.
+
+   |Technical menu of Settings scrolled to the Terrabit Services
+   section, with the Services and Requests entries highlighted|
+
+2. **Check the service**: *Terrabit Services > Services* lists one line
+   per installed service, with its **Service Code** and **Credits
+   Left**.
+
+   |Terrabit Services list with one line: the ANAF Partner Data service,
+   the code anaf_partner_online and the credits left|
+
+3. **Activate the service**: open it and click **Activate**, the only
+   button of a service not yet active. The database is registered at the
+   Terrabit server and an activation request (``register``) appears in
+   *Requests*; a few seconds later the account token comes back by
+   itself, with the trial credits. Nothing to copy or paste.
+
+   |Form of the ANAF Partner Data service not yet active: only the
+   Activate button in the header, highlighted (1), then Service Code
+   anaf_partner_online, the Server URL and Credits Left at 0.00|
+
+4. **Use the active service**: right after the click, the header shows
+   **Activate Again**, **Refresh Credits** and **Buy Credits**. Check in
+   *Requests* that the activation is *Done* before using them; if it is
+   in error, click **Activate Again**.
+
+   |Form of the active ANAF Partner Data service: Activate Again,
+   Refresh Credits (1) and Buy Credits (2) in the header, then Service
+   Code, Server URL and Credits Left (3)|
+
+5. **Refresh the credits**: **Refresh Credits** asks the server for the
+   credits left; a notification confirms the request and **Credits
+   Left** is updated in a few seconds. The credits are also updated with
+   every answer of the service.
+
+   |Service form after Refresh Credits, with the Terrabit notification:
+   Request sent: the credits are updated in a few seconds|
+
+6. **Buy credits**: **Buy Credits** opens, in a new browser tab, the
+   credit page of your account on the Terrabit server. After the
+   purchase, click **Refresh Credits**.
+
+   |Credit page of the Terrabit server: Buy credits for ANAF Partner
+   (Odoo Online) and the Your account box with the credits of the
+   account|
+
+7. **Follow the requests**: *Terrabit Services > Requests* lists the
+   requests, newest first, with their **Request Type**, **Status** and
+   **Error**. Requests in error are red, requests still waiting are
+   blue; the **Errors** and **Waiting** filters narrow the list. A
+   request without answer 10 minutes after its creation is sent once
+   more, automatically.
+
+   |Terrabit Requests list, newest first, with credit (balance) and
+   partner lookup (request) requests: the lines with the Error status
+   are red and their Invalid CUI errors are highlighted|
+
+8. **Read a request in error**: open it to see the service, the input,
+   the document it was sent from (**Document Model**, **Document ID**),
+   the **Status** and the **Error**. Fix the data on that document and
+   send the request again from the service module.
+
+   |Read-only form of an ANAF Partner Data request with Input 1234567 on
+   res.partner 7: Status Error (1) and Error Invalid CUI (2)
+   highlighted|
+
+Only administrators read the services (account token) and the requests
+(callback URL); other users create requests from the buttons of the
+service modules, without reading them.
+
+.. |Technical menu of Settings scrolled to the Terrabit Services section, with the Services and Requests entries highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_iap_online/static/description/en/01_meniu_servicii.png
+.. |Terrabit Services list with one line: the ANAF Partner Data service, the code anaf_partner_online and the credits left| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_iap_online/static/description/en/02_lista_servicii.png
+.. |Form of the ANAF Partner Data service not yet active: only the Activate button in the header, highlighted (1), then Service Code anaf_partner_online, the Server URL and Credits Left at 0.00| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_iap_online/static/description/en/03_activare_serviciu.png
+.. |Form of the active ANAF Partner Data service: Activate Again, Refresh Credits (1) and Buy Credits (2) in the header, then Service Code, Server URL and Credits Left (3)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_iap_online/static/description/en/04_formular_serviciu.png
+.. |Service form after Refresh Credits, with the Terrabit notification: Request sent: the credits are updated in a few seconds| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_iap_online/static/description/en/05_actualizare_credite.png
+.. |Credit page of the Terrabit server: Buy credits for ANAF Partner (Odoo Online) and the Your account box with the credits of the account| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_iap_online/static/description/en/06_cumparare_credite.png
+.. |Terrabit Requests list, newest first, with credit (balance) and partner lookup (request) requests: the lines with the Error status are red and their Invalid CUI errors are highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_iap_online/static/description/en/07_lista_cereri.png
+.. |Read-only form of an ANAF Partner Data request with Input 1234567 on res.partner 7: Status Error (1) and Error Invalid CUI (2) highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_iap_online/static/description/en/08_cerere_eroare.png
+
 Changelog
 =========
 
 19.0.1.0.0
 ==========
+
+- Consultant sheet (``readme/FISA_CONSULTANT.md``), ``readme/USAGE.md``
+  and screenshots (RO, EN).
 
 - First version: services and requests, activation by callback, credits
   (refresh, buy), retry of a request without answer.

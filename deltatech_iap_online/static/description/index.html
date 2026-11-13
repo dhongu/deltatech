@@ -32,6 +32,11 @@
        style="padding:10px 22px;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</a>
@@ -52,18 +57,150 @@ its own fields, buttons and the way it writes the answer.</p>
   error, if any. A request without answer after 10 minutes is sent once more.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Safe answers</span><div>the answer comes on an <em>On webhook</em> automation whose secret URL accepts only a
   request still waiting, identified by its token.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Secrets kept for administrators</span><div>the account token and the callback URL are read by
   administrators only; other users can create requests, not read them. A service module gives
-  its users read access to the service when its buttons need the token.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">What leaves your database</span><div>the input of the request, its token, the address of your database
-  (for the answer) and, at activation, the name and the Tax ID of the company.</div></div></div></li></ul>
+  its users read access to the service when its buttons need the token.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">What leaves your database</span><div>the input of the request, its token, the address and the UUID of
+  your database (for the answer) and, at activation, the name and the Tax ID of the company.</div></div></div></li></ul>
 <p>For developers: a service module creates an <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">x_iap_online_service</code> record (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">x_code</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">x_server</code>) and,
 optionally, an <em>apply</em> server action (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">x_apply_action_id</code>) that receives the answer in the context
 key <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">iap_answer</code>; its documents create <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">x_iap_online_request</code> records with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">x_kind = 'request'</code>.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</span></div>
+<p>The screens of this module are for administrators, in developer mode (<em>Settings &gt; Technical</em>).
+Install it together with a Terrabit service module (e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_anaf_partner_online</code>), which
+creates the service record.</p>
+<ol>
+<li><strong>Open the menu</strong>: activate the developer mode, then go to <em>Settings &gt; Technical &gt; Terrabit
+   Services</em>. It has two entries: <strong>Services</strong> and <strong>Requests</strong>.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Technical menu of Settings scrolled to the Terrabit Services section, with the Services and Requests entries highlighted" src="en/01_meniu_servicii.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Technical menu of Settings scrolled to the Terrabit Services section, with the Services and Requests entries highlighted</span>
+  </div>
+</div>
+<ol start="2">
+<li><strong>Check the service</strong>: <em>Terrabit Services &gt; Services</em> lists one line per installed service, with
+   its <strong>Service Code</strong> and <strong>Credits Left</strong>.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Terrabit Services list with one line: the ANAF Partner Data service, the code anaf_partner_online and the credits left" src="en/02_lista_servicii.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">2</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Terrabit Services list with one line: the ANAF Partner Data service, the code anaf_partner_online and the credits left</span>
+  </div>
+</div>
+<ol start="3">
+<li><strong>Activate the service</strong>: open it and click <strong>Activate</strong>, the only button of a service not yet
+   active. The database is registered at the Terrabit server and an activation request (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">register</code>)
+   appears in <em>Requests</em>; a few seconds later the account token comes back by itself, with the trial
+   credits. Nothing to copy or paste.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Form of the ANAF Partner Data service not yet active: only the Activate button in the header, highlighted (1), then Service Code anaf_partner_online, the Server URL and Credits Left at 0.00" src="en/03_activare_serviciu.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">3</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Form of the ANAF Partner Data service not yet active: only the Activate button in the header, highlighted (1), then Service Code anaf_partner_online, the Server URL and Credits Left at 0.00</span>
+  </div>
+</div>
+<ol start="4">
+<li><strong>Use the active service</strong>: right after the click, the header shows <strong>Activate Again</strong>,
+   <strong>Refresh Credits</strong> and <strong>Buy Credits</strong>. Check in <em>Requests</em> that the activation is <em>Done</em> before
+   using them; if it is in error, click <strong>Activate Again</strong>.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Form of the active ANAF Partner Data service: Activate Again, Refresh Credits (1) and Buy Credits (2) in the header, then Service Code, Server URL and Credits Left (3)" src="en/04_formular_serviciu.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">4</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Form of the active ANAF Partner Data service: Activate Again, Refresh Credits (1) and Buy Credits (2) in the header, then Service Code, Server URL and Credits Left (3)</span>
+  </div>
+</div>
+<ol start="5">
+<li><strong>Refresh the credits</strong>: <strong>Refresh Credits</strong> asks the server for the credits left; a notification
+   confirms the request and <strong>Credits Left</strong> is updated in a few seconds. The credits are also
+   updated with every answer of the service.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Service form after Refresh Credits, with the Terrabit notification: Request sent: the credits are updated in a few seconds" src="en/05_actualizare_credite.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">5</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Service form after Refresh Credits, with the Terrabit notification: Request sent: the credits are updated in a few seconds</span>
+  </div>
+</div>
+<ol start="6">
+<li><strong>Buy credits</strong>: <strong>Buy Credits</strong> opens, in a new browser tab, the credit page of your account on
+   the Terrabit server. After the purchase, click <strong>Refresh Credits</strong>.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Credit page of the Terrabit server: Buy credits for ANAF Partner (Odoo Online) and the Your account box with the credits of the account" src="en/06_cumparare_credite.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">6</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Credit page of the Terrabit server: Buy credits for ANAF Partner (Odoo Online) and the Your account box with the credits of the account</span>
+  </div>
+</div>
+<ol start="7">
+<li><strong>Follow the requests</strong>: <em>Terrabit Services &gt; Requests</em> lists the requests, newest first, with
+   their <strong>Request Type</strong>, <strong>Status</strong> and <strong>Error</strong>. Requests in error are red, requests still
+   waiting are blue; the <strong>Errors</strong> and <strong>Waiting</strong> filters narrow the list. A request without
+   answer 10 minutes after its creation is sent once more, automatically.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Terrabit Requests list, newest first, with credit (balance) and partner lookup (request) requests: the lines with the Error status are red and their Invalid CUI errors are highlighted" src="en/07_lista_cereri.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">7</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Terrabit Requests list, newest first, with credit (balance) and partner lookup (request) requests: the lines with the Error status are red and their Invalid CUI errors are highlighted</span>
+  </div>
+</div>
+<ol start="8">
+<li><strong>Read a request in error</strong>: open it to see the service, the input, the document it was sent
+   from (<strong>Document Model</strong>, <strong>Document ID</strong>), the <strong>Status</strong> and the <strong>Error</strong>. Fix the data on that
+   document and send the request again from the service module.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Read-only form of an ANAF Partner Data request with Input 1234567 on res.partner 7: Status Error (1) and Error Invalid CUI (2) highlighted" src="en/08_cerere_eroare.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">8</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Read-only form of an ANAF Partner Data request with Input 1234567 on res.partner 7: Status Error (1) and Error Invalid CUI (2) highlighted</span>
+  </div>
+</div>
+<p>Only administrators read the services (account token) and the requests (callback URL); other
+users create requests from the buttons of the service modules, without reading them.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;"><span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">19.0.1.0.0</span></h2>
 <ul>
-<li>First version: services and requests, activation by callback, credits (refresh, buy), retry of a
-  request without answer.</li>
+<li>
+<p>Consultant sheet (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/FISA_CONSULTANT.md</code>), <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/USAGE.md</code> and screenshots (RO, EN).</p>
+</li>
+<li>
+<p>First version: services and requests, activation by callback, credits (refresh, buy), retry of a
+  request without answer.</p>
+</li>
 </ul>
 </div>
 </div>
