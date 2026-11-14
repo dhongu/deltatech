@@ -54,6 +54,11 @@ msgid "Callback URL"
 msgstr "URL de callback"
 
 #. module: deltatech_iap_online
+#: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_request_search
+msgid "Charged"
+msgstr "Taxate"
+
+#. module: deltatech_iap_online
 #: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_company_name
 msgid "Company Name"
 msgstr "Numele companiei"
@@ -64,14 +69,49 @@ msgid "Company Tax ID"
 msgstr "Codul fiscal al companiei"
 
 #. module: deltatech_iap_online
+#: model:ir.actions.act_window,name:deltatech_iap_online.action_x_iap_online_usage
+#: model:ir.ui.menu,name:deltatech_iap_online.menu_iap_online_credits_usage
+#: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_request_graph
+#: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_request_pivot
+#: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_service_form
+msgid "Credit Usage"
+msgstr "Consum credite"
+
+#. module: deltatech_iap_online
 #: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_service_x_balance
 msgid "Credits Left"
 msgstr "Credite rămase"
 
 #. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_balance_after
+msgid "Credits Left After"
+msgstr "Credite rămase după"
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_cost
+msgid "Credits Used"
+msgstr "Credite consumate"
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,help:deltatech_iap_online.field_x_iap_online_request_x_cost
+msgid ""
+"Credits charged by the Terrabit server for this request (1 credit = 1 EUR)."
+msgstr "Creditele taxate de serverul Terrabit pentru această cerere (1 credit = 1 EUR)."
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,help:deltatech_iap_online.field_x_iap_online_request_x_balance_after
+msgid "Credits left on the account when the server answered this request."
+msgstr "Creditele rămase în cont când serverul a răspuns la această cerere."
+
+#. module: deltatech_iap_online
 #: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_db_uuid
 msgid "Database UUID"
 msgstr "UUID bază de date"
+
+#. module: deltatech_iap_online
+#: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_request_search
+msgid "Date"
+msgstr "Data"
 
 #. module: deltatech_iap_online
 #: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_res_id
@@ -82,6 +122,13 @@ msgstr "ID document"
 #: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_res_model
 msgid "Document Model"
 msgstr "Model document"
+
+#. module: deltatech_iap_online
+#: model_terms:ir.actions.act_window,help:deltatech_iap_online.action_x_iap_online_usage
+msgid ""
+"Each charged answer of a Terrabit service shows here, with the credits used "
+"and left."
+msgstr "Aici apare fiecare răspuns taxat al unui serviciu Terrabit, cu creditele consumate și cele rămase."
 
 #. module: deltatech_iap_online
 #: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_error
@@ -99,9 +146,19 @@ msgid "Input"
 msgstr "Date de intrare"
 
 #. module: deltatech_iap_online
+#: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_request_search
+msgid "Month"
+msgstr "Luna"
+
+#. module: deltatech_iap_online
 #: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_name
 msgid "Name"
 msgstr "Nume"
+
+#. module: deltatech_iap_online
+#: model_terms:ir.actions.act_window,help:deltatech_iap_online.action_x_iap_online_usage
+msgid "No credits used yet"
+msgstr "Încă nu s-au consumat credite"
 
 #. module: deltatech_iap_online
 #: model:ir.actions.server,name:deltatech_iap_online.action_iap_online_balance
@@ -139,13 +196,12 @@ msgstr "URL server"
 msgid ""
 "Server action of the service module that writes the answer of a request "
 "(context: iap_answer)"
-msgstr ""
-"Acțiunea server a modulului de serviciu care scrie răspunsul unei cereri "
-"(context: iap_answer)"
+msgstr "Acțiunea server a modulului de serviciu care scrie răspunsul unei cereri (context: iap_answer)"
 
 #. module: deltatech_iap_online
 #: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_service_id
 #: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_service_x_name
+#: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_request_search
 msgid "Service"
 msgstr "Serviciu"
 
@@ -160,9 +216,19 @@ msgid "Services"
 msgstr "Servicii"
 
 #. module: deltatech_iap_online
+#: model:ir.ui.menu,name:deltatech_iap_online.menu_iap_online_credits_services
+msgid "Services and Credits"
+msgstr "Servicii și credite"
+
+#. module: deltatech_iap_online
 #: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_state
 msgid "Status"
 msgstr "Stare"
+
+#. module: deltatech_iap_online
+#: model:ir.ui.menu,name:deltatech_iap_online.menu_iap_online_credits_root
+msgid "Terrabit Credits"
+msgstr "Credite Terrabit"
 
 #. module: deltatech_iap_online
 #: model:ir.model,name:deltatech_iap_online.model_x_iap_online_request
@@ -227,6 +293,11 @@ msgid "The webhook to the service, created at activation"
 msgstr "Webhook-ul către serviciu, creat la activare"
 
 #. module: deltatech_iap_online
+#: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_request_list
+msgid "Total"
+msgstr "Total"
+
+#. module: deltatech_iap_online
 #: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_request_search
 msgid "Waiting"
 msgstr "În așteptare"
@@ -236,5 +307,4 @@ msgstr "În așteptare"
 msgid ""
 "register: activation; balance: credits left; request: a request of the "
 "service"
-msgstr ""
-"register: activare; balance: credite rămase; request: o cerere a serviciului"
+msgstr "register: activare; balance: credite rămase; request: o cerere a serviciului"
