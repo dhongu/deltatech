@@ -1,3 +1,7 @@
+# 19.0.1.0.2
+
+- Apps Store banner: the "IAP" label shows that the module works with IAP credits.
+
 # 19.0.1.0.1
 
 - **Credits Left** shows 3 decimals: 1 credit = 1 EUR and an answer may cost 0.001 credits (one
