@@ -1,0 +1,17 @@
+# ©  2026 Terrabit
+# See README.rst file on addons root folder for license details
+{
+    "images": ["static/description/main_screenshot.png"],
+    "name": "Partner Match",
+    "summary": "Shared normalization and fuzzy matching of partners: name, VAT, phone, email",
+    "version": "20.0.1.3.1",
+    "author": "Terrabit, Dorin Hongu",
+    "website": "https://www.terrabit.ro",
+    "license": "LGPL-3",
+    "maintainers": ["dhongu"],
+    "consultant_sheet": "full",
+    "category": "Hidden/Tools",
+    "depends": ["base"],
+    "development_status": "Production/Stable",
+    "installable": True,
+}

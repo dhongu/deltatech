@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+  <record id="view_stock_consumption_report_wizard_form" model="ir.ui.view">
+    <field name="name">stock.consumption.report.wizard.form</field>
+    <field name="model">stock.consumption.report.wizard</field>
+    <field name="arch" type="xml">
+      <form string="Consumption report">
+        <group>
+          <group>
+            <field name="company_id" groups="base.group_multi_company" />
+            <field name="date_from" />
+            <field name="date_to" />
+          </group>
+          <group>
+            <field name="picking_type_ids" widget="many2many_tags" />
+          </group>
+        </group>
+        <group invisible="not file_data">
+          <field name="file_name" invisible="1" />
+          <field name="file_data" filename="file_name" />
+        </group>
+        <footer>
+          <button
+            name="action_export_xlsx"
+            type="object"
+            string="Export XLSX"
+            class="btn-primary"
+            data-hotkey="q"
+          />
+          <button name="action_view" type="object" string="View" data-hotkey="w" />
+          <button
+            string="Close"
+            class="btn-secondary"
+            special="cancel"
+            data-hotkey="x"
+          />
+        </footer>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_stock_consumption_report_line_pivot" model="ir.ui.view">
+    <field name="name">stock.consumption.report.line.pivot</field>
+    <field name="model">stock.consumption.report.line</field>
+    <field name="arch" type="xml">
+      <pivot string="Consumption" disable_linking="1">
+        <field name="store" type="row" />
+        <field name="purpose" type="row" />
+        <field name="product_id" type="row" />
+        <field name="quantity" type="measure" />
+        <field name="value" type="measure" />
+      </pivot>
+    </field>
+  </record>
+
+  <record id="view_stock_consumption_report_line_list" model="ir.ui.view">
+    <field name="name">stock.consumption.report.line.list</field>
+    <field name="model">stock.consumption.report.line</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="store" />
+        <field name="purpose" />
+        <field name="product_id" />
+        <field name="categ_id" optional="hide" />
+        <field name="quantity" sum="Total" />
+        <field name="value" sum="Total" />
+      </list>
+    </field>
+  </record>
+
+  <record id="action_stock_consumption_report_wizard" model="ir.actions.act_window">
+    <field name="name">Consumption report</field>
+    <field name="res_model">stock.consumption.report.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+  </record>
+
+  <menuitem
+    id="menu_stock_consumption_report"
+    name="Consumption report"
+    parent="stock.menu_warehouse_report"
+    action="action_stock_consumption_report_wizard"
+    sequence="95"
+  />
+</odoo>

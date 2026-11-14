@@ -1,0 +1,152 @@
+# ©  2026 Terrabit
+# See README.rst file on addons root folder for license details
+
+from unittest.mock import patch
+
+from odoo.tests import TransactionCase, tagged
+
+
+@tagged("post_install", "-at_install")
+class TestFindSimilarPartners(TransactionCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        ro = cls.env.ref("base.ro")
+        Partner = cls.env["res.partner"]
+
+        def partner(name, **vals):
+            return Partner.create({"name": name, "country_id": ro.id, **vals})
+
+        cls.ion = partner("Ion Pmatchescu", phone="0722 914 456", street="Str. Lalelelor nr. 5", city="Cluj-Napoca")
+        cls.ana = partner("Ana Pmatchescu", phone="+40 722 914 456", city="Cluj-Napoca")
+        cls.maria = partner("Maria Pmatchescu", email="Maria.Pmatch@Example.com ")
+        cls.alfa = partner("Pmatch Alfa SRL", vat="RO18547290")
+        # not a VAT payer: on 20.0 the CUI is only the Company ID
+        cls.beta = partner("Pmatch Beta SRL", additional_identifiers={"RO_EN": "14399840"})
+        cls.other = partner("Pmatch Other", phone="0733 914 456")
+        cls.env.flush_all()
+
+    def _find(self, values, **kwargs):
+        return self.env["res.partner"]._find_similar_partners(values, **kwargs)
+
+    def test_phone_candidates_scored(self):
+        values = {
+            "name": "Pmatchescu Ion",
+            "phone": "0040722914456",
+            "street": "Strada Lalelelor 5",
+            "city": "Cluj Napoca",
+        }
+        result = self._find(values)
+        self.assertEqual([item["partner"] for item in result], [self.ion, self.ana])
+        best = result[0]
+        self.assertEqual(best["reasons"], ["phone"])
+        self.assertEqual(best["name_score"], 1.0)
+        # street words count, as in the marketplace import: "str lalelelor nr 5" / "strada lalelelor 5"
+        # share 2 of 5 words, so 0.6 * 1 + 0.25 * 0.4 + 0.15 * 1
+        self.assertAlmostEqual(best["score"], 0.85)
+        self.assertLess(result[1]["name_score"], 0.8, "a relative sharing the phone is another person")
+
+    def test_phone_without_phone_sanitized(self):
+        with patch.object(type(self.env["res.partner"]), "_partner_match_stored", return_value=False):
+            result = self._find({"name": "Ion Pmatchescu", "phone": "+40722914456"})
+        self.assertEqual({item["partner"] for item in result}, {self.ion, self.ana})
+
+    def test_email_and_vat(self):
+        result = self._find({"name": "Maria", "email": "maria.pmatch@example.com"})
+        self.assertEqual([item["partner"] for item in result], [self.maria])
+        self.assertEqual(result[0]["reasons"], ["email"])
+        result = self._find({"name": "Alfa", "vat": "RO 018 547 290"})
+        self.assertEqual([item["partner"] for item in result], [self.alfa])
+        self.assertEqual(result[0]["reasons"], ["vat"])
+        with patch.object(type(self.env["res.partner"]), "_partner_match_stored", return_value=False):
+            result = self._find({"name": "Maria", "email": "MARIA.PMATCH@example.com"})
+        self.assertEqual([item["partner"] for item in result], [self.maria])
+
+    def test_vat_in_company_id(self):
+        self.assertFalse(self.beta.vat)
+        result = self._find({"name": "Beta", "vat": "14399840"})
+        self.assertEqual([item["partner"] for item in result], [self.beta])
+        self.assertEqual(result[0]["reasons"], ["vat"])
+
+    def test_keys_and_domain(self):
+        values = {"name": "Ion Pmatchescu", "phone": "0722914456", "vat": "RO18547290"}
+        self.assertEqual({item["partner"] for item in self._find(values, keys=("vat",))}, {self.alfa})
+        result = self._find(values, domain=[("is_company", "=", False)])
+        self.assertEqual({item["partner"] for item in result}, {self.ion, self.ana})
+        self.assertEqual(len(self._find(values, limit=1)), 1)
+
+    def test_limit_keeps_the_best(self):
+        """The limit is applied after the scoring: the best candidate is never cut."""
+        values = {"name": "Ion Pmatchescu", "phone": "0722914456"}
+        best = self._find(values)[0]["partner"]
+        self.assertEqual(best, self.ion)
+        # the default order (by name) puts Ana first, scored lower
+        self.assertEqual([item["partner"] for item in self._find(values, limit=1)], [self.ion])
+
+    def test_no_strong_key(self):
+        self.assertEqual(self._find({"name": "Ion Pmatchescu"}), [], "a name alone selects nobody")
+        self.assertEqual(self._find({"name": "Ion Pmatchescu", "phone": "0000000"}), [])
+
+    def test_county(self):
+        """A village name exists in several counties: there the address of another county does not
+        count. A county that does not fit the city is a data error and is ignored."""
+        if "res.city" not in self.env:
+            self.skipTest("res.city comes with base_address_extended")
+        ro = self.env.ref("base.ro")
+        bacau, iasi = self.env.ref("base.RO_BC"), self.env.ref("base.RO_IS")
+        self.env["res.city"].create(
+            [{"name": "Satu Nou", "state_id": state.id, "country_id": ro.id} for state in (bacau, iasi)]
+        )
+        self.ion.write({"state_id": bacau.id, "street": "Str. Principala 1", "city": "Satu Nou"})
+        values = {"name": "Ion Pmatchescu", "phone": "0722914456", "street": "Str. Principala 1", "city": "Satu Nou"}
+        same, other, unknown, wrong = (
+            self._find(dict(values, county=county))[0] for county in ("BC", "Iași", "Necunoscut", "TM")
+        )
+        self.assertEqual(same["partner"], self.ion)
+        self.assertAlmostEqual(same["score"], 1.0)
+        self.assertAlmostEqual(other["score"], 0.6, msg="name only: street and city score 0")
+        self.assertAlmostEqual(unknown["score"], 1.0, msg="an unknown county never lowers the score")
+        self.assertAlmostEqual(wrong["score"], 1.0, msg="Timiș has no Satu Nou: a data error, ignored")
+        self.assertAlmostEqual(self._find(dict(values, state_id=iasi.id))[0]["score"], 0.6)
+        self.assertAlmostEqual(self._find(values)[0]["score"], 1.0, msg="no county given")
+
+    def test_county_localities_read_once(self):
+        """The localities of a county are read once per search, not once per candidate."""
+        if "res.city" not in self.env:
+            self.skipTest("res.city comes with base_address_extended")
+        bacau, iasi = self.env.ref("base.RO_BC"), self.env.ref("base.RO_IS")
+        self.env["res.city"].create(
+            [{"name": "Satu Nou", "state_id": state.id, "country_id": state.country_id.id} for state in (bacau, iasi)]
+        )
+        (self.ion | self.ana).write({"state_id": bacau.id, "city": "Satu Nou"})
+        values = {
+            "name": "Ion Pmatchescu",
+            "phone": "0722914456",
+            "city": "Satu Nou",
+            "county": "IS",
+            "country_code": "RO",
+        }
+        Partner = type(self.env["res.partner"])
+        with patch.object(
+            Partner, "_partner_match_states", autospec=True, side_effect=Partner._partner_match_states
+        ) as states:
+            reads = []
+            original = self.env["res.city"].search_read
+
+            def search_read(*args, **kwargs):
+                reads.append(args)
+                return original(*args, **kwargs)
+
+            with patch.object(type(self.env["res.city"]), "search_read", side_effect=search_read):
+                result = self._find(values)
+        self.assertEqual(len(result), 2)
+        self.assertEqual(states.call_count, 1)
+        self.assertEqual(len(reads), 2, "one read per county (Bacău, Iași), whatever the number of candidates")
+        self.assertTrue(all(item["score"] < 1.0 for item in result), "the other county does count here")
+
+    def test_county_without_localities(self):
+        """Without the list of localities the county is never a reason to lower the score."""
+        self.ion.write({"state_id": self.env.ref("base.RO_BC").id, "street": "Str. Principala 1", "city": "Satu Nou"})
+        values = {"name": "Ion Pmatchescu", "phone": "0722914456", "street": "Str. Principala 1", "city": "Satu Nou"}
+        with patch.object(type(self.env["res.partner"]), "_partner_match_is_locality", return_value=False):
+            self.assertAlmostEqual(self._find(dict(values, county="IS"))[0]["score"], 1.0)
