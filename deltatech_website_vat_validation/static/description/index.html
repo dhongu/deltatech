@@ -5,7 +5,7 @@
     <span class="d-inline-block rounded-4 p-2 flex-shrink-0 my-2" style="background-color:#ffffff;margin-right:24px;"><img src="icon.png" alt="Website VAT Validation" style="width:80px;height:80px;border:none;"/></span>
     <div class="flex-grow-1 my-2" style="width:320px;min-width:0;margin-right:24px;">
       <h1 class="fw-bold mb-2" style="color:#ffffff;font-size:36px;line-height:1.1;letter-spacing:-0.5px;border:none;">Website VAT Validation</h1>
-      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">No duplicate customers from the website checkout</p>
+      <p class="mb-3" style="font-size:18px;color:#cdeccf;line-height:1.45;">No duplicate customers, the buying company created at checkout</p>
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;"><span class="fa fa-check-circle" style="margin-right:6px;" aria-hidden="true"></span>Odoo 19.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;"><span class="fa fa-folder-open-o" style="margin-right:6px;" aria-hidden="true"></span>Generic Modules</span>
@@ -66,7 +66,11 @@ country-neutral.</p>
   who has an account, to send an access request from the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/b2b</code> page (with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_b2b_portal</code>) or to contact the
   shop. The messages never name the account found.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">No false duplicates</span><div>the customer's own company and its contacts are not duplicates, and the phone is not checked,
   since colleagues share the company phone and relatives a home phone.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check-square-o" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Guest checkout unchanged</span><div>the duplicate checks run only for logged-in customers. For an anonymous visitor the
-  message would tell anyone that an e-mail address or a tax code belongs to an existing customer.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-tag" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Price display kept</span><div>the website setting <em>Display Product Prices</em> (tax included or excluded) keeps its saved value
+  message would tell anyone that an e-mail address or a tax code belongs to an existing customer.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-building-o" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Company created at checkout</span><div>a person who fills in a company name and a tax code in the billing address buys for
+  that company. The company is created as a partner with this address and tax code, the person becomes its contact and
+  the order is invoiced to the company. Only for a tax code no other customer has: a visitor (not logged in) who types
+  the tax code of a customer keeps it on their own address and is not attached to that company, so they never see its
+  documents.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-tag" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Price display kept</span><div>the website setting <em>Display Product Prices</em> (tax included or excluded) keeps its saved value
   when Odoo recomputes it, for example after the address of the company's own partner is updated by an ANAF sync.
   Without the module, Odoo puts it back to tax excluded.</div></div></div></li></ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Update from a version before <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">19.0.0.2.0</span></h2>
@@ -144,9 +148,34 @@ module, the saved value stays.</p>
     <span style="font-size:14px;line-height:1.4;color:#3d4752;">Website settings: Display Product Prices highlighted, with Tax Included selected</span>
   </div>
 </div>
+<p><strong>5. The buying company is created from the billing address</strong></p>
+<p>At checkout, in the billing address, a customer who buys for a company fills in the standard
+<strong>Company Name</strong> and <strong>VAT</strong> fields. When the address is saved, the company is created as a partner
+(a <strong>Company</strong>, with the address and the tax code typed) and the customer becomes its contact, so
+the order and its invoice go to the company. This happens only when the address is used for billing,
+the customer is not already a company or the contact of one, both fields are filled in and no other
+customer has this tax code. A visitor (not logged in) who types the tax code of a customer keeps it on
+their own address and is not attached to that company.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Contacts: the partner Beta Construct SRL, a Company, with its VAT number highlighted and, in the Contacts tab, the customer Mihai Pop highlighted" src="en/05_firma_creata_la_comanda.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">5</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Contacts: the partner Beta Construct SRL, a Company, with its VAT number highlighted and, in the Contacts tab, the customer Mihai Pop highlighted</span>
+  </div>
+</div>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.0.3.0 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-13)</span></h2>
+<ul>
+<li>A person who fills in a company name and a tax code in the billing address at checkout gets the
+  company created as a partner, with this address and tax code, and becomes its contact: the order
+  is invoiced to the company. Only for a tax code no other customer has; a visitor who types the
+  tax code of a customer is not attached to that company.</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.0.2.1 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-03)</span></h2>
 <ul>
 <li>Description rewritten to match the code: duplicate e-mail check, checks only for logged-in
@@ -228,12 +257,6 @@ contact us. Before: "An other partner already exists with the same ...";</li>
 <li>Translatable strings in code use <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">self.env._()</code> instead of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_()</code>, the Odoo 19
   convention (pylint-odoo <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">prefer-env-translation</code>). The translated messages are
   unchanged.</li>
-</ul>
-<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.0.0.3 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-09-23)</span></h2>
-<ul>
-<li>Overrides that call <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">super()</code> without returning its result now pass it on
-  (pylint-odoo <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">missing-return</code>). The parent methods return <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">None</code> today, so the
-  behavior is unchanged.</li>
 </ul>
 <p><em>Older releases are listed in the module's HISTORY file.</em></p>
 </div>
