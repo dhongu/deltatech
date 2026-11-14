@@ -61,6 +61,9 @@ else:
         <field name="name">Terrabit: send a new request</field>
         <field name="model_id" ref="model_x_iap_online_request" />
         <field name="trigger">on_create</field>
+        <!-- A record created with a status is a usage entry of a service module (e.g. a charge the
+             server reported with a pushed answer): it is not sent -->
+        <field name="filter_domain">[('x_state', '=', False)]</field>
     </record>
     <record id="action_iap_online_prepare" model="ir.actions.server">
         <field name="name">Terrabit: prepare and send the request</field>
