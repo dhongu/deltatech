@@ -5,7 +5,7 @@
     "name": "Website IndexNow",
     "category": "Website",
     "summary": "Tell Bing and the other IndexNow search engines when your pages change",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "consultant_sheet": "full",

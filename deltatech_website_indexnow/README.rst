@@ -14,16 +14,13 @@ Website IndexNow
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_indexnow
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_indexnow
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_website_indexnow/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_website_indexnow/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-10%20automated%20tests%20%C2%B7%2091%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_website_indexnow
-    :alt: 10 automated tests · 91% code coverage
 
-|badge1| |badge2| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge_fisa|
 
 Tells the search engines of the `IndexNow <https://www.indexnow.org>`__
 protocol (Bing, Yandex, Seznam, Naver) which pages of your Odoo website
@@ -103,15 +100,22 @@ Usage
    sent: 2, highlighted; the IndexNow setting stays checked, with the
    key and the View key file link|
 
-.. |Website settings, Tracking and SEO section: the IndexNow setting checked, the Key field with the value 9c42dc26ca5946e4b661082db126af42 and the View key file link highlighted, with the Send all pages now link below| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_indexnow/static/description/en/01_setare_indexnow.png
-.. |The key file open in the browser: the page shows only the text 9c42dc26ca5946e4b661082db126af42, without the header or menu of the site| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_indexnow/static/description/en/02_fisier_cheie.png
-.. |Website settings after clicking Send all pages now, highlighted: the green IndexNow notification at the top right with the message URLs sent: 2, highlighted; the IndexNow setting stays checked, with the key and the View key file link| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_indexnow/static/description/en/03_trimitere_pagini.png
+.. |Website settings, Tracking and SEO section: the IndexNow setting checked, the Key field with the value 9c42dc26ca5946e4b661082db126af42 and the View key file link highlighted, with the Send all pages now link below| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_indexnow/static/description/en/01_setare_indexnow.png
+.. |The key file open in the browser: the page shows only the text 9c42dc26ca5946e4b661082db126af42, without the header or menu of the site| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_indexnow/static/description/en/02_fisier_cheie.png
+.. |Website settings after clicking Send all pages now, highlighted: the green IndexNow notification at the top right with the message URLs sent: 2, highlighted; the IndexNow setting stays checked, with the key and the View key file link| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_indexnow/static/description/en/03_trimitere_pagini.png
 
 Changelog
 =========
 
 History
 =======
+
+20.0.1.0.0 (2026-11-14)
+-----------------------
+
+- Migration to Odoo 20.0: the key file ``/<key>.txt`` finds the website
+  of the host from the context (``website_id``, else ``host_id``),
+  ``get_current_website()`` being gone.
 
 19.0.1.0.0 (2026-11-02)
 -----------------------
@@ -149,6 +153,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_indexnow>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_indexnow>`_ project on GitHub.
 
 You are welcome to contribute.

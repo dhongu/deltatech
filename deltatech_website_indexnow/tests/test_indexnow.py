@@ -61,6 +61,9 @@ class TestIndexNow(HttpCase):
         old = self._create_page("/indexnow-old")
         draft = self._create_page("/indexnow-draft", published=False)
         since = fields.Datetime.now()
+        # Odoo 20: flush the pending writes of the new pages first, else the flush done by the
+        # search below writes write_date again and overwrites the dates set here
+        self.env.flush_all()
         self.env.cr.execute(
             "UPDATE website_page SET write_date = %s WHERE id = %s", (since - timedelta(days=1), old.id)
         )
@@ -70,6 +73,7 @@ class TestIndexNow(HttpCase):
         old.invalidate_recordset(["write_date"])
         old.view_id.invalidate_recordset(["write_date"])
         new = self._create_page("/indexnow-new")
+        self.env.flush_all()
         self.env.cr.execute(
             "UPDATE website_page SET write_date = %s WHERE id = %s", (since + timedelta(seconds=1), new.id)
         )
@@ -115,7 +119,11 @@ class TestIndexNow(HttpCase):
         last_submit = fields.Datetime.now() - timedelta(days=1)
         self.website.indexnow_last_submit = last_submit
         self._create_page("/indexnow-refused")
-        with patch(POST, return_value=MagicMock(status_code=403, text="")):
+        # the refusal is logged as a warning: captured here, else the CI log check fails
+        with (
+            patch(POST, return_value=MagicMock(status_code=403, text="")),
+            self.assertLogs("odoo.addons.deltatech_website_indexnow.models.website", level="WARNING"),
+        ):
             self.env["website"]._cron_indexnow()
         self.assertIn("HTTP 403", self.website.indexnow_last_result)
         # the same pages are sent again at the next run

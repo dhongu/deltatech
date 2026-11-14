@@ -49,7 +49,7 @@ class TestIndexNowScreenshots(ScreenshotCase or object):
             raise unittest.SkipTest("deltatech_doc_screenshots indisponibil")
         super().setUpClass()
         cls.prepare_ro_company()
-        cls.website = cls.env["website"].get_current_website()
+        cls.website = cls.env.ref("base.default_website")
         cls.website.write(
             {
                 "name": "Grădina Demo",

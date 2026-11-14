@@ -18,7 +18,10 @@ class IrHttp(models.AbstractModel):
         # a fallback, not a route: a route on /<key>.txt would hide the other .txt files of the site
         match = KEY_FILE_RE.match(request.httprequest.path)
         if match:
-            website = request.env["website"].sudo().get_current_website()
+            # Odoo 20: the website of the host is in the context (host_id) before the website
+            # part of the fallback sets website_id
+            context = request.env.context
+            website = request.env["website"].sudo().browse(context.get("website_id") or context.get("host_id"))
             if website.indexnow_enabled and website.indexnow_key == match.group(1):
                 return request.make_response(
                     website.indexnow_key, headers=[("Content-Type", "text/plain; charset=utf-8")]
