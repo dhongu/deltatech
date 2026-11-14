@@ -8,7 +8,7 @@ from odoo.tests.common import HttpCase, tagged
 class TestLlmsTxt(HttpCase):
     def setUp(self):
         super().setUp()
-        self.website = self.env["website"].get_current_website()
+        self.website = self.env.ref("base.default_website")
         self.site_url = self.website.get_base_url()
         self.website.company_id.write({"email": "shop@example.com", "phone": "+40 700 000 000"})
         view = self.env["ir.ui.view"].create({"name": "LLMS page", "type": "qweb", "arch": "<t><div>LLMS</div></t>"})

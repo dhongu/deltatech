@@ -8,7 +8,7 @@ from odoo.http import request
 class WebsiteLlmsTxt(http.Controller):
     @http.route("/llms.txt", type="http", auth="public", website=True, multilang=False, sitemap=False)
     def llms_txt(self, **kwargs):
-        website = request.website
+        website = request.env.website
         if not website.llms_txt_enabled:
             raise request.not_found()
         content = website.sudo()._get_llms_txt()

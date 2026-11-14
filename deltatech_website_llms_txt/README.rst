@@ -14,16 +14,13 @@ Website llms.txt
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_llms_txt
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_llms_txt
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_website_llms_txt/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_website_llms_txt/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-11%20automated%20tests%20%C2%B7%2092%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_website_llms_txt
-    :alt: 11 automated tests · 92% code coverage
 
-|badge1| |badge2| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge_fisa|
 
 Publishes ``/llms.txt`` on your Odoo website: a short Markdown summary
 of the site, in the `llms.txt <https://llmstxt.org>`__ format, that
@@ -99,16 +96,22 @@ Usage
    Home, Contact Us and Delivery and returns, each with its description,
    and Optional with the Sitemap|
 
-.. |Website settings, Tracking and SEO section: the llms.txt setting checked, with the Edit llms.txt and View llms.txt links highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_llms_txt/static/description/en/01_setare_llms_txt.png
-.. |The llms.txt tab of the Grădina Demo website: Publish llms.txt checked, the llms.txt Summary of the shop, llms.txt Details with a Delivery section in Markdown, an empty Custom llms.txt and the View llms.txt link| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_llms_txt/static/description/en/02_tab_llms_txt.png
-.. |The /llms.txt file of the Grădina Demo website at| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_llms_txt/static/description/en/03_fisier_llms_txt.png
-.. |: title, summary after the > sign, the Contact line with email, phone, city and country, the Delivery section from the details, then Pages with Home, Contact Us and Delivery and returns, each with its description, and Optional with the Sitemap| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_llms_txt/static/description/en/03_fisier_llms_txt.png
+.. |Website settings, Tracking and SEO section: the llms.txt setting checked, with the Edit llms.txt and View llms.txt links highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_llms_txt/static/description/en/01_setare_llms_txt.png
+.. |The llms.txt tab of the Grădina Demo website: Publish llms.txt checked, the llms.txt Summary of the shop, llms.txt Details with a Delivery section in Markdown, an empty Custom llms.txt and the View llms.txt link| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_llms_txt/static/description/en/02_tab_llms_txt.png
+.. |The /llms.txt file of the Grădina Demo website at| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_llms_txt/static/description/en/03_fisier_llms_txt.png
+.. |: title, summary after the > sign, the Contact line with email, phone, city and country, the Delivery section from the details, then Pages with Home, Contact Us and Delivery and returns, each with its description, and Optional with the Sitemap| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_llms_txt/static/description/en/03_fisier_llms_txt.png
 
 Changelog
 =========
 
 History
 =======
+
+20.0.1.1.0 (2026-11-14)
+-----------------------
+
+- Migration to Odoo 20.0: the ``/llms.txt`` route takes the website from
+  ``env.website`` (``request.website`` is gone).
 
 19.0.1.1.0 (2026-11-02)
 -----------------------
@@ -162,6 +165,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_llms_txt>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_llms_txt>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -1,5 +1,10 @@
 # History
 
+## 20.0.1.1.0 (2026-11-14)
+
+- Migration to Odoo 20.0: the `/llms.txt` route takes the website from `env.website`
+  (`request.website` is gone).
+
 ## 19.0.1.1.0 (2026-11-02)
 
 - The pages without a meta description in their SEO settings take the one set in their
