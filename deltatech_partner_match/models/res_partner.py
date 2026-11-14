@@ -181,7 +181,8 @@ class ResPartner(models.Model):
         ids = [row[0] for row in self.env.cr.fetchall()]
         if not ids:
             return []
-        candidates = self.search([*(domain or []), ("id", "in", ids)], limit=limit)
+        # every candidate shares a strong key, so they are few: score them all, then keep the best
+        candidates = self.search([*(domain or []), ("id", "in", ids)])
         # the county of values and the localities of a county are the same for every candidate
         cache = {}
         result = []
@@ -196,4 +197,4 @@ class ResPartner(models.Model):
                 }
             )
         result.sort(key=lambda item: (-item["score"], item["partner"].id))
-        return result
+        return result[:limit] if limit else result

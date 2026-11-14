@@ -75,6 +75,14 @@ class TestFindSimilarPartners(TransactionCase):
         self.assertEqual({item["partner"] for item in result}, {self.ion, self.ana})
         self.assertEqual(len(self._find(values, limit=1)), 1)
 
+    def test_limit_keeps_the_best(self):
+        """The limit is applied after the scoring: the best candidate is never cut."""
+        values = {"name": "Ion Pmatchescu", "phone": "0722914456"}
+        best = self._find(values)[0]["partner"]
+        self.assertEqual(best, self.ion)
+        # the default order (by name) puts Ana first, scored lower
+        self.assertEqual([item["partner"] for item in self._find(values, limit=1)], [self.ion])
+
     def test_no_strong_key(self):
         self.assertEqual(self._find({"name": "Ion Pmatchescu"}), [], "a name alone selects nobody")
         self.assertEqual(self._find({"name": "Ion Pmatchescu", "phone": "0000000"}), [])

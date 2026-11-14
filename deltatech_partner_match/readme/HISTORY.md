@@ -3,6 +3,8 @@
 - Migration to Odoo 20.0. The VAT key also matches the *Company ID* (`RO_EN` additional
   identifier): on 20.0 a company that is not a VAT payer has its CUI only there, with an empty
   Tax ID.
+- `_find_similar_partners` scores all the candidates before applying `limit`, so the best
+  match is never cut by the default order of the partners.
 
 ## 19.0.1.3.1 (2026-10-28)
 
