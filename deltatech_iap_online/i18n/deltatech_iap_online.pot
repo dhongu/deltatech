@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-13 06:26+0000\n"
-"PO-Revision-Date: 2026-11-13 06:26+0000\n"
+"POT-Creation-Date: 2026-11-14 07:06+0000\n"
+"PO-Revision-Date: 2026-11-14 07:06+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -53,6 +53,11 @@ msgid "Callback URL"
 msgstr ""
 
 #. module: deltatech_iap_online
+#: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_request_search
+msgid "Charged"
+msgstr ""
+
+#. module: deltatech_iap_online
 #: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_company_name
 msgid "Company Name"
 msgstr ""
@@ -63,13 +68,48 @@ msgid "Company Tax ID"
 msgstr ""
 
 #. module: deltatech_iap_online
+#: model:ir.actions.act_window,name:deltatech_iap_online.action_x_iap_online_usage
+#: model:ir.ui.menu,name:deltatech_iap_online.menu_iap_online_credits_usage
+#: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_request_graph
+#: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_request_pivot
+#: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_service_form
+msgid "Credit Usage"
+msgstr ""
+
+#. module: deltatech_iap_online
 #: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_service_x_balance
 msgid "Credits Left"
 msgstr ""
 
 #. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_balance_after
+msgid "Credits Left After"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_cost
+msgid "Credits Used"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,help:deltatech_iap_online.field_x_iap_online_request_x_cost
+msgid ""
+"Credits charged by the Terrabit server for this request (1 credit = 1 EUR)."
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.model.fields,help:deltatech_iap_online.field_x_iap_online_request_x_balance_after
+msgid "Credits left on the account when the server answered this request."
+msgstr ""
+
+#. module: deltatech_iap_online
 #: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_db_uuid
 msgid "Database UUID"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_request_search
+msgid "Date"
 msgstr ""
 
 #. module: deltatech_iap_online
@@ -80,6 +120,13 @@ msgstr ""
 #. module: deltatech_iap_online
 #: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_res_model
 msgid "Document Model"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model_terms:ir.actions.act_window,help:deltatech_iap_online.action_x_iap_online_usage
+msgid ""
+"Each charged answer of a Terrabit service shows here, with the credits used "
+"and left."
 msgstr ""
 
 #. module: deltatech_iap_online
@@ -98,8 +145,18 @@ msgid "Input"
 msgstr ""
 
 #. module: deltatech_iap_online
+#: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_request_search
+msgid "Month"
+msgstr ""
+
+#. module: deltatech_iap_online
 #: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_name
 msgid "Name"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model_terms:ir.actions.act_window,help:deltatech_iap_online.action_x_iap_online_usage
+msgid "No credits used yet"
 msgstr ""
 
 #. module: deltatech_iap_online
@@ -143,6 +200,7 @@ msgstr ""
 #. module: deltatech_iap_online
 #: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_service_id
 #: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_service_x_name
+#: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_request_search
 msgid "Service"
 msgstr ""
 
@@ -157,8 +215,18 @@ msgid "Services"
 msgstr ""
 
 #. module: deltatech_iap_online
+#: model:ir.ui.menu,name:deltatech_iap_online.menu_iap_online_credits_services
+msgid "Services and Credits"
+msgstr ""
+
+#. module: deltatech_iap_online
 #: model:ir.model.fields,field_description:deltatech_iap_online.field_x_iap_online_request_x_state
 msgid "Status"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model:ir.ui.menu,name:deltatech_iap_online.menu_iap_online_credits_root
+msgid "Terrabit Credits"
 msgstr ""
 
 #. module: deltatech_iap_online
@@ -221,6 +289,11 @@ msgstr ""
 #. module: deltatech_iap_online
 #: model:ir.model.fields,help:deltatech_iap_online.field_x_iap_online_service_x_send_action_id
 msgid "The webhook to the service, created at activation"
+msgstr ""
+
+#. module: deltatech_iap_online
+#: model_terms:ir.ui.view,arch_db:deltatech_iap_online.view_x_iap_online_request_list
+msgid "Total"
 msgstr ""
 
 #. module: deltatech_iap_online

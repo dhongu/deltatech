@@ -23,6 +23,14 @@ result = answer.get('result') or {}
 service = record.x_service_id
 if 'balance' in answer:
     service.write({'x_balance': answer.get('balance') or 0})
+# Credit usage: an older server sends no cost; the history then starts with its update
+usage = {}
+if 'cost' in answer:
+    usage['x_cost'] = answer.get('cost') or 0
+if 'balance' in answer:
+    usage['x_balance_after'] = answer.get('balance') or 0
+if usage:
+    record.write(usage)
 if answer.get('state') != 'done':
     record.write({'x_state': 'error', 'x_error': answer.get('error') or 'error', 'x_result': str(answer)})
 elif record.x_kind == 'register' and not result.get('account_token'):
@@ -79,7 +87,7 @@ elif values['x_kind'] == 'register' and not record.create_uid.has_group('base.gr
     values.update({'x_state': 'error', 'x_error': 'Only administrators can activate the service'})
     record.write(values)
 elif not service.x_send_action_id or (record.x_kind != 'register' and not service.x_token):
-    values.update({'x_state': 'error', 'x_error': 'The service is not active yet: Settings > Technical > Terrabit Services'})
+    values.update({'x_state': 'error', 'x_error': 'The service is not active yet: Settings > Terrabit Credits > Services and Credits'})
     record.write(values)
 else:
     values['x_state'] = 'sent'
