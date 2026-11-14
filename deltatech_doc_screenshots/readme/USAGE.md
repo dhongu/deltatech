@@ -52,3 +52,30 @@ Framing: `capture_screenshots(..., viewport=(1920, 950))` by default, wide enoug
 `prepare_ro_company` / `prepare_demo_company`; `_autotrim` trims the margins. Useful per-shot
 options: `full`, `wait`, `click_btn`, `click_tab`, `unfold_report`, `eval` (custom JS), `settle`
 (pause in ms).
+
+**Animated demo (GIF).** `capture_gif(steps, name="demo.gif")` records a flow as an animated GIF
+for the Apps Store page: a simulated cursor glides to each target and shows a ring on click, text
+is typed letter by letter and a numbered caption sits at the bottom. The GIF opens with a slide
+built from `static/description/banner.json` and the module icon, fades into the flow and returns
+to the slide at the end. Each step is a dict; its keys run in this order:
+
+```python
+def test_capture_gif(self):
+    self.capture_gif([
+        {"goto": f"action={action.id}&model=res.partner&view_type=form"},
+        {"caption": "New partner: the name"},           # numbered 1, 2, 3... automatically
+        {"type": "Ferma Verde SRL", "into": "name"},     # a field name or any selector
+        {"caption": "Save"},
+        {"click": ".o_form_button_save", "wait_after": ".o_form_saved", "hold": 2000},
+    ], name="demo.gif")
+```
+
+Other keys: `path`, `wait`, `eval`, `move` (cursor only), `press` (`Enter`, `Tab`...), `clear`,
+`num`, `hide_cursor`, `hold` (ms). Values may depend on the language, as in `capture_screenshots`;
+`intro={"title": ..., "summary": ..., "features": [...]}` overrides the slide (e.g. Romanian texts
+when `banner.json` is in English) and `intro=False` drops it. The GIF is 1120×700 by default
+(`viewport`); `scale=0.75` makes a smaller file. Time in the GIF is virtual, so the pace does not
+depend on how fast the server answers, and identical frames are merged. When a step fails, the
+error names the step and saves the screen to a temporary `.error.png`.
+
+![Demo](../static/description/en/demo.gif)

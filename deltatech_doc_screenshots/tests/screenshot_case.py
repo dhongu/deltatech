@@ -64,6 +64,7 @@ import contextlib
 import json
 import logging
 import os
+import tempfile
 import unittest
 from urllib.parse import quote
 
@@ -542,7 +543,6 @@ class ScreenshotCase(HttpCase):
         import base64
         import shutil
         import subprocess
-        import tempfile
 
         soffice = shutil.which("soffice") or shutil.which("libreoffice")
         if not soffice:
@@ -795,47 +795,12 @@ class ScreenshotCase(HttpCase):
 
         Returnează lista căilor scrise.
         """
-        try:
-            from playwright.sync_api import sync_playwright
-        except ImportError:
-            self.skipTest("playwright nu este instalat (uv pip install playwright)")
-
         out = self.screenshots_dir(lang)
         os.makedirs(out, exist_ok=True)
         base = self.base_url()
-        locale = locale or lang.replace("_", "-")
-
-        # Pe o bază fără date demo, ``res.users.tour_enabled`` (web_tour, compute stocat) e True
-        # pentru admin, iar indicatorul turului de onboarding (picătura mov) apare în capturi
-        # peste butonul „Nou". Îl oprim pentru utilizatorul care face capturile.
-        user = self.env["res.users"].sudo().search([("login", "=", login)], limit=1)
-        if user and "tour_enabled" in user._fields:
-            user.tour_enabled = False
-        # limba interfeței o dă utilizatorul (contextul sesiunii), nu locale-ul browserului
-        if user and user.lang != lang:
-            self.activate_lang(lang, user=user)
-
-        # autentificăm sesiunea și o transmitem browserului prin cookie (sărim formularul de login,
-        # care expiră pe serverul de test); all_requests permite serverului să servească browserul.
-        self.authenticate(login, login)
-        sid = self.session.sid
 
         written = []
-        with self.allow_requests(all_requests=True), _unlimited_address_space(), sync_playwright() as p:
-            browser = p.chromium.launch(channel="chrome", headless=True)
-            ctx = browser.new_context(viewport={"width": viewport[0], "height": viewport[1]}, locale=locale)
-            ctx.add_cookies([{"name": "session_id", "value": sid, "url": base}])
-            page = ctx.new_page()
-            # Erorile JS ale paginii se colectează și se raportează la eșec: când clientul
-            # web crapă în timp ce construiește un ecran, `wait_for_selector` întoarce doar
-            # „Timeout exceeded", fără nicio urmă despre cauză, iar în log-ul serverului
-            # cererea de dinainte (ex. `get_views`) apare cu 200 — deci pare că totul e bine.
-            js_errors = []
-            page.on("pageerror", lambda e: js_errors.append(f"pageerror: {e}"))
-            page.on(
-                "console",
-                lambda m: js_errors.append(f"console.error: {m.text}") if m.type == "error" else None,
-            )
+        with self._browser_session(login, viewport, locale, lang) as (_ctx, page, js_errors):
             try:
                 shot_name = "?"
                 for s in shots:
@@ -967,9 +932,237 @@ class ScreenshotCase(HttpCase):
                 # nici măcar la care captură s-a oprit.
                 detalii = "\n".join(f"  - {e}" for e in dict.fromkeys(js_errors)) or "  (niciuna)"
                 raise AssertionError(f"Captura '{shot_name}' a eșuat: {exc}\nErori JS în pagină:\n{detalii}") from exc
+        return written
+
+    @contextlib.contextmanager
+    def _browser_session(self, login="admin", viewport=(1920, 950), locale=None, lang=DEFAULT_LANG):
+        """Chrome (Playwright) autentificat ca ``login``, cu interfața în ``lang``.
+
+        Întoarce ``(context, page, js_errors)``; ``js_errors`` strânge erorile JS ale paginii,
+        pentru diagnosticul de la eșec. Sare testul dacă ``playwright`` lipsește.
+        """
+        try:
+            from playwright.sync_api import sync_playwright  # noqa: PLC0415
+        except ImportError:
+            self.skipTest("playwright nu este instalat (uv pip install playwright)")
+
+        base = self.base_url()
+        locale = locale or lang.replace("_", "-")
+
+        # Pe o bază fără date demo, ``res.users.tour_enabled`` (web_tour, compute stocat) e True
+        # pentru admin, iar indicatorul turului de onboarding (picătura mov) apare în capturi
+        # peste butonul „Nou". Îl oprim pentru utilizatorul care face capturile.
+        user = self.env["res.users"].sudo().search([("login", "=", login)], limit=1)
+        if user and "tour_enabled" in user._fields:
+            user.tour_enabled = False
+        # limba interfeței o dă utilizatorul (contextul sesiunii), nu locale-ul browserului
+        if user and user.lang != lang:
+            self.activate_lang(lang, user=user)
+
+        # autentificăm sesiunea și o transmitem browserului prin cookie (sărim formularul de login,
+        # care expiră pe serverul de test); all_requests permite serverului să servească browserul.
+        self.authenticate(login, login)
+        sid = self.session.sid
+
+        with self.allow_requests(all_requests=True), _unlimited_address_space(), sync_playwright() as p:
+            browser = p.chromium.launch(channel="chrome", headless=True)
+            try:
+                ctx = browser.new_context(viewport={"width": viewport[0], "height": viewport[1]}, locale=locale)
+                ctx.add_cookies([{"name": "session_id", "value": sid, "url": base}])
+                page = ctx.new_page()
+                # Erorile JS ale paginii se colectează și se raportează la eșec: când clientul
+                # web crapă în timp ce construiește un ecran, `wait_for_selector` întoarce doar
+                # „Timeout exceeded", fără nicio urmă despre cauză, iar în log-ul serverului
+                # cererea de dinainte (ex. `get_views`) apare cu 200 — deci pare că totul e bine.
+                js_errors = []
+                page.on("pageerror", lambda e: js_errors.append(f"pageerror: {e}"))
+                page.on(
+                    "console",
+                    lambda m: js_errors.append(f"console.error: {m.text}") if m.type == "error" else None,
+                )
+                yield ctx, page, js_errors
             finally:
                 browser.close()
-        return written
+
+    #: cheile acceptate de un pas din ``capture_gif``, în ordinea în care se execută
+    GIF_STEP_KEYS = (
+        "goto",
+        "path",
+        "wait",
+        "timeout",
+        "eval",
+        "caption",
+        "num",
+        "move",
+        "click",
+        "wait_after",
+        "type",
+        "into",
+        "clear",
+        "press",
+        "hide_cursor",
+        "hold",
+    )
+
+    def capture_gif(
+        self,
+        steps,
+        name="demo.gif",
+        login="admin",
+        viewport=(1120, 700),
+        lang=DEFAULT_LANG,
+        intro=True,
+        intro_ms=2800,
+        outro_ms=2500,
+        hide_systray=True,
+        fps=12,
+        scale=1.0,
+    ):
+        """Înregistrează un GIF animat al unui flux (demo pentru Apps Store / fișă).
+
+        Peste interfață apar un cursor simulat (deplasare lină, cerc la click) și o etichetă
+        numerotată jos, pe centru; vezi ``gif_recorder.GifRecorder``. Fiecare pas e un dict; cheile
+        lui se execută în ordinea din ``GIF_STEP_KEYS``, deci un pas poate combina, de pildă, o
+        etichetă cu un click:
+
+          - ``goto`` (str): fragmentul de după ``/web#`` (ca ``url`` la ``capture_screenshots``);
+            ``path`` (str): cale absolută pe server; ``wait`` (str): selectorul de așteptat după
+            navigare (implicit form sau listă); ``timeout`` (ms);
+          - ``eval`` (str): cod JS rulat în pagină;
+          - ``caption`` (str): textul etichetei de jos, numerotat automat (1, 2, 3...); ``num``
+            forțează numărul (``False`` = fără număr); ``caption: ""`` o ascunde;
+          - ``move`` (str): selector spre care se deplasează cursorul, fără click;
+          - ``click`` (str): selector pe care se dă click; ``wait_after`` (str): selectorul de
+            așteptat după click (ex. ``.o-autocomplete--dropdown-menu``);
+          - ``type`` (str): text tastat literă cu literă; ``into`` (str): câmpul în care se dă
+            click înainte — un selector sau doar numele tehnic al câmpului (``"vat"``);
+            ``clear`` (bool): golește întâi câmpul;
+          - ``press`` (str): tastă (``Enter``, ``Tab``, ``Escape``...);
+          - ``hide_cursor`` (bool): ascunde cursorul simulat (ex. pe ecranul final);
+          - ``hold`` (ms): cât rămâne ecranul pe loc la finalul pasului (implicit 1 cadru).
+
+        Selectoarele pot fi Playwright (``button:has-text('Salvează')``) și, ca orice valoare,
+        dependente de limbă: ``{"ro_RO": ..., "en_US": ...}``. Preferați ``[name='vat'] input``.
+
+        ``intro=True`` deschide GIF-ul cu un slide din ``static/description/banner.json``
+        (``title``, ``summary``, ``features``, ``edition``) și iconița modulului, apoi trece în
+        fondu-nlănțuit în flux; ``intro`` poate fi și un dict cu aceleași chei (plus ``eyebrow``),
+        cu valori dependente de limbă, sau ``False``. Slide-ul revine la final ``outro_ms``
+        (``0`` = fără). GIF-ul se scrie în ``screenshots_dir(lang)`` (``static/description/`` sau
+        ``en/``). ``viewport`` implicit 1120×700, ca demo-urile de pe Apps Store; ``scale`` îl
+        micșorează la export (ex. 0.75 pentru un fișier mai mic).
+
+        Returnează calea GIF-ului.
+        """
+        from .gif_recorder import GifRecorder, intro_html  # noqa: PLC0415
+
+        out = self.screenshots_dir(lang)
+        os.makedirs(out, exist_ok=True)
+        dest = os.path.join(out, name)
+        base = self.base_url()
+        slide_html = self._gif_intro_html(intro, lang, viewport, intro_html) if intro else None
+
+        with self._browser_session(login, viewport, None, lang) as (ctx, page, js_errors):
+            step_no = 0
+            try:
+                slide_png = None
+                if slide_html:
+                    slide = ctx.new_page()
+                    slide.set_content(slide_html, wait_until="load")
+                    slide_png = slide.screenshot(type="png")
+                    slide.close()
+                rec = GifRecorder(page, fps=fps)
+                if slide_png:
+                    rec.add_png(slide_png, intro_ms)
+                    rec.fade_next()
+                for raw in steps:
+                    step_no += 1  # numărul pasului curent, pentru mesajul de eroare
+                    unknown = set(raw) - set(self.GIF_STEP_KEYS)
+                    if unknown:
+                        raise AssertionError(f"chei necunoscute: {sorted(unknown)}")
+                    s = {key: _for_lang(value, lang) for key, value in raw.items()}
+                    timeout = s.get("timeout", 20000)
+                    rec.timeout = timeout
+                    if s.get("goto") or s.get("path"):
+                        target = f"{base}{s['path']}" if s.get("path") else f"{base}/web#{s['goto']}"
+                        resp = page.goto(target, wait_until="domcontentloaded")
+                        if resp is not None and resp.status >= 400:
+                            raise AssertionError(f"HTTP {resp.status} la {s.get('path') or s['goto']}")
+                        page.wait_for_selector(s.get("wait", DEFAULT_READY), timeout=timeout)
+                        if hide_systray:
+                            page.add_style_tag(content=".o_menu_systray, .o-tooltip, .tooltip{display:none !important}")
+                        # chatter-ul nu ține de flux și îngustează formularul
+                        page.add_style_tag(
+                            content=".o-mail-Form-chatter, .o-mail-ChatterContainer{display:none !important}"
+                        )
+                        rec.settle()
+                    elif s.get("wait"):
+                        page.wait_for_selector(s["wait"], timeout=timeout)
+                    if s.get("eval"):
+                        page.evaluate(s["eval"])
+                        rec.settle()
+                    if "caption" in s:
+                        rec.caption(s["caption"], num=s.get("num"))
+                    if s.get("move"):
+                        rec.move(s["move"])
+                    if s.get("click"):
+                        rec.click(s["click"], wait_after=s.get("wait_after"))
+                    if s.get("type"):
+                        rec.type(s["type"], into=s.get("into"), clear=s.get("clear", False))
+                    if s.get("press"):
+                        rec.press(s["press"], wait_after=s.get("wait_after"))
+                    if s.get("hide_cursor"):
+                        rec.hide_cursor()
+                    rec.hold(s.get("hold"))
+                if slide_png and outro_ms:
+                    rec.add_png(slide_png, outro_ms, fade=True)
+                frames, duration = rec.save(dest, scale=scale)
+            except Exception as exc:  # noqa: BLE001 - re-ridicăm, doar adăugăm diagnosticul
+                detalii = "\n".join(f"  - {e}" for e in dict.fromkeys(js_errors)) or "  (niciuna)"
+                # ecranul din momentul eșecului, în afara modulului (nu în static/description)
+                error_png = os.path.join(tempfile.gettempdir(), f"{self.screenshots_module}_{name}.error.png")
+                try:
+                    page.screenshot(path=error_png)
+                except Exception:  # noqa: BLE001 - pagina poate fi deja închisă
+                    error_png = "(indisponibil)"
+                raise AssertionError(
+                    f"GIF-ul '{name}' a eșuat la pasul {step_no}: {exc}\nEcranul: {error_png}\n"
+                    f"Erori JS în pagină:\n{detalii}"
+                ) from exc
+        _logger.info("GIF %s: %s cadre, %.1f s, %d KB", dest, frames, duration / 1000, os.path.getsize(dest) // 1024)
+        return dest
+
+    def _gif_intro_html(self, intro, lang, viewport, intro_html):
+        """Datele slide-ului de deschidere: din ``intro`` (dict) peste ``banner.json`` și manifest."""
+        path = get_module_path(self.screenshots_module)
+        description = os.path.join(path, "static", "description")
+        data = {}
+        banner = os.path.join(description, "banner.json")
+        if os.path.isfile(banner):
+            with open(banner, encoding="utf-8") as fh:
+                data.update(json.load(fh))
+        if isinstance(intro, dict):
+            data.update({key: _for_lang(value, lang) for key, value in intro.items()})
+        if not data.get("title") or not data.get("summary"):
+            manifest = self.env["ir.module.module"].get_module_info(self.screenshots_module)
+            data.setdefault("title", manifest.get("name") or self.screenshots_module)
+            data.setdefault("summary", manifest.get("summary", ""))
+        edition = "Enterprise" if data.get("edition") == "enterprise" else "Community"
+        eyebrow = data.get("eyebrow") or f"Odoo 19 · {edition}"
+        icon = None
+        icon_path = os.path.join(description, "icon.png")
+        if os.path.isfile(icon_path):
+            with open(icon_path, "rb") as fh:
+                icon = fh.read()
+        return intro_html(
+            data["title"],
+            data.get("summary", ""),
+            data.get("features") or (),
+            icon,
+            eyebrow,
+            width=viewport[0],
+            height=viewport[1],
+        )
 
     #: JS aplicat pe fiecare element evidențiat: contur portocaliu Odoo + halou translucid și,
     #: dacă ``num`` nu e null, o bulină numerotată în colțul stânga-sus. ``num`` e dat o singură
