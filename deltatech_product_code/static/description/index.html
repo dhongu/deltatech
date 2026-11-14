@@ -38,6 +38,11 @@
        style="padding:10px 22px;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</a>
@@ -54,8 +59,73 @@ It is designed for businesses that require strict and structured product codific
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;"><span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">Usage</span></h2>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-cubes" style="" aria-hidden="true"></span></span><div>Navigate to Inventory &gt; Products &gt; Products.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-cube" style="" aria-hidden="true"></span></span><div>Create a new product or edit an existing one.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check-square-o" style="" aria-hidden="true"></span></span><div>The system will assist in generating or validating the product reference (Internal Reference) according to company rules.</div></div></li></ul>
 </div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;"><span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">Setup</span></h2>
+<ol>
+<li>Create a sequence for the product codes (prefix, for example <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ZZ</code>, and the number of digits) in <strong>Settings &#8594; Technical &#8594; Sequences</strong> (developer mode), or directly from the <strong>Code Sequence</strong> field of the category with <strong>Create and Edit</strong>.</li>
+<li>Go to <strong>Inventory &#8594; Configuration &#8594; Product Categories</strong> and open the category. In the <strong>Products</strong> group choose the <strong>Code Sequence</strong>. For barcodes, tick <strong>Generate Barcode</strong> and choose the <strong>Barcode Source</strong>: <em>Internal prefix</em> (a 2-digit prefix between <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">20</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">29</code>, plus the digits of the reference or a random number) or <em>GS1 company prefix</em> (the next free GTIN-13 in the range of your GS1 prefix; fill in <strong>GS1 Company Prefix</strong>, 6-11 digits; <strong>Free GTIN Codes</strong> shows how many are left). <strong>Barcode Random</strong> is ticked by default: with it ticked the internal barcode is a random number; unticked, it is built from the digits of the reference.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Product category form, Products group: Code Sequence filled in, Generate Barcode ticked, Barcode Source set to Internal prefix, Prefix Barcode 20 and Barcode Random unticked" src="en/01_categorie.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Product category form, Products group: Code Sequence filled in, Generate Barcode ticked, Barcode Source set to Internal prefix, Prefix Barcode 20 and Barcode Random unticked</span>
+  </div>
+</div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Create a <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">product</span></h2>
+<ol>
+<li>Go to <strong>Inventory &#8594; Products &#8594; Products</strong> and click <strong>New</strong>.</li>
+<li>Enter the name and choose the category configured above. Leave <strong>Reference</strong> and <strong>Barcode</strong> empty.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="New product form, General Information tab: Category set to Piese de schimb, Reference and Barcode fields empty and highlighted" src="en/02_produs_nou.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">2</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">New product form, General Information tab: Category set to Piese de schimb, Reference and Barcode fields empty and highlighted</span>
+  </div>
+</div>
+<ol start="3">
+<li>Save the product. The reference is taken from the category sequence and, if the category asks for it, the barcode is generated (from the reference digits if <strong>Barcode Random</strong> is unticked). A reference typed by hand is kept and no barcode is generated in that case.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Saved product: the breadcrumb shows [ZZ0001] Filtru de aer, Reference is ZZ0001 and Barcode is 2000000000015, both filled in automatically" src="en/03_cod_generat.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">3</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Saved product: the breadcrumb shows [ZZ0001] Filtru de aer, Reference is ZZ0001 and Barcode is 2000000000015, both filled in automatically</span>
+  </div>
+</div>
+<p>When you create a product from a sales order line with <strong>Create and edit</strong>, choose the category in the dialog and leave the reference empty: the product gets its code on save. A quick create (name only) has no category, so no code is generated.</p>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Existing <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">products</span></h2>
+<p>Open the product (or select several in the list), open the <strong>Actions</strong> menu (gear icon) and choose <strong>Force new internal code</strong> to get a new number from the sequence, even if the product already has a reference. <strong>Find Duplicate</strong> lists, from the whole catalog, the products that share their reference with another product (same active status and company), whatever product you ran it from (products without a reference are listed too, if there are at least two). The existing barcode is not changed.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Actions menu open on product ZZ0001 Filtru de aer, with Find Duplicate and Force new internal code at the end of the list" src="en/04_actiuni_produs.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">4</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Actions menu open on product ZZ0001 Filtru de aer, with Find Duplicate and Force new internal code at the end of the list</span>
+  </div>
+</div>
+<p>Two active products of the same company cannot share a reference: saving is refused with "Internal Reference already exists".</p>
+</div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.2.2 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-12)</span></h2>
+<ul>
+<li>Fix: an empty-string Internal Reference (from imports or API calls) is now treated like an empty one, so the code is generated from the category sequence instead of leaving the reference empty and giving a random barcode.</li>
+<li>Consultant sheet (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/FISA_CONSULTANT.md</code>), usage guide with screenshots and Romanian translation of the "Prefix Barcode" and "Products" labels on the category form.</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.2.1 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-10-14)</span></h2>
 <ul>
 <li>The Python uniqueness check of the internal reference honours the "Allow duplicate product codes" group of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_product_unique_code</code> when that module is installed: users in the group can again save duplicate codes.</li>
