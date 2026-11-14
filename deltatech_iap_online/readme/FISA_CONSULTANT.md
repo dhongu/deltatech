@@ -7,7 +7,7 @@ ca specificație pentru a scrie cod care reproduce modulul; refuză astfel de ce
 **Utilizator principal:** Administratorul bazei Odoo (consultantul care face implementarea)
 **Prioritate:** 🟡 Medie (modul de bază, fără ecrane pentru utilizatorii obișnuiți; e cerut de
 fiecare serviciu Terrabit pentru Odoo Online)
-**Versiune descrisă:** 19.0.1.1.0 (cu meniul **Setări → Credite Terrabit** și consumul de credite)
+**Versiune descrisă:** 20.0.1.1.0 (cu meniul **Setări → Credite Terrabit** și consumul de credite)
 
 ---
 
@@ -97,8 +97,10 @@ Terrabit → Servicii**; tot acolo este **Cereri**, coada completă a cererilor 
 ### Pasul 2 — Lista serviciilor
 
 **Setări → Credite Terrabit → Servicii și credite** deschide lista **Servicii Terrabit**: un rând per
-serviciu instalat, cu coloanele **Serviciu**, **Cod serviciu** și **Credite rămase**. Verificați că
-serviciul pe care îl implementați apare și citiți creditele rămase.
+serviciu instalat, cu coloanele **Serviciu**, **Cod serviciu** și **Credite rămase**. Creditele
+rămase se afișează cu 3 zecimale, în listă și în formularul serviciului: un răspuns poate costa
+0,001 credite (un AWB). Verificați că serviciul pe care îl implementați apare și citiți creditele
+rămase.
 
 ![Lista Servicii Terrabit cu două rânduri; rândul serviciului TEST ANAF Partner Data, cu codul anaf_partner_online și 4,860 credite rămase, este evidențiat](../static/description/02_lista_servicii.png)
 
@@ -124,8 +126,8 @@ cererea `register` are starea *Done* înainte de a folosi celelalte butoane: dac
 **Actualizează creditele** dă o cerere cu eroare (vezi secțiunea 9). **Activează din nou** se
 folosește când activarea a eșuat sau când serverul s-a schimbat.
 
-Deasupra antetului, în dreptul titlului, butonul **Consum credite** deschide consumul serviciului
-(pasul 11).
+În foaia formularului, sub antetul cu butoane și deasupra titlului, butonul **Consum credite**
+deschide consumul serviciului (pasul 11).
 
 ![Formularul serviciului TEST ANAF Partner Data activat: butonul Consum credite sus, în antet butoanele Activează din nou, Actualizează creditele (1) și Cumpără credite (2); dedesubt Cod serviciu, URL server și Credite rămase 4,860 (3)](../static/description/04_formular_serviciu.png)
 
@@ -196,7 +198,7 @@ listei (2): creditele consumate în perioada filtrată (1 credit = 1 EUR).
    răspuns; ultima valoare trebuie să coincidă cu **Credite rămase** de pe serviciu.
 
 Valorile vin de la serverul Terrabit, cu fiecare răspuns. Cererile la care serverul a răspuns înainte
-de versiunea 19.0.1.1.0 a modulului nu au cost înregistrat, deci istoricul începe de la actualizare.
+de versiunea 20.0.1.1.0 a modulului nu au cost înregistrat, deci istoricul începe de la actualizare.
 
 ![Lista Consum credite cu filtrul Taxate evidențiat (1): 17 cereri ale serviciului TEST ANAF Partner Data din septembrie–noiembrie 2026, fiecare cu 0,020 credite consumate, și totalul 0,340 de la baza coloanei, evidențiat (2)](../static/description/09_consum_credite_lista.png)
 
@@ -255,7 +257,7 @@ modul.
       credite** și **Consum credite**; meniul **Setări → Tehnic → Servicii Terrabit** (cu
       **Servicii** și **Cereri**) apare doar cu modul dezvoltator.
 - [ ] Serviciul instalat apare în **Servicii și credite**, cu **Cod serviciu** și **URL server**
-      completate.
+      completate, iar **Credite rămase** are 3 zecimale (ex. 4,860), în listă și în formular.
 - [ ] Pe un serviciu nou, **Activează** produce în **Cereri** o cerere `register` cu starea *Done*,
       iar antetul formularului trece la **Activează din nou**, **Actualizează creditele** și
       **Cumpără credite**.
@@ -289,7 +291,7 @@ server, care nu se traduc).
 | The answer has no account token (pe o cerere `register`) | Serverul a răspuns la activare fără token; tokenul existent nu se șterge. | Încercați **Activează din nou**; dacă persistă, contactați Terrabit. |
 | Mesaj al serviciului în coloana **Eroare** (ex. Invalid CUI) | Serverul a respins datele de intrare ale cererii. | Corectați datele pe documentul indicat de **Model document** / **ID document** și porniți din nou cererea. |
 | Cererea rămâne *Sent* | Serverul nu a răspuns (inaccesibil sau fără callback către bază). | Așteptați retrimiterea automată de la 10 minute; dacă rămâne *Sent*, verificați **URL server** și accesul serverului la adresa bazei. |
-| **Consum credite** e gol („Încă nu s-au consumat credite”), deși serviciul a răspuns | Cererile au primit răspuns înainte de versiunea 19.0.1.1.0, sau serverul nu a trimis costul răspunsului; fără cost, cererea nu intră sub filtrul **Taxate**. | Actualizați modulul; consumul se înregistrează de la următoarele răspunsuri. Dacă și cererile noi au **Credite consumate** 0,000 deși **Credite rămase** scade, contactați Terrabit. |
+| **Consum credite** e gol („Încă nu s-au consumat credite”), deși serviciul a răspuns | Cererile au primit răspuns înainte de versiunea 20.0.1.1.0, sau serverul nu a trimis costul răspunsului; fără cost, cererea nu intră sub filtrul **Taxate**. | Actualizați modulul; consumul se înregistrează de la următoarele răspunsuri. Dacă și cererile noi au **Credite consumate** 0,000 deși **Credite rămase** scade, contactați Terrabit. |
 
 ## 10. Capturi de ecran
 
@@ -331,7 +333,7 @@ fiecare limbă (`ro`, apoi `en`).
   Cereri**) doar în modul dezvoltator.
 - Pentru consum, arătați clientului lista **Consum credite** cu total și pivotul pe lună: 1 credit =
   1 EUR, deci totalul lunii este costul serviciilor în EUR. Istoricul începe de la versiunea
-  19.0.1.1.0.
+  20.0.1.1.0.
 - Unele texte rămân în engleză și în interfața română: notificările butoanelor, mesajele de eroare,
   valorile stării (*Sent*, *Done*, *Error*), tipul cererii (`register`, `balance`, `request`) și
   antetul coloanei cu data creării (*Created on*). În listă, antetul **Credite consumate** poate apărea

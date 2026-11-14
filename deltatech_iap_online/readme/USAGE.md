@@ -59,7 +59,7 @@ developer mode. Install it together with a Terrabit service module (e.g.
    and refused requests cost nothing and are not listed. Filter by **Date** or **Service**, or group
    by **Service** or **Month**; the optional **Credits Left After** column shows the credits left
    after each answer. The server sends the cost with each answer: requests answered before version
-   19.0.1.1.0 have no cost.
+   20.0.1.1.0 have no cost.
 
    ![Credit Usage list with the Charged filter highlighted (1): 17 requests of the TEST ANAF Partner Data service from September to November 2026, each with 0.020 credits used, and the total 0.340 at the bottom of the column highlighted (2)](static/description/en/09_consum_credite_lista.png)
 
