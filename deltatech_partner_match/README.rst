@@ -17,14 +17,14 @@ Partner Match
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_partner_match
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_partner_match
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_partner_match/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_partner_match/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-20%20automated%20tests%20%C2%B7%2083%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_partner_match
-    :alt: 20 automated tests · 83% code coverage
+.. |badge_tests| image:: https://img.shields.io/badge/-21%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_partner_match/tests
+    :alt: 21 automated tests
 
 |badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
@@ -103,6 +103,13 @@ For developers. Add ``deltatech_partner_match`` to ``depends``, then:
 
 Changelog
 =========
+
+20.0.1.3.1 (2026-11-14)
+-----------------------
+
+- Migration to Odoo 20.0. The VAT key also matches the *Company ID*
+  (``RO_EN`` additional identifier): on 20.0 a company that is not a VAT
+  payer has its CUI only there, with an empty Tax ID.
 
 19.0.1.3.1 (2026-10-28)
 -----------------------
@@ -218,6 +225,14 @@ Authors
 Maintainers
 -----------
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_partner_match>`_ project on GitHub.
+.. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
+    :target: https://github.com/dhongu
+    :alt: dhongu
+
+Current maintainer:
+
+|maintainer-dhongu| 
+
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_partner_match>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -14,14 +14,14 @@ Stock Consumption Report
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_consumption_report
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_stock_consumption_report
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_stock_consumption_report/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_stock_consumption_report/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests%20%C2%B7%2097%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_stock_consumption_report
-    :alt: 8 automated tests · 97% code coverage
+.. |badge_tests| image:: https://img.shields.io/badge/-8%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_stock_consumption_report/tests
+    :alt: 8 automated tests
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
@@ -131,20 +131,28 @@ Usage
 
    |Detail sheet of the XLSX export, by store, purpose and product|
 
-.. |Consumption purposes list with the Name and Company columns| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_consumption_report/static/description/en/01_destinatii_consum.png
-.. |Validated consumption voucher with the operation type and the consumption purpose highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_consumption_report/static/description/en/02_bon_consum.png
-.. |Journal entry of the consumption voucher: expense account debited, stock accounts credited| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_consumption_report/static/description/en/03_nota_consum.png
-.. |Journal entry of the internal transfer of goods to the materials location| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_consumption_report/static/description/en/04_transfer_marfa.png
-.. |Consumption report wizard with the period, the operation types and the Export XLSX and View buttons| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_consumption_report/static/description/en/05_wizard_raport.png
-.. |Consumption pivot by store, purpose and product| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_consumption_report/static/description/en/06_pivot_consumuri.png
-.. |Summary sheet of the XLSX export, by store and purpose| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_consumption_report/static/description/en/07_xlsx_centralizat.png
-.. |Detail sheet of the XLSX export, by store, purpose and product| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_stock_consumption_report/static/description/en/08_xlsx_detaliat.png
+.. |Consumption purposes list with the Name and Company columns| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_consumption_report/static/description/en/01_destinatii_consum.png
+.. |Validated consumption voucher with the operation type and the consumption purpose highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_consumption_report/static/description/en/02_bon_consum.png
+.. |Journal entry of the consumption voucher: expense account debited, stock accounts credited| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_consumption_report/static/description/en/03_nota_consum.png
+.. |Journal entry of the internal transfer of goods to the materials location| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_consumption_report/static/description/en/04_transfer_marfa.png
+.. |Consumption report wizard with the period, the operation types and the Export XLSX and View buttons| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_consumption_report/static/description/en/05_wizard_raport.png
+.. |Consumption pivot by store, purpose and product| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_consumption_report/static/description/en/06_pivot_consumuri.png
+.. |Summary sheet of the XLSX export, by store and purpose| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_consumption_report/static/description/en/07_xlsx_centralizat.png
+.. |Detail sheet of the XLSX export, by store, purpose and product| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_stock_consumption_report/static/description/en/08_xlsx_detaliat.png
 
 Changelog
 =========
 
 History
 =======
+
+20.0.1.0.1 (2026-11-14)
+-----------------------
+
+- Migration to Odoo 20.0: access rights and the multi-company rule in
+  ``security/ir.access.csv``; the stock value of an outgoing move is
+  negative on 20.0, so the fallback value of a voucher without journal
+  entry is taken in absolute value.
 
 19.0.1.0.1
 ----------
@@ -195,6 +203,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_stock_consumption_report>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_stock_consumption_report>`_ project on GitHub.
 
 You are welcome to contribute.
