@@ -1,5 +1,39 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+    <!-- Credit usage: the charged requests, by service and month -->
+    <record id="view_x_iap_online_request_pivot" model="ir.ui.view">
+        <field name="name">x_iap_online_request.pivot</field>
+        <field name="model">x_iap_online_request</field>
+        <field name="arch" type="xml">
+            <pivot string="Credit Usage" sample="1">
+                <field name="create_date" type="row" interval="month" />
+                <field name="x_service_id" type="col" />
+                <field name="x_cost" type="measure" />
+            </pivot>
+        </field>
+    </record>
+    <record id="view_x_iap_online_request_graph" model="ir.ui.view">
+        <field name="name">x_iap_online_request.graph</field>
+        <field name="model">x_iap_online_request</field>
+        <field name="arch" type="xml">
+            <graph string="Credit Usage" type="bar" sample="1">
+                <field name="create_date" interval="month" />
+                <field name="x_service_id" />
+                <field name="x_cost" type="measure" />
+            </graph>
+        </field>
+    </record>
+    <record id="action_x_iap_online_usage" model="ir.actions.act_window">
+        <field name="name">Credit Usage</field>
+        <field name="res_model">x_iap_online_request</field>
+        <field name="view_mode">list,graph,pivot,form</field>
+        <field name="context">{'search_default_charged': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No credits used yet</p>
+            <p>Each charged answer of a Terrabit service shows here, with the credits used and left.</p>
+        </field>
+    </record>
+
     <record id="view_x_iap_online_service_list" model="ir.ui.view">
         <field name="name">x_iap_online_service.list</field>
         <field name="model">x_iap_online_service</field>
@@ -7,7 +41,7 @@
             <list>
                 <field name="x_name" />
                 <field name="x_code" />
-                <field name="x_balance" />
+                <field name="x_balance" digits="[16, 3]" />
             </list>
         </field>
     </record>
@@ -47,6 +81,17 @@
                     />
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button
+                            name="%(action_x_iap_online_usage)d"
+                            type="action"
+                            class="oe_stat_button"
+                            icon="fa-bar-chart"
+                            context="{'search_default_x_service_id': id}"
+                            string="Credit Usage"
+                            invisible="not id"
+                        />
+                    </div>
                     <div class="oe_title">
                         <h1>
                             <field name="x_name" />
@@ -56,7 +101,7 @@
                         <group>
                             <field name="x_code" />
                             <field name="x_server" />
-                            <field name="x_balance" />
+                            <field name="x_balance" digits="[16, 3]" />
                         </group>
                         <group groups="base.group_no_one">
                             <field name="x_token" />
@@ -85,6 +130,8 @@
                 <field name="x_name" />
                 <field name="x_state" />
                 <field name="x_error" />
+                <field name="x_cost" digits="[16, 3]" sum="Total" optional="show" />
+                <field name="x_balance_after" digits="[16, 3]" optional="hide" />
             </list>
         </field>
     </record>
@@ -106,6 +153,8 @@
                             <field name="x_state" />
                             <field name="x_error" />
                             <field name="create_date" />
+                            <field name="x_cost" digits="[16, 3]" />
+                            <field name="x_balance_after" digits="[16, 3]" />
                         </group>
                     </group>
                     <group groups="base.group_no_one">
@@ -126,6 +175,13 @@
                 <field name="x_service_id" />
                 <filter name="error" string="Errors" domain="[('x_state', '=', 'error')]" />
                 <filter name="sent" string="Waiting" domain="[('x_state', '=', 'sent')]" />
+                <separator />
+                <filter name="charged" string="Charged" domain="[('x_cost', '&gt;', 0)]" />
+                <filter name="date" string="Date" date="create_date" />
+                <group>
+                    <filter name="group_service" string="Service" context="{'group_by': 'x_service_id'}" />
+                    <filter name="group_month" string="Month" context="{'group_by': 'create_date:month'}" />
+                </group>
             </search>
         </field>
     </record>
@@ -134,6 +190,30 @@
         <field name="res_model">x_iap_online_request</field>
         <field name="view_mode">list,form</field>
     </record>
+
+    <!-- Settings > Terrabit Credits: the credits left and their usage, for the administrator,
+         without the developer mode -->
+    <menuitem
+        id="menu_iap_online_credits_root"
+        name="Terrabit Credits"
+        parent="base.menu_administration"
+        sequence="90"
+        groups="base.group_system"
+    />
+    <menuitem
+        id="menu_iap_online_credits_services"
+        name="Services and Credits"
+        parent="menu_iap_online_credits_root"
+        action="action_x_iap_online_service"
+        sequence="10"
+    />
+    <menuitem
+        id="menu_iap_online_credits_usage"
+        name="Credit Usage"
+        parent="menu_iap_online_credits_root"
+        action="action_x_iap_online_usage"
+        sequence="20"
+    />
 
     <menuitem id="menu_iap_online_root" name="Terrabit Services" parent="base.menu_custom" sequence="95" />
     <menuitem

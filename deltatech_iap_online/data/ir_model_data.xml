@@ -155,4 +155,19 @@
         <field name="field_description">Answer</field>
         <field name="ttype">text</field>
     </record>
+    <!-- Credit usage: what the Terrabit server charged for the request and the credits left after it -->
+    <record id="field_x_iap_online_request_x_cost" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_request" />
+        <field name="name">x_cost</field>
+        <field name="field_description">Credits Used</field>
+        <field name="ttype">float</field>
+        <field name="help">Credits charged by the Terrabit server for this request (1 credit = 1 EUR).</field>
+    </record>
+    <record id="field_x_iap_online_request_x_balance_after" model="ir.model.fields">
+        <field name="model_id" ref="model_x_iap_online_request" />
+        <field name="name">x_balance_after</field>
+        <field name="field_description">Credits Left After</field>
+        <field name="ttype">float</field>
+        <field name="help">Credits left on the account when the server answered this request.</field>
+    </record>
 </odoo>

@@ -3,13 +3,18 @@ zip) send their requests to a Terrabit server, which does the heavy work and wri
 in your database. This module holds what all those services share; each service module adds only
 its own fields, buttons and the way it writes the answer.
 
-- **One account per service**: *Settings > Technical > Terrabit Services* lists the services
-  installed, with their credits left.
+- **One account per service**: *Settings > Terrabit Credits > Services and Credits* lists the
+  services installed, with their credits left (also in developer mode, under *Settings > Technical >
+  Terrabit Services*).
 - **Activation in one click**: the **Activate** button registers the database at the Terrabit
   server; the account token comes back by itself, with the trial credits of the service. Nothing to
   copy or paste.
 - **Buy and check credits**: **Buy Credits** opens the credit page of your account on the Terrabit
   server; **Refresh Credits** asks the credits left, which are also updated with every answer.
+- **Credit usage**: *Settings > Terrabit Credits > Credit Usage* lists each charged answer with the
+  credits used and the credits left after it, with a total, a graph and a pivot by service and
+  month; the **Credit Usage** button of a service opens its own. The Terrabit server sends the cost
+  with each answer; requests answered before this version have no cost.
 - **Requests you can follow**: *Terrabit Services > Requests* shows each request, its status and the
   error, if any. A request without answer after 10 minutes is sent once more.
 - **Safe answers**: the answer comes on an *On webhook* automation whose secret URL accepts only a
