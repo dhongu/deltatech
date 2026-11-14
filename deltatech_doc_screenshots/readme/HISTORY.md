@@ -1,7 +1,7 @@
 ## 19.0.1.3.0 (2026-11-14)
 
 - New `capture_gif(steps, name)`: records a flow as an animated GIF for the Apps Store, with a
-  simulated cursor (glide and click ring), letter-by-letter typing and numbered captions, opening
+  simulated cursor (glide and click ring), letter-by-letter typing and film-style subtitles, opening
   and closing on a slide built from `banner.json` and the module icon. Global 256-colour palette
   (octree, so links and buttons keep their colour) and merged identical frames keep the file small.
 - `capture_screenshots` and `capture_gif` share the browser start-up (`_browser_session`).

@@ -8,7 +8,8 @@ poate fi folosit și direct, pe orice pagină.
 
 Ce apare în GIF, peste interfață:
   - un **cursor simulat** (săgeată) care se deplasează lin spre fiecare țintă, cu un cerc la click;
-  - o **etichetă numerotată** jos, pe centru („① Partener nou: denumirea și CUI-ul”);
+  - o **subtitrare**, ca la film: text alb centrat jos, pe o bandă închisă semitransparentă care
+    urmează rândurile textului (se rupe pe două rânduri dacă e lung);
   - opțional, un **slide de deschidere** (iconița modulului, titlu, rezumat, funcții), cu tranziție
     în fondu-nlănțuit spre primul ecran al fluxului.
 
@@ -33,28 +34,27 @@ PILL_BG = "#E6F4EA"
 TEXT_SUB = "#5F6B7A"
 TEXT_FEAT = "#2F3A45"
 
-_OVERLAY_CSS = f"""
-#tbgif-cursor {{
+_OVERLAY_CSS = """
+#tbgif-cursor {
     position: fixed; left: 0; top: 0; width: 26px; height: 32px; z-index: 2147483647;
     pointer-events: none; filter: drop-shadow(0 2px 2px rgba(0,0,0,.35));
-}}
-#tbgif-ripple {{
+}
+#tbgif-ripple {
     position: fixed; left: 0; top: 0; width: 0; height: 0; border-radius: 50%; z-index: 2147483646;
     pointer-events: none; background: rgba(87,185,82,.28); border: 2px solid rgba(0,111,66,.65);
     display: none;
-}}
-#tbgif-caption {{
-    position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%); z-index: 2147483645;
-    pointer-events: none; display: none; align-items: center; gap: 14px; max-width: 86%;
-    padding: 12px 22px 12px 12px; border-radius: 12px; background: rgba(23,32,42,.94);
-    color: #fff; font: 600 19px/1.3 "Helvetica Neue", Helvetica, Arial, sans-serif;
-    box-shadow: 0 8px 24px rgba(0,0,0,.25);
-}}
-#tbgif-caption .tbgif-num {{
-    flex: none; width: 34px; height: 34px; border-radius: 8px; background: {GREEN_LIGHT};
-    display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px;
-}}
-#tbgif-caption .tbgif-num:empty {{ display: none; }}
+}
+#tbgif-caption {
+    position: fixed; left: 8%; right: 8%; bottom: 30px; z-index: 2147483645; display: none;
+    pointer-events: none; text-align: center;
+    font: 500 23px/1.55 "Helvetica Neue", Helvetica, Arial, sans-serif; color: #fff;
+}
+#tbgif-caption span {
+    /* banda urmează fiecare rând, ca subtitrările de film/TV */
+    background: rgba(0,0,0,.78); padding: 3px 12px; border-radius: 3px;
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+    text-shadow: 0 1px 2px rgba(0,0,0,.6);
+}
 """
 
 #: săgeata cursorului (alb cu contur negru, ca cea de sistem)
@@ -81,7 +81,7 @@ _OVERLAY_JS = """
         ripple.id = 'tbgif-ripple';
         const cap = document.createElement('div');
         cap.id = 'tbgif-caption';
-        cap.innerHTML = '<span class="tbgif-num"></span><span class="tbgif-text"></span>';
+        cap.innerHTML = '<span></span>';
         document.body.append(ripple, cap, cursor);
     }
     cursor.style.display = st.cursor ? 'block' : 'none';
@@ -98,9 +98,8 @@ _OVERLAY_JS = """
     }
     const cap = document.getElementById('tbgif-caption');
     if (st.caption) {
-        cap.querySelector('.tbgif-num').textContent = st.num || '';
-        cap.querySelector('.tbgif-text').textContent = st.caption;
-        cap.style.display = 'flex';
+        cap.firstChild.textContent = st.caption;
+        cap.style.display = 'block';
     } else {
         cap.style.display = 'none';
     }
@@ -182,9 +181,7 @@ class GifRecorder:
         self.x, self.y = vp["width"] / 2, vp["height"] * 0.55
         self.show_cursor = False
         self.caption_text = None
-        self.caption_num = None
         self._ripple = None
-        self._auto_num = 0
         #: cadre: {"hash", "png", "ms", "fade"}; ``fade`` = tranziție în fondu-nlănțuit spre cadru
         self.frames = []
         self._fade_next = False
@@ -202,7 +199,6 @@ class GifRecorder:
                     "y": self.y,
                     "ripple": self._ripple,
                     "caption": self.caption_text,
-                    "num": self.caption_num,
                 },
             )
         except Exception:  # noqa: BLE001 - pagina în navigare: cadrul următor reîncearcă
@@ -241,17 +237,9 @@ class GifRecorder:
         """Ține ecranul curent ``ms`` milisecunde în GIF."""
         self.frame(ms)
 
-    def caption(self, text, num=None, hold=None):
-        """Afișează eticheta de jos. ``num=None`` numerotează automat; ``num=False`` fără număr;
-        ``text`` gol o ascunde."""
-        if not text:
-            self.caption_text = self.caption_num = None
-        else:
-            if num is None:
-                self._auto_num += 1
-                num = self._auto_num
-            self.caption_text = text
-            self.caption_num = str(num) if num not in (False, "") else ""
+    def caption(self, text, hold=None):
+        """Afișează subtitrarea (rămâne până la următoarea); ``text`` gol o ascunde."""
+        self.caption_text = text or None
         self.frame(hold)
 
     def _target_point(self, selector):

@@ -992,7 +992,6 @@ class ScreenshotCase(HttpCase):
         "timeout",
         "eval",
         "caption",
-        "num",
         "move",
         "click",
         "wait_after",
@@ -1020,17 +1019,17 @@ class ScreenshotCase(HttpCase):
     ):
         """Înregistrează un GIF animat al unui flux (demo pentru Apps Store / fișă).
 
-        Peste interfață apar un cursor simulat (deplasare lină, cerc la click) și o etichetă
-        numerotată jos, pe centru; vezi ``gif_recorder.GifRecorder``. Fiecare pas e un dict; cheile
-        lui se execută în ordinea din ``GIF_STEP_KEYS``, deci un pas poate combina, de pildă, o
-        etichetă cu un click:
+        Peste interfață apar un cursor simulat (deplasare lină, cerc la click) și o subtitrare jos,
+        ca la film; vezi ``gif_recorder.GifRecorder``. Fiecare pas e un dict; cheile lui se
+        execută în ordinea din ``GIF_STEP_KEYS``, deci un pas poate combina, de pildă, o
+        subtitrare cu un click:
 
           - ``goto`` (str): fragmentul de după ``/web#`` (ca ``url`` la ``capture_screenshots``);
             ``path`` (str): cale absolută pe server; ``wait`` (str): selectorul de așteptat după
             navigare (implicit form sau listă); ``timeout`` (ms);
           - ``eval`` (str): cod JS rulat în pagină;
-          - ``caption`` (str): textul etichetei de jos, numerotat automat (1, 2, 3...); ``num``
-            forțează numărul (``False`` = fără număr); ``caption: ""`` o ascunde;
+          - ``caption`` (str): subtitrarea de jos, ca la film; rămâne până la următoarea,
+            ``caption: ""`` o ascunde;
           - ``move`` (str): selector spre care se deplasează cursorul, fără click;
           - ``click`` (str): selector pe care se dă click; ``wait_after`` (str): selectorul de
             așteptat după click (ex. ``.o-autocomplete--dropdown-menu``);
@@ -1102,7 +1101,7 @@ class ScreenshotCase(HttpCase):
                         page.evaluate(s["eval"])
                         rec.settle()
                     if "caption" in s:
-                        rec.caption(s["caption"], num=s.get("num"))
+                        rec.caption(s["caption"])
                     if s.get("move"):
                         rec.move(s["move"])
                     if s.get("click"):
