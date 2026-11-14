@@ -29,3 +29,5 @@ its own fields, buttons and the way it writes the answer.
 For developers: a service module creates an `x_iap_online_service` record (`x_code`, `x_server`) and,
 optionally, an *apply* server action (`x_apply_action_id`) that receives the answer in the context
 key `iap_answer`; its documents create `x_iap_online_request` records with `x_kind = 'request'`.
+A record created with `x_state = 'done'` is not sent: it records a charge the server reported
+otherwise (`x_cost`, `x_balance_after`), shown in **Credit Usage**.
