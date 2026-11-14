@@ -14,16 +14,13 @@ Product Attribute Role
     :target: https://odoo-community.org/page/development-status
     :alt: Production/Stable
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_attribute_role
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_product_attribute_role
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_product_attribute_role/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_product_attribute_role/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-5%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_product_attribute_role
-    :alt: 5 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge_fisa|
 
 Business code often needs to know which attribute of a variant is *the*
 variety, *the* size or *the* quality grade — to fill a lot, print a
@@ -95,6 +92,11 @@ database.
 Changelog
 =========
 
+20.0.1.0.1 (2026-11-14)
+-----------------------
+
+- Migration to Odoo 20.0, no functional change.
+
 19.0.1.0.1 (2026-10-29)
 -----------------------
 
@@ -138,6 +140,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_product_attribute_role>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_product_attribute_role>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -1,3 +1,7 @@
+## 20.0.1.0.1 (2026-11-14)
+
+- Migration to Odoo 20.0, no functional change.
+
 ## 19.0.1.0.1 (2026-10-29)
 
 - Development status set to **Production/Stable**.
