@@ -44,6 +44,13 @@ class ResPartner(models.Model):
                     keys["vat"],
                 )
             )
+            # Odoo 20: the CUI of a company that is not a VAT payer is kept only as Company ID
+            conditions.append(
+                SQL(
+                    r"ltrim(regexp_replace(additional_identifiers->>'RO_EN', '\D', '', 'g'), '0') = %s",
+                    keys["vat"],
+                )
+            )
         if "email" in use and keys["email"]:
             if self._partner_match_stored("email_normalized"):
                 conditions.append(SQL("email_normalized = %s", keys["email"]))
@@ -134,7 +141,9 @@ class ResPartner(models.Model):
     def _partner_match_reasons(self, partner, keys, use):
         country = partner.country_id.code or "RO"
         reasons = []
-        if "vat" in use and keys["vat"] and pm.normalize_vat(partner.vat) == keys["vat"]:
+        # Odoo 20: a company that is not a VAT payer has the CUI only as Company ID
+        partner_vats = {pm.normalize_vat(partner.vat), pm.normalize_vat(partner._get_additional_identifier("RO_EN"))}
+        if "vat" in use and keys["vat"] and keys["vat"] in partner_vats:
             reasons.append("vat")
         if "email" in use and keys["email"] and pm.normalize_email(partner.email) == keys["email"]:
             reasons.append("email")
@@ -162,7 +171,11 @@ class ResPartner(models.Model):
             return []
         # raw query: pending writes (phone_sanitized is a stored compute) must reach the table
         self.flush_model(
-            [name for name in ("vat", "email", "email_normalized", "phone", "phone_sanitized") if name in self._fields]
+            [
+                name
+                for name in ("vat", "additional_identifiers", "email", "email_normalized", "phone", "phone_sanitized")
+                if name in self._fields
+            ]
         )
         self.env.cr.execute(SQL("SELECT id FROM res_partner WHERE %s", SQL(" OR ").join(conditions)))
         ids = [row[0] for row in self.env.cr.fetchall()]

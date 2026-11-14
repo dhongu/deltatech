@@ -20,7 +20,9 @@ class TestFindSimilarPartners(TransactionCase):
         cls.ion = partner("Ion Pmatchescu", phone="0722 914 456", street="Str. Lalelelor nr. 5", city="Cluj-Napoca")
         cls.ana = partner("Ana Pmatchescu", phone="+40 722 914 456", city="Cluj-Napoca")
         cls.maria = partner("Maria Pmatchescu", email="Maria.Pmatch@Example.com ")
-        cls.alfa = partner("Pmatch Alfa SRL", vat="RO18547290", is_company=True)
+        cls.alfa = partner("Pmatch Alfa SRL", vat="RO18547290")
+        # not a VAT payer: on 20.0 the CUI is only the Company ID
+        cls.beta = partner("Pmatch Beta SRL", additional_identifiers={"RO_EN": "14399840"})
         cls.other = partner("Pmatch Other", phone="0733 914 456")
         cls.env.flush_all()
 
@@ -59,6 +61,12 @@ class TestFindSimilarPartners(TransactionCase):
         with patch.object(type(self.env["res.partner"]), "_partner_match_stored", return_value=False):
             result = self._find({"name": "Maria", "email": "MARIA.PMATCH@example.com"})
         self.assertEqual([item["partner"] for item in result], [self.maria])
+
+    def test_vat_in_company_id(self):
+        self.assertFalse(self.beta.vat)
+        result = self._find({"name": "Beta", "vat": "14399840"})
+        self.assertEqual([item["partner"] for item in result], [self.beta])
+        self.assertEqual(result[0]["reasons"], ["vat"])
 
     def test_keys_and_domain(self):
         values = {"name": "Ion Pmatchescu", "phone": "0722914456", "vat": "RO18547290"}

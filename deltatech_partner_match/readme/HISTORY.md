@@ -1,3 +1,9 @@
+## 20.0.1.3.1 (2026-11-14)
+
+- Migration to Odoo 20.0. The VAT key also matches the *Company ID* (`RO_EN` additional
+  identifier): on 20.0 a company that is not a VAT payer has its CUI only there, with an empty
+  Tax ID.
+
 ## 19.0.1.3.1 (2026-10-28)
 
 - Consultant sheet (`readme/FISA_CONSULTANT.md`): the matching rules with examples, the score, and where their effect shows in the modules that use them (duplicate finder, marketplace customer import, trial balance import).
