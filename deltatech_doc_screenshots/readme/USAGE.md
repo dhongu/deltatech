@@ -78,4 +78,6 @@ when `banner.json` is in English) and `intro=False` drops it. The GIF is 1120×7
 depend on how fast the server answers, and identical frames are merged. When a step fails, the
 error names the step and saves the screen to a temporary `.error.png`.
 
-![Demo](../static/description/en/demo.gif)
+Keep `static/description/en/demo.gif` (and `demo.gif` for the Romanian page): `tb-gen-index`
+shows it automatically right under the hero of the Apps Store page, so do not reference it from
+`readme/*.md` as well, or it appears twice.
