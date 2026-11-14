@@ -61,8 +61,13 @@ drepturilor sunt în fișa `deltatech_partner_merge`).
 ## 4. Conturi și date implicate
 
 Modulul nu folosește conturi contabile și nu creează note contabile. Citește doar câmpurile fișei de
-partener: **Nume**, **CUI** (`vat`), **Email**, **Telefon**, **Stradă**, **Localitate**, **Județ** și,
-dacă e instalat `base_address_extended`, lista de localități (`res.city`).
+partener: **Nume**, **CUI** (`vat`), **Company ID** (identificatorul suplimentar `RO_EN`), **Email**,
+**Telefon**, **Stradă**, **Localitate**, **Județ** și, dacă e instalat `base_address_extended`, lista de
+localități (`res.city`).
+
+În Odoo 20, o firmă neplătitoare de TVA are CUI-ul doar în **Company ID** („ID Companie”), cu **CUI**
+(`vat`) gol. De aceea căutarea unui partener după CUI (`_find_similar_partners`, cheia `vat`) caută
+codul în ambele câmpuri, cu aceeași normalizare.
 
 Regulile, cu exemple verificate pe cod:
 
@@ -71,6 +76,7 @@ Regulile, cu exemple verificate pe cod:
 | Nume | litere mici, fără diacritice, fără punctuație, fără formele juridice (SC, SRL, SA, PFA, II, IF, CMI, ONG, GmbH, Ltd, SARL, KFT, s.r.o. și altele), cuvintele sortate | „S.C. Popescu Ion S.R.L.” și „ion popescu srl” → `ion popescu` |
 | Nume (excepții) | „SAS”, „AG”, „BV”, „NV”, „RA” **nu** se elimină, pentru că sunt și nume de familie sau inițiale | „Sas Vasile” rămâne `sas vasile` |
 | CUI | doar litere și cifre, fără prefixul de țară, fără zerourile din față; sub 4 caractere nu e cod | „RO 012.345” → `12345` |
+| CUI în Company ID | căutarea după CUI găsește și fișele care au codul doar în **Company ID** (`RO_EN`), cu **CUI** gol; motivul e tot „CUI” | căutare după `14399840` → firma cu Company ID `14399840` și fără CUI |
 | Cifra de control | CUI românesc, CNP (13 cifre), cod de TVA UE | `RO18547290` corect, `RO18547291` greșit |
 | Telefon | E.164 dacă numărul e valid; altfel, regulile formatelor românești (`0722…`, `0040…`, `40…`, `722…`) | „0722 123 456” → `+40722123456` |
 | Telefon, comparat în masă | ultimele 9 cifre; un număr cu sub 7 cifre sau doar cu o cifră repetată (`0000000`) nu se compară | „+40 722 123 456” → `722123456` |
@@ -243,6 +249,9 @@ balanței lasă decizia operatorului.
       `0722 913 456` și `+40 722 913 456` sunt în același grup, cu motivul
       „același telefon +40722913456”.
 - [ ] Două firme cu CUI-ul `RO18547290` și `18547290` sunt grupate pe „același CUI 18547290”.
+- [ ] O firmă neplătitoare de TVA, cu `14399840` doar în **Company ID** și **CUI** gol, e găsită de
+      căutarea după CUI `14399840` (cheia `vat`), cu motivul „CUI” (testul
+      `test_vat_in_company_id`).
 - [ ] Două fișe cu emailul scris cu litere diferite sunt grupate pe email, cu emailul cu litere mici.
 - [ ] „Ana Popescu” și „Ion Popescu”, cu același telefon, **nu** sunt refolosite una pentru alta la
       importul din marketplace (numele are scor 0,67, sub 0,8).
@@ -267,6 +276,7 @@ n-a recunoscut partenerul”:
 | „Mai mulți parteneri au codul fiscal …” la importul balanței | CUI-ul, normalizat, e pe mai multe fișe | unificați fișele (`deltatech_partner_merge`) sau alegeți partenerul pe rând |
 | „Mai mulți parteneri se numesc …” la importul balanței | numele normalizat e pe mai multe fișe | alegeți partenerul pe rând sau unificați fișele |
 | Două nume aproape identice nu sunt grupate în căutarea de dubluri | implicit se cere și aceeași stradă sau cod poștal, în aceeași localitate | alegeți **Doar nume asemănător** sau completați adresele |
+| O firmă neplătitoare de TVA nu e găsită după CUI | pe 20.0 codul ei e doar în **Company ID**; dacă nici acolo nu e completat (fișă veche cu CUI-ul scris în altă parte, de exemplu în nume sau note), nu are ce găsi | completați **Company ID** (sau **CUI**, pentru plătitori) pe fișa partenerului |
 | Un CUI din PDF nu se potrivește, deși partenerul există | CUI-ul citit nu trece cifra de control (citit greșit) | corectați CUI-ul pe rând sau alegeți partenerul manual |
 | „Pragurile de potrivire a contactelor trebuie să respecte 0 <= posibil duplicat <= potrivire <= 1.” la salvarea backend-ului | pragurile nu sunt în ordine | puneți **Prag posibil duplicat** ≤ **Prag de potrivire** ≤ 1 |
 
