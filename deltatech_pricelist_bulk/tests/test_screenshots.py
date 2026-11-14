@@ -60,7 +60,7 @@ ADD_WIZARD_JS = """
         additionalContext: %(context)s,
     });
     await until(".modal div[name='product_tmpl_ids'] .o_data_row");
-    await radio("compute_price", "formula");
+    await radio("compute_price", "discount");
     await type("price_discount", "10");
     await type("price_round", "1");
     await type("price_surcharge", "-0{DEC}01");
@@ -79,7 +79,7 @@ APPLY_JS = """
 FORMULA_WIZARD_JS = """
     (await until("button[name='action_pricelist_bulk_formula']")).click();
     await until(".modal div[name='item_ids'] .o_data_row");
-    await radio("compute_price", "formula");
+    await radio("compute_price", "markup");
     await select("base", 1);  // Cost
     await type("price_markup", "35");
     await type("price_round", "1");
@@ -174,7 +174,7 @@ class TestPricelistBulkScreenshots(ScreenshotCase or object):
             {
                 "default_pricelist_id": self.pricelist.id,
                 "default_product_tmpl_ids": self.peripherals.ids,
-                "default_compute_price": "formula",
+                "default_compute_price": "discount",
             }
         )
         add_js = ADD_WIZARD_JS % {"context": add_context}

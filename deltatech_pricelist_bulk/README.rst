@@ -14,14 +14,14 @@ Pricelist Bulk Rules
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pricelist_bulk
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_pricelist_bulk
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_pricelist_bulk/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_pricelist_bulk/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-19%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pricelist_bulk/tests
-    :alt: 19 automated tests
+.. |badge_tests| image:: https://img.shields.io/badge/-22%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_pricelist_bulk/tests
+    :alt: 22 automated tests
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
@@ -41,9 +41,9 @@ where you:
   Categories**);
 - set once the **Min. Quantity**, the **Validity Period** and the price
   computation, with the same options as a standard rule: **Fixed
-  Price**, **Discount** (optionally on another pricelist) or **Formula**
-  (based on the sales price, the cost or another pricelist, with
-  discount or markup, rounding, extra fee and margins);
+  Price**, **Discount** (on the sales price or on another pricelist) or
+  **Surcharge** (on the sales price, the cost or another pricelist),
+  with rounding, an added amount and margins;
 - choose what happens when the pricelist already has a rule for the same
   product, minimum quantity and validity period: keep it, update it or
   add a new rule.
@@ -81,7 +81,7 @@ Enable the pricelists first: *Sales > Configuration > Settings*, section
 
    |Pricelist form with the Add Rules and Apply Formula buttons
    highlighted in the header and two fixed price rules of a laptop in
-   the Sales Prices tab|
+   the Rules tab|
 
 2. Click **Add Rules**. Choose **Apply On** (products, product variants
    or product categories) and add the products. To take all the products
@@ -91,9 +91,9 @@ Enable the pricelists first: *Sales > Configuration > Settings*, section
    already exists for the same product, minimum quantity and validity
    period: keep it, update it or add a new rule.
 
-   |Add Pricelist Rules wizard with five peripherals selected, a Formula
-   based on the Sales Price with 10% discount, rounding to 1.00 and an
-   extra fee of -0.01, and Keep the existing rule selected|
+   |Add Pricelist Rules wizard with five peripherals selected, a
+   Discount of 10% on the sales price, rounding to 1.00 and -0.01 added,
+   and Keep the existing rule selected|
 
 3. Click **Add Rules**. A message shows how many rules were added,
    updated or kept, and the rules open in a list.
@@ -121,26 +121,36 @@ Enable the pricelists first: *Sales > Configuration > Settings*, section
    new values. What is not ticked stays as it is on each rule.
 
    |Apply Formula wizard on the 7 rules of the pricelist, with Change
-   the Price Computation ticked and a Formula based on the Cost with 35%
-   markup, rounding to 1.00 and an extra fee of -0.01|
+   the Price Computation ticked and a Surcharge of 35% based on the
+   Cost, rounding to 1.00 and -0.01 added|
 
 3. Click **Apply**. All the selected rules get the new computation; the
    values of the old price type (e.g. the fixed price) are cleared, as
    on the standard rule form.
 
    |Pricelist form after the change: the message 7 rules changed and all
-   the rules in the Sales Prices tab with 35 % markup on product cost -
-   0.01 rebate, the minimum quantities unchanged|
+   the rules in the Rules tab with 35 % surcharge on product cost - 0.01
+   rebate, the minimum quantities unchanged|
 
-.. |Pricelist form with the Add Rules and Apply Formula buttons highlighted in the header and two fixed price rules of a laptop in the Sales Prices tab| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist_bulk/static/description/en/01_formular_lista_preturi.png
-.. |Add Pricelist Rules wizard with five peripherals selected, a Formula based on the Sales Price with 10% discount, rounding to 1.00 and an extra fee of -0.01, and Keep the existing rule selected| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist_bulk/static/description/en/02_asistent_adauga_reguli.png
-.. |Price Rules list with the message 5 rules added, 0 rules updated, 0 existing rules kept, and one rule for each peripheral with the same 10 % discount on sales price - 0.01 rebate| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist_bulk/static/description/en/03_reguli_adaugate.png
-.. |Product list with three products selected and the Actions menu open on Add to Pricelist| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist_bulk/static/description/en/04_actiune_din_produse.png
-.. |Apply Formula wizard on the 7 rules of the pricelist, with Change the Price Computation ticked and a Formula based on the Cost with 35% markup, rounding to 1.00 and an extra fee of -0.01| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist_bulk/static/description/en/05_asistent_aplica_formula.png
-.. |Pricelist form after the change: the message 7 rules changed and all the rules in the Sales Prices tab with 35 % markup on product cost - 0.01 rebate, the minimum quantities unchanged| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pricelist_bulk/static/description/en/06_reguli_dupa_formula.png
+.. |Pricelist form with the Add Rules and Apply Formula buttons highlighted in the header and two fixed price rules of a laptop in the Rules tab| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist_bulk/static/description/en/01_formular_lista_preturi.png
+.. |Add Pricelist Rules wizard with five peripherals selected, a Discount of 10% on the sales price, rounding to 1.00 and -0.01 added, and Keep the existing rule selected| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist_bulk/static/description/en/02_asistent_adauga_reguli.png
+.. |Price Rules list with the message 5 rules added, 0 rules updated, 0 existing rules kept, and one rule for each peripheral with the same 10 % discount on sales price - 0.01 rebate| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist_bulk/static/description/en/03_reguli_adaugate.png
+.. |Product list with three products selected and the Actions menu open on Add to Pricelist| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist_bulk/static/description/en/04_actiune_din_produse.png
+.. |Apply Formula wizard on the 7 rules of the pricelist, with Change the Price Computation ticked and a Surcharge of 35% based on the Cost, rounding to 1.00 and -0.01 added| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist_bulk/static/description/en/05_asistent_aplica_formula.png
+.. |Pricelist form after the change: the message 7 rules changed and all the rules in the Rules tab with 35 % surcharge on product cost - 0.01 rebate, the minimum quantities unchanged| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist_bulk/static/description/en/06_reguli_dupa_formula.png
 
 Changelog
 =========
+
+20.0.1.0.0 (2026-11-09)
+-----------------------
+
+- Migration to Odoo 20.0: the price types follow the 20.0 pricelist
+  rules, **Discount** (on the sales price or another pricelist),
+  **Surcharge** (on the sales price, the cost or another pricelist) and
+  **Fixed Price**, with rounding, added amount and margins for both
+  percentages; access rights in ``security/ir.access.csv``; screenshots
+  regenerated on 20.0.
 
 19.0.1.0.0 (2026-11-09)
 -----------------------
@@ -180,6 +190,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_pricelist_bulk>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_pricelist_bulk>`_ project on GitHub.
 
 You are welcome to contribute.

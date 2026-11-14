@@ -6,7 +6,7 @@ Enable the pricelists first: *Sales > Configuration > Settings*, section **Prici
 1. Go to *Sales > Products > Pricelists* and open a pricelist. The header has the **Add Rules**
    and **Apply Formula** buttons (**Apply Formula** only when the pricelist has rules).
 
-   ![Pricelist form with the Add Rules and Apply Formula buttons highlighted in the header and two fixed price rules of a laptop in the Sales Prices tab](static/description/en/01_formular_lista_preturi.png)
+   ![Pricelist form with the Add Rules and Apply Formula buttons highlighted in the header and two fixed price rules of a laptop in the Rules tab](static/description/en/01_formular_lista_preturi.png)
 
 2. Click **Add Rules**. Choose **Apply On** (products, product variants or product categories) and
    add the products. To take all the products of a category and of its subcategories, select it in
@@ -14,7 +14,7 @@ Enable the pricelists first: *Sales > Configuration > Settings*, section **Prici
    computation, then choose what to do with a rule that already exists for the same product,
    minimum quantity and validity period: keep it, update it or add a new rule.
 
-   ![Add Pricelist Rules wizard with five peripherals selected, a Formula based on the Sales Price with 10% discount, rounding to 1.00 and an extra fee of -0.01, and Keep the existing rule selected](static/description/en/02_asistent_adauga_reguli.png)
+   ![Add Pricelist Rules wizard with five peripherals selected, a Discount of 10% on the sales price, rounding to 1.00 and -0.01 added, and Keep the existing rule selected](static/description/en/02_asistent_adauga_reguli.png)
 
 3. Click **Add Rules**. A message shows how many rules were added, updated or kept, and the rules
    open in a list.
@@ -36,9 +36,9 @@ Enable the pricelists first: *Sales > Configuration > Settings*, section **Prici
    **Change the Validity Period**, and set the new values. What is not ticked stays as it is on
    each rule.
 
-   ![Apply Formula wizard on the 7 rules of the pricelist, with Change the Price Computation ticked and a Formula based on the Cost with 35% markup, rounding to 1.00 and an extra fee of -0.01](static/description/en/05_asistent_aplica_formula.png)
+   ![Apply Formula wizard on the 7 rules of the pricelist, with Change the Price Computation ticked and a Surcharge of 35% based on the Cost, rounding to 1.00 and -0.01 added](static/description/en/05_asistent_aplica_formula.png)
 
 3. Click **Apply**. All the selected rules get the new computation; the values of the old price
    type (e.g. the fixed price) are cleared, as on the standard rule form.
 
-   ![Pricelist form after the change: the message 7 rules changed and all the rules in the Sales Prices tab with 35 % markup on product cost - 0.01 rebate, the minimum quantities unchanged](static/description/en/06_reguli_dupa_formula.png)
+   ![Pricelist form after the change: the message 7 rules changed and all the rules in the Rules tab with 35 % surcharge on product cost - 0.01 rebate, the minimum quantities unchanged](static/description/en/06_reguli_dupa_formula.png)

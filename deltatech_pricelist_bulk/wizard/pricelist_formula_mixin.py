@@ -11,6 +11,11 @@ class PricelistFormulaMixin(models.AbstractModel):
     The fields mirror ``product.pricelist.item``; ``_get_formula_vals`` returns
     them cleaned the same way the standard ``_onchange_compute_price`` does, so
     the values of the other price types are not left behind on the rules.
+
+    As on the standard rule form, a discount is taken off the sales price or off
+    another pricelist (``base_pricelist_id``), and a surcharge is added on top of
+    the base chosen in ``base``; both are stored in ``price_discount`` (a
+    surcharge as a negative discount).
     """
 
     _name = "pricelist.formula.mixin"
@@ -18,19 +23,15 @@ class PricelistFormulaMixin(models.AbstractModel):
 
     compute_price = fields.Selection(
         selection=[
+            ("discount", "Discount"),
+            ("markup", "Surcharge"),
             ("fixed", "Fixed Price"),
-            ("percentage", "Discount"),
-            ("formula", "Formula"),
         ],
         string="Price Type",
         default="fixed",
         required=True,
     )
-    fixed_price = fields.Float(digits="Product Price")
-    percent_price = fields.Float(
-        string="Discount (%)",
-        help="You can apply a mark-up by setting a negative discount.",
-    )
+    fixed_price = fields.Float(min_display_digits="Product Price")
     base = fields.Selection(
         selection=[
             ("list_price", "Sales Price"),
@@ -42,38 +43,45 @@ class PricelistFormulaMixin(models.AbstractModel):
         required=True,
     )
     base_pricelist_id = fields.Many2one("product.pricelist", string="Other Pricelist")
-    price_discount = fields.Float(
-        string="Formula Discount (%)",
-        digits=(16, 2),
-        help="You can apply a mark-up by setting a negative discount.",
-    )
-    price_markup = fields.Float(string="Markup (%)", digits=(16, 2), help="Mark-up applied on the cost.")
+    price_discount = fields.Float(string="Discount (%)", digits=(16, 2))
+    price_markup = fields.Float(string="Surcharge (%)", digits=(16, 2))
     price_round = fields.Float(
         string="Round off to",
-        digits="Product Price",
+        min_display_digits="Product Price",
         help="Sets the price so that it is a multiple of this value. To have prices that end in 9.99, "
-        "round off to 10.00 and set an extra fee of -0.01.",
+        "round off to 10.00 and add -0.01.",
     )
-    price_surcharge = fields.Float(string="Extra Fee", digits="Product Price")
-    price_min_margin = fields.Float(string="Min. Margin", digits="Product Price")
-    price_max_margin = fields.Float(string="Max. Margin", digits="Product Price")
+    price_surcharge = fields.Float(
+        string="Add",
+        min_display_digits="Product Price",
+        help="Fixed amount added to (or subtracted from, if negative) the price, after the rounding.",
+    )
+    price_min_margin = fields.Float(string="Min. Margin", min_display_digits="Product Price")
+    price_max_margin = fields.Float(string="Max. Margin", min_display_digits="Product Price")
 
     @api.onchange("compute_price")
     def _onchange_formula_compute_price(self):
-        self.base_pricelist_id = False
-        if self.compute_price != "formula":
-            self.base = "list_price"
-
-    @api.onchange("base")
-    def _onchange_formula_base(self):
         self.price_discount = 0.0
         self.price_markup = 0.0
+        if self.compute_price == "fixed":
+            self.update(
+                {
+                    "base": "list_price",
+                    "base_pricelist_id": False,
+                    "price_surcharge": 0.0,
+                    "price_round": 0.0,
+                    "price_min_margin": 0.0,
+                    "price_max_margin": 0.0,
+                }
+            )
+        elif self.compute_price == "discount":
+            self.base = "list_price"
 
     def _check_base_pricelist(self, vals, pricelists):
         """Refuse a rule based on its own pricelist, whatever the price type.
 
         ``vals`` are the values written on the rules: the Discount type on another pricelist
-        also sets ``base_pricelist_id``, not only the Formula type.
+        also sets ``base_pricelist_id``, not only the Surcharge type.
         """
         if vals.get("base_pricelist_id") and vals["base_pricelist_id"] in pricelists.ids:
             raise UserError(self.env._("A rule cannot be based on its own pricelist."))
@@ -84,7 +92,6 @@ class PricelistFormulaMixin(models.AbstractModel):
         vals = {
             "compute_price": self.compute_price,
             "fixed_price": 0.0,
-            "percent_price": 0.0,
             "base": "list_price",
             "base_pricelist_id": False,
             "price_discount": 0.0,
@@ -95,23 +102,25 @@ class PricelistFormulaMixin(models.AbstractModel):
         }
         if self.compute_price == "fixed":
             vals["fixed_price"] = self.fixed_price
-        elif self.compute_price == "percentage":
-            vals["percent_price"] = self.percent_price
+            return vals
+        if self.price_round < 0.0:
+            raise UserError(self.env._("The rounding must be strictly positive."))
+        if self.compute_price == "discount":
             if self.base_pricelist_id:
                 vals.update(base="pricelist", base_pricelist_id=self.base_pricelist_id.id)
+            vals["price_discount"] = self.price_discount
         else:
-            if self.price_round < 0.0:
-                raise UserError(self.env._("The rounding must be strictly positive."))
             if self.base == "pricelist" and not self.base_pricelist_id:
-                raise UserError(self.env._("Set the other pricelist the formula is based on."))
-            discount = -self.price_markup if self.base == "standard_price" else self.price_discount
+                raise UserError(self.env._("Set the other pricelist the surcharge is based on."))
             vals.update(
                 base=self.base,
                 base_pricelist_id=self.base_pricelist_id.id if self.base == "pricelist" else False,
-                price_discount=discount,
-                price_surcharge=self.price_surcharge,
-                price_round=self.price_round,
-                price_min_margin=self.price_min_margin,
-                price_max_margin=self.price_max_margin,
+                price_discount=-self.price_markup,
             )
+        vals.update(
+            price_surcharge=self.price_surcharge,
+            price_round=self.price_round,
+            price_min_margin=self.price_min_margin,
+            price_max_margin=self.price_max_margin,
+        )
         return vals

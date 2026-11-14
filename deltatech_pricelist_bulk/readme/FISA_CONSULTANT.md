@@ -27,9 +27,9 @@ produce greșeli. Modulul `deltatech_pricelist_bulk` aduce două asistente:
 Modulul nu are temei legal specific: este un instrument operațional pentru gestiunea prețurilor de
 vânzare. Context pentru consultant:
 
-- Asistentele lucrează cu aceleași câmpuri ca formularul standard al regulii (**Tip preț**: Preț fixat,
-  Discount sau Formulă; **Bazat pe**, **Discount**, **Adaos**, **Rotunjește la**, **Taxă suplimentară**,
-  marje). Regulile create sunt reguli Odoo obișnuite și se modifică apoi și din formularul standard.
+- Asistentele lucrează cu aceleași câmpuri ca formularul standard al regulii (**Tip preț**: Reducere,
+  Adaos sau Preț fixat; **Reducere (%)** cu **Pe lista de prețuri**, **Adaos (%)** cu **Bazat pe**,
+  **Rotunjește la**, **Adaugă**, marje). Regulile create sunt reguli Odoo obișnuite și se modifică apoi și din formularul standard.
 - Drepturile sunt cele standard: asistentele creează și modifică reguli doar pentru utilizatorii care
   au deja drept de scriere pe listele de prețuri (ex. *Vânzări / Administrator*).
 
@@ -78,7 +78,7 @@ de vânzare, iar înregistrările contabile le face facturarea standard.
 În antetul formularului apar butoanele **Adaugă reguli** (1) și **Aplică formula** (2).
 **Aplică formula** apare doar dacă lista are deja reguli.
 
-![Formularul listei de prețuri Distribuitori 2026 (RON): în antet, lângă Tipăriți, sunt evidențiate butoanele Adaugă reguli (1) și Aplică formula (2); în tabul Prețuri de vânzare sunt cele două reguli cu preț fix ale laptopului, de la 1 și de la 10 bucăți](../static/description/01_formular_lista_preturi.png)
+![Formularul listei de prețuri Distribuitori 2026 (RON): în antet, lângă Tipăriți, sunt evidențiate butoanele Adaugă reguli (1) și Aplică formula (2); în tabul Rules sunt cele două reguli cu preț fix ale laptopului, de la 1 și de la 10 bucăți](../static/description/01_formular_lista_preturi.png)
 
 ### Pasul 2 — Completați asistentul Adaugă reguli
 
@@ -89,14 +89,15 @@ Apăsați **Adaugă reguli**. În fereastra **Adaugă reguli în lista de prețu
    categorii, faceți clic în dreapta etichetei **Adaugă produsele categoriilor** și alegeți categoria: produsele ei și ale
    subcategoriilor intră în listă, iar câmpul se golește.
 3. **Cant. min.** și **Perioadă de valabilitate**: aceleași pentru toate regulile.
-4. **Calculul prețului** (3): **Tip preț** și câmpurile lui. În exemplu: **Formulă**, **Bazat pe**
-   *Preț vânzare*, **Discount (%)** 10, **Rotunjește la** 1,00 și **Taxă suplimentară** -0,01, ca
-   prețurile să se termine în ,99.
+4. **Calculul prețului** (3): **Tip preț** și câmpurile lui. În exemplu: **Reducere**, **Reducere (%)**
+   10 (din prețul de vânzare, fără **Pe lista de prețuri**), **Rotunjește la** 1,00 și **Adaugă**
+   -0,01, ca prețurile să se termine în ,99. **Adaos** se folosește pentru un procent adăugat peste
+   prețul de vânzare, cost sau altă listă.
 5. **Dacă regula există** (4): ce se face când lista are deja o regulă pentru același produs, cu
    aceeași cantitate minimă și aceeași perioadă: **Păstrează regula existentă** (implicit),
    **Actualizează regula existentă** sau **Adaugă o regulă nouă**.
 
-![Fereastra Adaugă reguli în lista de prețuri: Aplică pe = Produse (1), lista cu cele cinci produse din categoria Periferice și prețurile lor de vânzare (2), Tip preț = Formulă (3) bazat pe Preț vânzare cu Discount 10, Rotunjește la 1,00 și Taxă suplimentară -0,01, iar Dacă regula există = Păstrează regula existentă (4)](../static/description/02_asistent_adauga_reguli.png)
+![Fereastra Adaugă reguli în lista de prețuri: Aplică pe = Produse (1), lista cu cele cinci produse din categoria Periferice și prețurile lor de vânzare (2), Tip preț = Reducere (3) cu Reducere 10 din prețul de vânzare, Rotunjește la 1,00 și Adaugă -0,01, iar Dacă regula există = Păstrează regula existentă (4)](../static/description/02_asistent_adauga_reguli.png)
 
 ### Pasul 3 — Verificați regulile adăugate
 
@@ -131,27 +132,27 @@ schimbați. Din lista de reguli deschisă la Pasul 3 (sau din lista **Linii List
 
 Bifați ce se schimbă:
 - **Schimbă calculul prețului** (1) — implicit bifat; calculul de mai jos înlocuiește calculul regulilor.
-  În exemplu: **Formulă**, **Bazat pe** *Cost* (2), **Adaos (%)** 35, **Rotunjește la** 1,00 și
-  **Taxă suplimentară** -0,01;
+  În exemplu: **Adaos**, **Adaos (%)** 35, **Bazat pe** *Cost* (2), **Rotunjește la** 1,00 și
+  **Adaugă** -0,01;
 - **Schimbă cantitatea minimă** — apare câmpul **Cant. min.**, scris pe toate regulile;
 - **Schimbă perioada de valabilitate** — apare **Perioadă de valabilitate**, scrisă pe toate regulile.
 
 Ce nu bifați rămâne neschimbat pe fiecare regulă (ex. cantitățile minime 1 și 10 ale laptopului).
 
-![Fereastra Aplică formula: Număr de reguli 7, Schimbă calculul prețului bifat (1), Tip preț Formulă bazat pe Cost (2) cu Adaos 35, Rotunjește la 1,00 și Taxă suplimentară -0,01; jos, primele rânduri din cele 7 reguli ale listei, cu prețul actual: laptopul la 3.790 și 3.950 lei și perifericele cu 10 % reducere pe preț vânzare (3)](../static/description/05_asistent_aplica_formula.png)
+![Fereastra Aplică formula: Număr de reguli 7, Schimbă calculul prețului bifat (1), Tip preț Adaos, 35 bazat pe Cost (2), Rotunjește la 1,00 și Adaugă -0,01; jos, primele rânduri din cele 7 reguli ale listei, cu prețul actual: laptopul la 3.790 și 3.950 lei și perifericele cu 10 % reducere pe preț vânzare (3)](../static/description/05_asistent_aplica_formula.png)
 
 ### Pasul 6 — Verificați regulile după formulă
 
 Apăsați **Aplică**. Mesajul (1) spune câte reguli s-au modificat, iar fereastra se închide.
 
-Ce verificați în tabul **Prețuri de vânzare** (2):
-- toate regulile au acum același calcul: *35 % adaos pe cost produs - 0,01 lei rabat*;
+Ce verificați în tabul **Rules** (2):
+- toate regulile au acum același calcul: *35 % surcharge pe cost produs - 0,01 lei rabat*;
 - cantitățile minime au rămas cele de dinainte (10 și 1 la laptop, 0 la periferice);
 - vechiul preț fix al laptopului nu mai contează: la schimbarea tipului de preț, valorile tipului vechi
   se golesc, ca în formularul standard. Laptopul (cost 3.300 lei) ajunge la 4.454,99 lei, iar Căștile
   cu microfon (cost 110 lei) la 148,99 lei.
 
-![Formularul listei Distribuitori 2026 după aplicare: mesajul 7 reguli modificate (1), iar în tabul Prețuri de vânzare (2) toate cele șapte reguli au prețul 35 % adaos pe cost produs - 0,01 lei rabat, cu cantitățile minime 10 și 1 la laptop și 0 la periferice](../static/description/06_reguli_dupa_formula.png)
+![Formularul listei Distribuitori 2026 după aplicare: mesajul 7 reguli modificate (1), iar în tabul Rules (2) toate cele șapte reguli au prețul 35 % surcharge pe cost produs - 0,01 lei rabat, cu cantitățile minime 10 și 1 la laptop și 0 la periferice](../static/description/06_reguli_dupa_formula.png)
 
 ## 7. Legături cu alte module / declarații
 
@@ -184,7 +185,7 @@ existente; verificarea prețurilor rezultate în comenzi sau în raportul listei
       1 leu, minus 0,01 = 169,99 lei).
 - [ ] *Acțiuni → Adaugă în lista de prețuri* din lista de produse deschide asistentul cu produsele bifate.
 - [ ] **Aplică formula** cu doar **Schimbă cantitatea minimă** bifat schimbă cantitatea, nu și prețul.
-- [ ] După trecerea de la **Preț fixat** la **Formulă**, regula nu mai păstrează prețul fix vechi.
+- [ ] După trecerea de la **Preț fixat** la **Reducere** sau **Adaos**, regula nu mai păstrează prețul fix vechi.
 - [ ] Un agent de vânzări fără drept de scriere pe listele de prețuri poate deschide asistentul, dar
       primește o eroare de acces la confirmarea lui (butonul **Adaugă reguli** din josul ferestrei).
 
@@ -195,8 +196,8 @@ existente; verificarea prețurilor rezultate în comenzi sau în raportul listei
 | Selectați cel puțin un produs sau o categorie. | Lista de produse, variante sau categorii e goală pentru **Aplică pe** ales | Adăugați produsele sau folosiți **Adaugă produsele categoriilor** |
 | Selectați cel puțin o regulă de preț. | Toate regulile au fost scoase din **Aplică formula** | Lăsați în listă regulile de schimbat |
 | Alegeți ce se schimbă pe regulile selectate. | Nicio bifă **Schimbă ...** activă | Bifați calculul prețului, cantitatea minimă sau perioada |
-| Completați cealaltă listă de prețuri pe care se bazează formula. | **Bazat pe** = *Altă listă de preț*, fără listă aleasă | Alegeți lista de prețuri de bază |
-| O regulă nu poate fi bazată pe propria listă de prețuri. | Formula se bazează pe lista din care fac parte regulile | Alegeți altă listă de bază |
+| Completați cealaltă listă de prețuri pe care se bazează adaosul. | **Adaos** cu **Bazat pe** = *Altă listă de preț*, fără listă aleasă | Alegeți lista de prețuri de bază |
+| O regulă nu poate fi bazată pe propria listă de prețuri. | Reducerea sau adaosul se bazează pe lista din care fac parte regulile | Alegeți altă listă de bază |
 | Rotunjirea trebuie să fie strict pozitivă. | **Rotunjește la** negativ | Puneți o valoare pozitivă (ex. 1,00) |
 | Mesajul arată 0 reguli adăugate și N păstrate | Regulile existau deja, iar politica e **Păstrează regula existentă** | Reluați cu **Actualizează regula existentă** |
 

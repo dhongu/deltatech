@@ -3,7 +3,7 @@
 {
     "name": "Pricelist Bulk Rules",
     "summary": "Add pricelist rules for many products at once and apply the same formula to many rules",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
@@ -11,7 +11,7 @@
     "license": "OPL-1",
     "consultant_sheet": "full",
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "wizard/pricelist_bulk_add_views.xml",
         "wizard/pricelist_bulk_formula_views.xml",
         "views/product_pricelist_views.xml",

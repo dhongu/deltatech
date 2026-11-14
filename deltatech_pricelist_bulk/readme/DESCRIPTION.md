@@ -9,9 +9,9 @@ product variants), open a wizard where you:
 - pick the products, or fill the list with all the products of some categories and of their
   subcategories (**Add Products of Categories**);
 - set once the **Min. Quantity**, the **Validity Period** and the price computation, with the
-  same options as a standard rule: **Fixed Price**, **Discount** (optionally on another
-  pricelist) or **Formula** (based on the sales price, the cost or another pricelist, with
-  discount or markup, rounding, extra fee and margins);
+  same options as a standard rule: **Fixed Price**, **Discount** (on the sales price or on
+  another pricelist) or **Surcharge** (on the sales price, the cost or another pricelist), with
+  rounding, an added amount and margins;
 - choose what happens when the pricelist already has a rule for the same product, minimum
   quantity and validity period: keep it, update it or add a new rule.
 

@@ -39,14 +39,39 @@ class TestPricelistBulk(TransactionCase):
             self.assertEqual(self._price(template), 42.0)
 
     def test_add_rules_formula(self):
-        self._add_wizard(compute_price="formula", base="list_price", price_discount=10.0).action_apply()
+        self._add_wizard(compute_price="discount", price_discount=10.0).action_apply()
         self.assertEqual(self._price(self.templates[0]), 90.0)
         self.assertEqual(self._price(self.templates[1]), 180.0)
 
     def test_add_rules_markup_on_cost(self):
-        self._add_wizard(compute_price="formula", base="standard_price", price_markup=20.0).action_apply()
+        self._add_wizard(compute_price="markup", base="standard_price", price_markup=20.0).action_apply()
         self.assertEqual(self.pricelist.item_ids.mapped("price_discount"), [-20.0] * 3)
         self.assertEqual(self._price(self.templates[0]), 60.0)
+
+    def test_add_rules_discount_on_other_pricelist(self):
+        other = self.env["product.pricelist"].create({"name": "TEST Other"})
+        self.env["product.pricelist.item"].create(
+            {"pricelist_id": other.id, "applied_on": "3_global", "compute_price": "fixed", "fixed_price": 50.0}
+        )
+        self._add_wizard(compute_price="discount", price_discount=10.0, base_pricelist_id=other.id).action_apply()
+        self.assertEqual(set(self.pricelist.item_ids.mapped("base")), {"pricelist"})
+        self.assertEqual(self._price(self.templates[0]), 45.0)
+
+    def test_markup_on_pricelist_requires_pricelist(self):
+        wizard = self._add_wizard(compute_price="markup", base="pricelist", price_markup=10.0)
+        with self.assertRaises(UserError):
+            wizard.action_apply()
+
+    def test_switch_to_fixed_clears_formula(self):
+        with Form(self.env["pricelist.bulk.add"].with_context(default_pricelist_id=self.pricelist.id)) as wizard:
+            wizard.compute_price = "markup"
+            wizard.base = "standard_price"
+            wizard.price_markup = 30.0
+            wizard.price_round = 1.0
+            wizard.compute_price = "fixed"
+            self.assertEqual(wizard.base, "list_price")
+            self.assertEqual(wizard.price_markup, 0.0)
+            self.assertEqual(wizard.price_round, 0.0)
 
     def test_existing_rule_policies(self):
         self._add_wizard(compute_price="fixed", fixed_price=10.0).action_apply()
@@ -85,8 +110,8 @@ class TestPricelistBulk(TransactionCase):
                 "pricelist_id": self.pricelist.id,
                 "applied_on": "2_product_category",
                 "categ_ids": [(6, 0, self.categ.ids)],
-                "compute_price": "percentage",
-                "percent_price": 5.0,
+                "compute_price": "discount",
+                "price_discount": 5.0,
             }
         ).action_apply()
         items = self.pricelist.item_ids
@@ -119,11 +144,11 @@ class TestPricelistBulk(TransactionCase):
         wizard = (
             self.env["pricelist.bulk.formula"]
             .with_context(**action["context"])
-            .create({"compute_price": "formula", "base": "list_price", "price_discount": 25.0, "price_round": 1.0})
+            .create({"compute_price": "discount", "price_discount": 25.0, "price_round": 1.0})
         )
         self.assertEqual(wizard.item_ids, items)
         wizard.action_apply()
-        self.assertEqual(set(items.mapped("compute_price")), {"formula"})
+        self.assertEqual(set(items.mapped("compute_price")), {"discount"})
         self.assertEqual(items.mapped("fixed_price"), [0.0] * 3, "Fixed price of the old type is cleared")
         self.assertEqual(items.mapped("min_quantity"), [1.0] * 3, "Min. quantity is kept when not changed")
         self.assertEqual(self._price(self.templates[1]), 150.0)
@@ -164,8 +189,7 @@ class TestPricelistBulk(TransactionCase):
         wizard = self.env["pricelist.bulk.formula"].create(
             {
                 "item_ids": [(6, 0, self.pricelist.item_ids.ids)],
-                "compute_price": "formula",
-                "base": "pricelist",
+                "compute_price": "discount",
                 "base_pricelist_id": self.pricelist.id,
             }
         )
@@ -178,8 +202,8 @@ class TestPricelistBulk(TransactionCase):
         wizard = self.env["pricelist.bulk.formula"].create(
             {
                 "item_ids": [(6, 0, self.pricelist.item_ids.ids)],
-                "compute_price": "percentage",
-                "percent_price": 5.0,
+                "compute_price": "discount",
+                "price_discount": 5.0,
                 "base_pricelist_id": self.pricelist.id,
             }
         )
@@ -188,8 +212,8 @@ class TestPricelistBulk(TransactionCase):
 
     def test_add_rules_on_own_pricelist(self):
         for vals in (
-            {"compute_price": "percentage", "base_pricelist_id": self.pricelist.id},
-            {"compute_price": "formula", "base": "pricelist", "base_pricelist_id": self.pricelist.id},
+            {"compute_price": "discount", "base_pricelist_id": self.pricelist.id},
+            {"compute_price": "markup", "base": "pricelist", "base_pricelist_id": self.pricelist.id},
         ):
             with self.assertRaises(UserError):
                 self._add_wizard(**vals).action_apply()
@@ -197,7 +221,7 @@ class TestPricelistBulk(TransactionCase):
 
     def test_add_rules_on_other_pricelist(self):
         base = self.env["product.pricelist"].create({"name": "TEST Base"})
-        self._add_wizard(compute_price="percentage", percent_price=10.0, base_pricelist_id=base.id).action_apply()
+        self._add_wizard(compute_price="discount", price_discount=10.0, base_pricelist_id=base.id).action_apply()
         self.assertEqual(self.pricelist.item_ids.mapped("base_pricelist_id"), base)
         self.assertEqual(self._price(self.templates[0]), 90.0)
 
