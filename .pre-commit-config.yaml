@@ -160,7 +160,7 @@ repos:
   # README.rst cu insignele (fișă, teste) îl face tb-gen-readme, fără oca-gen-addon-readme.
   # Ordinea contează: tb-test-stats -> tb-gen-readme -> tb-gen-index.
   - repo: https://github.com/dhongu/terrabit-pre-commit-hooks
-    rev: v1.11.1
+    rev: v1.14.0
     hooks:
       - id: tb-test-stats
       - id: tb-gen-readme
