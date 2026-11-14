@@ -79,5 +79,5 @@ depend on how fast the server answers, and identical frames are merged. When a s
 error names the step and saves the screen to a temporary `.error.png`.
 
 Keep `static/description/en/demo.gif` (and `demo.gif` for the Romanian page): `tb-gen-index`
-shows it automatically right under the hero of the Apps Store page, so do not reference it from
+shows it automatically first in the Overview tab of the Apps Store page, so do not reference it from
 `readme/*.md` as well, or it appears twice.
