@@ -1,5 +1,6 @@
 {
   "title": "Website Searchbar Optimization",
+  "online": true,
   "summary": "Fewer autocomplete requests from the search bar",
   "icon": "globe",
   "lang": "en",

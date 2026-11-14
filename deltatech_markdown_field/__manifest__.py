@@ -6,7 +6,7 @@
 {
     "name": "Markdown Field Widget",
     "summary": "WYSIWYG markdown widget storing raw Markdown in a Text field",
-    "version": "19.0.1.0.6",
+    "version": "19.0.1.0.7",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "live_test_url": "https://www.terrabit.ro/demo/deltatech_markdown_field?v=19.0",

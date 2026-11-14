@@ -1,5 +1,6 @@
 {
   "title": "POS Order Product Filter",
+  "online": true,
   "summary": "Search POS orders by product name instantly",
   "icon": "bag",
   "features": ["Filter orders by product name", "Quick lookup in order history", "Works on all POS sessions"]
