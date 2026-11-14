@@ -1047,15 +1047,19 @@ class ScreenshotCase(HttpCase):
         (``title``, ``summary``, ``features``, ``edition``) și iconița modulului, apoi trece în
         fondu-nlănțuit în flux; ``intro`` poate fi și un dict cu aceleași chei (plus ``eyebrow``),
         cu valori dependente de limbă, sau ``False``. Slide-ul revine la final ``outro_ms``
-        (``0`` = fără). GIF-ul se scrie în ``screenshots_dir(lang)`` (``static/description/`` sau
-        ``en/``). ``viewport`` implicit 1120×700, ca demo-urile de pe Apps Store; ``scale`` îl
+        (``0`` = fără). GIF-ul se scrie mereu în ``static/description/`` (``en/`` pentru
+        ``en_US``), și la modulele cu capturile încă în ``readme/screenshots/``. ``viewport`` implicit 1120×700, ca demo-urile de pe Apps Store; ``scale`` îl
         micșorează la export (ex. 0.75 pentru un fișier mai mic).
 
         Returnează calea GIF-ului.
         """
         from .gif_recorder import GifRecorder, intro_html  # noqa: PLC0415
 
-        out = self.screenshots_dir(lang)
+        # GIF-ul e pentru pagina de Apps: stă mereu în static/description/ (sau en/), de unde îl
+        # ia tb-gen-index, chiar dacă modulul își ține încă capturile PNG în readme/screenshots/
+        out = os.path.join(get_module_path(self.screenshots_module), "static", "description")
+        if lang != DEFAULT_LANG:
+            out = os.path.join(out, lang.split("_")[0])
         os.makedirs(out, exist_ok=True)
         dest = os.path.join(out, name)
         base = self.base_url()
