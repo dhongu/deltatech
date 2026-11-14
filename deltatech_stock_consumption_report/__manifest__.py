@@ -3,7 +3,7 @@
 {
     "name": "Stock Consumption Report",
     "summary": "Monthly report of the consumption vouchers by store and purpose, with XLSX export",
-    "version": "19.0.1.0.1",
+    "version": "20.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
@@ -14,8 +14,7 @@
     ],
     "external_dependencies": {"python": ["xlsxwriter"]},
     "data": [
-        "security/ir.model.access.csv",
-        "security/ir_rule.xml",
+        "security/ir.access.csv",
         "views/consumption_purpose_views.xml",
         "views/stock_picking_views.xml",
         "wizard/consumption_report_wizard_views.xml",

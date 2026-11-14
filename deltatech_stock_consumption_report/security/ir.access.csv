@@ -1,0 +1,6 @@
+id,name,model_id,group_id/id,operation,domain
+access_stock_consumption_report_wizard,stock.consumption.report.wizard,stock.consumption.report.wizard,stock.group_stock_manager,crud,
+access_stock_consumption_purpose_user,stock.consumption.purpose.user,stock.consumption.purpose,stock.group_stock_user,r,
+access_stock_consumption_purpose_manager,stock.consumption.purpose.manager,stock.consumption.purpose,stock.group_stock_manager,crud,
+rule_stock_consumption_purpose_company,Consumption purpose: multi-company,stock.consumption.purpose,,crud,"[(""company_id"", ""in"", [False] + company_ids)]"
+access_stock_consumption_report_line,stock.consumption.report.line,stock.consumption.report.line,stock.group_stock_manager,crud,

@@ -6,6 +6,9 @@ from odoo.addons.stock_account.tests.test_stockvaluation import TestStockValuati
 
 @tagged("post_install", "-at_install")
 class TestConsumptionReport(TestStockValuationCommon):
+    # Odoo 20: the tests run as a test user; the report is for the inventory managers
+    _test_user_groups = ("stock.group_stock_manager", "account.group_account_invoice")
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -75,11 +78,11 @@ class TestConsumptionReport(TestStockValuationCommon):
         summary, detail = self._wizard()._get_report_data()
         self.assertEqual(len(detail), 1)
         self.assertEqual(detail[0]["quantity"], 5.0)
-        self.assertAlmostEqual(detail[0]["value"], self.move.value)
+        self.assertAlmostEqual(detail[0]["value"], abs(self.move.value))
         self.assertEqual(detail[0]["purpose"], "Investitii")
         self.assertEqual(len(summary), 1)
         self.assertEqual(summary[0]["purpose"], "Investitii")
-        self.assertAlmostEqual(summary[0]["value"], self.move.value)
+        self.assertAlmostEqual(summary[0]["value"], abs(self.move.value))
 
     def test_report_without_purpose(self):
         self.picking.consumption_purpose_id = False
@@ -88,14 +91,9 @@ class TestConsumptionReport(TestStockValuationCommon):
         self.assertEqual(detail[0]["purpose"], "Undefined")
 
     def test_return_keeps_purpose(self):
-        wizard = (
-            self.env["stock.return.picking"]
-            .with_context(active_id=self.picking.id, active_model="stock.picking")
-            .create({})
-        )
-        wizard.product_return_moves.quantity = 1.0
-        action = wizard.action_create_returns()
+        action = self.picking.action_return()
         return_picking = self.env["stock.picking"].browse(action["res_id"])
+        self.assertEqual(return_picking.return_id, self.picking)
         self.assertEqual(return_picking.consumption_purpose_id, self.purpose)
 
     def test_export_and_view(self):
@@ -105,7 +103,7 @@ class TestConsumptionReport(TestStockValuationCommon):
         action = wizard.action_view()
         lines = self.env[action["res_model"]].search(action["domain"])
         self.assertEqual(lines.product_id, self.product)
-        self.assertAlmostEqual(lines.value, self.move.value)
+        self.assertAlmostEqual(lines.value, abs(self.move.value))
 
     def test_value_from_journal_entry(self):
         """Cu nota contabila, valoarea vine din creditul liniilor produsului, nu din miscare."""
@@ -145,7 +143,7 @@ class TestConsumptionReport(TestStockValuationCommon):
         values = self._wizard()._get_move_values(move | self.move)
         self.assertAlmostEqual(values[move.id], 24.0)
         # bonul fara nota contabila ramane pe valoarea miscarii
-        self.assertAlmostEqual(values[self.move.id], self.move.value)
+        self.assertAlmostEqual(values[self.move.id], abs(self.move.value))
 
     def test_sold_quantities_in_product_uom(self):
         """Livrarile in alta UM se aduna convertite in UM produsului."""
@@ -156,7 +154,7 @@ class TestConsumptionReport(TestStockValuationCommon):
             move = self.env["stock.move"].create(
                 {
                     "product_id": self.product.id,
-                    "product_uom": uom.id,
+                    "uom_id": uom.id,
                     "product_uom_qty": qty,
                     "location_id": self.stock_location.id,
                     "location_dest_id": customer.id,

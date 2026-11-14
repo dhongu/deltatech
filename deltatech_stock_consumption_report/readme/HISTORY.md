@@ -1,5 +1,11 @@
 # History
 
+## 20.0.1.0.1 (2026-11-14)
+
+- Migration to Odoo 20.0: access rights and the multi-company rule in `security/ir.access.csv`;
+  the stock value of an outgoing move is negative on 20.0, so the fallback value of a voucher
+  without journal entry is taken in absolute value.
+
 ## 19.0.1.0.1
 
 - Consultant sheet and screenshots: goods used internally go first to a materials location

@@ -1,14 +1,13 @@
-import base64
 import io
 from collections import defaultdict
-from datetime import datetime, time, timedelta
+from datetime import UTC, datetime, time, timedelta
+from zoneinfo import ZoneInfo
 
-import pytz
 import xlsxwriter
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
-from odoo.tools import format_date
+from odoo.tools import BinaryBytes, format_date
 
 
 class StockConsumptionReportWizard(models.TransientModel):
@@ -52,9 +51,9 @@ class StockConsumptionReportWizard(models.TransientModel):
     # Selectie
     # ------------------------------------------------------------------
     def _to_utc(self, day, end=False):
-        tz = pytz.timezone(self.env.user.tz or "UTC")
-        local = datetime.combine(day + timedelta(days=1) if end else day, time.min)
-        return tz.localize(local).astimezone(pytz.UTC).replace(tzinfo=None)
+        tz = ZoneInfo(self.env.user.tz or "UTC")
+        local = datetime.combine(day + timedelta(days=1) if end else day, time.min, tzinfo=tz)
+        return local.astimezone(UTC).replace(tzinfo=None)
 
     def _get_moves_domain(self):
         self.ensure_one()
@@ -117,7 +116,7 @@ class StockConsumptionReportWizard(models.TransientModel):
                 ("location_dest_id.usage", "=", "customer"),
                 ("date", ">=", since),
             ],
-            ["product_id", "product_uom"],
+            ["product_id", "uom_id"],
             ["quantity:sum"],
         )
         sold = defaultdict(float)
@@ -144,7 +143,8 @@ class StockConsumptionReportWizard(models.TransientModel):
                 for move in product_moves:
                     share = move.quantity / total_qty if total_qty else 1 / len(product_moves)
                     values[move.id] = amount * share
-        return {move.id: values.get(move.id, move.value) for move in moves}
+        # pe 20.0 valoarea iesirilor din stoc e negativa
+        return {move.id: values.get(move.id, abs(move.value)) for move in moves}
 
     def _get_report_data(self):
         """Intoarce (centralizat, detaliat). Magazinul e depozitul tipului de operatiune,
@@ -161,9 +161,7 @@ class StockConsumptionReportWizard(models.TransientModel):
             store = move.picking_type_id.warehouse_id.name or move.picking_type_id.name or "-"
             purpose = move.picking_id.consumption_purpose_id.name or undefined
             key = (store, purpose, move.product_id.id)
-            detail[key]["quantity"] += move.product_uom._compute_quantity(
-                move.quantity, move.product_id.uom_id, round=False
-            )
+            detail[key]["quantity"] += move.uom_id._compute_quantity(move.quantity, move.product_id.uom_id, round=False)
             detail[key]["value"] += values[move.id]
 
         product_map = {product.id: product for product in products}
@@ -300,7 +298,7 @@ class StockConsumptionReportWizard(models.TransientModel):
 
         self.write(
             {
-                "file_data": base64.b64encode(output.getvalue()),
+                "file_data": BinaryBytes(output.getvalue()),
                 "file_name": f"consumuri_{self.date_from:%Y-%m-%d}_{self.date_to:%Y-%m-%d}.xlsx",
             }
         )

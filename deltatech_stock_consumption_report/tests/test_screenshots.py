@@ -17,7 +17,6 @@
 #       -i deltatech_stock_consumption_report,deltatech_doc_screenshots,l10n_ro_stock_account \
 #       --test-tags=fise_screenshots --stop-after-init
 
-import base64
 import unittest
 
 from odoo import Command
@@ -153,7 +152,7 @@ class TestConsumptionReportScreenshots(AccountTestInvoicingCommon, ScreenshotCas
             cls.env["stock.consumption.report.wizard"].with_context(lang=lang).create({"company_id": cls.company.id})
         )
         wizard.action_export_xlsx()
-        return base64.b64decode(wizard.file_data)
+        return wizard.file_data.content
 
     @classmethod
     def _account(cls, prefix):
