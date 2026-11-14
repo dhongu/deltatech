@@ -1,5 +1,6 @@
 {
   "title": "FontAwesome Widget",
+  "online": true,
   "summary": "Show the icon instead of its name",
   "icon": "grid",
   "lang": "en",

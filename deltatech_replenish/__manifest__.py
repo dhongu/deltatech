@@ -5,7 +5,7 @@
 {
     "name": "Replenish Vendor (Compatibility)",
     "summary": "Compatibility module: vendor choice in replenishment is now standard in Odoo 19",
-    "version": "20.0.1.0.1",
+    "version": "20.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Purchase",

@@ -1,3 +1,8 @@
+## 20.0.1.0.4 (2026-11-14)
+
+- Apps Store banner: the "Odoo Online" badge shows that the module has no Python code and installs on
+  Odoo Online.
+
 # 20.0.1.0.3
 
 - Own module icon, instead of the generic gears it had.
