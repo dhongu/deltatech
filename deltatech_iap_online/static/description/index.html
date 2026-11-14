@@ -49,11 +49,15 @@
 zip) send their requests to a Terrabit server, which does the heavy work and writes the answer back
 in your database. This module holds what all those services share; each service module adds only
 its own fields, buttons and the way it writes the answer.</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-book" style="" aria-hidden="true"></span></span><div><span class="fw-bold">One account per service</span><div><em>Settings &gt; Technical &gt; Terrabit Services</em> lists the services
-  installed, with their credits left.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Activation in one click</span><div>the <strong>Activate</strong> button registers the database at the Terrabit
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-book" style="" aria-hidden="true"></span></span><div><span class="fw-bold">One account per service</span><div><em>Settings &gt; Terrabit Credits &gt; Services and Credits</em> lists the
+  services installed, with their credits left (also in developer mode, under <em>Settings &gt; Technical &gt;
+  Terrabit Services</em>).</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Activation in one click</span><div>the <strong>Activate</strong> button registers the database at the Terrabit
   server; the account token comes back by itself, with the trial credits of the service. Nothing to
   copy or paste.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check-square-o" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Buy and check credits</span><div><strong>Buy Credits</strong> opens the credit page of your account on the Terrabit
-  server; <strong>Refresh Credits</strong> asks the credits left, which are also updated with every answer.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Requests you can follow</span><div><em>Terrabit Services &gt; Requests</em> shows each request, its status and the
+  server; <strong>Refresh Credits</strong> asks the credits left, which are also updated with every answer.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Credit usage</span><div><em>Settings &gt; Terrabit Credits &gt; Credit Usage</em> lists each charged answer with the
+  credits used and the credits left after it, with a total, a graph and a pivot by service and
+  month; the <strong>Credit Usage</strong> button of a service opens its own. The Terrabit server sends the cost
+  with each answer; requests answered before this version have no cost.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Requests you can follow</span><div><em>Terrabit Services &gt; Requests</em> shows each request, its status and the
   error, if any. A request without answer after 10 minutes is sent once more.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Safe answers</span><div>the answer comes on an <em>On webhook</em> automation whose secret URL accepts only a
   request still waiting, identified by its token.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Secrets kept for administrators</span><div>the account token and the callback URL are read by
   administrators only; other users can create requests of the services, not read them, and only
@@ -66,35 +70,36 @@ key <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Reg
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</span></div>
-<p>The screens of this module are for administrators, in developer mode (<em>Settings &gt; Technical</em>).
-Install it together with a Terrabit service module (e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_anaf_partner_online</code>), which
-creates the service record.</p>
+<p>The screens of this module are for administrators, in <em>Settings &gt; Terrabit Credits</em>, without the
+developer mode. Install it together with a Terrabit service module (e.g.
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">l10n_ro_anaf_partner_online</code>), which creates the service record.</p>
 <ol>
-<li><strong>Open the menu</strong>: activate the developer mode, then go to <em>Settings &gt; Technical &gt; Terrabit
-   Services</em>. It has two entries: <strong>Services</strong> and <strong>Requests</strong>.</li>
+<li><strong>Open the menu</strong>: in <em>Settings</em>, the <strong>Terrabit Credits</strong> menu (1) has two entries (2):
+   <strong>Services and Credits</strong> and <strong>Credit Usage</strong>. In developer mode, the same services and the full
+   list of requests are also under <em>Settings &gt; Technical &gt; Terrabit Services</em>.</li>
 </ol>
 <div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
   <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
-    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Technical menu of Settings scrolled to the Terrabit Services section, with the Services and Requests entries highlighted" src="en/01_meniu_servicii.png"/>
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Settings app with the Terrabit Credits menu open in the top bar (1) and its dropdown with Services and Credits and Credit Usage (2)" src="en/01_meniu_servicii.png"/>
   </div>
   <div class="d-flex align-items-center px-3 py-2 border-top">
     <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
           style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
-    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Technical menu of Settings scrolled to the Terrabit Services section, with the Services and Requests entries highlighted</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Settings app with the Terrabit Credits menu open in the top bar (1) and its dropdown with Services and Credits and Credit Usage (2)</span>
   </div>
 </div>
 <ol start="2">
-<li><strong>Check the service</strong>: <em>Terrabit Services &gt; Services</em> lists one line per installed service, with
-   its <strong>Service Code</strong> and <strong>Credits Left</strong>.</li>
+<li><strong>Check the service</strong>: <em>Terrabit Credits &gt; Services and Credits</em> lists one line per installed
+   service, with its <strong>Service Code</strong> and <strong>Credits Left</strong>.</li>
 </ol>
 <div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
   <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
-    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Terrabit Services list with one line: the ANAF Partner Data service, the code anaf_partner_online and the credits left" src="en/02_lista_servicii.png"/>
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Terrabit Services list with two lines; the TEST ANAF Partner Data line, with the code anaf_partner_online and 4.860 credits left, is highlighted" src="en/02_lista_servicii.png"/>
   </div>
   <div class="d-flex align-items-center px-3 py-2 border-top">
     <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
           style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">2</span>
-    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Terrabit Services list with one line: the ANAF Partner Data service, the code anaf_partner_online and the credits left</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Terrabit Services list with two lines; the TEST ANAF Partner Data line, with the code anaf_partner_online and 4.860 credits left, is highlighted</span>
   </div>
 </div>
 <ol start="3">
@@ -105,27 +110,28 @@ creates the service record.</p>
 </ol>
 <div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
   <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
-    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Form of the ANAF Partner Data service not yet active: only the Activate button in the header, highlighted (1), then Service Code anaf_partner_online, the Server URL and Credits Left at 0.00" src="en/03_activare_serviciu.png"/>
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Form of a TEST ANAF Partner Data service not yet active: only the Activate button in the header, highlighted, then Service Code anaf_partner_online, the Server URL and Credits Left at 0.000" src="en/03_activare_serviciu.png"/>
   </div>
   <div class="d-flex align-items-center px-3 py-2 border-top">
     <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
           style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">3</span>
-    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Form of the ANAF Partner Data service not yet active: only the Activate button in the header, highlighted (1), then Service Code anaf_partner_online, the Server URL and Credits Left at 0.00</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Form of a TEST ANAF Partner Data service not yet active: only the Activate button in the header, highlighted, then Service Code anaf_partner_online, the Server URL and Credits Left at 0.000</span>
   </div>
 </div>
 <ol start="4">
 <li><strong>Use the active service</strong>: right after the click, the header shows <strong>Activate Again</strong>,
    <strong>Refresh Credits</strong> and <strong>Buy Credits</strong>. Check in <em>Requests</em> that the activation is <em>Done</em> before
-   using them; if it is in error, click <strong>Activate Again</strong>.</li>
+   using them; if it is in error, click <strong>Activate Again</strong>. The <strong>Credit Usage</strong> button, at the top,
+   opens the credit usage of the service (step 11).</li>
 </ol>
 <div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
   <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
-    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Form of the active ANAF Partner Data service: Activate Again, Refresh Credits (1) and Buy Credits (2) in the header, then Service Code, Server URL and Credits Left (3)" src="en/04_formular_serviciu.png"/>
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Form of the active TEST ANAF Partner Data service: the Credit Usage button at the top; Activate Again, Refresh Credits (1) and Buy Credits (2) in the header, then Service Code, Server URL and Credits Left 4.860 (3)" src="en/04_formular_serviciu.png"/>
   </div>
   <div class="d-flex align-items-center px-3 py-2 border-top">
     <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
           style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">4</span>
-    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Form of the active ANAF Partner Data service: Activate Again, Refresh Credits (1) and Buy Credits (2) in the header, then Service Code, Server URL and Credits Left (3)</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Form of the active TEST ANAF Partner Data service: the Credit Usage button at the top; Activate Again, Refresh Credits (1) and Buy Credits (2) in the header, then Service Code, Server URL and Credits Left 4.860 (3)</span>
   </div>
 </div>
 <ol start="5">
@@ -135,12 +141,12 @@ creates the service record.</p>
 </ol>
 <div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
   <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
-    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Service form after Refresh Credits, with the Terrabit notification: Request sent: the credits are updated in a few seconds" src="en/05_actualizare_credite.png"/>
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="TEST ANAF Partner Data service form after Refresh Credits, with the Terrabit notification highlighted: Request sent: the credits are updated in a few seconds" src="en/05_actualizare_credite.png"/>
   </div>
   <div class="d-flex align-items-center px-3 py-2 border-top">
     <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
           style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">5</span>
-    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Service form after Refresh Credits, with the Terrabit notification: Request sent: the credits are updated in a few seconds</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">TEST ANAF Partner Data service form after Refresh Credits, with the Terrabit notification highlighted: Request sent: the credits are updated in a few seconds</span>
   </div>
 </div>
 <ol start="6">
@@ -158,45 +164,122 @@ creates the service record.</p>
   </div>
 </div>
 <ol start="7">
-<li><strong>Follow the requests</strong>: <em>Terrabit Services &gt; Requests</em> lists the requests, newest first, with
-   their <strong>Request Type</strong>, <strong>Status</strong> and <strong>Error</strong>. Requests in error are red, requests still
+<li><strong>Follow the requests</strong>: in developer mode, <em>Settings &gt; Technical &gt; Terrabit Services &gt; Requests</em>
+   lists all the requests, newest first, with their <strong>Request Type</strong>, <strong>Status</strong>, <strong>Error</strong> and
+   <strong>Credits Used</strong>. Requests in error are red, requests still
    waiting are blue; the <strong>Errors</strong> and <strong>Waiting</strong> filters narrow the list. A request without
    answer 10 minutes after its creation is sent once more, automatically.</li>
 </ol>
 <div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
   <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
-    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Terrabit Requests list, newest first, with credit (balance) and partner lookup (request) requests: the lines with the Error status are red and their Invalid CUI errors are highlighted" src="en/07_lista_cereri.png"/>
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Terrabit Requests list, newest first, with a credit (balance) request and partner lookup (request) requests: the lines with the Error status are red and their Invalid CUI errors are highlighted (1, 2); the last column, Credits Used, shows 0.020 for the answered requests and 0.000 for those in error" src="en/07_lista_cereri.png"/>
   </div>
   <div class="d-flex align-items-center px-3 py-2 border-top">
     <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
           style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">7</span>
-    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Terrabit Requests list, newest first, with credit (balance) and partner lookup (request) requests: the lines with the Error status are red and their Invalid CUI errors are highlighted</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Terrabit Requests list, newest first, with a credit (balance) request and partner lookup (request) requests: the lines with the Error status are red and their Invalid CUI errors are highlighted (1, 2); the last column, Credits Used, shows 0.020 for the answered requests and 0.000 for those in error</span>
   </div>
 </div>
 <ol start="8">
 <li><strong>Read a request in error</strong>: open it to see the service, the input, the document it was sent
-   from (<strong>Document Model</strong>, <strong>Document ID</strong>), the <strong>Status</strong> and the <strong>Error</strong>. Fix the data on that
+   from (<strong>Document Model</strong>, <strong>Document ID</strong>), the <strong>Status</strong>, the <strong>Error</strong>, <strong>Credits Used</strong> and
+   <strong>Credits Left After</strong>. A request refused by the server uses no credits. Fix the data on that
    document and send the request again from the service module.</li>
 </ol>
 <div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
   <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
-    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Read-only form of an ANAF Partner Data request with Input 1234567 on res.partner 7: Status Error (1) and Error Invalid CUI (2) highlighted" src="en/08_cerere_eroare.png"/>
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Read-only form of a TEST ANAF Partner Data request with Input 1234567 on res.partner 3: Status Error (1), Error Invalid CUI (2) and Credits Used 0.000 (3) highlighted, then Credits Left After 4.920" src="en/08_cerere_eroare.png"/>
   </div>
   <div class="d-flex align-items-center px-3 py-2 border-top">
     <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
           style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">8</span>
-    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Read-only form of an ANAF Partner Data request with Input 1234567 on res.partner 7: Status Error (1) and Error Invalid CUI (2) highlighted</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Read-only form of a TEST ANAF Partner Data request with Input 1234567 on res.partner 3: Status Error (1), Error Invalid CUI (2) and Credits Used 0.000 (3) highlighted, then Credits Left After 4.920</span>
   </div>
 </div>
-<p>Only administrators read the services (account token) and the requests (callback URL); other
-users create requests from the buttons of the service modules, without reading them.</p>
+<ol start="9">
+<li><strong>Check the credit usage</strong>: <em>Settings &gt; Terrabit Credits &gt; Credit Usage</em> lists, with the
+   <strong>Charged</strong> filter set by default (1), each answer the server charged, with its <strong>Credits Used</strong>
+   and the total at the bottom of the column (2); 1 credit = 1 EUR. Activations, credit refreshes
+   and refused requests cost nothing and are not listed. Filter by <strong>Date</strong> or <strong>Service</strong>, or group
+   by <strong>Service</strong> or <strong>Month</strong>; the optional <strong>Credits Left After</strong> column shows the credits left
+   after each answer. The server sends the cost with each answer: requests answered before version
+   20.0.1.1.0 have no cost.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Credit Usage list with the Charged filter highlighted (1): 17 requests of the TEST ANAF Partner Data service from September to November 2026, each with 0.020 credits used, and the total 0.340 at the bottom of the column highlighted (2)" src="en/09_consum_credite_lista.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">9</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Credit Usage list with the Charged filter highlighted (1): 17 requests of the TEST ANAF Partner Data service from September to November 2026, each with 0.020 credits used, and the total 0.340 at the bottom of the column highlighted (2)</span>
+  </div>
+</div>
+<ol start="10">
+<li>
+<p><strong>See the usage by month</strong>: switch to the <strong>Graph</strong> or <strong>Pivot</strong> view (top right). The graph
+    shows the credits used per month, one color per service; the pivot has the months in rows, the
+    services in columns and the totals.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Credit Usage graph with the Charged filter: bars for September, October and November 2026 for the TEST ANAF Partner Data service, with 0.08, 0.14 and 0.12 credits" src="en/10_consum_credite_grafic.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">10</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Credit Usage graph with the Charged filter: bars for September, October and November 2026 for the TEST ANAF Partner Data service, with 0.08, 0.14 and 0.12 credits</span>
+  </div>
+</div>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Credit Usage pivot with the Charged filter: September, October and November 2026 in rows, the TEST ANAF Partner Data service in column, with Credits Used 0.08, 0.14, 0.12 and the total 0.34" src="en/11_consum_credite_pivot.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">11</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Credit Usage pivot with the Charged filter: September, October and November 2026 in rows, the TEST ANAF Partner Data service in column, with Credits Used 0.08, 0.14, 0.12 and the total 0.34</span>
+  </div>
+</div>
+</li>
+<li>
+<p><strong>Credit usage of one service</strong>: on the service form, the <strong>Credit Usage</strong> button opens the same
+    list with the <strong>Service</strong> and <strong>Charged</strong> filters, with the total, the graph and the pivot.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Form of the TEST ANAF Partner Data service with the Credit Usage button at the top highlighted" src="en/12_buton_consum_credite.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">12</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Form of the TEST ANAF Partner Data service with the Credit Usage button at the top highlighted</span>
+  </div>
+</div>
+</li>
+</ol>
+<p>Only administrators see the <em>Terrabit Credits</em> menu and read the services (account token) and the
+requests (callback URL); other users create requests from the buttons of the service modules,
+without reading them.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;"><span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">20.0.1.1.0</span></h2>
+<ul>
+<li><strong>Credit Usage</strong>: each request keeps the credits it used and the credits left after it, as the
+  Terrabit server answers them; a list, a graph and a pivot by service and month, with a total.</li>
+<li><strong>Settings &gt; Terrabit Credits</strong>: the services with their credits left and the credit usage, for
+  the administrator, without the developer mode.</li>
+<li><strong>Credit Usage</strong> button on the service form.</li>
+<li><strong>Credits Left</strong> shows 3 decimals (forward port of 19.0.1.0.1): an answer may cost 0.001
+  credits (one AWB), which showed as 0.00.</li>
+</ul>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;"><span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">20.0.1.0.1</span></h2>
+<ul>
+<li>Apps Store banner: the "IAP" label shows that the module works with IAP credits.</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;"><span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">20.0.1.0.0</span></h2>
 <ul>
-<li>Migration to 20.0: access rights in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">security/ir.access.csv</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">get_str</code> for the database UUID, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">index</code> of a manual field is a
-  selection (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">btree</code>).</li>
+<li>Migration to 20.0: access rights in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">security/ir.access.csv</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">get_str</code> for the database
+  UUID, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">index</code> of a manual field is a selection (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">btree</code>).</li>
 </ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;"><span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">19.0.1.0.0</span></h2>
 <ul>
