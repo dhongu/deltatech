@@ -14,16 +14,13 @@ Payment Default Method
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_payment_default
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_payment_default
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_payment_default/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_payment_default/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-9%20automated%20tests%20%C2%B7%2097%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_payment_default
-    :alt: 9 automated tests · 97% code coverage
 
-|badge1| |badge2| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge_fisa|
 
 Adds a **Set as default** checkbox to the payment register wizard
 (**Register Payment** on invoices and bills). When it is checked, the
@@ -71,6 +68,13 @@ users without the **Contact Creation** right.
 Changelog
 =========
 
+20.0.1.0.0 (2026-11-14)
+-----------------------
+
+- Migration to Odoo 20.0, no functional change. The tests no longer
+  write ``is_company`` on the partner: on Odoo 20 it is computed, and
+  the commercial partner of a contact comes from ``parent_id``.
+
 19.0.1.0.0 (2026-10-26)
 -----------------------
 
@@ -108,6 +112,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_payment_default>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_payment_default>`_ project on GitHub.
 
 You are welcome to contribute.

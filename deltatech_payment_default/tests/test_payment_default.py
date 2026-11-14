@@ -91,7 +91,7 @@ class TestPaymentDefault(AccountTestInvoicingCommon):
         self.assertEqual(wizard.payment_method_line_id, self.inbound_payment_method_line)
 
     def test_contact_uses_commercial_partner(self):
-        company_partner = self.env["res.partner"].create({"name": "Company Partner", "is_company": True})
+        company_partner = self.env["res.partner"].create({"name": "Company Partner"})
         contact = self.env["res.partner"].create({"name": "Contact", "parent_id": company_partner.id})
         company_partner.with_company(
             self.company_data["company"]

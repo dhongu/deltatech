@@ -68,7 +68,6 @@ class TestPaymentDefaultScreenshots(AccountTestInvoicingCommon, ScreenshotCase o
             {
                 "name": "Client Exemplu SRL",
                 "country_id": env.ref("base.ro").id,
-                "is_company": True,
                 "lang": "ro_RO",
             }
         )

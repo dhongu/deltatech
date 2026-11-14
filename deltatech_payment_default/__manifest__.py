@@ -5,7 +5,7 @@
 {
     "name": "Payment Default Method",
     "summary": "Remember the journal and payment method per partner from the payment register",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
