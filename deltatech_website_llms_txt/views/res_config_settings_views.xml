@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.llms.txt</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="website.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <block id="website_settings" position="inside">
+                <setting
+                    id="llms_txt_setting"
+                    string="llms.txt"
+                    help="Summary of the site read by ChatGPT, Claude and other AI assistants, at /llms.txt"
+                >
+                    <field name="llms_txt_enabled" />
+                    <div class="content-group" invisible="not llms_txt_enabled">
+                        <div class="mt8">
+                            <button
+                                name="action_open_llms_txt"
+                                type="object"
+                                string="Edit llms.txt"
+                                icon="oi-arrow-right"
+                                class="btn-link"
+                            />
+                        </div>
+                        <div class="mt8">
+                            <field name="llms_txt_url" widget="url" text="View llms.txt" />
+                        </div>
+                    </div>
+                </setting>
+            </block>
+        </field>
+    </record>
+</odoo>
