@@ -5,6 +5,8 @@
   and closing on a slide built from `banner.json` and the module icon. Global 256-colour palette
   (octree, so links and buttons keep their colour) and merged identical frames keep the file small.
 - `capture_screenshots` and `capture_gif` share the browser start-up (`_browser_session`).
+- A target that would end up under the subtitle is scrolled to the middle of the screen, and the
+  Odoo content gets room at its end, so the last fields of a form can rise above the subtitle.
 
 ## 19.0.1.2.0 (2026-11-03)
 

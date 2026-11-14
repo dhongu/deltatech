@@ -1090,9 +1090,11 @@ class ScreenshotCase(HttpCase):
                         page.wait_for_selector(s.get("wait", DEFAULT_READY), timeout=timeout)
                         if hide_systray:
                             page.add_style_tag(content=".o_menu_systray, .o-tooltip, .tooltip{display:none !important}")
-                        # chatter-ul nu ține de flux și îngustează formularul
+                        # chatter-ul nu ține de flux și îngustează formularul; spațiul de la capătul
+                        # conținutului lasă și ultimele câmpuri să urce deasupra subtitrării
                         page.add_style_tag(
                             content=".o-mail-Form-chatter, .o-mail-ChatterContainer{display:none !important}"
+                            f" .o_content::after{{content:'';display:block;height:{GifRecorder.SUBTITLE_ZONE}px}}"
                         )
                         rec.settle()
                     elif s.get("wait"):

@@ -169,6 +169,9 @@ h1 {{ margin: {18 * s}px 0 {18 * s}px; font-size: {50 * s}px; line-height: 1.08;
 class GifRecorder:
     """Scenariu → cadre → GIF. Toate duratele sunt în milisecunde de GIF (timp virtual)."""
 
+    #: înălțimea (px) de jos rezervată subtitrării: o țintă care ar intra aici se derulează la mijloc
+    SUBTITLE_ZONE = 170
+
     def __init__(self, page, fps=12, char_ms=70, move_ms=650, settle_ms=400, timeout=20000):
         self.page = page
         self.frame_ms = max(20, round(1000 / fps))
@@ -248,6 +251,13 @@ class GifRecorder:
         loc.wait_for(state="visible", timeout=self.timeout)
         loc.scroll_into_view_if_needed(timeout=self.timeout)
         box = loc.bounding_box()
+        vh = (self.page.viewport_size or {"height": 700})["height"]
+        if box and (box["y"] + box["height"] > vh - self.SUBTITLE_ZONE or box["y"] < 0):
+            # ținta (și ce apare sub ea după acțiune: câmpuri completate, liniile noi) ar sta sub
+            # subtitrare sau la margine: o aducem în mijlocul ecranului (Odoo derulează .o_content)
+            loc.evaluate("el => el.scrollIntoView({block: 'center'})")
+            self.page.wait_for_timeout(150)
+            box = loc.bounding_box()
         if not box:
             raise AssertionError(f"Ținta '{selector}' nu are poziție pe ecran")
         # puțin spre stânga-centru, ca la un utilizator real (nu fix pe mijlocul unui câmp lung)
