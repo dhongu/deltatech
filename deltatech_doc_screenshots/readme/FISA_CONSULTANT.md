@@ -99,6 +99,24 @@ pe Odoo Apps.
 Se verifică: același ecran și aceleași evidențieri ca în pasul 1, interfața în engleză, fără etichete
 rămase în română. Datele demo („RO Company”, adresa, RON) rămân cele din test.
 
+### Pasul 3 — GIF-ul demo pentru pagina de Apps
+
+Metoda `test_capture_gif` înregistrează fluxul principal ca GIF animat, cu `capture_gif`: un cursor
+simulat se deplasează spre fiecare țintă și arată un cerc la click, textul se tastează literă cu literă,
+iar jos rulează **subtitrări ca la film** (text alb pe o bandă neagră semitransparentă, fără numere de
+pas). GIF-ul începe și se termină cu un slide făcut din `static/description/banner.json` și iconița
+modulului. Aici: un partener nou, cu denumirea și codul fiscal tastate, apoi salvat.
+
+![GIF-ul demo: partener nou, cu subtitrări](../static/description/demo.gif)
+
+GIF-ul se scrie **mereu** în `static/description/demo.gif` (română) și `static/description/en/demo.gif`
+(engleză), chiar dacă modulul își ține capturile PNG încă în `readme/screenshots/`. Pagina de Apps
+(generată de `tb-gen-index` ≥ 1.14.0) îl arată singură primul în tabul **Overview**, deci nu se pune în
+`readme/USAGE.md`.
+
+Se verifică pe câteva cadre: subtitrările sunt lizibile și în limba GIF-ului, cursorul ajunge pe ținta
+potrivită, rezultatul pasului (câmpurile completate, înregistrarea salvată) se vede deasupra subtitrării.
+
 ### Note de monografie și raportare
 
 Nu generează note contabile.
@@ -112,8 +130,11 @@ Nu generează note contabile.
 | modulele cu `tests/test_screenshots.py` | consumatorii: fiecare își descrie capturile |
 
 **Ce e automat:** pregătirea companiei demo, limba, tema luminoasă, navigarea, evidențierile, decuparea
-marginilor, folderul pe limbă.
-**Ce rămâne manual:** lista capturilor din test, datele demo ale fluxului și verificarea vizuală.
+marginilor, folderul pe limbă. La GIF: deplasarea cursorului, subtitrările, slide-ul de deschidere, iar
+o țintă care ar ajunge sub subtitrare se derulează la mijlocul ecranului (conținutul primește spațiu la
+capăt, ca ultimele câmpuri ale formularului să urce deasupra subtitrării).
+**Ce rămâne manual:** lista capturilor și pașii GIF-ului din test, datele demo ale fluxului și
+verificarea vizuală.
 
 ## 8. Verificări pentru consultant
 
@@ -124,6 +145,10 @@ marginilor, folderul pe limbă.
 - [ ] Rularea unei singure metode (`.test_capture_usage`) scrie doar capturile din `en/`.
 - [ ] Fără `playwright` instalat, testele de capturi sunt sărite, nu picate.
 - [ ] O rulare obișnuită a testelor modulului nu modifică imaginile.
+- [ ] `.test_capture_gif` scrie `static/description/demo.gif` și `en/demo.gif`, și la un modul cu
+      capturile PNG în `readme/screenshots/`.
+- [ ] Pe cadrele GIF-ului, subtitrarea nu are numere de pas, iar un câmp de la finalul formularului
+      rămâne vizibil deasupra ei.
 
 ## 9. Mesaje de eroare frecvente
 
@@ -142,6 +167,8 @@ Generate automat de `tests/test_screenshots.py` al acestui modul, pe compania de
 |---|---|
 | `static/description/01_formular_companie.png` | formularul companiei, în română, cu ①② pe nume și cod fiscal |
 | `static/description/en/01_formular_companie.png` | același formular, în engleză (pentru USAGE.md) |
+| `static/description/demo.gif` | GIF-ul demo în română: partener nou, cu subtitrări |
+| `static/description/en/demo.gif` | același GIF, în engleză; pagina de Apps îl arată primul în tabul Overview |
 
 Regenerare: `-i deltatech_doc_screenshots --test-tags=fise_screenshots` (comanda de la secțiunea 5).
 

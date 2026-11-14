@@ -8,6 +8,7 @@
   still keep their PNG screenshots in `readme/screenshots/`.
 - `demo.gif` is no longer referenced from `readme/USAGE.md`: `tb-gen-index` 1.14.0 shows it first
   in the Overview tab of the Apps Store page.
+- Consultant sheet: the demo GIF step (`capture_gif`), where the GIF is written and the checks.
 
 ## 19.0.1.3.0 (2026-11-14)
 
