@@ -1,3 +1,8 @@
+## 19.0.1.0.7 (2026-11-14)
+
+- Apps Store banner: the "Odoo Online" badge shows that the module has no Python code and installs on
+  Odoo Online.
+
 ## 19.0.1.0.6 (2026-11-08)
 
 - Fix: strikethrough, tables and task lists are no longer lost when the editor is left. The HTML → Markdown step now writes them back as `~~text~~`, GFM tables (with column alignment) and `[x]` / `[ ]` items; a table Markdown cannot express (merged cells, lists or paragraphs in a cell) is kept as HTML instead of being flattened. Values already flattened by an earlier save cannot be recovered.

@@ -1,5 +1,6 @@
 {
   "title": "Markdown Field Widget",
+  "online": true,
   "summary": "Rich editing, raw Markdown storage",
   "icon": "wrench",
   "features": [
