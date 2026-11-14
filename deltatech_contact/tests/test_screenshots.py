@@ -206,3 +206,70 @@ class TestContactScreenshots(ScreenshotCase or object):
 
     def test_capture_usage(self):
         self.capture_screenshots(self._shots(), lang="en_US")
+
+    def _gif_steps(self):
+        """Demo-ul de pe pagina Apps: CNP-ul tastat completează singur data nașterii și sexul."""
+        menu = self.env.ref("contacts.menu_contacts").id
+        return [
+            {"goto": f"action={self.action}&menu_id={menu}&model=res.partner&view_type=form"},
+            {
+                "caption": {
+                    "ro_RO": "Un contact nou, persoană fizică",
+                    "en_US": "A new contact, an individual",
+                },
+                "click": "div[name='company_type'] input[data-value='person']",
+            },
+            {"type": "Maria Ionescu", "into": "name", "hold": 400},
+            {
+                "caption": {
+                    "ro_RO": "Datele de identitate au fila lor",
+                    "en_US": "Identity data has its own tab",
+                },
+                "click": {
+                    "ro_RO": "a.nav-link:text-is('Date personale')",
+                    "en_US": "a.nav-link:text-is('Personal Data')",
+                },
+            },
+            {
+                "caption": {"ro_RO": "Se introduce doar CNP-ul", "en_US": "Only the CNP is typed in"},
+                "type": NEW_CNP,
+                "into": "cnp",
+            },
+            {
+                "caption": {
+                    "ro_RO": "Data nașterii și sexul se completează din CNP",
+                    "en_US": "Birthdate and gender are filled from the CNP",
+                },
+                # click pe fila deja activă: CNP-ul pierde focusul (onchange), fără să deschidă
+                # calendarul câmpului următor, cum ar face Tab
+                "click": {
+                    "ro_RO": "a.nav-link:text-is('Date personale')",
+                    "en_US": "a.nav-link:text-is('Personal Data')",
+                },
+                "hold": 2800,
+            },
+            {
+                "caption": {
+                    "ro_RO": "La salvare, CNP-ul e verificat",
+                    "en_US": "On save, the CNP is checked",
+                },
+                "click": ".o_form_button_save",
+                "wait_after": ".o_form_saved",
+                "hold": 2200,
+            },
+            {"caption": "", "hide_cursor": True, "hold": 600},
+        ]
+
+    def test_capture_gif(self):
+        # banner.json e în engleză: slide-ul RO primește textele lui
+        intro_ro = {
+            "title": "Date personale pe contacte",
+            "summary": "CNP validat, carte de identitate și date din CNP",
+            "features": [
+                "Validarea cifrei de control a CNP",
+                "Data nașterii și sexul din CNP",
+                "Fila Date personale",
+            ],
+        }
+        self.capture_gif(self._gif_steps(), intro=intro_ro)
+        self.capture_gif(self._gif_steps(), lang="en_US")

@@ -1,3 +1,15 @@
+## 19.0.1.4.0 (2026-11-14)
+
+- `capture_gif`: the captions are film-style subtitles (white text centred at the bottom on a
+  translucent black band that follows the lines), without step numbers; the `num` key is gone.
+- A target that would end up under the subtitle is scrolled to the middle of the screen, and the
+  Odoo content gets room at its end, so the last fields of a form can rise above the subtitle.
+- The GIF is always written to `static/description/` (`en/` for English), also for modules that
+  still keep their PNG screenshots in `readme/screenshots/`.
+- `demo.gif` is no longer referenced from `readme/USAGE.md`: `tb-gen-index` 1.14.0 shows it first
+  in the Overview tab of the Apps Store page.
+- Consultant sheet: the demo GIF step (`capture_gif`), where the GIF is written and the checks.
+
 ## 19.0.1.3.0 (2026-11-14)
 
 - New `capture_gif(steps, name)`: records a flow as an animated GIF for the Apps Store, with a

@@ -1,3 +1,9 @@
+## 19.0.1.4.15 (2026-11-14)
+
+- Animated demo for the Apps Store page (`static/description/en/demo.gif`, and `demo.gif` in
+  Romanian), recorded by `test_capture_gif`: a new individual contact where the typed CNP fills in
+  the birthdate and gender.
+
 ## 19.0.1.4.14 (2026-11-03)
 
 - Description rewritten from the code: an invalid CNP is cleared on every new

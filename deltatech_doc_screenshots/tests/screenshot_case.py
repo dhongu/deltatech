@@ -992,7 +992,6 @@ class ScreenshotCase(HttpCase):
         "timeout",
         "eval",
         "caption",
-        "num",
         "move",
         "click",
         "wait_after",
@@ -1020,17 +1019,17 @@ class ScreenshotCase(HttpCase):
     ):
         """Înregistrează un GIF animat al unui flux (demo pentru Apps Store / fișă).
 
-        Peste interfață apar un cursor simulat (deplasare lină, cerc la click) și o etichetă
-        numerotată jos, pe centru; vezi ``gif_recorder.GifRecorder``. Fiecare pas e un dict; cheile
-        lui se execută în ordinea din ``GIF_STEP_KEYS``, deci un pas poate combina, de pildă, o
-        etichetă cu un click:
+        Peste interfață apar un cursor simulat (deplasare lină, cerc la click) și o subtitrare jos,
+        ca la film; vezi ``gif_recorder.GifRecorder``. Fiecare pas e un dict; cheile lui se
+        execută în ordinea din ``GIF_STEP_KEYS``, deci un pas poate combina, de pildă, o
+        subtitrare cu un click:
 
           - ``goto`` (str): fragmentul de după ``/web#`` (ca ``url`` la ``capture_screenshots``);
             ``path`` (str): cale absolută pe server; ``wait`` (str): selectorul de așteptat după
             navigare (implicit form sau listă); ``timeout`` (ms);
           - ``eval`` (str): cod JS rulat în pagină;
-          - ``caption`` (str): textul etichetei de jos, numerotat automat (1, 2, 3...); ``num``
-            forțează numărul (``False`` = fără număr); ``caption: ""`` o ascunde;
+          - ``caption`` (str): subtitrarea de jos, ca la film; rămâne până la următoarea,
+            ``caption: ""`` o ascunde;
           - ``move`` (str): selector spre care se deplasează cursorul, fără click;
           - ``click`` (str): selector pe care se dă click; ``wait_after`` (str): selectorul de
             așteptat după click (ex. ``.o-autocomplete--dropdown-menu``);
@@ -1048,15 +1047,19 @@ class ScreenshotCase(HttpCase):
         (``title``, ``summary``, ``features``, ``edition``) și iconița modulului, apoi trece în
         fondu-nlănțuit în flux; ``intro`` poate fi și un dict cu aceleași chei (plus ``eyebrow``),
         cu valori dependente de limbă, sau ``False``. Slide-ul revine la final ``outro_ms``
-        (``0`` = fără). GIF-ul se scrie în ``screenshots_dir(lang)`` (``static/description/`` sau
-        ``en/``). ``viewport`` implicit 1120×700, ca demo-urile de pe Apps Store; ``scale`` îl
+        (``0`` = fără). GIF-ul se scrie mereu în ``static/description/`` (``en/`` pentru
+        ``en_US``), și la modulele cu capturile încă în ``readme/screenshots/``. ``viewport`` implicit 1120×700, ca demo-urile de pe Apps Store; ``scale`` îl
         micșorează la export (ex. 0.75 pentru un fișier mai mic).
 
         Returnează calea GIF-ului.
         """
         from .gif_recorder import GifRecorder, intro_html  # noqa: PLC0415
 
-        out = self.screenshots_dir(lang)
+        # GIF-ul e pentru pagina de Apps: stă mereu în static/description/ (sau en/), de unde îl
+        # ia tb-gen-index, chiar dacă modulul își ține încă capturile PNG în readme/screenshots/
+        out = os.path.join(get_module_path(self.screenshots_module), "static", "description")
+        if lang != DEFAULT_LANG:
+            out = os.path.join(out, lang.split("_")[0])
         os.makedirs(out, exist_ok=True)
         dest = os.path.join(out, name)
         base = self.base_url()
@@ -1091,9 +1094,11 @@ class ScreenshotCase(HttpCase):
                         page.wait_for_selector(s.get("wait", DEFAULT_READY), timeout=timeout)
                         if hide_systray:
                             page.add_style_tag(content=".o_menu_systray, .o-tooltip, .tooltip{display:none !important}")
-                        # chatter-ul nu ține de flux și îngustează formularul
+                        # chatter-ul nu ține de flux și îngustează formularul; spațiul de la capătul
+                        # conținutului lasă și ultimele câmpuri să urce deasupra subtitrării
                         page.add_style_tag(
                             content=".o-mail-Form-chatter, .o-mail-ChatterContainer{display:none !important}"
+                            f" .o_content::after{{content:'';display:block;height:{GifRecorder.SUBTITLE_ZONE}px}}"
                         )
                         rec.settle()
                     elif s.get("wait"):
@@ -1102,7 +1107,7 @@ class ScreenshotCase(HttpCase):
                         page.evaluate(s["eval"])
                         rec.settle()
                     if "caption" in s:
-                        rec.caption(s["caption"], num=s.get("num"))
+                        rec.caption(s["caption"])
                     if s.get("move"):
                         rec.move(s["move"])
                     if s.get("click"):
