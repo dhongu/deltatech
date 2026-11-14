@@ -1,3 +1,8 @@
+## 19.0.1.2.1 (2026-11-14)
+
+- Apps Store banner: the "Odoo Online" badge shows that the module has no Python code and installs on
+  Odoo Online.
+
 ## 19.0.1.2.0 (2026-09-30)
 
 - A card can also show a figure followed over time, each part drawn only when given: `delta`

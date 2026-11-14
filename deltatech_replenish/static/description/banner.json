@@ -1,5 +1,6 @@
 {
   "title": "Replenish Compatibility",
+  "online": true,
   "summary": "Placeholder module for smooth 18.0 to 19.0 upgrades",
   "icon": "gear",
   "lang": "en",
