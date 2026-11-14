@@ -1,3 +1,7 @@
+# 20.0.1.0.1
+
+- Apps Store banner: the "IAP" label shows that the module works with IAP credits.
+
 # 20.0.1.0.0
 
 - Migration to 20.0: access rights in `security/ir.access.csv`, `get_str` for the database
