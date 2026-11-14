@@ -14,16 +14,13 @@ Website web designer access
     :target: https://odoo-community.org/page/development-status
     :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_access_design
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_access_design
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_website_access_design/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_website_access_design/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests%20%C2%B7%2083%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_website_access_design
-    :alt: 6 automated tests · 83% code coverage
 
-|badge1| |badge2| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge_fisa|
 
 Hides the back-office menus for partners, sales and invoices from users
 who should only work on the website, such as a web designer. The
@@ -118,13 +115,20 @@ Vendors.
 Internal users created after the installation are not in the group: add
 each one who needs these menus.
 
-.. |Group Access Partners, Sale, Invoice, Users tab: the internal users existing at installation, each with their login and role| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_access_design/static/description/en/01_grup_acces_utilizatori.png
-.. |Group Access Partners, Sale, Invoice, Menus tab: Invoicing/Customers, Invoicing/Vendors and Contacts| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_access_design/static/description/en/02_grup_acces_meniuri.png
-.. |User form of the designer, Access Rights tab: role User, Website Restricted Editor, Sales and Accounting No| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_access_design/static/description/en/03_utilizator_designer.png
-.. |Website opened by the designer, with the Editor button at the top left| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_access_design/static/description/en/04_website_designer.png
+.. |Group Access Partners, Sale, Invoice, Users tab: the internal users existing at installation, each with their login and role| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_access_design/static/description/en/01_grup_acces_utilizatori.png
+.. |Group Access Partners, Sale, Invoice, Menus tab: Invoicing/Customers, Invoicing/Vendors and Contacts| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_access_design/static/description/en/02_grup_acces_meniuri.png
+.. |User form of the designer, Access Rights tab: role User, Website Restricted Editor, Sales and Accounting No| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_access_design/static/description/en/03_utilizator_designer.png
+.. |Website opened by the designer, with the Editor button at the top left| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_website_access_design/static/description/en/04_website_designer.png
 
 Changelog
 =========
+
+20.0.1.1.0 (2026-11-14)
+-----------------------
+
+- Migration to Odoo 20.0, no functional change: the menu groups
+  (``group_ids``) and the users of the group (``user_ids``) keep the
+  names they have on Odoo 19.
 
 19.0.1.1.0 (2026-11-07)
 -----------------------
@@ -195,6 +199,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_access_design>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_website_access_design>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -1,3 +1,8 @@
+## 20.0.1.1.0 (2026-11-14)
+
+- Migration to Odoo 20.0, no functional change: the menu groups (`group_ids`) and the users of
+  the group (`user_ids`) keep the names they have on Odoo 19.
+
 ## 19.0.1.1.0 (2026-11-07)
 
 - Installation no longer hides Contacts, Sales and Invoicing > Customers /
