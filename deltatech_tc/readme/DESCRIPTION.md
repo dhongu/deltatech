@@ -5,8 +5,15 @@ directly from the cloud: the ANAF token (PKCS#11 / mTLS to SPV), fiscal printers
 
 Terrabit Connect is a desktop application for Windows, macOS and Linux, built
 with Tauri (Rust core, the operating system's own web view). Installers and signed
-automatic updates are published at
-[terrabit-connect-releases](https://github.com/dhongu/terrabit-connect-releases/releases/latest).
+automatic updates are published at:
+
+`https://github.com/dhongu/terrabit-connect-releases/releases/latest`
+
+![Terrabit Connect main window: the TC service running, the Odoo connection and the unlocked token marked Connected, the ANAF / SPV job queue with 2 jobs in progress and 1 error, and the quick actions Open Odoo and Sync SPV](static/description/11_tc_app_principal.png)
+
+![Terrabit Connect job queue: a declaration validation (DUK) in Error, an SPV message sync Pending, a document download Claimed and a finished SPV sync](static/description/12_tc_app_joburi.png)
+
+The agent's interface is in Romanian.
 
 This module is the **generic foundation** every Terrabit Connect feature builds
 on: the connection layer, the job protocol, and the one job type that is pure

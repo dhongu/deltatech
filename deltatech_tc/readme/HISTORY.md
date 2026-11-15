@@ -1,3 +1,10 @@
+## 20.0.1.2.5 (2026-11-15)
+
+- Docs: screenshots of the Terrabit Connect app (main window, job queue, settings) in the
+  description and the configuration section. The download address is now written out in
+  full, because the Odoo Apps page turns links in the description into plain text. No code
+  change.
+
 ## 20.0.1.2.4 (2026-10-11)
 
 - Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.
