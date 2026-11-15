@@ -5,12 +5,13 @@
         <field name="name">deltatech.tc.station.list</field>
         <field name="model">deltatech.tc.station</field>
         <field name="arch" type="xml">
-            <list>
+            <list decoration-warning="is_simulated">
                 <field name="name"/>
                 <field name="company_id" groups="base.group_multi_company"/>
                 <field name="last_seen"/>
                 <field name="tc_version" optional="show"/>
                 <field name="os" optional="hide"/>
+                <field name="is_simulated" optional="show" widget="boolean"/>
                 <field name="job_count"/>
                 <field name="active" widget="boolean_toggle"/>
             </list>
@@ -39,8 +40,14 @@
                     </div>
                     <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger"
                             invisible="active"/>
+                    <widget name="web_ribbon" title="Simulation" bg_color="text-bg-warning"
+                            invisible="not active or not is_simulated"/>
                     <div class="oe_title">
                         <h1><field name="name" placeholder="e.g. Accounting PC"/></h1>
+                    </div>
+                    <div class="alert alert-warning" role="alert" invisible="not is_simulated">
+                        Terrabit Connect runs in simulation on this station: the receipts and card payments of the
+                        simulated devices are not real. Simulated devices: <field name="simulated_devices" class="d-inline"/>
                     </div>
                     <group>
                         <group>
@@ -53,6 +60,8 @@
                             <field name="tc_version"/>
                             <field name="os"/>
                             <field name="features"/>
+                            <field name="fiscal_driver"/>
+                            <field name="is_simulated" invisible="1"/>
                         </group>
                     </group>
                     <field name="note" placeholder="Notes (location, responsible, token...)"/>

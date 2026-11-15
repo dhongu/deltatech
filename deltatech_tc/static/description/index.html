@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 42 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 45 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
         <div class="rounded-pill" style="height:8px;width:84%;background-color:#57B952;"></div>
       </div>
@@ -242,7 +242,20 @@ within the throttle window.</p>
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</span></div>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Registering a <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">station</span></h2>
 <ol>
-<li>Go to <strong>Settings &#8594; Terrabit Connect &#8594; Stations</strong>.</li>
+<li>Go to <strong>Settings &#8594; Terrabit Connect &#8594; Stations</strong>. The list shows, for each station, when it was
+   <strong>Last Seen</strong>, its <strong>TC Version</strong> and whether it runs in <strong>Simulation</strong> (highlighted rows).</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Terrabit Connect Stations list: PC Contabilitate and Casa 1 Magazin (test), the latter highlighted with Simulation ticked" src="en/01_lista_statii.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Terrabit Connect Stations list: PC Contabilitate and Casa 1 Magazin (test), the latter highlighted with Simulation ticked</span>
+  </div>
+</div>
+<ol start="2">
 <li>Click <strong>New</strong> and give the station a descriptive name (e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Accounting PC</code>).</li>
 <li>Select the company the station belongs to (multi-company installations).</li>
 <li>Save. An <strong>API Key</strong> is generated automatically and is visible to administrators
@@ -255,11 +268,21 @@ within the throttle window.</p>
    (<strong>Set&#259;ri &#8594; Import&#259; config</strong>). The agent authenticates with the
    <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">X-Station-Key</code> header on every call.</li>
 </ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Station form PC Contabilitate: Ping and Download config in the header, Last Seen, TC Version 1.8.2, Operating System Windows 11, Features and Fiscal Driver fiscalwire" src="en/02_formular_statie.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">2</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Station form PC Contabilitate: Ping and Download config in the header, Last Seen, TC Version 1.8.2, Operating System Windows 11, Features and Fiscal Driver fiscalwire</span>
+  </div>
+</div>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Verifying <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">connectivity</span></h2>
 <p>Once Terrabit Connect is running with the downloaded config:</p>
 <ol>
 <li>Open the station form (<strong>Settings &#8594; Terrabit Connect &#8594; Stations</strong>, click the station).</li>
-<li>The <strong>Last seen</strong> field updates at the first heartbeat, sent as soon as the
+<li>The <strong>Last Seen</strong> field updates at the first heartbeat, sent as soon as the
    agent starts, and then at every heartbeat or job poll.</li>
 <li>Click <strong>Ping</strong> in the header to enqueue a round-trip test job. The job appears
    in the <strong>Jobs</strong> smart button and reaches state <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Done</code> at the next poll &#8212; provided
@@ -267,9 +290,25 @@ within the throttle window.</p>
 <li>Terrabit Connect managers also receive a browser notification when the agent
    sends a manual heartbeat.</li>
 </ol>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Simulated <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">stations</span></h2>
+<p>When Terrabit Connect runs in simulation mode, the station reports at every heartbeat the fiscal
+driver <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">simulated</code> and the simulated devices: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">fiscal</code> for the cash register and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">terminal:&lt;id&gt;</code> for
+each card terminal. The station form then shows a <strong>Simulation</strong> ribbon and a warning listing the
+simulated devices; receipts and card payments made through them are not real. The marking comes from
+the station: it disappears on its own at the first heartbeat sent without simulated devices.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Station form Casa 1 Magazin (test): Simulation ribbon, the warning with the simulated devices fiscal,terminal:demo and Fiscal Driver simulated" src="en/03_statie_simulata.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">3</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Station form Casa 1 Magazin (test): Simulation ribbon, the warning with the simulated devices fiscal,terminal:demo and Fiscal Driver simulated</span>
+  </div>
+</div>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Monitoring <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">jobs</span></h2>
 <p>Navigate to <strong>Settings &#8594; Terrabit Connect &#8594; Jobs</strong> to see all jobs across all
-stations. You can filter by state (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Pending</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Done</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Error</code>) or group by
+stations. You can filter by state (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Pending</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Claimed</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Done</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Error</code>) or group by
 station or job type.</p>
 <p>The job list uses colour coding:</p>
 <ul>
@@ -277,6 +316,27 @@ station or job type.</p>
 <li>Red row &#8212; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Error</code> (open the form to read the error detail)</li>
 <li>Muted row &#8212; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Claimed</code> (the station picked it up; result not yet reported)</li>
 </ul>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN) in Error (red), one Claimed (muted) and a Ping Pending" src="en/04_lista_joburi.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">4</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN) in Error (red), one Claimed (muted) and a Ping Pending</span>
+  </div>
+</div>
+<p>Open a job to read its <strong>Payload</strong>, <strong>Result</strong> and <strong>Error</strong> tabs.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="An HTTP request (LAN) job in Error, Error tab open with the message returned by the station, Retry button in the header" src="en/05_job_eroare.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">5</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">An HTTP request (LAN) job in Error, Error tab open with the message returned by the station, Retry button in the header</span>
+  </div>
+</div>
 <h3 class="fw-bold mt-4 mb-3" style="border:none;border-left-width:4px;border-left-style:solid;border-left-color:#57B952;padding-left:16px;font-size:19px;letter-spacing:-0.3px;line-height:1.2;">Lost results and retries</h3>
 <p>A job whose result never came back (agent restarted, network down between execution and
 reply) is handled after the claim timeout (see CONFIGURE):</p>
@@ -330,10 +390,18 @@ transaction.</p>
 <p>This base module does not talk to any device by itself. Install the relevant
 Terrabit Connect feature module (e.g. ANAF messages, fiscal printer, Zebra labels,
 DUKIntegrator) to activate additional job types. They appear automatically in the
-<strong>Type</strong> column of the job list once the feature module is installed.</p>
+<strong>Job Type</strong> column of the job list once the feature module is installed.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.2.5 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-15)</span></h2>
+<ul>
+<li>Port of 19.0.1.2.5.</li>
+<li>The station shows the fiscal driver and the devices Terrabit Connect simulates (from the
+  heartbeat): a <strong>Simulation</strong> ribbon and a warning on the form, highlighted rows in the list.</li>
+<li>Consultant sheet (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/FISA_CONSULTANT.md</code>), usage with screenshots, and the test that
+  generates them (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests/test_screenshots.py</code>).</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.2.4 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-10-11)</span></h2>
 <ul>
 <li>Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.</li>
@@ -405,11 +473,7 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
 <li>The allow-list of reachable hosts is configured on the workstation
   (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TERRABIT_HTTP_ALLOW</code>), never from Odoo.</li>
 </ul>
-<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;"><span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">19.0.1.0.0</span></h2>
-<ul>
-<li>Station registry, outbound job queue, REST endpoints (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/heartbeat</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/poll</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/result</code>,
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/config/&lt;id&gt;</code>) and the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ping</code> job type.</li>
-</ul>
+<p><em>Older releases are listed in the module's HISTORY file.</em></p>
 </div>
 </div>
 
