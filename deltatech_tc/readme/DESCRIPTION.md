@@ -13,7 +13,8 @@ automatic updates are published at:
 
 ![Terrabit Connect job queue: a declaration validation (DUK) in Error, an SPV message sync Pending, a document download Claimed and a finished SPV sync](static/description/12_tc_app_joburi.png)
 
-The agent's interface is in Romanian.
+The agent's interface is in Romanian and English. By default (**Auto**) it follows the
+language of the station's company in Odoo; it can also be fixed per workstation profile.
 
 This module is the **generic foundation** every Terrabit Connect feature builds
 on: the connection layer, the job protocol, and the one job type that is pure

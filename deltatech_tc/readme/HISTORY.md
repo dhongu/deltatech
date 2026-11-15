@@ -1,3 +1,11 @@
+## 19.0.1.2.7 (2026-11-15)
+
+- The heartbeat answer (`/tc/heartbeat`) carries `lang`, the language of the station company's
+  partner (`en_US` when it has none). Terrabit Connect set to **Auto** uses it for its
+  interface: Romanian for `ro_*`, English otherwise. Older agents ignore the key.
+- Docs: the agent's interface is available in Romanian and English; the consultant sheet covers
+  the language in the initial setup, the first heartbeat and the checks, and shows the app screenshots.
+
 ## 19.0.1.2.6 (2026-11-15)
 
 - Docs: screenshots of the Terrabit Connect app (main window, job queue, settings) in the
