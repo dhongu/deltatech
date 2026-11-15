@@ -1,3 +1,9 @@
+# 19.0.1.2.0
+
+- A request created with a status (*Done*) is not sent to the server: a service module records with it
+  a charge the server reported otherwise (e.g. the ANAF authorization of `l10n_ro_anaf_token_online`),
+  so it shows in **Credit Usage**.
+
 # 19.0.1.1.0
 
 - **Credit Usage**: each request keeps the credits it used and the credits left after it, as the
