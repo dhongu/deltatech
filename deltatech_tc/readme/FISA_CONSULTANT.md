@@ -237,7 +237,9 @@ Regenerare:
 - Cheia API este o parolă; după o compromitere folosiți **Regenerează cheia**.
 - Marcajul **Simulare** vine de la stație, nu se poate pune sau scoate din Odoo.
 - Numele jobului (de exemplu `#3 HTTP request (LAN)`) rămâne în engleză; tipul din coloana **Tip job** este tradus.
-- Interfața Terrabit Connect este în română (**Setări → Importă config**), indiferent de limba Odoo.
+- Interfața Terrabit Connect este în română sau engleză. Implicit (**Setări → Aspect → Limbă → Auto**)
+  urmează limba partenerului companiei stației din Odoo (română pentru `ro_RO`, engleză altfel);
+  **Română** sau **English** o fixează pe profilul stației.
 - Parametrii cozii (termenul de preluare, numărul de încercări, păstrarea joburilor) sunt descriși în
   `readme/CONFIGURE.md`.
 
