@@ -76,6 +76,11 @@ Nu se folosesc conturi contabile. Date minime pentru demo:
 
    ![Fereastra principală Terrabit Connect: serviciul TC rulează, conexiunea Odoo și tokenul deblocat sunt marcate Conectat, coada Joburi ANAF / SPV are 2 joburi în lucru și 1 eroare](../static/description/11_tc_app_principal.png)
 
+5. Verificați limba partenerului companiei (**Contacte → compania → Preferințe → Limbă**): cu limba
+   aplicației pe **Auto** (implicit), Terrabit Connect pornește în română pentru `ro_RO` și în engleză
+   pentru orice altă limbă. Odoo trimite limba la fiecare heartbeat; dacă partenerul nu are limbă,
+   trimite `en_US`.
+
 ## 6. Flux de utilizare
 
 ### Pasul 1 — Lista stațiilor
@@ -105,9 +110,15 @@ TERRABIT_STATION_KEY=<cheia stației>
 ```
 
 Copiați fișierul pe calculatorul stației și importați-l în Terrabit Connect (**Setări → Importă
-config**). La pornire, stația trimite primul heartbeat: în dreapta formularului se completează
-**Văzut ultima dată**, **Versiune TC**, **Sistem de operare**, **Funcționalități** și **Driver
-fiscal**. Butonul **Joburi** de deasupra formularului deschide joburile stației.
+config**; în interfața în engleză, **Settings → Import config**). La pornire, stația trimite primul
+heartbeat: în dreapta formularului se completează **Văzut ultima dată**, **Versiune TC**, **Sistem de
+operare**, **Funcționalități** și **Driver fiscal**, iar în răspuns Odoo îi trimite limba partenerului
+companiei, după care aplicația (pe **Auto**) își alege limba interfeței. Butonul **Joburi** de
+deasupra formularului deschide joburile stației.
+
+![Setările Terrabit Connect: profilul de configurare Default, activ, pe firma-demo.odoo.com cu stație, și funcționalitățile Semnătură ANAF și Punte Odoo activate](../static/description/13_tc_app_setari.png)
+
+![Setările Terrabit Connect, conexiunea Odoo: instanța https://firma-demo.odoo.com, cheia API mascată, accesul din browser și secțiunea Token & ANAF](../static/description/14_tc_app_conexiune_odoo.png)
 
 ![Formularul stației PC Contabilitate: butoanele Ping și Descarcă config din antet (evidențiate 1 și 2), câmpurile Văzut ultima dată și Driver fiscal fiscalwire (evidențiate 3 și 4), alături de Versiune TC 1.8.2, Sistem de operare Windows 11 și Funcționalități anaf,fiscal,zebra; cheia API este afișată mascat](../static/description/02_formular_statie.png)
 
@@ -142,6 +153,10 @@ stația, **Tip job** și **Stare**:
 Filtrele **În așteptare**, **Preluat**, **Finalizat** și **Eroare** și grupările după stație, tip și
 stare ajută la urmărire. Un job rămâne **În așteptare** dacă pe stație nu e activată preluarea
 joburilor (`TERRABIT_POLL_JOBS=1`, vezi `CONFIGURE.md`).
+
+Pe calculatorul stației, aceeași coadă se vede în aplicație, la **Joburi ANAF / SPV**:
+
+![Coada de joburi din aplicația Terrabit Connect: o validare de declarație (DUK) în Eroare, o sincronizare de mesaje SPV În așteptare, o descărcare de document Preluat și o sincronizare SPV Finalizat](../static/description/12_tc_app_joburi.png)
 
 ![Lista Joburi Terrabit Connect: un job Ping Finalizat pe rând verde, o Cerere HTTP (rețea locală) în Eroare pe rând roșu, una Preluat pe rând estompat și un Ping În așteptare pe stația Casa 1 Magazin (test)](../static/description/04_lista_joburi.png)
 
@@ -191,6 +206,9 @@ preluării joburilor pe stație, lista aparatelor din rețea pe care stația le 
 - [ ] O stație cu Terrabit Connect în mod simulat are panglica **Simulare**, avertismentul galben cu
   aparatele simulate, **Driver fiscal** = `simulated` și textul rândului colorat în listă.
 - [ ] După scoaterea stației din simulare și un heartbeat nou, panglica și avertismentul dispar.
+- [ ] Cu limba aplicației pe **Auto** și partenerul companiei pe `ro_RO`, interfața Terrabit Connect
+  este în română; cu partenerul pe altă limbă (de exemplu `en_US`), după următorul heartbeat este în
+  engleză. **Română** sau **English** din **Setări → Aspect → Limbă** au prioritate față de Odoo.
 - [ ] Un utilizator cu rolul **Operator** nu vede meniul **Setări → Terrabit Connect**.
 - [ ] După **Regenerează cheia**, stația nu se mai conectează până la importul noului `station.conf`.
 - [ ] Un job în **Eroare** are mesajul în tab-ul **Eroare**, iar **Reîncearcă** îl readuce **În
@@ -222,6 +240,10 @@ engleză, pentru `readme/USAGE.md`, sunt în `static/description/en/`.
 | `03_statie_simulata.png` | Stația simulată: panglica Simulare, avertismentul și driverul `simulated` |
 | `04_lista_joburi.png` | Coada de joburi, cu joburi în toate stările |
 | `05_job_eroare.png` | Un job în Eroare, cu mesajul stației și butonul Reîncearcă |
+| `11_tc_app_principal.png` | Aplicația Terrabit Connect: fereastra principală (captură din aplicație, nu din test) |
+| `12_tc_app_joburi.png` | Aplicația Terrabit Connect: coada de joburi |
+| `13_tc_app_setari.png` | Aplicația Terrabit Connect: setări, profil și funcționalități |
+| `14_tc_app_conexiune_odoo.png` | Aplicația Terrabit Connect: setări, conexiunea Odoo |
 
 Regenerare:
 
@@ -237,7 +259,8 @@ Regenerare:
 - Cheia API este o parolă; după o compromitere folosiți **Regenerează cheia**.
 - Marcajul **Simulare** vine de la stație, nu se poate pune sau scoate din Odoo.
 - Numele jobului (de exemplu `#3 HTTP request (LAN)`) rămâne în engleză; tipul din coloana **Tip job** este tradus.
-- Interfața Terrabit Connect este în română sau engleză. Implicit (**Setări → Aspect → Limbă → Auto**)
+- Interfața Terrabit Connect este în română sau engleză, deci etichetele meniurilor ei (de exemplu
+  **Setări → Importă config** / **Settings → Import config**) depind de limba aleasă. Implicit (**Setări → Aspect → Limbă → Auto**)
   urmează limba partenerului companiei stației din Odoo (română pentru `ro_RO`, engleză altfel);
   **Română** sau **English** o fixează pe profilul stației.
 - Parametrii cozii (termenul de preluare, numărul de încercări, păstrarea joburilor) sunt descriși în
