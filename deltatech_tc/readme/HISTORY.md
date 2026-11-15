@@ -1,3 +1,10 @@
+## 20.0.1.2.6 (2026-11-15)
+
+- Docs: screenshots of the Terrabit Connect app (main window, job queue, settings) in the
+  description, the configuration section and the consultant sheet. The download address is now written out in
+  full, because the Odoo Apps page turns links in the description into plain text. No code
+  change.
+
 ## 20.0.1.2.5 (2026-11-15)
 
 - Port of 19.0.1.2.5.
