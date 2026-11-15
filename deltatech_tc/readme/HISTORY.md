@@ -1,5 +1,6 @@
-## 20.0.1.2.5 (2026-11-07)
+## 20.0.1.2.5 (2026-11-15)
 
+- Port of 19.0.1.2.5.
 - The station shows the fiscal driver and the devices Terrabit Connect simulates (from the
   heartbeat): a **Simulation** ribbon and a warning on the form, highlighted rows in the list.
 - Consultant sheet (`readme/FISA_CONSULTANT.md`), usage with screenshots, and the test that
