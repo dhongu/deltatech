@@ -43,6 +43,10 @@ without a restart.
 No other network configuration is required: the agent initiates all connections
 outbound to Odoo (no inbound port needs to be opened on the client side).
 
+![Terrabit Connect settings: configuration profile Default, active, on firma-demo.odoo.com with a station, and the features ANAF signature and Odoo bridge enabled](static/description/13_tc_app_setari.png)
+
+![Terrabit Connect settings, Odoo connection: Odoo instance https://firma-demo.odoo.com, the API key masked, browser access and the token / ANAF section](static/description/14_tc_app_conexiune_odoo.png)
+
 ## Job polling and heartbeat (workstation side)
 
 The heartbeat runs on its own: once at start-up, then every 300 seconds. **Job
