@@ -16,11 +16,14 @@ Terrabit Connect - Base
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_tc
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-42%20automated%20tests%20%C2%B7%2084%25%20code%20coverage-2ea44f.png
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_tc/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-45%20automated%20tests%20%C2%B7%2084%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_tc
-    :alt: 42 automated tests · 84% code coverage
+    :alt: 45 automated tests · 84% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 Base module for **Terrabit Connect** — the lightweight native agent that
 runs on a workstation and bridges Odoo with local hardware and services
@@ -255,15 +258,25 @@ Usage
 Registering a station
 ---------------------
 
-1. Go to **Settings → Terrabit Connect → Stations**.
+1. Go to **Settings → Terrabit Connect → Stations**. The list shows, for
+   each station, when it was **Last Seen**, its **TC Version** and
+   whether it runs in **Simulation** (highlighted rows).
+
+   |Terrabit Connect Stations list: PC Contabilitate and Casa 1 Magazin
+   (test), the latter highlighted with Simulation ticked|
+
 2. Click **New** and give the station a descriptive name (e.g.
    ``Accounting PC``).
+
 3. Select the company the station belongs to (multi-company
    installations).
+
 4. Save. An **API Key** is generated automatically and is visible to
    administrators only (shown masked in the form).
+
 5. Click **Download config** (download icon in the header) — Odoo serves
    a pre-filled ``station.conf`` file containing:
+
    ::
 
       TERRABIT_ODOO_BASE=<your Odoo URL>
@@ -273,6 +286,10 @@ Registering a station
    Connect (**Setări → Importă config**). The agent authenticates with
    the ``X-Station-Key`` header on every call.
 
+   |Station form PC Contabilitate: Ping and Download config in the
+   header, Last Seen, TC Version 1.8.2, Operating System Windows 11,
+   Features and Fiscal Driver fiscalwire|
+
 Verifying connectivity
 ----------------------
 
@@ -280,7 +297,7 @@ Once Terrabit Connect is running with the downloaded config:
 
 1. Open the station form (**Settings → Terrabit Connect → Stations**,
    click the station).
-2. The **Last seen** field updates at the first heartbeat, sent as soon
+2. The **Last Seen** field updates at the first heartbeat, sent as soon
    as the agent starts, and then at every heartbeat or job poll.
 3. Click **Ping** in the header to enqueue a round-trip test job. The
    job appears in the **Jobs** smart button and reaches state ``Done``
@@ -289,12 +306,27 @@ Once Terrabit Connect is running with the downloaded config:
 4. Terrabit Connect managers also receive a browser notification when
    the agent sends a manual heartbeat.
 
+Simulated stations
+------------------
+
+When Terrabit Connect runs in simulation mode, the station reports at
+every heartbeat the fiscal driver ``simulated`` and the simulated
+devices: ``fiscal`` for the cash register and ``terminal:<id>`` for each
+card terminal. The station form then shows a **Simulation** ribbon and a
+warning listing the simulated devices; receipts and card payments made
+through them are not real. The marking comes from the station: it
+disappears on its own at the first heartbeat sent without simulated
+devices.
+
+|Station form Casa 1 Magazin (test): Simulation ribbon, the warning with
+the simulated devices fiscal,terminal:demo and Fiscal Driver simulated|
+
 Monitoring jobs
 ---------------
 
 Navigate to **Settings → Terrabit Connect → Jobs** to see all jobs
-across all stations. You can filter by state (``Pending``, ``Done``,
-``Error``) or group by station or job type.
+across all stations. You can filter by state (``Pending``, ``Claimed``,
+``Done``, ``Error``) or group by station or job type.
 
 The job list uses colour coding:
 
@@ -302,6 +334,14 @@ The job list uses colour coding:
 - Red row — ``Error`` (open the form to read the error detail)
 - Muted row — ``Claimed`` (the station picked it up; result not yet
   reported)
+
+|Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN)
+in Error (red), one Claimed (muted) and a Ping Pending|
+
+Open a job to read its **Payload**, **Result** and **Error** tabs.
+
+|An HTTP request (LAN) job in Error, Error tab open with the message
+returned by the station, Retry button in the header|
 
 Lost results and retries
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -380,19 +420,37 @@ Adding feature modules
 This base module does not talk to any device by itself. Install the
 relevant Terrabit Connect feature module (e.g. ANAF messages, fiscal
 printer, Zebra labels, DUKIntegrator) to activate additional job types.
-They appear automatically in the **Type** column of the job list once
-the feature module is installed.
+They appear automatically in the **Job Type** column of the job list
+once the feature module is installed.
+
+.. |Terrabit Connect Stations list: PC Contabilitate and Casa 1 Magazin (test), the latter highlighted with Simulation ticked| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/01_lista_statii.png
+.. |Station form PC Contabilitate: Ping and Download config in the header, Last Seen, TC Version 1.8.2, Operating System Windows 11, Features and Fiscal Driver fiscalwire| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/02_formular_statie.png
+.. |Station form Casa 1 Magazin (test): Simulation ribbon, the warning with the simulated devices fiscal,terminal:demo and Fiscal Driver simulated| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/03_statie_simulata.png
+.. |Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN) in Error (red), one Claimed (muted) and a Ping Pending| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/04_lista_joburi.png
+.. |An HTTP request (LAN) job in Error, Error tab open with the message returned by the station, Retry button in the header| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/05_job_eroare.png
 
 Changelog
 =========
 
-20.0.1.2.5 (2026-11-15)
+20.0.1.2.6 (2026-11-15)
 -----------------------
 
 - Docs: screenshots of the Terrabit Connect app (main window, job queue,
-  settings) in the description and the configuration section. The
-  download address is now written out in full, because the Odoo Apps
-  page turns links in the description into plain text. No code change.
+  settings) in the description, the configuration section and the
+  consultant sheet. The download address is now written out in full,
+  because the Odoo Apps page turns links in the description into plain
+  text. No code change.
+
+20.0.1.2.5 (2026-11-15)
+-----------------------
+
+- Port of 19.0.1.2.5.
+- The station shows the fiscal driver and the devices Terrabit Connect
+  simulates (from the heartbeat): a **Simulation** ribbon and a warning
+  on the form, highlighted rows in the list.
+- Consultant sheet (``readme/FISA_CONSULTANT.md``), usage with
+  screenshots, and the test that generates them
+  (``tests/test_screenshots.py``).
 
 20.0.1.2.4 (2026-10-11)
 -----------------------

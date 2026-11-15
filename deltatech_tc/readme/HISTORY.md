@@ -1,9 +1,17 @@
-## 20.0.1.2.5 (2026-11-15)
+## 20.0.1.2.6 (2026-11-15)
 
 - Docs: screenshots of the Terrabit Connect app (main window, job queue, settings) in the
-  description and the configuration section. The download address is now written out in
+  description, the configuration section and the consultant sheet. The download address is now written out in
   full, because the Odoo Apps page turns links in the description into plain text. No code
   change.
+
+## 20.0.1.2.5 (2026-11-15)
+
+- Port of 19.0.1.2.5.
+- The station shows the fiscal driver and the devices Terrabit Connect simulates (from the
+  heartbeat): a **Simulation** ribbon and a warning on the form, highlighted rows in the list.
+- Consultant sheet (`readme/FISA_CONSULTANT.md`), usage with screenshots, and the test that
+  generates them (`tests/test_screenshots.py`).
 
 ## 20.0.1.2.4 (2026-10-11)
 
