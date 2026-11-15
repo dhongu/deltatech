@@ -62,8 +62,29 @@ directly from the cloud: the ANAF token (PKCS#11 / mTLS to SPV), fiscal printers
 (Datecs), label printers (Zebra ZPL) and declaration validation (DUKIntegrator).</p>
 <p>Terrabit Connect is a desktop application for Windows, macOS and Linux, built
 with Tauri (Rust core, the operating system's own web view). Installers and signed
-automatic updates are published at
-<a href="https://github.com/dhongu/terrabit-connect-releases/releases/latest">terrabit-connect-releases</a>.</p>
+automatic updates are published at:</p>
+<p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">https://github.com/dhongu/terrabit-connect-releases/releases/latest</code></p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Terrabit Connect main window: the TC service running, the Odoo connection and the unlocked token marked Connected, the ANAF / SPV job queue with 2 jobs in progress and 1 error, and the quick actions Open Odoo and Sync SPV" src="11_tc_app_principal.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Terrabit Connect main window: the TC service running, the Odoo connection and the unlocked token marked Connected, the ANAF / SPV job queue with 2 jobs in progress and 1 error, and the quick actions Open Odoo and Sync SPV</span>
+  </div>
+</div>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Terrabit Connect job queue: a declaration validation (DUK) in Error, an SPV message sync Pending, a document download Claimed and a finished SPV sync" src="12_tc_app_joburi.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">2</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Terrabit Connect job queue: a declaration validation (DUK) in Error, an SPV message sync Pending, a document download Claimed and a finished SPV sync</span>
+  </div>
+</div>
+<p>The agent's interface is in Romanian.</p>
 <p>This module is the <strong>generic foundation</strong> every Terrabit Connect feature builds
 on: the connection layer, the job protocol, and the one job type that is pure
 transport rather than a specific device &#8212; an HTTP call inside the customer's
@@ -160,6 +181,26 @@ the workstation (<code class="border rounded px-2" style="font-family:ui-monospa
 without a restart.
 No other network configuration is required: the agent initiates all connections
 outbound to Odoo (no inbound port needs to be opened on the client side).</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Terrabit Connect settings: configuration profile Default, active, on firma-demo.odoo.com with a station, and the features ANAF signature and Odoo bridge enabled" src="13_tc_app_setari.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Terrabit Connect settings: configuration profile Default, active, on firma-demo.odoo.com with a station, and the features ANAF signature and Odoo bridge enabled</span>
+  </div>
+</div>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Terrabit Connect settings, Odoo connection: Odoo instance https://firma-demo.odoo.com, the API key masked, browser access and the token / ANAF section" src="14_tc_app_conexiune_odoo.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">2</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Terrabit Connect settings, Odoo connection: Odoo instance https://firma-demo.odoo.com, the API key masked, browser access and the token / ANAF section</span>
+  </div>
+</div>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Job polling and heartbeat (workstation <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">side)</span></h2>
 <p>The heartbeat runs on its own: once at start-up, then every 300 seconds. <strong>Job
 polling is off until you turn it on</strong> in the station profile:</p>
@@ -394,6 +435,13 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.2.6 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-15)</span></h2>
+<ul>
+<li>Docs: screenshots of the Terrabit Connect app (main window, job queue, settings) in the
+  description and the configuration section. The download address is now written out in
+  full, because the Odoo Apps page turns links in the description into plain text. No code
+  change.</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.2.5 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-07)</span></h2>
 <ul>
 <li>The station shows the fiscal driver and the devices Terrabit Connect simulates (from the
@@ -457,18 +505,6 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
 <li>Fix: added the missing <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bus</code> dependency. The manual heartbeat notification
   uses <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">self.env["bus.bus"]._sendone()</code>, which is defined in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bus</code>. The module
   only worked when another addon in the same database brought <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bus</code> in.</li>
-</ul>
-<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.1.0 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-08-11)</span></h2>
-<ul>
-<li><strong>New job type <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">http_request</code></strong> &#8212; the station performs an HTTP call inside the customer's local
-  network on Odoo's behalf, so cloud-hosted Odoo can reach devices that answer only on the LAN
-  (sorting lines, scales, PLCs, label servers) without a VPN, a fixed IP or an inbound port.</li>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_enqueue_http()</code> helper, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">response_dict()</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">response_json()</code> readers, payload validation
-  (scheme, host, HTTP method).</li>
-<li>Callbacks: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_process_result</code> now invokes <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">(record, method)</code> registered on the job. Only methods
-  prefixed <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_</code> may be called, checked both when queuing and at call time.</li>
-<li>The allow-list of reachable hosts is configured on the workstation
-  (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TERRABIT_HTTP_ALLOW</code>), never from Odoo.</li>
 </ul>
 <p><em>Older releases are listed in the module's HISTORY file.</em></p>
 </div>

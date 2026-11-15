@@ -33,8 +33,20 @@ declaration validation (DUKIntegrator).
 
 Terrabit Connect is a desktop application for Windows, macOS and Linux,
 built with Tauri (Rust core, the operating system's own web view).
-Installers and signed automatic updates are published at
-`terrabit-connect-releases <https://github.com/dhongu/terrabit-connect-releases/releases/latest>`__.
+Installers and signed automatic updates are published at:
+
+``https://github.com/dhongu/terrabit-connect-releases/releases/latest``
+
+|Terrabit Connect main window: the TC service running, the Odoo
+connection and the unlocked token marked Connected, the ANAF / SPV job
+queue with 2 jobs in progress and 1 error, and the quick actions Open
+Odoo and Sync SPV|
+
+|Terrabit Connect job queue: a declaration validation (DUK) in Error, an
+SPV message sync Pending, a document download Claimed and a finished SPV
+sync|
+
+The agent's interface is in Romanian.
 
 This module is the **generic foundation** every Terrabit Connect feature
 builds on: the connection layer, the job protocol, and the one job type
@@ -80,6 +92,9 @@ Callbacks are restricted to methods whose name starts with **``_tc_``**.
 The method name is stored in the database, so without that rule a
 modified record could call any ORM method. The prefix also makes
 "reachable from a job" a property you can grep for.
+
+.. |Terrabit Connect main window: the TC service running, the Odoo connection and the unlocked token marked Connected, the ANAF / SPV job queue with 2 jobs in progress and 1 error, and the quick actions Open Odoo and Sync SPV| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_tc/static/description/11_tc_app_principal.png
+.. |Terrabit Connect job queue: a declaration validation (DUK) in Error, an SPV message sync Pending, a document download Claimed and a finished SPV sync| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_tc/static/description/12_tc_app_joburi.png
 
 **Table of contents**
 
@@ -151,6 +166,14 @@ in the active profile of the workstation
 a restart. No other network configuration is required: the agent
 initiates all connections outbound to Odoo (no inbound port needs to be
 opened on the client side).
+
+|Terrabit Connect settings: configuration profile Default, active, on
+firma-demo.odoo.com with a station, and the features ANAF signature and
+Odoo bridge enabled|
+
+|Terrabit Connect settings, Odoo connection: Odoo instance|
+https://firma-demo.odoo.com\ |, the API key masked, browser access and
+the token / ANAF section|
 
 Job polling and heartbeat (workstation side)
 --------------------------------------------
@@ -225,6 +248,10 @@ job actually needs.
 The server applies a 60-second throttle on ``last_seen`` writes to
 reduce database load when many stations are polling frequently; online
 detection remains accurate within the throttle window.
+
+.. |Terrabit Connect settings: configuration profile Default, active, on firma-demo.odoo.com with a station, and the features ANAF signature and Odoo bridge enabled| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_tc/static/description/13_tc_app_setari.png
+.. |Terrabit Connect settings, Odoo connection: Odoo instance| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_tc/static/description/14_tc_app_conexiune_odoo.png
+.. |, the API key masked, browser access and the token / ANAF section| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_tc/static/description/14_tc_app_conexiune_odoo.png
 
 Usage
 =====
@@ -405,6 +432,14 @@ once the feature module is installed.
 
 Changelog
 =========
+
+19.0.1.2.6 (2026-11-15)
+-----------------------
+
+- Docs: screenshots of the Terrabit Connect app (main window, job queue,
+  settings) in the description and the configuration section. The
+  download address is now written out in full, because the Odoo Apps
+  page turns links in the description into plain text. No code change.
 
 19.0.1.2.5 (2026-11-07)
 -----------------------

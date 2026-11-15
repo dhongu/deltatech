@@ -71,8 +71,10 @@ Nu se folosesc conturi contabile. Date minime pentru demo:
    automat).
 3. Verificați parametrul de sistem `web.base.url` (**Setări → Tehnic → Parametri → Parametri
    sistem**): este adresa Odoo scrisă în `station.conf`.
-4. Instalați Terrabit Connect pe calculatorul clientului (kiturile de instalare sunt publicate pe
-   [terrabit-connect-releases](https://github.com/dhongu/terrabit-connect-releases/releases/latest)).
+4. Instalați Terrabit Connect pe calculatorul clientului. Kiturile de instalare sunt publicate la
+   `https://github.com/dhongu/terrabit-connect-releases/releases/latest`.
+
+   ![Fereastra principală Terrabit Connect: serviciul TC rulează, conexiunea Odoo și tokenul deblocat sunt marcate Conectat, coada Joburi ANAF / SPV are 2 joburi în lucru și 1 eroare](../static/description/11_tc_app_principal.png)
 
 ## 6. Flux de utilizare
 
