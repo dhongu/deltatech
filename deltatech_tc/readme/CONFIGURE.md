@@ -36,10 +36,15 @@ The downloaded file contains two environment variables consumed by Terrabit Conn
 | `TERRABIT_ODOO_BASE` | Base URL of the Odoo instance (e.g. `https://yourcompany.odoo.com`) |
 | `TERRABIT_STATION_KEY` | The station's API key — treat it as a secret |
 
-In Terrabit Connect, import `station.conf` from **Setări → Importă config** (the
-agent's interface is in Romanian). The values are stored in the active profile of
+In Terrabit Connect, import `station.conf` from **Settings → Import config**
+(**Setări → Importă config** in the Romanian interface). The values are stored in the active profile of
 the workstation (`~/.terrabit-anaf-agent/profiles/<profile>.conf`) and applied
 without a restart.
+
+The agent's interface language is set in **Settings → Appearance → Language**:
+**Auto** (default) follows the language of the station company's partner, sent by
+Odoo in the heartbeat answer (Romanian for `ro_RO`, English otherwise); **Română**
+or **English** fix it for the workstation profile (`TERRABIT_LANG=ro` / `en`).
 No other network configuration is required: the agent initiates all connections
 outbound to Odoo (no inbound port needs to be opened on the client side).
 

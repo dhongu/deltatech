@@ -54,6 +54,17 @@ class TestDeltatechTc(HttpCase):
         self.assertEqual(self.station.os, "macOS")
         self.assertEqual(self.station.features, "anaf,fiscal")
 
+    def test_heartbeat_returns_company_lang(self):
+        """The agent takes its interface language from the station company's partner."""
+        partner = self.station.company_id.partner_id
+        self.env["res.lang"]._activate_lang("ro_RO")
+        partner.lang = "ro_RO"
+        res = self._post("/tc/heartbeat", {}, key=self.station.api_key)
+        self.assertEqual(res.json()["lang"], "ro_RO")
+        partner.lang = False
+        res = self._post("/tc/heartbeat", {}, key=self.station.api_key)
+        self.assertEqual(res.json()["lang"], "en_US", "no language on the company falls back to English")
+
     def test_heartbeat_stores_simulation(self):
         """The simulated devices are shown on the station, and cleared when the agent leaves simulation."""
         body = {"version": "1.6.24", "fiscal_driver": "simulated", "simulated": ["fiscal", "terminal:demo"]}

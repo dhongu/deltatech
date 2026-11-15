@@ -38,7 +38,16 @@ class DeltatechTcController(http.Controller):
         station._touch(info=body)
         if body.get("manual"):
             station._notify_manual_heartbeat()
-        return self._json({"ok": True, "station": station.name, "company": station.company_id.name})
+        # `lang` drives the agent's interface language when it is set to Auto. Older
+        # agents ignore the extra key.
+        return self._json(
+            {
+                "ok": True,
+                "station": station.name,
+                "company": station.company_id.name,
+                "lang": station.company_id.partner_id.lang or "en_US",
+            }
+        )
 
     @http.route("/tc/poll", type="http", auth="none", methods=["POST"], csrf=False, readonly=False)
     def poll(self, **kw):
