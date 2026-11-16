@@ -105,3 +105,41 @@ class TestSaleMerge(SaleCommon):
         so1.order_line.tax_ids = False
         self._merge(so1 | so2)
         self.assertEqual(len(so1.order_line), 2)
+
+    def test_signed_blocked(self):
+        so1 = self._order([(self.product, 1)])
+        so2 = self._order([(self.product, 1)])
+        png = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGNgYGD4DwABBAEAHnOcQAAAAABJRU5ErkJggg=="
+        so2.signature = png
+        with self.assertRaises(UserError):
+            self._merge(so1 | so2)
+        self.assertEqual(so1.state, "draft")
+
+    def test_online_payment_started_blocked(self):
+        so1 = self._order([(self.product, 1)])
+        so2 = self._order([(self.product, 1)])
+        provider = self.env["payment.provider"].create({"name": "Merge test", "code": "none"})
+        method = self.env["payment.method"].create({"name": "Merge method", "code": "mergetest"})
+        tx = self.env["payment.transaction"].create(
+            {
+                "provider_id": provider.id,
+                "payment_method_id": method.id,
+                "amount": 1.0,
+                "currency_id": so2.currency_id.id,
+                "partner_id": self.partner.id,
+                "reference": "MERGE-TEST",
+                "state": "pending",
+            }
+        )
+        so2.transaction_ids = [Command.set(tx.ids)]
+        with self.assertRaises(UserError):
+            self._merge(so1 | so2)
+        self.assertEqual(so1.state, "draft")
+
+    def test_different_company_blocked(self):
+        so1 = self._order([(self.product, 1)])
+        company = self.env["res.company"].create({"name": "Other merge company"})
+        so2 = self._order([(self.product, 1)], company_id=company.id)
+        with self.assertRaises(UserError):
+            self._merge(so1 | so2)
+        self.assertEqual(so1.state, "draft")
