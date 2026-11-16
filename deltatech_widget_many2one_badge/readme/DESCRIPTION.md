@@ -12,6 +12,13 @@ Features
 - ✅ Compatible with the standard Odoo colors (1–11 from the picker, 0 for no color)
 - ✅ Modern rounded badge design
 
+Odoo Online
+===========
+
+The module contains no Python code, only JavaScript, a QWeb template and a style sheet. Besides
+Odoo.sh and on-premise installations, it can be used on Odoo Online (Custom plan): download the zip
+and load it from **Apps > Import Module**.
+
 Installation
 ============
 

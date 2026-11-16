@@ -9,7 +9,7 @@
       <div>
         <span class="d-inline-block rounded-pill fw-bold me-2 mb-2" style="background-color:#ffffff;border:1px solid #ffffff;color:#006F42;padding:6px 14px;font-size:12px;"><span class="fa fa-check-circle" style="margin-right:6px;" aria-hidden="true"></span>Odoo 19.0</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;"><span class="fa fa-folder-open-o" style="margin-right:6px;" aria-hidden="true"></span>Website</span>
-        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;"><span class="fa fa-cloud" style="margin-right:6px;" aria-hidden="true"></span>Odoo.sh &bull; On-premise</span>
+        <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px solid #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;"><span class="fa fa-cloud" style="margin-right:6px;" aria-hidden="true"></span>Odoo Online &bull; Odoo.sh &bull; On-premise</span>
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px dashed #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;"><span class="fa fa-balance-scale" style="margin-right:6px;" aria-hidden="true"></span>LGPL-3</span>
       </div>
     </div>
@@ -48,28 +48,86 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</span></div>
+
+<div class="rounded-4 border shadow-sm p-2 mb-4" style="background-color:#f4f8f4;">
+  <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" src="en/demo.gif" alt="Animated demo of the module" loading="lazy"/>
+</div>
 <p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">The placeholder of a website search box types example searches, one after another: each
 example is typed letter by letter, held for a moment, erased, and the next one follows.
 Visitors see at a glance what they can search for: a part code, a product name, a topic
 from the user guides.</p>
 <p><strong>Features:</strong></p>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-search" style="" aria-hidden="true"></span></span><div>Opt-in per search box: only the search forms that carry examples are animated. Installing
-  the module changes nothing else on the website.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-search" style="" aria-hidden="true"></span></span><div>The examples are plain text inside the search form, so they are translated with the page
-  and can be edited like any other text.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-sliders" style="" aria-hidden="true"></span></span><div>An optional prefix stays in front of every example (for instance "e.g. ").</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div>The animation stops for good as soon as the visitor clicks in the box or starts typing, and
+  the module changes nothing else on the website.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-globe" style="" aria-hidden="true"></span></span><div>The examples are edited in the Website Builder panel and saved as plain text inside the search
+  form: each example is a translation term of its own.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-sliders" style="" aria-hidden="true"></span></span><div>An optional prefix stays in front of every example (for instance "e.g. ").</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div>The animation stops for good as soon as the visitor clicks in the box or starts typing, and
   the original placeholder comes back.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-sliders" style="" aria-hidden="true"></span></span><div>It does not run when the visitor asked the system for reduced motion
   (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">prefers-reduced-motion</code>), and it stops if that setting is turned on during the visit.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-search" style="" aria-hidden="true"></span></span><div>It waits while the browser tab is hidden or the search box is scrolled out of view.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-search" style="" aria-hidden="true"></span></span><div>The search box keeps a stable accessible name: when the box has no label, the original
   placeholder is set as its <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">aria-label</code>, so screen readers do not read every changing letter.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-search" style="" aria-hidden="true"></span></span><div>It works with the standard search snippet and with the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">website.website_search_box_input</code>
   template, next to the standard autocomplete dropdown.</div></div></li></ul>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Odoo <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">Online</span></h2>
+<p>The module contains no Python code, only JavaScript and a Website Builder option template. Besides
+Odoo.sh and on-premise installations, it can be used on Odoo Online (Custom plan): download the zip
+and load it from <strong>Apps &gt; Import Module</strong>.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</span></div>
-<p>Add the examples inside the search form, as a hidden list with the class
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">o_searchbar_typing</code>. Each item is one example; the optional item with the class
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">o_searchbar_typing_prefix</code> is shown in front of every example, followed by a space.
-Use list items (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">li</code>), not <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">span</code>: Odoo translates each list item as a term of its own,
-while a group of inline elements is translated as one block of HTML.</p>
+<p>The module has no menus or settings: the examples are turned on per search box, in the Website
+Builder.</p>
+<ol>
+<li>In the <strong>Website</strong> app, open the page with the search box and click <strong>Edit</strong>. Click the search
+   box: the <strong>Search</strong> group of the <strong>Style</strong> tab shows the <strong>Typing examples</strong> switch. Turn it on,
+   then edit the <strong>Prefix</strong> (leave it empty for none) and the <strong>Examples</strong>: add, remove or drag them
+   to change the order. Click <strong>Save</strong>.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Website Builder on the Search the help center page: the search box is selected; in the Search group of the right panel, the Typing examples switch is on, the prefix is e.g. and the Examples list holds e-Invoice, bank statement import and credit note" src="en/01_editor_exemple_tastate.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Website Builder on the Search the help center page: the search box is selected; in the Search group of the right panel, the Typing examples switch is on, the prefix is e.g. and the Examples list holds e-Invoice, bank statement import and credit note</span>
+  </div>
+</div>
+<ol start="2">
+<li>Open the page on the website, outside the editor. After about a second and a half, the
+   placeholder types the first example with the prefix in front, holds it, erases it and types the
+   next one.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="The Search the help center page on the website: the highlighted search box shows the placeholder e.g. e-Invoice, typed by the animation" src="en/02_exemplu_tastat.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">2</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">The Search the help center page on the website: the highlighted search box shows the placeholder e.g. e-Invoice, typed by the animation</span>
+  </div>
+</div>
+<ol start="3">
+<li>Click in the search box or start typing: the animation stops for good on that page and the
+   original placeholder comes back.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="The same page after a click in the highlighted search box: the placeholder is back to Search the help center... and the animation has stopped" src="en/03_oprire_la_click.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">3</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">The same page after a click in the highlighted search box: the placeholder is back to Search the help center... and the animation has stopped</span>
+  </div>
+</div>
+<p>The animation runs only on the website, not in the editor. The option writes the examples in the
+form as a hidden list with the class <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">o_searchbar_typing</code>; the optional item with the class
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">o_searchbar_typing_prefix</code> is shown in front of every example, followed by a space.</p>
+<p><strong>Translations.</strong> Each example and the prefix are translation terms of their own. The list is
+hidden, so the translation mode of the Website Builder does not show it: translate the examples from
+the page view, in developer mode (<strong>Settings &gt; Technical &gt; User Interface &gt; Views</strong>, the view of
+the page, <strong>Architecture</strong> tab, translation button of the field).</p>
 <p>In a QWeb template that calls <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">website.website_search_box_input</code>, the body of the call is
-placed inside the form:</p>
+placed inside the form. Use list items (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">li</code>), not <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">span</code>: Odoo translates each list item as a term
+of its own, while a group of inline elements is translated as one block of HTML.</p>
 <pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-xml">&lt;t t-call=&quot;website.website_search_box_input&quot;&gt;
     &lt;t t-set=&quot;search_type&quot; t-valuef=&quot;all&quot;/&gt;
     &lt;t t-set=&quot;action&quot; t-valuef=&quot;/website/search&quot;/&gt;
@@ -82,10 +140,6 @@ placed inside the form:</p>
     &lt;/ul&gt;
 &lt;/t&gt;
 </code></pre>
-<p>On a search box placed with the Website Builder, select the search input and turn on
-<strong>Typing examples</strong> in the panel. Edit the <strong>Prefix</strong> (leave it empty for none) and the
-<strong>Examples</strong>: add, remove or drag them to change the order. The option writes the same hidden
-list in the form.</p>
 <p>The speed can be changed with data attributes on the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">o_searchbar_typing</code> element, in
 milliseconds: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">data-start-delay</code> (1500, before the first letter), <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">data-type-delay</code> (70, per
 typed letter), <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">data-hold-delay</code> (1800, how long a full example stays), <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">data-erase-delay</code>
@@ -94,6 +148,20 @@ typed letter), <code class="border rounded px-2" style="font-family:ui-monospace
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.2.0 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-16)</span></h2>
+<ul>
+<li>Data-only module, importable on Odoo Online (Custom plan) from <strong>Apps &gt; Import Module</strong>: the
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">__init__.py</code> files and the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests/</code> folder were removed, because Odoo Apps treats any <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.py</code>
+  file as Python code and does not list the module as available on Odoo Online.</li>
+<li>The Python runner of the JavaScript tests (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests/test_js.py</code>) was removed; the Hoot tests stay in
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">static/tests/</code> and run with the web unit tests
+  (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/web/tests?filter=@deltatech_website_searchbar_typing</code>).</li>
+<li>The asset paths are listed file by file: an imported module rejects glob wildcards in asset
+  paths.</li>
+<li>Consultant sheet (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/FISA_CONSULTANT.md</code>) and usage with screenshots of the Website Builder
+  option and of the website, plus the demo GIF of the Apps Store page. The usage explains how the
+  examples are translated: the list is hidden, so they are translated from the page view.</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.1.1 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-14)</span></h2>
 <ul>
 <li>Apps Store banner: the "Odoo Online" badge shows that the module has no Python code and installs on
