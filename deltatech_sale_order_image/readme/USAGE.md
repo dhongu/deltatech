@@ -8,3 +8,5 @@
    (Quotations & Orders). The option is on by default and is set per company.
 
 The image only appears on the printed document, not on the quotation form.
+
+Odoo 20 also has its own option, **Display Product Images** (same settings page), which prints the image inside the product cell. Do not enable both: with both on, the image is printed twice on the quotation or order. Pick one of the two.
