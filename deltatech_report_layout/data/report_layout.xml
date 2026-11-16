@@ -13,4 +13,22 @@
          <field name="sequence">102</field>
     </record>
 
+    <record id="report_layout_style3" model="report.layout">
+        <field name="view_id" ref="deltatech_report_layout.external_layout_style3" />
+        <field name="name">Style3 Band</field>
+        <field name="sequence">103</field>
+    </record>
+
+    <record id="report_layout_style4" model="report.layout">
+        <field name="view_id" ref="deltatech_report_layout.external_layout_style4" />
+        <field name="name">Style4 Modern</field>
+        <field name="sequence">104</field>
+    </record>
+
+    <record id="report_layout_style5" model="report.layout">
+        <field name="view_id" ref="deltatech_report_layout.external_layout_style5" />
+        <field name="name">Style5 Box</field>
+        <field name="sequence">105</field>
+    </record>
+
 </odoo>

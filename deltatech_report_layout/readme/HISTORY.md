@@ -1,3 +1,9 @@
+## 19.0.1.2.0 (2026-11-16)
+
+- Three new report layouts: Style3 Band (full-width colored header band, optional footer band),
+  Style4 Modern (logo left, title and company details right, colored total bar) and Style5 Box
+  (boxed centered title, colored table header). Colors follow the company's primary/secondary colors.
+
 ## 19.0.1.1.2 (2026-11-09)
 
 - The "(importable, Odoo Online)" suffix was removed from the module name. Odoo Apps already shows

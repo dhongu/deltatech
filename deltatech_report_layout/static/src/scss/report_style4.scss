@@ -1,0 +1,10 @@
+.o_table_style4 {
+    table:not(.o_ignore_layout_styling) {
+        tbody tr {
+            border-bottom: $border-width solid $gray-200;
+            td {
+                background-color: transparent;
+            }
+        }
+    }
+}
