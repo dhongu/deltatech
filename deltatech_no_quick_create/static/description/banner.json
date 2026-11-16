@@ -1,5 +1,6 @@
 {
   "title": "No Quick Create",
+  "online": true,
   "summary": "No empty records, also on Odoo Online",
   "icon": "grid",
   "features": [

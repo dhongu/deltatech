@@ -1,5 +1,6 @@
 {
   "title": "Invoice Product Filter",
+  "online": true,
   "summary": "Find invoices by product, also on Odoo Online",
   "icon": "file",
   "features": [
