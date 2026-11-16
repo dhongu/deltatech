@@ -58,20 +58,24 @@ class SaleOrder(models.Model):
                     break
 
             if new_phase and new_phase != order.phase_id:
-                # sudo: scrierea fazei; acțiunea fazei rulează apoi cu drepturile utilizatorului (vezi write)
-                order.sudo().phase_id = new_phase
+                # sudo doar pentru scrierea fazei; efectele (acțiune, confirmare, anulare) rulează cu drepturile
+                # utilizatorului, cheia din context e citită în write()
+                order.sudo().with_context(phase_actions_as_user=True).phase_id = new_phase
 
     def write(self, vals):
         res = super().write(vals)
         if "phase_id" in vals:
             for order in self:
-                phase = order.phase_id.sudo()  # citire; acțiunea rulează cu drepturile utilizatorului curent
+                phase = order.phase_id.sudo()  # citire: ir.rule pe fază
+                if self.env.context.get("phase_actions_as_user"):
+                    # scrierea a fost ridicată cu sudo în set_phase: efectele rulează ca utilizatorul curent
+                    order = order.with_user(self.env.user)
                 if phase.action_id:
-                    phase.action_id.with_user(self.env.user).with_context(
-                        active_id=order.id, active_model="sale.order"
-                    ).run()
+                    # acțiunea se rulează în mediul comenzii (al apelantului), nu în cel sudo al fazei
+                    action = order.env["ir.actions.server"].browse(phase.action_id.id)
+                    action.with_context(active_id=order.id, active_model="sale.order").run()
                 if phase.confirmed and order.state == "draft":
-                    order.with_user(self.env.user).with_context(skip_phase_update=True).action_confirm()
+                    order.with_context(skip_phase_update=True).action_confirm()
                 if phase.canceled and order.state != "cancel":
-                    order.with_user(self.env.user).with_context(skip_phase_update=True)._action_cancel()
+                    order.with_context(skip_phase_update=True)._action_cancel()
         return res
