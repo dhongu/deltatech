@@ -57,11 +57,13 @@ class ResPartner(models.Model):
             else:
                 conditions.append(SQL("lower(trim(email)) = %s", keys["email"]))
         if "phone" in use and keys["phone_key"]:
-            if keys["phone"] and self._partner_match_stored("phone_sanitized"):
+            # phone_sanitized is E.164 only when phonenumbers is installed: without the library
+            # phone_validation stores the number as it was typed ("0722 123 456")
+            if keys["phone"] and pm.phonenumbers and self._partner_match_stored("phone_sanitized"):
                 conditions.append(SQL("phone_sanitized = %s", keys["phone"]))
             else:
-                # without phone_validation the stored phones keep the format they were
-                # typed in: compare the national significant digits
+                # without phone_validation or phonenumbers the stored phones keep the format they
+                # were typed in: compare the national significant digits
                 conditions.append(SQL(r"right(regexp_replace(phone, '\D', '', 'g'), 9) = %s", keys["phone_key"]))
         return conditions
 

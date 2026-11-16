@@ -104,12 +104,23 @@ For developers. Add ``deltatech_partner_match`` to ``depends``, then:
 Changelog
 =========
 
+20.0.1.3.2 (2026-11-16)
+-----------------------
+
+- The phone key uses ``phone_sanitized`` only when the ``phonenumbers``
+  library is installed: without it ``phone_validation`` stores the
+  number as it was typed ("0722 123 456"), not in E.164, and no partner
+  was found by phone. The search then compares the national digits.
+
 20.0.1.3.1 (2026-11-14)
 -----------------------
 
 - Migration to Odoo 20.0. The VAT key also matches the *Company ID*
   (``RO_EN`` additional identifier): on 20.0 a company that is not a VAT
   payer has its CUI only there, with an empty Tax ID.
+- ``_find_similar_partners`` scores all the candidates before applying
+  ``limit``, so the best match is never cut by the default order of the
+  partners.
 
 19.0.1.3.1 (2026-10-28)
 -----------------------

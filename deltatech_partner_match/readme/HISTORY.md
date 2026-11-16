@@ -1,3 +1,9 @@
+## 20.0.1.3.2 (2026-11-16)
+
+- The phone key uses `phone_sanitized` only when the `phonenumbers` library is installed:
+  without it `phone_validation` stores the number as it was typed ("0722 123 456"), not in
+  E.164, and no partner was found by phone. The search then compares the national digits.
+
 ## 20.0.1.3.1 (2026-11-14)
 
 - Migration to Odoo 20.0. The VAT key also matches the *Company ID* (`RO_EN` additional
