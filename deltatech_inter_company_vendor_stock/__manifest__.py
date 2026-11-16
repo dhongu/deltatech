@@ -3,7 +3,7 @@
 {
     "name": "Deltatech Inter Company Stock",
     "summary": "Inter Company Stock",
-    "version": "18.0.1.0.1",
+    "version": "19.0.1.0.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",
