@@ -31,4 +31,22 @@
         <field name="sequence">105</field>
     </record>
 
+    <record id="report_layout_style6" model="report.layout">
+        <field name="view_id" ref="deltatech_report_layout.external_layout_style6" />
+        <field name="name">Style6 Compact</field>
+        <field name="sequence">106</field>
+    </record>
+
+    <record id="report_layout_style7" model="report.layout">
+        <field name="view_id" ref="deltatech_report_layout.external_layout_style7" />
+        <field name="name">Style7 Minimal</field>
+        <field name="sequence">107</field>
+    </record>
+
+    <record id="report_layout_style8" model="report.layout">
+        <field name="view_id" ref="deltatech_report_layout.external_layout_style8" />
+        <field name="name">Style8 Accent</field>
+        <field name="sequence">108</field>
+    </record>
+
 </odoo>
