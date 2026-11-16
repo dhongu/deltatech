@@ -5,6 +5,8 @@ from unittest.mock import patch
 
 from odoo.tests import TransactionCase, tagged
 
+from ..tools import partner_match as pm
+
 
 @tagged("post_install", "-at_install")
 class TestFindSimilarPartners(TransactionCase):
@@ -47,6 +49,12 @@ class TestFindSimilarPartners(TransactionCase):
     def test_phone_without_phone_sanitized(self):
         with patch.object(type(self.env["res.partner"]), "_partner_match_stored", return_value=False):
             result = self._find({"name": "Ion Pmatchescu", "phone": "+40722914456"})
+        self.assertEqual({item["partner"] for item in result}, {self.ion, self.ana})
+
+    def test_phone_without_phonenumbers(self):
+        """Without phonenumbers, phone_sanitized keeps the typed number: the digits are compared."""
+        with patch.object(pm, "phonenumbers", None):
+            result = self._find({"name": "Ion Pmatchescu", "phone": "0040722914456"})
         self.assertEqual({item["partner"] for item in result}, {self.ion, self.ana})
 
     def test_email_and_vat(self):
