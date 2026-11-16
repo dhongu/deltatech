@@ -2,5 +2,6 @@
   "title": "Side Panel",
   "summary": "Record form in a side panel",
   "icon": "grid",
-  "features": ["One click shows the record form", "Previous / next record buttons", "Panel form defined in XML"]
+  "features": ["One click shows the record form", "Previous / next record buttons", "Panel form defined in XML"],
+  "online": true
 }
