@@ -1,0 +1,114 @@
+// The content area becomes a row: the renderer takes what is left, the panel keeps its width.
+.o_has_side_panel .o_content {
+    display: flex;
+    flex-wrap: nowrap;
+
+    > .o_renderer {
+        flex: 1 1 0;
+        min-width: 0;
+        overflow: auto;
+    }
+}
+
+.o_side_panel {
+    position: relative;
+    flex: 0 0 clamp(340px, 34%, 480px);
+    min-width: 300px;
+    max-width: 70%;
+    border-left: 1px solid var(--border-color, #dee2e6);
+    background-color: var(--o-view-background-color, var(--body-bg, #fff));
+
+    // The handle on the left edge: wide enough to be caught, drawn thin.
+    .o_side_panel_resizer {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: -3px;
+        width: 7px;
+        z-index: 3;
+        cursor: col-resize;
+        touch-action: none;
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 3px;
+            width: 1px;
+            background-color: transparent;
+        }
+
+        &:hover::after,
+        &:focus-visible::after {
+            left: 2px;
+            width: 3px;
+            background-color: var(--primary, #714b67);
+        }
+
+        &:focus-visible {
+            outline: none;
+        }
+    }
+
+    // While dragging: no text selection, and nothing inside the panel steals the pointer.
+    &.o_side_panel_resizing {
+        user-select: none;
+
+        .o_side_panel_resizer::after {
+            left: 2px;
+            width: 3px;
+            background-color: var(--primary, #714b67);
+        }
+
+        .o_side_panel_body,
+        .o_side_panel_header {
+            pointer-events: none;
+        }
+    }
+
+    .o_side_panel_body {
+        min-height: 0;
+
+        .o_form_view {
+            height: auto;
+        }
+
+        // On a wide window (the class o_xxl_form_view follows the width of the window, not of
+        // the panel) the form is laid out as a row of flex items, and a flex item does not
+        // shrink below its content: the sheet kept the width of the window, up to 1500px, and
+        // overflowed the panel. Every level may shrink, so the form follows the panel.
+        .o_form_view .o_content,
+        .o_form_view_container,
+        .o_form_renderer,
+        .o_form_sheet_bg,
+        .o_form_sheet {
+            min-width: 0;
+            max-width: 100%;
+        }
+
+        .o_form_renderer {
+            flex-grow: 1;
+        }
+
+        .o_form_sheet_bg {
+            flex: 1 1 0;
+        }
+    }
+}
+
+// The selected record, in the kanban and in the list.
+.o_has_side_panel {
+    .o_kanban_record.o_side_panel_selected {
+        background-color: color-mix(in srgb, var(--primary, #714b67) 10%, transparent);
+        box-shadow: inset 3px 0 0 var(--primary, #714b67);
+    }
+
+    .o_data_row.o_side_panel_selected > td {
+        background-color: color-mix(in srgb, var(--primary, #714b67) 10%, transparent);
+    }
+
+    .o_data_row.o_side_panel_selected > td:first-child {
+        box-shadow: inset 3px 0 0 var(--primary, #714b67);
+    }
+}
