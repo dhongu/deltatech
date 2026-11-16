@@ -109,7 +109,7 @@ tabelului are linie în culoarea principală, iar rândul **Total** are fundal d
 o bandă colorată. Culoarea benzii se schimbă din **Culori**. Pentru a păstra macheta, apăsați
 **Continuați**; pentru a o încerca doar, apăsați **Abandonează**.
 
-![Fereastra Configurează aspectul documentului tău cu macheta Band selectată, în lista cu toate cele opt machete noi; previzualizarea facturii are titlul Factură INV/2023/00003 pe o bandă teal, rândul Total pe fundal deschis și un subsol tot pe bandă teal cu capitalul social și contul bancar](../static/description/05_macheta_style3.png)
+![Fereastra Configurează aspectul documentului tău cu macheta Band selectată, în lista cu toate cele opt machete noi; previzualizarea facturii are titlul Factură INV/2023/00003 pe o bandă în culoarea principală (mov), rândul Total pe fundal deschis și un subsol tot pe bandă mov cu capitalul social și contul bancar](../static/description/05_macheta_style3.png)
 
 ### Pasul 6 — Documentele cu machetele noi (Band … Accent)
 

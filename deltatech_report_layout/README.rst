@@ -101,7 +101,8 @@ Usage
    line and the footer is a colored band too.
 
    |Configure your document layout dialog with Band selected; the
-   invoice preview has the title on a teal band and a teal footer band|
+   invoice preview has the title on a purple band and a purple footer
+   band|
 
 5. The other layouts differ in header, footer and table style:
 
@@ -150,7 +151,7 @@ Usage
 
 .. |Configure your document layout dialog with Style1 selected under Layout, next to the standard layouts and the other new layouts, and the invoice preview on the right| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_report_layout/static/description/en/01_macheta_style1.png
 .. |Configure your document layout dialog with Style2 selected; the table header and the Total row use the primary color| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_report_layout/static/description/en/02_macheta_style2.png
-.. |Configure your document layout dialog with Band selected; the invoice preview has the title on a teal band and a teal footer band| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_report_layout/static/description/en/05_macheta_style3.png
+.. |Configure your document layout dialog with Band selected; the invoice preview has the title on a purple band and a purple footer band| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_report_layout/static/description/en/05_macheta_style3.png
 .. |Invoice preview with Modern: logo on the left, title and company address on the right, teal table header| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_report_layout/static/description/en/07_document_style4.png
 .. |Invoice preview with Title Box: title in a box between the logo and the company address| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_report_layout/static/description/en/08_document_style5.png
 .. |Invoice preview with Compact: one-line header, small font and tight margins| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_report_layout/static/description/en/09_document_style6.png

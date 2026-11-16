@@ -17,7 +17,7 @@
 4. Select **Band**: the document title and the company name sit on a full-width band in the
    primary color, the table header has a colored line and the footer is a colored band too.
 
-   ![Configure your document layout dialog with Band selected; the invoice preview has the title on a teal band and a teal footer band](static/description/en/05_macheta_style3.png)
+   ![Configure your document layout dialog with Band selected; the invoice preview has the title on a purple band and a purple footer band](static/description/en/05_macheta_style3.png)
 
 5. The other layouts differ in header, footer and table style:
 
