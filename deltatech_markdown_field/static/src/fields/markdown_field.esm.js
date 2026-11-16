@@ -1,6 +1,6 @@
 /** @odoo-module **/
 
-import {Component, useRef, onMounted, onPatched} from "@odoo/owl";
+import {Component, onMounted, onPatched, signal, t, useProps} from "@odoo/owl";
 import {registry} from "@web/core/registry";
 import {standardFieldProps} from "@web/views/fields/standard_field_props";
 import {_t} from "@web/core/l10n/translation";
@@ -39,17 +39,16 @@ export function createTurndownService() {
  */
 export class MarkdownField extends Component {
     static template = "deltatech_markdown_field.MarkdownField";
-    static props = {
+    // Owl 3: "static props" / "static defaultProps" aruncă eroare la construcție -> useProps.
+    props = useProps({
         ...standardFieldProps,
-        minHeight: {type: Number, optional: true},
-        placeholder: {type: String, optional: true},
-    };
-    static defaultProps = {
-        minHeight: 160,
-    };
+        minHeight: t.number().optional(160),
+        placeholder: t.string().optional(),
+    });
+    // Owl 3: useRef nu mai există -> signal.ref() + t-ref="this.editorRef".
+    editorRef = signal.ref();
 
     setup() {
-        this.editorRef = useRef("editor");
         // Markdown-ul reflectat în acest moment în editor; folosit ca să nu
         // suprascriem ce tastează utilizatorul și să detectăm schimbările externe.
         this._lastMarkdown = null;
@@ -109,12 +108,12 @@ export class MarkdownField extends Component {
     // Sincronizare editor <-> înregistrare
     // ------------------------------------------------------------------
     _hasFocus() {
-        const el = this.editorRef.el;
+        const el = this.editorRef();
         return Boolean(el) && document.activeElement === el;
     }
 
     _renderFromValue() {
-        const el = this.editorRef.el;
+        const el = this.editorRef();
         if (!el) {
             return;
         }
@@ -123,7 +122,7 @@ export class MarkdownField extends Component {
     }
 
     _commit() {
-        const el = this.editorRef.el;
+        const el = this.editorRef();
         if (!el || this.readonly) {
             return;
         }
@@ -149,7 +148,7 @@ export class MarkdownField extends Component {
         if (this.readonly) {
             return;
         }
-        this.editorRef.el.focus();
+        this.editorRef().focus();
         document.execCommand(command, false, value);
     }
 
@@ -183,9 +182,9 @@ export const markdownField = {
             type: "number",
         },
     ],
-    extractProps: ({options, attrs}) => ({
+    extractProps: ({options, attrs, placeholder}) => ({
         minHeight: options.min_height ? Number(options.min_height) : undefined,
-        placeholder: attrs.placeholder || undefined,
+        placeholder: placeholder || attrs.placeholder || undefined,
     }),
 };
 

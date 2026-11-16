@@ -1,3 +1,11 @@
+## 20.0.1.1.1 (2026-11-17)
+
+- Migration to 20.0 (Owl 3). The component props and the default minimum height are declared
+  with `useProps`, and the editor reference uses `signal.ref()`. The Font Awesome icons of the
+  toolbar are replaced by Odoo icons (`oi` with `data-icon`). The `placeholder` attribute is read
+  from the field description, as the standard text field does in 20.0.
+- The module stays data-only and importable on Odoo Online (Apps > Import Module).
+
 ## 19.0.1.1.1 (2026-11-16)
 
 - Empty `__init__.py` restored: the OCA tools (manifestoo, oca-checks-odoo-module) do not

@@ -3,19 +3,19 @@
 
     <t t-name="deltatech_markdown_field.MarkdownField">
         <div class="o_field_markdown w-100">
-            <div t-if="!readonly" class="o_md_toolbar btn-toolbar" role="toolbar" aria-label="Markdown toolbar">
+            <div t-if="!this.readonly" class="o_md_toolbar btn-toolbar" role="toolbar" aria-label="Markdown toolbar">
                 <div class="btn-group btn-group-sm me-1" role="group">
                     <button type="button" class="btn btn-light" title="Bold"
                             t-on-mousedown.prevent="() => this.onToolbar('bold')">
-                        <i class="fa fa-bold"/>
+                        <i class="oi" data-icon="format_bold"/>
                     </button>
                     <button type="button" class="btn btn-light" title="Italic"
                             t-on-mousedown.prevent="() => this.onToolbar('italic')">
-                        <i class="fa fa-italic"/>
+                        <i class="oi" data-icon="format_italic"/>
                     </button>
                     <button type="button" class="btn btn-light" title="Strikethrough"
                             t-on-mousedown.prevent="() => this.onToolbar('strikeThrough')">
-                        <i class="fa fa-strikethrough"/>
+                        <i class="oi" data-icon="strikethrough_s"/>
                     </button>
                 </div>
                 <div class="btn-group btn-group-sm me-1" role="group">
@@ -31,39 +31,39 @@
                 <div class="btn-group btn-group-sm me-1" role="group">
                     <button type="button" class="btn btn-light" title="Bullet list"
                             t-on-mousedown.prevent="() => this.onToolbar('insertUnorderedList')">
-                        <i class="fa fa-list-ul"/>
+                        <i class="oi" data-icon="format_list_bulleted"/>
                     </button>
                     <button type="button" class="btn btn-light" title="Numbered list"
                             t-on-mousedown.prevent="() => this.onToolbar('insertOrderedList')">
-                        <i class="fa fa-list-ol"/>
+                        <i class="oi" data-icon="format_list_numbered"/>
                     </button>
                     <button type="button" class="btn btn-light" title="Quote"
                             t-on-mousedown.prevent="() => this.onFormatBlock('blockquote')">
-                        <i class="fa fa-quote-right"/>
+                        <i class="oi" data-icon="format_quote"/>
                     </button>
                     <button type="button" class="btn btn-light" title="Code block"
                             t-on-mousedown.prevent="() => this.onFormatBlock('pre')">
-                        <i class="fa fa-code"/>
+                        <i class="oi" data-icon="code"/>
                     </button>
                 </div>
                 <div class="btn-group btn-group-sm me-1" role="group">
                     <button type="button" class="btn btn-light" title="Link"
                             t-on-mousedown.prevent="() => this.onToolbar('createLink')">
-                        <i class="fa fa-link"/>
+                        <i class="oi" data-icon="link"/>
                     </button>
                     <button type="button" class="btn btn-light" title="Clear formatting"
                             t-on-mousedown.prevent="() => this.onToolbar('removeFormat')">
-                        <i class="fa fa-eraser"/>
+                        <i class="oi" data-icon="ink_eraser"/>
                     </button>
                 </div>
             </div>
-            <div t-ref="editor"
+            <div t-ref="this.editorRef"
                  class="o_md_editor form-control"
-                 t-att-class="{ o_md_readonly: readonly }"
-                 t-att-contenteditable="readonly ? 'false' : 'true'"
-                 t-att-data-placeholder="props.placeholder"
-                 t-attf-style="min-height: {{ props.minHeight }}px;"
-                 t-on-blur="onBlur"/>
+                 t-att-class="{ o_md_readonly: this.readonly }"
+                 t-att-contenteditable="this.readonly ? 'false' : 'true'"
+                 t-att-data-placeholder="this.props.placeholder"
+                 t-attf-style="min-height: {{ this.props.minHeight }}px;"
+                 t-on-blur="this.onBlur"/>
         </div>
     </t>
 

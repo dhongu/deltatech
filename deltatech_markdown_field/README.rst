@@ -14,16 +14,13 @@ Markdown Field Widget
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_markdown_field
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_markdown_field
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_markdown_field/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_markdown_field/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_markdown_field/tests
-    :alt: 3 automated tests
 
-|badge1| |badge2| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge_fisa|
 
 **Markdown Field Widget** adds a new OWL field widget — **``markdown``**
 — for any ``Text`` field in the Odoo backend.
@@ -131,12 +128,35 @@ is stored.
 is highlighted, while the embedded frame placed between the two
 paragraphs is not displayed|
 
-.. |Form in edit mode: the Markdown toolbar (bold, italic, strikethrough, H1-H3, paragraph, lists, quote, code, link, clear formatting) above a text with a heading, a bulleted list, a link and a quote| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_markdown_field/static/description/en/01_editare_markdown.png
-.. |Read-only Markdown field showing a heading, a numbered list with bold items, a paragraph and inline code, with no toolbar| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_markdown_field/static/description/en/02_afisare_doar_citire.png
-.. |Read-only Markdown field where the Ctrl and S keys are boxed and a word is highlighted, while the embedded frame placed between the two paragraphs is not displayed| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_markdown_field/static/description/en/03_html_filtrat.png
+.. |Form in edit mode: the Markdown toolbar (bold, italic, strikethrough, H1-H3, paragraph, lists, quote, code, link, clear formatting) above a text with a heading, a bulleted list, a link and a quote| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_markdown_field/static/description/en/01_editare_markdown.png
+.. |Read-only Markdown field showing a heading, a numbered list with bold items, a paragraph and inline code, with no toolbar| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_markdown_field/static/description/en/02_afisare_doar_citire.png
+.. |Read-only Markdown field where the Ctrl and S keys are boxed and a word is highlighted, while the embedded frame placed between the two paragraphs is not displayed| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_markdown_field/static/description/en/03_html_filtrat.png
 
 Changelog
 =========
+
+20.0.1.1.1 (2026-11-17)
+-----------------------
+
+- Migration to 20.0 (Owl 3). The component props and the default minimum
+  height are declared with ``useProps``, and the editor reference uses
+  ``signal.ref()``. The Font Awesome icons of the toolbar are replaced
+  by Odoo icons (``oi`` with ``data-icon``). The ``placeholder``
+  attribute is read from the field description, as the standard text
+  field does in 20.0.
+- The module stays data-only and importable on Odoo Online (Apps >
+  Import Module).
+
+19.0.1.1.1 (2026-11-16)
+-----------------------
+
+- Empty ``__init__.py`` restored: the OCA tools (manifestoo,
+  oca-checks-odoo-module) do not recognize a module without it, so the
+  CI of the suites that depend on this module failed. The module still
+  has no Python code and still imports on Odoo Online.
+- Explicit Odoo Online marker: ``"online": true`` in
+  ``static/description/banner.json`` (the banner no longer infers it
+  from the missing ``.py`` files).
 
 19.0.1.1.0 (2026-11-16)
 -----------------------
@@ -232,6 +252,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_markdown_field>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_markdown_field>`_ project on GitHub.
 
 You are welcome to contribute.
