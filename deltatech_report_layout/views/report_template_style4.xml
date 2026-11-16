@@ -41,7 +41,8 @@
         <xpath expr="//t[@t-elif]" position="before">
             <t t-elif="layout == 'deltatech_report_layout.external_layout_style4'">
                 &amp;.o_report_layout_style4 {
-                    #informations { border-bottom: 1px solid <t t-esc='secondary' />; }
+                    #informations { position: relative; }
+                    #informations::after { content: ''; position: absolute; left: 16px; right: 16px; bottom: 0; border-bottom: 1px solid <t t-esc='secondary' />; }
                     thead th, #total .o_total td {
                         background-color: <t t-esc='primary' />;
                         color: preview-color-contrast(<t t-esc='primary' />);
