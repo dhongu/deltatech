@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="external_layout_style3">
+        <div t-attf-class="o_company_#{company.id}_layout header o_header_style3">
+            <div class="o_style3_band d-flex justify-content-between align-items-center px-4 py-3">
+                <h2 class="m-0" t-out="layout_document_title or 'Document'" />
+                <strong t-out="company.name" />
+            </div>
+            <div class="d-flex align-items-center px-4 pt-3">
+                <div class="me-4"><img t-if="company.logo" class="o_company_logo_big" t-att-src="image_data_uri(company.logo)" alt="Logo" /></div>
+                <div class="o_style3_company small"><t t-if="company.is_company_details_empty"><span t-field="company.partner_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}' /></t>
+                <t t-else=""><span t-field="company.company_details" /></t>
+                <div t-if="forced_vat"><t t-out="company.country_id.vat_label or 'Tax ID'">Tax ID</t>: <span t-out="forced_vat" /></div></div>
+            </div>
+        </div>
+        <div
+            t-attf-class="o_company_#{company.id}_layout article o_report_layout_style3 o_table_style3 o_snail_mail"
+            t-att-data-oe-model="o and o._name"
+            t-att-data-oe-id="o and o.id"
+            t-att-data-oe-lang="o and o.env.context.get('lang')"
+        >
+            <t t-if="customized_address_layout" t-out="customized_address_layout" />
+            <t t-elif="not hide_recipient_address" t-call="web.address_layout" />
+            <!-- Required for multiple invoice sending, the heading tag in the
+                body is used to identify invoices -->
+            <h3 t-if="report_type == 'pdf'" t-out="layout_document_title or ' '" class="opacity-0 mb-0 h-0" />
+            <t t-out="0" />
+        </div>
+
+        <div t-attf-class="footer o_company_#{company.id}_layout o_footer_style3 {{report_type != 'pdf' and 'mt-auto'}}">
+            <div class="o_footer_content o_style3_footer_band pt-2 text-center">
+                <div t-field="company.report_footer" />
+                <div t-if="report_type == 'pdf'" class="text-muted">Page <span class="page" /> / <span class="topage" /></div>
+            </div>
+        </div>
+    </template>
+
+    <template id="external_layout_style3_css" inherit_id="web.styles_company_report">
+        <xpath expr="//t[contains(@t-elif, 'web.external_layout_center')]" position="before">
+            <t t-elif="layout == 'deltatech_report_layout.external_layout_style3'">
+                &amp;.o_report_layout_style3 {
+                    thead th { color: <t t-out='primary' />; border-bottom: 2px solid <t t-out='primary' />; }
+                    #total .o_total td {
+                        background-color: mix(white, <t t-out='primary' />, 88%);
+                        color: <t t-out='primary' />;
+                        strong { color: <t t-out='primary' />; }
+                    }
+                }
+                &amp;.o_header_style3 .o_style3_band,
+                &amp;.o_footer_style3 .o_style3_footer_band {
+                    background-color: <t t-out='primary' />;
+                    color: preview-color-contrast(<t t-out='primary' />);
+                    h2 { color: preview-color-contrast(<t t-out='primary' />); }
+                }
+            </t>
+        </xpath>
+    </template>
+</odoo>

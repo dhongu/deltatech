@@ -6,12 +6,13 @@ This module provides specialized report layout styles for Odoo, allowing busines
 Key Features
 ============
 
-1.  **Multiple Predefined Layouts**:
-    *   Adds several custom report template styles (Style 1, Style 2, etc.) to the system.
-    *   Provides more flexibility than the standard Odoo report layouts by offering different header, footer, and body designs.
+1.  **Eight Predefined Layouts**:
+    *   Adds eight report layouts to the system: Style1, Style2, Band, Modern, Title Box, Compact Header, Minimal and Accent.
+    *   Each one has its own header, footer and table design: a full-width colored header band, a boxed title, a compact one-line header for long documents, a black-and-white minimal design or a colored accent bar along the left edge of the content.
+    *   Colors follow the primary and secondary colors of the company (except Minimal, which is black and white).
 
-2.  **Centralized Layout Configuration**:
-    *   Includes a dedicated configuration for selecting and managing report layouts across the entire Odoo instance.
+2.  **Per-Company Layout Selection**:
+    *   The layouts are chosen per company from the standard **Configure Document Layout** dialog of Odoo.
     *   Ensures consistent branding and styling for all corporate communications.
 
 3.  **Modern Web Asset Integration**:
