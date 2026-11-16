@@ -104,6 +104,14 @@ For developers. Add ``deltatech_partner_match`` to ``depends``, then:
 Changelog
 =========
 
+19.0.1.3.2 (2026-11-16)
+-----------------------
+
+- The phone key uses ``phone_sanitized`` only when the ``phonenumbers``
+  library is installed: without it ``phone_validation`` stores the
+  number as it was typed ("0722 123 456"), not in E.164, and no partner
+  was found by phone. The search then compares the national digits.
+
 19.0.1.3.1 (2026-10-28)
 -----------------------
 
@@ -217,6 +225,14 @@ Authors
 
 Maintainers
 -----------
+
+.. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
+    :target: https://github.com/dhongu
+    :alt: dhongu
+
+Current maintainer:
+
+|maintainer-dhongu| 
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_partner_match>`_ project on GitHub.
 

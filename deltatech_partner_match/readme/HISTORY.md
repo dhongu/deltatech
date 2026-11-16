@@ -1,3 +1,9 @@
+## 19.0.1.3.2 (2026-11-16)
+
+- The phone key uses `phone_sanitized` only when the `phonenumbers` library is installed:
+  without it `phone_validation` stores the number as it was typed ("0722 123 456"), not in
+  E.164, and no partner was found by phone. The search then compares the national digits.
+
 ## 19.0.1.3.1 (2026-10-28)
 
 - Consultant sheet (`readme/FISA_CONSULTANT.md`): the matching rules with examples, the score, and where their effect shows in the modules that use them (duplicate finder, marketplace customer import, trial balance import).
