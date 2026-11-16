@@ -1,0 +1,8 @@
+{
+  "title": "Transfer Product Images",
+  "summary": "Product photos on transfers and warehouse PDFs",
+  "icon": "box",
+  "edition": "community",
+  "lang": "en",
+  "features": ["Image column on transfer lines", "Photo on the delivery slip", "Photo on picking operations report"]
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.picking.image</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="stock.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='operations_setting_container']" position="inside">
+                <setting
+                    id="hide_picking_image_pdf"
+                    help="Do not print the product image on the delivery slip and on the picking operations report"
+                >
+                    <field name="hide_picking_image_pdf" />
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>
