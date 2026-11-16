@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_sale_order_merge_form" model="ir.ui.view">
+        <field name="name">sale.order.merge.form</field>
+        <field name="model">sale.order.merge</field>
+        <field name="arch" type="xml">
+            <form string="Merge Quotations">
+                <field name="order_ids" invisible="1" />
+                <div class="alert alert-warning" role="alert" invisible="not warning">
+                    <field name="warning" />
+                </div>
+                <group>
+                    <field name="target_mode" widget="radio" />
+                    <field
+                        name="target_order_id"
+                        invisible="target_mode != 'selected'"
+                        required="target_mode == 'selected'"
+                        domain="[('id', 'in', order_ids)]"
+                        options="{'no_create': True}"
+                    />
+                    <field name="line_mode" widget="radio" />
+                    <field name="add_sections" />
+                </group>
+                <footer>
+                    <button name="action_merge" string="Merge" type="object" class="btn-primary" data-hotkey="q" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="x" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

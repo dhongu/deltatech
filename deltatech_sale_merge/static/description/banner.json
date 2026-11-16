@@ -1,0 +1,10 @@
+{
+  "title": "Sale Merge",
+  "summary": "Merge a customer's quotations into one",
+  "icon": "file",
+  "features": [
+    "Merge from the quotations list",
+    "Add up identical lines or keep all",
+    "Safe checks, merged quotes linked"
+  ]
+}
