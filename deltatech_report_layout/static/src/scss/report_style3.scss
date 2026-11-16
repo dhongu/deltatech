@@ -1,0 +1,13 @@
+.o_report_layout_style3 {
+    .table > :not(caption) > * > * {
+        border-bottom-color: $gray-300;
+    }
+}
+
+.o_table_style3 {
+    table:not(.o_ignore_layout_styling) {
+        tbody tr:nth-child(even) td {
+            background-color: rgba($gray-200, 0.4);
+        }
+    }
+}
