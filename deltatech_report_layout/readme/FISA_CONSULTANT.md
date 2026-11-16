@@ -116,7 +116,7 @@ deschideți previzualizarea raportului. Diferențele dintre machete:
 | **Modern** | Sigla în stânga; titlul, în culoarea principală, și datele companiei în dreapta | Cap de tabel colorat, linii fine între rânduri | Facturi și oferte curate, cu mult spațiu alb |
 | **Title Box** | Sigla în stânga, titlul într-o casetă la mijloc, datele companiei în dreapta | Cap de tabel colorat, rânduri alternate | Documente cu titlul pus în evidență |
 | **Compact** | Pe un singur rând: sigla mică, titlul, datele companiei | Font mic, margini strânse | Documente cu multe linii, care trebuie să încapă pe puține pagini |
-| **Minimal** | Alb-negru: datele companiei în stânga, sigla și titlul cu litere mari în dreapta | Doar linii negre, fără fundaluri; ignoră culorile companiei, cu excepția siglei | Imprimare economică, documente sobre |
+| **Minimal** | Alb-negru: datele companiei în stânga, sigla și titlul cu litere mari în dreapta | Linii negre la capul tabelului și la total, linii gri fine între rânduri, fără fundaluri; ignoră culorile companiei, cu excepția siglei | Imprimare economică, documente sobre |
 | **Accent** | Sigla și datele companiei sus, titlul colorat dedesubt | O bandă verticală în culoarea principală pe marginea din stânga a conținutului | Aspect „corporate”, fără bandă de antet |
 
 ![Previzualizarea facturii cu macheta Band: bandă teal cu titlul Factură INV/2023/00003 și denumirea companiei, urmată de siglă, adresă, tabelul liniilor cu capul în culoarea principală și rândul Total pe fundal deschis](../static/description/06_document_style3.png)
@@ -160,7 +160,7 @@ sigla, sloganul și subsolul se preiau din configurarea companiei.
 - [ ] **Minimal** rămâne alb-negru, oricare ar fi culorile companiei.
 - [ ] **Accent**: banda verticală apare pe marginea stângă a conținutului, pe fiecare pagină a unei facturi cu mai multe pagini.
 - [ ] După **Continuați**, o factură tipărită are antetul și subsolul machetei alese.
-- [ ] Culoarea principală aleasă la **Culori** apare în capul tabelului și la total (Style2, Modern, Title Box), în antet (Band, Compact) sau în bara laterală (Accent).
+- [ ] Culoarea principală aleasă la **Culori** apare în capul tabelului și la total (Style1, Style2, Modern, Title Box), în antet (Band, Compact) sau în bara laterală (Accent).
 - [ ] Textul din **Subsol** apare în subsolul documentului; în PDF apare și numărul paginii.
 - [ ] Pe Odoo Online, după importul arhivei zip (modul dezvoltator, **Aplicații → Importați
   Modulul**), modulul apare în **Aplicații** și cele opt machete

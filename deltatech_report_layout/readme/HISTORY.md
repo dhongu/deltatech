@@ -2,8 +2,8 @@
 
 - Three more report layouts: Compact (small font, tight margins, one-line header, for
   documents with many lines), Minimal (black and white, no color bands, cheap to print)
-  and Accent (colored vertical bar along the page edge, colored title).
-- Consultant sheet, USAGE and DESCRIPTION updated for Style1 to Style8, with new screenshots and a demo GIF.
+  and Accent (colored vertical bar along the left edge of the content, colored title).
+- Consultant sheet, USAGE and DESCRIPTION updated for the eight layouts (Style1, Style2, Band, Modern, Title Box, Compact, Minimal, Accent), with new screenshots and a demo GIF.
 
 ## 19.0.1.2.0 (2026-11-16)
 
