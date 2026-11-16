@@ -1,0 +1,7 @@
+.o_table_style8 {
+    table:not(.o_ignore_layout_styling) {
+        tbody tr:nth-child(odd) td {
+            background-color: rgba($gray-200, 0.4);
+        }
+    }
+}

@@ -1,0 +1,14 @@
+.o_table_style7 {
+    table:not(.o_ignore_layout_styling) {
+        tbody tr {
+            border-bottom: $border-width solid $gray-300;
+            td {
+                background-color: transparent;
+            }
+        }
+    }
+}
+
+.o_header_style7 .o_style7_row {
+    border-bottom: 1px solid $black;
+}

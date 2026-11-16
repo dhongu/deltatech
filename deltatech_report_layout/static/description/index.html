@@ -50,16 +50,13 @@
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Key <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">Features</span></h2>
 <ol>
 <li>
-<p><strong>Multiple Predefined Layouts</strong>:</p>
-<ul>
-<li>Adds several custom report template styles (Style 1, Style 2, etc.) to the system.</li>
-<li>Provides more flexibility than the standard Odoo report layouts by offering different header, footer, and body designs.</li>
-</ul>
+<p><strong>Eight Predefined Layouts</strong>:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-bar-chart" style="" aria-hidden="true"></span></span><div>Adds eight report layouts to the system: Style1, Style2, Band, Modern, Title Box, Compact, Minimal and Accent.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-paperclip" style="" aria-hidden="true"></span></span><div>Each one has its own header, footer and table design: a full-width colored header band, a boxed title, a compact one-line header for long documents, a black-and-white minimal design or a colored accent bar along the left edge of the content.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-building-o" style="" aria-hidden="true"></span></span><div>Colors follow the primary and secondary colors of the company (except Minimal, which is black and white).</div></div></li></ul>
 </li>
 <li>
-<p><strong>Centralized Layout Configuration</strong>:</p>
+<p><strong>Per-Company Layout Selection</strong>:</p>
 <ul>
-<li>Includes a dedicated configuration for selecting and managing report layouts across the entire Odoo instance.</li>
+<li>The layouts are chosen per company from the standard <strong>Configure Document Layout</strong> dialog of Odoo.</li>
 <li>Ensures consistent branding and styling for all corporate communications.</li>
 </ul>
 </li>
@@ -80,18 +77,18 @@ download the zip and load it from <strong>Apps &gt; Import Module</strong>.</p>
 <ol>
 <li>Go to <strong>Settings &gt; General Settings</strong> and, in the <strong>Companies</strong> section, click
    <strong>Configure Document Layout</strong>.</li>
-<li>Under <strong>Layout</strong>, the two new layouts, <strong>Style1</strong> and <strong>Style2</strong>, are listed below the standard
+<li>Under <strong>Layout</strong>, the eight new layouts (<strong>Style1</strong>, <strong>Style2</strong>, <strong>Band</strong>, <strong>Modern</strong>, <strong>Title Box</strong>, <strong>Compact</strong>, <strong>Minimal</strong> and <strong>Accent</strong>) are listed after the standard
    ones. Select <strong>Style1</strong>: the preview shows a sample invoice with the logo on the left and the
    company address aligned to the right.</li>
 </ol>
 <div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
   <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
-    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Configure your document layout dialog with Style1 selected under Layout and the invoice preview on the right" src="en/01_macheta_style1.png"/>
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Configure your document layout dialog with Style1 selected under Layout, next to the standard layouts and the other new layouts, and the invoice preview on the right" src="en/01_macheta_style1.png"/>
   </div>
   <div class="d-flex align-items-center px-3 py-2 border-top">
     <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
           style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
-    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Configure your document layout dialog with Style1 selected under Layout and the invoice preview on the right</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Configure your document layout dialog with Style1 selected under Layout, next to the standard layouts and the other new layouts, and the invoice preview on the right</span>
   </div>
 </div>
 <ol start="3">
@@ -110,6 +107,103 @@ download the zip and load it from <strong>Apps &gt; Import Module</strong>.</p>
   </div>
 </div>
 <ol start="4">
+<li>Select <strong>Band</strong>: the document title and the company name sit on a full-width band in the
+   primary color, the table header has a colored line and the footer is a colored band too.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Configure your document layout dialog with Band selected; the invoice preview has the title on a teal band and a teal footer band" src="en/05_macheta_style3.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">3</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Configure your document layout dialog with Band selected; the invoice preview has the title on a teal band and a teal footer band</span>
+  </div>
+</div>
+<ol start="5">
+<li>The other layouts differ in header, footer and table style:</li>
+</ol>
+<table class="table table-bordered" style="font-size:14px;">
+<thead>
+<tr>
+<th>Layout</th>
+<th>What it looks like</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Modern</strong></td>
+<td>Logo on the left, colored title and company details on the right, colored table header</td>
+</tr>
+<tr>
+<td><strong>Title Box</strong></td>
+<td>Title in a box in the middle, logo on the left, company details on the right</td>
+</tr>
+<tr>
+<td><strong>Compact</strong></td>
+<td>Small font, tight margins and a one-line header, for documents with many lines</td>
+</tr>
+<tr>
+<td><strong>Minimal</strong></td>
+<td>Black and white, no colored backgrounds, cheap to print (ignores the company colors)</td>
+</tr>
+<tr>
+<td><strong>Accent</strong></td>
+<td>Colored vertical bar along the left edge of the content, colored title</td>
+</tr>
+</tbody>
+</table>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Invoice preview with Modern: logo on the left, title and company address on the right, teal table header" src="en/07_document_style4.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">4</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Invoice preview with Modern: logo on the left, title and company address on the right, teal table header</span>
+  </div>
+</div>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Invoice preview with Title Box: title in a box between the logo and the company address" src="en/08_document_style5.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">5</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Invoice preview with Title Box: title in a box between the logo and the company address</span>
+  </div>
+</div>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Invoice preview with Compact: one-line header, small font and tight margins" src="en/09_document_style6.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">6</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Invoice preview with Compact: one-line header, small font and tight margins</span>
+  </div>
+</div>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Invoice preview with Minimal: black and white, company address on the left, logo and title on the right" src="en/10_document_style7.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">7</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Invoice preview with Minimal: black and white, company address on the left, logo and title on the right</span>
+  </div>
+</div>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Invoice preview with Accent: teal vertical bar along the left edge of the content" src="en/11_document_style8.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">8</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Invoice preview with Accent: teal vertical bar along the left edge of the content</span>
+  </div>
+</div>
+<ol start="6">
 <li>Print any document of the company (quotation, invoice, delivery slip). It uses the selected
    layout:</li>
 </ol>
@@ -119,7 +213,7 @@ download the zip and load it from <strong>Apps &gt; Import Module</strong>.</p>
   </div>
   <div class="d-flex align-items-center px-3 py-2 border-top">
     <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
-          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">3</span>
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">9</span>
     <span style="font-size:14px;line-height:1.4;color:#3d4752;">Header and footer of a document printed with Style1: logo on the left, company address on the right</span>
   </div>
 </div>
@@ -129,13 +223,26 @@ download the zip and load it from <strong>Apps &gt; Import Module</strong>.</p>
   </div>
   <div class="d-flex align-items-center px-3 py-2 border-top">
     <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
-          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">4</span>
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">10</span>
     <span style="font-size:14px;line-height:1.4;color:#3d4752;">Header and footer of a document printed with Style2: company address next to the logo, centered footer</span>
   </div>
 </div>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.3.0 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-16)</span></h2>
+<ul>
+<li>Three more report layouts: Compact (small font, tight margins, one-line header, for
+  documents with many lines), Minimal (black and white, no color bands, cheap to print)
+  and Accent (colored vertical bar along the left edge of the content, colored title).</li>
+<li>Consultant sheet, USAGE and DESCRIPTION updated for the eight layouts (Style1, Style2, Band, Modern, Title Box, Compact, Minimal, Accent), with new screenshots and a demo GIF.</li>
+</ul>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.2.0 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-16)</span></h2>
+<ul>
+<li>Three new report layouts: Band (full-width colored header band and footer band),
+  Modern (logo left, title and company details right, colored total bar) and Title Box
+  (boxed centered title, colored table header). Colors follow the company's primary/secondary colors.</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.1.2 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-09)</span></h2>
 <ul>
 <li>The "(importable, Odoo Online)" suffix was removed from the module name. Odoo Apps already shows
