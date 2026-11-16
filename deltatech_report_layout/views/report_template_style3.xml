@@ -42,15 +42,18 @@
         <xpath expr="//t[@t-elif]" position="before">
             <t t-elif="layout == 'deltatech_report_layout.external_layout_style3'">
                 &amp;.o_report_layout_style3 {
-                    .o_style3_band, .o_style3_footer_band {
-                        background-color: <t t-esc='primary' />;
-                        color: preview-color-contrast(<t t-esc='primary' />);
-                    }
                     thead th { color: <t t-esc='primary' />; border-bottom: 2px solid <t t-esc='primary' />; }
                     #total .o_total td {
-                        background-color: mix(white, <t t-esc='primary' />, 25%);
+                        background-color: mix(white, <t t-esc='primary' />, 88%);
                         color: <t t-esc='primary' />;
+                        strong { color: <t t-esc='primary' />; }
                     }
+                }
+                &amp;.o_header_style3 .o_style3_band,
+                &amp;.o_footer_style3 .o_style3_footer_band {
+                    background-color: <t t-esc='primary' />;
+                    color: preview-color-contrast(<t t-esc='primary' />);
+                    h2 { color: preview-color-contrast(<t t-esc='primary' />); }
                 }
             </t>
         </xpath>

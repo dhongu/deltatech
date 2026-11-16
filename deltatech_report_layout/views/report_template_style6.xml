@@ -43,6 +43,7 @@
                     thead th { border-bottom: 1px solid <t t-esc='primary' />; color: <t t-esc='primary' />; }
                     #total .o_total td { border-top: 1px solid <t t-esc='primary' />; }
                 }
+                &amp;.o_header_style6 h3 { color: <t t-esc='primary' />; }
             </t>
         </xpath>
     </template>

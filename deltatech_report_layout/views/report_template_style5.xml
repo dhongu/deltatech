@@ -3,7 +3,7 @@
     <template id="external_layout_style5">
         <div t-attf-class="o_company_#{company.id}_layout header o_header_style5">
             <div class="d-flex justify-content-between align-items-start">
-                <div><img t-if="company.logo" class="o_company_logo_big" t-att-src="image_data_uri(company.logo)" alt="Logo" /></div>
+                <div class="o_style5_logo"><img t-if="company.logo" class="o_company_logo_big" t-att-src="image_data_uri(company.logo)" alt="Logo" /></div>
                 <div class="o_style5_titlebox text-center px-4 py-2">
                     <h2 class="m-0" t-out="layout_document_title or 'Document'" />
                 </div>
@@ -41,12 +41,15 @@
         <xpath expr="//t[@t-elif]" position="before">
             <t t-elif="layout == 'deltatech_report_layout.external_layout_style5'">
                 &amp;.o_report_layout_style5 {
-                    .o_style5_titlebox { border: 1px solid <t t-esc='secondary' />; }
                     thead th, #total .o_total td {
                         background-color: <t t-esc='primary' />;
                         color: preview-color-contrast(<t t-esc='primary' />);
                         strong { color: preview-color-contrast(<t t-esc='primary' />); }
                     }
+                }
+                &amp;.o_header_style5 .o_style5_titlebox {
+                    border: 1px solid <t t-esc='secondary' />;
+                    h2 { color: <t t-esc='primary' />; }
                 }
             </t>
         </xpath>

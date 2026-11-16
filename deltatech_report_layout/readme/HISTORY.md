@@ -1,13 +1,14 @@
 ## 19.0.1.3.0 (2026-11-16)
 
-- Three more report layouts: Style6 Compact (small font, tight margins, one-line header, for
-  documents with many lines), Style7 Minimal (black and white, no color bands, cheap to print)
-  and Style8 Accent (colored vertical bar along the page edge, colored title).
+- Three more report layouts: Compact (small font, tight margins, one-line header, for
+  documents with many lines), Minimal (black and white, no color bands, cheap to print)
+  and Accent (colored vertical bar along the page edge, colored title).
+- Consultant sheet, USAGE and DESCRIPTION updated for Style1 to Style8, with new screenshots and a demo GIF.
 
 ## 19.0.1.2.0 (2026-11-16)
 
-- Three new report layouts: Style3 Band (full-width colored header band, optional footer band),
-  Style4 Modern (logo left, title and company details right, colored total bar) and Style5 Box
+- Three new report layouts: Band (full-width colored header band and footer band),
+  Modern (logo left, title and company details right, colored total bar) and Title Box
   (boxed centered title, colored table header). Colors follow the company's primary/secondary colors.
 
 ## 19.0.1.1.2 (2026-11-09)

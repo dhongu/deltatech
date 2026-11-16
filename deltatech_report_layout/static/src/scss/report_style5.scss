@@ -5,3 +5,24 @@
         }
     }
 }
+
+.o_header_style5 {
+    .o_style5_logo {
+        flex: 0 0 28%;
+        img {
+            max-width: 100%;
+        }
+    }
+    .o_style5_titlebox {
+        flex: 1 1 0;
+        min-width: 0;
+        margin: 0 1rem;
+        h2 {
+            font-size: 1.15rem;
+            overflow-wrap: anywhere;
+        }
+    }
+    .o_style5_company {
+        flex: 0 0 28%;
+    }
+}

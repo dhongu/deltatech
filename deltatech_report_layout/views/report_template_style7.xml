@@ -41,8 +41,9 @@
             <t t-elif="layout == 'deltatech_report_layout.external_layout_style7'">
                 &amp;.o_report_layout_style7 {
                     thead th { color: #000; border-bottom: 1px solid #000; }
-                    #total .o_total td { border-top: 1px solid #000; background-color: transparent; }
+                    #total .o_total td { border-top: 1px solid #000; background-color: transparent; color: #000; strong { color: #000; } }
                 }
+                &amp;.o_header_style7 h2 { color: #000; }
             </t>
         </xpath>
     </template>

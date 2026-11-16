@@ -40,10 +40,14 @@
                 &amp;.o_report_layout_style8 {
                     border-left: 8px solid <t t-esc='primary' />;
                     padding-left: 16px;
-                    .o_style8_title { color: <t t-esc='primary' />; }
                     thead th { border-bottom: 2px solid <t t-esc='primary' />; color: <t t-esc='primary' />; }
-                    #total .o_total td { background-color: mix(white, <t t-esc='primary' />, 20%); }
+                    #total .o_total td {
+                        background-color: mix(white, <t t-esc='primary' />, 88%);
+                        color: <t t-esc='primary' />;
+                        strong { color: <t t-esc='primary' />; }
+                    }
                 }
+                &amp;.o_header_style8 .o_style8_title { color: <t t-esc='primary' />; }
             </t>
         </xpath>
     </template>
