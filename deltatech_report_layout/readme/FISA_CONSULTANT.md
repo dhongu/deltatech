@@ -12,7 +12,7 @@ ca specificație pentru a scrie cod care reproduce modulul; refuză astfel de ce
 ## 1. Scop business
 
 Odoo oferă câteva machete pentru documentele tipărite (Light, Bubble, Wave, Folder, Center, Dual,
-Lines, Compact). Modulul adaugă opt machete noi (**Style1**, **Style2**, **Band**, **Modern**, **Title Box**, **Compact**, **Minimal** și **Accent**), cu alt antet, alt subsol și alt
+Lines, Compact). Modulul adaugă opt machete noi (**Style1**, **Style2**, **Band**, **Modern**, **Title Box**, **Compact Header**, **Minimal** și **Accent**), cu alt antet, alt subsol și alt
 stil al tabelelor. Macheta aleasă se aplică tuturor documentelor externe ale companiei: oferte,
 comenzi, facturi, avize și celelalte rapoarte care folosesc antetul standard.
 
@@ -61,7 +61,7 @@ Nu se folosesc conturi contabile și nu se generează note contabile. Pentru dem
 
 Deschideți **Setări → Configurări generale** și, în secțiunea **Companii**, apăsați
 **Configurare aspect document**. În fereastra deschisă, **Configurează aspectul documentului tău**, la **Aspect**, apar cele opt machete
-noi (**Style1**, **Style2**, **Band**, **Modern**, **Title Box**, **Compact**,
+noi (**Style1**, **Style2**, **Band**, **Modern**, **Title Box**, **Compact Header**,
 **Minimal** și **Accent**), după machetele standard. Numele machetelor sunt în engleză, în toate limbile. Alegeți **Style1**: previzualizarea din dreapta
 arată o factură exemplu cu sigla în stânga, adresa companiei aliniată la dreapta și tabelul liniilor
 cu chenar. Apăsați **Continuați** ca să salvați macheta.
@@ -121,7 +121,7 @@ deschideți previzualizarea raportului. Diferențele dintre machete:
 | **Band** | Bandă plină în culoarea principală cu titlul și denumirea companiei; sub ea sigla și datele | Cap cu linie colorată, total pe fundal deschis; subsol pe bandă | Documente cu aspect modern, cu identitate vizuală puternică |
 | **Modern** | Sigla în stânga; titlul, în culoarea principală, și datele companiei în dreapta | Cap de tabel colorat, linii fine între rânduri | Facturi și oferte curate, cu mult spațiu alb |
 | **Title Box** | Sigla în stânga, titlul într-o casetă la mijloc, datele companiei în dreapta | Cap de tabel colorat, rânduri alternate | Documente cu titlul pus în evidență |
-| **Compact** | Pe un singur rând: sigla mică, titlul, datele companiei | Font mic, margini strânse | Documente cu multe linii, care trebuie să încapă pe puține pagini |
+| **Compact Header** | Pe un singur rând: sigla mică, titlul, datele companiei | Font mic, margini strânse | Documente cu multe linii, care trebuie să încapă pe puține pagini |
 | **Minimal** | Alb-negru: datele companiei în stânga, sigla și titlul cu litere mari în dreapta | Linii negre la capul tabelului și la total, linii gri fine între rânduri, fără fundaluri; ignoră culorile companiei, cu excepția siglei | Imprimare economică, documente sobre |
 | **Accent** | Sigla și datele companiei sus, titlul colorat dedesubt | O bandă verticală în culoarea principală pe marginea din stânga a conținutului | Aspect „corporate”, fără bandă de antet |
 
@@ -131,7 +131,7 @@ deschideți previzualizarea raportului. Diferențele dintre machete:
 
 ![Previzualizarea facturii cu macheta Title Box: sigla în stânga, titlul Factură INV/2023/00003 într-o casetă la mijloc, adresa companiei în dreapta, tabelul cu capul pe fundal teal](../static/description/08_document_style5.png)
 
-![Previzualizarea facturii cu macheta Compact: antet pe un singur rând cu sigla mică, titlul și adresa, tabelul cu font mic și margini strânse, subsol centrat](../static/description/09_document_style6.png)
+![Previzualizarea facturii cu macheta Compact Header: antet pe un singur rând cu sigla mică, titlul și adresa, tabelul cu font mic și margini strânse, subsol centrat](../static/description/09_document_style6.png)
 
 ![Previzualizarea facturii cu macheta Minimal: alb-negru, adresa companiei în stânga și sigla cu titlul FACTURĂ în dreapta, sub o linie neagră, tabelul fără fundaluri colorate](../static/description/10_document_style7.png)
 
@@ -161,13 +161,13 @@ sigla, sloganul și subsolul se preiau din configurarea companiei.
 
 ## 8. Verificări pentru consultant
 
-- [ ] Fereastra deschisă din **Configurare aspect document** afișează la **Aspect** cele opt machete noi: Style1, Style2, Band, Modern, Title Box, Compact, Minimal și Accent.
+- [ ] Fereastra deschisă din **Configurare aspect document** afișează la **Aspect** cele opt machete noi: Style1, Style2, Band, Modern, Title Box, Compact Header, Minimal și Accent.
 - [ ] Previzualizarea se schimbă când treceți de la o machetă la alta.
 - [ ] **Band**: titlul stă pe o bandă în culoarea principală, iar subsolul e tot pe bandă.
 - [ ] **Minimal** rămâne alb-negru, oricare ar fi culorile companiei.
 - [ ] **Accent**: banda verticală apare pe marginea stângă a conținutului, pe fiecare pagină a unei facturi cu mai multe pagini.
 - [ ] După **Continuați**, o factură tipărită are antetul și subsolul machetei alese.
-- [ ] Culoarea principală aleasă la **Culori** apare în capul tabelului și la total (Style1, Style2, Modern, Title Box), în antet (Band, Compact) sau în bara laterală (Accent).
+- [ ] Culoarea principală aleasă la **Culori** apare în capul tabelului și la total (Style1, Style2, Modern, Title Box), în antet (Band, Compact Header) sau în bara laterală (Accent).
 - [ ] Textul din **Subsol** apare în subsolul documentului; în PDF apare și numărul paginii.
 - [ ] Pe Odoo Online, după importul arhivei zip (modul dezvoltator, **Aplicații → Importați
   Modulul**), modulul apare în **Aplicații** și cele opt machete
@@ -197,10 +197,10 @@ Capturile sunt în `static/description/` (cele în engleză, pentru `readme/USAG
 | `06_document_style3.png` | Factura exemplu cu macheta Band |
 | `07_document_style4.png` | Factura exemplu cu macheta Modern |
 | `08_document_style5.png` | Factura exemplu cu macheta Title Box |
-| `09_document_style6.png` | Factura exemplu cu macheta Compact |
+| `09_document_style6.png` | Factura exemplu cu macheta Compact Header |
 | `10_document_style7.png` | Factura exemplu cu macheta Minimal |
 | `11_document_style8.png` | Factura exemplu cu macheta Accent |
-| `demo.gif` | Animație cu fereastra de configurare, care trece prin machetele Light, Style1, Style2, Band, Modern, Title Box, Compact, Minimal, Accent (se afișează pe pagina Apps, sub imaginea principală) |
+| `demo.gif` | Animație cu fereastra de configurare, care trece prin machetele Light, Style1, Style2, Band, Modern, Title Box, Compact Header, Minimal, Accent (se afișează pe pagina Apps, sub imaginea principală) |
 
 Modulul nu are `tests/test_screenshots.py`: un test Python ar contrazice varianta fără cod Python
 pentru Odoo Online. Capturile s-au făcut cu Playwright, din fereastra de configurare și din
@@ -210,7 +210,7 @@ previzualizarea raportului (`/report/html/web.preview_externalreport/<id_compani
 ## 11. Observații pentru manual
 
 - Macheta se alege per companie: într-o bază cu mai multe companii, fiecare are macheta ei.
-- Machetele **Band**, **Modern**, **Title Box**, **Compact**, **Minimal** și **Accent** se deosebesc prin antet, subsol și stilul tabelului; conținutul documentului (liniile, totalurile, mențiunile) rămâne cel din raportul tipărit.
+- Machetele **Band**, **Modern**, **Title Box**, **Compact Header**, **Minimal** și **Accent** se deosebesc prin antet, subsol și stilul tabelului; conținutul documentului (liniile, totalurile, mențiunile) rămâne cel din raportul tipărit.
 - **Minimal** nu folosește culorile companiei, doar sigla.
 - Modulul nu schimbă rapoartele care nu folosesc antetul standard al companiei.
 - Pe Odoo Online, importul unui modul cere planul Custom.

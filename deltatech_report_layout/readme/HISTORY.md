@@ -1,9 +1,10 @@
 ## 20.0.1.3.0 (2026-11-16)
 
-- Three more report layouts: Compact (small font, tight margins, one-line header, for
+- Three more report layouts: Compact Header (small font, tight margins, one-line header, for
   documents with many lines), Minimal (black and white, no color bands, cheap to print)
   and Accent (colored vertical bar along the left edge of the content, colored title).
-- Consultant sheet, USAGE and DESCRIPTION updated for the eight layouts (Style1, Style2, Band, Modern, Title Box, Compact, Minimal, Accent), with new screenshots and a demo GIF.
+- Consultant sheet, USAGE and DESCRIPTION updated for the eight layouts (Style1, Style2, Band, Modern, Title Box, Compact Header, Minimal, Accent), with new screenshots and a demo GIF.
+- The Compact layout is named **Compact Header**, so it is not confused with the standard Odoo 20 **Compact** layout.
 
 ## 20.0.1.2.0 (2026-11-16)
 

@@ -1,6 +1,6 @@
 1. Go to **Settings > General Settings** and, in the **Companies** section, click
    **Configure Document Layout**.
-2. Under **Layout**, the eight new layouts (**Style1**, **Style2**, **Band**, **Modern**, **Title Box**, **Compact**, **Minimal** and **Accent**) are listed after the standard
+2. Under **Layout**, the eight new layouts (**Style1**, **Style2**, **Band**, **Modern**, **Title Box**, **Compact Header**, **Minimal** and **Accent**) are listed after the standard
    ones. Select **Style1**: the preview shows a sample invoice with the logo on the left and the
    company address aligned to the right.
    The **Tables** row (Light, Boxed, Bold...) does not change Style1 and Style2: each of them has its
@@ -25,7 +25,7 @@
    |---|---|
    | **Modern** | Logo on the left, colored title and company details on the right, colored table header |
    | **Title Box** | Title in a box in the middle, logo on the left, company details on the right |
-   | **Compact** | Small font, tight margins and a one-line header, for documents with many lines |
+   | **Compact Header** | Small font, tight margins and a one-line header, for documents with many lines |
    | **Minimal** | Black and white, no colored backgrounds, cheap to print (ignores the company colors) |
    | **Accent** | Colored vertical bar along the left edge of the content, colored title |
 
@@ -33,7 +33,7 @@
 
    ![Invoice preview with Title Box: title in a box between the logo and the company address](static/description/en/08_document_style5.png)
 
-   ![Invoice preview with Compact: one-line header, small font and tight margins](static/description/en/09_document_style6.png)
+   ![Invoice preview with Compact Header: one-line header, small font and tight margins](static/description/en/09_document_style6.png)
 
    ![Invoice preview with Minimal: black and white, company address on the left, logo and title on the right](static/description/en/10_document_style7.png)
 
