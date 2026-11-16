@@ -1,3 +1,14 @@
+## 19.0.1.3.0 (2026-11-16)
+
+- Data-only module, available on Odoo Online: the empty `__init__.py` and the Python test runners
+  (`tests/test_js.py`, `tests/test_screenshots.py`) were removed. Odoo Apps treats any `.py` file
+  as Python code and showed the module as not available on Odoo Online. The module can now be
+  loaded on Odoo Online from **Apps > Import Module**. The JavaScript tests
+  (`static/tests/side_panel.test.js`) stay in the module and run with the web unit tests
+  (`/web/tests?filter=deltatech_web_side_panel`).
+- The asset paths in the manifest are listed file by file instead of with glob wildcards: the
+  import of a module zip refuses `*` and `**` in the asset paths.
+
 ## 19.0.1.2.0 (2026-11-13)
 
 - A double click on a card or on a row opens the full form of that record. A single click still
