@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- The image goes at the start of the product cell, not in a column of its own: the delivery
+         slip table changes shape with packages, lots and serial numbers, and a new column would have
+         to follow every variant (colspans, package sections). -->
+
+    <!-- Delivery slip: transfer not yet done (lines by move) -->
+    <template id="report_delivery_document" inherit_id="stock.report_delivery_document">
+        <xpath expr="//table[@name='stock_move_table']//tr[@t-foreach='lines']/td[1]/span[1]" position="before">
+            <img
+                t-if="not o.company_id.hide_picking_image_pdf and move.product_id.image_128"
+                t-att-src="image_data_uri(move.product_id.image_128)"
+                class="me-2"
+                style="max-height: 48px; max-width: 48px;"
+                alt="Image"
+            />
+        </xpath>
+    </template>
+
+    <!-- Delivery slip: transfer done, lines with lot/serial -->
+    <template
+        id="stock_report_delivery_has_serial_move_line"
+        inherit_id="stock.stock_report_delivery_has_serial_move_line"
+    >
+        <xpath expr="//td[1]/span[1]" position="before">
+            <img
+                t-if="not o.company_id.hide_picking_image_pdf and move_line.product_id.image_128"
+                t-att-src="image_data_uri(move_line.product_id.image_128)"
+                class="me-2"
+                style="max-height: 48px; max-width: 48px;"
+                alt="Image"
+            />
+        </xpath>
+    </template>
+
+    <!-- Delivery slip: transfer done, lines grouped by product -->
+    <template
+        id="stock_report_delivery_aggregated_move_lines"
+        inherit_id="stock.stock_report_delivery_aggregated_move_lines"
+    >
+        <xpath expr="//td[1]/span[1]" position="before">
+            <img
+                t-if="not o.company_id.hide_picking_image_pdf and aggregated_lines[line]['product'].image_128"
+                t-att-src="image_data_uri(aggregated_lines[line]['product'].image_128)"
+                class="me-2"
+                style="max-height: 48px; max-width: 48px;"
+                alt="Image"
+            />
+        </xpath>
+    </template>
+
+    <!-- Picking operations report -->
+    <template id="report_picking" inherit_id="stock.report_picking">
+        <xpath expr="//t[@t-as='move']/tr/td[1]/span[1]" position="before">
+            <img
+                t-if="not o.company_id.hide_picking_image_pdf and move.product_id.image_128"
+                t-att-src="image_data_uri(move.product_id.image_128)"
+                class="me-2"
+                style="max-height: 48px; max-width: 48px;"
+                alt="Image"
+            />
+        </xpath>
+    </template>
+</odoo>
