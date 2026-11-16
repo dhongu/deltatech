@@ -170,7 +170,7 @@ msgstr "Comandă de vânzare"
 #. odoo-python
 #: code:addons/deltatech_sale_merge/wizard/sale_order_merge.py:0
 msgid "Select at least two quotations to merge."
-msgstr "Selectați cel puțin două oferte de unit."
+msgstr "Selectați cel puțin două oferte pentru unire."
 
 #. module: deltatech_sale_merge
 #: model:ir.model.fields,field_description:deltatech_sale_merge.field_sale_order_merge__target_order_id
