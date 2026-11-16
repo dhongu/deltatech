@@ -34,10 +34,10 @@ etape.
 | Manager vânzări | Definește fazele (nume, ordine, culoare, ce eveniment le activează, acțiune automată) | **Vânzări: Administrator** (`sales_team.group_sale_manager`) — drept complet pe faze |
 | Operator vânzări / back-office | Vede faza pe comandă, o schimbă manual când e nevoie, filtrează și grupează | **Vânzări: Utilizator** — fazele sunt doar citire |
 | Responsabil logistică | Validează livrările; statusul curierului mută comanda în faza corespunzătoare | Inventar: Utilizator |
-| Contabil | Validează factura; comanda complet facturată trece singură în faza de facturare | Facturare **și** cel puțin **Vânzări: Utilizator** (citește fazele la validare) |
+| Contabil | Validează factura; comanda complet facturată trece singură în faza de facturare | **Facturare** (faza comenzii se setează la validare cu drepturi ridicate, fără drept pe Vânzări) |
 
 Roluri recomandate la testare: un **Administrator vânzări** pentru configurare, un **Utilizator
-vânzări** pentru flux și un contabil cu **Facturare** și **Vânzări: Utilizator** pentru validarea
+vânzări** pentru flux și un contabil doar cu **Facturare** pentru validarea
 facturii.
 
 ## 4. Conturi și date implicate
@@ -107,8 +107,8 @@ Când conectorul de curier actualizează statusul livrării, comanda urmează au
 
 Creați factura din comandă și **validați-o**. În momentul validării, dacă întreaga comandă a ajuns
 **complet facturată**, ea trece în faza bifată **Invoiced**. O factură parțială nu mută comanda.
-Pe 19.0, utilizatorul care validează factura trebuie să aibă cel puțin **Vânzări: Utilizator**: la
-validare se citesc fazele comenzii, iar fără acest drept validarea se oprește cu o eroare de acces.
+Faza **Invoiced** se setează cu drepturi ridicate, deci contabilul cu drept de **Facturare** poate
+valida factura chiar dacă nu are niciun drept pe Vânzări.
 
 ### Pasul 6 — Anularea
 
@@ -159,8 +159,8 @@ anularea comenzii când se alege manual o fază **Confirmed** / **Canceled**.
       ofertă o confirmă.
 - [ ] Validarea livrării pe un tip de operație cu **Phase** setată mută comanda în acea fază.
 - [ ] O factură parțială **nu** schimbă faza; factura care completează comanda o mută în **Invoiced**.
-- [ ] Contabilul care validează facturile are și **Vânzări: Utilizator** (altfel validarea dă eroare de
-      acces).
+- [ ] Un contabil fără drepturi pe Vânzări validează factura care completează comanda, iar comanda
+      trece în **Invoiced**, fără eroare de acces.
 - [ ] **Anulează** mută comanda în **Canceled**.
 - [ ] Acțiunea server a unei faze rulează la intrarea comenzii în fază.
 - [ ] Gruparea **Phase** din lista de comenzi arată numărul corect de comenzi pe fiecare fază.
@@ -175,7 +175,6 @@ anularea comenzii când se alege manual o fază **Confirmed** / **Canceled**.
 | Faza „sare” înapoi la validarea livrării | Faza tipului de operație se aplică indiferent de ordine | Alegeți pe tipul de operație o fază ulterioară celei curente |
 | Faza nu trece în **Invoiced** după validarea facturii | Comanda nu e încă complet facturată | Facturați restul sau acceptați faza curentă |
 | „The order was not invoiced” la alegerea manuală a fazei **Invoiced** pe o comandă facturată | Condiția din verificarea manuală este inversată — problemă cunoscută (dhongu/deltatech#3533) | Lăsați faza **Invoiced** să fie setată automat de validarea facturii |
-| Eroare de acces la validarea facturii unei comenzi, pentru un contabil | Pe 19.0 fazele se citesc cu drepturile utilizatorului, iar contabilul nu are drept pe Vânzări | Dați-i **Vânzări: Utilizator**; pe 20.0 fazele se citesc fără această condiție |
 | Eroare de drepturi la crearea unei faze | Utilizatorul nu e **Administrator** vânzări | Fazele le configurează managerul de vânzări |
 
 ## 10. Capturi de ecran
