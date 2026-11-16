@@ -60,7 +60,10 @@ class SaleOrder(models.Model):
             if new_phase and new_phase != order.phase_id:
                 # sudo doar pentru scrierea fazei; efectele (acțiune, confirmare, anulare) rulează cu drepturile
                 # utilizatorului, cheia din context e citită în write()
-                order.sudo().with_context(phase_actions_as_user=True).phase_id = new_phase
+                if self.env.su:
+                    order.phase_id = new_phase  # apelant deja sudo: efectele păstrează mediul lui
+                else:
+                    order.sudo().with_context(phase_actions_as_user=True).phase_id = new_phase
 
     def write(self, vals):
         res = super().write(vals)

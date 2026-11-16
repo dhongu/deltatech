@@ -176,3 +176,26 @@ class TestSaleOrderInvoicedPhase(AccountTestInvoicingCommon):
             self.env["sale.order.phase"].with_user(accountant).search([])
         invoice.with_user(accountant).action_post()
         self.assertEqual(order.phase_id, self.phase_invoiced)
+
+    def test_phase_action_keeps_caller_sudo(self):
+        # apelantul sudo (ex. confirmarea din plata online) păstrează drepturile pentru acțiunea fazei
+        model = self.env["ir.model"]._get("sale.order")
+        action = self.env["ir.actions.server"].create(
+            {
+                "name": "Phase action",
+                "model_id": model.id,
+                "state": "code",
+                "code": "record.write({'note': 'phase action ran'})",
+            }
+        )
+        self.phase_confirmed.action_id = action
+        order = self.env["sale.order"].create(
+            {
+                "partner_id": self.partner_a.id,
+                "order_line": [(0, 0, {"product_id": self.service.id, "product_uom_qty": 1})],
+            }
+        )
+        public = self.env.ref("base.public_user")
+        order.with_user(public).sudo().set_phase("confirmed")
+        self.assertEqual(order.phase_id, self.phase_confirmed)
+        self.assertIn("phase action ran", order.note or "")
