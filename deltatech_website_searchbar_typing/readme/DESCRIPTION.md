@@ -19,3 +19,10 @@ from the user guides.
   placeholder is set as its `aria-label`, so screen readers do not read every changing letter.
 - It works with the standard search snippet and with the `website.website_search_box_input`
   template, next to the standard autocomplete dropdown.
+
+Odoo Online
+===========
+
+The module contains no Python code, only JavaScript and a Website Builder option template. Besides
+Odoo.sh and on-premise installations, it can be used on Odoo Online (Custom plan): download the zip
+and load it from **Apps > Import Module**.

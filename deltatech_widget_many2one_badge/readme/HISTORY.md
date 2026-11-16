@@ -1,3 +1,13 @@
+## 19.0.1.1.0 (2026-11-16)
+
+- Data-only module, importable on Odoo Online (Custom plan) from **Apps > Import Module**: the
+  `__init__.py` files and the `tests/` folder were removed, because Odoo Apps treats any `.py`
+  file as Python code and does not list the module as available on Odoo Online.
+- The Python runner of the JavaScript tests (`tests/test_js.py`) and the screenshot test of the
+  consultant sheet (`tests/test_screenshots.py`) were removed; the Hoot tests stay in
+  `static/tests/` and run with the web unit tests
+  (`/web/tests?filter=@deltatech_widget_many2one_badge`).
+
 ## 19.0.1.0.5 (2026-11-14)
 
 - Apps Store banner: the "Odoo Online" badge shows that the module has no Python code and installs on

@@ -53,6 +53,14 @@ guides.
   ``website.website_search_box_input`` template, next to the standard
   autocomplete dropdown.
 
+Odoo Online
+===========
+
+The module contains no Python code, only JavaScript and a Website
+Builder option template. Besides Odoo.sh and on-premise installations,
+it can be used on Odoo Online (Custom plan): download the zip and load
+it from **Apps > Import Module**.
+
 **Table of contents**
 
 .. contents::
@@ -102,6 +110,26 @@ find something.
 
 Changelog
 =========
+
+19.0.1.2.0 (2026-11-16)
+-----------------------
+
+- Data-only module, importable on Odoo Online (Custom plan) from **Apps
+  > Import Module**: the ``__init__.py`` files and the ``tests/`` folder
+  were removed, because Odoo Apps treats any ``.py`` file as Python code
+  and does not list the module as available on Odoo Online.
+- The Python runner of the JavaScript tests (``tests/test_js.py``) was
+  removed; the Hoot tests stay in ``static/tests/`` and run with the web
+  unit tests
+  (``/web/tests?filter=@deltatech_website_searchbar_typing``).
+- The asset paths are listed file by file: an imported module rejects
+  glob wildcards in asset paths.
+
+19.0.1.1.1 (2026-11-14)
+-----------------------
+
+- Apps Store banner: the "Odoo Online" badge shows that the module has
+  no Python code and installs on Odoo Online.
 
 19.0.1.1.0 (2026-10-17)
 -----------------------

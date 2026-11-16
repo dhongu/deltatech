@@ -30,3 +30,10 @@ needs no external CDN.
 <field name="notes" widget="markdown"/>
 <field name="notes" widget="markdown" options="{'min_height': 300}"/>
 ```
+
+Odoo Online
+===========
+
+The module contains no Python code, only JavaScript, QWeb templates and a style sheet (the marked
+and turndown libraries are bundled with it). Besides Odoo.sh and on-premise installations, it can be
+used on Odoo Online (Custom plan): download the zip and load it from **Apps > Import Module**.
