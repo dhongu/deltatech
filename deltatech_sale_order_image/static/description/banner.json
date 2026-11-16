@@ -1,0 +1,12 @@
+{
+  "title": "Sale Order Line Images",
+  "summary": "Product image on quotation and sale order PDF lines",
+  "module_icon": true,
+  "edition": "community",
+  "lang": "en",
+  "features": [
+    "Product or variant image per PDF line",
+    "Switch on or off per company",
+    "Sections and combos stay aligned"
+  ]
+}
