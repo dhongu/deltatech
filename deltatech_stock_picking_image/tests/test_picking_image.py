@@ -1,8 +1,27 @@
 # ©  2026 Terrabit
 # See README.rst file on addons root folder for license details
 
+import unittest
+
 from odoo.tests import TransactionCase, tagged
 from odoo.tools.binary import BinaryBytes
+
+
+def _has_renderpm_backend():
+    """The picking operations report renders a barcode with reportlab renderPM, which needs
+    the rlPyCairo or _rl_renderPM backend. Not every test image ships it."""
+    for module in ("rlPyCairo", "_rl_renderPM"):
+        try:
+            __import__(module)
+        except ImportError:
+            continue
+        return True
+    return False
+
+
+skip_without_renderpm = unittest.skipUnless(
+    _has_renderpm_backend(), "reportlab renderPM backend (rlPyCairo/_rl_renderPM) is not installed"
+)
 
 # 1x1 PNG
 PNG = BinaryBytes(
@@ -51,6 +70,7 @@ class TestPickingImage(TransactionCase):
     def test_delivery_slip_image(self):
         self.assertIn('alt="Image"', self._render("stock.action_report_delivery"))
 
+    @skip_without_renderpm
     def test_picking_operations_image(self):
         self.picking.action_confirm()
         self.picking.move_ids.quantity = 2
@@ -59,6 +79,10 @@ class TestPickingImage(TransactionCase):
     def test_hide_on_pdf(self):
         self.env.company.hide_picking_image_pdf = True
         self.assertNotIn('alt="Image"', self._render("stock.action_report_delivery"))
+
+    @skip_without_renderpm
+    def test_hide_on_pdf_picking_operations(self):
+        self.env.company.hide_picking_image_pdf = True
         self.picking.action_confirm()
         self.picking.move_ids.quantity = 2
         self.assertNotIn('alt="Image"', self._render("stock.action_report_picking"))
