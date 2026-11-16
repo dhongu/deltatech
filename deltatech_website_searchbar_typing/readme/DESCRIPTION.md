@@ -7,8 +7,8 @@ from the user guides.
 
 - Opt-in per search box: only the search forms that carry examples are animated. Installing
   the module changes nothing else on the website.
-- The examples are plain text inside the search form, so they are translated with the page
-  and can be edited like any other text.
+- The examples are edited in the Website Builder panel and saved as plain text inside the search
+  form: each example is a translation term of its own.
 - An optional prefix stays in front of every example (for instance "e.g. ").
 - The animation stops for good as soon as the visitor clicks in the box or starts typing, and
   the original placeholder comes back.

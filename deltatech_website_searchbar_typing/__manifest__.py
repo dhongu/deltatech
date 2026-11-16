@@ -8,6 +8,7 @@
     "summary": "The search box placeholder types example searches, one after another",
     "version": "19.0.1.2.0",
     "license": "LGPL-3",
+    "consultant_sheet": "full",
     "author": "Terrabit, Dorin Hongu",
     "support": "odoo@terrabit.ro",
     "website": "https://www.terrabit.ro",

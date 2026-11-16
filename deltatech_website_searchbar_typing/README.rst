@@ -19,11 +19,14 @@ Website Searchbar Typing Examples
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_searchbar_typing
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_website_searchbar_typing/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 .. |badge_tests| image:: https://img.shields.io/badge/-1%20automated%20test-2ea44f.png
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_searchbar_typing/tests
     :alt: 1 automated test
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
 The placeholder of a website search box types example searches, one
 after another: each example is typed letter by letter, held for a
@@ -35,8 +38,9 @@ guides.
 
 - Opt-in per search box: only the search forms that carry examples are
   animated. Installing the module changes nothing else on the website.
-- The examples are plain text inside the search form, so they are
-  translated with the page and can be edited like any other text.
+- The examples are edited in the Website Builder panel and saved as
+  plain text inside the search form: each example is a translation term
+  of its own.
 - An optional prefix stays in front of every example (for instance "e.g.
   ").
 - The animation stops for good as soon as the visitor clicks in the box
@@ -69,15 +73,52 @@ it from **Apps > Import Module**.
 Usage
 =====
 
-Add the examples inside the search form, as a hidden list with the class
-``o_searchbar_typing``. Each item is one example; the optional item with
-the class ``o_searchbar_typing_prefix`` is shown in front of every
-example, followed by a space. Use list items (``li``), not ``span``:
-Odoo translates each list item as a term of its own, while a group of
-inline elements is translated as one block of HTML.
+The module has no menus or settings: the examples are turned on per
+search box, in the Website Builder.
+
+1. In the **Website** app, open the page with the search box and click
+   **Edit**. Click the search box: the **Search** group of the **Style**
+   tab shows the **Typing examples** switch. Turn it on, then edit the
+   **Prefix** (leave it empty for none) and the **Examples**: add,
+   remove or drag them to change the order. Click **Save**.
+
+   |Website Builder on the Search the help center page: the search box
+   is selected; in the Search group of the right panel, the Typing
+   examples switch is on, the prefix is e.g. and the Examples list holds
+   e-Invoice, bank statement import and credit note|
+
+2. Open the page on the website, outside the editor. After about a
+   second and a half, the placeholder types the first example with the
+   prefix in front, holds it, erases it and types the next one.
+
+   |The Search the help center page on the website: the highlighted
+   search box shows the placeholder e.g. e-Invoice, typed by the
+   animation|
+
+3. Click in the search box or start typing: the animation stops for good
+   on that page and the original placeholder comes back.
+
+   |The same page after a click in the highlighted search box: the
+   placeholder is back to Search the help center... and the animation
+   has stopped|
+
+The animation runs only on the website, not in the editor. The option
+writes the examples in the form as a hidden list with the class
+``o_searchbar_typing``; the optional item with the class
+``o_searchbar_typing_prefix`` is shown in front of every example,
+followed by a space.
+
+**Translations.** Each example and the prefix are translation terms of
+their own. The list is hidden, so the translation mode of the Website
+Builder does not show it: translate the examples from the page view, in
+developer mode (**Settings > Technical > User Interface > Views**, the
+view of the page, **Architecture** tab, translation button of the
+field).
 
 In a QWeb template that calls ``website.website_search_box_input``, the
-body of the call is placed inside the form:
+body of the call is placed inside the form. Use list items (``li``), not
+``span``: Odoo translates each list item as a term of its own, while a
+group of inline elements is translated as one block of HTML.
 
 .. code:: xml
 
@@ -93,11 +134,6 @@ body of the call is placed inside the form:
        </ul>
    </t>
 
-On a search box placed with the Website Builder, select the search input
-and turn on **Typing examples** in the panel. Edit the **Prefix** (leave
-it empty for none) and the **Examples**: add, remove or drag them to
-change the order. The option writes the same hidden list in the form.
-
 The speed can be changed with data attributes on the
 ``o_searchbar_typing`` element, in milliseconds: ``data-start-delay``
 (1500, before the first letter), ``data-type-delay`` (70, per typed
@@ -107,6 +143,10 @@ letter), ``data-hold-delay`` (1800, how long a full example stays),
 
 Choose examples that return results: a visitor who copies one should
 find something.
+
+.. |Website Builder on the Search the help center page: the search box is selected; in the Search group of the right panel, the Typing examples switch is on, the prefix is e.g. and the Examples list holds e-Invoice, bank statement import and credit note| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_searchbar_typing/static/description/en/01_editor_exemple_tastate.png
+.. |The Search the help center page on the website: the highlighted search box shows the placeholder e.g. e-Invoice, typed by the animation| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_searchbar_typing/static/description/en/02_exemplu_tastat.png
+.. |The same page after a click in the highlighted search box: the placeholder is back to Search the help center... and the animation has stopped| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_searchbar_typing/static/description/en/03_oprire_la_click.png
 
 Changelog
 =========
@@ -124,6 +164,11 @@ Changelog
   (``/web/tests?filter=@deltatech_website_searchbar_typing``).
 - The asset paths are listed file by file: an imported module rejects
   glob wildcards in asset paths.
+- Consultant sheet (``readme/FISA_CONSULTANT.md``) and usage with
+  screenshots of the Website Builder option and of the website, plus the
+  demo GIF of the Apps Store page. The usage explains how the examples
+  are translated: the list is hidden, so they are translated from the
+  page view.
 
 19.0.1.1.1 (2026-11-14)
 -----------------------

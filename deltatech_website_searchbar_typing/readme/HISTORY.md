@@ -8,6 +8,9 @@
   (`/web/tests?filter=@deltatech_website_searchbar_typing`).
 - The asset paths are listed file by file: an imported module rejects glob wildcards in asset
   paths.
+- Consultant sheet (`readme/FISA_CONSULTANT.md`) and usage with screenshots of the Website Builder
+  option and of the website, plus the demo GIF of the Apps Store page. The usage explains how the
+  examples are translated: the list is hidden, so they are translated from the page view.
 
 ## 19.0.1.1.1 (2026-11-14)
 
