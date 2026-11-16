@@ -36,7 +36,8 @@ class SaleOrder(models.Model):
         if self.env.context.get("skip_phase_update", False):
             return
         domain = [(phase_step, "=", True)]
-        phases = self.env["sale.order.phase"].search(domain)
+        # sudo doar pentru citirea fazelor: utilizatorul (ex. contabilul) poate să nu aibă drepturi pe ele
+        phases = self.env["sale.order.phase"].sudo().search(domain)
         if not phases:
             return
         for order in self:
@@ -52,21 +53,25 @@ class SaleOrder(models.Model):
                 if ignore_sequence:
                     new_phase = phase
                     break
-                if phase.sequence > order.phase_id.sequence:
+                if phase.sequence > order.phase_id.sudo().sequence:
                     new_phase = phase
                     break
 
             if new_phase and new_phase != order.phase_id:
-                order.phase_id = new_phase
+                # sudo: scrierea fazei; acțiunea fazei rulează apoi cu drepturile utilizatorului (vezi write)
+                order.sudo().phase_id = new_phase
 
     def write(self, vals):
         res = super().write(vals)
         if "phase_id" in vals:
             for order in self:
-                if order.phase_id.action_id:
-                    order.phase_id.action_id.with_context(active_id=order.id, active_model="sale.order").run()
-                if order.phase_id.confirmed and order.state == "draft":
-                    order.with_context(skip_phase_update=True).action_confirm()
-                if order.phase_id.canceled and order.state != "cancel":
-                    order.with_context(skip_phase_update=True)._action_cancel()
+                phase = order.phase_id.sudo()  # citire; acțiunea rulează cu drepturile utilizatorului curent
+                if phase.action_id:
+                    phase.action_id.with_user(self.env.user).with_context(
+                        active_id=order.id, active_model="sale.order"
+                    ).run()
+                if phase.confirmed and order.state == "draft":
+                    order.with_user(self.env.user).with_context(skip_phase_update=True).action_confirm()
+                if phase.canceled and order.state != "cancel":
+                    order.with_user(self.env.user).with_context(skip_phase_update=True)._action_cancel()
         return res

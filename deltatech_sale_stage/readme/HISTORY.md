@@ -1,6 +1,6 @@
 ## 19.0.1.2.10 (2026-11-13)
 
-- Fix: posting an invoice linked to a sale order no longer raises `AccessError` on `sale.order.phase` for users without sales rights (e.g. accountants); the *invoiced* phase is now set with elevated rights.
+- Fix: posting an invoice linked to a sale order no longer raises `AccessError` on `sale.order.phase` for users without sales rights (e.g. accountants); only reading the phases and writing `phase_id` use elevated rights; the phase server action, confirmation and cancellation still run with the current user's rights.
 
 ## 19.0.1.2.9 (2026-10-22)
 
