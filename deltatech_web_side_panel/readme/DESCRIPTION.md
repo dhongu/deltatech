@@ -13,3 +13,8 @@ the user selected, without leaving the screen.
   remembered in the browser.
 - **Small screens keep the usual views** — below the extra-large breakpoint the click opens the form
   as before.
+
+**Odoo Online** — the module contains no Python code, only JavaScript, a style sheet and XML
+templates. Besides Odoo.sh and on-premise installations, it can be used on Odoo Online (Custom
+plan): download the zip and load it from **Apps > Import Module**. The panel shows up in the views
+that use `side_panel_kanban` or `side_panel_list`.
