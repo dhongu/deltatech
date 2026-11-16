@@ -1,0 +1,85 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_stock_picking_image
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-16 05:32+0000\n"
+"PO-Revision-Date: 2026-11-16 05:32+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_stock_picking_image
+#: model:ir.model,name:deltatech_stock_picking_image.model_res_company
+msgid "Companies"
+msgstr "Companii"
+
+#. module: deltatech_stock_picking_image
+#: model:ir.model,name:deltatech_stock_picking_image.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_stock_picking_image
+#: model:ir.model.fields,field_description:deltatech_stock_picking_image.field_res_company__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_picking_image.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_picking_image.field_stock_move__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_stock_picking_image
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_image.res_config_settings_view_form
+msgid ""
+"Do not print the product image on the delivery slip and on the picking "
+"operations report"
+msgstr ""
+"Nu tipări imaginea produsului pe avizul de livrare și pe raportul "
+"operațiunilor de picking"
+
+#. module: deltatech_stock_picking_image
+#: model:ir.model.fields,help:deltatech_stock_picking_image.field_res_company__hide_picking_image_pdf
+#: model:ir.model.fields,help:deltatech_stock_picking_image.field_res_config_settings__hide_picking_image_pdf
+msgid ""
+"Do not print the product image on the delivery slip and on the picking "
+"operations report. The images stay visible on screen."
+msgstr ""
+"Nu tipări imaginea produsului pe avizul de livrare și pe raportul "
+"operațiunilor de picking. Imaginile rămân vizibile pe ecran."
+
+#. module: deltatech_stock_picking_image
+#: model:ir.model.fields,field_description:deltatech_stock_picking_image.field_res_company__hide_picking_image_pdf
+#: model:ir.model.fields,field_description:deltatech_stock_picking_image.field_res_config_settings__hide_picking_image_pdf
+msgid "Hide Product Images on Transfer PDFs"
+msgstr "Ascunde imaginile produselor în PDF-urile transferurilor"
+
+#. module: deltatech_stock_picking_image
+#: model:ir.model.fields,field_description:deltatech_stock_picking_image.field_res_company__id
+#: model:ir.model.fields,field_description:deltatech_stock_picking_image.field_res_config_settings__id
+#: model:ir.model.fields,field_description:deltatech_stock_picking_image.field_stock_move__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_stock_picking_image
+#: model:ir.model.fields,field_description:deltatech_stock_picking_image.field_stock_move__product_image
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_image.report_delivery_document
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_image.report_picking
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_image.stock_report_delivery_aggregated_move_lines
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_picking_image.stock_report_delivery_has_serial_move_line
+msgid "Image"
+msgstr "Imagine"
+
+#. module: deltatech_stock_picking_image
+#: model:ir.model.fields,help:deltatech_stock_picking_image.field_stock_move__product_image
+msgid "Product image (variant image when the product has variants)"
+msgstr "Imaginea produsului (imaginea variantei, când produsul are variante)"
+
+#. module: deltatech_stock_picking_image
+#: model:ir.model,name:deltatech_stock_picking_image.model_stock_move
+msgid "Stock Move"
+msgstr "Mutare de stoc"
