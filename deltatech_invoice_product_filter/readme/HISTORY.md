@@ -1,3 +1,11 @@
+## 20.0.1.2.2 (2026-11-16)
+
+- Empty `__init__.py` restored: the OCA tools (manifestoo, oca-checks-odoo-module) do not
+  recognize a module without it, so the CI of the suites that depend on this module failed.
+  The module still has no Python code and still imports on Odoo Online.
+- Explicit Odoo Online marker: `"online": true` in `static/description/banner.json`
+  (the banner no longer infers it from the missing `.py` files).
+
 ## 20.0.1.2.1 (2026-11-09)
 
 - The "(importable, Odoo Online)" suffix was removed from the module name. Odoo Apps already shows

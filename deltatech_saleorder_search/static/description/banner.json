@@ -1,5 +1,6 @@
 {
   "title": "Sale Order Search by Contact",
+  "online": true,
   "summary": "Find orders by e-mail or phone, also on Odoo Online",
   "icon": "cart",
   "features": ["Search by customer e-mail", "Search by customer phone", "No Python: importable on Odoo Online"],

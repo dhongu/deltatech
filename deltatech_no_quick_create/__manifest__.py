@@ -5,7 +5,7 @@
 {
     "name": "No Quick Create",
     "summary": "Disable quick create in many2one fields; data-only, importable on Odoo Online",
-    "version": "20.0.2.1.1",
+    "version": "20.0.2.1.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Tools",
