@@ -1,0 +1,215 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_sale_merge
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-16 02:30+0000\n"
+"PO-Revision-Date: 2026-11-16 02:30+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2);\n"
+
+#. module: deltatech_sale_merge
+#. odoo-python
+#: code:addons/deltatech_sale_merge/wizard/sale_order_merge.py:0
+msgid ""
+"%(field)s is different (%(values)s), the one on the target quotation is "
+"kept."
+msgstr "%(field)s este diferit (%(values)s), se păstrează valoarea de pe oferta țintă."
+
+#. module: deltatech_sale_merge
+#: model:ir.model.fields.selection,name:deltatech_sale_merge.selection__sale_order_merge__target_mode__new
+msgid "A new quotation"
+msgstr "O ofertă nouă"
+
+#. module: deltatech_sale_merge
+#: model:ir.model.fields.selection,name:deltatech_sale_merge.selection__sale_order_merge__target_mode__selected
+msgid "A selected quotation"
+msgstr "O ofertă selectată"
+
+#. module: deltatech_sale_merge
+#: model:ir.model.fields,field_description:deltatech_sale_merge.field_sale_order_merge__add_sections
+msgid "Add a Section per Quotation"
+msgstr "Adaugă o secțiune pe ofertă"
+
+#. module: deltatech_sale_merge
+#: model:ir.model.fields,help:deltatech_sale_merge.field_sale_order_merge__add_sections
+msgid ""
+"Add a section with the quotation number before the lines taken from each "
+"merged quotation."
+msgstr "Adaugă o secțiune cu numărul ofertei înaintea liniilor preluate din fiecare ofertă unită."
+
+#. module: deltatech_sale_merge
+#: model:ir.model.fields.selection,name:deltatech_sale_merge.selection__sale_order_merge__line_mode__sum
+msgid "Add up identical lines"
+msgstr "Adună liniile identice"
+
+#. module: deltatech_sale_merge
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_merge.view_sale_order_merge_form
+msgid "Cancel"
+msgstr "Anulează"
+
+#. module: deltatech_sale_merge
+#. odoo-python
+#: code:addons/deltatech_sale_merge/wizard/sale_order_merge.py:0
+msgid "Choose the target quotation among the selected ones."
+msgstr "Alegeți oferta țintă dintre cele selectate."
+
+#. module: deltatech_sale_merge
+#: model:ir.model.fields,field_description:deltatech_sale_merge.field_sale_order_merge__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_sale_merge
+#: model:ir.model.fields,field_description:deltatech_sale_merge.field_sale_order_merge__create_date
+msgid "Created on"
+msgstr "Creat la"
+
+#. module: deltatech_sale_merge
+#: model:ir.model.fields,field_description:deltatech_sale_merge.field_sale_order__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_merge.field_sale_order_merge__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_sale_merge
+#: model:ir.model.fields,field_description:deltatech_sale_merge.field_sale_order__id
+#: model:ir.model.fields,field_description:deltatech_sale_merge.field_sale_order_merge__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_sale_merge
+#: model:ir.model.fields.selection,name:deltatech_sale_merge.selection__sale_order_merge__line_mode__keep
+msgid "Keep all lines"
+msgstr "Păstrează toate liniile"
+
+#. module: deltatech_sale_merge
+#: model:ir.model.fields,field_description:deltatech_sale_merge.field_sale_order_merge__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_sale_merge
+#: model:ir.model.fields,field_description:deltatech_sale_merge.field_sale_order_merge__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare la"
+
+#. module: deltatech_sale_merge
+#: model:ir.model.fields,field_description:deltatech_sale_merge.field_sale_order_merge__line_mode
+msgid "Lines"
+msgstr "Linii"
+
+#. module: deltatech_sale_merge
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_merge.view_sale_order_merge_form
+msgid "Merge"
+msgstr "Unește"
+
+#. module: deltatech_sale_merge
+#: model:ir.model.fields,field_description:deltatech_sale_merge.field_sale_order_merge__target_mode
+msgid "Merge Into"
+msgstr "Unește în"
+
+#. module: deltatech_sale_merge
+#: model:ir.model,name:deltatech_sale_merge.model_sale_order_merge
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_merge.view_sale_order_merge_form
+msgid "Merge Quotations"
+msgstr "Unește ofertele"
+
+#. module: deltatech_sale_merge
+#. odoo-python
+#: code:addons/deltatech_sale_merge/models/sale_order.py:0
+#: model:ir.actions.server,name:deltatech_sale_merge.action_sale_order_merge
+msgid "Merge orders"
+msgstr "Unește comenzile"
+
+#. module: deltatech_sale_merge
+#: model:ir.model.fields,field_description:deltatech_sale_merge.field_sale_order__merged_from_ids
+msgid "Merged From"
+msgstr "Unită din"
+
+#. module: deltatech_sale_merge
+#: model:ir.model.fields,field_description:deltatech_sale_merge.field_sale_order__merged_into_id
+msgid "Merged Into"
+msgstr "Unită în"
+
+#. module: deltatech_sale_merge
+#. odoo-python
+#: code:addons/deltatech_sale_merge/wizard/sale_order_merge.py:0
+msgid "Merged into %s"
+msgstr "Unită în %s"
+
+#. module: deltatech_sale_merge
+#. odoo-python
+#: code:addons/deltatech_sale_merge/wizard/sale_order_merge.py:0
+msgid ""
+"Only quotations can be merged. These documents are confirmed, locked or "
+"cancelled: %s"
+msgstr "Se pot uni doar ofertele. Aceste documente sunt confirmate, blocate sau anulate: %s"
+
+#. module: deltatech_sale_merge
+#: model:ir.model.fields,field_description:deltatech_sale_merge.field_sale_order_merge__order_ids
+msgid "Quotations"
+msgstr "Oferte"
+
+#. module: deltatech_sale_merge
+#. odoo-python
+#: code:addons/deltatech_sale_merge/wizard/sale_order_merge.py:0
+msgid "Quotations merged into this one: %s"
+msgstr "Oferte unite în aceasta: %s"
+
+#. module: deltatech_sale_merge
+#: model:ir.model,name:deltatech_sale_merge.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_sale_merge
+#. odoo-python
+#: code:addons/deltatech_sale_merge/wizard/sale_order_merge.py:0
+msgid "Select at least two quotations to merge."
+msgstr "Selectați cel puțin două oferte de unit."
+
+#. module: deltatech_sale_merge
+#: model:ir.model.fields,field_description:deltatech_sale_merge.field_sale_order_merge__target_order_id
+msgid "Target Quotation"
+msgstr "Oferta țintă"
+
+#. module: deltatech_sale_merge
+#: model:ir.model.fields.selection,name:deltatech_sale_merge.selection__sale_order_merge__target_mode__oldest
+msgid "The oldest selected quotation"
+msgstr "Cea mai veche ofertă selectată"
+
+#. module: deltatech_sale_merge
+#: model:ir.model.fields,help:deltatech_sale_merge.field_sale_order__merged_into_id
+msgid ""
+"The quotation that took over the lines of this one when they were merged."
+msgstr "Oferta care a preluat liniile acesteia la unire."
+
+#. module: deltatech_sale_merge
+#. odoo-python
+#: code:addons/deltatech_sale_merge/wizard/sale_order_merge.py:0
+msgid ""
+"The quotations cannot be merged, %(field)s is different:\n"
+"%(details)s"
+msgstr "Ofertele nu pot fi unite, %(field)s este diferit:\n%(details)s"
+
+#. module: deltatech_sale_merge
+#. odoo-python
+#: code:addons/deltatech_sale_merge/wizard/sale_order_merge.py:0
+msgid "The quotations must belong to the same company."
+msgstr "Ofertele trebuie să aparțină aceleiași companii."
+
+#. module: deltatech_sale_merge
+#. odoo-python
+#: code:addons/deltatech_sale_merge/wizard/sale_order_merge.py:0
+msgid ""
+"These quotations were already signed or have an online payment started: %s"
+msgstr "Aceste oferte sunt deja semnate sau au o plată online începută: %s"
+
+#. module: deltatech_sale_merge
+#: model:ir.model.fields,field_description:deltatech_sale_merge.field_sale_order_merge__warning
+msgid "Warning"
+msgstr "Avertisment"
