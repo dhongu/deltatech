@@ -1,5 +1,6 @@
 {
   "title": "Report Layout",
+  "online": true,
   "summary": "Modern PDF report designs, also on Odoo Online",
   "icon": "file",
   "features": [

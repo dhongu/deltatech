@@ -5,7 +5,7 @@
 {
     "name": "Invoice Product Filter",
     "summary": "Search invoices by product or product vendor; data-only, importable on Odoo Online",
-    "version": "19.0.1.2.1",
+    "version": "19.0.1.2.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Accounting",
