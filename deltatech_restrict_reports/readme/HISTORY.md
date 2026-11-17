@@ -10,6 +10,9 @@
   `[('id', '=', 0)]`, because on 20.0 a statically false domain such as `[(0, '=', 1)]` makes the whole
   model inaccessible and `search()` raises.
 - Tests for the three tiers on Sales Analysis and Invoice Analysis.
+- Consultant sheet, USAGE.md and screenshots from 19.0 (#4221), redone on Odoo 20. On 20.0 the
+  **Invoiced** button on customers is computed from the invoices, so it is no longer filtered; only
+  **Sold** on products is.
 
 ## 19.0.1.0.2 (2026-11-14)
 

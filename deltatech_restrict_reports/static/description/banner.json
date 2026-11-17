@@ -3,5 +3,9 @@
   "online": true,
   "summary": "Control who sees Sales & Invoice Analysis",
   "icon": "trend",
-  "features": ["Own records only, or all records", "No group means no data at all", "Reporting menus hidden per user"]
+  "features": [
+    "Own records only, or all records",
+    "No group means no data at all",
+    "Applies to dashboards and exports too"
+  ]
 }
