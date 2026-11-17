@@ -1,0 +1,11 @@
+{
+  "title": "Markdown Field Widget",
+  "online": true,
+  "summary": "Rich editing, raw Markdown storage",
+  "icon": "wrench",
+  "features": [
+    "WYSIWYG toolbar: bold, italic, headings, links",
+    "Stores raw Markdown — portable & versionable",
+    "Instant MD↔HTML via marked + turndown"
+  ]
+}
