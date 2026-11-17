@@ -1,0 +1,6 @@
+{
+  "title": "Safety Register",
+  "summary": "Incidents, accidents and near misses",
+  "icon": "clipboard",
+  "features": ["Corrective actions with owner and deadline", "LTIFR from attendance hours", "Days without accident"]
+}

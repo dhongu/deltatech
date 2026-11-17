@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_safety_action_search" model="ir.ui.view">
+        <field name="name">deltatech.safety.action.search</field>
+        <field name="model">deltatech.safety.action</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="description" />
+                <field name="event_id" />
+                <field name="user_id" />
+                <filter name="open" string="Open" domain="[('state', '=', 'open')]" />
+                <filter name="done" string="Done" domain="[('state', '=', 'done')]" />
+                <filter name="my_actions" string="My actions" domain="[('user_id', '=', uid)]" />
+                <group>
+                    <filter name="group_user" string="Responsible" context="{'group_by': 'user_id'}" />
+                    <filter name="group_event" string="Safety event" context="{'group_by': 'event_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_safety_action_list" model="ir.ui.view">
+        <field name="name">deltatech.safety.action.list</field>
+        <field name="model">deltatech.safety.action</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'done'">
+                <field name="event_id" />
+                <field name="description" />
+                <field name="user_id" />
+                <field name="deadline" />
+                <field name="done_date" optional="show" />
+                <field name="company_id" groups="base.group_multi_company" optional="hide" />
+                <field name="state" widget="badge" decoration-success="state == 'done'" />
+                <button name="action_done" type="object" string="Done" icon="fa-check" invisible="state != 'open'" />
+            </list>
+        </field>
+    </record>
+
+    <record id="view_safety_action_form" model="ir.ui.view">
+        <field name="name">deltatech.safety.action.form</field>
+        <field name="model">deltatech.safety.action</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_done"
+                        type="object"
+                        string="Done"
+                        class="btn-primary"
+                        invisible="state != 'open' or not id"
+                    />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="event_id" />
+                            <field name="description" />
+                        </group>
+                        <group>
+                            <field name="user_id" />
+                            <field name="deadline" />
+                            <field name="done_date" invisible="state != 'done'" />
+                            <field name="company_id" groups="base.group_multi_company" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_safety_action" model="ir.actions.act_window">
+        <field name="name">Corrective actions</field>
+        <field name="res_model">deltatech.safety.action</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_safety_action_search" />
+        <field name="context">{'search_default_open': 1}</field>
+    </record>
+</odoo>
