@@ -81,7 +81,8 @@ Standard models extended: none.
 ## Acceptance criteria
 
 - **CA1:** Given no events, when an officer creates a near miss with date and description and saves,
-  then the state is `Reported` and the reference is `SAF/<year>/0001` (next number on the next event).
+  then the state is `Reported` and the reference is `SAF/<year of the event date>/NNNN` (next number on
+  the next event).
 - **CA2:** Given an event of an injury type (`Injury`, `Lost-time injury` or `Fatal`), when saved with
   no injured person (employee, partner or name), then saving fails with a message naming the three
   fields. With any of the three set, it saves.
@@ -95,7 +96,7 @@ Standard models extended: none.
   for all 12 months summing to 400 000, then LTIFR = 2 × 1 000 000 / 400 000 = 5.00 and near miss
   count = 5 and hours worked = 400 000.
 - **CA6:** Given the same company and year but no attendance records for March 2026, when the
-  indicators are opened, then LTIFR is empty and a warning lists the month as `03/2026`. Only months that have started are
+  indicators are opened, then LTIFR is hidden and a warning lists the month as `03/2026`. Only months that have started are
   checked, so the current year's future months do not block LTIFR.
 - **CA7:** Given injury events on 2026-03-02 and 2026-05-10 and no later injury, when indicators
   are opened on 2026-05-20, then days without accident = 10. Near misses and incidents do not
@@ -128,7 +129,7 @@ Standard models extended: none.
 |---|---|---|
 | Suite | `deltatech` | See "Scope of fit" |
 | Technical name | `deltatech_safety_register` | Suite prefix plus the subject |
-| Event reference | sequence `SAF/YYYY/NNNN`, one sequence for all companies | A per-company sequence would need company-specific sequence records; v1 keeps one |
+| Event reference | sequence `SAF/YYYY/NNNN` with the year of the event date, one sequence for all companies | A per-company sequence would need company-specific sequence records; v1 keeps one |
 | Event types | `near_miss`, `incident` (no injury), `injury` (no time lost), `lost_time_injury`, `fatal` | Covers the classes that feed near-miss and lost-time counts. Labels may change without code change |
 | LTIFR | lost-time count × 1 000 000 / hours worked, lost-time = `lost_time_injury` + `fatal` and `is_commute` = False | Standard definition per million hours worked; client to confirm with the field list |
 | Days without accident | days since the last event of type `injury`, `lost_time_injury` or `fatal`, commuting accidents included | Near misses and incidents are not injuries; the counter is conservative |

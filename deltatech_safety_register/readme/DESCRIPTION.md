@@ -14,6 +14,6 @@ the safety indicators of the year.
   for its responsible user. An event can be closed only after all its actions are done, and a
   closed event can be changed only by a Safety manager.
 - **Indicators** per company and year: LTIFR (lost-time injuries x 1,000,000 / hours worked, the
-  hours coming from Attendances), number of near misses, lost-time injuries, commuting accidents
-  and days without accident.
+  hours coming from Attendances), number of near misses, lost-time injuries and commuting accidents
+  of the chosen year, plus the days without accident counted to today.
 - Two access groups, Safety officer and Safety manager, with multi-company isolation.

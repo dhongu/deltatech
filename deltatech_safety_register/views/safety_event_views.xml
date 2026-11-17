@@ -41,8 +41,8 @@
                 <field name="partner_id" optional="hide" />
                 <field name="injured_name" optional="hide" />
                 <field name="department_id" optional="hide" />
-                <field name="is_commute" optional="show" />
-                <field name="open_action_count" />
+                <field name="is_commute" optional="show" width="140px" />
+                <field name="open_action_count" width="140px" />
                 <field name="company_id" groups="base.group_multi_company" optional="hide" />
                 <field name="state" widget="badge" decoration-success="state == 'closed'" decoration-info="state == 'reported'" />
             </list>
@@ -105,7 +105,7 @@
                                     <button
                                         name="action_done"
                                         type="object"
-                                        string="Done"
+                                        string="Mark done"
                                         icon="fa-check"
                                         invisible="state != 'open' or not id"
                                     />

@@ -57,6 +57,10 @@ class SafetyAction(models.Model):
                 action._schedule_activity()
         return res
 
+    @api.ondelete(at_uninstall=False)
+    def _unlink_if_event_editable(self):
+        self._check_event_editable()
+
     def _schedule_activity(self):
         self.ensure_one()
         today = fields.Date.context_today(self)

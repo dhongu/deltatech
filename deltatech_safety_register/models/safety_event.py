@@ -98,7 +98,10 @@ class SafetyEvent(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get("name", "/") == "/":
-                vals["name"] = self.env["ir.sequence"].next_by_code("deltatech.safety.event") or "/"
+                # the year in the reference is the year of the event, not of its registration
+                event_date = fields.Date.to_date(vals.get("date")) or fields.Date.context_today(self)
+                sequence = self.env["ir.sequence"].with_context(ir_sequence_date=event_date)
+                vals["name"] = sequence.next_by_code("deltatech.safety.event") or "/"
         return super().create(vals_list)
 
     def _is_safety_manager(self):

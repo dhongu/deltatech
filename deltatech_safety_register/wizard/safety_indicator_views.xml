@@ -18,7 +18,7 @@
                     </div>
                     <group>
                         <group string="Frequency">
-                            <field name="ltifr" />
+                            <field name="ltifr" invisible="missing_months" />
                             <field name="lost_time_count" />
                             <field name="hours_worked" />
                             <field name="commute_count" />

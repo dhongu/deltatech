@@ -72,6 +72,9 @@ class TestSafetyRegister(TransactionCase):
         year = fields.Date.context_today(first).year
         self.assertRegex(first.name, rf"^SAF/{year}/\d{{4}}$")
         self.assertEqual(int(second.name.rsplit("/", 1)[1]), int(first.name.rsplit("/", 1)[1]) + 1)
+        # the year in the reference is the year of the event
+        older = self._event(date=date(year - 1, 6, 1))
+        self.assertTrue(older.name.startswith(f"SAF/{year - 1}/"))
 
     def test_ca2_injury_requires_injured_person(self):
         """CA2: an injury without employee, partner or name cannot be saved."""
@@ -201,6 +204,22 @@ class TestSafetyRegister(TransactionCase):
         self.assertEqual(event.description, "Changed by manager")
         with self.assertRaises(UserError):
             event.with_user(self.manager).unlink()
+
+        # the actions of a closed event are locked for officers too
+        event_with_action = self._event()
+        action = (
+            self.env["deltatech.safety.action"]
+            .with_user(self.officer)
+            .create({"event_id": event_with_action.id, "description": "Check", "user_id": self.officer.id})
+        )
+        action.with_user(self.officer).action_done()
+        event_with_action.with_user(self.officer).action_close()
+        with self.assertRaises(UserError):
+            action.with_user(self.officer).unlink()
+        with self.assertRaises(UserError):
+            self.env["deltatech.safety.action"].with_user(self.officer).create(
+                {"event_id": event_with_action.id, "description": "Late", "user_id": self.officer.id}
+            )
 
         reported = self._event()
         with self.assertRaises(AccessError):

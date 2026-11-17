@@ -31,7 +31,7 @@
                 <field name="done_date" optional="show" />
                 <field name="company_id" groups="base.group_multi_company" optional="hide" />
                 <field name="state" widget="badge" decoration-success="state == 'done'" />
-                <button name="action_done" type="object" string="Done" icon="fa-check" invisible="state != 'open'" />
+                <button name="action_done" type="object" string="Mark done" icon="fa-check" invisible="state != 'open'" />
             </list>
         </field>
     </record>
@@ -45,7 +45,7 @@
                     <button
                         name="action_done"
                         type="object"
-                        string="Done"
+                        string="Mark done"
                         class="btn-primary"
                         invisible="state != 'open' or not id"
                     />

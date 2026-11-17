@@ -55,24 +55,139 @@ the safety indicators of the year.</p>
   from LTIFR.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Corrective actions</span><div>with responsible and deadline; each action schedules a To-Do activity
   for its responsible user. An event can be closed only after all its actions are done, and a
   closed event can be changed only by a Safety manager.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Indicators</span><div>per company and year: LTIFR (lost-time injuries x 1,000,000 / hours worked, the
-  hours coming from Attendances), number of near misses, lost-time injuries, commuting accidents
-  and days without accident.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-lock" style="" aria-hidden="true"></span></span><div>Two access groups, Safety officer and Safety manager, with multi-company isolation.</div></div></li></ul>
+  hours coming from Attendances), number of near misses, lost-time injuries and commuting accidents
+  of the chosen year, plus the days without accident counted to today.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-lock" style="" aria-hidden="true"></span></span><div>Two access groups, Safety officer and Safety manager, with multi-company isolation.</div></div></li></ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</span></div>
+<p>Give the users the <strong>Safety officer</strong> or <strong>Safety manager</strong> access right (Settings &#8594; Users, category
+<em>Human Resources</em>, field <strong>Safety register</strong>). Users who export the register also need the <strong>Export</strong>
+right. Hours worked for LTIFR come from the <strong>Attendances</strong> app, so the employees must
+check in and out there.</p>
 <ol>
-<li>Give the users the <strong>Safety officer</strong> or <strong>Safety manager</strong> access right (Settings &#8594; Users).</li>
-<li>Go to <strong>Safety &#8594; Events &#8594; New</strong>, choose the type, date, location and describe the event. For an
-   injury, select the injured employee, partner or type the name; tick <em>Commuting accident</em> when it
-   happened on the way to or from work.</li>
-<li>In the <strong>Root cause</strong> tab write the cause, then add the <strong>Corrective actions</strong> with responsible
-   and deadline. Each responsible receives a To-Do activity.</li>
-<li>Mark each action <strong>Done</strong> when it is completed, then press <strong>Close</strong> on the event.</li>
-<li>Go to <strong>Safety &#8594; Reporting &#8594; Indicators</strong>, choose the year: LTIFR, near misses, lost-time
-   injuries, commuting accidents and days without accident. LTIFR stays empty while a past month
-   has no hours worked in Attendances; the missing months are listed.</li>
-<li>To export the register, select the events in the list and use <strong>Export</strong> (XLSX).</li>
+<li><strong>Safety &#8594; Events</strong> lists the register: reference, date, type, location, injured employee,
+   commuting flag, open actions and status. Lost-time injuries and fatalities are shown in red. Use
+   the filters and <strong>Export</strong> (XLSX) to extract the register.</li>
 </ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Safety events list with near misses, an incident, injuries and lost-time injuries, their SAF references by event year, injured employee, commuting flag, open actions and status" src="en/01_lista_evenimente.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Safety events list with near misses, an incident, injuries and lost-time injuries, their SAF references by event year, injured employee, commuting flag, open actions and status</span>
+  </div>
+</div>
+<ol start="2">
+<li><strong>Safety &#8594; Events &#8594; New</strong>: choose the <strong>Type</strong>, the <strong>Date</strong>, the <strong>Location</strong> and describe the
+   event. On save it gets the reference <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">SAF/&lt;event year&gt;/NNNN</code> and the status <strong>Reported</strong>.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="A near miss form: reference, type Near miss, date, location and description, status Reported" src="en/02_near_miss.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">2</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">A near miss form: reference, type Near miss, date, location and description, status Reported</span>
+  </div>
+</div>
+<ol start="3">
+<li>For an injury (<strong>Injury (no time lost)</strong>, <strong>Lost-time injury</strong>, <strong>Fatal</strong>) set the injured person:
+   <strong>Injured employee</strong>, <strong>Injured partner</strong> or <strong>Injured person name</strong>. The department comes from
+   the employee. Tick <strong>Commuting accident</strong> when it happened on the way to or from work.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="A lost-time injury form with the injured employee, the department filled in and the Commuting accident checkbox" src="en/03_accident_incapacitate.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">3</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">A lost-time injury form with the injured employee, the department filled in and the Commuting accident checkbox</span>
+  </div>
+</div>
+<ol start="4">
+<li>Write the <strong>Root cause</strong>, then add the <strong>Corrective actions</strong> with <strong>Responsible</strong> and <strong>Deadline</strong>.
+   Each responsible receives a To-Do activity on the event. Press <strong>Mark done</strong> when the action is
+   completed.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Corrective actions tab: one action done with its done date, one open action with the Mark done button" src="en/04_actiuni_corective.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">4</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Corrective actions tab: one action done with its done date, one open action with the Mark done button</span>
+  </div>
+</div>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Event chatter: the To-Do activity of the responsible user with the summary and deadline of the open action" src="en/05_activitate_responsabil.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">5</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Event chatter: the To-Do activity of the responsible user with the summary and deadline of the open action</span>
+  </div>
+</div>
+<ol start="5">
+<li>Press <strong>Close</strong> once every action is done. A closed event can only be changed by a Safety
+   manager and cannot be deleted.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="A closed event: status Closed, closed date and all corrective actions done" src="en/06_eveniment_inchis.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">6</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">A closed event: status Closed, closed date and all corrective actions done</span>
+  </div>
+</div>
+<ol start="6">
+<li><strong>Safety &#8594; Corrective actions</strong> shows the open actions of all events; use <strong>My actions</strong> or group
+   by <strong>Responsible</strong>.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Corrective actions list filtered on Open, with event, description, responsible, deadline and Mark done" src="en/07_lista_actiuni.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">7</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Corrective actions list filtered on Open, with event, description, responsible, deadline and Mark done</span>
+  </div>
+</div>
+<ol start="7">
+<li><strong>Safety &#8594; Reporting &#8594; Indicators</strong>, choose the <strong>Year</strong>: LTIFR (lost-time injuries &#215; 1,000,000 /
+   hours worked), lost-time injuries, hours worked, commuting accidents and near misses of that
+   year. Days without accident and the last injury date are counted to today, whatever the year.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Safety indicators for last year: LTIFR, lost-time injuries, hours worked, commuting accidents, near misses, days without accident and last injury date" src="en/08_indicatori.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">8</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Safety indicators for last year: LTIFR, lost-time injuries, hours worked, commuting accidents, near misses, days without accident and last injury date</span>
+  </div>
+</div>
+<p>When a month that has already started has no hours in Attendances, LTIFR is hidden and a warning
+   lists the missing months.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Safety indicators for the current year with the warning that hours worked are missing for 03/2026" src="en/09_indicatori_ore_lipsa.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">9</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Safety indicators for the current year with the warning that hours worked are missing for 03/2026</span>
+  </div>
+</div>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>

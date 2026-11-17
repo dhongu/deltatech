@@ -43,6 +43,11 @@ class SafetyIndicator(models.TransientModel):
         help="Days since the last injury (Injury, Lost-time injury or Fatal). Empty when no injury is recorded.",
     )
 
+    @api.depends("year")
+    def _compute_display_name(self):
+        for indicator in self:
+            indicator.display_name = self.env._("Safety indicators %(year)s", year=indicator.year or "")
+
     @api.depends("company_id", "year")
     def _compute_indicators(self):
         Event = self.env["deltatech.safety.event"]

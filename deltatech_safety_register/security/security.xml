@@ -2,6 +2,7 @@
 <odoo>
     <record id="groups_privilege_safety" model="res.groups.privilege">
         <field name="name">Safety register</field>
+        <field name="category_id" ref="base.module_category_human_resources" />
     </record>
 
     <record id="group_safety_officer" model="res.groups">
