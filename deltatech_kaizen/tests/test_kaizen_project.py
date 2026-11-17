@@ -202,3 +202,35 @@ class TestKaizenProject(TransactionCase):
         self.assertFalse(self.env["kaizen.why"].search_count([("project_id", "=", project.id)]))
         self.assertFalse(self.env["kaizen.ishikawa.cause"].search_count([("project_id", "=", project.id)]))
         self.assertFalse(self.env["kaizen.action"].search_count([("project_id", "=", project.id)]))
+
+    # CA17: only a manager closes or cancels
+    def test_ca17_close_cancel_manager_only(self):
+        project = self._closable_project()
+        with self.assertRaises(AccessError):
+            project.with_user(self.user).action_close()
+        with self.assertRaises(AccessError):
+            project.with_user(self.user).action_cancel()
+        project.with_user(self.manager).action_close()
+        self.assertEqual(project.state, "done")
+
+    # CA18: projects are isolated per company
+    def test_ca18_multi_company_isolation(self):
+        company_b = self.env["res.company"].create({"name": "Kaizen Company B"})
+        user_b = self.env["res.users"].create(
+            {
+                "name": "Kaizen User B",
+                "login": "kaizen_user_b",
+                "company_id": company_b.id,
+                "company_ids": [(6, 0, [company_b.id])],
+                "group_ids": [(6, 0, [self.env.ref("deltatech_kaizen.group_kaizen_user").id])],
+            }
+        )
+        project_a = self._project()
+        self.env["kaizen.action"].create(
+            {"project_id": project_a.id, "name": "A action", "user_id": self.user.id, "deadline": self.today}
+        )
+        project_b = self._project(company_id=company_b.id, user_id=user_b.id, name="B project")
+        visible = self.env["kaizen.project"].with_user(user_b).search([])
+        self.assertIn(project_b, visible)
+        self.assertNotIn(project_a, visible)
+        self.assertFalse(self.env["kaizen.action"].with_user(user_b).search([("project_id", "=", project_a.id)]))

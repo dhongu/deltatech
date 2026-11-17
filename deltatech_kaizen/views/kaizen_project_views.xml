@@ -32,9 +32,9 @@
                             class="btn-primary" invisible="state != 'analysis'"/>
                     <button name="action_start_verification" string="Start verification" type="object"
                             class="btn-primary" invisible="state != 'actions'"/>
-                    <button name="action_close" string="Close project" type="object"
+                    <button name="action_close" string="Close project" type="object" groups="deltatech_kaizen.group_kaizen_manager"
                             class="btn-success" invisible="state in ('draft', 'done', 'cancelled')"/>
-                    <button name="action_cancel" string="Cancel" type="object"
+                    <button name="action_cancel" string="Cancel" type="object" groups="deltatech_kaizen.group_kaizen_manager"
                             invisible="state in ('done', 'cancelled')"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="draft,analysis,actions,verification,done"/>

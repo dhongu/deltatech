@@ -84,14 +84,19 @@ monthly loss measured after the fix.
   can.
 - **CA16:** Each Ishikawa cause shows its category in the project form and in the list; the
   "Ishikawa" menu opens all causes grouped by category (six groups, one per category).
+- **CA17:** A Kaizen user does not see the "Close project" and "Cancel" buttons, and calling them
+  raises an AccessError; a Kaizen manager closes and cancels.
+- **CA18:** A user of company B does not see the projects of company A, nor their why lines,
+  Ishikawa causes and actions.
 
 ## Edge cases
 
 - An action set to done again keeps its original `done_date` (only the first transition sets it).
 - Deleting a project deletes its why lines, Ishikawa causes and actions (`ondelete="cascade"`).
 - A project with no currency uses the company currency.
-- Multi-company: the project belongs to the company of the user who creates it (default) and the
-  record rule of the company applies; v1 does not check cross-company responsible users.
+- Multi-company: the project belongs to the company of the user who creates it (default). Global
+  `ir.access` rows restrict projects to the user's companies, and the child lines through
+  `project_id.company_id`. The responsible must belong to the project's company (`check_company`).
 - Overdue and target flags are computed, not stored: a project not touched for a month still shows
   the correct flag on read.
 

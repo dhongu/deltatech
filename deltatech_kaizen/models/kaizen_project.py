@@ -1,7 +1,7 @@
 # ©  2026 Terrabit
 # See README.rst file on addons root folder for license details
 from odoo import api, fields, models
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import AccessError, UserError, ValidationError
 
 
 class KaizenProject(models.Model):
@@ -9,6 +9,7 @@ class KaizenProject(models.Model):
     _description = "Kaizen Improvement Project"
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _order = "date_start desc, id desc"
+    _check_company_auto = True
 
     name = fields.Char(required=True, tracking=True)
     reference = fields.Char(readonly=True, copy=False, index=True, default="/")
@@ -56,6 +57,7 @@ class KaizenProject(models.Model):
         required=True,
         default=lambda self: self.env.user,
         tracking=True,
+        check_company=True,
     )
     date_start = fields.Date(required=True, default=fields.Date.context_today)
     date_deadline = fields.Date()
@@ -152,7 +154,12 @@ class KaizenProject(models.Model):
                 )
         self.write({"state": "verification"})
 
+    def _check_kaizen_manager(self):
+        if not self.env.su and not self.env.user.has_group("deltatech_kaizen.group_kaizen_manager"):
+            raise AccessError(self.env._("Only a Kaizen manager can close or cancel a project."))
+
     def action_close(self):
+        self._check_kaizen_manager()
         for project in self:
             if project.state in ("done", "cancelled"):
                 raise UserError(self.env._("This project is already closed or cancelled."))
@@ -170,6 +177,7 @@ class KaizenProject(models.Model):
         self.write({"state": "done", "date_closed": fields.Date.context_today(self)})
 
     def action_cancel(self):
+        self._check_kaizen_manager()
         for project in self:
             if project.state == "done":
                 raise UserError(self.env._("A closed project cannot be cancelled."))
