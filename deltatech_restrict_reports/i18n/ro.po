@@ -27,5 +27,6 @@ msgstr ""
 
 #. module: deltatech_restrict_reports
 #: model:ir.module.category,name:deltatech_restrict_reports.module_category_restrict_reports
+#: model:res.groups.privilege,name:deltatech_restrict_reports.res_groups_privilege_restrict_reports
 msgid "Restrict Reports"
 msgstr "Restricționare rapoarte"

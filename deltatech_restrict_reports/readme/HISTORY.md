@@ -1,3 +1,11 @@
+## 19.0.1.0.3 (2026-11-17)
+
+- Consultant sheet (`readme/FISA_CONSULTANT.md`), `readme/USAGE.md` and screenshots.
+- DESCRIPTION.md no longer says that the report menus are hidden for a user in neither group: the
+  menus stay visible and the reports open empty (dhongu/deltatech#4220).
+- Apps banner: "Applies to dashboards and exports too" instead of "Reporting menus hidden per user".
+- Romanian translation of the "Restrict Reports" privilege field on the user form.
+
 ## 19.0.1.0.2 (2026-11-14)
 
 - Apps Store banner: the "Odoo Online" badge shows that the module has no Python code and installs on

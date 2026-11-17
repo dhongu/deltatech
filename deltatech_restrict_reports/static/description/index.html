@@ -32,6 +32,11 @@
        style="padding:10px 22px;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</a>
@@ -40,8 +45,8 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</span></div>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Restricts who can see the <strong>Sales Analysis</strong> (Sales &gt; Reporting) and
-<strong>Invoice Analysis</strong> (Accounting/Invoicing &gt; Reporting) screens,
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Restricts who can see the data of the <strong>Sales Analysis</strong> (Sales &gt; Reporting) and
+<strong>Invoice Analysis</strong> (Accounting/Invoicing &gt; Reporting) reports,
 independently of any other access a user already has (Salesperson,
 Invoicing, Accounting...).</p>
 <p>Two new groups control visibility:</p>
@@ -51,13 +56,117 @@ Invoicing, Accounting...).</p>
 <li><strong>Rapoarte V&#226;nz&#259;ri/Facturi: toate &#238;nregistr&#259;rile</strong> - sees every
   record.</li>
 </ul>
-<p>A user assigned to neither group sees no data at all in these two
-reports, and the corresponding menu entries are hidden for him. Nobody
-is granted either group automatically - assignment is manual, from
-Settings &gt; Users.</p>
+<p>A user assigned to neither group sees these two reports empty (no
+access error). Nobody is granted either group automatically - assignment
+is manual, from Settings &gt; Users.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Give each user a report access <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">level</span></h2>
+<p>Go to <strong>Settings &#8594; Users &amp; Companies &#8594; Users</strong>, open the user and, on the <strong>Access Rights</strong> tab,
+find the <strong>Restrict Reports</strong> section. In its <strong>Restrict Reports</strong> field choose:</p>
+<ul>
+<li><strong>Rapoarte V&#226;nz&#259;ri/Facturi: doar propriile &#238;nregistr&#259;ri</strong> (own records only);</li>
+<li><strong>Rapoarte V&#226;nz&#259;ri/Facturi: toate &#238;nregistr&#259;rile</strong> (all records);</li>
+<li>leave it empty for no data at all.</li>
+</ul>
+<p>Right after installation nobody has either group, so everybody, administrators included, sees the
+two reports empty until the groups are assigned.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="User form, Access Rights tab: Sales is Administrator, Accounting is Invoicing, and in the Restrict Reports section the field is set to own records only" src="en/01_grupuri_utilizator.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">User form, Access Rights tab: Sales is Administrator, Accounting is Invoicing, and in the Restrict Reports section the field is set to own records only</span>
+  </div>
+</div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Sales <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">Analysis</span></h2>
+<p>Open <strong>Sales &#8594; Reporting &#8594; Sales</strong>, switch to the <strong>Pivot</strong> view and group by <strong>Salesperson</strong>.</p>
+<ul>
+<li>With <em>own records only</em>, the pivot has a single row, the logged-in user, equal to the total.</li>
+</ul>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Sales Analysis pivot grouped by Salesperson for Marc Demo: a single row, Marc Demo, 54 Qty Ordered in total" src="en/02_analiza_vanzari_proprii.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">2</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Sales Analysis pivot grouped by Salesperson for Marc Demo: a single row, Marc Demo, 54 Qty Ordered in total</span>
+  </div>
+</div>
+<ul>
+<li>With <em>all records</em>, every salesperson appears, with the same figures for each of them.</li>
+</ul>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Sales Analysis pivot grouped by Salesperson for a user with all records: Marc Demo 54 and Mitchell Admin 94, total 148 Qty Ordered" src="en/03_analiza_vanzari_toate.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">3</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Sales Analysis pivot grouped by Salesperson for a user with all records: Marc Demo 54 and Mitchell Admin 94, total 148 Qty Ordered</span>
+  </div>
+</div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Invoice <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">Analysis</span></h2>
+<p>Open <strong>Invoicing &#8594; Reporting &#8594; Management &#8594; Invoice Analysis</strong> and group by <strong>Salesperson</strong>. With
+<em>own records only</em>, only the invoices where the user is the salesperson are counted; invoices of
+other salespersons or without a salesperson are left out.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Invoices Analysis pivot grouped by Salesperson for Marc Demo: a single row, Marc Demo, 1,275.00 Untaxed Amount" src="en/04_analiza_facturi_proprii.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">4</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Invoices Analysis pivot grouped by Salesperson for Marc Demo: a single row, Marc Demo, 1,275.00 Untaxed Amount</span>
+  </div>
+</div>
+<p>With <em>all records</em>, the other salespersons and the invoices without a salesperson (None) appear
+too; the user's own row keeps the same amount.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Invoices Analysis pivot grouped by Salesperson for a user with all records: Marc Demo 1,275.00, Mitchell Admin 65,500.00 and None 63,549.00, total 130,324.00" src="en/05_analiza_facturi_toate.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">5</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Invoices Analysis pivot grouped by Salesperson for a user with all records: Marc Demo 1,275.00, Mitchell Admin 65,500.00 and None 63,549.00, total 130,324.00</span>
+  </div>
+</div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">User without a <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">group</span></h2>
+<p>A user in neither group still sees the menus, but both reports open empty, without an access error.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Invoices Analysis for a user without any report group: no data, Odoo's faded sample chart in the background and its help text for an empty report" src="en/06_analiza_facturi_fara_grup.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">6</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Invoices Analysis for a user without any report group: no data, Odoo's faded sample chart in the background and its help text for an empty report</span>
+  </div>
+</div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;"><span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">Notes</span></h2>
+<ul>
+<li>The Sales &#8594; Reporting menu requires the <strong>Sales: Administrator</strong> right in standard Odoo; the
+  module does not change menu access.</li>
+<li>These two analysis reports, and the figures computed from them (the <strong>Invoiced</strong> button on
+  customers, the <strong>Sold</strong> button on products), are filtered; orders, invoices and accounting
+  reports are not.</li>
+</ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.3 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-17)</span></h2>
+<ul>
+<li>Consultant sheet (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/FISA_CONSULTANT.md</code>), <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/USAGE.md</code> and screenshots.</li>
+<li>DESCRIPTION.md no longer says that the report menus are hidden for a user in neither group: the
+  menus stay visible and the reports open empty (dhongu/deltatech#4220).</li>
+<li>Apps banner: "Applies to dashboards and exports too" instead of "Reporting menus hidden per user".</li>
+<li>Romanian translation of the "Restrict Reports" privilege field on the user form.</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.2 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-14)</span></h2>
 <ul>
 <li>Apps Store banner: the "Odoo Online" badge shows that the module has no Python code and installs on
