@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2026 Terrabit. See README.rst file on addons root folder for license details -->
+<odoo>
+    <menuitem id="menu_kaizen_root" name="Kaizen" sequence="60"
+              groups="group_kaizen_user"/>
+    <menuitem id="menu_kaizen_projects" name="Projects" parent="menu_kaizen_root"
+              action="kaizen_project_action" sequence="10"/>
+    <menuitem id="menu_kaizen_actions" name="Actions" parent="menu_kaizen_root"
+              action="kaizen_action_action" sequence="20"/>
+    <menuitem id="menu_kaizen_ishikawa" name="Ishikawa" parent="menu_kaizen_root"
+              action="kaizen_ishikawa_cause_action" sequence="30"/>
+</odoo>
