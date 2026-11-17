@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2026 Terrabit. See README.rst file on addons root folder for license details -->
+<odoo>
+    <record id="kaizen_project_view_list" model="ir.ui.view">
+        <field name="name">kaizen.project.list</field>
+        <field name="model">kaizen.project</field>
+        <field name="arch" type="xml">
+            <list string="Kaizen Projects">
+                <field name="reference"/>
+                <field name="name"/>
+                <field name="loss_type"/>
+                <field name="user_id"/>
+                <field name="date_deadline"/>
+                <field name="baseline_value" width="160px"/>
+                <field name="current_value" width="160px"/>
+                <field name="savings_monthly" optional="show" width="160px"/>
+                <field name="state" widget="badge"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="kaizen_project_view_form" model="ir.ui.view">
+        <field name="name">kaizen.project.form</field>
+        <field name="model">kaizen.project</field>
+        <field name="arch" type="xml">
+            <form string="Kaizen Project">
+                <header>
+                    <button name="action_start_analysis" string="Start analysis" type="object"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_start_actions" string="Start actions" type="object"
+                            class="btn-primary" invisible="state != 'analysis'"/>
+                    <button name="action_start_verification" string="Start verification" type="object"
+                            class="btn-primary" invisible="state != 'actions'"/>
+                    <button name="action_close" string="Close project" type="object" groups="deltatech_kaizen.group_kaizen_manager"
+                            class="btn-success" invisible="state != 'verification'"/>
+                    <button name="action_cancel" string="Cancel" type="object" groups="deltatech_kaizen.group_kaizen_manager"
+                            invisible="state in ('done', 'cancelled')"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,analysis,actions,verification,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <span class="o_form_label"><field name="reference" readonly="1"/></span>
+                        <h1><field name="name" placeholder="Improvement project name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Project">
+                            <field name="loss_type"/>
+                            <field name="user_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                        </group>
+                        <group string="Dates">
+                            <field name="date_start"/>
+                            <field name="date_deadline"/>
+                            <field name="date_closed" invisible="not date_closed"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Baseline and Results" name="results">
+                            <group>
+                                <group string="Baseline">
+                                    <field name="baseline_date"/>
+                                    <field name="baseline_value"/>
+                                </group>
+                                <group string="After the fix">
+                                    <field name="measured_date"/>
+                                    <field name="current_value"/>
+                                    <field name="target_value"/>
+                                    <field name="is_target_reached"/>
+                                </group>
+                            </group>
+                            <group string="Savings">
+                                <field name="savings_monthly"/>
+                                <field name="savings_annual" help="Projection: monthly savings x 12"/>
+                            </group>
+                        </page>
+                        <page string="5 Why" name="why">
+                            <field name="why_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="is_root_cause" width="140px"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Ishikawa" name="ishikawa">
+                            <field name="ishikawa_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="category"/>
+                                    <field name="name"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Actions" name="actions">
+                            <field name="action_ids">
+                                <list editable="bottom" decoration-danger="is_overdue" decoration-success="state == 'done'">
+                                    <field name="name"/>
+                                    <field name="user_id"/>
+                                    <field name="deadline"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="done_date"/>
+                                    <field name="is_overdue" column_invisible="1"/>
+                                    <button name="action_done" string="Done" type="object"
+                                            icon="fa-check" invisible="state == 'done'"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Description" name="description">
+                            <field name="description"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="kaizen_project_view_search" model="ir.ui.view">
+        <field name="name">kaizen.project.search</field>
+        <field name="model">kaizen.project</field>
+        <field name="arch" type="xml">
+            <search string="Kaizen Projects">
+                <field name="name"/>
+                <field name="reference"/>
+                <field name="user_id"/>
+                <filter string="Open" name="open" domain="[('state', 'not in', ('done', 'cancelled'))]"/>
+                <filter string="Done" name="done" domain="[('state', '=', 'done')]"/>
+                <group name="group_by">
+                    <filter string="Loss Type" name="group_loss_type" context="{'group_by': 'loss_type'}"/>
+                    <filter string="State" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="kaizen_ishikawa_cause_view_list" model="ir.ui.view">
+        <field name="name">kaizen.ishikawa.cause.list</field>
+        <field name="model">kaizen.ishikawa.cause</field>
+        <field name="arch" type="xml">
+            <list string="Ishikawa Causes">
+                <field name="project_id"/>
+                <field name="category"/>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="kaizen_action_view_list" model="ir.ui.view">
+        <field name="name">kaizen.action.list</field>
+        <field name="model">kaizen.action</field>
+        <field name="arch" type="xml">
+            <list string="Kaizen Actions" decoration-danger="is_overdue" decoration-success="state == 'done'">
+                <field name="project_id"/>
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="deadline"/>
+                <field name="state" widget="badge"/>
+                <field name="done_date"/>
+                <field name="is_overdue" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="kaizen_project_action" model="ir.actions.act_window">
+        <field name="name">Kaizen Projects</field>
+        <field name="res_model">kaizen.project</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="kaizen_project_view_search"/>
+        <field name="context">{'search_default_open': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Start an improvement project tied to a measured loss</p>
+        </field>
+    </record>
+
+    <record id="kaizen_ishikawa_cause_action" model="ir.actions.act_window">
+        <field name="name">Ishikawa Causes</field>
+        <field name="res_model">kaizen.ishikawa.cause</field>
+        <field name="view_mode">list</field>
+        <field name="context">{'group_by': 'category'}</field>
+    </record>
+
+    <record id="kaizen_action_action" model="ir.actions.act_window">
+        <field name="name">Kaizen Actions</field>
+        <field name="res_model">kaizen.action</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>
