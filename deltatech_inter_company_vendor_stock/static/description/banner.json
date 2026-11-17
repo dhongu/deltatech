@@ -1,0 +1,9 @@
+{
+  "title": "Inter Company Stock",
+  "summary": "See supplier stock available to sell",
+  "features": [
+    "Supplier stock visible in the selling company",
+    "Refreshed on reservation and on validation",
+    "Stored on the supplier info of each product"
+  ]
+}
