@@ -1,6 +1,7 @@
 # BRIEF: World Class Manufacturing dashboard (deltatech_wcm)
 
-Status: decisions taken; implementation in progress.
+Status: sections 1–8 implemented (20.0.1.0.0). Section 9 (unit production cost)
+added on 2026-11-17: open decisions O1–O4, not implemented yet.
 Odoo target: 20.0. Suite: `deltatech` (branch `20.0`).
 
 ## 1. Scope
@@ -129,3 +130,85 @@ Each criterion is observable on the dashboard or in a test.
 - The target values in section 4 are placeholders. The client confirms them
   before go-live (D8).
 - OEE is read as Odoo computes it (last month, all workcenters with productivity).
+
+## 9. Unit production cost and cost of losses (requested 2026-11-17)
+
+Status: **open**. Implementation starts only after O1–O4 are answered.
+
+### 9.1 Need
+
+Reference formula:
+
+    unit cost = (materials + labour + shop overhead) / good quantity
+
+The dashboard shows, for each loss (scrap, stoppages, changeovers, energy,
+waste), how many lei per unit it costs, and how much an improvement project
+would save. This links the Cost Deployment pillar with the Kaizen module.
+
+The difference between the standard cost and the actual cost shows the losses
+per product.
+
+### 9.2 Overlap found
+
+- The core **MO Overview** report (`mrp`, `mrp.report_mo_overview`) already
+  computes, per manufacturing order, the expected cost (from the BoM) and the
+  real cost (consumed components + operations), and the unit cost
+  (`unit_mo_cost`). The module reuses this logic; it does not compute costs a
+  second time.
+- `mrp_account` already values a finished product as consumed components +
+  work center cost (`costs_hour` × time) + `extra_cost` per unit from the BoM
+  (its help text: "labour, energy, packaging").
+- `mrp_workorder` (Enterprise) adds the employee cost to the operation cost.
+
+### 9.3 Sources (proposal)
+
+| Element | Standard | Actual |
+|---------|----------|--------|
+| Materials | BoM components × `standard_price` | value of the consumed component moves |
+| Labour | `duration_expected` × employee cost | `duration` × employee cost (`mrp_workorder`) |
+| Shop overhead | `duration_expected` × `costs_hour` + BoM `extra_cost` | `duration` × `costs_hour` + BoM `extra_cost` |
+| Good quantity | — | produced quantity − scrapped quantity − quantity of failed quality checks |
+
+| Loss | Native source | Lei per unit |
+|------|---------------|--------------|
+| Scrap | scrapped moves (`stock.move.is_scrap`) and failed `quality.check` | value of the scrap / good quantity |
+| Stoppages | productivity log, category Availability (except "Setup and Adjustments") | blocked time × (`costs_hour` + labour) / good quantity |
+| Changeovers | productivity log, reason "Setup and Adjustments" | same formula, only this reason |
+| Energy | none in Odoo | see O2 |
+| Waste | none in Odoo | see O2 |
+
+### 9.4 Open decisions
+
+- **O1. Level of detail.** (a, recommended) The dashboard keeps one indicator
+  per pillar row: on Cost Deployment, "actual vs standard unit cost deviation
+  (%)", weighted by the good quantity of the period; a separate list shows lei
+  per unit per product and per loss. (b) One dashboard indicator per product.
+  (c) Only the company total in lei.
+- **O2. Energy and waste.** Odoo has no source. (a, recommended) A manual cost
+  per period and work center, spread over the good units of that work center.
+  (b) Left out until a dedicated module exists. (c) Read from the BoM
+  `extra_cost` only.
+- **O3. Savings of an improvement project.** (a, recommended) `deltatech_wcm`
+  exposes the cost of each loss (lei per unit and per period); the Kaizen
+  module computes the saving (cost of the loss × expected reduction %), so
+  WCM does not depend on Kaizen. (b) WCM holds the expected reduction itself
+  and computes the saving.
+- **O4. Dependencies.** Labour cost per employee and `extra_cost` need
+  `mrp_workorder` (Enterprise) and `mrp_account`. (a, recommended) Add both to
+  `depends`. (b) Only `mrp_account`: labour is in `costs_hour`, without the
+  employee cost.
+
+### 9.5 Acceptance criteria (draft, finalised after O1–O4)
+
+- **CA11**: for a done manufacturing order, the actual unit cost equals
+  (materials + labour + shop overhead) / good quantity, and matches the unit
+  cost of the MO Overview report.
+- **CA12**: the standard unit cost comes from the BoM; the deviation actual vs
+  standard appears per product, in lei per unit and in %.
+- **CA13**: for each loss with a native source (scrap, stoppages, changeovers),
+  the list shows lei per unit for the period; the sum of the losses and the
+  deviation are shown side by side.
+- **CA14**: the Cost Deployment pillar has the indicator "unit cost deviation"
+  with target and traffic light, like the other indicators.
+- **CA15**: energy and waste follow the answer to O2.
+- **CA16**: the saving of an improvement project follows the answer to O3.
