@@ -36,6 +36,7 @@ class TestKaizenProject(TransactionCase):
             "loss_type": "scrap",
             "baseline_value": 1000.0,
             "current_value": 400.0,
+            "measured_date": fields.Date.today(),
         }
         values.update(vals)
         return self.env["kaizen.project"].create(values)
@@ -260,4 +261,25 @@ class TestKaizenProject(TransactionCase):
             self.env["kaizen.project"].with_user(self.user).create(
                 {"name": "Direct", "loss_type": "scrap", "state": "done"}
             )
+        self.assertEqual(project.state, "actions")
+
+    # CA3/CA5: no measurement yet, no savings and target not reached
+    def test_ca3_no_measurement_no_savings(self):
+        project = self._project(current_value=0.0, target_value=400.0, measured_date=False)
+        self.assertEqual(project.savings_monthly, 0.0)
+        self.assertEqual(project.savings_annual, 0.0)
+        self.assertFalse(project.is_target_reached)
+
+    # CA12: closing needs the measurement after the fix
+    def test_ca12_close_without_measurement_refused(self):
+        project = self._closable_project(measured_date=False)
+        project.action_start_verification()
+        with self.assertRaises(UserError):
+            project.action_close()
+
+    # CA17: a context key sent by the client does not unlock the state
+    def test_ca17_context_key_does_not_bypass(self):
+        project = self._closable_project()
+        with self.assertRaises(AccessError):
+            project.with_user(self.user).with_context(kaizen_transition=True).write({"state": "done"})
         self.assertEqual(project.state, "actions")

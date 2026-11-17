@@ -22,4 +22,4 @@ class KaizenIshikawaCause(models.Model):
         required=True,
         default="man",
     )
-    name = fields.Char(required=True)
+    name = fields.Char(string="Cause", required=True)

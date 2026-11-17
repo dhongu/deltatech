@@ -12,7 +12,7 @@ class KaizenProject(models.Model):
     _check_company_auto = True
 
     name = fields.Char(required=True, tracking=True)
-    reference = fields.Char(readonly=True, copy=False, index=True, default="/")
+    reference = fields.Char(string="Reference", readonly=True, copy=False, index=True, default="/")
     loss_type = fields.Selection(
         [
             ("scrap", "Scrap"),
@@ -59,9 +59,9 @@ class KaizenProject(models.Model):
         tracking=True,
         check_company=True,
     )
-    date_start = fields.Date(required=True, default=fields.Date.context_today)
-    date_deadline = fields.Date()
-    date_closed = fields.Date(readonly=True, copy=False)
+    date_start = fields.Date(string="Start Date", required=True, default=fields.Date.context_today)
+    date_deadline = fields.Date(string="Deadline")
+    date_closed = fields.Date(string="Closed On", readonly=True, copy=False)
 
     baseline_date = fields.Date(string="Baseline Date")
     baseline_value = fields.Monetary(
@@ -93,13 +93,13 @@ class KaizenProject(models.Model):
         compute="_compute_savings",
         help="Monthly savings multiplied by 12. A projection, not a measured figure.",
     )
-    is_target_reached = fields.Boolean(compute="_compute_is_target_reached")
+    is_target_reached = fields.Boolean(string="Target Reached", compute="_compute_is_target_reached")
 
     why_ids = fields.One2many("kaizen.why", "project_id", string="5 Why")
     ishikawa_ids = fields.One2many("kaizen.ishikawa.cause", "project_id", string="Ishikawa Causes")
     action_ids = fields.One2many("kaizen.action", "project_id", string="Actions")
-    action_open_count = fields.Integer(compute="_compute_action_counts")
-    action_count = fields.Integer(compute="_compute_action_counts")
+    action_open_count = fields.Integer(string="Open Actions", compute="_compute_action_counts")
+    action_count = fields.Integer(string="Action Count", compute="_compute_action_counts")
 
     @api.depends("action_ids.state")
     def _compute_action_counts(self):
@@ -107,16 +107,20 @@ class KaizenProject(models.Model):
             project.action_count = len(project.action_ids)
             project.action_open_count = len(project.action_ids.filtered(lambda a: a.state != "done"))
 
-    @api.depends("baseline_value", "current_value")
+    @api.depends("baseline_value", "current_value", "measured_date")
     def _compute_savings(self):
         for project in self:
-            project.savings_monthly = project.baseline_value - project.current_value
+            # without a measurement after the fix there are no savings yet
+            measured = bool(project.measured_date)
+            project.savings_monthly = project.baseline_value - project.current_value if measured else 0.0
             project.savings_annual = project.savings_monthly * 12
 
-    @api.depends("target_value", "current_value")
+    @api.depends("target_value", "current_value", "measured_date")
     def _compute_is_target_reached(self):
         for project in self:
-            project.is_target_reached = bool(project.target_value > 0 and project.current_value <= project.target_value)
+            project.is_target_reached = bool(
+                project.measured_date and project.target_value > 0 and project.current_value <= project.target_value
+            )
 
     @api.constrains("baseline_value", "current_value", "target_value")
     def _check_values_not_negative(self):
@@ -145,8 +149,12 @@ class KaizenProject(models.Model):
         return super().write(vals)
 
     def _check_state_write(self):
-        """State and closing date change only through the transition buttons."""
-        if not self.env.su and not self.env.context.get("kaizen_transition"):
+        """State and closing date change only through the transition buttons.
+
+        The buttons write in sudo after their own checks (``_set_state``); a context key would
+        not do, since any RPC client can send one.
+        """
+        if not self.env.su:
             raise AccessError(self.env._("Use the project buttons to change the state of a Kaizen project."))
 
     def _set_state(self, from_states, vals):
@@ -159,7 +167,7 @@ class KaizenProject(models.Model):
                         state=dict(project._fields["state"]._description_selection(self.env))[project.state],
                     )
                 )
-        self.with_context(kaizen_transition=True).write(vals)
+        self.sudo().write(vals)
 
     def action_start_analysis(self):
         self._set_state(("draft",), {"state": "analysis"})
@@ -196,6 +204,8 @@ class KaizenProject(models.Model):
                 raise UserError(self.env._("Mark a root cause in the 5 Why before closing the project."))
             if project.baseline_value <= 0:
                 raise UserError(self.env._("The baseline loss must be positive before closing the project."))
+            if not project.measured_date:
+                raise UserError(self.env._("Record the measured date and the current loss before closing the project."))
         self._set_state(("verification",), {"state": "done", "date_closed": fields.Date.context_today(self)})
 
     def action_cancel(self):

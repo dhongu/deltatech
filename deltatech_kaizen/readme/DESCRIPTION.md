@@ -8,4 +8,4 @@ This module records each improvement as a project tied to a loss you can measure
 - the corrective actions, each with a responsible person and a deadline, and an overdue flag;
 - the loss per month measured after the fix, and the savings against the baseline, including an annual projection.
 
-A project can be closed only when a root cause is recorded, every action is done and the baseline is positive.
+A project can be closed only by a Kaizen manager, from the Verification state, when a root cause is recorded, every action is done, the baseline is positive and the loss after the fix has been measured.

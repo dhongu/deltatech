@@ -9,16 +9,16 @@ class KaizenAction(models.Model):
     _order = "project_id, deadline, id"
 
     project_id = fields.Many2one("kaizen.project", required=True, ondelete="cascade", index=True)
-    name = fields.Char(required=True)
+    name = fields.Char(string="Action", required=True)
     user_id = fields.Many2one("res.users", string="Responsible", required=True)
-    deadline = fields.Date(required=True)
+    deadline = fields.Date(string="Deadline", required=True)
     state = fields.Selection(
         [("todo", "To Do"), ("done", "Done")],
         default="todo",
         required=True,
     )
-    done_date = fields.Date(readonly=True, copy=False)
-    is_overdue = fields.Boolean(compute="_compute_is_overdue")
+    done_date = fields.Date(string="Done On", readonly=True, copy=False)
+    is_overdue = fields.Boolean(string="Overdue", compute="_compute_is_overdue")
 
     @api.depends("state", "deadline")
     def _compute_is_overdue(self):

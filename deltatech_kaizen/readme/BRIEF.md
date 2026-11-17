@@ -53,7 +53,8 @@ monthly loss measured after the fix.
 8. Press "Start verification" once every action is done. State: Verification. Record
    `measured_date` and `current_value` (loss per month measured after the fix).
 9. Press "Close project" when the savings are checked. State: Done.
-   Done is allowed only when: a root cause exists, no action is open and baseline is positive.
+   Done is allowed only when: a root cause exists, no action is open, baseline is positive and the
+   measured date after the fix is recorded.
 
 "Cancel" is available from any state except Done and moves the project to Cancelled.
 
@@ -62,11 +63,12 @@ monthly loss measured after the fix.
 - **CA1:** New project in Draft: `reference` is filled automatically from the sequence `KZN/00001`
   style, and the project cannot be saved without a name.
 - **CA2:** `baseline_value` or `current_value` below zero: save fails with a ValidationError.
-- **CA3:** `savings_monthly` = `baseline_value` − `current_value`. If `current_value` is larger than
-  the baseline, the savings are negative and the project is still saved.
+- **CA3:** Once `measured_date` is set, `savings_monthly` = `baseline_value` − `current_value`. If
+  `current_value` is larger than the baseline, the savings are negative and the project is still
+  saved. Without `measured_date` (no measurement after the fix yet) the savings are 0.
 - **CA4:** `savings_annual` = `savings_monthly` × 12, labelled as a projection in the form.
-- **CA5:** `is_target_reached` is True when `target_value` > 0 and `current_value` ≤ `target_value`,
-  False otherwise.
+- **CA5:** `is_target_reached` is True when `measured_date` is set, `target_value` > 0 and
+  `current_value` ≤ `target_value`, False otherwise.
 - **CA6:** A sixth `kaizen.why` line on the same project: save fails with a ValidationError.
 - **CA7:** Two `kaizen.why` lines flagged as root cause on the same project: save fails with a
   ValidationError.
@@ -76,9 +78,9 @@ monthly loss measured after the fix.
   once done, `is_overdue` is False and `done_date` is today.
 - **CA11:** "Start verification" (and "Close project") with an open action raises a UserError naming
   the open actions count.
-- **CA12:** "Close project" with no root cause raises a UserError.
+- **CA12:** "Close project" with no root cause, or without `measured_date`, raises a UserError.
 - **CA13:** "Close project" is offered only in Verification; called from another state it raises a
-  UserError. On a valid project in Verification (root cause set, all actions done, baseline > 0) it
+  UserError. On a valid project in Verification (root cause set, all actions done, baseline > 0, measured) it
   moves the state to Done and sets `date_closed`. Each "Start ..." button works only from the
   previous state of the flow.
 - **CA14:** "Cancel" moves the project to Cancelled from Draft, Analysis, Actions and Verification;
