@@ -52,6 +52,10 @@ Modulul nu lucrează cu conturi contabile. Date necesare pentru testare:
 3. Pe produs, în fila de achiziții, verificați că există linia de furnizor cu partenerul firmei
    furnizoare. Câmpul **Cantitate disponibilă** trebuie să fie vizibil pe linia de furnizor (îl adaugă
    `deltatech_vendor_stock`).
+4. Alegeți tipul liniei de furnizor după cum vreți să vedeți stocul:
+   - linia **cu variantă** primește doar stocul liber al acelei variante;
+   - linia **fără variantă** (doar pe produs, cazul obișnuit când o adăugați din formularul produsului)
+     primește suma stocului liber al tuturor variantelor produsului.
 
 ## 6. Flux de utilizare
 
@@ -99,6 +103,8 @@ cea așteptată în fiecare firmă.
 - [ ] Câmpul **Cantitate disponibilă** este vizibil pe formularul liniei de furnizor, după **Cod produs**.
 - [ ] După rezervarea stocului din firma furnizoare, **Cantitate disponibilă** scade cu cantitatea rezervată.
 - [ ] După validarea transferului din firma furnizoare, **Cantitate disponibilă** corespunde stocului liber rămas.
+- [ ] Pe un produs cu variante, linia de furnizor fără variantă arată suma stocului liber al tuturor
+      variantelor, iar linia cu variantă doar stocul acelei variante.
 - [ ] Valoarea din comanda de vânzare (stocul furnizorului) este consecventă cu linia de furnizor.
 - [ ] Pe o bază de test cu două firme: linia de furnizor afectată este cea din firma care vinde, nu una
       din firma furnizoare. (Nu a fost verificat în Odoo pentru această versiune.)
@@ -109,7 +115,8 @@ cea așteptată în fiecare firmă.
 |-----------------|-----------------|-----------|
 | Câmpul **Cantitate disponibilă** lipsește de pe linia de furnizor | `deltatech_vendor_stock` nu este instalat sau nu are vizibilitate pe formular | Instalați `deltatech_vendor_stock` |
 | **Cantitate disponibilă** rămâne 0 după rezervare sau validare | Nu există linie de furnizor cu partenerul firmei furnizoare, sau partenerul nu corespunde firmei | Creați linia de furnizor cu partenerul corect |
-| Valoarea nu se actualizează după o validare | Mișcarea nu a trecut prin reservare sau validare în firma furnizoare | Verificați starea transferului și că livrarea a fost validată |
+| Valoarea nu se actualizează după o validare | Mișcarea nu a trecut prin rezervare sau validare în firma furnizoare | Verificați starea transferului și că livrarea a fost validată |
+| Linia de furnizor arată mai mult decât stocul variantei vândute | Linia este fără variantă, deci primește suma stocului liber al tuturor variantelor produsului | Setați varianta pe linia de furnizor dacă vreți stocul unei singure variante |
 
 ## 10. Capturi de ecran
 

@@ -38,12 +38,16 @@ class StockMove(models.Model):
             ("product_id", "in", products.ids),
         ]
         supplierinfos = self.env["product.supplierinfo"].sudo().search(domain)
+        if not supplierinfos:
+            return
+        # free stock computed once, in the current company, for all the variants involved
+        variants = products | templates.product_variant_ids
+        free_qty = dict(zip(variants.ids, variants.mapped("free_qty"), strict=True))
         for supplierinfo in supplierinfos:
             if supplierinfo.product_id:
-                qty = self.env["product.product"].browse(supplierinfo.product_id.id).free_qty
+                qty = free_qty.get(supplierinfo.product_id.id, 0.0)
             else:
-                variants = templates.filtered(
-                    lambda t, s=supplierinfo: t.id == s.product_tmpl_id.id
-                ).product_variant_ids
-                qty = sum(variants.mapped("free_qty"))
+                qty = sum(
+                    free_qty.get(variant_id, 0.0) for variant_id in supplierinfo.product_tmpl_id.product_variant_ids.ids
+                )
             supplierinfo.qty_available = qty
