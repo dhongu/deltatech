@@ -5,7 +5,7 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "Sale Order Line Images",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "consultant_sheet": "simple",

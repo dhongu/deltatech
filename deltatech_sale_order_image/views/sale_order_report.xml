@@ -3,11 +3,17 @@
     <!-- The header cell bumps colspan_count like the core <th> do, so the section and combo
          rows (which span the whole table through colspan_count) include the image column
          without extra colspan arithmetic. The cells carry t-if directly (no wrapper <t>)
-         so other modules can anchor on th_image / td_image and stay ordered relative to it. -->
+         so other modules can anchor on th_image / td_image and stay ordered relative to it.
+         Databases where `sale` was not updated since the core counter was added (2026-08-20)
+         keep the old report arch without colspan_count: start then from the legacy column
+         formula, which l10n_ro_sale_order_report also falls back to. -->
     <template id="report_saleorder_document" inherit_id="sale.report_saleorder_document">
         <xpath expr="//table/thead/tr/th[@name='th_description']" position="before">
             <th name="th_image" t-if="res_company.include_image_line">
-                <t t-set="colspan_count" t-value="colspan_count + 1" />
+                <t
+                    t-set="colspan_count"
+                    t-value="(3 + (1 if display_discount else 0) + (1 if display_taxes else 0) if colspan_count is None else colspan_count) + 1"
+                />
             </th>
         </xpath>
         <td name="td_product_name" position="before">
