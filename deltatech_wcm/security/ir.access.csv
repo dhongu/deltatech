@@ -1,0 +1,6 @@
+id,name,model_id,group_id/id,operation,domain
+access_wcm_pillar_user,access_wcm_pillar_user,wcm.pillar,mrp.group_mrp_user,r,
+access_wcm_pillar_manager,access_wcm_pillar_manager,wcm.pillar,mrp.group_mrp_manager,crud,
+access_wcm_indicator_user,access_wcm_indicator_user,wcm.indicator,mrp.group_mrp_user,r,
+access_wcm_indicator_manager,access_wcm_indicator_manager,wcm.indicator,mrp.group_mrp_manager,crud,
+wcm_indicator_company_rule,wcm.indicator multi-company,wcm.indicator,,crud,"[('company_id', 'in', company_ids)]"

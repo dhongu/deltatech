@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+        <record id="wcm_pillar_safety" model="wcm.pillar">
+            <field name="sequence">10</field>
+            <field name="code">safety</field>
+            <field name="name">Safety</field>
+        </record>
+        <record id="wcm_pillar_cost_deployment" model="wcm.pillar">
+            <field name="sequence">20</field>
+            <field name="code">cost_deployment</field>
+            <field name="name">Cost Deployment</field>
+        </record>
+        <record id="wcm_pillar_focused_improvement" model="wcm.pillar">
+            <field name="sequence">30</field>
+            <field name="code">focused_improvement</field>
+            <field name="name">Focused Improvement</field>
+        </record>
+        <record id="wcm_pillar_autonomous_maintenance" model="wcm.pillar">
+            <field name="sequence">40</field>
+            <field name="code">autonomous_maintenance</field>
+            <field name="name">Autonomous Maintenance</field>
+        </record>
+        <record id="wcm_pillar_planned_maintenance" model="wcm.pillar">
+            <field name="sequence">50</field>
+            <field name="code">planned_maintenance</field>
+            <field name="name">Planned Maintenance</field>
+        </record>
+        <record id="wcm_pillar_quality_control" model="wcm.pillar">
+            <field name="sequence">60</field>
+            <field name="code">quality_control</field>
+            <field name="name">Quality Control</field>
+        </record>
+        <record id="wcm_pillar_logistics_customer_service" model="wcm.pillar">
+            <field name="sequence">70</field>
+            <field name="code">logistics_customer_service</field>
+            <field name="name">Logistics and Customer Service</field>
+        </record>
+        <record id="wcm_pillar_early_equipment_management" model="wcm.pillar">
+            <field name="sequence">80</field>
+            <field name="code">early_equipment_management</field>
+            <field name="name">Early Equipment Management</field>
+        </record>
+        <record id="wcm_pillar_people_development" model="wcm.pillar">
+            <field name="sequence">90</field>
+            <field name="code">people_development</field>
+            <field name="name">People Development</field>
+        </record>
+        <record id="wcm_pillar_environment_energy" model="wcm.pillar">
+            <field name="sequence">100</field>
+            <field name="code">environment_energy</field>
+            <field name="name">Environment and Energy</field>
+        </record>
+</odoo>

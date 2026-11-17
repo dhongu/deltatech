@@ -1,0 +1,10 @@
+{
+  "title": "WCM Dashboard",
+  "summary": "The ten WCM pillars on one screen",
+  "icon": "trend",
+  "features": [
+    "OEE, MTBF, MTTR, scrap, on-time delivery",
+    "Targets and warning thresholds",
+    "Green, yellow, red per pillar"
+  ]
+}

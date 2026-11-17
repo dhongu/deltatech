@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Seed targets are placeholders: the client confirms them (see readme/BRIEF.md, D8). -->
+<odoo noupdate="1">
+        <!-- Planned Maintenance: native Odoo sources -->
+        <record id="wcm_indicator_oee" model="wcm.indicator">
+            <field name="pillar_id" ref="wcm_pillar_planned_maintenance"/>
+            <field name="sequence">10</field>
+            <field name="name">OEE availability</field>
+            <field name="source">oee</field>
+            <field name="unit">%</field>
+            <field name="target">85</field>
+            <field name="warning">70</field>
+        </record>
+        <record id="wcm_indicator_mtbf" model="wcm.indicator">
+            <field name="pillar_id" ref="wcm_pillar_planned_maintenance"/>
+            <field name="sequence">20</field>
+            <field name="name">MTBF</field>
+            <field name="source">mtbf</field>
+            <field name="unit">days</field>
+            <field name="target">30</field>
+            <field name="warning">15</field>
+        </record>
+        <record id="wcm_indicator_mttr" model="wcm.indicator">
+            <field name="pillar_id" ref="wcm_pillar_planned_maintenance"/>
+            <field name="sequence">30</field>
+            <field name="name">MTTR</field>
+            <field name="source">mttr</field>
+            <field name="unit">days</field>
+            <field name="target">1</field>
+            <field name="warning">2</field>
+        </record>
+        <!-- Quality Control: native Odoo sources -->
+        <record id="wcm_indicator_control_fail" model="wcm.indicator">
+            <field name="pillar_id" ref="wcm_pillar_quality_control"/>
+            <field name="sequence">10</field>
+            <field name="name">Control failure rate</field>
+            <field name="source">control_fail</field>
+            <field name="unit">%</field>
+            <field name="target">2</field>
+            <field name="warning">5</field>
+        </record>
+        <record id="wcm_indicator_scrap" model="wcm.indicator">
+            <field name="pillar_id" ref="wcm_pillar_quality_control"/>
+            <field name="sequence">20</field>
+            <field name="name">Scrap rate</field>
+            <field name="source">scrap</field>
+            <field name="unit">%</field>
+            <field name="target">1</field>
+            <field name="warning">3</field>
+        </record>
+        <!-- Logistics and Customer Service: native Odoo source -->
+        <record id="wcm_indicator_on_time" model="wcm.indicator">
+            <field name="pillar_id" ref="wcm_pillar_logistics_customer_service"/>
+            <field name="sequence">10</field>
+            <field name="name">On-time deliveries</field>
+            <field name="source">on_time</field>
+            <field name="unit">%</field>
+            <field name="target">95</field>
+            <field name="warning">85</field>
+        </record>
+        <!-- Placeholders: manual until the Safety and Kaizen modules exist -->
+        <record id="wcm_indicator_safety_lti" model="wcm.indicator">
+            <field name="pillar_id" ref="wcm_pillar_safety"/>
+            <field name="sequence">10</field>
+            <field name="name">Lost-time injuries (LTI)</field>
+            <field name="source">manual</field>
+            <field name="direction">lower</field>
+            <field name="unit">count</field>
+            <field name="target">0</field>
+            <field name="warning">1</field>
+        </record>
+        <record id="wcm_indicator_kaizen_closed" model="wcm.indicator">
+            <field name="pillar_id" ref="wcm_pillar_focused_improvement"/>
+            <field name="sequence">10</field>
+            <field name="name">Kaizen projects closed on time</field>
+            <field name="source">manual</field>
+            <field name="direction">higher</field>
+            <field name="target">80</field>
+            <field name="warning">50</field>
+        </record>
+        <record id="wcm_indicator_audits" model="wcm.indicator">
+            <field name="pillar_id" ref="wcm_pillar_autonomous_maintenance"/>
+            <field name="sequence">10</field>
+            <field name="name">5S / TPM audits done on time</field>
+            <field name="source">manual</field>
+            <field name="direction">higher</field>
+            <field name="target">90</field>
+            <field name="warning">70</field>
+        </record>
+        <record id="wcm_indicator_cost_deviation" model="wcm.indicator">
+            <field name="pillar_id" ref="wcm_pillar_cost_deployment"/>
+            <field name="sequence">10</field>
+            <field name="name">Deviation from cost budget</field>
+            <field name="source">manual</field>
+            <field name="direction">lower</field>
+            <field name="target">0</field>
+            <field name="warning">5</field>
+        </record>
+        <record id="wcm_indicator_eem_validated" model="wcm.indicator">
+            <field name="pillar_id" ref="wcm_pillar_early_equipment_management"/>
+            <field name="sequence">10</field>
+            <field name="name">New equipment validated on time</field>
+            <field name="source">manual</field>
+            <field name="direction">higher</field>
+            <field name="target">90</field>
+            <field name="warning">70</field>
+        </record>
+        <record id="wcm_indicator_skills" model="wcm.indicator">
+            <field name="pillar_id" ref="wcm_pillar_people_development"/>
+            <field name="sequence">10</field>
+            <field name="name">Critical skills covered</field>
+            <field name="source">manual</field>
+            <field name="direction">higher</field>
+            <field name="target">80</field>
+            <field name="warning">60</field>
+        </record>
+        <record id="wcm_indicator_waste_recovered" model="wcm.indicator">
+            <field name="pillar_id" ref="wcm_pillar_environment_energy"/>
+            <field name="sequence">10</field>
+            <field name="name">Waste recovered</field>
+            <field name="source">manual</field>
+            <field name="direction">higher</field>
+            <field name="target">90</field>
+            <field name="warning">75</field>
+        </record>
+</odoo>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="wcm_pillar_view_kanban" model="ir.ui.view">
+        <field name="name">wcm.pillar.kanban</field>
+        <field name="model">wcm.pillar</field>
+        <field name="arch" type="xml">
+            <kanban class="o_wcm_pillar_kanban" create="0" quick_create="0">
+                <field name="name"/>
+                <field name="state"/>
+                <field name="indicator_count"/>
+                <field name="green_count"/>
+                <field name="yellow_count"/>
+                <field name="red_count"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex flex-column gap-2 p-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <strong><field name="name"/></strong>
+                                <field name="state" widget="badge"
+                                       decoration-success="state == 'green'"
+                                       decoration-warning="state == 'yellow'"
+                                       decoration-danger="state == 'red'"
+                                       decoration-muted="state == 'none'"/>
+                            </div>
+                            <div class="text-muted small">
+                                <field name="indicator_count"/> indicators
+                            </div>
+                            <div class="d-flex gap-2 small">
+                                <span class="badge text-bg-success"><field name="green_count"/> green</span>
+                                <span class="badge text-bg-warning"><field name="yellow_count"/> yellow</span>
+                                <span class="badge text-bg-danger"><field name="red_count"/> red</span>
+                            </div>
+                            <button name="action_open_indicators" type="object" class="btn btn-link p-0 text-start">
+                                Open indicators
+                            </button>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="wcm_pillar_view_list" model="ir.ui.view">
+        <field name="name">wcm.pillar.list</field>
+        <field name="model">wcm.pillar</field>
+        <field name="arch" type="xml">
+            <list string="WCM Pillars" create="0">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="indicator_count"/>
+                <field name="green_count"/>
+                <field name="yellow_count"/>
+                <field name="red_count"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'green'"
+                       decoration-warning="state == 'yellow'"
+                       decoration-danger="state == 'red'"
+                       decoration-muted="state == 'none'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_wcm_pillar_dashboard" model="ir.actions.act_window">
+        <field name="name">WCM Dashboard</field>
+        <field name="res_model">wcm.pillar</field>
+        <field name="view_mode">kanban,list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                The ten WCM pillars appear here with their traffic lights.
+            </p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="wcm_indicator_view_list" model="ir.ui.view">
+        <field name="name">wcm.indicator.list</field>
+        <field name="model">wcm.indicator</field>
+        <field name="arch" type="xml">
+            <list string="WCM Indicators"
+                  decoration-success="state == 'green'"
+                  decoration-warning="state == 'yellow'"
+                  decoration-danger="state == 'red'"
+                  decoration-muted="state == 'none'">
+                <field name="pillar_id"/>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="source"/>
+                <field name="direction"/>
+                <field name="target"/>
+                <field name="warning"/>
+                <field name="value"/>
+                <field name="has_data" column_invisible="True"/>
+                <field name="unit"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'green'"
+                       decoration-warning="state == 'yellow'"
+                       decoration-danger="state == 'red'"
+                       decoration-muted="state == 'none'"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="wcm_indicator_view_form" model="ir.ui.view">
+        <field name="name">wcm.indicator.form</field>
+        <field name="model">wcm.indicator</field>
+        <field name="arch" type="xml">
+            <form string="WCM Indicator">
+                <header/>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. OEE availability"/></h1>
+                    </div>
+                    <group>
+                        <group string="Definition">
+                            <field name="pillar_id"/>
+                            <field name="source"/>
+                            <field name="direction"/>
+                            <field name="unit"/>
+                            <field name="period_days" invisible="source == 'manual'"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Targets">
+                            <field name="target"/>
+                            <field name="warning"/>
+                        </group>
+                    </group>
+                    <group string="Value" invisible="source != 'manual'">
+                        <field name="manual_value"/>
+                        <field name="manual_date"/>
+                    </group>
+                    <group string="Current state">
+                        <field name="has_data" invisible="1"/>
+                        <field name="value" invisible="not has_data"/>
+                        <field name="state" widget="badge"
+                               decoration-success="state == 'green'"
+                               decoration-warning="state == 'yellow'"
+                               decoration-danger="state == 'red'"
+                               decoration-muted="state == 'none'"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="wcm_indicator_view_search" model="ir.ui.view">
+        <field name="name">wcm.indicator.search</field>
+        <field name="model">wcm.indicator</field>
+        <field name="arch" type="xml">
+            <search string="WCM Indicators">
+                <field name="name"/>
+                <field name="pillar_id"/>
+                <filter string="Red" name="red" domain="[('state', '=', 'red')]"/>
+                <filter string="Yellow" name="yellow" domain="[('state', '=', 'yellow')]"/>
+                <filter string="No data" name="no_data" domain="[('state', '=', 'none')]"/>
+                <group>
+                    <filter string="Pillar" name="group_pillar" context="{'group_by': 'pillar_id'}"/>
+                    <filter string="Source" name="group_source" context="{'group_by': 'source'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_wcm_indicator" model="ir.actions.act_window">
+        <field name="name">WCM Indicators</field>
+        <field name="res_model">wcm.indicator</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="wcm_indicator_view_search"/>
+        <field name="context">{'search_default_group_pillar': 1}</field>
+    </record>
+</odoo>
