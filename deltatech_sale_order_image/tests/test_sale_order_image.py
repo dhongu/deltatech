@@ -46,6 +46,27 @@ class TestSaleOrderImage(BaseCommon):
         self.assertIn("data:image/", html)
         self.assertIn('alt="Image"', html)
 
+    def test_image_rendered_on_legacy_report_arch(self):
+        # `sale` not updated since 2026-08-20: the report arch in the database has no colspan_count
+        counters = "".join(
+            f"<xpath expr=\"//th[@name='{name}']/t[@t-set='colspan_count']\" position=\"replace\"/>"
+            for name in ("th_description", "th_quantity", "th_priceunit", "th_discount", "th_taxes")
+        )
+        self.env["ir.ui.view"].create(
+            {
+                "name": "Legacy sale report arch",
+                "type": "qweb",
+                "inherit_id": self.env.ref("sale.report_saleorder_document").id,
+                "priority": 1,
+                "arch": f'<data><xpath expr="//thead/t[@t-set=\'colspan_count\']" position="replace"/>{counters}</data>',
+            }
+        )
+        combined = self.env.ref("sale.report_saleorder_document")._get_combined_arch()
+        self.assertEqual(len(combined.xpath("//t[@t-set='colspan_count']")), 1, "only the image header counter is left")
+        self.env.company.include_image_line = True
+        html = self._render()
+        self.assertIn('alt="Image"', html)
+
     def test_image_hidden_when_disabled(self):
         self.env.company.include_image_line = False
         html = self._render()

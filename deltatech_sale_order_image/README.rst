@@ -19,8 +19,11 @@ Sale Order Line Images
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_sale_order_image/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_sale_order_image
+    :alt: 4 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge_fisa|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 Adds the product image to the lines of the quotation and sale order PDF.
 
@@ -55,6 +58,15 @@ form.
 
 Changelog
 =========
+
+19.0.1.0.1 (2026-11-17)
+-----------------------
+
+- Fix: the quotation / sale order PDF failed with
+  ``TypeError: unsupported operand type(s) for +: 'NoneType' and 'int'``
+  on databases where ``sale`` was not updated since the core column
+  counter (``colspan_count``) was added on 2026-08-20. The image header
+  now starts from the legacy column formula when the counter is missing.
 
 19.0.1.0.0 (2026-11-16)
 -----------------------
