@@ -1,0 +1,10 @@
+id,name,model_id,group_id/id,operation,domain
+access_safety_event_officer,Safety event: officer,deltatech.safety.event,deltatech_safety_register.group_safety_officer,cru,
+access_safety_event_manager,Safety event: manager,deltatech.safety.event,deltatech_safety_register.group_safety_manager,crud,
+access_safety_action_officer,Safety action: officer,deltatech.safety.action,deltatech_safety_register.group_safety_officer,crud,
+access_safety_indicator_officer,Safety indicator: officer,deltatech.safety.indicator,deltatech_safety_register.group_safety_officer,crud,
+access_safety_hr_employee_officer,Safety: read employees,hr.employee,deltatech_safety_register.group_safety_officer,r,
+access_safety_hr_department_officer,Safety: read departments,hr.department,deltatech_safety_register.group_safety_officer,r,
+rule_safety_event_company,Safety event: multi-company,deltatech.safety.event,,crud,"[('company_id', 'in', company_ids)]"
+rule_safety_action_company,Safety action: multi-company,deltatech.safety.action,,crud,"[('company_id', 'in', company_ids)]"
+rule_safety_indicator_company,Safety indicator: multi-company,deltatech.safety.indicator,,crud,"[('company_id', 'in', company_ids)]"

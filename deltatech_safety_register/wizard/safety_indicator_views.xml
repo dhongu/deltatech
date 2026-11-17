@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_safety_indicator_form" model="ir.ui.view">
+        <field name="name">deltatech.safety.indicator.form</field>
+        <field name="model">deltatech.safety.indicator</field>
+        <field name="arch" type="xml">
+            <form string="Safety indicators">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company" />
+                            <field name="year" options="{'enable_formatting': false}" />
+                        </group>
+                    </group>
+                    <div class="alert alert-warning" role="alert" invisible="not missing_months">
+                        LTIFR cannot be computed: hours worked missing for
+                        <field name="missing_months" class="fw-bold" />
+                    </div>
+                    <group>
+                        <group string="Frequency">
+                            <field name="ltifr" invisible="missing_months" />
+                            <field name="lost_time_count" />
+                            <field name="hours_worked" />
+                            <field name="commute_count" />
+                        </group>
+                        <group string="Prevention">
+                            <field name="near_miss_count" />
+                            <field name="days_without_accident" invisible="not last_injury_date" />
+                            <field name="last_injury_date" invisible="not last_injury_date" />
+                            <div colspan="2" class="text-muted" invisible="last_injury_date">No injury recorded</div>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_safety_indicator" model="ir.actions.act_window">
+        <field name="name">Safety indicators</field>
+        <field name="res_model">deltatech.safety.indicator</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+</odoo>
