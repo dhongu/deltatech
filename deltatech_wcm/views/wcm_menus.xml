@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="menu_wcm_root"
-              name="World Class Manufacturing"
-              parent="mrp.menu_mrp_root"
-              sequence="90"/>
-    <menuitem id="menu_wcm_dashboard"
-              name="Dashboard"
-              parent="menu_wcm_root"
-              action="action_wcm_pillar_dashboard"
-              sequence="10"/>
-    <menuitem id="menu_wcm_indicator"
-              name="Indicators"
-              parent="menu_wcm_root"
-              action="action_wcm_indicator"
-              groups="mrp.group_mrp_manager"
-              sequence="20"/>
+    <menuitem id="menu_wcm_root" name="World Class Manufacturing" parent="mrp.menu_mrp_root" sequence="90"/>
+    <menuitem id="menu_wcm_dashboard" name="Dashboard" parent="menu_wcm_root" action="action_wcm_pillar_dashboard" sequence="10"/>
+    <menuitem id="menu_wcm_cost_line" name="Unit Costs" parent="menu_wcm_root" action="action_wcm_cost_line" sequence="15"/>
+    <menuitem
+        id="menu_wcm_indicator"
+        name="Indicators"
+        parent="menu_wcm_root"
+        action="action_wcm_indicator"
+        groups="mrp.group_mrp_manager"
+        sequence="20"
+    />
+    <menuitem
+        id="menu_wcm_cost_manual"
+        name="Energy and Waste Costs"
+        parent="menu_wcm_root"
+        action="action_wcm_cost_manual"
+        groups="mrp.group_mrp_manager"
+        sequence="30"
+    />
 </odoo>

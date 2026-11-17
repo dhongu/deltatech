@@ -16,6 +16,7 @@ WCM_SOURCES = [
     ("control_fail", "Quality control failure rate (%)"),
     ("scrap", "Scrap rate (%)"),
     ("on_time", "On-time deliveries (%)"),
+    ("cost_deviation", "Unit cost deviation, actual vs standard (%)"),
     ("manual", "Manual entry"),
 ]
 
@@ -27,6 +28,7 @@ WCM_DIRECTIONS = {
     "mttr": "lower",
     "control_fail": "lower",
     "scrap": "lower",
+    "cost_deviation": "lower",
 }
 
 
@@ -207,3 +209,13 @@ class WcmIndicator(models.Model):
             ]
         )
         return round(on_time * 100.0 / len(pickings), 2)
+
+    def _get_value_cost_deviation(self):
+        # Weighted by the good quantity: (sum actual - sum standard) / sum standard.
+        date_to = fields.Datetime.now()
+        data = self.env["wcm.cost.line"]._compute_cost_data(self.company_id, self._get_date_from(), date_to)
+        standard = sum(totals["standard_cost"] for totals in data.values())
+        if not standard:
+            return None
+        actual = sum(totals["actual_cost"] for totals in data.values())
+        return round((actual - standard) * 100.0 / standard, 2)

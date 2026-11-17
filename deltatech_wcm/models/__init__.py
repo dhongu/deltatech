@@ -4,3 +4,5 @@
 
 from . import wcm_pillar
 from . import wcm_indicator
+from . import wcm_cost_manual
+from . import wcm_cost_line

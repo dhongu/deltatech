@@ -58,7 +58,17 @@
             <field name="target">95</field>
             <field name="warning">85</field>
         </record>
-        <!-- Placeholders: manual until the Safety and Kaizen modules exist -->
+        <!-- Cost Deployment: actual vs standard unit cost (since 20.0.1.1.0) -->
+    <record id="wcm_indicator_cost_deviation_unit" model="wcm.indicator">
+        <field name="pillar_id" ref="wcm_pillar_cost_deployment"/>
+        <field name="sequence">5</field>
+        <field name="name">Unit cost deviation (actual vs standard)</field>
+        <field name="source">cost_deviation</field>
+        <field name="unit">%</field>
+        <field name="target">2</field>
+        <field name="warning">5</field>
+    </record>
+    <!-- Placeholders: manual until the Safety and Kaizen modules exist -->
         <record id="wcm_indicator_safety_lti" model="wcm.indicator">
             <field name="pillar_id" ref="wcm_pillar_safety"/>
             <field name="sequence">10</field>

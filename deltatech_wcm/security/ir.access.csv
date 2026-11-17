@@ -4,3 +4,8 @@ access_wcm_pillar_manager,access_wcm_pillar_manager,wcm.pillar,mrp.group_mrp_man
 access_wcm_indicator_user,access_wcm_indicator_user,wcm.indicator,mrp.group_mrp_user,r,
 access_wcm_indicator_manager,access_wcm_indicator_manager,wcm.indicator,mrp.group_mrp_manager,crud,
 wcm_indicator_company_rule,wcm.indicator multi-company,wcm.indicator,,crud,"[('company_id', 'in', company_ids)]"
+access_wcm_cost_line_user,access_wcm_cost_line_user,wcm.cost.line,mrp.group_mrp_user,r,
+access_wcm_cost_line_manager,access_wcm_cost_line_manager,wcm.cost.line,mrp.group_mrp_manager,crud,
+wcm_cost_line_company_rule,wcm.cost.line multi-company,wcm.cost.line,,crud,"[('company_id', 'in', company_ids)]"
+access_wcm_cost_manual_manager,access_wcm_cost_manual_manager,wcm.cost.manual,mrp.group_mrp_manager,crud,
+wcm_cost_manual_company_rule,wcm.cost.manual multi-company,wcm.cost.manual,,crud,"[('company_id', 'in', company_ids)]"

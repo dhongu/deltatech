@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="wcm_cost_line_view_list" model="ir.ui.view">
+        <field name="name">wcm.cost.line.list</field>
+        <field name="model">wcm.cost.line</field>
+        <field name="arch" type="xml">
+            <list string="Unit Costs" create="0" edit="0" delete="0"
+                  decoration-danger="deviation_pct &gt; 5"
+                  decoration-success="deviation_pct &lt;= 0">
+                <header>
+                    <button name="action_refresh" type="object" string="Recompute (last 30 days)"
+                            display="always" class="btn-primary" groups="mrp.group_mrp_manager"/>
+                </header>
+                <field name="product_id"/>
+                <field name="date_from" optional="hide"/>
+                <field name="date_to" optional="hide"/>
+                <field name="production_count" optional="show"/>
+                <field name="good_qty" sum="Total"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="standard_unit_cost"/>
+                <field name="actual_unit_cost"/>
+                <field name="deviation_unit"/>
+                <field name="deviation_pct"/>
+                <field name="scrap_unit"/>
+                <field name="stoppage_unit"/>
+                <field name="changeover_unit"/>
+                <field name="energy_unit"/>
+                <field name="waste_unit"/>
+                <field name="loss_unit"/>
+                <field name="standard_cost" sum="Total" optional="hide"/>
+                <field name="actual_cost" sum="Total" optional="hide"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="wcm_cost_line_view_search" model="ir.ui.view">
+        <field name="name">wcm.cost.line.search</field>
+        <field name="model">wcm.cost.line</field>
+        <field name="arch" type="xml">
+            <search string="Unit Costs">
+                <field name="product_id"/>
+                <filter string="Above standard" name="above_standard" domain="[('deviation_pct', '&gt;', 0)]"/>
+                <group>
+                    <filter string="Product" name="group_product" context="{'group_by': 'product_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_wcm_cost_line" model="ir.actions.act_window">
+        <field name="name">Unit Costs</field>
+        <field name="res_model">wcm.cost.line</field>
+        <field name="view_mode">list</field>
+        <field name="search_view_id" ref="wcm_cost_line_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No unit costs computed yet</p>
+            <p>Use "Recompute (last 30 days)" to compare the actual unit cost of the done manufacturing orders with the standard cost of their bill of materials.</p>
+        </field>
+    </record>
+
+    <record id="wcm_cost_manual_view_list" model="ir.ui.view">
+        <field name="name">wcm.cost.manual.list</field>
+        <field name="model">wcm.cost.manual</field>
+        <field name="arch" type="xml">
+            <list string="Energy and Waste Costs" editable="bottom">
+                <field name="name"/>
+                <field name="cost_type"/>
+                <field name="workcenter_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="amount" sum="Total"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_wcm_cost_manual" model="ir.actions.act_window">
+        <field name="name">Energy and Waste Costs</field>
+        <field name="res_model">wcm.cost.manual</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Record the energy and waste costs of a work center</p>
+            <p>The amount is spread over the good units produced on that work center in the analysed period.</p>
+        </field>
+    </record>
+</odoo>
