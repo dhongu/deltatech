@@ -247,3 +247,12 @@ class TestSafetyRegister(TransactionCase):
         self.assertEqual(len(rows), 1)
         self.assertEqual(rows[0][0], event.name)
         self.assertEqual(rows[0][3], self.employee.name)
+
+    def test_indicator_year_range(self):
+        """The indicators refuse a year outside 1900-2999 instead of crashing on the date range."""
+        for year in (9999, -5):
+            with self.assertRaises(ValidationError):
+                self._indicator(year)
+        indicator = self.Indicator.new({"year": 9999, "company_id": self.company.id})
+        self.assertFalse(indicator.ltifr)
+        self.assertEqual(indicator.near_miss_count, 0)

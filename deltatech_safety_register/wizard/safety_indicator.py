@@ -5,10 +5,12 @@ from collections import defaultdict
 from datetime import date, datetime
 
 from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 from ..models.safety_event import LOST_TIME_TYPES
 
 LTIFR_BASE = 1_000_000
+YEAR_MIN, YEAR_MAX = 1900, 2999
 
 
 class SafetyIndicator(models.TransientModel):
@@ -43,6 +45,14 @@ class SafetyIndicator(models.TransientModel):
         help="Days since the last injury (Injury, Lost-time injury or Fatal). Empty when no injury is recorded.",
     )
 
+    @api.constrains("year")
+    def _check_year(self):
+        for indicator in self:
+            if not YEAR_MIN <= indicator.year <= YEAR_MAX:
+                raise ValidationError(
+                    self.env._("The year must be between %(min)s and %(max)s.", min=YEAR_MIN, max=YEAR_MAX)
+                )
+
     @api.depends("year")
     def _compute_display_name(self):
         for indicator in self:
@@ -65,7 +75,8 @@ class SafetyIndicator(models.TransientModel):
             }
             company = indicator.company_id
             year = indicator.year
-            if company and year:
+            # an out-of-range year is refused on save; while typing it only empties the indicators
+            if company and YEAR_MIN <= year <= YEAR_MAX:
                 events = Event.search(
                     [
                         ("company_id", "=", company.id),
