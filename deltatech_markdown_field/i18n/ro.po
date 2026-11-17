@@ -128,7 +128,7 @@ msgstr "Paragraf"
 #. odoo-javascript
 #: code:addons/deltatech_markdown_field/static/src/fields/markdown_field.xml:0
 msgid "Quote"
-msgstr "Ofertă"
+msgstr "Citat"
 
 #. module: deltatech_markdown_field
 #. odoo-javascript

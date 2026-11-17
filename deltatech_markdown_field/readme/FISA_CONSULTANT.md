@@ -55,11 +55,13 @@ formular de probă pe atașamente, cu câmpul **Descriere** afișat ca Markdown 
    <field name="description" widget="markdown" options="{'min_height': 220}"/>
    ```
 
-   Opțiunea `min_height` dă înălțimea minimă a zonei de scris, în pixeli (implicit 160).
-3. Pentru demo, testul de capturi creează un formular de probă pe **Atașamente**, cu câmpurile
+   Opțiunea `min_height` dă înălțimea minimă a zonei de scris, în pixeli (implicit 160). Textul
+   indicativ, dat cu atributul `placeholder` pe câmp (sau cu opțiunea `placeholder_field`), apare
+   în zona de scris cât timp aceasta e goală.
+3. Capturile din fișă au fost făcute pe un formular de probă pe **Atașamente**, cu câmpurile
    **Nume** și **Descriere** (cea din urmă cu widgetul Markdown), o variantă editabilă și una doar în
-   citire. Formularul există doar în baza în care rulează testul; pe o bază reală, widgetul se pune
-   pe un câmp printr-o vizualizare moștenită, ca la pasul 2.
+   citire. Modulul nu instalează acest formular; pe o bază reală, widgetul se pune pe un câmp printr-o
+   vizualizare moștenită, ca la pasul 2.
 
 ## 6. Flux de utilizare
 
@@ -131,8 +133,8 @@ conținutului încorporat cu link-uri acolo unde era folosit intenționat.
 - [ ] În modul doar în citire, textul apare formatat, fără bara de instrumente.
 - [ ] La afișare, un text cu `<kbd>` sau `<mark>` își păstrează formatarea; un `<iframe>` din text nu
       se afișează.
-- [ ] Testele automate ale modulului sunt verzi în CI (PR / Odoo.sh); dezvoltatorul le poate rula cu
-      `odoo-bin … --test-tags=/deltatech_markdown_field …`.
+- [ ] Testele automate ale modulului (teste JavaScript Hoot, în `static/tests/`) sunt verzi în CI;
+      dezvoltatorul le poate rula în browser la `/web/tests?filter=@deltatech_markdown_field`.
 
 ## 9. Mesaje de eroare frecvente
 
@@ -144,9 +146,8 @@ conținutului încorporat cu link-uri acolo unde era folosit intenționat.
 
 ## 10. Capturi de ecran
 
-Capturile sunt **generate automat** din `tests/test_screenshots.py` (mixinul `ScreenshotCase` din
-`deltatech_doc_screenshots`, import defensiv), în română, pe formularul de probă de pe atașamente din
-secțiunea 5:
+Capturile sunt în `static/description/` (română) și `static/description/en/` (engleză), făcute pe
+formularul de probă de pe atașamente din secțiunea 5:
 
 1. `01_editare_markdown.png` — înregistrarea **Procedură recepție** în modul de editare, cu bara de
    instrumente și textul formatat;
@@ -154,12 +155,8 @@ secțiunea 5:
 3. `03_html_filtrat.png` — înregistrarea **Text cu HTML**, cu formatarea inofensivă păstrată și cadrul
    încorporat eliminat.
 
-Regenerare:
-
-```bash
-./odoo/odoo-bin -c odoo.conf -d <baza> -i deltatech_markdown_field,deltatech_doc_screenshots \
-    --test-tags=/deltatech_markdown_field:TestMarkdownFieldScreenshots --stop-after-init
-```
+Pe 20.0 modulul are numai date (fără cod Python), deci nu mai are testul care genera capturile; la o
+schimbare vizibilă, capturile se refac manual pe un formular care folosește widgetul.
 
 ## 11. Observații pentru manual
 
