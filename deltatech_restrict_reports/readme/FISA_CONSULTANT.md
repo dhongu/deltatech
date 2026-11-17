@@ -222,7 +222,10 @@ pentru Odoo Online. Capturile s-au făcut cu Playwright, pe rapoartele din aplic
 
 - Grupurile se văd în formularul utilizatorului doar în tabul **Drepturi de acces**, secțiunea
   **Restricționare rapoarte**.
-- Restricția nu ascunde meniurile: utilizatorul fără grup vede meniul, dar raportul gol.
+- Restricția nu ascunde meniurile: utilizatorul fără grup vede meniul, dar raportul gol. Modulul
+  pune grupul și pe acțiunile rapoartelor, dar Odoo decide vizibilitatea unui meniu doar după
+  grupurile meniului și dreptul de citire pe model, nu după grupurile acțiunii (verificat pe
+  Odoo 20, captura 06; dhongu/deltatech#4220).
 - Restricția se aplică celor două rapoarte de analiză și butonului **Vândut** (produs), nu
   comenzilor și facturilor; butonul **Facturat** de pe client nu este afectat.
 - La instalare, nu uitați grupul *toate înregistrările* pentru administratori și conducere.

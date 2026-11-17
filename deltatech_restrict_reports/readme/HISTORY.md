@@ -13,6 +13,8 @@
 - Consultant sheet, USAGE.md and screenshots from 19.0 (#4221), redone on Odoo 20. On 20.0 the
   **Invoiced** button on customers is computed from the invoices, so it is no longer filtered; only
   **Sold** on products is.
+- The comment in `security/reports_security_actions.xml` no longer claims that the report menus
+  are hidden: the action `group_ids` do not affect menu visibility (#4220).
 
 ## 19.0.1.0.2 (2026-11-14)
 

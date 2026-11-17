@@ -2,12 +2,15 @@
 <odoo>
 
     <!--
-        Restrict the reporting menus themselves to users with at least one of
-        the two access groups: hides an otherwise permanently-empty screen
-        from everyone else. Actual data visibility is enforced by the global ir.access
-        restrictions in ir.access.csv regardless of entry point - this is UX
-        only. group_restrict_reports_all implies group_restrict_reports_own,
-        so both tiers see the menu.
+        Set group_ids on the report actions to users with at least one of
+        the two access groups. NOTE: this does NOT hide the menus. Odoo's
+        ir.ui.menu._visible_menu_ids() only filters on the menu's own
+        group_ids and on read access to the action's model; the action's
+        group_ids only filter contextual bindings (Action / Print menus).
+        A user in neither group therefore still sees the Sales Analysis /
+        Invoice Analysis menus and opens an empty report (see
+        dhongu/deltatech#4220). Data visibility is enforced by the global
+        ir.access restrictions in ir.access.csv regardless of entry point.
 
         These actions are declared by sale/account in files without
         noupdate="1", so this override re-applies on every module update
