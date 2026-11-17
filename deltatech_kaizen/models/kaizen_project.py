@@ -135,13 +135,37 @@ class KaizenProject(models.Model):
         for vals in vals_list:
             if not vals.get("reference") or vals.get("reference") == "/":
                 vals["reference"] = self.env["ir.sequence"].next_by_code("kaizen.project") or "/"
+            if vals.get("state", "draft") != "draft" or vals.get("date_closed"):
+                self._check_state_write()
         return super().create(vals_list)
 
+    def write(self, vals):
+        if {"state", "date_closed"} & vals.keys():
+            self._check_state_write()
+        return super().write(vals)
+
+    def _check_state_write(self):
+        """State and closing date change only through the transition buttons."""
+        if not self.env.su and not self.env.context.get("kaizen_transition"):
+            raise AccessError(self.env._("Use the project buttons to change the state of a Kaizen project."))
+
+    def _set_state(self, from_states, vals):
+        for project in self:
+            if project.state not in from_states:
+                raise UserError(
+                    self.env._(
+                        "Project %(name)s is in state %(state)s; this step is not available.",
+                        name=project.display_name,
+                        state=dict(project._fields["state"]._description_selection(self.env))[project.state],
+                    )
+                )
+        self.with_context(kaizen_transition=True).write(vals)
+
     def action_start_analysis(self):
-        self.write({"state": "analysis"})
+        self._set_state(("draft",), {"state": "analysis"})
 
     def action_start_actions(self):
-        self.write({"state": "actions"})
+        self._set_state(("analysis",), {"state": "actions"})
 
     def action_start_verification(self):
         for project in self:
@@ -152,7 +176,7 @@ class KaizenProject(models.Model):
                         count=project.action_open_count,
                     )
                 )
-        self.write({"state": "verification"})
+        self._set_state(("actions",), {"state": "verification"})
 
     def _check_kaizen_manager(self):
         if not self.env.su and not self.env.user.has_group("deltatech_kaizen.group_kaizen_manager"):
@@ -161,8 +185,6 @@ class KaizenProject(models.Model):
     def action_close(self):
         self._check_kaizen_manager()
         for project in self:
-            if project.state in ("done", "cancelled"):
-                raise UserError(self.env._("This project is already closed or cancelled."))
             if project.action_open_count:
                 raise UserError(
                     self.env._(
@@ -174,11 +196,8 @@ class KaizenProject(models.Model):
                 raise UserError(self.env._("Mark a root cause in the 5 Why before closing the project."))
             if project.baseline_value <= 0:
                 raise UserError(self.env._("The baseline loss must be positive before closing the project."))
-        self.write({"state": "done", "date_closed": fields.Date.context_today(self)})
+        self._set_state(("verification",), {"state": "done", "date_closed": fields.Date.context_today(self)})
 
     def action_cancel(self):
         self._check_kaizen_manager()
-        for project in self:
-            if project.state == "done":
-                raise UserError(self.env._("A closed project cannot be cancelled."))
-        self.write({"state": "cancelled"})
+        self._set_state(("draft", "analysis", "actions", "verification"), {"state": "cancelled"})

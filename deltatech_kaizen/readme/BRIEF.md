@@ -74,10 +74,13 @@ monthly loss measured after the fix.
 - **CA9:** An action without responsible or without deadline cannot be saved (required fields).
 - **CA10:** An action whose deadline is before today and that is not done shows `is_overdue` True;
   once done, `is_overdue` is False and `done_date` is today.
-- **CA11:** "Close project" with an open action raises a UserError naming the open actions count.
+- **CA11:** "Start verification" (and "Close project") with an open action raises a UserError naming
+  the open actions count.
 - **CA12:** "Close project" with no root cause raises a UserError.
-- **CA13:** "Close project" on a valid project (root cause set, all actions done, baseline > 0) moves
-  the state to Done and sets `date_closed`.
+- **CA13:** "Close project" is offered only in Verification; called from another state it raises a
+  UserError. On a valid project in Verification (root cause set, all actions done, baseline > 0) it
+  moves the state to Done and sets `date_closed`. Each "Start ..." button works only from the
+  previous state of the flow.
 - **CA14:** "Cancel" moves the project to Cancelled from Draft, Analysis, Actions and Verification;
   from Done the button is not offered.
 - **CA15:** A user with only `group_kaizen_user` cannot unlink a project (access denied); a manager
@@ -85,7 +88,9 @@ monthly loss measured after the fix.
 - **CA16:** Each Ishikawa cause shows its category in the project form and in the list; the
   "Ishikawa" menu opens all causes grouped by category (six groups, one per category).
 - **CA17:** A Kaizen user does not see the "Close project" and "Cancel" buttons, and calling them
-  raises an AccessError; a Kaizen manager closes and cancels.
+  raises an AccessError; a Kaizen manager closes and cancels. Writing `state` or `date_closed`
+  directly (form, import or RPC) raises an AccessError for every user: the state changes only
+  through the buttons.
 - **CA18:** A user of company B does not see the projects of company A, nor their why lines,
   Ishikawa causes and actions.
 

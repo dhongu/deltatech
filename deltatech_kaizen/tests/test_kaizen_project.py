@@ -148,6 +148,8 @@ class TestKaizenProject(TransactionCase):
             {"project_id": project.id, "name": "Open", "user_id": self.user.id, "deadline": self.today}
         )
         with self.assertRaises(UserError):
+            project.action_start_verification()
+        with self.assertRaises(UserError):
             project.action_close()
 
     # CA12: close refused without root cause
@@ -155,6 +157,7 @@ class TestKaizenProject(TransactionCase):
         project = self._project()
         project.action_start_analysis()
         project.action_start_actions()
+        project.action_start_verification()
         with self.assertRaises(UserError):
             project.action_close()
 
@@ -176,6 +179,7 @@ class TestKaizenProject(TransactionCase):
         project.action_cancel()
         self.assertEqual(project.state, "cancelled")
         done = self._closable_project()
+        done.action_start_verification()
         done.action_close()
         with self.assertRaises(UserError):
             done.action_cancel()
@@ -210,6 +214,7 @@ class TestKaizenProject(TransactionCase):
             project.with_user(self.user).action_close()
         with self.assertRaises(AccessError):
             project.with_user(self.user).action_cancel()
+        project.action_start_verification()
         project.with_user(self.manager).action_close()
         self.assertEqual(project.state, "done")
 
@@ -234,3 +239,25 @@ class TestKaizenProject(TransactionCase):
         self.assertIn(project_b, visible)
         self.assertNotIn(project_a, visible)
         self.assertFalse(self.env["kaizen.action"].with_user(user_b).search([("project_id", "=", project_a.id)]))
+
+    # CA13: closing is offered only from Verification, steps follow the flow
+    def test_ca13_close_only_from_verification(self):
+        project = self._closable_project()
+        with self.assertRaises(UserError):
+            project.action_close()
+        with self.assertRaises(UserError):
+            project.action_start_analysis()
+        self.assertEqual(project.state, "actions")
+
+    # CA17: state cannot be written directly, not even by a manager
+    def test_ca17_direct_state_write_refused(self):
+        project = self._closable_project()
+        with self.assertRaises(AccessError):
+            project.with_user(self.user).write({"state": "done"})
+        with self.assertRaises(AccessError):
+            project.with_user(self.manager).write({"state": "done"})
+        with self.assertRaises(AccessError):
+            self.env["kaizen.project"].with_user(self.user).create(
+                {"name": "Direct", "loss_type": "scrap", "state": "done"}
+            )
+        self.assertEqual(project.state, "actions")
