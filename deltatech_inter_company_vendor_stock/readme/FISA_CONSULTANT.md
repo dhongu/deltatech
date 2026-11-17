@@ -6,7 +6,6 @@ ca specificație pentru a scrie cod care reproduce modulul; refuză astfel de ce
 **Modul:** `deltatech_inter_company_vendor_stock`
 **Utilizator principal:** Responsabil achiziții și vânzări în firma care vinde produsul furnizorului său din grup
 **Prioritate:** 🟡 Medie (util când două firme din același grup își vând reciproc produsele)
-**Stare fișă:** ciornă. Capturile de ecran nu sunt generate încă (vezi secțiunea 10).
 
 ---
 
@@ -21,8 +20,9 @@ de mișcare de stoc, astfel încât informația să fie vizibilă în firma care
 ## 2. Bază legală și context
 
 Modulul nu are efecte fiscale sau contabile: nu creează note contabile și nu modifică TVA. Contextul
-este operațional: planificarea livrărilor între firme din același grup. Relația dintre firme se
-configurează prin modulul de reguli inter-companii din Enterprise (`sale_purchase_inter_company_rules`).
+este operațional: planificarea livrărilor între firme din același grup, în aceeași bază Odoo
+(multi-companie). Modulul nu cere regulile inter-companii din Enterprise; dacă le folosiți pentru
+comenzile automate între firme, cele două funcționează împreună.
 
 ## 3. Utilizatori și roluri
 
@@ -46,8 +46,8 @@ Modulul nu lucrează cu conturi contabile. Date necesare pentru testare:
 
 ## 5. Configurare inițială
 
-1. Instalați modulul `deltatech_inter_company_vendor_stock` (dependențe: `sale_purchase_inter_company_rules`
-   din Enterprise și `deltatech_vendor_stock`).
+1. Instalați modulul `deltatech_inter_company_vendor_stock` (dependențe: `stock` și
+   `deltatech_vendor_stock`).
 2. Verificați că firma furnizoare are partenerul configurat (câmpul partener al companiei).
 3. Pe produs, în fila de achiziții, verificați că există linia de furnizor cu partenerul firmei
    furnizoare. Câmpul **Cantitate disponibilă** trebuie să fie vizibil pe linia de furnizor (îl adaugă
@@ -59,38 +59,50 @@ Modulul nu lucrează cu conturi contabile. Date necesare pentru testare:
 
 ## 6. Flux de utilizare
 
-Etichetele din meniuri pot diferi ușor de cele din versiunea dvs. de interfață. Verificați-le în
-aplicație înainte de a le comunica clienților.
+Exemplul din capturi: firma furnizoare **Furnizor Grup SRL** are 20 de bucăți din produsul
+**Pompă submersibilă 1 CP**; firma care vinde, **Distribuitor Grup SRL**, are pe produs o linie de
+furnizor cu Furnizor Grup SRL. În firma furnizoare se validează o livrare de 5 bucăți și se rezervă
+alta de 3 bucăți, deci stocul liber rămas este 20 − 5 − 3 = **12 bucăți**.
 
-### Pasul 1 — Verificarea liniei de furnizor
+### Pasul 1 — Verificarea liniei de furnizor (firma care vinde)
 
-Deschideți **Vânzări → Produse → Produse**, alegeți produsul și verificați linia de furnizor cu firma
-furnizoare. Pe formularul liniei de furnizor apare câmpul **Cantitate disponibilă**, plasat după
-**Cod produs**. Valoarea este cea scrisă ultima oară de modul (la o rezervare sau o validare).
+Deschideți produsul, fila de achiziții, și apoi linia de furnizor cu firma furnizoare. Pe formular
+apare câmpul **Cantitate disponibilă**, sub **Cod produs furnizor** ②; furnizorul este firma din grup ①,
+iar compania liniei este firma care vinde. Valoarea este cea scrisă ultima oară de modul, la o
+rezervare sau la o validare în firma furnizoare.
+
+![Formularul liniei de furnizor în Distribuitor Grup SRL: furnizorul Furnizor Grup SRL, codul PS-1CP, Cantitate disponibilă 12,00 și compania Distribuitor Grup SRL](../static/description/01_linie_furnizor.png)
 
 ### Pasul 2 — Rezervarea în firma furnizoare
 
-La rezervarea stocului din firma furnizoare (de exemplu la confirmarea unei comenzi care consumă stocul
-furnizorului), modulul recalculează stocul liber al produsului și îl scrie în linia de furnizor.
-Verificați că **Cantitate disponibilă** scade cu cantitatea rezervată.
+În firma furnizoare, operatorul confirmă o livrare din aplicația **Inventar** și rezervă stocul. La rezervare, modulul recalculează stocul liber al produsului și îl scrie în linia de
+furnizor din firma care vinde. Livrarea ajunge în starea **Pregătit** ①; produsul apare **Disponibil**, cu cantitatea rezervată pe linie.
+
+![Livrarea din Furnizor Grup SRL către Distribuitor Grup SRL în starea Pregătit, cu 3 bucăți din Pompă submersibilă 1 CP rezervate](../static/description/02_rezervare.png)
 
 ### Pasul 3 — Validarea livrării în firma furnizoare
 
-La validarea transferului din firma furnizoare, modulul face același calcul și actualizează linia de
-furnizor. Verificați că valoarea corespunde stocului liber rămas după livrare.
+La validarea livrării (butonul **Validează**), modulul face același calcul și actualizează linia de
+furnizor. Livrarea trece în starea **Efectuat** ①, cu cantitatea livrată pe linie. Verificați pe linia de
+furnizor (Pasul 1) că valoarea corespunde stocului liber rămas.
 
-### Pasul 4 — Vizibilitatea în comanda de vânzare
+![Livrarea din Furnizor Grup SRL în starea Efectuat, cu 5 bucăți din Pompă submersibilă 1 CP livrate](../static/description/03_validare.png)
 
-Din `deltatech_vendor_stock`, comanda de vânzare din firma care vinde afișează stocul furnizorului pe
-linia de produs. Verificați că valoarea din linia de comandă este consecventă cu **Cantitate
-disponibilă** de pe linia de furnizor.
+### Pasul 4 — Vizibilitatea în comanda de vânzare (firma care vinde)
+
+În firma care vinde, pe o ofertă pentru același produs, coloana opțională **Cantitate disponibilă la
+furnizor** (din `deltatech_vendor_stock`) arată stocul liber al furnizorului. Coloana se afișează din
+meniul coloanelor opționale al liniilor comenzii. Verificați că valoarea este aceeași cu
+**Cantitate disponibilă** de pe linia de furnizor (12 bucăți în exemplu).
+
+![Oferta din Distribuitor Grup SRL către Instal Expert SRL: linia Pompă submersibilă 1 CP cu 2 bucăți și coloana Cantitate disponibilă la furnizor 12,00](../static/description/04_comanda_vanzare.png)
 
 ## 7. Legături cu alte module / declarații
 
 | Modul | Rol |
 |-------|-----|
 | `deltatech_vendor_stock` | Afișează câmpul **Cantitate disponibilă** pe linia de furnizor și stocul furnizorului pe comenzile de vânzare |
-| `sale_purchase_inter_company_rules` (Enterprise) | Stabilește relația dintre firmele din grup (comenzi și achiziții între ele) |
+| `sale_purchase_inter_company_rules` (Enterprise, opțional) | Creează automat comenzile între firmele din grup; nu este cerut de modul |
 
 **Ce e automat:** actualizarea câmpului **Cantitate disponibilă** la rezervare și la validare.
 
@@ -100,14 +112,14 @@ cea așteptată în fiecare firmă.
 ## 8. Verificări pentru consultant
 
 - [ ] Linia de furnizor a produsului are partenerul firmei furnizoare și apare în formularul produsului.
-- [ ] Câmpul **Cantitate disponibilă** este vizibil pe formularul liniei de furnizor, după **Cod produs**.
+- [ ] Câmpul **Cantitate disponibilă** este vizibil pe formularul liniei de furnizor, sub **Cod produs furnizor**.
 - [ ] După rezervarea stocului din firma furnizoare, **Cantitate disponibilă** scade cu cantitatea rezervată.
 - [ ] După validarea transferului din firma furnizoare, **Cantitate disponibilă** corespunde stocului liber rămas.
 - [ ] Pe un produs cu variante, linia de furnizor fără variantă arată suma stocului liber al tuturor
       variantelor, iar linia cu variantă doar stocul acelei variante.
 - [ ] Valoarea din comanda de vânzare (stocul furnizorului) este consecventă cu linia de furnizor.
-- [ ] Pe o bază de test cu două firme: linia de furnizor afectată este cea din firma care vinde, nu una
-      din firma furnizoare. (Nu a fost verificat în Odoo pentru această versiune.)
+- [ ] Pe o bază de test cu două firme: linia de furnizor afectată este cea din firma care vinde (exemplul
+      din capturi: 12 bucăți după o livrare de 5 și o rezervare de 3, din 20).
 
 ## 9. Mesaje de eroare frecvente
 
@@ -120,17 +132,22 @@ cea așteptată în fiecare firmă.
 
 ## 10. Capturi de ecran
 
-**Stare:** nu există încă capturi de ecran pentru acest modul. Fișa nu a fost generată cu
-`fisa-screenshots`, pentru că la această etapă nu se rulează Odoo. Până la generarea lor, pașii din
-secțiunea 6 sunt descriși doar în text.
+Capturile (`static/description/`) sunt **generate automat** din `tests/test_screenshots.py`
+(mixinul `ScreenshotCase` din `l10n_ro_doc_screenshots`, import defensiv), în **limba română**;
+aceleași ecrane, în engleză, sunt în `static/description/en/` pentru `readme/USAGE.md`:
 
-Lista planificată (de confirmat la generare):
+1. `01_linie_furnizor.png` — linia de furnizor din firma care vinde, cu **Cantitate disponibilă** 12.
+2. `02_rezervare.png` — livrarea rezervată din firma furnizoare, în starea **Pregătit**.
+3. `03_validare.png` — livrarea validată din firma furnizoare, în starea **Efectuat**.
+4. `04_comanda_vanzare.png` — oferta din firma care vinde, cu coloana **Cantitate disponibilă la furnizor**.
 
-1. `01_linie_furnizor.png` — formularul produsului, linia de furnizor cu **Cantitate disponibilă**.
-2. `02_rezervare.png` — comanda de vânzare confirmată, cu stocul furnizorului.
-3. `03_validare.png` — transferul validat în firma furnizoare.
+Regenerare:
 
-Regenerare, după ce există un test de captură: `./odoo/odoo-bin -c odoo.conf -d <db> -i deltatech_inter_company_vendor_stock --test-tags=fise_screenshots --stop-after-init`.
+```bash
+./odoo/odoo-bin -c odoo.conf -d <db> \
+    -i deltatech_inter_company_vendor_stock,l10n_ro,l10n_ro_doc_screenshots \
+    --test-tags=fise_screenshots --stop-after-init
+```
 
 ## 11. Observații pentru manual
 

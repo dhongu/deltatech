@@ -9,7 +9,7 @@
     "support": "odoo@terrabit.ro",
     "category": "Sales",
     "depends": [
-        "sale_purchase_inter_company_rules",
+        "stock",
         "deltatech_vendor_stock",
     ],
     "price": 10.00,
