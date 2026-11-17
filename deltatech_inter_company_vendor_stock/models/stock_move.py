@@ -11,7 +11,7 @@ class StockMove(models.Model):
 
     def _action_assign(self, force_qty=False):
         res = super()._action_assign(force_qty=force_qty)
-        if len(self) >= 1:
+        if self:
             self.inter_company_stock_update()
         return res
 
@@ -21,16 +21,29 @@ class StockMove(models.Model):
         return moves_todo
 
     def inter_company_stock_update(self):
-        current_company_partner = self.env.company.partner_id
-        products = self.mapped("product_id")
+        """Write the free stock of the current company on the vendor lines where it is the vendor.
 
+        A vendor line with a variant gets the free stock of that variant; a line on the template only
+        (no variant, the usual case from the product form) gets the free stock of all its variants.
+        """
+        products = self.product_id
+        if not products:
+            return
+        templates = products.product_tmpl_id
         domain = [
+            ("partner_id", "=", self.env.company.partner_id.id),
+            ("product_tmpl_id", "in", templates.ids),
+            "|",
+            ("product_id", "=", False),
             ("product_id", "in", products.ids),
-            ("partner_id", "=", current_company_partner.id),
         ]
         supplierinfos = self.env["product.supplierinfo"].sudo().search(domain)
-
-        for product in products:
-            supplierinfo = supplierinfos.filtered(lambda s: s.product_id == product)
-            if supplierinfo:
-                supplierinfo.write({"qty_available": product.free_qty})
+        for supplierinfo in supplierinfos:
+            if supplierinfo.product_id:
+                qty = self.env["product.product"].browse(supplierinfo.product_id.id).free_qty
+            else:
+                variants = templates.filtered(
+                    lambda t, s=supplierinfo: t.id == s.product_tmpl_id.id
+                ).product_variant_ids
+                qty = sum(variants.mapped("free_qty"))
+            supplierinfo.qty_available = qty
