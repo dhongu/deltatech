@@ -13,7 +13,10 @@
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px dashed #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;"><span class="fa fa-balance-scale" style="margin-right:6px;" aria-hidden="true"></span>LGPL-3</span>
       </div>
     </div>
-    
+    <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 3 automated tests</div>
+      
+    </div>
   </div>
 </div>
 
@@ -55,7 +58,8 @@ delay is read from the <code class="border rounded px-2" style="font-family:ui-m
 <p><strong>Manual sending.</strong> On customer invoices, <em>Actions &gt; Request feedback</em> sends the e-mail for the
 selected invoices.</p>
 <p><strong>Links on the company website.</strong> When the invoice company has a website address, the module tries
-to build the links in the e-mail on that address instead of the database <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">web.base.url</code>.</p>
+to build the links in the feedback e-mail on that address instead of the database <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">web.base.url</code>.
+The other e-mails of the database are not affected and keep <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">web.base.url</code>.</p>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;"><span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">Limitations</span></h2>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-exchange" style="" aria-hidden="true"></span></span><div>On 19.0 the sending does not work: the code still calls <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">xmlid_to_res_id</code> and
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">message_post_with_template</code>, which no longer exist in Odoo, so both the scheduled action and
@@ -66,6 +70,15 @@ to build the links in the e-mail on that address instead of the database <code c
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.9 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-18)</span></h2>
+<ul>
+<li>Fixed: e-mails sent from any template (for example the AWB e-mail of a delivery) failed with
+  <em>Base URL must be a string</em>, and the SMS sent right after failed on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/sms/status</code>. The module read
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">web.base.url</code> from the wrong context key and kept the empty result in the parameter cache, so
+  every later call of the same user got no base URL.</li>
+<li>The company website now replaces <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">web.base.url</code> only for the feedback e-mail; the other e-mails
+  keep the database base URL, as in standard Odoo.</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.8 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-03)</span></h2>
 <ul>
 <li>Description rewritten after the code: the per-line rating links, the scheduled action and the

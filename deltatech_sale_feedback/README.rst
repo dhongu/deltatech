@@ -46,8 +46,9 @@ read from the ``sale.days_request_feedback`` system parameter (*Settings
 sends the e-mail for the selected invoices.
 
 **Links on the company website.** When the invoice company has a website
-address, the module tries to build the links in the e-mail on that
-address instead of the database ``web.base.url``.
+address, the module tries to build the links in the feedback e-mail on
+that address instead of the database ``web.base.url``. The other e-mails
+of the database are not affected and keep ``web.base.url``.
 
 Limitations
 -----------
@@ -71,6 +72,19 @@ Limitations
 
 Changelog
 =========
+
+19.0.1.0.9 (2026-11-18)
+-----------------------
+
+- Fixed: e-mails sent from any template (for example the AWB e-mail of a
+  delivery) failed with *Base URL must be a string*, and the SMS sent
+  right after failed on ``/sms/status``. The module read
+  ``web.base.url`` from the wrong context key and kept the empty result
+  in the parameter cache, so every later call of the same user got no
+  base URL.
+- The company website now replaces ``web.base.url`` only for the
+  feedback e-mail; the other e-mails keep the database base URL, as in
+  standard Odoo.
 
 19.0.1.0.8 (2026-11-03)
 -----------------------

@@ -18,7 +18,8 @@ delay is read from the `sale.days_request_feedback` system parameter
 selected invoices.
 
 **Links on the company website.** When the invoice company has a website address, the module tries
-to build the links in the e-mail on that address instead of the database `web.base.url`.
+to build the links in the feedback e-mail on that address instead of the database `web.base.url`.
+The other e-mails of the database are not affected and keep `web.base.url`.
 
 ## Limitations
 
