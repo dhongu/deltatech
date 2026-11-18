@@ -37,9 +37,9 @@ For each order line the report shows:
 - the cost of the line, as computed by the Point of Sale when the
   session is closed, or the current product cost while the session is
   still open;
-- the salesperson of the order and the sales journal of the point of
-  sale; with ``deltatech_sale_commission``, the commission rates set on
-  that journal give the computed commission;
+- the salesperson of the order and the journal of the POS orders; with
+  ``deltatech_sale_commission``, the computed commission uses the rates
+  set on the **invoice journal** of the point of sale;
 - the order itself, with a *POS Sales* filter and a grouping by order.
 
 The rows of the orders are read-only: the real commission, *Commission
@@ -48,6 +48,10 @@ commission and cost wizards leave the orders out.
 
 The module is not installed automatically: it changes the figures of the
 report.
+
+The credit note of a Point of Sale return invoiced for a receipt that
+was not invoiced reverses no invoice, so it takes its cost from the
+lines of the POS return (the cost of the original sale) instead of 0.
 
 **Table of contents**
 
@@ -97,15 +101,40 @@ commission of the salesperson of the order, from the rates set on the
 
 |POS sales in the profit report|
 
+**Step 4 — Invoiced return of a receipt**
+
+When the customer returns goods bought with a receipt and asks for an
+invoice on the return, the credit note reverses no invoice. The module
+takes its cost from the Point of Sale return lines: the cost of the
+original sale, in the unit of the invoice line. In the profit report,
+the **Invoices** filter shows the credit note with negative quantity and
+values, and a cost instead of 0. A credit note issued before this
+version and left with a cost of 0 is corrected with the *Update Purchase
+Price* wizard (select the lines in the list, then the **Action** menu).
+
+|Credit note of an invoiced POS return in the profit report|
+
 .. |Paid Point of Sale order without invoice| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_margin_pos/01_bon_pos_nefacturat.png
 .. |Profit report grouped by journal: invoices and POS| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_margin_pos/02_raport_profit_pe_jurnal.png
 .. |POS sales in the profit report| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_margin_pos/03_vanzari_pos_in_raport.png
+.. |Credit note of an invoiced POS return in the profit report| image:: https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_margin_pos/04_nota_credit_retur_pos.png
 
 Changelog
 =========
 
 Changelog
 =========
+
+19.0.1.1.0 (2026-11-18)
+-----------------------
+
+- The credit note issued from a Point of Sale return of a receipt (the
+  sale was not invoiced, so the credit note reverses no invoice) takes
+  its cost from the Point of Sale: the cost of the returned goods, which
+  is the cost of the original sale. Until now it had a cost of 0 and the
+  *Profit analysis* report showed the whole value of the return as a
+  loss. The cost of the lines already invoiced is corrected with the
+  *Update Purchase Price* wizard.
 
 19.0.1.0.1 (2026-10-28)
 -----------------------

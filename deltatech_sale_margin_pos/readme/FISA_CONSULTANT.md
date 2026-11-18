@@ -23,6 +23,11 @@ Modulul adaugă în raport **bonurile POS plătite și nefacturate**, linie cu l
 cantitatea, vânzarea fără TVA și costul mărfii. Bonurile facturate rămân în raport prin factura lor,
 deci **nu se numără de două ori**.
 
+Același lucru se întâmplă la **returul facturat al unui bon nefacturat**: clientul aduce marfa înapoi
+și cere factură de retur. Nota de credit nu stornează nicio factură (vânzarea a fost doar bon) și nu
+are comandă de vânzare, deci raportul nu găsea niciun cost și o arăta cu cost 0: returul apărea ca
+pierdere egală cu toată valoarea lui. Modulul ia costul notei de credit din liniile returului POS.
+
 ## 2. Bază legală și context
 
 Modulul nu are bază legală proprie și nu generează note contabile. Contextul:
@@ -54,6 +59,7 @@ Modulul nu atinge conturi. Datele pe care se bazează:
 | Bonul (comanda POS) | *Punct de vânzare → Comenzi → Comenzi* | o linie de raport pe fiecare linie de bon plătit (stare *Plătit* sau *Postat*), fără factură |
 | Vânzarea | linia bonului, fără TVA | convertită în moneda companiei; retururile au cantitate și valoare negative |
 | Costul | linia bonului | costul calculat de POS la închiderea sesiunii (din livrare, la produsele FIFO/medii); cât sesiunea e deschisă, costul curent al produsului |
+| Costul notei de credit a unui retur POS | linia returului POS | costul unitar al liniei returului (costul vânzării inițiale), în unitatea liniei de factură; se ia doar dacă bonul inițial n-a fost facturat (nota de credit fără factură stornată) și costul POS e deja calculat |
 | Data | data bonului | ziua, în fusul orar al casierului |
 | Agentul | responsabilul bonului (*Operator*) | gruparea pe agent și ratele de comision |
 | Jurnalul | jurnalul comenzilor casei (implicit *Point of Sale*, cod POSS) | gruparea pe jurnal |
@@ -70,6 +76,7 @@ Centru** (jurnalul comenzilor redenumit *Casa Magazin Centru*), casiera **Ioana 
 | Bon 000002 | 1 × Espressor automat | 1.200 | 800 | 400 | **da** |
 | Bon 000003 (retur) | −1 × Espressor automat | −1.200 | −800 | −400 | **da** |
 | Bon 000004, facturat | 2 × Cafea boabe 1 kg | 138 | 90 | 48 | doar prin factura lui |
+| Returul bonului 000001, facturat | −3 × Cafea boabe 1 kg | −207 | −135 | −72 | prin nota de credit, cu costul din POS |
 
 ## 5. Configurare inițială
 
@@ -92,7 +99,7 @@ Cafea boabe 1 kg la 69,00 fără TVA, total 207,00 fără TVA și 250,47 cu TVA,
 
 Nu e nimic de făcut în plus: bonul intră singur în raport, cu linia lui.
 
-![Bonul POS plătit, nefacturat](../static/description/01_bon_pos_nefacturat.png)
+![Formularul bonului Magazin Centru - 000001, în starea Plătit, fără factură: 3 × Cafea boabe 1 kg la 69,00 lei, 207,00 lei fără TVA și 250,47 lei cu TVA 21 %, marjă 72,00 lei](../static/description/01_bon_pos_nefacturat.png)
 
 ### Pasul 2 — Raportul de profit, cu vânzările de la casă
 
@@ -109,7 +116,10 @@ bonurilor urmează filtrul ca facturile: un produs stocabil vândut la casă ră
    - la jurnalul casei, Espressor automat: 0,00 — vânzarea de 1.200,00 și returul ei se anulează;
    - bonul facturat (2 × Cafea, 138,00) apare **o singură dată**, la jurnalul de vânzări, prin factura
      lui, nu și la casă;
-   - totalul: 2.745,00 vânzare, 1.825,00 cost, 920,00 profit.
+   - la jurnalul de vânzări, Cafea boabe 1 kg: vânzare −69,00, cost −45,00, profit −24,00, adică
+     factura bonului 000004 (138,00) plus nota de credit a returului facturat al bonului 000001
+     (−207,00), din pasul 4; Espressor automat: 2.400,00;
+   - totalul: 2.538,00 vânzare, 1.690,00 cost, 848,00 profit.
 3. **Treceți mai departe** — **Introduceți în foaia de calcul** sau exportul (⬇) scot tabelul în
    Excel.
 
@@ -117,7 +127,7 @@ Raportul se deschide pe luna trecută, grupat pe agent și produs; capturile sun
 ca să apară și bonul facturat azi. Pe demo sesiunea e încă deschisă, deci costul bonurilor este costul
 curent al produsului.
 
-![Raportul de profit grupat pe jurnal: facturi și casă](../static/description/02_raport_profit_pe_jurnal.png)
+![Pivotul Raport analiză profit grupat pe jurnal și produs: total 2.538,00 vânzare, 1.690,00 cost, 848,00 profit; la jurnalul Vânzări, Cafea −69,00 (factura bonului 000004 minus nota de credit a returului) și Espressor 2.400,00; la Casa Magazin Centru, Cafea 207,00, 135,00, 72,00 și Espressor 0,00](../static/description/02_raport_profit_pe_jurnal.png)
 
 ### Pasul 3 — Doar vânzările de la casă
 
@@ -138,11 +148,50 @@ filtrelor). Filtrul **Facturi** arată doar liniile de factură. Rândurile bonu
 Rândurile bonurilor nu se pot modifica: orice salvare pe ele e refuzată („În raportul de profit se pot
 modifica doar liniile de factură.”).
 
-![Vânzările POS în raport, cu bonul pe fiecare rând](../static/description/03_vanzari_pos_in_raport.png)
+![Lista Raport analiză profit cu filtrul Vânzări POS: trei rânduri cu bonurile Magazin Centru - 000001, 000002 și 000003 în coloana Comandă POS, returul 000003 cu −1,00 și −1.200,00; total 207,00 vânzare, 135,00 cost, 72,00 profit](../static/description/03_vanzari_pos_in_raport.png)
+
+### Pasul 4 — Returul facturat al unui bon nefacturat
+
+Clientul aduce marfa înapoi și cere factură de retur, deși a cumpărat cu bon fără factură. În
+Odoo (nu pe casa de marcat), în backend: *Punct de vânzare → Comenzi → Comenzi*, deschideți bonul
+inițial și apăsați **Returnare produse**; pe comanda de retur **alegeți clientul** (obligatoriu pentru
+factură), plătiți returul cu asistentul **Plată** și apăsați butonul **Factură**. Din ecranul casei
+(*Comenzi*, rambursare), clientul se alege pe comandă și se bifează **Factură** înainte de plată. Odoo
+emite o **notă de credit**, legată de comanda de retur. Pe demo: returul bonului **000001** (3 × Cafea boabe 1 kg), cu nota de credit
+RINV.
+
+Nota de credit nu stornează nicio factură, pentru că vânzarea a fost doar bon. Modulul îi ia costul din
+liniile returului POS: costul vânzării inițiale (45,00 pe bucată), în unitatea liniei de factură. Nu e
+nimic de făcut în plus.
+
+În **Vânzări → Raportare → Raport analiză profit**, pe vizualizarea **listă**, alegeți filtrul
+**Facturi** (și scoateți grupările implicite, filtrul de dată și filtrul **Produse stocabile**).
+
+1. **Găsiți pe ecran** — rândul notei de credit (factura cu prefixul RINV), cu **Cantitate**, **Valoare
+   vânzare**, **Valoare cost** și **Valoare profit**.
+2. **Verificați**, pe demo:
+   - cantitatea și valorile sunt negative: vânzare −207,00, cost −135,00, profit −72,00;
+   - costul e cel al vânzării inițiale, nu 0: profitul returului este opusul profitului bonului
+     inițial (72,00), nu pierdere egală cu toată valoarea returului;
+   - dacă nota de credit a fost emisă înainte de această versiune și are cost 0, vezi secțiunea 9.
+3. **Treceți mai departe** — gruparea **Factură** sau exportul din raport (⬇) scot rândul în Excel.
+
+![Raportul de profit, filtrul Facturi: nota de credit a returului POS facturat, cu cantitate și valori negative și costul din POS: RINV/2026/00001 (Magazin Centru - 000001 REFUND), −3,00, vânzare −207,00, cost −135,00, profit −72,00](../static/description/04_nota_credit_retur_pos.png)
 
 ### Note de monografie și raportare
 
-Modulul **nu generează note contabile** și nu schimbă nota de închidere a sesiunii POS. Vânzarea și
+**Returul facturat al unui bon nefacturat (pasul 4).** Odoo postează stornări, cu sume negative
+(stornare în roșu), pe demo:
+- nota de credit: `Dr 4111 = Cr 707` −207,00 și `Dr 4111 = Cr 4427` −43,47 (total −250,47);
+- la produsele stocabile cu inventar permanent, intrarea mărfii în stoc, la costul ieșirii inițiale,
+  în nota de stoc a returului: `Dr 607 = Cr 371` −135,00 (pe demo produsele nu sunt stocabile, deci
+  această notă lipsește; costul din raport vine din linia returului POS). Este exact costul din raport:
+  valoarea returului nu mai apare ca pierdere întreagă;
+- restituirea către client, la închiderea sesiunii, în nota ei.
+
+Modulul **nu generează note contabile** și nu schimbă nota de închidere a sesiunii POS. Costul din
+raport al unei note de credit a unui retur POS este un indicator de gestiune: nu se înregistrează nicio
+notă pentru el; intrarea mărfii în stoc, la costul vânzării inițiale, o face returul POS. Vânzarea și
 costul bonurilor sunt înregistrate de Odoo în **nota de închidere a sesiunii**:
 - vânzarea: `Dr 5311` (numerar) sau `5125` (card), prin creanța POS 4111, `= Cr 707`
   (sau 701 la produsele finite, după contul de venit al categoriei) `+ Cr 4427` (TVA 21 %);
@@ -161,7 +210,8 @@ La gestiunea ținută la preț de vânzare (371 cu adaos și TVA neexigibilă), 
 | `deltatech_sale_commission` | ratele de comision ale responsabilului bonului pe jurnalul de facturi al casei (comision calculat, informativ, vizibil în raport, nu în lista *Comision*) | opțional |
 
 **Ce e automat:** includerea bonurilor plătite și nefacturate; excluderea celor facturate; costul din
-sesiunea închisă; conversia în moneda companiei; ziua bonului în fusul orar al casierului.
+sesiunea închisă; costul notei de credit a unui retur POS facturat al unui bon nefacturat, din liniile
+returului; conversia în moneda companiei; ziua bonului în fusul orar al casierului.
 
 **Ce rămâne manual:** instalarea modulului; ratele de comision pe jurnalul casei, dacă e cazul.
 
@@ -172,6 +222,8 @@ sesiunea închisă; conversia în moneda companiei; ziua bonului în fusul orar 
 - [ ] Un bon facturat apare o singură dată, prin factura lui (filtrul **Facturi**), nu și la **Vânzări
       POS**.
 - [ ] Un retur are cantitatea și valorile negative.
+- [ ] Nota de credit a unui retur facturat al unui bon nefacturat are costul vânzării inițiale (cost
+      negativ în raport, profit opus profitului bonului), nu 0.
 - [ ] Cu sesiunea deschisă, costul e costul curent al produsului; după închiderea sesiunii, costul
       calculat de POS.
 - [ ] Un bon emis după miezul nopții (de exemplu la 01:00, ora României) apare în ziua lui, nu în ziua
@@ -188,6 +240,7 @@ sesiunea închisă; conversia în moneda companiei; ziua bonului în fusul orar 
 |---|---|---|
 | „În raportul de profit se pot modifica doar liniile de factură.” | S-a încercat salvarea unui rând de bon | Rândurile bonurilor sunt doar pentru citire |
 | Bonurile nu apar în raport | Modulul nu e instalat, bonul nu e plătit sau e facturat | Instalați modulul; un bon facturat apare prin factură |
+| Retur facturat cu cost 0 și pierdere egală cu valoarea returului | Nota de credit a fost emisă înainte de versiunea 19.0.1.1.0 (costul rămăsese 0), sau costul returului POS nu era încă calculat (produs stocabil FIFO/mediu, sesiune deschisă) | Cu rolul **Administrator** pe Vânzări, selectați liniile în lista raportului și rulați din meniul **Acțiune** asistentul **Actualizare preț achiziție**, lăsând bifat *Preț din livrare* (după închiderea sesiunii, dacă e cazul); procesul zilnic completează singur doar liniile din ultima săptămână |
 | Costul bonului este costul curent din fișa produsului | Sesiunea POS e încă deschisă | Închideți sesiunea; costul se recalculează din livrare |
 | *Comision calculat* gol pe bonuri | Casierul nu are rând de rată pe jurnalul de facturi al casei | Adăugați rândul în *Comisioane agenți* |
 | Bonurile de după miezul nopții apar în ziua precedentă | Casierul nu are fus orar setat (se ia UTC) | Setați fusul orar în preferințele casierului |
@@ -203,6 +256,7 @@ Capturile (`static/description/`) se generează automat din `tests/test_screensh
 | 1 | `01_bon_pos_nefacturat.png` | Bonul **Magazin Centru - 000001**, plătit, fără factură |
 | 2 | `02_raport_profit_pe_jurnal.png` | **Raport analiză profit** (pivot) grupat pe jurnal și produs: facturi și casa *Casa Magazin Centru* |
 | 3 | `03_vanzari_pos_in_raport.png` | Lista raportului cu filtrul **Vânzări POS** și coloana **Comandă POS** |
+| 4 | `04_nota_credit_retur_pos.png` | Lista raportului cu filtrul **Facturi**: nota de credit a returului facturat al bonului, cu cost negativ |
 
 Regenerare:
 
@@ -219,8 +273,18 @@ că acum apar linie cu linie, fără dubluri cu facturile. Insistați pe două l
 **închiderea sesiunii**, deci raportul unei zile cu sesiunea încă deschisă e provizoriu; și rândurile
 bonurilor sunt **doar pentru citire**.
 
+La returul facturat al unui bon nefacturat, explicați că nota de credit nu are factură de stornat și că
+modulul îi ia costul din returul POS; pentru notele de credit mai vechi, folosiți asistentul
+**Actualizare preț achiziție**.
+
 ### Limitări cunoscute
 
+- **Altă unitate de măsură** pe linia notei de credit decât cea a produsului: costul e exprimat în
+  unitatea liniei de factură (de exemplu la o linie în duzini, de 12 ori costul unitar); cazul apare
+  doar dacă linia a fost modificată manual, pentru că POS folosește unitatea produsului.
+- **Returul facturat** își ia costul din POS doar dacă bonul inițial n-a fost facturat și costul POS e
+  deja calculat; o notă de credit care stornează o factură își ia costul din factura stornată
+  (comportamentul din `deltatech_sale_margin`).
 - **Costul cât sesiunea e deschisă** este costul curent al produsului, nu costul livrării.
 - **Comisionul real** nu se calculează pe bonuri: bonurile au doar comision calculat (informativ).
 - **Bonurile neplătite sau anulate** nu intră în raport.
