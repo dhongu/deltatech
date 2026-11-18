@@ -1,5 +1,12 @@
 # Changelog
 
+## 19.0.3.12.1 (2026-11-18)
+
+- The per diem entry debits the header per diem as included in **Total Diem** (without the Per Diem
+  lines) instead of days × daily rate, so it stays balanced with the 542 credit when a module takes a
+  part out of the report (the taxable per diem paid through payroll by
+  `l10n_ro_expense_allowance_payroll`).
+
 ## 19.0.3.12.0 (2026-11-10)
 
 - New expense line type **Per Diem**: no receipt and no VAT, it is booked on validation as Dr per diem
