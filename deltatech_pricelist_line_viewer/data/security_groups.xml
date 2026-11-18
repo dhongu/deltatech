@@ -6,7 +6,7 @@
         </record>
 
         <record id="access_pricelist_editing" model="ir.model.access">
-            <field name="name">product.pricelist editing</field>
+            <field name="name">Permit pricelist editing: Pricelist</field>
             <field name="model_id" ref="product.model_product_pricelist" />
             <field name="group_id" ref="group_user_permit_prilist_edit_access" />
             <field name="perm_read" eval="1" />
@@ -15,7 +15,7 @@
             <field name="perm_unlink" eval="1" />
         </record>
         <record id="access_pricelist_item_editing" model="ir.model.access">
-            <field name="name">product.pricelist.item editing</field>
+            <field name="name">Permit pricelist editing: Pricelist Rule</field>
             <field name="model_id" ref="product.model_product_pricelist_item" />
             <field name="group_id" ref="group_user_permit_prilist_edit_access" />
             <field name="perm_read" eval="1" />
