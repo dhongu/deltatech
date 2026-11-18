@@ -7,7 +7,66 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='warehouse_id']" position="after">
                 <field name="create_invoice_automatically" />
+                <field name="invoice_moment" invisible="not create_invoice_automatically" widget="radio" />
                 <field name="post_invoice_automatically" invisible="not create_invoice_automatically" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_picking_form" model="ir.ui.view">
+        <field name="name">stock.picking.form.invoice.automatically</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button
+                    name="action_retry_auto_invoice"
+                    string="Retry Invoicing"
+                    type="object"
+                    invisible="invoice_state != 'failed'"
+                    groups="stock.group_stock_user"
+                />
+            </xpath>
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-danger mb-0" role="alert" invisible="invoice_state != 'failed'">
+                    <strong>Automatic invoicing failed:</strong>
+                    <field name="invoice_error" nolabel="1" class="d-inline ms-1" />
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="invoice_state" widget="badge" invisible="not invoice_state"
+                    decoration-success="invoice_state == 'invoiced'"
+                    decoration-info="invoice_state == 'to_invoice'"
+                    decoration-danger="invoice_state == 'failed'" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="vpicktree" model="ir.ui.view">
+        <field name="name">stock.picking.list.invoice.automatically</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="before">
+                <field name="invoice_state" optional="hide" widget="badge"
+                    decoration-success="invoice_state == 'invoiced'"
+                    decoration-info="invoice_state == 'to_invoice'"
+                    decoration-danger="invoice_state == 'failed'" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_picking_internal_search" model="ir.ui.view">
+        <field name="name">stock.picking.search.invoice.automatically</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_internal_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='my_transfers']" position="before">
+                <filter name="auto_invoice_failed" string="Automatic Invoicing Failed"
+                    domain="[('invoice_state', '=', 'failed')]" />
+                <filter name="auto_invoice_to_invoice" string="To Invoice Automatically"
+                    domain="[('invoice_state', '=', 'to_invoice')]" />
+                <separator />
             </xpath>
         </field>
     </record>
