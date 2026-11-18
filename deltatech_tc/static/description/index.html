@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 45 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 42 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
         <div class="rounded-pill" style="height:8px;width:84%;background-color:#57B952;"></div>
       </div>
@@ -84,7 +84,8 @@ automatic updates are published at:</p>
     <span style="font-size:14px;line-height:1.4;color:#3d4752;">Terrabit Connect job queue: a declaration validation (DUK) in Error, an SPV message sync Pending, a document download Claimed and a finished SPV sync</span>
   </div>
 </div>
-<p>The agent's interface is in Romanian.</p>
+<p>The agent's interface is in Romanian and English. By default (<strong>Auto</strong>) it follows the
+language of the station's company in Odoo; it can also be fixed per workstation profile.</p>
 <p>This module is the <strong>generic foundation</strong> every Terrabit Connect feature builds
 on: the connection layer, the job protocol, and the one job type that is pure
 transport rather than a specific device &#8212; an HTTP call inside the customer's
@@ -175,10 +176,14 @@ The downloaded file contains two environment variables consumed by Terrabit Conn
 </tr>
 </tbody>
 </table>
-<p>In Terrabit Connect, import <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">station.conf</code> from <strong>Set&#259;ri &#8594; Import&#259; config</strong> (the
-agent's interface is in Romanian). The values are stored in the active profile of
+<p>In Terrabit Connect, import <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">station.conf</code> from <strong>Settings &#8594; Import config</strong>
+(<strong>Set&#259;ri &#8594; Import&#259; config</strong> in the Romanian interface). The values are stored in the active profile of
 the workstation (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">~/.terrabit-anaf-agent/profiles/&lt;profile&gt;.conf</code>) and applied
-without a restart.
+without a restart.</p>
+<p>The agent's interface language is set in <strong>Settings &#8594; Appearance &#8594; Language</strong>:
+<strong>Auto</strong> (default) follows the language of the station company's partner, sent by
+Odoo in the heartbeat answer (Romanian for <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ro_RO</code>, English otherwise); <strong>Rom&#226;n&#259;</strong>
+or <strong>English</strong> fix it for the workstation profile (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TERRABIT_LANG=ro</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">en</code>).
 No other network configuration is required: the agent initiates all connections
 outbound to Odoo (no inbound port needs to be opened on the client side).</p>
 <div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
@@ -435,6 +440,14 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.2.7 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-15)</span></h2>
+<ul>
+<li>The heartbeat answer (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/heartbeat</code>) carries <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">lang</code>, the language of the station company's
+  partner (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">en_US</code> when it has none). Terrabit Connect set to <strong>Auto</strong> uses it for its
+  interface: Romanian for <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ro_*</code>, English otherwise. Older agents ignore the key.</li>
+<li>Docs: the agent's interface is available in Romanian and English.</li>
+<li>Port of 19.0.1.2.7 (dhongu/deltatech#4186).</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.2.6 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-15)</span></h2>
 <ul>
 <li>Docs: screenshots of the Terrabit Connect app (main window, job queue, settings) in the
@@ -502,12 +515,6 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
 <li>Security: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/result</code> accepts a result only for a job in state <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">claimed</code> (409 otherwise).
   A finished job could be re-posted, overwriting its result and replaying the callback.</li>
 <li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/poll</code> caps <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">limit</code> to 1&#8211;50; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/result</code> rejects a non-integer <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">job_id</code> with 400.</li>
-</ul>
-<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.1.1 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-08-15)</span></h2>
-<ul>
-<li>Fix: added the missing <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bus</code> dependency. The manual heartbeat notification
-  uses <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">self.env["bus.bus"]._sendone()</code>, which is defined in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bus</code>. The module
-  only worked when another addon in the same database brought <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">bus</code> in.</li>
 </ul>
 <p><em>Older releases are listed in the module's HISTORY file.</em></p>
 </div>
