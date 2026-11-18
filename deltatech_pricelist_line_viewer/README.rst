@@ -19,9 +19,9 @@ Price List Line Viewer
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_pricelist_line_viewer/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-3%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_pricelist_line_viewer/tests
-    :alt: 3 automated tests
+.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_pricelist_line_viewer
+    :alt: 6 automated tests · 100% code coverage
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
@@ -67,13 +67,14 @@ section, tick **Pricelists** and save.
    the rules in the Sales Prices tab|
 
 2. The list shows all the rules of this pricelist: product, minimum
-   quantity, price and validity period. The **Price** column shows the
-   fixed price; for *Discount* or *Formula* rules open the rule to see
-   the price. For category or all-products rules the **Products** column
-   is empty; show the optional **Apply On** column.
+   quantity, price and validity period. The **Price** column (2)
+   describes the rule, as in the **Sales Prices** tab: the fixed price,
+   or the computation for *Discount* and *Formula* rules (e.g. "20 %
+   discount on sales price"). For category or all-products rules the
+   **Products** column is empty; show the optional **Apply On** column.
 
-   |The rules of the pricelist opened from the button, with the
-   breadcrumb highlighted (1)|
+   |The Pricelist Rules of the pricelist opened from the button, with
+   the breadcrumb (1) and the Price column (2) highlighted|
 
 3. Type a product name or code in the search bar (1) and choose **Search
    Product for: ...** (2). Category, pricelist and currency (with
@@ -102,20 +103,36 @@ section, tick **Pricelists** and save.
    (3)|
 
    The **Access Rights** tab (1) shows the rights granted: read, write,
-   create and delete on pricelists and pricelist rules.
+   create and delete on pricelists and pricelist rules, named **Permit
+   pricelist editing: Pricelist** and **Permit pricelist editing:
+   Pricelist Rule** (2).
 
    |The Access Rights tab (1) of the group: full rights on Pricelist and
-   Pricelist Rule|
+   Pricelist Rule, with the Name column (2) highlighted|
 
 .. |Pricelist form with the Pricelist Lines button highlighted (1) and the rules in the Sales Prices tab| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist_line_viewer/static/description/en/01_buton_linii_lista_preturi.png
-.. |The rules of the pricelist opened from the button, with the breadcrumb highlighted (1)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist_line_viewer/static/description/en/02_lista_linii_preturi.png
+.. |The Pricelist Rules of the pricelist opened from the button, with the breadcrumb (1) and the Price column (2) highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist_line_viewer/static/description/en/02_lista_linii_preturi.png
 .. |The search bar (1) with the text Laptop and the Search Product proposal (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist_line_viewer/static/description/en/03_cautare_produs.png
 .. |A pricelist rule opened from the list: Min Qty (1) and Fixed Price (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist_line_viewer/static/description/en/04_formular_regula.png
 .. |The Permit pricelist editing group (1), Users tab (2) and Add a line (3)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist_line_viewer/static/description/en/05_grup_utilizatori.png
-.. |The Access Rights tab (1) of the group: full rights on Pricelist and Pricelist Rule| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist_line_viewer/static/description/en/06_grup_drepturi_acces.png
+.. |The Access Rights tab (1) of the group: full rights on Pricelist and Pricelist Rule, with the Name column (2) highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pricelist_line_viewer/static/description/en/06_grup_drepturi_acces.png
 
 Changelog
 =========
+
+20.0.0.0.5 (2026-11-18)
+-----------------------
+
+- The **Pricelist Lines** button opens the standard pricelist rule
+  search view, extended by this module, even when another module adds
+  its own search view (``search_view_id`` passed as ``[id]``)
+  (dhongu/deltatech#3960).
+- The screen title is translatable (**Pricelist Rules**, RO *Reguli
+  listă de prețuri*). The **Price** column shows the rule, as in the
+  pricelist form (fixed price, discount or formula), instead of 0.00 for
+  *Discount* / *Formula* rules; **Fixed Price** and **Price Type** are
+  optional columns. The access rights have readable names, also renamed
+  on existing databases (migration) (dhongu/deltatech#3953).
 
 20.0.0.0.4 (2026-11-04)
 -----------------------

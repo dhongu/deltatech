@@ -36,11 +36,6 @@
        data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
        style="padding:10px 22px;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</a>
   </li>
-  <li class="nav-item mx-1 mb-2">
-    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
-       data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
-       style="padding:10px 22px;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</a>
-  </li>
 </ul>
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
@@ -74,18 +69,19 @@ and save.</p>
 </div>
 <ol start="2">
 <li>The list shows all the rules of this pricelist: product, minimum quantity, price and validity
-   period. The <strong>Price</strong> column shows the fixed price; for <em>Discount</em> or <em>Formula</em> rules open the rule
-   to see the price. For category or all-products rules the <strong>Products</strong> column is empty; show the
-   optional <strong>Apply On</strong> column.</li>
+   period. The <strong>Price</strong> column (2) describes the rule, as in the <strong>Sales Prices</strong> tab: the fixed
+   price, or the computation for <em>Discount</em> and <em>Surcharge</em> rules (e.g. "20 % discount on sales price").
+   For category or all-products rules the <strong>Products</strong> column is empty; show the optional <strong>Apply On</strong>
+   column.</li>
 </ol>
 <div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
   <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
-    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="The rules of the pricelist opened from the button, with the breadcrumb highlighted (1)" src="en/02_lista_linii_preturi.png"/>
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="The Pricelist Rules of the pricelist opened from the button, with the breadcrumb (1) and the Price column (2) highlighted" src="en/02_lista_linii_preturi.png"/>
   </div>
   <div class="d-flex align-items-center px-3 py-2 border-top">
     <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
           style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">2</span>
-    <span style="font-size:14px;line-height:1.4;color:#3d4752;">The rules of the pricelist opened from the button, with the breadcrumb highlighted (1)</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">The Pricelist Rules of the pricelist opened from the button, with the breadcrumb (1) and the Price column (2) highlighted</span>
   </div>
 </div>
 <ol start="3">
@@ -135,33 +131,18 @@ and save.</p>
   </div>
 </div>
 <p>The <strong>Access Rights</strong> tab (1) shows the rights granted: read, write, create and delete on
-   pricelists and pricelist rules.</p>
+   pricelists and pricelist rules, named <strong>Permit pricelist editing: Pricelist</strong> and <strong>Permit
+   pricelist editing: Pricelist Rule</strong> (2).</p>
 <div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
   <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
-    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="The Access Rights tab (1) of the group: full rights on Pricelist and Pricelist Rule" src="en/06_grup_drepturi_acces.png"/>
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="The Access Rights tab (1) of the group: full rights on Pricelist and Pricelist Rule, with the Name column (2) highlighted" src="en/06_grup_drepturi_acces.png"/>
   </div>
   <div class="d-flex align-items-center px-3 py-2 border-top">
     <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
           style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">6</span>
-    <span style="font-size:14px;line-height:1.4;color:#3d4752;">The Access Rights tab (1) of the group: full rights on Pricelist and Pricelist Rule</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">The Access Rights tab (1) of the group: full rights on Pricelist and Pricelist Rule, with the Name column (2) highlighted</span>
   </div>
 </div>
-</div>
-<div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
-<div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
-<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.0.0.4 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-04)</span></h2>
-<ul>
-<li>Migration to Odoo 20.0: access rights in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">security/ir.access.csv</code>; the <em>Pricelist Lines</em> button
-  moved into the standard button box of the price list form.</li>
-</ul>
-<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.0.0.4 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-10-09)</span></h2>
-<ul>
-<li>Apps Store banner (banner.json).</li>
-</ul>
-<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.0.0.3 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-09-29)</span></h2>
-<ul>
-<li>Own module icon, instead of the generic gears it had.</li>
-</ul>
 </div>
 </div>
 

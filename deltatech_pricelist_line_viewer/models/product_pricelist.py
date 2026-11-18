@@ -14,14 +14,15 @@ class Pricelist(models.Model):
 
         return {
             "type": "ir.actions.act_window",
-            "name": "Pricelist Items",
+            "name": self.env._("Pricelist Rules"),
             "res_model": "product.pricelist.item",
             "view_mode": "list,form",
             "views": [
                 (tree_view_id, "list"),
                 (form_view_id, "form"),
             ],
-            "search_view_id": search_view_id,
+            # the web client reads the search view as [id, name]
+            "search_view_id": [search_view_id],
             "domain": [("pricelist_id", "=", self.id)],
             "context": {"default_pricelist_id": self.id},
         }

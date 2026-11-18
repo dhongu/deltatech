@@ -51,6 +51,7 @@ Modulul **nu generează note contabile** și nu atinge conturi. Date minime pent
 - reguli cu preț fix pe produs, unele cu cantitate minimă (ex. Laptop: 3.950 lei de la 1 buc.,
   3.790 lei de la 10 buc.) și cu perioadă de valabilitate (1 ian. 00:00 – 31 dec. 2026 23:59; Stația
   de andocare doar în noiembrie, până la 30 nov. 23:59);
+- o regulă de tip *Reducere*: Mouse wireless, 20% reducere pe prețul de vânzare de la 50 buc.;
 - un utilizator agent de vânzări (ex. **Ana Popescu**) pentru testarea grupului.
 
 ### Note de monografie și raportare
@@ -82,18 +83,19 @@ Sus, în zona butoanelor, apare butonul **Linii Listă de Prețuri** (1). Dedesu
 
 Apăsați **Linii Listă de Prețuri**. Se deschide lista tuturor regulilor acestei liste de prețuri, cu
 coloanele **Listă de prețuri**, **Produse**, **Cantitate min.**, **Preț**, **Dată început** și **Dată
-sfârșit**. Din butonul de coloane opționale (dreapta capului de tabel) se pot afișa și **Moneda**,
-**Bazat pe** și **Aplică pe**. În calea de navigare (1) apar lista de prețuri și titlul ecranului,
-*Pricelist Items* (textul nu este tradus).
+sfârșit**. Din butonul de coloane opționale (dreapta capului de tabel) se pot afișa și **Preț fixat**,
+**Tip preț**, **Moneda**, **Bazat pe** și **Aplică pe**. În calea de navigare (1) apar lista de
+prețuri și titlul ecranului, **Reguli listă de prețuri**.
 
 Ce verificați pe ecran:
 - în coloana **Listă de prețuri** apare doar lista din care ați pornit (aici, Distribuitori 2026);
 - la regulile pe categorie sau pe toate produsele, coloana **Produse** e goală; afișați coloana opțională
   **Aplică pe** ca să le deosebiți;
-- coloana **Preț** arată prețul fix al regulii; pentru regulile de tip *Reducere* sau *Formula*
-  valoarea afișată este 0,00, iar prețul real se vede doar în formularul regulii (Pasul 4).
+- coloana **Preț** (2) descrie regula, ca în tabul **Prețuri de vânzare**: prețul fix (ex. 3.790,00 lei)
+  sau, la regulile de tip *Reducere* sau *Surcharge* (adaos), calculul (ex. „20 % reducere pe preț
+  vânzare"). Prețul final al unui produs rezultă din acest calcul și se vede pe comandă.
 
-![Lista regulilor listei Distribuitori 2026 (RON), deschisă din buton: calea de navigare evidențiată (1), Distribuitori 2026 (RON) / Pricelist Items, și 8 reguli cu produsul, cantitatea minimă, prețul și perioada de valabilitate; Stația de andocare USB-C are perioada 1 nov. – 30 nov.](../static/description/02_lista_linii_preturi.png)
+![Lista regulilor listei Distribuitori 2026 (RON), deschisă din buton: calea de navigare evidențiată (1), Distribuitori 2026 (RON) / Reguli listă de prețuri, coloana Preț evidențiată (2) și 8 reguli cu produsul, cantitatea minimă, prețul și perioada de valabilitate; regula Mouse wireless de la 50 buc. arată 20 % reducere pe preț vânzare, iar Stația de andocare USB-C are perioada 1 nov. – 30 nov.](../static/description/02_lista_linii_preturi.png)
 
 ### Pasul 3 — Căutați regulile unui produs
 
@@ -134,9 +136,11 @@ bifă **Permite editarea listei de prețuri**; îl puteți acorda și de acolo.
 ![Formularul grupului Permite editarea listei de prețuri (1), tabul Utilizatori (2) cu Administrator, rol Administrator, și Ana Popescu, rol Operator, și legătura Adaugă o linie (3)](../static/description/05_grup_utilizatori.png)
 
 În tabul **Drepturi de acces** (1) al grupului se vede ce primește utilizatorul: citire, scriere, creare
-și ștergere pe **Listă de prețuri** și pe **Regula listei de prețuri**.
+și ștergere pe **Listă de prețuri** și pe **Regulă listă de prețuri**. Cele două rânduri se numesc
+**Permit pricelist editing: Pricelist** și **Permit pricelist editing: Pricelist Rule** (numele
+drepturilor de acces nu se traduc în Odoo).
 
-![Tabul Drepturi de acces (1) al grupului Permite editarea listei de prețuri: două rânduri, pentru modelele Listă de prețuri și Regula listei de prețuri, cu toate cele patru bife Acces citire, Acces Scriere, Acces Creare și Acces Ștergere active](../static/description/06_grup_drepturi_acces.png)
+![Tabul Drepturi de acces (1) al grupului Permite editarea listei de prețuri: două rânduri, Permit pricelist editing: Pricelist și Permit pricelist editing: Pricelist Rule (coloana Nume evidențiată, 2), pentru modelele Listă de prețuri și Regulă listă de prețuri, cu toate cele patru bife Acces citire, Acces Scriere, Acces Creare și Acces Ștergere active](../static/description/06_grup_drepturi_acces.png)
 
 ## 7. Legături cu alte module / declarații
 
@@ -149,7 +153,7 @@ bifă **Permite editarea listei de prețuri**; îl puteți acorda și de acolo.
 prețuri la o regulă nouă; acordarea grupului către administrator la instalare.
 
 **Ce rămâne manual:** activarea setării **Liste de prețuri**; acordarea grupului celorlalți
-utilizatori; verificarea prețurilor regulilor de tip *Reducere* / *Formula* în formularul regulii.
+utilizatori.
 
 ## 8. Verificări pentru consultant
 
@@ -162,8 +166,9 @@ utilizatori; verificarea prețurilor regulilor de tip *Reducere* / *Formula* în
       regulii se deschide doar în citire, iar butonul **Nou(ă)** lipsește.
 - [ ] După adăugarea în grupul **Permite editarea listei de prețuri**, același agent poate modifica,
       crea și șterge reguli.
-- [ ] La regulile de tip *Reducere* / *Formula*, prețul se verifică în formularul regulii, nu în
-      coloana **Preț** a listei.
+- [ ] La regulile de tip *Reducere* / *Surcharge*, coloana **Preț** arată calculul (ex. „20 % reducere
+      pe preț vânzare"), nu 0,00.
+- [ ] Titlul ecranului deschis din buton este **Reguli listă de prețuri**, în limba utilizatorului.
 
 ## 9. Mesaje de eroare frecvente
 
@@ -173,7 +178,6 @@ utilizatori; verificarea prețurilor regulilor de tip *Reducere* / *Formula* în
 | Meniul *Liste de prețuri* lipsește | Setarea **Liste de prețuri** nu e activă | *Vânzări → Configurare → Setări*, secțiunea **Prețuri**, bifați **Liste de prețuri** |
 | Regula nu se aplică în ultima zi a perioadei | **Dată sfârșit** are ora 00:00 | Setați ora de sfârșit la 23:59 (Pasul 4) |
 | Meniul *Grupuri* lipsește din *Setări → Utilizatori & Companii* | Modul dezvoltator nu e activ | Activați modul dezvoltator din *Setări* |
-| Coloana **Preț** arată 0,00 | Regula este de tip *Reducere* sau *Formula* | Deschideți regula; prețul rezultă din reducere sau din formulă |
 
 ## 10. Capturi de ecran
 
@@ -202,12 +206,11 @@ Regenerare:
   rămâne valabil pentru liste mici.
 - Explicați că lista deschisă din buton este filtrată pe lista de prețuri curentă: căutările și
   filtrele lucrează doar în regulile acelei liste.
-- Atenționați că coloana **Preț** arată doar prețul fix: regulile cu reducere sau formulă se verifică
-  în formularul regulii.
+- Explicați că la regulile cu reducere sau formulă coloana **Preț** arată calculul, nu prețul final:
+  prețul final al produsului se vede pe comandă.
 - Grupul **Permite editarea listei de prețuri** include și ștergerea listelor de prețuri; acordați-l
   doar responsabililor de prețuri.
 - Subliniați că **Dată sfârșit** conține ora: pentru toată ultima zi se pune 23:59.
-- Titlul listei (*Pricelist Items*) rămâne în engleză și în interfața în română.
 
 ---
 

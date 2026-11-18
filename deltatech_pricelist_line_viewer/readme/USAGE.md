@@ -7,11 +7,12 @@ and save.
    ![Pricelist form with the Pricelist Lines button highlighted (1) and the rules in the Sales Prices tab](static/description/en/01_buton_linii_lista_preturi.png)
 
 2. The list shows all the rules of this pricelist: product, minimum quantity, price and validity
-   period. The **Price** column shows the fixed price; for *Discount* or *Formula* rules open the rule
-   to see the price. For category or all-products rules the **Products** column is empty; show the
-   optional **Apply On** column.
+   period. The **Price** column (2) describes the rule, as in the **Sales Prices** tab: the fixed
+   price, or the computation for *Discount* and *Surcharge* rules (e.g. "20 % discount on sales price").
+   For category or all-products rules the **Products** column is empty; show the optional **Apply On**
+   column.
 
-   ![The rules of the pricelist opened from the button, with the breadcrumb highlighted (1)](static/description/en/02_lista_linii_preturi.png)
+   ![The Pricelist Rules of the pricelist opened from the button, with the breadcrumb (1) and the Price column (2) highlighted](static/description/en/02_lista_linii_preturi.png)
 
 3. Type a product name or code in the search bar (1) and choose **Search Product for: ...** (2).
    Category, pricelist and currency (with several active currencies) searches and the standard group
@@ -33,6 +34,7 @@ and save.
    ![The Permit pricelist editing group (1), Users tab (2) and Add a line (3)](static/description/en/05_grup_utilizatori.png)
 
    The **Access Rights** tab (1) shows the rights granted: read, write, create and delete on
-   pricelists and pricelist rules.
+   pricelists and pricelist rules, named **Permit pricelist editing: Pricelist** and **Permit
+   pricelist editing: Pricelist Rule** (2).
 
-   ![The Access Rights tab (1) of the group: full rights on Pricelist and Pricelist Rule](static/description/en/06_grup_drepturi_acces.png)
+   ![The Access Rights tab (1) of the group: full rights on Pricelist and Pricelist Rule, with the Name column (2) highlighted](static/description/en/06_grup_drepturi_acces.png)
