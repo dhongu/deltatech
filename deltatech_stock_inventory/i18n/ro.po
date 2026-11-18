@@ -1372,3 +1372,25 @@ msgstr "sau"
 
 #~ msgid "Stock Valuation Layer"
 #~ msgstr "Nivel evaluare stoc"
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,field_description:deltatech_stock_inventory.field_res_config_settings__kanban_stock_warehouse_sequence
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.res_config_settings_view_form_deltatech_stock_inventory
+msgid "Kanban stock by warehouse sequence"
+msgstr "Stoc în kanban după secvența depozitelor"
+
+#. module: deltatech_stock_inventory
+#: model:ir.model.fields,help:deltatech_stock_inventory.field_res_config_settings__kanban_stock_warehouse_sequence
+msgid ""
+"List the stock per warehouse on the product Kanban in the order of the "
+"warehouses (Inventory > Configuration > Warehouses, drag to reorder) instead"
+" of alphabetically by name."
+msgstr "Stocul pe depozite din kanban-ul de produse se afișează în ordinea depozitelor (Inventar > Configurare > Depozite, ordonare prin tragere), nu alfabetic după nume."
+
+#. module: deltatech_stock_inventory
+#: model_terms:ir.ui.view,arch_db:deltatech_stock_inventory.res_config_settings_view_form_deltatech_stock_inventory
+msgid ""
+"List the stock per warehouse on the product Kanban in the order of the "
+"warehouses (drag to reorder them in the Warehouses list), not "
+"alphabetically."
+msgstr "Stocul pe depozite din kanban-ul de produse se afișează în ordinea depozitelor (ordonați-le prin tragere în lista Depozite), nu alfabetic."

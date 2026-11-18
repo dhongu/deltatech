@@ -126,6 +126,11 @@ Date minime pentru demo (folosite și în capturi):
    - *Locație principală* — doar locația principală de stoc;
    - *Detaliat* — total, plus rezervat (R), blocat (B), în tranzit (T), așteptat de la furnizor (E)
      și un rând final **STOC LIBER**.
+
+   Implicit, depozitele apar pe card în ordinea alfabetică a **numelui** (nu a codului afișat).
+   Pentru altă ordine, bifați în **Inventar → Configurare → Setări**, secțiunea **Trasabilitate**,
+   **Stoc în kanban după secvența depozitelor** și ordonați depozitele prin tragere în
+   **Inventar → Configurare → Depozite**.
 6. **Locații blocate** (opțional): pe o locație internă, bifați **Gestiune restricționată**. În
    afișarea *Detailed*, cantitățile din această locație apar ca blocate (B) și nu intră în stocul
    liber.
@@ -357,6 +362,9 @@ T / E și rândul **STOC LIBER**. **STOC LIBER** însumează **numai** depozitel
 În captură, la Șurub M8, `WH2: 30.0` nu intră în stocul liber de 95.0, pentru că WH2 e pe *All*. Cu
 un singur depozit în companie, defalcarea nu se afișează.
 
+Rândurile urmează ordinea alfabetică a numelor depozitelor; cu **Stoc în kanban după secvența
+depozitelor** bifată, urmează ordinea din lista **Depozite**. **STOC LIBER** rămâne mereu ultimul.
+
 ![Kanban de produse cu stocul pe depozite](screenshots/14_kanban_stoc_depozite.png)
 
 ### Pasul 14 — Reaprovizionare grupată pe zi
@@ -464,6 +472,8 @@ referă.
 - [ ] Pe un inventar cu mai multe locații, raportul **Diferențe inventar** arată fiecare minus o
       singură dată, sub locația lui.
 - [ ] Kanban-ul de produse arată stocul pe depozite doar cu cel puțin două depozite în companie.
+- [ ] Cu **Stoc în kanban după secvența depozitelor** bifată, mutarea unui depozit pe primul loc în
+      lista **Depozite** îl aduce primul pe cardul de produs.
 
 ## 9. Mesaje de eroare frecvente
 

@@ -14,6 +14,13 @@
                     <field name="group_show_manual_location_fields" />
 
                 </setting>
+                <setting
+                    id="kanban_stock_warehouse_sequence_setting"
+                    string="Kanban stock by warehouse sequence"
+                    help="List the stock per warehouse on the product Kanban in the order of the warehouses (drag to reorder them in the Warehouses list), not alphabetically."
+                >
+                    <field name="kanban_stock_warehouse_sequence" />
+                </setting>
             </xpath>
         </field>
     </record>
