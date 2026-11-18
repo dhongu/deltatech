@@ -297,6 +297,17 @@ class TestCoverageProduct(TransactionCase):
         self.assertEqual(template.loc_rack, "R9")
         self.assertEqual(template.loc_row, "S9")
 
+    def test_loc_from_sublocation_context(self):
+        # a shelf under the stock location of a second warehouse gives that warehouse's position,
+        # not the one of the default warehouse
+        wh2 = self.env["stock.warehouse"].create({"name": "Cov sub", "code": "CVS"})
+        shelf = self.env["stock.location"].create(
+            {"name": "1A", "usage": "internal", "location_id": wh2.lot_stock_id.id}
+        )
+        self.template.with_context(warehouse=self.env.ref("stock.warehouse0").id).write({"loc_rack": "R1"})
+        self.template.with_context(warehouse=wh2.id).write({"loc_rack": "R2"})
+        self.assertEqual(self.template.with_context(location=shelf.id).loc_rack, "R2")
+
     def test_get_location_variants(self):
         row = self._sublocation("RC", self.stock_location)
         rack = self._sublocation("A1", row)
