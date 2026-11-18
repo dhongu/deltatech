@@ -1,3 +1,10 @@
+## 19.0.1.4.1 (2026-11-18)
+
+- `capture_gif`: the opening slide follows the Apps banner (`tb_module_banner`). The edition comes
+  from `banner.json` `edition` or, when missing, from the dependencies (Enterprise when the module
+  or one of its dependencies has the `OEEL-1` licence), no longer always "Community"; the version
+  comes from the manifest instead of a hard-coded "Odoo 19".
+
 ## 19.0.1.4.0 (2026-11-14)
 
 - `capture_gif`: the captions are film-style subtitles (white text centred at the bottom on a

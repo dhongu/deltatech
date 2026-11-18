@@ -154,8 +154,83 @@ wide enough for ``account.report`` tables with many columns;
 per-shot options: ``full``, ``wait``, ``click_btn``, ``click_tab``,
 ``unfold_report``, ``eval`` (custom JS), ``settle`` (pause in ms).
 
+**Animated demo (GIF).** ``capture_gif(steps, name="demo.gif")`` records
+a flow as an animated GIF for the Apps Store page: a simulated cursor
+glides to each target and shows a ring on click, text is typed letter by
+letter and captions run at the bottom like film subtitles. The GIF opens
+with a slide built from ``static/description/banner.json`` and the
+module icon, fades into the flow and returns to the slide at the end.
+Each step is a dict; its keys run in this order:
+
+.. code:: python
+
+   def test_capture_gif(self):
+       self.capture_gif([
+           {"goto": f"action={action.id}&model=res.partner&view_type=form"},
+           {"caption": "A new partner starts with the name"},  # stays until the next one
+           {"type": "Ferma Verde SRL", "into": "name"},     # a field name or any selector
+           {"caption": "Once saved, the partner is ready"},
+           {"click": ".o_form_button_save", "wait_after": ".o_form_saved", "hold": 2000},
+       ], name="demo.gif")
+
+Other keys: ``path``, ``wait``, ``eval``, ``move`` (cursor only),
+``press`` (``Enter``, ``Tab``...), ``clear``, ``hide_cursor``, ``hold``
+(ms). Values may depend on the language, as in ``capture_screenshots``;
+``intro={"title": ..., "summary": ..., "features": [...]}`` overrides
+the slide (e.g. Romanian texts when ``banner.json`` is in English) and
+``intro=False`` drops it. The GIF is 1120×700 by default (``viewport``);
+``scale=0.75`` makes a smaller file. Time in the GIF is virtual, so the
+pace does not depend on how fast the server answers, and identical
+frames are merged. When a step fails, the error names the step and saves
+the screen to a temporary ``.error.png``.
+
+Keep ``static/description/en/demo.gif`` (and ``demo.gif`` for the
+Romanian page): ``tb-gen-index`` shows it automatically first in the
+Overview tab of the Apps Store page, so do not reference it from
+``readme/*.md`` as well, or it appears twice.
+
 Changelog
 =========
+
+19.0.1.4.1 (2026-11-18)
+-----------------------
+
+- ``capture_gif``: the opening slide follows the Apps banner
+  (``tb_module_banner``). The edition comes from ``banner.json``
+  ``edition`` or, when missing, from the dependencies (Enterprise when
+  the module or one of its dependencies has the ``OEEL-1`` licence), no
+  longer always "Community"; the version comes from the manifest instead
+  of a hard-coded "Odoo 19".
+
+19.0.1.4.0 (2026-11-14)
+-----------------------
+
+- ``capture_gif``: the captions are film-style subtitles (white text
+  centred at the bottom on a translucent black band that follows the
+  lines), without step numbers; the ``num`` key is gone.
+- A target that would end up under the subtitle is scrolled to the
+  middle of the screen, and the Odoo content gets room at its end, so
+  the last fields of a form can rise above the subtitle.
+- The GIF is always written to ``static/description/`` (``en/`` for
+  English), also for modules that still keep their PNG screenshots in
+  ``readme/screenshots/``.
+- ``demo.gif`` is no longer referenced from ``readme/USAGE.md``:
+  ``tb-gen-index`` 1.14.0 shows it first in the Overview tab of the Apps
+  Store page.
+- Consultant sheet: the demo GIF step (``capture_gif``), where the GIF
+  is written and the checks.
+
+19.0.1.3.0 (2026-11-14)
+-----------------------
+
+- New ``capture_gif(steps, name)``: records a flow as an animated GIF
+  for the Apps Store, with a simulated cursor (glide and click ring),
+  letter-by-letter typing and numbered captions, opening and closing on
+  a slide built from ``banner.json`` and the module icon. Global
+  256-colour palette (octree, so links and buttons keep their colour)
+  and merged identical frames keep the file small.
+- ``capture_screenshots`` and ``capture_gif`` share the browser start-up
+  (``_browser_session``).
 
 19.0.1.2.0 (2026-11-03)
 -----------------------
