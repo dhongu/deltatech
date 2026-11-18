@@ -76,13 +76,32 @@ Nu se folosesc conturi contabile. Date minime pentru demo:
 
    ![Fereastra principală Terrabit Connect: serviciul TC rulează, conexiunea Odoo și tokenul deblocat sunt marcate Conectat, coada Joburi ANAF / SPV are 2 joburi în lucru și 1 eroare](../static/description/11_tc_app_principal.png)
 
+   În setările aplicației se văd profilul de configurare și funcțiile active, respectiv conexiunea
+   cu Odoo (adresa instanței și cheia stației, mascată):
+
+   ![Setările Terrabit Connect: profilul de configurare Default, activ, pe firma-demo.odoo.com cu o stație, și funcțiile Semnătură ANAF și Punte Odoo activate](../static/description/13_tc_app_setari.png)
+
+   ![Setările Terrabit Connect, conexiunea Odoo: instanța firma-demo.odoo.com, cheia API mascată, accesul din browser și secțiunea token / ANAF](../static/description/14_tc_app_conexiune_odoo.png)
+
+5. **Doar dacă citiți o bază PostgreSQL din rețeaua clientului** (de exemplu programul de producție):
+   instalați pe serverul care vede baza agentul separat **Terrabit Connect PostgreSQL**
+   (`tc-postgresql`, serviciu Windows, fără fereastră), cu **stație proprie** în Odoo și cheie proprie
+   — nu folosiți cheia stației aplicației de birou. Pe server, în
+   `%ProgramData%\Terrabit\tc-postgresql\`, se pun `station.conf` (descărcat ca la pasul 2),
+   `config.toml` cu baza de date și un utilizator **doar de citire**, și fișierele `.sql` ale
+   interogărilor, livrate cu modulul clientului. Comanda `tc-postgresql check` verifică totul.
+   Detaliile sunt în `readme/CONFIGURE.md`.
+6. Parametrul de sistem `deltatech_tc.pg_done_ttl_days` (implicit 3) spune câte zile se păstrează
+   paginile de interogare PostgreSQL finalizate; celelalte joburi finalizate se păstrează 30 de zile.
+
 ## 6. Flux de utilizare
 
 ### Pasul 1 — Lista stațiilor
 
 Din **Setări → Terrabit Connect → Stații** se deschide lista stațiilor companiei. Pentru fiecare
 stație vedeți **Văzut ultima dată** (ultima legătură cu Odoo), **Versiune TC**, coloana **Simulare** și
-numărul de joburi. Rândurile stațiilor simulate au textul colorat în galben-portocaliu.
+numărul de joburi. Coloana opțională **Agent** (din meniul coloanelor) arată programul de pe stație:
+`tc-postgresql` pentru agentul PostgreSQL, goală pentru aplicația de birou. Rândurile stațiilor simulate au textul colorat în galben-portocaliu.
 
 Pentru o stație nouă apăsați **Nou**, completați numele (de exemplu `PC Contabilitate`) și, în
 bazele cu mai multe companii, compania, apoi salvați: cheia API se generează automat.
@@ -107,7 +126,9 @@ TERRABIT_STATION_KEY=<cheia stației>
 Copiați fișierul pe calculatorul stației și importați-l în Terrabit Connect (**Setări → Importă
 config**). La pornire, stația trimite primul heartbeat: în dreapta formularului se completează
 **Văzut ultima dată**, **Versiune TC**, **Sistem de operare**, **Funcționalități** și **Driver
-fiscal**. Butonul **Joburi** de deasupra formularului deschide joburile stației.
+fiscal**. La o stație cu agentul PostgreSQL apar în plus **Agent** (`tc-postgresql`) și **Interogări
+PostgreSQL** — pe fiecare rând un profil (o bază de date) și interogările instalate pe server, de
+exemplu `winarhi: articles, orders_since`; **Funcționalități** este atunci `postgresql,pg:<profil>`. Butonul **Joburi** de deasupra formularului deschide joburile stației.
 
 ![Formularul stației PC Contabilitate: butoanele Ping și Descarcă config din antet (evidențiate 1 și 2), câmpurile Văzut ultima dată și Driver fiscal fiscalwire (evidențiate 3 și 4), alături de Versiune TC 1.8.2, Sistem de operare Windows 11 și Funcționalități anaf,fiscal,zebra; cheia API este afișată mascat](../static/description/02_formular_statie.png)
 
@@ -139,11 +160,18 @@ stația, **Tip job** și **Stare**:
 - **Finalizat** (rând verde) — executat cu succes;
 - **Eroare** (rând roșu) — stația a raportat o eroare.
 
+Tipurile de job din coloana **Tip job** sunt **Ping**, **Cerere HTTP (rețea locală)** și **Interogare
+PostgreSQL (LAN)**, plus cele adăugate de modulele specializate.
+
 Filtrele **În așteptare**, **Preluat**, **Finalizat** și **Eroare** și grupările după stație, tip și
 stare ajută la urmărire. Un job rămâne **În așteptare** dacă pe stație nu e activată preluarea
 joburilor (`TERRABIT_POLL_JOBS=1`, vezi `CONFIGURE.md`).
 
 ![Lista Joburi Terrabit Connect: un job Ping Finalizat pe rând verde, o Cerere HTTP (rețea locală) în Eroare pe rând roșu, una Preluat pe rând estompat și un Ping În așteptare pe stația Casa 1 Magazin (test)](../static/description/04_lista_joburi.png)
+
+Aceleași joburi apar și în fereastra Terrabit Connect, pe calculatorul stației:
+
+![Coada de joburi din Terrabit Connect: o validare de declarație (DUK) în Eroare, o sincronizare a mesajelor SPV În așteptare, o descărcare de document Preluată și o sincronizare SPV finalizată](../static/description/12_tc_app_joburi.png)
 
 ### Pasul 5 — Un job în eroare și reluarea lui
 
@@ -153,11 +181,30 @@ nou în coadă, după o confirmare.
 
 Joburile **Preluat** fără rezultat (stația repornită, rețeaua căzută) se tratează după termenul de
 preluare (15 minute implicit): joburile care nu schimbă nimic dacă se repetă (`Ping`, cererile HTTP
-`GET`/`HEAD`) se oferă din nou stației; celelalte rămân **Preluat**, pentru că s-ar putea să se fi
+`GET`/`HEAD`, interogările PostgreSQL, care doar citesc) se oferă din nou stației; celelalte rămân **Preluat**, pentru că s-ar putea să se fi
 executat deja. Înainte de **Reîncearcă** pe un astfel de job, verificați pe aparat sau la ANAF dacă
 operația a avut loc.
 
 ![Formularul unui job HTTP request (LAN), de tip Cerere HTTP (rețea locală), în starea Eroare, cu tab-ul Eroare deschis și mesajul host 192.168.1.60 is not in TERRABIT_HTTP_ALLOW; butonul Reîncearcă din antet este evidențiat 1](../static/description/05_job_eroare.png)
+
+### Pasul 6 — Citirea unei baze PostgreSQL în pagini
+
+Joburile **Interogare PostgreSQL (LAN)** le creează un modul de integrare (de exemplu conectorul
+Winarhi), nu utilizatorul. Odoo nu trimite SQL: cere stației o interogare **după nume**, dintre cele
+instalate pe server, cu parametrii ei (tab-ul **Parametri (JSON)**: profilul, numele interogării,
+parametrii, pagina). Fiecare job aduce **o pagină** de rânduri, vizibilă în tab-ul **Rezultat**:
+
+- dacă stația spune că mai sunt rânduri, Odoo pune singur în coadă jobul pentru **pagina următoare**,
+  după ce modulul de integrare a procesat pagina curentă; lista de joburi arată atunci mai multe
+  joburi la rând pentru aceeași interogare, cu pagina 0, 1, 2...;
+- dacă procesarea unei pagini eșuează, jobul trece în **Eroare** și lanțul se oprește acolo;
+  **Reîncearcă** reia lanțul **de la acea pagină**, fără să le repete pe cele deja procesate;
+- dacă stația raportează o eroare (de exemplu tabela anului cerut nu există, interogarea a depășit
+  timpul), jobul trece în **Eroare**, iar modulul de integrare este anunțat, ca documentul care
+  aștepta datele (de exemplu o cerere de sincronizare) să arate eșecul.
+
+Paginile finalizate se șterg după 3 zile (parametrul `deltatech_tc.pg_done_ttl_days`): datele au
+ajuns deja în documentele create de modulul de integrare.
 
 ### Note de monografie și raportare
 
@@ -173,7 +220,8 @@ este `station.conf`, prezentat la pasul 2.
 | `deltatech_ecr_fiscal` | Câmpurile de pe documente cu rezultatul casei de marcat, inclusiv câmpul **Simulated receipt** (bon simulat) |
 
 **Ce e automat:** generarea cheii API, actualizarea datelor stației la fiecare heartbeat (inclusiv
-marcajul de simulare), preluarea joburilor de către stație, reluarea joburilor care se pot repeta,
+marcajul de simulare și interogările PostgreSQL instalate), preluarea joburilor de către stație,
+reluarea joburilor care se pot repeta, înlănțuirea paginilor unei interogări PostgreSQL,
 curățarea zilnică a joburilor vechi (acțiunea planificată „Terrabit Connect: queue cleanup”).
 
 **Ce rămâne manual:** înregistrarea stației, importul `station.conf` pe calculator, activarea
@@ -195,6 +243,11 @@ preluării joburilor pe stație, lista aparatelor din rețea pe care stația le 
 - [ ] După **Regenerează cheia**, stația nu se mai conectează până la importul noului `station.conf`.
 - [ ] Un job în **Eroare** are mesajul în tab-ul **Eroare**, iar **Reîncearcă** îl readuce **În
   așteptare**.
+- [ ] O stație cu agentul PostgreSQL are, după heartbeat, **Agent** = `tc-postgresql`,
+  **Funcționalități** = `postgresql,pg:<profil>` și, la **Interogări PostgreSQL**, interogările
+  instalate pe server.
+- [ ] O interogare cu mai multe pagini lasă în coadă joburi succesive (pagina 0, 1, ...), toate
+  **Finalizat**, iar ultimul nu mai are pagină după el.
 
 ## 9. Mesaje de eroare frecvente
 
@@ -204,6 +257,11 @@ preluării joburilor pe stație, lista aparatelor din rețea pe care stația le 
 | **Văzut ultima dată** nu se actualizează | Cheie greșită sau regenerată, stație arhivată, adresă Odoo greșită | Descărcați din nou `station.conf` și importați-l; verificați că stația e activă |
 | Jobul HTTP în **Eroare**: aparatul nu e în lista permisă | Aparatul nu e în `TERRABIT_HTTP_ALLOW` pe calculatorul stației | Adăugați adresa aparatului în profilul stației |
 | „Un job HTTP are nevoie de „url” în parametri.” (*An HTTP job needs a 'url' in its payload.*) | Jobul HTTP nu are adresă | Corectați modulul sau parametrii jobului |
+| „Un job PostgreSQL are nevoie de 'profile'/'query' format din litere, cifre și liniuțe de subliniere.” (*A PostgreSQL job needs a '%(key)s' made of letters, digits and underscores.*) | Modulul de integrare a cerut un profil sau o interogare cu nume invalid | Corectați modulul; numele vin din fișierele `.sql` instalate pe server |
+| „Parametrii ('params') unui job PostgreSQL trebuie să fie un obiect.” | Parametrii jobului nu sunt o listă cheie–valoare | Corectați modulul de integrare |
+| „Mărimea paginii trebuie să fie între 1 și 10000.” | Pagina cerută e prea mare sau zero | Corectați mărimea paginii în modulul de integrare |
+| „Stația a raportat că mai sunt rânduri, dar fără cheia de la care să continue.” | Interogarea de pe server nu are o coloană-cheie unică și completată | Corectați fișierul `.sql` de pe server (coloana `@key`) |
+| Jobul PostgreSQL în **Eroare** cu `unknown_query` / `undefined_table` / `timeout` | Interogarea nu e instalată pe server, tabela anului nu există, sau interogarea a durat prea mult | Copiați fișierul `.sql` pe server; verificați anul cerut; măriți `statement_timeout_sec` în `config.toml` |
 | Pagină negăsită la **Descarcă config** | Utilizatorul nu este Manager Terrabit Connect sau stația este a altei companii | Dați rolul de Manager sau lucrați în compania stației |
 | Panglica **Simulare** pe o stație de producție | Terrabit Connect a rămas în mod simulat pe calculator | Opriți simularea în Terrabit Connect; marcajul dispare la următorul heartbeat |
 | Panglica **Simulare** nu dispare după ieșirea din simulare | Versiunea Terrabit Connect nu raportează aparatele simulate la heartbeat, deci marcajul vechi rămâne | Actualizați Terrabit Connect la o versiune care raportează aparatele simulate |
@@ -240,6 +298,8 @@ Regenerare:
 - Interfața Terrabit Connect este în română sau engleză. Implicit (**Setări → Aspect → Limbă → Auto**)
   urmează limba partenerului companiei stației din Odoo (română pentru `ro_RO`, engleză altfel);
   **Română** sau **English** o fixează pe profilul stației.
+- Agentul **Terrabit Connect PostgreSQL** este alt program decât aplicația de birou: o stație separată,
+  cu cheie proprie, pe serverul care vede baza de date; se actualizează singur din versiuni semnate.
 - Parametrii cozii (termenul de preluare, numărul de încercări, păstrarea joburilor) sunt descriși în
   `readme/CONFIGURE.md`.
 
