@@ -659,8 +659,9 @@ class DeltatechExpensesDeduction(models.Model):
                     self.env._("Decontul %s nu poate fi invalidat: nu este în starea Finalizat.") % (expenses.number,)
                 )
         # vezi validate_advance: contabilizarea (aici, anularea ei) rulează cu drepturi complete
-        # odată ce rolul de Contabil a fost verificat mai sus.
-        self = self.sudo()
+        # odată ce rolul de Contabil a fost verificat mai sus. sudo() nu schimbă has_group, așa că
+        # verificarea „checked” din accountant (enterprise) se ocolește explicit prin context.
+        self = self.sudo().with_context(skip_account_review_check=True)
         moves = self.env["account.move"]
         for expenses in self:
             if expenses.move_id:

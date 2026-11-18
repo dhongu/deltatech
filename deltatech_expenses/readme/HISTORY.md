@@ -1,5 +1,11 @@
 # Changelog
 
+## 19.0.3.12.2 (2026-11-18)
+
+- **Invalidate** works again for an expense accountant without full accounting rights when the
+  enterprise Accountant app is installed: cancelling the posted entries, receipts and payments no
+  longer stops with "Validated entries can only be changed by your accountant."
+
 ## 19.0.3.12.1 (2026-11-18)
 
 - The per diem entry debits the header per diem as included in **Total Diem** (without the Per Diem
