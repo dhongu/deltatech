@@ -151,8 +151,118 @@ wide enough for ``account.report`` tables with many columns;
 per-shot options: ``full``, ``wait``, ``click_btn``, ``click_tab``,
 ``unfold_report``, ``eval`` (custom JS), ``settle`` (pause in ms).
 
+**Animated demo (GIF).** ``capture_gif(steps, name="demo.gif")`` records
+a flow as an animated GIF for the Apps Store page: a simulated cursor
+glides to each target and shows a ring on click, text is typed letter by
+letter and captions run at the bottom like film subtitles. The GIF opens
+with a slide built from ``static/description/banner.json`` and the
+module icon, fades into the flow and returns to the slide at the end.
+Each step is a dict; its keys run in this order:
+
+.. code:: python
+
+   def test_capture_gif(self):
+       self.capture_gif([
+           {"goto": f"action={action.id}&model=res.partner&view_type=form"},
+           {"caption": "A new partner starts with the name"},  # stays until the next one
+           {"type": "Ferma Verde SRL", "into": "name"},     # a field name or any selector
+           {"caption": "Once saved, the partner is ready"},
+           {"click": ".o_form_button_save", "wait_after": ".o_form_saved", "hold": 2000},
+       ], name="demo.gif")
+
+Other keys: ``path``, ``wait``, ``eval``, ``move`` (cursor only),
+``press`` (``Enter``, ``Tab``...), ``clear``, ``hide_cursor``, ``hold``
+(ms). Values may depend on the language, as in ``capture_screenshots``;
+``intro={"title": ..., "summary": ..., "features": [...]}`` overrides
+the slide (e.g. Romanian texts when ``banner.json`` is in English) and
+``intro=False`` drops it. The GIF is 1120×700 by default (``viewport``);
+``scale=0.75`` makes a smaller file. Time in the GIF is virtual, so the
+pace does not depend on how fast the server answers, and identical
+frames are merged. When a step fails, the error names the step and saves
+the screen to a temporary ``.error.png``.
+
+Keep ``static/description/en/demo.gif`` (and ``demo.gif`` for the
+Romanian page): ``tb-gen-index`` shows it automatically first in the
+Overview tab of the Apps Store page, so do not reference it from
+``readme/*.md`` as well, or it appears twice.
+
 Changelog
 =========
+
+20.0.1.2.0 (2026-11-18)
+-----------------------
+
+- Forward-port of 19.0.1.2.0 – 19.0.1.4.0 (see below), adapted to Odoo
+  20:
+
+  - ``capture_gif(steps, name)``: animated demo GIF for the Apps Store
+    (``tests/gif_recorder.py``), with a simulated cursor,
+    letter-by-letter typing, film-style subtitles and an opening/closing
+    slide built from ``banner.json`` and the module icon; the slide
+    reads "Odoo 20" (from ``odoo.release``), no longer a hard-coded
+    "Odoo 19". The GIF is always written to ``static/description/``
+    (``en/`` for English).
+  - ``capture_screenshots`` and ``capture_gif`` share the browser
+    start-up (``_browser_session``); the Odoo 20 helpers
+    (``click_notebook_tab``, ``render_all`` / ``unfold_report``,
+    ``screenshots_dir(lang)``) are kept.
+  - ``xlsx_to_html`` / ``xlsx_shot``: right-aligned numbers with the
+    cell number format and ``lang`` separators.
+  - Demo GIF of the tool itself (``test_capture_gif``), the GIF step in
+    the consultant sheet and in USAGE.
+
+19.0.1.4.0 (2026-11-14)
+-----------------------
+
+- ``capture_gif``: the captions are film-style subtitles (white text
+  centred at the bottom on a translucent black band that follows the
+  lines), without step numbers; the ``num`` key is gone.
+- A target that would end up under the subtitle is scrolled to the
+  middle of the screen, and the Odoo content gets room at its end, so
+  the last fields of a form can rise above the subtitle.
+- The GIF is always written to ``static/description/`` (``en/`` for
+  English), also for modules that still keep their PNG screenshots in
+  ``readme/screenshots/``.
+- ``demo.gif`` is no longer referenced from ``readme/USAGE.md``:
+  ``tb-gen-index`` 1.14.0 shows it first in the Overview tab of the Apps
+  Store page.
+- Consultant sheet: the demo GIF step (``capture_gif``), where the GIF
+  is written and the checks.
+
+19.0.1.3.0 (2026-11-14)
+-----------------------
+
+- New ``capture_gif(steps, name)``: records a flow as an animated GIF
+  for the Apps Store, with a simulated cursor (glide and click ring),
+  letter-by-letter typing and numbered captions, opening and closing on
+  a slide built from ``banner.json`` and the module icon. Global
+  256-colour palette (octree, so links and buttons keep their colour)
+  and merged identical frames keep the file small.
+- ``capture_screenshots`` and ``capture_gif`` share the browser start-up
+  (``_browser_session``).
+
+19.0.1.2.0 (2026-11-03)
+-----------------------
+
+- ``xlsx_to_html`` / ``xlsx_shot``: numbers are right-aligned and shown
+  with the cell number format (e.g. ``#,##0.00`` → two decimals,
+  thousands separator); the new ``lang`` argument picks the separators
+  (``ro_RO``: ``1.234,56``).
+
+20.0.1.1.0 (2026-11-02)
+-----------------------
+
+- Migration to 20.0. The mixin keeps the Odoo 20 fixes already made in
+  ``l10n_ro_doc_screenshots`` 20.0.1.1.10: ``click_tab`` looks only
+  among the notebook tabs (in 20.0 they are ``button.nav-link``, and a
+  form button with the same text no longer catches the click), folded
+  report lines are found by ``[data-id="btn_foldable"]``, ``render_all``
+  / ``unfold_report`` render the whole report despite the virtual grid
+  of ``account_reports``, and the company masking clears
+  ``additional_identifiers`` (formerly ``company_registry``) and
+  ``account_number`` (formerly ``acc_number``).
+- The tests of these page helpers (``test_screenshot_case.py``) come
+  along with them.
 
 19.0.1.1.0 (2026-10-30)
 -----------------------

@@ -52,3 +52,32 @@ Framing: `capture_screenshots(..., viewport=(1920, 950))` by default, wide enoug
 `prepare_ro_company` / `prepare_demo_company`; `_autotrim` trims the margins. Useful per-shot
 options: `full`, `wait`, `click_btn`, `click_tab`, `unfold_report`, `eval` (custom JS), `settle`
 (pause in ms).
+
+**Animated demo (GIF).** `capture_gif(steps, name="demo.gif")` records a flow as an animated GIF
+for the Apps Store page: a simulated cursor glides to each target and shows a ring on click, text
+is typed letter by letter and captions run at the bottom like film subtitles. The GIF opens with a slide
+built from `static/description/banner.json` and the module icon, fades into the flow and returns
+to the slide at the end. Each step is a dict; its keys run in this order:
+
+```python
+def test_capture_gif(self):
+    self.capture_gif([
+        {"goto": f"action={action.id}&model=res.partner&view_type=form"},
+        {"caption": "A new partner starts with the name"},  # stays until the next one
+        {"type": "Ferma Verde SRL", "into": "name"},     # a field name or any selector
+        {"caption": "Once saved, the partner is ready"},
+        {"click": ".o_form_button_save", "wait_after": ".o_form_saved", "hold": 2000},
+    ], name="demo.gif")
+```
+
+Other keys: `path`, `wait`, `eval`, `move` (cursor only), `press` (`Enter`, `Tab`...), `clear`,
+`hide_cursor`, `hold` (ms). Values may depend on the language, as in `capture_screenshots`;
+`intro={"title": ..., "summary": ..., "features": [...]}` overrides the slide (e.g. Romanian texts
+when `banner.json` is in English) and `intro=False` drops it. The GIF is 1120×700 by default
+(`viewport`); `scale=0.75` makes a smaller file. Time in the GIF is virtual, so the pace does not
+depend on how fast the server answers, and identical frames are merged. When a step fails, the
+error names the step and saves the screen to a temporary `.error.png`.
+
+Keep `static/description/en/demo.gif` (and `demo.gif` for the Romanian page): `tb-gen-index`
+shows it automatically first in the Overview tab of the Apps Store page, so do not reference it from
+`readme/*.md` as well, or it appears twice.
