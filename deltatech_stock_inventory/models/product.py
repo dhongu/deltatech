@@ -160,7 +160,12 @@ class ProductTemplate(models.Model):
     def _compute_warehouse_stocks(self):
         display_free_quantity = self.env.context.get("display_free_quantity", False)
         # Consider only warehouses belonging to the current company to avoid multi-company leakage
-        warehouses = self.env["stock.warehouse"].search([("company_id", "=", self.env.company.id)], order="name")
+        by_sequence = self.env["ir.config_parameter"].sudo().get_param(
+            "deltatech_stock_inventory.kanban_stock_warehouse_sequence"
+        ) not in (False, "False", "0", "")
+        warehouses = self.env["stock.warehouse"].search(
+            [("company_id", "=", self.env.company.id)], order="sequence, name" if by_sequence else "name"
+        )
         if len(warehouses) == 1:
             # With a single warehouse in the current company, do not display the breakdown
             self.warehouse_stock = False

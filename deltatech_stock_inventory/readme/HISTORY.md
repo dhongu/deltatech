@@ -1,3 +1,10 @@
+## 19.0.2.10.11 (2026-11-18)
+
+- New setting *Kanban stock by warehouse sequence* (*Inventory > Configuration > Settings*,
+  *Traceability*): the stock per warehouse on the product Kanban is listed in the order of the
+  warehouses, set by dragging them in *Inventory > Configuration > Warehouses*. Without it the
+  warehouses stay in alphabetical order of their names, as before.
+
 ## 19.0.2.10.10 (2026-11-18)
 
 - The Rack/Row/Shelf/Case position read with a location in the context now comes from the

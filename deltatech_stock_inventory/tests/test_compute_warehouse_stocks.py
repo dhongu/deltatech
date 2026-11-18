@@ -69,6 +69,25 @@ class TestComputeWarehouseStocks(TransactionCase):
         self.assertIn("T2", text2)
         self.assertIn("6.0", text2)
 
+    def test_compute_warehouse_stocks_order(self):
+        # alphabetical by default; with the setting, in the order of the warehouses (sequence)
+        wh_a = self.env["stock.warehouse"].create({"name": "AAA Order", "code": "OA", "sequence": 99})
+        self.env["stock.quant"].create(
+            {"product_id": self.product.id, "location_id": wh_a.lot_stock_id.id, "quantity": 2.0}
+        )
+        self.wh1.sequence = 1
+
+        def codes():
+            self.template.invalidate_recordset(["warehouse_stock"])
+            return [line.split(":")[0] for line in self.template.warehouse_stock.split("\n")]
+
+        self.assertLess(codes().index("OA"), codes().index(self.wh1.code))
+
+        self.env["ir.config_parameter"].sudo().set_param(
+            "deltatech_stock_inventory.kanban_stock_warehouse_sequence", True
+        )
+        self.assertLess(codes().index(self.wh1.code), codes().index("OA"))
+
     def _make_move(self, location, location_dest, qty):
         move = self.env["stock.move"].create(
             {

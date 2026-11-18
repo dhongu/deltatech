@@ -13,3 +13,10 @@ class ResConfigSettings(models.TransientModel):
             "Recommended when you are NOT using putaway rules."
         ),
     )
+
+    kanban_stock_warehouse_sequence = fields.Boolean(
+        string="Kanban stock by warehouse sequence",
+        config_parameter="deltatech_stock_inventory.kanban_stock_warehouse_sequence",
+        help="List the stock per warehouse on the product Kanban in the order of the warehouses "
+        "(Inventory > Configuration > Warehouses, drag to reorder) instead of alphabetically by name.",
+    )
