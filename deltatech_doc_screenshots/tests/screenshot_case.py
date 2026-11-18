@@ -64,11 +64,12 @@ import contextlib
 import json
 import logging
 import os
+import re
 import tempfile
 import unittest
 from urllib.parse import quote
 
-from odoo.modules.module import get_module_path
+from odoo.modules.module import get_manifest, get_module_path
 from odoo.tests.common import HttpCase
 from odoo.tests.tag_selector import TagsSelector
 from odoo.tools import config
@@ -112,6 +113,34 @@ def _for_lang(value, lang):
     if isinstance(value, list):
         return [_for_lang(v, lang) for v in value]
     return value
+
+
+def module_edition(module):
+    """„enterprise” dacă ``module`` sau una din dependențele lui (și tranzitiv) e un modul Enterprise.
+
+    Aceeași regulă ca bannerul de Apps (``tb_module_banner.detect_edition``): acolo e Enterprise
+    orice modul care depinde de un modul din ``enterprise/``. Aici îl recunoaștem după licența
+    ``OEEL-1``, pe care o au toate modulele Enterprise, fără să indexăm folderele.
+    """
+    seen, todo = set(), [module]
+    while todo:
+        name = todo.pop()
+        if name in seen:
+            continue
+        seen.add(name)
+        manifest = get_manifest(name)
+        if not manifest:
+            continue
+        if manifest.get("license") == "OEEL-1":
+            return "enterprise"
+        todo.extend(manifest.get("depends") or ())
+    return "community"
+
+
+def odoo_major(version):
+    """„20” din versiunea manifestului (``20.0.1.2.0``), ca badge-ul bannerului."""
+    match = re.match(r"\s*(\d+)", version or "")
+    return match.group(1) if match else ""
 
 
 @contextlib.contextmanager
@@ -1148,12 +1177,15 @@ class ScreenshotCase(HttpCase):
                 data.update(json.load(fh))
         if isinstance(intro, dict):
             data.update({key: _for_lang(value, lang) for key, value in intro.items()})
+        manifest = get_manifest(self.screenshots_module)
         if not data.get("title") or not data.get("summary"):
-            manifest = self.env["ir.module.module"].get_module_info(self.screenshots_module)
             data.setdefault("title", manifest.get("name") or self.screenshots_module)
             data.setdefault("summary", manifest.get("summary", ""))
-        edition = "Enterprise" if data.get("edition") == "enterprise" else "Community"
-        eyebrow = data.get("eyebrow") or f"Odoo 19 · {edition}"
+        # ca bannerul: ``edition`` din banner.json are prioritate, altfel se detectează din depends;
+        # versiunea vine din manifest (badge-ul „Odoo 20” al bannerului)
+        edition = data.get("edition") or module_edition(self.screenshots_module)
+        edition = "Enterprise" if edition == "enterprise" else "Community"
+        eyebrow = data.get("eyebrow") or f"Odoo {odoo_major(manifest.get('version'))} · {edition}"
         icon = None
         icon_path = os.path.join(description, "icon.png")
         if os.path.isfile(icon_path):

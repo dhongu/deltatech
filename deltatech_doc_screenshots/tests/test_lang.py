@@ -5,9 +5,10 @@
 import os
 from types import SimpleNamespace
 
+from odoo.modules.module import get_manifest
 from odoo.tests import BaseCase, tagged
 
-from .screenshot_case import ScreenshotCase, _for_lang
+from .screenshot_case import ScreenshotCase, _for_lang, module_edition, odoo_major
 
 
 @tagged("post_install", "-at_install")
@@ -48,3 +49,27 @@ class TestScreenshotLang(BaseCase):
         en = ScreenshotCase.screenshots_dir(holder, "en_US")
         self.assertTrue(ro.endswith(os.path.join("static", "description")))
         self.assertEqual(en, os.path.join(ro, "en"))
+
+
+@tagged("post_install", "-at_install")
+class TestGifIntroEdition(BaseCase):
+    """Ediția și versiunea de pe slide-ul GIF-ului, ca pe bannerul de Apps."""
+
+    def test_community_module(self):
+        self.assertEqual(module_edition("deltatech_doc_screenshots"), "community")
+        self.assertEqual(module_edition("web"), "community")
+
+    def test_enterprise_module_and_dependants(self):
+        if not get_manifest("web_enterprise"):
+            self.skipTest("enterprise/ nu e în addons_path")
+        self.assertEqual(module_edition("web_enterprise"), "enterprise")
+        # un modul Enterprise prin dependențe (account_reports -> account_accountant -> ...)
+        self.assertEqual(module_edition("account_reports"), "enterprise")
+
+    def test_unknown_module(self):
+        self.assertEqual(module_edition("modul_care_nu_exista"), "community")
+
+    def test_odoo_major(self):
+        self.assertEqual(odoo_major("20.0.1.2.0"), "20")
+        self.assertEqual(odoo_major("19.0.1.4.0"), "19")
+        self.assertEqual(odoo_major(""), "")
