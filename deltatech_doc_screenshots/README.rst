@@ -198,10 +198,13 @@ Changelog
   - ``capture_gif(steps, name)``: animated demo GIF for the Apps Store
     (``tests/gif_recorder.py``), with a simulated cursor,
     letter-by-letter typing, film-style subtitles and an opening/closing
-    slide built from ``banner.json`` and the module icon; the slide
-    reads "Odoo 20" (from ``odoo.release``), no longer a hard-coded
-    "Odoo 19". The GIF is always written to ``static/description/``
-    (``en/`` for English).
+    slide built from ``banner.json`` and the module icon. The slide
+    follows the Apps banner: the version comes from the manifest ("Odoo
+    20", no longer a hard-coded "Odoo 19") and the edition from
+    ``banner.json`` ``edition`` or, when missing, from the dependencies
+    (Enterprise when the module or one of its dependencies has the
+    ``OEEL-1`` licence), no longer always "Community". The GIF is always
+    written to ``static/description/`` (``en/`` for English).
   - ``capture_screenshots`` and ``capture_gif`` share the browser
     start-up (``_browser_session``); the Odoo 20 helpers
     (``click_notebook_tab``, ``render_all`` / ``unfold_report``,
