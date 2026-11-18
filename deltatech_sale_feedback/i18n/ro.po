@@ -194,13 +194,13 @@ msgstr "Zile solicitare feedback"
 #. module: deltatech_sale_feedback
 #: model_terms:ir.ui.view,arch_db:deltatech_sale_feedback.res_config_settings_view_form
 msgid "Email Template"
-msgstr "Sablon e-mail"
+msgstr "Șablon e-mail"
 
 #. module: deltatech_sale_feedback
 #: model:ir.model.fields,field_description:deltatech_sale_feedback.field_res_company__sale_feedback_template_id
 #: model:ir.model.fields,field_description:deltatech_sale_feedback.field_res_config_settings__sale_feedback_template_id
 msgid "Email Template Request Feedback"
-msgstr "Sablon e-mail solicitare feedback"
+msgstr "Șablon e-mail solicitare feedback"
 
 #. module: deltatech_sale_feedback
 #: model:ir.model,name:deltatech_sale_feedback.model_mail_template

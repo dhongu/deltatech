@@ -17,9 +17,10 @@ delay is read from the `sale.days_request_feedback` system parameter
 **Manual sending.** On customer invoices, *Actions > Request feedback* sends the e-mail for the
 selected invoices.
 
-**Links on the company website.** When the invoice company has a website address, the module tries
-to build the links in the feedback e-mail on that address instead of the database `web.base.url`.
-The other e-mails of the database are not affected and keep `web.base.url`.
+**Links on the company website.** When no website domain applies to the invoice, the links in the
+feedback e-mail are meant to use the company's *Website* address instead of `web.base.url` (once the
+sending is ported to 19.0). The other e-mails are not changed by the module and keep the standard
+Odoo base URL.
 
 ## Limitations
 
