@@ -107,6 +107,12 @@ iar jos rulează **subtitrări ca la film** (text alb pe o bandă neagră semitr
 pas). GIF-ul începe și se termină cu un slide făcut din `static/description/banner.json` și iconița
 modulului. Aici: un partener nou, cu denumirea și codul fiscal tastate, apoi salvat.
 
+Deasupra titlului, slide-ul are aceeași etichetă ca bannerul de Apps, de forma **„Odoo 20 · Community”**
+sau **„Odoo 20 · Enterprise”**. Versiunea se ia din `version` din manifest (`20.0.1.2.0` → „Odoo 20”).
+Ediția se ia din cheia `edition` din `banner.json`. Dacă cheia lipsește, ediția e „Enterprise” când
+modulul sau una din dependențele lui (și indirect) are licența `OEEL-1`, cea a modulelor din
+`enterprise/`, iar altfel e „Community”.
+
 ![GIF-ul demo: partener nou, cu subtitrări](../static/description/demo.gif)
 
 GIF-ul se scrie **mereu** în `static/description/demo.gif` (română) și `static/description/en/demo.gif`
@@ -116,6 +122,17 @@ GIF-ul se scrie **mereu** în `static/description/demo.gif` (română) și `stat
 
 Se verifică pe câteva cadre: subtitrările sunt lizibile și în limba GIF-ului, cursorul ajunge pe ținta
 potrivită, rezultatul pasului (câmpurile completate, înregistrarea salvată) se vede deasupra subtitrării.
+
+### Pasul 4 — Capturi din exporturi XLSX
+
+Pentru un raport exportat în Excel, testul transformă fișierul în imagine cu `xlsx_shot(xlsx, "nume.png",
+lang=...)`. Cu LibreOffice pe mașină, captura arată prima pagină exact cum se tipărește. Fără LibreOffice,
+se folosește tabelul din `xlsx_to_html`: numerele sunt aliniate la dreapta și afișate cu formatul celulei
+(de exemplu `#,##0.00` → două zecimale, cu separator de mii). Argumentul `lang` alege separatorii:
+`ro_RO` dă `1.234,56`, iar `en_US` dă `1,234.56`.
+
+Se verifică: valorile din captură sunt aliniate la dreapta, au zecimalele din Excel, iar separatorii
+corespund limbii capturii.
 
 ### Note de monografie și raportare
 
@@ -149,6 +166,10 @@ verificarea vizuală.
       capturile PNG în `readme/screenshots/`.
 - [ ] Pe cadrele GIF-ului, subtitrarea nu are numere de pas, iar un câmp de la finalul formularului
       rămâne vizibil deasupra ei.
+- [ ] Slide-ul GIF-ului arată „Odoo <versiune> · Enterprise” pentru un modul care depinde de Enterprise
+      (fără `edition` în `banner.json`) și „· Community” pentru restul, ca bannerul de Apps.
+- [ ] Într-o captură din XLSX fără LibreOffice, numerele sunt aliniate la dreapta, cu zecimalele
+      formatului de celulă și cu separatorii limbii (`1.234,56` în română).
 
 ## 9. Mesaje de eroare frecvente
 
@@ -158,6 +179,8 @@ verificarea vizuală.
 | „Capturile se generează doar la cerere” (test sărit) | rularea nu a cerut capturile | adăugați `--test-tags=fise_screenshots` |
 | „Captura '…' a eșuat: Timeout …” | ecranul nu s-a încărcat sau selectorul nu există | citiți erorile JS din mesaj; verificați adresa și selectorul capturii |
 | „HTTP 403 la /report/html/…” | raportul nu vede compania demo | lăsați implicit parametrul `companies` al capturii de raport |
+| „GIF-ul '…' a eșuat la pasul N: …” | pasul N din `capture_gif` nu și-a găsit ținta sau ecranul nu s-a încărcat | deschideți ecranul salvat în mesaj (`…error.png` din directorul temporar), apoi corectați selectorul sau adăugați `wait` / `wait_after` |
+| „chei necunoscute: […]” | un pas din `capture_gif` are o cheie greșită (ex. `text` în loc de `type`) | folosiți doar cheile din documentația metodei: `goto`, `path`, `wait`, `caption`, `move`, `click`, `type`, `into`, `press`, `hold`… |
 
 ## 10. Capturi de ecran
 
