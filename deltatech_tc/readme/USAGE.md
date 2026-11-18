@@ -3,7 +3,7 @@
 1. Go to **Settings → Terrabit Connect → Stations**. The list shows, for each station, when it was
    **Last Seen**, its **TC Version** and whether it runs in **Simulation** (highlighted rows).
 
-   ![Terrabit Connect Stations list: PC Contabilitate and Casa 1 Magazin (test), the latter highlighted with Simulation ticked](static/description/en/01_lista_statii.png)
+   ![Terrabit Connect Stations list: Casa 1 Magazin (test) highlighted with Simulation ticked, PC Contabilitate and Server Winarhi (the PostgreSQL agent, version 0.1.0)](static/description/en/01_lista_statii.png)
 
 2. Click **New** and give the station a descriptive name (e.g. `Accounting PC`).
 3. Select the company the station belongs to (multi-company installations).
@@ -56,7 +56,7 @@ The job list uses colour coding:
 - Red row — `Error` (open the form to read the error detail)
 - Muted row — `Claimed` (the station picked it up; result not yet reported)
 
-![Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN) in Error (red), one Claimed (muted) and a Ping Pending](static/description/en/04_lista_joburi.png)
+![Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN) in Error (red), one Claimed (muted), a Ping Pending and three PostgreSQL query (LAN) pages on Server Winarhi, two Done and the third Pending](static/description/en/04_lista_joburi.png)
 
 Open a job to read its **Payload**, **Result** and **Error** tabs.
 
@@ -146,6 +146,10 @@ self.env["deltatech.tc.job"]._tc_enqueue_pg_query(
 )
 ```
 
+The station form then shows the agent and the installed queries:
+
+![Station Server Winarhi: Agent tc-postgresql (1), Features postgresql,pg:winarhi and PostgreSQL queries winarhi: articles, offers_since, orders_since (2)](static/description/en/07_statie_postgresql.png)
+
 The callback runs once per page, and once more if a page fails:
 
 ```python
@@ -160,6 +164,8 @@ def _tc_receive_orders(self, job):
 The next page is queued after the callback returns; if it raises, the page is marked
 **Error** and **Retry** takes the chain up from that page. `numeric` values arrive as
 text (no precision lost), dates and timestamps as ISO text.
+
+![Job #6 PostgreSQL query (LAN) on Server Winarhi, Done, Result tab (2): columns cod_mag, denumire, pret and the rows of the page, prices as text (41.2500)](static/description/en/06_pg_query_pagina.png)
 
 ## Adding feature modules
 

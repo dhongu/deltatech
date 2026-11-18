@@ -106,7 +106,7 @@ numărul de joburi. Coloana opțională **Agent** (din meniul coloanelor) arată
 Pentru o stație nouă apăsați **Nou**, completați numele (de exemplu `PC Contabilitate`) și, în
 bazele cu mai multe companii, compania, apoi salvați: cheia API se generează automat.
 
-![Lista Stații Terrabit Connect cu două stații: PC Contabilitate și Casa 1 Magazin (test); rândul stației de test are textul colorat în galben-portocaliu și bifată coloana Simulare, iar fiecare stație are data Văzut ultima dată, versiunea 1.8.2 și numărul de joburi](../static/description/01_lista_statii.png)
+![Lista Stații Terrabit Connect cu trei stații: Casa 1 Magazin (test), PC Contabilitate și Server Winarhi; rândul stației de test are textul colorat în galben-portocaliu și bifată coloana Simulare, iar fiecare stație are data Văzut ultima dată, versiunea (1.8.2 pentru aplicația de birou, 0.1.0 pentru agentul PostgreSQL) și numărul de joburi](../static/description/01_lista_statii.png)
 
 ### Pasul 2 — Formularul stației și descărcarea configurației
 
@@ -128,7 +128,9 @@ config**). La pornire, stația trimite primul heartbeat: în dreapta formularulu
 **Văzut ultima dată**, **Versiune TC**, **Sistem de operare**, **Funcționalități** și **Driver
 fiscal**. La o stație cu agentul PostgreSQL apar în plus **Agent** (`tc-postgresql`) și **Interogări
 PostgreSQL** — pe fiecare rând un profil (o bază de date) și interogările instalate pe server, de
-exemplu `winarhi: articles, orders_since`; **Funcționalități** este atunci `postgresql,pg:<profil>`. Butonul **Joburi** de deasupra formularului deschide joburile stației.
+exemplu `winarhi: articles, orders_since`; **Funcționalități** este atunci `postgresql,pg:<profil>`.
+
+![Formularul stației Server Winarhi: Versiune TC 0.1.0, Sistem de operare windows, câmpul Agent tc-postgresql evidențiat 1, Funcționalități postgresql,pg:winarhi și câmpul Interogări PostgreSQL winarhi: articles, offers_since, orders_since evidențiat 2](../static/description/07_statie_postgresql.png) Butonul **Joburi** de deasupra formularului deschide joburile stației.
 
 ![Formularul stației PC Contabilitate: butoanele Ping și Descarcă config din antet (evidențiate 1 și 2), câmpurile Văzut ultima dată și Driver fiscal fiscalwire (evidențiate 3 și 4), alături de Versiune TC 1.8.2, Sistem de operare Windows 11 și Funcționalități anaf,fiscal,zebra; cheia API este afișată mascat](../static/description/02_formular_statie.png)
 
@@ -167,7 +169,7 @@ Filtrele **În așteptare**, **Preluat**, **Finalizat** și **Eroare** și grup�
 stare ajută la urmărire. Un job rămâne **În așteptare** dacă pe stație nu e activată preluarea
 joburilor (`TERRABIT_POLL_JOBS=1`, vezi `CONFIGURE.md`).
 
-![Lista Joburi Terrabit Connect: un job Ping Finalizat pe rând verde, o Cerere HTTP (rețea locală) în Eroare pe rând roșu, una Preluat pe rând estompat și un Ping În așteptare pe stația Casa 1 Magazin (test)](../static/description/04_lista_joburi.png)
+![Lista Joburi Terrabit Connect: un job Ping Finalizat pe rând verde, o Cerere HTTP (rețea locală) în Eroare pe rând roșu, una Preluat pe rând estompat, un Ping În așteptare pe stația Casa 1 Magazin (test) și trei pagini Interogare PostgreSQL (LAN) pe stația Server Winarhi, două Finalizate și a treia În așteptare](../static/description/04_lista_joburi.png)
 
 Aceleași joburi apar și în fereastra Terrabit Connect, pe calculatorul stației:
 
@@ -202,6 +204,8 @@ parametrii, pagina). Fiecare job aduce **o pagină** de rânduri, vizibilă în 
 - dacă stația raportează o eroare (de exemplu tabela anului cerut nu există, interogarea a depășit
   timpul), jobul trece în **Eroare**, iar modulul de integrare este anunțat, ca documentul care
   aștepta datele (de exemplu o cerere de sincronizare) să arate eșecul.
+
+![Formularul jobului #6 PostgreSQL query (LAN) pe stația Server Winarhi, Tip job Interogare PostgreSQL (LAN) evidențiat 1, în starea Finalizat, cu tab-ul Rezultat deschis și evidențiat 2: coloanele cod_mag, denumire, pret și rândurile ALU-4512 Profil toc 70 mm, ALU-4518 Profil cercevea 70 mm; prețurile vin ca text (41.2500)](../static/description/06_pg_query_pagina.png)
 
 Paginile finalizate se șterg după 3 zile (parametrul `deltatech_tc.pg_done_ttl_days`): datele au
 ajuns deja în documentele create de modulul de integrare.
@@ -270,16 +274,19 @@ preluării joburilor pe stație, lista aparatelor din rețea pe care stația le 
 
 Capturile sunt **generate automat** din `tests/test_screenshots.py` (mixinul `ScreenshotCase` din
 `l10n_ro_doc_screenshots`, import defensiv), în română, pe compania demo „Demo Magazin SRL”. Datele
-stației simulate sunt puse prin heartbeat (`_touch`), ca de la o stație reală. Aceleași ecrane în
+stației simulate și ale stației agentului PostgreSQL sunt puse prin heartbeat (`_touch`), ca de la o
+stație reală; paginile de interogare au rezultate scrise de test. Aceleași ecrane în
 engleză, pentru `readme/USAGE.md`, sunt în `static/description/en/`.
 
 | Fișier | Ce arată |
 |---|---|
-| `01_lista_statii.png` | Lista stațiilor, cu rândul stației simulate colorat |
+| `01_lista_statii.png` | Lista stațiilor, cu rândul stației simulate colorat și stația agentului PostgreSQL |
 | `02_formular_statie.png` | Formularul stației reale: butoanele din antet și datele raportate la heartbeat |
 | `03_statie_simulata.png` | Stația simulată: panglica Simulare, avertismentul și driverul `simulated` |
-| `04_lista_joburi.png` | Coada de joburi, cu joburi în toate stările |
+| `04_lista_joburi.png` | Coada de joburi, cu joburi în toate stările și un lanț de pagini PostgreSQL |
 | `05_job_eroare.png` | Un job în Eroare, cu mesajul stației și butonul Reîncearcă |
+| `06_pg_query_pagina.png` | O pagină de interogare PostgreSQL finalizată, cu rândurile în tab-ul Rezultat |
+| `07_statie_postgresql.png` | Stația agentului PostgreSQL: Agent `tc-postgresql` și interogările instalate |
 
 Regenerare:
 

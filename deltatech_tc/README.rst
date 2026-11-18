@@ -306,8 +306,9 @@ Registering a station
    each station, when it was **Last Seen**, its **TC Version** and
    whether it runs in **Simulation** (highlighted rows).
 
-   |Terrabit Connect Stations list: PC Contabilitate and Casa 1 Magazin
-   (test), the latter highlighted with Simulation ticked|
+   |Terrabit Connect Stations list: Casa 1 Magazin (test) highlighted
+   with Simulation ticked, PC Contabilitate and Server Winarhi (the
+   PostgreSQL agent, version 0.1.0)|
 
 2. Click **New** and give the station a descriptive name (e.g.
    ``Accounting PC``).
@@ -380,7 +381,8 @@ The job list uses colour coding:
   reported)
 
 |Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN)
-in Error (red), one Claimed (muted) and a Ping Pending|
+in Error (red), one Claimed (muted), a Ping Pending and three PostgreSQL
+query (LAN) pages on Server Winarhi, two Done and the third Pending|
 
 Open a job to read its **Payload**, **Result** and **Error** tabs.
 
@@ -480,6 +482,12 @@ queue pages from a feature module:
        callback=(self, "_tc_receive_orders"),
    )
 
+The station form then shows the agent and the installed queries:
+
+|Station Server Winarhi: Agent tc-postgresql (1), Features
+postgresql,pg:winarhi and PostgreSQL queries winarhi: articles,
+offers_since, orders_since (2)|
+
 The callback runs once per page, and once more if a page fails:
 
 .. code:: python
@@ -496,6 +504,10 @@ page is marked **Error** and **Retry** takes the chain up from that
 page. ``numeric`` values arrive as text (no precision lost), dates and
 timestamps as ISO text.
 
+|Job #6 PostgreSQL query (LAN) on Server Winarhi, Done, Result tab (2):
+columns cod_mag, denumire, pret and the rows of the page, prices as text
+(41.2500)|
+
 Adding feature modules
 ----------------------
 
@@ -505,11 +517,13 @@ printer, Zebra labels, DUKIntegrator) to activate additional job types.
 They appear automatically in the **Job Type** column of the job list
 once the feature module is installed.
 
-.. |Terrabit Connect Stations list: PC Contabilitate and Casa 1 Magazin (test), the latter highlighted with Simulation ticked| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/01_lista_statii.png
+.. |Terrabit Connect Stations list: Casa 1 Magazin (test) highlighted with Simulation ticked, PC Contabilitate and Server Winarhi (the PostgreSQL agent, version 0.1.0)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/01_lista_statii.png
 .. |Station form PC Contabilitate: Ping and Download config in the header, Last Seen, TC Version 1.8.2, Operating System Windows 11, Features and Fiscal Driver fiscalwire| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/02_formular_statie.png
 .. |Station form Casa 1 Magazin (test): Simulation ribbon, the warning with the simulated devices fiscal,terminal:demo and Fiscal Driver simulated| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/03_statie_simulata.png
-.. |Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN) in Error (red), one Claimed (muted) and a Ping Pending| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/04_lista_joburi.png
+.. |Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN) in Error (red), one Claimed (muted), a Ping Pending and three PostgreSQL query (LAN) pages on Server Winarhi, two Done and the third Pending| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/04_lista_joburi.png
 .. |An HTTP request (LAN) job in Error, Error tab open with the message returned by the station, Retry button in the header| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/05_job_eroare.png
+.. |Station Server Winarhi: Agent tc-postgresql (1), Features postgresql,pg:winarhi and PostgreSQL queries winarhi: articles, offers_since, orders_since (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/07_statie_postgresql.png
+.. |Job #6 PostgreSQL query (LAN) on Server Winarhi, Done, Result tab (2): columns cod_mag, denumire, pret and the rows of the page, prices as text (41.2500)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/06_pg_query_pagina.png
 
 Changelog
 =========
