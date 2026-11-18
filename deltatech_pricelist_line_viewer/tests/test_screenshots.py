@@ -105,7 +105,7 @@ class TestPricelistLineViewerScreenshots(ScreenshotCase or object):
             (monitor, 1, 1540.0, start, end),
             (monitor, 5, 1480.0, start, end),
             (mouse, 1, 79.0, False, False),
-            (mouse, 50, 69.0, False, False),
+            (mouse, 50, 0.0, False, False),  # reducere de 20%, vezi mai jos
             (keyboard, 1, 319.0, start, end),
             (dock, 1, 665.0, datetime(2026, 11, 1), datetime(2026, 11, 30, 23, 59, 59)),
         ]
@@ -124,6 +124,10 @@ class TestPricelistLineViewerScreenshots(ScreenshotCase or object):
                 for tmpl, qty, price, d_start, d_end in rules
             ]
         )
+        # regula de la 50 buc. e o reducere: coloana Preț arată „20 % reducere", nu 0,00
+        cls.env["product.pricelist.item"].search(
+            [("pricelist_id", "=", cls.pricelist.id), ("product_tmpl_id", "=", mouse.id), ("min_quantity", "=", 50)]
+        ).write({"compute_price": "percentage", "percent_price": 20.0})
         cls.group = cls.env.ref("deltatech_pricelist_line_viewer.group_user_permit_prilist_edit_access")
         # un agent de vânzări care primește dreptul de a modifica listele de prețuri
         salesman = cls.env["res.users"].create(
@@ -155,7 +159,7 @@ class TestPricelistLineViewerScreenshots(ScreenshotCase or object):
                 "wait": ".o_form_view",
                 "eval": _js(),
                 "eval_wait": 1500,
-                "highlight": [".o_breadcrumb"],
+                "highlight": [".o_breadcrumb", ".o_list_view th[data-name='price']"],
             },
             # 3. căutarea după produs, în bara de căutare a listei
             {
@@ -200,9 +204,9 @@ class TestPricelistLineViewerScreenshots(ScreenshotCase or object):
                     await new Promise((resolve) => setTimeout(resolve, 800));
                     // coloana Nume e lată, iar antetul Acces Ștergere ieșea trunchiat
                     const nameTh = document.querySelector("div[name='access_ids'] th[data-name='name']");
-                    if (nameTh) { nameTh.style.width = "220px"; }
+                    if (nameTh) { nameTh.style.width = "320px"; }
                 }""",
-                "highlight": [".nav-link[name='access_rights']"],
+                "highlight": [".nav-link[name='access_rights']", "div[name='access_ids'] th[data-name='name']"],
             },
         ]
 

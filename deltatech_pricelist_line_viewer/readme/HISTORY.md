@@ -1,3 +1,14 @@
+## 20.0.0.0.5 (2026-11-18)
+
+- The **Pricelist Lines** button opens the standard pricelist rule search view, extended by this
+  module, even when another module adds its own search view (`search_view_id` passed as `[id]`)
+  (dhongu/deltatech#3960).
+- The screen title is translatable (**Pricelist Rules**, RO *Reguli listă de prețuri*). The **Price**
+  column shows the rule, as in the pricelist form (fixed price, discount or formula), instead of
+  0.00 for *Discount* / *Formula* rules; **Fixed Price** and **Price Type** are optional columns.
+  The access rights have readable names, also renamed on existing databases (migration)
+  (dhongu/deltatech#3953).
+
 ## 20.0.0.0.4 (2026-11-04)
 
 - Migration to Odoo 20.0: access rights in `security/ir.access.csv`; the *Pricelist Lines* button

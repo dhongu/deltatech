@@ -40,7 +40,10 @@
                 <!--                <field name="product_id" string="Variants" groups="product.group_product_variant"-->
                 <!--                       domain="[('product_tmpl_id', '=', product_tmpl_id)]" options="{'no_create':1}"/>-->
                 <field name="min_quantity" />
-                <field name="fixed_price" string="Price" />
+                <!-- the rule price as text: fixed price, discount or formula -->
+                <field name="price" />
+                <field name="fixed_price" optional="hide" />
+                <field name="compute_price" string="Price Type" optional="hide" />
                 <field name="currency_id" optional="hide" />
                 <field name="date_start" />
                 <field name="date_end" />
