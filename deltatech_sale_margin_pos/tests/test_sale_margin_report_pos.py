@@ -107,3 +107,39 @@ class TestSaleMarginReportPos(TestPoSCommon):
         with self.assertRaises(UserError):
             row.write({"purchase_price": 5})
         self.assertFalse(row._invoice_rows())
+
+    def _invoiced_return(self, qty=2, **refund_line_vals):
+        """Receipt (not invoiced) of ``qty`` pieces, then a return of the whole order invoiced."""
+        order = self._order(qty)
+        refund = self.env["pos.order"].browse(order.refund()["res_id"])
+        refund.lines.write(refund_line_vals)
+        refund.to_invoice = True
+        context = {"active_ids": refund.ids, "active_id": refund.id}
+        payment = self.env["pos.make.payment"].with_context(**context).create({"payment_method_id": self.cash_pm1.id})
+        payment.with_context(**context).check()
+        self.assertTrue(refund.account_move)
+        return refund
+
+    def test_invoiced_return_of_a_receipt_has_the_cost(self):
+        """The credit note of a return of a receipt reverses no invoice: the cost comes from the POS."""
+        refund = self._invoiced_return()
+        credit_note = refund.account_move
+        self.assertEqual(credit_note.move_type, "out_refund")
+        self.assertFalse(credit_note.reversed_entry_id)
+        self.assertTrue(refund.lines.is_total_cost_computed)
+        line = credit_note.invoice_line_ids.filtered("product_id")
+        self.assertAlmostEqual(line.purchase_price, 60)
+        # the refresh of the cost from the documents (wizard, cron) gives the same cost
+        self.assertAlmostEqual(line._purchase_price_from_document(), 60)
+        self.env.flush_all()
+        row = self._rows(invoice_id=credit_note.id)
+        self.assertEqual(len(row), 1)
+        self.assertAlmostEqual(row.stock_val, -120)
+
+    def test_invoiced_return_unit_of_measure(self):
+        """The cost is per unit of the invoice line, not of the product."""
+        refund = self._invoiced_return()
+        line = refund.account_move.invoice_line_ids.filtered("product_id")
+        dozen = self.env.ref("uom.product_uom_dozen")
+        line.product_uom_id = dozen
+        self.assertAlmostEqual(line._get_refund_purchase_price_from_invoice(), 60 * 12)

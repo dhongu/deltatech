@@ -1,5 +1,13 @@
 # Changelog
 
+## 19.0.1.1.0 (2026-11-18)
+
+- The credit note issued from a Point of Sale return of a receipt (the sale was not invoiced, so
+  the credit note reverses no invoice) takes its cost from the Point of Sale: the cost of the
+  returned goods, which is the cost of the original sale. Until now it had a cost of 0 and the
+  *Profit analysis* report showed the whole value of the return as a loss. The cost of the lines
+  already invoiced is corrected with the *Update cost price* wizard.
+
 ## 19.0.1.0.1 (2026-10-28)
 
 - The POS rows give the *Track Inventory* column of the product, used by the *Storable Products*
