@@ -5,7 +5,7 @@
 from unittest.mock import patch
 
 from odoo.exceptions import UserError
-from odoo.tests import tagged
+from odoo.tests import Form, tagged
 from odoo.tests.common import TransactionCase
 from odoo.tools import mute_logger
 
@@ -189,3 +189,200 @@ class TestInvoicePickingAutomatically(TransactionCase):
 
         self._run_cron_with_failing_post(bad_order.partner_id, failure)
         self._assert_isolated_failure(good_order, good_picking, bad_order, bad_picking)
+
+    def _validate(self, picking, qty, backorder=True):
+        """Validate ``picking`` with ``qty`` done, as the user does (backorder dialog included)."""
+        picking.move_ids.quantity = qty
+        res = picking.button_validate()
+        if isinstance(res, dict) and res.get("res_model") == "stock.backorder.confirmation":
+            wizard = Form(self.env["stock.backorder.confirmation"].with_context(**res["context"])).save()
+            if backorder:
+                wizard.process()
+            else:
+                wizard.process_cancel_backorder()
+        return picking
+
+    # invoicing from the quantities of the transfer (#4033)
+
+    def test_each_delivery_gets_its_own_invoice(self):
+        """Two deliveries of the same order: one invoice each, with the quantity of the delivery."""
+        sale_order = self._create_sale_order()
+        sale_order.action_confirm()
+        picking = self._validate(sale_order.picking_ids, 1)
+        self.env["stock.picking"]._cron_generate_invoices()
+        backorder = sale_order.picking_ids - picking
+        self._validate(backorder, 1)
+        self.env["stock.picking"]._cron_generate_invoices()
+        self.assertEqual((picking | backorder).mapped("invoice_state"), ["invoiced", "invoiced"])
+        self.assertEqual(len(sale_order.invoice_ids), 2)
+        self.assertEqual(sale_order.invoice_ids.mapped("invoice_line_ids.quantity"), [1.0, 1.0])
+        self.assertEqual(picking.account_move_id | backorder.account_move_id, sale_order.invoice_ids)
+
+    def test_customer_return_gets_a_credit_note(self):
+        sale_order = self._create_sale_order()
+        delivery = self._confirm_and_validate_picking(sale_order)
+        self.env["stock.picking"]._cron_generate_invoices()
+        self.warehouse.in_type_id.create_invoice_automatically = True
+        wizard = (
+            self.env["stock.return.picking"]
+            .with_context(active_id=delivery.id, active_model="stock.picking")
+            .create({})
+        )
+        wizard.product_return_moves.quantity = 1
+        return_picking = wizard._create_return()
+        return_picking.picking_type_id.create_invoice_automatically = True
+        self._validate(return_picking, 1)
+        self.env["stock.picking"]._cron_generate_invoices()
+        self.assertEqual(return_picking.invoice_state, "invoiced")
+        refund = sale_order.invoice_ids.filtered(lambda i: i.move_type == "out_refund")
+        self.assertEqual(refund.invoice_line_ids.quantity, 1.0)
+        self.assertEqual(refund.state, "posted")
+
+    def test_receipt_gets_a_draft_vendor_bill(self):
+        """A receipt of a purchase gets a vendor bill in draft, even with the posting option."""
+        receipt_type = self.warehouse.in_type_id
+        receipt_type.write({"create_invoice_automatically": True, "post_invoice_automatically": True})
+        purchase = self.env["purchase.order"].create(
+            {
+                "partner_id": self.partner.id,
+                "order_line": [(0, 0, {"product_id": self.product.id, "product_qty": 3, "price_unit": 40.0})],
+            }
+        )
+        purchase.button_confirm()
+        receipt = self._validate(purchase.picking_ids, 2, backorder=False)
+        self.env["stock.picking"]._cron_generate_invoices()
+        self.assertEqual(receipt.invoice_state, "invoiced")
+        bill = purchase.invoice_ids
+        self.assertEqual(bill.move_type, "in_invoice")
+        self.assertEqual(bill.state, "draft")
+        self.assertEqual(bill.invoice_line_ids.quantity, 2.0)
+
+    # invoicing on validation, failure reason and retry (#4035)
+
+    def test_invoice_on_validation(self):
+        self.picking_type_out.invoice_moment = "validation"
+        sale_order = self._create_sale_order()
+        picking = self._confirm_and_validate_picking(sale_order)
+        self.assertEqual(picking.invoice_state, "invoiced")
+        self.assertEqual(picking.account_move_id, sale_order.invoice_ids)
+        self.assertFalse(picking.to_invoice, "deltatech_invoice_picking must not flag it again")
+        self.assertEqual(sale_order.invoice_ids.state, "posted")
+
+    def test_failure_on_validation_keeps_the_transfer_done_and_can_be_retried(self):
+        self.picking_type_out.invoice_moment = "validation"
+        sale_order = self._create_sale_order()
+        move_class = type(self.env["account.move"])
+        original_post = move_class.action_post
+
+        def failing_post(moves):
+            raise UserError(moves.env._("Posting blocked for test"))
+
+        with (
+            patch.object(move_class, "action_post", failing_post),
+            mute_logger("odoo.addons.deltatech_invoice_picking_automatically.models.stock_picking", "odoo.sql_db"),
+        ):
+            picking = self._confirm_and_validate_picking(sale_order)
+        self.assertEqual(picking.state, "done")
+        self.assertEqual(picking.invoice_state, "failed")
+        self.assertEqual(picking.invoice_error, "Posting blocked for test")
+        self.assertFalse(sale_order.invoice_ids)
+        self.assertEqual(self.env["stock.picking"].search([("invoice_state", "=", "failed")]), picking)
+        # the cause is fixed: the retry invoices it
+        self.assertTrue(original_post)
+        picking.action_retry_auto_invoice()
+        self.assertEqual(picking.invoice_state, "invoiced")
+        self.assertFalse(picking.invoice_error)
+        self.assertEqual(sale_order.invoice_ids.state, "posted")
+
+    def test_warehouse_user_without_invoicing_rights(self):
+        self.picking_type_out.invoice_moment = "validation"
+        user = self.env["res.users"].create(
+            {
+                "name": "Warehouse User",
+                "login": "tb_warehouse_user",
+                "group_ids": [(6, 0, [self.env.ref("stock.group_stock_user").id])],
+            }
+        )
+        self.assertFalse(user.has_group("account.group_account_invoice"))
+        sale_order = self._create_sale_order()
+        sale_order.action_confirm()
+        picking = sale_order.picking_ids.with_user(user)
+        picking.move_ids.quantity = 2
+        picking.button_validate()
+        self.assertEqual(picking.invoice_state, "invoiced")
+        self.assertEqual(sale_order.invoice_ids.state, "posted")
+
+    # transfers without an order do not stay in the queue (#3583)
+
+    def test_transfer_without_order_is_not_queued(self):
+        picking = self.env["stock.picking"].create(
+            {
+                "picking_type_id": self.picking_type_out.id,
+                "partner_id": self.partner.id,
+                "move_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": self.product.id,
+                            "product_uom_qty": 1,
+                            "location_id": self.picking_type_out.default_location_src_id.id,
+                            "location_dest_id": self.env.ref("stock.stock_location_customers").id,
+                        },
+                    )
+                ],
+            }
+        )
+        picking.action_confirm()
+        picking.move_ids.quantity = 1
+        picking.button_validate()
+        self.assertFalse(picking.invoice_state)
+
+    def test_queued_transfer_without_order_leaves_the_queue(self):
+        """A transfer queued before this fix, without an order, fails with a reason instead of blocking."""
+        picking = self.env["stock.picking"].create(
+            {"picking_type_id": self.picking_type_out.id, "invoice_state": "to_invoice"}
+        )
+        with mute_logger("odoo.addons.deltatech_invoice_picking_automatically.models.stock_picking"):
+            self.env["stock.picking"]._cron_generate_invoices()
+        self.assertEqual(picking.invoice_state, "failed")
+        self.assertTrue(picking.invoice_error)
+
+    def test_receipt_already_billed_fails_with_a_reason(self):
+        """A receipt with nothing left to bill fails with a reason instead of an empty vendor bill."""
+        self.warehouse.in_type_id.create_invoice_automatically = True
+        purchase = self.env["purchase.order"].create(
+            {
+                "partner_id": self.partner.id,
+                "order_line": [(0, 0, {"product_id": self.product.id, "product_qty": 1, "price_unit": 40.0})],
+            }
+        )
+        purchase.button_confirm()
+        receipt = self._validate(purchase.picking_ids, 1)
+        purchase.action_create_invoice()  # billed by hand before the scheduled action
+        with mute_logger("odoo.addons.deltatech_invoice_picking_automatically.models.stock_picking"):
+            self.env["stock.picking"]._cron_generate_invoices()
+        self.assertEqual(receipt.invoice_state, "failed")
+        self.assertTrue(receipt.invoice_error)
+        self.assertEqual(len(purchase.invoice_ids), 1, "No empty vendor bill is added")
+
+    def test_receipt_already_billed_linked_by_hand_and_retried(self):
+        """Linking the existing bill and clearing To invoice, then retrying, marks the receipt invoiced."""
+        self.warehouse.in_type_id.create_invoice_automatically = True
+        purchase = self.env["purchase.order"].create(
+            {
+                "partner_id": self.partner.id,
+                "order_line": [(0, 0, {"product_id": self.product.id, "product_qty": 1, "price_unit": 40.0})],
+            }
+        )
+        purchase.button_confirm()
+        receipt = self._validate(purchase.picking_ids, 1)
+        purchase.action_create_invoice()
+        with mute_logger("odoo.addons.deltatech_invoice_picking_automatically.models.stock_picking"):
+            self.env["stock.picking"]._cron_generate_invoices()
+        self.assertEqual(receipt.invoice_state, "failed")
+        receipt.write({"account_move_id": purchase.invoice_ids.id, "to_invoice": False})
+        receipt.action_retry_auto_invoice()
+        self.assertEqual(receipt.invoice_state, "invoiced")
+        self.assertFalse(receipt.invoice_error)
+        self.assertEqual(len(purchase.invoice_ids), 1)
