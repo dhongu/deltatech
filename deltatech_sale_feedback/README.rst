@@ -19,8 +19,11 @@ Sale Feedback
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_feedback
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_sale_feedback/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 
-|badge1| |badge2| |badge3|
+|badge1| |badge2| |badge3| |badge_fisa|
 
 Asks customers to rate the products they bought, by e-mail, a few days
 after the invoice.
@@ -45,10 +48,11 @@ read from the ``sale.days_request_feedback`` system parameter (*Settings
 **Manual sending.** On customer invoices, *Actions > Request feedback*
 sends the e-mail for the selected invoices.
 
-**Links on the company website.** When the invoice company has a website
-address, the module tries to build the links in the feedback e-mail on
-that address instead of the database ``web.base.url``. The other e-mails
-of the database are not affected and keep ``web.base.url``.
+**Links on the company website.** When no website domain applies to the
+invoice, the links in the feedback e-mail are meant to use the company's
+*Website* address instead of ``web.base.url`` (once the sending is
+ported to 19.0). The other e-mails are not changed by the module and
+keep the standard Odoo base URL.
 
 Limitations
 -----------
@@ -70,8 +74,84 @@ Limitations
 .. contents::
    :local:
 
+Usage
+=====
+
+**Note:** on 19.0 the sending does not work yet (see *Limitations* in
+the description). The steps below show the configuration and the current
+behaviour.
+
+1. In **Sales > Configuration > Settings**, section **Invoicing**, tick
+   **Email feedback after sale**. The **Email Template Request
+   Feedback** field shows the module's template, *Invoice: request
+   feedback*. The option is stored but not used by the sending.
+
+   |Sales settings, Invoicing section: Email feedback after sale is
+   ticked and Email Template Request Feedback is set to Invoice: request
+   feedback|
+
+2. The delay after the invoice date is the
+   ``sale.days_request_feedback`` system parameter (**Settings >
+   Technical > Parameters > System Parameters**, developer mode), 3 days
+   by default.
+
+   |System parameter form with Key sale.days_request_feedback and Value
+   3|
+
+3. The **Request Feedback** scheduled action (**Settings > Technical >
+   Automation > Scheduled Actions**) runs daily and is inactive at
+   install. Once active, it sends the e-mail for the customer invoices
+   dated that many days ago, whatever their state.
+
+   |Request Feedback scheduled action on Journal Entry, run daily by
+   OdooBot, with the Active toggle off and model.cron_request_feedback()
+   in the Code tab|
+
+4. To send it by hand, open a customer invoice, click the **Actions**
+   gear and choose **Request feedback** (it also works on several
+   invoices selected in the list).
+
+   |Posted customer invoice INV/2026/00001 for Magazin Exemplu SRL with
+   the Actions menu open and Request feedback highlighted|
+
+5. On 19.0 this stops with the **Oops!** error dialog and no e-mail is
+   sent: the code still calls Odoo functions that no longer exist.
+
+   |The same invoice with the Oops! error dialog: Something went wrong,
+   See technical details and Close|
+
+6. The e-mail is the *Invoice: request feedback* template (**Settings >
+   Technical > Email > Templates**): per invoice line, the product
+   image, a link to the product page, the quantity and the three rating
+   links. Its subject, sender, recipient and language still use the old
+   ``${...}`` syntax. Previewing it creates an empty rating on each
+   product shown.
+
+   |Invoice: request feedback template on Journal Entry, with the
+   subject in the old ${...} syntax and the body Dear, Please take a
+   moment to rate our products|
+
+.. |Sales settings, Invoicing section: Email feedback after sale is ticked and Email Template Request Feedback is set to Invoice: request feedback| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_sale_feedback/static/description/en/01_setari_feedback.png
+.. |System parameter form with Key sale.days_request_feedback and Value 3| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_sale_feedback/static/description/en/02_parametru_zile.png
+.. |Request Feedback scheduled action on Journal Entry, run daily by OdooBot, with the Active toggle off and model.cron_request_feedback() in the Code tab| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_sale_feedback/static/description/en/03_actiune_programata.png
+.. |Posted customer invoice INV/2026/00001 for Magazin Exemplu SRL with the Actions menu open and Request feedback highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_sale_feedback/static/description/en/04_meniu_actiuni_factura.png
+.. |The same invoice with the Oops! error dialog: Something went wrong, See technical details and Close| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_sale_feedback/static/description/en/05_eroare_trimitere.png
+.. |Invoice: request feedback template on Journal Entry, with the subject in the old ${...} syntax and the body Dear, Please take a moment to rate our products| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_sale_feedback/static/description/en/06_sablon_email.png
+
 Changelog
 =========
+
+19.0.1.0.10 (2026-11-18)
+------------------------
+
+- Consultant sheet (FISA_CONSULTANT.md) and usage page (USAGE.md), with
+  screenshots in Romanian and English generated by
+  tests/test_screenshots.py.
+- Description: the company website address is documented as applying
+  only when no website domain applies to the invoice, and only once the
+  sending is ported to 19.0.
+- Romanian translation: "Șablon" with diacritics in the template field
+  labels.
 
 19.0.1.0.9 (2026-11-18)
 -----------------------
