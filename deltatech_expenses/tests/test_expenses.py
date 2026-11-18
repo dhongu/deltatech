@@ -3,6 +3,8 @@
 # See README.rst file on addons root folder for license details
 
 
+from unittest.mock import patch
+
 from psycopg2 import IntegrityError
 
 from odoo import fields
@@ -1704,6 +1706,34 @@ class TestExpenses(TransactionCase):
         )
         lines_542 = self._employee_542_lines()
         self.assertAlmostEqual(sum(lines_542.mapped("credit")), 256.0)
+
+    def test_per_diem_header_follows_total_diem(self):
+        """Diurna din antet din notă e cea din „Total diurnă”: un modul care scoate o parte din decont
+        (partea impozabilă plătită prin salarii) o scade din `total_diem`, iar nota 625 = 542 rămâne
+        echilibrată pe suma redusă."""
+        model = type(self.env["deltatech.expenses.deduction"])
+        compute = model._compute_amount
+
+        def reduced(records):
+            result = compute(records)
+            for rec in records:
+                rec.total_diem -= 20.0
+            return result
+
+        self.cash_journal.expenses_no_payment_moves = True
+        with patch.object(model, "_compute_amount", reduced):
+            deduction = self._draft_deduction(days=2, diem=50.0)
+            self._new_line(deduction, 85.0, type="per_diem")
+            deduction.invalidate_recordset(["total_diem"])
+            self.assertAlmostEqual(deduction.total_diem, 165.0)
+            deduction.validate_expenses()
+
+        diem_move = deduction.move_id
+        self.assertEqual(diem_move.state, "posted")
+        self.assertAlmostEqual(
+            sum(diem_move.line_ids.filtered(lambda l: l.account_id == self.acc_542).mapped("credit")), 165.0
+        )
+        self.assertAlmostEqual(sum(diem_move.line_ids.filtered(lambda l: l.name == "Diurnă").mapped("debit")), 80.0)
 
     def test_per_diem_line_foreign_currency_balanced_at_expense_rate(self):
         """Decont în valută: diurna din antet și linia de diurnă sunt la cursul din data decontului, iar

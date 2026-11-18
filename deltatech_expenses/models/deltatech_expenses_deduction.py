@@ -1218,7 +1218,11 @@ class DeltatechExpensesDeduction(models.Model):
                 }
                 # Dr 625 = Cr 542: diurna din antet și fiecare linie de tip „Diurnă”, într-o singură notă
                 line_ids = []
-                header_diem = expenses.days * expenses.diem
+                diem_lines = expenses.expenses_line_ids.filtered(lambda ln: ln.type == "per_diem")
+                # diurna din antet e cea din „Total diurnă” (fără liniile de tip Diurnă), nu `days × diem`:
+                # un modul care scoate o parte din diurnă din decont (ex. partea impozabilă plătită prin
+                # salarii) o scade din `total_diem`, iar nota trebuie să rămână echilibrată cu 542
+                header_diem = expenses.total_diem - sum(diem_lines.mapped("amount"))
                 if header_diem:
                     line_ids.append(
                         (
@@ -1232,7 +1236,7 @@ class DeltatechExpensesDeduction(models.Model):
                             ),
                         )
                     )
-                for diem_line in expenses.expenses_line_ids.filtered(lambda ln: ln.type == "per_diem"):
+                for diem_line in diem_lines:
                     if not diem_line.expense_account_id:
                         raise UserError(
                             self.env._("Select an expense account for the per diem line %s.") % diem_line.name
