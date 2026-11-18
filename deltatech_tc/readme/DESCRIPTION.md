@@ -35,6 +35,11 @@ network.
   answers only inside the local network (a sorting line, a scale, a PLC, a label
   server) and reports the response back. Queue it with `_tc_enqueue_http()` and
   read the answer with `response_dict()` / `response_json()`.
+- **`pg_query` job type** — for the *Terrabit Connect PostgreSQL* agent (a Windows
+  service, separate from the desktop app): Odoo asks for one page of a **named,
+  read-only query** installed on the station (e.g. orders from a local production
+  database) and receives the rows; the next pages are queued automatically. Queue it
+  with `_tc_enqueue_pg_query()` and read the rows with `pg_rows()`.
 
 **Cloud model — no inbound ports.** The station always initiates the connection
 to Odoo; Odoo never connects back to the workstation. The same agent works with
@@ -51,6 +56,11 @@ create a job in Odoo reach any address inside the customer's network. Odoo only
 validates the shape of the request (scheme, host present, known method); the
 decision to actually place the call belongs to the machine sitting in that
 network.
+
+**Security of `pg_query`.** Odoo never sends SQL: it names a profile (a database
+configured on the station) and a query (a `.sql` file installed there) and passes
+parameters, which the station checks against the file's declarations and binds. Each
+page runs in a read-only transaction with a timeout, under a read-only database user.
 
 Callbacks are restricted to methods whose name starts with **`_tc_`**. The method
 name is stored in the database, so without that rule a modified record could call

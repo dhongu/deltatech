@@ -126,6 +126,41 @@ job is created. Interactive buttons must therefore show a pending state and let
 the result arrive later; do not queue a job and read its result in the same
 transaction.
 
+## Reading a PostgreSQL database in the local network
+
+Install the *Terrabit Connect PostgreSQL* agent on a server that reaches the database
+(its own station, not the one of the desktop app), put the customer's `.sql` files in its
+`queries\<profile>\` folder, and queue pages from a feature module:
+
+```python
+station = self.env["deltatech.tc.station"]._tc_find("pg:winarhi")
+if not station._tc_has_pg_query("winarhi", "orders_since"):
+    raise UserError(self.env._("The query orders_since is not installed on the Winarhi station."))
+self.env["deltatech.tc.job"]._tc_enqueue_pg_query(
+    station,
+    "winarhi",
+    "orders_since",
+    params={"since": "2026-11-01 00:00:00"},
+    page_size=500,
+    callback=(self, "_tc_receive_orders"),
+)
+```
+
+The callback runs once per page, and once more if a page fails:
+
+```python
+def _tc_receive_orders(self, job):
+    if job.state == "error":
+        self.message_post(body=job.pg_error().get("message"))
+        return
+    for row in job.pg_rows():
+        ...  # idempotent: a page may arrive twice after a lost result
+```
+
+The next page is queued after the callback returns; if it raises, the page is marked
+**Error** and **Retry** takes the chain up from that page. `numeric` values arrive as
+text (no precision lost), dates and timestamps as ISO text.
+
 ## Adding feature modules
 
 This base module does not talk to any device by itself. Install the relevant

@@ -29,6 +29,12 @@ msgid "%(name)s sent a manual heartbeat."
 msgstr "%(name)s a trimis un heartbeat manual."
 
 #. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "A PostgreSQL job needs a '%(key)s' made of letters, digits and underscores."
+msgstr "Un job PostgreSQL are nevoie de '%(key)s' format din litere, cifre și liniuțe de subliniere."
+
+#. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__api_key
 msgid "API Key"
 msgstr "Cheie API"
@@ -37,6 +43,11 @@ msgstr "Cheie API"
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__active
 msgid "Active"
 msgstr "Activ"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__agent_name
+msgid "Agent"
+msgstr "Agent"
 
 #. module: deltatech_tc
 #. odoo-python
@@ -79,6 +90,11 @@ msgstr "Model de apel înapoi"
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__callback_res_id
 msgid "Callback Res"
 msgstr "Înregistrare de apel înapoi"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__capabilities
+msgid "Capabilities"
+msgstr "Capabilități"
 
 #. module: deltatech_tc
 #: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_station__fiscal_driver
@@ -266,6 +282,12 @@ msgid "No Terrabit Connect station given for the HTTP job."
 msgstr "Nu s-a indicat nicio stație Terrabit Connect pentru jobul HTTP."
 
 #. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "No Terrabit Connect station given for the PostgreSQL job."
+msgstr "Nu s-a indicat nicio stație Terrabit Connect pentru jobul PostgreSQL."
+
+#. module: deltatech_tc
 #: model_terms:ir.actions.act_window,help:deltatech_tc.action_deltatech_tc_station
 msgid "No Terrabit Connect station registered"
 msgstr "Nicio stație Terrabit Connect înregistrată"
@@ -318,6 +340,21 @@ msgstr "În așteptare"
 #: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
 msgid "Ping"
 msgstr "Ping"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__capabilities_display
+msgid "PostgreSQL queries"
+msgstr "Interogări PostgreSQL"
+
+#. module: deltatech_tc
+#: model:ir.model.fields.selection,name:deltatech_tc.selection__deltatech_tc_job__job_type__pg_query
+msgid "PostgreSQL query (LAN)"
+msgstr "Interogare PostgreSQL (LAN)"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_station__agent_name
+msgid "Program running on the station, as reported at heartbeat (e.g. tc-postgresql). Empty for the Terrabit Connect desktop app."
+msgstr "Programul care rulează pe stație, raportat la heartbeat (ex. tc-postgresql). Gol pentru aplicația de birou Terrabit Connect."
 
 #. module: deltatech_tc
 #: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_job__callback_res_id
@@ -450,6 +487,12 @@ msgid "Terrabit Connect: queue cleanup"
 msgstr "Terrabit Connect: curățenia cozii"
 
 #. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "The 'params' of a PostgreSQL job must be an object."
+msgstr "Parametrii ('params') unui job PostgreSQL trebuie să fie un obiect."
+
+#. module: deltatech_tc
 #: model:ir.model.constraint,message:deltatech_tc.constraint_deltatech_tc_station_api_key_uniq
 msgid "The API key must be unique."
 msgstr "Cheia API trebuie să fie unică."
@@ -465,6 +508,18 @@ msgstr "URL-ul %(url)s nu are gazdă."
 #: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
 msgid "The callback method %(method)s must start with '%(prefix)s'."
 msgstr "Metoda de apel înapoi %(method)s trebuie să înceapă cu „%(prefix)s”."
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "The page size must be between 1 and %(max)s."
+msgstr "Mărimea paginii trebuie să fie între 1 și %(max)s."
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "The station reported more rows but no key to continue from."
+msgstr "Stația a raportat că mai sunt rânduri, dar fără cheia de la care să continue."
 
 #. module: deltatech_tc
 #: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_job_form
@@ -498,6 +553,11 @@ msgstr ""
 #: model:res.groups,name:deltatech_tc.group_deltatech_tc_user
 msgid "User"
 msgstr "Operator"
+
+#. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_station__capabilities
+msgid "What the station can run, reported at heartbeat. For Terrabit Connect PostgreSQL: {profile: [installed queries]}."
+msgstr "Ce poate rula stația, raportat la heartbeat. Pentru Terrabit Connect PostgreSQL: {profil: [interogări instalate]}."
 
 #. module: deltatech_tc
 #: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form

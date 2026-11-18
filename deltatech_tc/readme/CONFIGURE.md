@@ -92,6 +92,25 @@ port on that host; with a port, the match is exact. **The default is empty — u
 a host is listed there, every `http_request` job comes back as an error.** Keep it
 as narrow as the job actually needs.
 
+## Terrabit Connect PostgreSQL (workstation side)
+
+The PostgreSQL agent is a separate Windows service (`tc-postgresql`), installed from
+the release zip with `install.ps1`, with its own station and key. Its configuration
+lives in `%ProgramData%\Terrabit\tc-postgresql\`:
+
+- `station.conf` downloaded from the station (or `[odoo]` in `config.toml`);
+- `config.toml`: one `[profiles.<name>]` per database (host, database, a **read-only**
+  user, timeouts, page limits); passwords encrypted with
+  `tc-postgresql secret set <profile>` (Windows DPAPI);
+- `queries\<profile>\*.sql`: the named queries, delivered with the customer's module.
+
+`tc-postgresql check` verifies the files, the database and the Odoo connection. The
+station form then shows **Agent** `tc-postgresql`, the features `postgresql,pg:<profile>`
+and the installed queries. The agent updates itself from signed releases.
+
+On the Odoo side, `deltatech_tc.pg_done_ttl_days` (default 3) sets how long finished
+`pg_query` pages are kept.
+
 The server applies a 60-second throttle on `last_seen` writes to reduce database
 load when many stations are polling frequently; online detection remains accurate
 within the throttle window.

@@ -1,3 +1,21 @@
+## 20.0.1.3.0 (2026-11-18)
+
+- New job type **`pg_query`** for the *Terrabit Connect PostgreSQL* agent
+  (`terrabit-solutions/terrabit-connect-postgresql`), a Windows service that runs **named,
+  read-only** queries on a PostgreSQL database in the customer's network. Odoo sends only the
+  profile name, the query name and its parameters, never SQL; the `.sql` files live on the
+  station. One page per job, keyset pagination (`after` = key of the last row).
+- `_tc_enqueue_pg_query()` queues the first page; with `follow` the next page is queued
+  automatically once the callback of the current one succeeded. The callback also receives a
+  failed page (`job.state == "error"`, `job.pg_error()` gives `{code, message}`), including one
+  failed after the retry limit. `pg_rows()` returns the rows of a page. Pages are retry-safe.
+- Heartbeat: the agent name (`agent`) and the installed queries (`pg_profiles`) are stored on
+  the station (**Agent**, **PostgreSQL queries**). `_tc_find(feature)` returns the company's
+  active station announcing a feature (whole element, e.g. `pg:winarhi`);
+  `_tc_has_pg_query(profile, query)` checks an installed query.
+- Daily cleanup: finished `pg_query` pages are deleted after 3 days
+  (`deltatech_tc.pg_done_ttl_days`).
+
 ## 20.0.1.2.7 (2026-11-15)
 
 - The heartbeat answer (`/tc/heartbeat`) carries `lang`, the language of the station company's
