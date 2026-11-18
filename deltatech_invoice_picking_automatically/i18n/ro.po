@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 10:23+0000\n"
-"PO-Revision-Date: 2026-07-31 10:23+0000\n"
+"POT-Creation-Date: 2026-11-18 12:24+0000\n"
+"PO-Revision-Date: 2026-11-18 12:24+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ro\n"
@@ -15,6 +15,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: deltatech_invoice_picking_automatically
+#: model_terms:ir.ui.view,arch_db:deltatech_invoice_picking_automatically.view_picking_form
+msgid "<strong>Automatic invoicing failed:</strong>"
+msgstr "<strong>Facturarea automată a eșuat:</strong>"
+
+#. module: deltatech_invoice_picking_automatically
+#: model:ir.model.fields,field_description:deltatech_invoice_picking_automatically.field_stock_picking__invoice_state
+msgid "Automatic Invoicing"
+msgstr "Facturare automată"
+
+#. module: deltatech_invoice_picking_automatically
+#: model:ir.model.fields,field_description:deltatech_invoice_picking_automatically.field_stock_picking__invoice_error
+msgid "Automatic Invoicing Error"
+msgstr "Eroare facturare automată"
+
+#. module: deltatech_invoice_picking_automatically
+#: model_terms:ir.ui.view,arch_db:deltatech_invoice_picking_automatically.view_picking_internal_search
+msgid "Automatic Invoicing Failed"
+msgstr "Facturare automată eșuată"
 
 #. module: deltatech_invoice_picking_automatically
 #: model:ir.model.fields,field_description:deltatech_invoice_picking_automatically.field_stock_picking_type__create_invoice_automatically
@@ -44,14 +64,19 @@ msgid "ID"
 msgstr "ID"
 
 #. module: deltatech_invoice_picking_automatically
-#: model:ir.model.fields,field_description:deltatech_invoice_picking_automatically.field_stock_picking__invoice_state
-msgid "Invoice State"
-msgstr "Stare factură"
+#: model:ir.model.fields,field_description:deltatech_invoice_picking_automatically.field_stock_picking_type__invoice_moment
+msgid "Invoice Moment"
+msgstr "Momentul facturării"
 
 #. module: deltatech_invoice_picking_automatically
 #: model:ir.model.fields.selection,name:deltatech_invoice_picking_automatically.selection__stock_picking__invoice_state__invoiced
 msgid "Invoiced"
 msgstr "Facturat"
+
+#. module: deltatech_invoice_picking_automatically
+#: model:ir.model.fields.selection,name:deltatech_invoice_picking_automatically.selection__stock_picking_type__invoice_moment__validation
+msgid "On validation"
+msgstr "La validare"
 
 #. module: deltatech_invoice_picking_automatically
 #: model:ir.model,name:deltatech_invoice_picking_automatically.model_stock_picking_type
@@ -64,9 +89,50 @@ msgid "Post Invoice Automatically"
 msgstr "Postează automat factura"
 
 #. module: deltatech_invoice_picking_automatically
+#: model:ir.model.fields,help:deltatech_invoice_picking_automatically.field_stock_picking_type__post_invoice_automatically
+msgid ""
+"Post the customer invoices and credit notes. Vendor bills and refunds always"
+" stay in draft: they are posted when the document of the vendor arrives."
+msgstr ""
+"Postează facturile și notele de credit către clienți. Facturile și notele de"
+" credit ale furnizorilor rămân mereu în ciornă: se postează când sosește "
+"documentul furnizorului."
+
+#. module: deltatech_invoice_picking_automatically
+#: model_terms:ir.ui.view,arch_db:deltatech_invoice_picking_automatically.view_picking_form
+msgid "Retry Invoicing"
+msgstr "Reîncearcă facturarea"
+
+#. module: deltatech_invoice_picking_automatically
+#: model:ir.model.fields.selection,name:deltatech_invoice_picking_automatically.selection__stock_picking_type__invoice_moment__cron
+msgid "Scheduled"
+msgstr "Programat"
+
+#. module: deltatech_invoice_picking_automatically
+#: model:ir.model.fields,help:deltatech_invoice_picking_automatically.field_stock_picking_type__invoice_moment
+msgid ""
+"Scheduled: the transfers are invoiced by the scheduled action. On "
+"validation: the transfer is invoiced when it is validated; an error does not"
+" block the validation."
+msgstr ""
+"Programat: transferurile sunt facturate de acțiunea programată. La validare:"
+" transferul e facturat când e validat; o eroare nu blochează validarea."
+
+#. module: deltatech_invoice_picking_automatically
+#. odoo-python
+#: code:addons/deltatech_invoice_picking_automatically/models/stock_picking.py:0
+msgid "The transfer has no sale or purchase order to invoice."
+msgstr "Transferul nu are o comandă de vânzare sau de achiziție de facturat."
+
+#. module: deltatech_invoice_picking_automatically
 #: model:ir.model.fields.selection,name:deltatech_invoice_picking_automatically.selection__stock_picking__invoice_state__to_invoice
 msgid "To Invoice"
 msgstr "De facturat"
+
+#. module: deltatech_invoice_picking_automatically
+#: model_terms:ir.ui.view,arch_db:deltatech_invoice_picking_automatically.view_picking_internal_search
+msgid "To Invoice Automatically"
+msgstr "De facturat automat"
 
 #. module: deltatech_invoice_picking_automatically
 #: model:ir.model,name:deltatech_invoice_picking_automatically.model_stock_picking

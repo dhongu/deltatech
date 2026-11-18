@@ -19,30 +19,140 @@ Auto-Invoice from Delivery
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_invoice_picking_automatically
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests%20%C2%B7%2090%25%20code%20coverage-2ea44f.png
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_invoice_picking_automatically/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-18%20automated%20tests%20%C2%B7%2090%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_invoice_picking_automatically
-    :alt: 6 automated tests · 90% code coverage
+    :alt: 18 automated tests · 90% code coverage
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
-- Features:
+Invoices the validated transfers automatically, each transfer on its own
+document and with the quantities it moved:
 
-  - Configuration on picking type for automatic invoice creation.
-  - Configuration on picking type for automatic invoice posting.
-  - Cron job that automatically generates invoices for pickings marked
-    for invoicing.
-  - Efficiently handles multiple pickings for the same sale order by
-    processing them together.
-  - Error handling: if invoicing fails, the picking is marked as
-    'Failed' to avoid repeated failed attempts.
+- delivery → customer invoice, posted when **Post Invoice
+  Automatically** is set;
+- customer return → customer credit note;
+- receipt → vendor bill, always left in draft (it is posted when the
+  vendor's document arrives);
+- return to vendor → vendor refund, in draft.
+
+Features:
+
+- Configuration on the operation type: **Create Invoice Automatically**,
+  **Invoice Moment** and **Post Invoice Automatically**.
+- **Invoice Moment**: *Scheduled* (the daily scheduled action invoices
+  the queued transfers, the default) or *On validation* (the transfer is
+  invoiced right after it is validated).
+- Backorders and partial deliveries are invoiced separately, with the
+  quantities of each transfer. A transfer that is already invoiced is
+  not invoiced again.
+- Only transfers that come from a sale or a purchase order are queued.
+- The invoicing runs with system rights, so a warehouse user without
+  invoicing rights can validate transfers of an operation type that
+  invoices on validation.
+- Error handling: each transfer is invoiced in its own savepoint. If the
+  invoicing fails, the transfer stays done, is marked **Failed** and
+  keeps the reason, shown on the transfer. The **Retry Invoicing**
+  button invoices it again after the cause is fixed.
+- The **Automatic Invoicing** status on the transfer form and as an
+  optional column in the list, and the **Automatic Invoicing Failed**
+  and **To Invoice Automatically** filters.
 
 **Table of contents**
 
 .. contents::
    :local:
 
+Usage
+=====
+
+**Configure the operation type**
+
+1. Go to **Inventory → Configuration → Operation Types** and open the
+   operation type (for example **Delivery Orders**). Check **Create
+   Invoice Automatically**, choose the **Invoice Moment** and, for
+   customer invoices, **Post Invoice Automatically**.
+
+   |Delivery Orders operation type with Create Invoice Automatically,
+   Invoice Moment On validation and Post Invoice Automatically|
+
+**Invoice on validation**
+
+2. Validate a delivery of a sale order. The invoice is created right
+   away, with the delivered quantities. The transfer shows **Automatic
+   Invoicing** = **Invoiced**, and the **Additional Info** tab links the
+   invoice. A return uses the return operation type (for deliveries,
+   usually **Receipts**), so the moment and the posting of the credit
+   note are the ones set there.
+
+   |Validated delivery of order S00101 with Automatic Invoicing Invoiced
+   and the linked invoice|
+
+3. With **Post Invoice Automatically**, the customer invoice is posted.
+
+   |Posted customer invoice with the delivered quantity, 6 Scaun
+   ergonomic Nova|
+
+**Scheduled invoicing**
+
+4. On an operation type with **Invoice Moment** = **Scheduled**, the
+   validated transfers wait as **To Invoice** and are invoiced by the
+   daily scheduled action *Generate Invoices from Pickings*. A receipt
+   gets a vendor bill in draft, with the received quantities.
+
+   |Draft vendor bill created for the receipt of order P00101, 5 Birou
+   reglabil Flex|
+
+**When the invoicing fails**
+
+5. The transfer stays done and is marked **Failed**. The reason is shown
+   at the top of the form. Fix the cause, then click **Retry
+   Invoicing**. Here the receipt was billed by hand from the purchase
+   order before the scheduled action, so there is nothing left to bill:
+   in the **Additional Info** tab, select the existing bill in
+   **Invoice**, clear **To invoice**, then click **Retry Invoicing**.
+
+   |Receipt with Automatic Invoicing Failed, the reason The selected
+   receipts are already billed and the Retry Invoicing button|
+
+6. In **Inventory → Operations → Transfers → Receipts** (or
+   **Deliveries**), add the **Automatic Invoicing Failed** filter.
+   Remove the **Receipts** filter to see the failed transfers of all
+   types. The **Automatic Invoicing** column can be shown from the
+   optional columns menu.
+
+   |Receipts list with the Receipts and Automatic Invoicing Failed
+   filters and the Automatic Invoicing column|
+
+.. |Delivery Orders operation type with Create Invoice Automatically, Invoice Moment On validation and Post Invoice Automatically| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking_automatically/static/description/en/01_tip_operatie_facturare_automata.png
+.. |Validated delivery of order S00101 with Automatic Invoicing Invoiced and the linked invoice| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking_automatically/static/description/en/02_livrare_facturata_la_validare.png
+.. |Posted customer invoice with the delivered quantity, 6 Scaun ergonomic Nova| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking_automatically/static/description/en/03_factura_client_postata.png
+.. |Draft vendor bill created for the receipt of order P00101, 5 Birou reglabil Flex| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking_automatically/static/description/en/04_factura_furnizor_ciorna.png
+.. |Receipt with Automatic Invoicing Failed, the reason The selected receipts are already billed and the Retry Invoicing button| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking_automatically/static/description/en/05_receptie_facturare_esuata.png
+.. |Receipts list with the Receipts and Automatic Invoicing Failed filters and the Automatic Invoicing column| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking_automatically/static/description/en/06_lista_facturare_esuata.png
+
 Changelog
 =========
+
+19.0.1.0.0 (2026-11-18)
+-----------------------
+
+- Each transfer gets its own document, with its own quantities: a
+  delivery gets a customer invoice, a customer return a credit note, a
+  receipt a draft vendor bill and a return to vendor a draft refund.
+  Backorders are invoiced separately. Depends on
+  ``deltatech_invoice_picking`` (dhongu/deltatech#4033).
+- Only transfers with a sale or purchase order are queued. A queued
+  transfer without an order fails with a reason instead of staying in
+  the queue (dhongu/deltatech#3583).
+- New **Invoice Moment** on the operation type: *Scheduled* (default, as
+  before) or *On validation*. The invoicing runs with system rights, so
+  warehouse users need no invoicing rights. A failure keeps the reason
+  on the transfer, shown on the form, with a **Retry Invoicing** button,
+  an optional list column and the **Automatic Invoicing Failed** / **To
+  Invoice Automatically** filters (dhongu/deltatech#4035).
 
 19.0.0.0.7 (2026-10-22)
 -----------------------
@@ -88,10 +198,13 @@ Maintainers
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu
     :alt: dhongu
+.. |maintainer-VoicuStefan2001| image:: https://github.com/VoicuStefan2001.png?size=40px
+    :target: https://github.com/VoicuStefan2001
+    :alt: VoicuStefan2001
 
-Current maintainer:
+Current maintainers:
 
-|maintainer-dhongu| 
+|maintainer-dhongu| |maintainer-VoicuStefan2001| 
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_invoice_picking_automatically>`_ project on GitHub.
 
