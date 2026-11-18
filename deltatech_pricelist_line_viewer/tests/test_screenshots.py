@@ -127,7 +127,7 @@ class TestPricelistLineViewerScreenshots(ScreenshotCase or object):
         # regula de la 50 buc. e o reducere: coloana Preț arată „20 % reducere", nu 0,00
         cls.env["product.pricelist.item"].search(
             [("pricelist_id", "=", cls.pricelist.id), ("product_tmpl_id", "=", mouse.id), ("min_quantity", "=", 50)]
-        ).write({"compute_price": "percentage", "percent_price": 20.0})
+        ).write({"compute_price": "discount", "price_discount": 20.0})
         cls.group = cls.env.ref("deltatech_pricelist_line_viewer.group_user_permit_prilist_edit_access")
         # un agent de vânzări care primește dreptul de a modifica listele de prețuri
         salesman = cls.env["res.users"].create(

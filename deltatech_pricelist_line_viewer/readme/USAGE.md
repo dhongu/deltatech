@@ -8,7 +8,7 @@ and save.
 
 2. The list shows all the rules of this pricelist: product, minimum quantity, price and validity
    period. The **Price** column (2) describes the rule, as in the **Sales Prices** tab: the fixed
-   price, or the computation for *Discount* and *Formula* rules (e.g. "20 % discount on sales price").
+   price, or the computation for *Discount* and *Surcharge* rules (e.g. "20 % discount on sales price").
    For category or all-products rules the **Products** column is empty; show the optional **Apply On**
    column.
 

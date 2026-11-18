@@ -31,7 +31,7 @@ class TestPricelistLineViewer(TransactionCase):
         arch = self.env["product.pricelist.item"].get_view(tree_view_id, "list")["arch"]
         self.assertIn('name="price"', arch)
         item = self.env["product.pricelist.item"].create(
-            {"pricelist_id": self.pricelist.id, "compute_price": "percentage", "percent_price": 12.0}
+            {"pricelist_id": self.pricelist.id, "compute_price": "discount", "price_discount": 12.0}
         )
         self.assertFalse(item.fixed_price)
         self.assertIn("12", item.price)

@@ -51,7 +51,7 @@ Modulul **nu generează note contabile** și nu atinge conturi. Date minime pent
 - reguli cu preț fix pe produs, unele cu cantitate minimă (ex. Laptop: 3.950 lei de la 1 buc.,
   3.790 lei de la 10 buc.) și cu perioadă de valabilitate (1 ian. 00:00 – 31 dec. 2026 23:59; Stația
   de andocare doar în noiembrie, până la 30 nov. 23:59);
-- o regulă de tip *Reducere*: Mouse wireless, 20% reducere la prețul de vânzare de la 50 buc.;
+- o regulă de tip *Reducere*: Mouse wireless, 20% reducere pe prețul de vânzare de la 50 buc.;
 - un utilizator agent de vânzări (ex. **Ana Popescu**) pentru testarea grupului.
 
 ### Note de monografie și raportare
@@ -92,10 +92,10 @@ Ce verificați pe ecran:
 - la regulile pe categorie sau pe toate produsele, coloana **Produse** e goală; afișați coloana opțională
   **Aplică pe** ca să le deosebiți;
 - coloana **Preț** (2) descrie regula, ca în tabul **Prețuri de vânzare**: prețul fix (ex. 3.790,00 lei)
-  sau, la regulile de tip *Reducere* sau *Formula*, calculul (ex. „20 % reducere la prețul de
+  sau, la regulile de tip *Reducere* sau *Surcharge* (adaos), calculul (ex. „20 % reducere pe preț
   vânzare"). Prețul final al unui produs rezultă din acest calcul și se vede pe comandă.
 
-![Lista regulilor listei Distribuitori 2026 (RON), deschisă din buton: calea de navigare evidențiată (1), Distribuitori 2026 (RON) / Reguli listă de prețuri, coloana Preț evidențiată (2) și 8 reguli cu produsul, cantitatea minimă, prețul și perioada de valabilitate; regula Mouse wireless de la 50 buc. arată 20 % reducere la prețul de vânzare, iar Stația de andocare USB-C are perioada 1 nov. – 30 nov.](../static/description/02_lista_linii_preturi.png)
+![Lista regulilor listei Distribuitori 2026 (RON), deschisă din buton: calea de navigare evidențiată (1), Distribuitori 2026 (RON) / Reguli listă de prețuri, coloana Preț evidențiată (2) și 8 reguli cu produsul, cantitatea minimă, prețul și perioada de valabilitate; regula Mouse wireless de la 50 buc. arată 20 % reducere pe preț vânzare, iar Stația de andocare USB-C are perioada 1 nov. – 30 nov.](../static/description/02_lista_linii_preturi.png)
 
 ### Pasul 3 — Căutați regulile unui produs
 
@@ -166,8 +166,8 @@ utilizatori.
       regulii se deschide doar în citire, iar butonul **Nou(ă)** lipsește.
 - [ ] După adăugarea în grupul **Permite editarea listei de prețuri**, același agent poate modifica,
       crea și șterge reguli.
-- [ ] La regulile de tip *Reducere* / *Formula*, coloana **Preț** arată calculul (ex. „20 % reducere
-      la prețul de vânzare"), nu 0,00.
+- [ ] La regulile de tip *Reducere* / *Surcharge*, coloana **Preț** arată calculul (ex. „20 % reducere
+      pe preț vânzare"), nu 0,00.
 - [ ] Titlul ecranului deschis din buton este **Reguli listă de prețuri**, în limba utilizatorului.
 
 ## 9. Mesaje de eroare frecvente

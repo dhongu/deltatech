@@ -4,8 +4,8 @@
   module, even when another module adds its own search view (`search_view_id` passed as `[id]`)
   (dhongu/deltatech#3960).
 - The screen title is translatable (**Pricelist Rules**, RO *Reguli listă de prețuri*). The **Price**
-  column shows the rule, as in the pricelist form (fixed price, discount or formula), instead of
-  0.00 for *Discount* / *Formula* rules; **Fixed Price** and **Price Type** are optional columns.
+  column shows the rule, as in the pricelist form (fixed price, discount or surcharge), instead of
+  0.00 for *Discount* / *Surcharge* rules; **Fixed Price** and **Price Type** are optional columns.
   The access rights have readable names, also renamed on existing databases (migration)
   (dhongu/deltatech#3953).
 
