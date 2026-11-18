@@ -1,3 +1,10 @@
+## 19.0.2.10.10 (2026-11-18)
+
+- The Rack/Row/Shelf/Case position read with a location in the context now comes from the
+  warehouse of that location, also for a sublocation (`B02/Stock/1A/1`). Before, only the stock
+  location of a warehouse was recognized and every sublocation got the position of the default
+  warehouse.
+
 ## 19.0.2.10.9 (2026-10-16)
 
 - The product form has again the *Reserved Transfers* smart button: it counts the transfers that
