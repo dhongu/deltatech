@@ -21,3 +21,9 @@ In the list view, remove the default groupings and the date filter, and choose t
 With `deltatech_sale_commission`, the POS rows also get the computed commission of the salesperson of the order, from the rates set on the **invoice journal** of the point of sale.
 
 ![POS sales in the profit report](https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_margin_pos/03_vanzari_pos_in_raport.png)
+
+**Step 4 — Invoiced return of a receipt**
+
+When the customer returns goods bought with a receipt and asks for an invoice on the return, the credit note reverses no invoice. The module takes its cost from the Point of Sale return lines: the cost of the original sale, in the unit of the invoice line. In the profit report, the **Invoices** filter shows the credit note with negative quantity and values, and a cost instead of 0. A credit note issued before this version and left with a cost of 0 is corrected with the *Update Purchase Price* wizard (select the lines in the list, then the **Action** menu).
+
+![Credit note of an invoiced POS return in the profit report](https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_margin_pos/04_nota_credit_retur_pos.png)

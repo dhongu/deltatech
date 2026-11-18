@@ -56,13 +56,16 @@
 already in the report through their invoice, so they are not counted twice.</p>
 <p>For each order line the report shows:</p>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-shopping-bag" style="" aria-hidden="true"></span></span><div>the sale value without VAT, in the company currency; returns are negative;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-tag" style="" aria-hidden="true"></span></span><div>the cost of the line, as computed by the Point of Sale when the session is closed,
-  or the current product cost while the session is still open;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-shopping-bag" style="" aria-hidden="true"></span></span><div>the salesperson of the order and the sales journal of the point of sale; with
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_commission</code>, the commission rates set on that journal give the
-  computed commission;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-shopping-bag" style="" aria-hidden="true"></span></span><div>the order itself, with a <em>POS Sales</em> filter and a grouping by order.</div></div></li></ul>
+  or the current product cost while the session is still open;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-shopping-bag" style="" aria-hidden="true"></span></span><div>the salesperson of the order and the journal of the POS orders; with
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_sale_commission</code>, the computed commission uses the rates set on the
+  <strong>invoice journal</strong> of the point of sale;</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-shopping-bag" style="" aria-hidden="true"></span></span><div>the order itself, with a <em>POS Sales</em> filter and a grouping by order.</div></div></li></ul>
 <p>The rows of the orders are read-only: the real commission, <em>Commission Paid</em> and the
 purchase price are kept on the invoice lines only, and the commission and cost wizards
 leave the orders out.</p>
 <p>The module is not installed automatically: it changes the figures of the report.</p>
+<p>The credit note of a Point of Sale return invoiced for a receipt that was not invoiced reverses no
+invoice, so it takes its cost from the lines of the POS return (the cost of the original sale)
+instead of 0.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</span></div>
@@ -105,10 +108,30 @@ leave the orders out.</p>
     <span style="font-size:14px;line-height:1.4;color:#3d4752;">POS sales in the profit report</span>
   </div>
 </div>
+<p><strong>Step 4 &#8212; Invoiced return of a receipt</strong></p>
+<p>When the customer returns goods bought with a receipt and asks for an invoice on the return, the credit note reverses no invoice. The module takes its cost from the Point of Sale return lines: the cost of the original sale, in the unit of the invoice line. In the profit report, the <strong>Invoices</strong> filter shows the credit note with negative quantity and values, and a cost instead of 0. A credit note issued before this version and left with a cost of 0 is corrected with the <em>Update Purchase Price</em> wizard (select the lines in the list, then the <strong>Action</strong> menu).</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Credit note of an invoiced POS return in the profit report" src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_sale_margin_pos/04_nota_credit_retur_pos.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">4</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Credit note of an invoiced POS return in the profit report</span>
+  </div>
+</div>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;"><span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">Changelog</span></h2>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.1.0 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-18)</span></h2>
+<ul>
+<li>The credit note issued from a Point of Sale return of a receipt (the sale was not invoiced, so
+  the credit note reverses no invoice) takes its cost from the Point of Sale: the cost of the
+  returned goods, which is the cost of the original sale. Until now it had a cost of 0 and the
+  <em>Profit analysis</em> report showed the whole value of the return as a loss. The cost of the lines
+  already invoiced is corrected with the <em>Update Purchase Price</em> wizard.</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.1 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-10-28)</span></h2>
 <ul>
 <li>The POS rows give the <em>Track Inventory</em> column of the product, used by the <em>Storable Products</em>

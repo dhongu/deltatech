@@ -9,7 +9,9 @@
 #   - bonul 1, nefacturat: 3 × Cafea boabe 1 kg la 69 lei, cost 45 → profit 72;
 #   - bonul 2, nefacturat: 1 × Espressor la 1.200 lei, cost 800 → profit 400;
 #   - returul bonului 2: −1 × Espressor → −1.200 lei vânzare, −800 cost;
-#   - bonul 4, facturat (azi): 2 × Cafea; apare în raport o singură dată, prin factura lui.
+#   - bonul 4, facturat (azi): 2 × Cafea; apare în raport o singură dată, prin factura lui;
+#   - returul bonului 1 (3 × Cafea), cu factură (azi): nota de credit are costul din POS, 45 lei
+#     pe bucată, deci −207 lei vânzare, −135 cost, −72 profit.
 # Produsele au TVA 21 %: raportul arată vânzarea fără TVA (bonul 1: 207 lei, 250,47 cu TVA).
 #
 # Rulare:
@@ -167,6 +169,16 @@ class TestSaleMarginPosScreenshots(AccountTestInvoicingCommon, ScreenshotCase or
         # facturat azi (Odoo pune data facturii la facturarea bonului), deci în afara lunii trecute:
         # acțiunile de mai jos nu filtrează pe dată, ca să se vadă că bonul apare doar prin factură
         cls.order_invoiced.action_pos_order_invoice()
+        # returul facturat al bonului 1: bonul n-are factură, deci nota de credit nu stornează nicio
+        # factură și își ia costul din liniile POS
+        cls.order_credit_note = env["pos.order"].browse(cls.order_coffee.refund()["res_id"])
+        # clientul cere factura returului: factura are nevoie de partener
+        cls.order_credit_note.partner_id = cls.customer
+        env["pos.make.payment"].with_context(
+            active_ids=cls.order_credit_note.ids, active_id=cls.order_credit_note.id
+        ).create({"payment_method_id": cls.cash.id}).check()
+        if not cls.order_credit_note.account_move:
+            cls.order_credit_note.action_pos_order_invoice()
         env.flush_all()
 
         # Pentru capturi, aceeași acțiune a raportului cu filtrul „Vânzări POS” pus, respectiv cu
@@ -187,6 +199,14 @@ class TestSaleMarginPosScreenshots(AccountTestInvoicingCommon, ScreenshotCase or
             {
                 "name": report_name,
                 "context": "{'pivot_row_groupby': ['journal_id', 'product_id']}",
+            }
+        )
+        cls.act_invoice_list = report_action.copy(
+            {
+                "name": report_name,
+                "view_mode": "list",
+                "view_id": env.ref("deltatech_sale_margin.view_sale_margin_report_list").id,
+                "context": "{'search_default_invoices': 1}",
             }
         )
         cls.act_pos_orders = env.ref("point_of_sale.action_pos_pos_form")
@@ -215,6 +235,13 @@ class TestSaleMarginPosScreenshots(AccountTestInvoicingCommon, ScreenshotCase or
                     "wait": ".o_list_view",
                     "settle": 2500,
                     "highlight": ["th[data-name='pos_order_id']"],
+                },
+                {
+                    "url": f"action={self.act_invoice_list.id}&menu_id={self.sale_menu.id}&view_type=list",
+                    "name": "04_nota_credit_retur_pos.png",
+                    "wait": ".o_list_view",
+                    "settle": 2500,
+                    "highlight": [".o_data_row:first-child"],
                 },
             ]
         )

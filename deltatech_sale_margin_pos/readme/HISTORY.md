@@ -6,7 +6,7 @@
   the credit note reverses no invoice) takes its cost from the Point of Sale: the cost of the
   returned goods, which is the cost of the original sale. Until now it had a cost of 0 and the
   *Profit analysis* report showed the whole value of the return as a loss. The cost of the lines
-  already invoiced is corrected with the *Update cost price* wizard.
+  already invoiced is corrected with the *Update Purchase Price* wizard.
 
 ## 19.0.1.0.1 (2026-10-28)
 
