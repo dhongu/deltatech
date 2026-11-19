@@ -63,10 +63,10 @@ Modulul nu atinge conturi. Datele pe care se bazează:
 | Data | data bonului | ziua, în fusul orar al casierului |
 | Agentul | responsabilul bonului (*Operator*) | gruparea pe agent și ratele de comision |
 | Jurnalul | jurnalul de închidere al casei (*Closing* în setările casei; dacă nu e setat, jurnalul comenzilor) | gruparea pe jurnal |
-| Ratele de comision | jurnalul *Orders* al casei, cel al comenzilor și al facturilor | cu `deltatech_sale_commission`, rata responsabilului bonului pe acest jurnal |
+| Ratele de comision | jurnalul *Orders* al casei (cel al comenzilor și facturilor casei; nu cel de închidere) | cu `deltatech_sale_commission`, rata responsabilului bonului pe acest jurnal |
 
 Date minime pentru demo (folosite și în capturi), compania **Demo Magazin SRL**, casa **Magazin
-Centru** (jurnalul comenzilor redenumit *Casa Magazin Centru*), casiera **Ioana Vasile**, produse cu TVA
+Centru** (jurnalul de închidere al casei, redenumit *Casa Magazin Centru*), casiera **Ioana Vasile**, produse cu TVA
 21 %. Raportul arată vânzarea **fără TVA**: bonul 000001 are 207,00 fără TVA și 250,47 cu TVA.
 
 | Document | Produs | Vânzare | Cost | Profit | În raport |
@@ -83,12 +83,15 @@ Centru** (jurnalul comenzilor redenumit *Casa Magazin Centru*), casiera **Ioana 
 1. Instalați `deltatech_sale_margin_pos` (dependențe: `deltatech_sale_margin` și `point_of_sale`).
    Modulul **nu se instalează automat**: schimbă cifrele raportului, deci se instalează doar la cerere.
 2. Verificați drepturile pe raport (secțiunea 3).
-3. Cu `deltatech_sale_commission`: dacă vreți comision calculat pe bonuri, adăugați în *Vânzări →
-   Configurare → Comisioane agenți* un rând pe casier și pe **jurnalul comenzilor și al facturilor casei**. Îl găsiți
-   în *Punct de vânzare → Configurare → Setări*, cu casa aleasă în antet, blocul **Contabilitate**,
-   rândul *Default Journals* (netradus în Odoo), câmpul **Orders** (de obicei *Facturi clienți*). Ratele de comision
-   acceptă doar jurnale de vânzări. Câmpul **Closing** (opțional) este jurnalul în care se postează notele de închidere ale
-   sesiunii; acela apare în coloana *Jurnal* a rândurilor casei din raport.
+3. Jurnalele casei, în *Punct de vânzare → Configurare → Setări*, cu casa aleasă în antet, blocul **Contabilitate**,
+   rândul *Default Journals* (netradus în Odoo). În 20.0 casa nu mai are un jurnal separat pentru facturi:
+   - câmpul **Orders** este jurnalul comenzilor și al facturilor casei (de obicei *Facturi clienți*); pe el se caută
+     ratele de comision;
+   - câmpul **Closing** este jurnalul în care se postează notele de închidere ale sesiunii (dacă nu e setat, se
+     folosește jurnalul *Orders*); **acesta apare în coloana *Jurnal* a rândurilor casei din raport**.
+4. Cu `deltatech_sale_commission`: dacă vreți comision calculat pe bonuri, adăugați în *Vânzări →
+   Configurare → Comisioane agenți* un rând pe casier și pe jurnalul *Orders* al casei. Ratele de comision
+   acceptă doar jurnale de vânzări.
 
 ## 6. Flux de utilizare
 
@@ -109,12 +112,14 @@ Accesați **Vânzări → Raportare → Raport analiză profit**, scoateți din 
 ascunde) și grupați rândurile pe **Jurnal**, apoi pe **Produs** (în pivot, pe antetul *Total*). Rândurile
 bonurilor urmează filtrul ca facturile: un produs stocabil vândut la casă rămâne vizibil cu filtrul pus.
 
-1. **Găsiți pe ecran** — sub jurnalul de vânzări sunt facturile, sub jurnalul comenzilor casei (pe demo,
+1. **Găsiți pe ecran** — sub jurnalul de vânzări sunt facturile, sub jurnalul de închidere al casei (pe demo,
    *Casa Magazin Centru*) sunt bonurile nefacturate; pe fiecare rând, **Valoare vânzare**, **Valoare cost**, **Valoare
    profit**, **Adaos (%)** și **Marjă profit (%)**.
 2. **Verificați**, pe demo:
    - la jurnalul casei, Cafea boabe 1 kg: vânzare 207,00, cost 135,00, profit 72,00;
    - la jurnalul casei, Espressor automat: 0,00 — vânzarea de 1.200,00 și returul ei se anulează;
+   - nota de închidere a sesiunii (document *POSC/…*, tot de tip factură client) **nu** apare ca factură în raport:
+     bonurile pe care le însumează sunt deja rânduri ale casei, deci nu se numără de două ori;
    - bonul facturat (2 × Cafea, 138,00) apare **o singură dată**, la jurnalul de vânzări, prin factura
      lui, nu și la casă;
    - la jurnalul de vânzări, Cafea boabe 1 kg: vânzare −69,00, cost −45,00, profit −24,00, adică
@@ -208,7 +213,7 @@ La gestiunea ținută la preț de vânzare (371 cu adaos și TVA neexigibilă), 
 |---|---|---|
 | `deltatech_sale_margin` | raportul de profit, la care se adaugă bonurile | dependență (manifest) |
 | `point_of_sale` | bonurile, sesiunile, costul la închiderea sesiunii | dependență (manifest) |
-| `deltatech_sale_commission` | ratele de comision ale responsabilului bonului pe jurnalul de facturi al casei (comision calculat, informativ, vizibil în raport, nu în lista *Comision*) | opțional |
+| `deltatech_sale_commission` | ratele de comision ale responsabilului bonului pe jurnalul *Orders* al casei (comision calculat, informativ, vizibil în raport, nu în lista *Comision*) | opțional |
 
 **Ce e automat:** includerea bonurilor plătite și nefacturate; excluderea celor facturate; costul din
 sesiunea închisă; costul notei de credit a unui retur POS facturat al unui bon nefacturat, din liniile
@@ -222,6 +227,8 @@ returului; conversia în moneda companiei; ziua bonului în fusul orar al casier
       **Comandă POS**.
 - [ ] Un bon facturat apare o singură dată, prin factura lui (filtrul **Facturi**), nu și la **Vânzări
       POS**.
+- [ ] Nota de închidere a sesiunii nu apare ca factură în raport (filtrul **Facturi**), iar bonurile ei apar o
+      singură dată, la **Vânzări POS**.
 - [ ] Un retur are cantitatea și valorile negative.
 - [ ] Nota de credit a unui retur facturat al unui bon nefacturat are costul vânzării inițiale (cost
       negativ în raport, profit opus profitului bonului), nu 0.
@@ -231,7 +238,7 @@ returului; conversia în moneda companiei; ziua bonului în fusul orar al casier
       precedentă.
 - [ ] Salvarea unui rând de bon e refuzată; **Marchează plătit** și asistenții de comision și de cost
       ignoră rândurile bonurilor.
-- [ ] Cu `deltatech_sale_commission` și un rând de rată pe casier și pe jurnalul de facturi al casei,
+- [ ] Cu `deltatech_sale_commission` și un rând de rată pe casier și pe jurnalul *Orders* al casei,
       bonul are *Comision calculat* = rată × profit (în raport, nu în lista *Comision*).
 - [ ] Un casier (*Punct de vânzare / Utilizator*) nu vede raportul.
 
@@ -241,9 +248,9 @@ returului; conversia în moneda companiei; ziua bonului în fusul orar al casier
 |---|---|---|
 | „În raportul de profit se pot modifica doar liniile de factură.” | S-a încercat salvarea unui rând de bon | Rândurile bonurilor sunt doar pentru citire |
 | Bonurile nu apar în raport | Modulul nu e instalat, bonul nu e plătit sau e facturat | Instalați modulul; un bon facturat apare prin factură |
-| Retur facturat cu cost 0 și pierdere egală cu valoarea returului | Nota de credit a fost emisă înainte de versiunea 19.0.1.1.0 (costul rămăsese 0), sau costul returului POS nu era încă calculat (produs stocabil FIFO/mediu, sesiune deschisă) | Cu rolul **Administrator** pe Vânzări, selectați liniile în lista raportului și rulați din meniul **Acțiune** asistentul **Actualizare preț achiziție**, lăsând bifat *Preț din livrare* (după închiderea sesiunii, dacă e cazul); procesul zilnic completează singur doar liniile din ultima săptămână |
+| Retur facturat cu cost 0 și pierdere egală cu valoarea returului | Nota de credit a fost emisă înainte de versiunea 19.0.1.1.0 (și 20.0.1.1.0 pe Odoo 20) (costul rămăsese 0), sau costul returului POS nu era încă calculat (produs stocabil FIFO/mediu, sesiune deschisă) | Cu rolul **Administrator** pe Vânzări, selectați liniile în lista raportului și rulați din meniul **Acțiune** asistentul **Actualizare preț achiziție**, lăsând bifat *Preț din livrare* (după închiderea sesiunii, dacă e cazul); procesul zilnic completează singur doar liniile din ultima săptămână |
 | Costul bonului este costul curent din fișa produsului | Sesiunea POS e încă deschisă | Închideți sesiunea; costul se recalculează din livrare |
-| *Comision calculat* gol pe bonuri | Casierul nu are rând de rată pe jurnalul de facturi al casei | Adăugați rândul în *Comisioane agenți* |
+| *Comision calculat* gol pe bonuri | Casierul nu are rând de rată pe jurnalul *Orders* al casei | Adăugați rândul în *Comisioane agenți* |
 | Bonurile de după miezul nopții apar în ziua precedentă | Casierul nu are fus orar setat (se ia UTC) | Setați fusul orar în preferințele casierului |
 
 ## 10. Capturi de ecran

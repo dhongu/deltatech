@@ -110,8 +110,8 @@ class TestSaleMarginPosScreenshots(AccountTestInvoicingCommon, ScreenshotCase or
         cls.pos_config = env["pos.config"].create(
             {"name": "Magazin Centru", "payment_method_ids": [Command.set(cls.cash.ids)], "company_id": company.id}
         )
-        # jurnalul comenzilor casei se creează cu numele în engleză („Point of Sale")
-        cls.pos_config.journal_id.name = "Casa Magazin Centru"
+        # jurnalul de închidere al casei (cel din coloana Jurnal) are numele în engleză
+        cls.pos_config.closing_journal_id.name = "Casa Magazin Centru"
         # casiera care emite bonurile: apare pe bon și ca agent în raport
         cls.cashier = (
             env["res.users"]
