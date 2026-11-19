@@ -21,7 +21,7 @@ class AccountMoveLine(models.Model):
             lines = lines.filtered(lambda l: l.debit > 0)
         else:
             return False
-        return lines[:1].date
+        return max(lines.mapped("date"), default=False)
 
     @api.depends(
         "date",
