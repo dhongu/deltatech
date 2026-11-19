@@ -1,0 +1,135 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_purchase_currency
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-19 05:30+0000\n"
+"PO-Revision-Date: 2026-11-19 05:30+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_purchase_currency
+#: model:ir.model,name:deltatech_purchase_currency.model_account_move
+msgid "Journal Entry"
+msgstr "Înregistrare contabilă"
+
+#. module: deltatech_purchase_currency
+#: model:ir.model,name:deltatech_purchase_currency.model_account_move_line
+msgid "Journal Item"
+msgstr "Element jurnal"
+
+#. module: deltatech_purchase_currency
+#: model:ir.model,name:deltatech_purchase_currency.model_purchase_order
+msgid "Purchase Order"
+msgstr "Comandă de achiziție"
+
+#. module: deltatech_purchase_currency
+#: model:ir.model,name:deltatech_purchase_currency.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Linie comandă de achiziție"
+
+#. module: deltatech_purchase_currency
+#: model:ir.model.fields,field_description:deltatech_purchase_currency.field_purchase_order__journal_id
+msgid "Invoicing Journal"
+msgstr "Jurnal de facturare"
+
+#. module: deltatech_purchase_currency
+#: model:ir.model.fields,help:deltatech_purchase_currency.field_purchase_order__journal_id
+msgid ""
+"If set, the vendor bill is created in this journal and in its currency (the "
+"company currency when the journal has none); the order prices are converted "
+"at the bill date rate. If empty, the bill is in the order currency."
+msgstr ""
+"Dacă este completat, factura furnizorului se creează în acest jurnal și în "
+"moneda lui (moneda companiei, dacă jurnalul nu are monedă); prețurile din "
+"comandă se convertesc la cursul de la data facturii. Dacă este gol, factura "
+"este în moneda comenzii."
+
+#. module: deltatech_purchase_currency
+#: model:ir.model.fields,field_description:deltatech_purchase_currency.field_account_move__purchase_vendor_rate
+#: model:ir.model.fields,field_description:deltatech_purchase_currency.field_account_bank_statement_line__purchase_vendor_rate
+msgid "Vendor Rate"
+msgstr "Curs furnizor"
+
+#. module: deltatech_purchase_currency
+#: model:ir.model.fields,help:deltatech_purchase_currency.field_account_move__purchase_vendor_rate
+#: model:ir.model.fields,help:deltatech_purchase_currency.field_account_bank_statement_line__purchase_vendor_rate
+msgid ""
+"Exchange rate used for the order prices: bill currency for 1 unit of the "
+"order currency (e.g. 5.1 RON for 1 EUR). Filled in with the Odoo rate of the "
+"bill date; type the rate stated on the vendor invoice after setting the bill "
+"date."
+msgstr ""
+"Cursul de schimb folosit pentru prețurile din comandă: moneda facturii pentru "
+"1 unitate din moneda comenzii (de ex. 5,1 RON pentru 1 EUR). Se completează "
+"cu cursul din Odoo de la data facturii; introduceți cursul de pe factura "
+"furnizorului după ce setați data facturii."
+
+#. module: deltatech_purchase_currency
+#: model:ir.model.fields,field_description:deltatech_purchase_currency.field_account_move__purchase_source_currency_id
+#: model:ir.model.fields,field_description:deltatech_purchase_currency.field_account_bank_statement_line__purchase_source_currency_id
+msgid "Order Currency"
+msgstr "Moneda comenzii"
+
+#. module: deltatech_purchase_currency
+#: model:ir.model.fields,help:deltatech_purchase_currency.field_account_move__purchase_source_currency_id
+#: model:ir.model.fields,help:deltatech_purchase_currency.field_account_bank_statement_line__purchase_source_currency_id
+msgid ""
+"Currency of the purchase orders billed here, when it is a single one and "
+"differs from the bill currency."
+msgstr ""
+"Moneda comenzilor de achiziție facturate aici, când este una singură și "
+"diferă de moneda facturii."
+
+#. module: deltatech_purchase_currency
+#. odoo-python
+#: code:addons/deltatech_purchase_currency/models/account_move.py:0
+msgid "The vendor rate cannot be negative."
+msgstr "Cursul furnizorului nu poate fi negativ."
+
+#. module: deltatech_purchase_currency
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_currency.view_move_form
+msgid "per 1"
+msgstr "pentru 1"
+
+#. module: deltatech_purchase_currency
+#: model:ir.model.fields,field_description:deltatech_purchase_currency.field_account_move__purchase_odoo_rate
+#: model:ir.model.fields,field_description:deltatech_purchase_currency.field_account_bank_statement_line__purchase_odoo_rate
+msgid "Odoo Rate"
+msgstr "Curs Odoo"
+
+#. module: deltatech_purchase_currency
+#: model:ir.model.fields,help:deltatech_purchase_currency.field_account_move__purchase_odoo_rate
+#: model:ir.model.fields,help:deltatech_purchase_currency.field_account_bank_statement_line__purchase_odoo_rate
+msgid ""
+"Last rate filled in automatically in Vendor Rate; a different Vendor Rate "
+"was typed by hand."
+msgstr ""
+"Ultimul curs completat automat în Curs furnizor; un Curs furnizor diferit a "
+"fost introdus manual."
+
+#. module: deltatech_purchase_currency
+#. odoo-python
+#: code:addons/deltatech_purchase_currency/models/account_move.py:0
+msgid "Vendor rate replaced"
+msgstr "Cursul furnizorului a fost înlocuit"
+
+#. module: deltatech_purchase_currency
+#. odoo-python
+#: code:addons/deltatech_purchase_currency/models/account_move.py:0
+msgid ""
+"The vendor rate %(typed)s was replaced with the rate of %(date)s: %(rate)s "
+"%(currency)s for 1 %(order_currency)s. If the vendor invoice states another "
+"rate, type it again."
+msgstr ""
+"Cursul furnizorului %(typed)s a fost înlocuit cu cursul din %(date)s: "
+"%(rate)s %(currency)s pentru 1 %(order_currency)s. Dacă factura furnizorului "
+"are alt curs, introduceți-l din nou."
