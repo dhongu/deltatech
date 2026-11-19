@@ -99,13 +99,15 @@ de descriere și cantitate rămân ca în Odoo standard.
 
 Un clic pe iconița **Detalii** (ⓘ) la linia ferestrei deschide fereastra **Detalii configurație**:
 
-- numele fiecărui grup apare îngroșat (**Identitate**, **Dimensiuni**, **Profil**, **Culoare**,
-  **Părți**, **Schiță**, **Observații**);
-- valorile apar sub grup ca `cheie: valoare`, una lângă alta, pe coloane (de exemplu `Poziție: P1`
-  și `Încăpere: Dormitor` pe același rând); numerele se afișează la fel ca textele;
-- grupurile imbricate (părțile ferestrei) apar pe rânduri proprii: numele părții în stânga, valorile
-  ei (`x`, `y`, `Deschidere`) în dreapta;
-- un grup cu valoare text simplu apare pe un singur rând, `Observații: Glaf interior inclus`;
+- fiecare grup e un rând al unui tabel compact: numele grupului în stânga (**Identitate**,
+  **Dimensiuni**, **Profil**, **Culoare**, **Părți**, **Schiță**, **Observații**), valorile în
+  dreapta;
+- valorile apar ca `cheie: valoare`, una după alta pe același rând (de exemplu `Poziție: P1` și
+  `Încăpere: Dormitor`), și nu se rup la mijloc (`Sistem: Salamander BluEvolution 82` stă întreg);
+  numerele se afișează la fel ca textele;
+- grupurile imbricate (părțile ferestrei) au câte un rând compact: numele părții îngroșat, apoi
+  valorile ei (`x`, `y`, `Deschidere`);
+- un grup cu valoare text simplu are valoarea direct în dreapta (`Observații` — `Glaf interior inclus`);
 - codul intern `id` din grupul Identitate (WX-10452) nu apare.
 
 Fereastra e doar de citire. **Închide** revine la comandă, fără să modifice nimic.
@@ -113,13 +115,13 @@ Fereastra e doar de citire. **Închide** revine la comandă, fără să modifice
 Verificați aici, înainte de a confirma comanda, că dimensiunile, profilul, culoarea și părțile
 corespund cererii clientului.
 
-![Fereastra Detalii configurație a liniei Fereastră PVC 2 canate: grupurile îngroșate Identitate, Dimensiuni, Profil, Culoare, Părți, Schiță și Observații, evidențiate; valorile Poziție P1, Încăpere Dormitor, H 1400 și L 1200 mm, părțile Ușă dreapta și Ușă stânga cu x 600, y 1400 și deschiderea, schița ferestrei cu linkul Deschide imaginea și Observații Glaf interior inclus; butonul Închide jos](../static/description/02_popup_detalii_fereastra.png)
+![Fereastra Detalii configurație a liniei Fereastră PVC 2 canate: tabelul cu grupurile Identitate, Dimensiuni, Profil, Culoare, Părți, Schiță și Observații în stânga, evidențiate, și valorile pe același rând; valorile Poziție P1, Încăpere Dormitor, H 1400 și L 1200 mm, părțile Ușă dreapta și Ușă stânga cu x 600, y 1400 și deschiderea, schița ferestrei cu linkul Deschide imaginea și Observații Glaf interior inclus; butonul Închide jos](../static/description/02_popup_detalii_fereastra.png)
 
 ### Pasul 3 — Imaginile din detalii (schiță, machetă)
 
 La linia ușii de balcon, fereastra de detalii arată grupul **Machetă** cu două imagini: valoarea
-`src` ca imagine mare (200 px) și valoarea `image` ca imagine mică (100 px). Fiecare imagine are
-alături linkul **Deschide imaginea**, care o deschide la dimensiunea ei într-un tab nou al
+`src` ca imagine mare (200 px înălțime) și valoarea `image` ca imagine mică (100 px), ambele cu
+proporțiile păstrate. Sub fiecare imagine e linkul **Deschide imaginea**, care o deschide la dimensiunea ei într-un tab nou al
 browserului.
 
 ![Fereastra Detalii configurație a liniei Ușă balcon PVC: grupurile Identitate cu Poziție P2 și Încăpere Living, Dimensiuni H 2200 și L 900 mm, Profil, Culoare, Părți cu Ușă x 900 și y 2200, apoi grupul Machetă cu o imagine mare și una mică a ușii, evidențiate, fiecare cu linkul Deschide imaginea](../static/description/03_popup_detalii_imagini.png)
@@ -159,10 +161,10 @@ sau pe factură și nu ajung în e-Factura; un proiect care vrea să le tipărea
       fără configurație (servicii, transport) nu o au.
 - [ ] Iconița **Detalii** stă la capătul rândului, după **Sumă**; coloanele de descriere și
       cantitate arată ca în Odoo standard.
-- [ ] Un clic pe iconița **Detalii** deschide fereastra **Detalii configurație** cu grupurile îngroșate și
-      valorile `cheie: valoare`; **Închide** revine la comandă.
-- [ ] Grupurile imbricate (părțile) apar pe rânduri proprii, iar un grup cu text simplu apare pe un
-      rând, ca `nume: valoare`.
+- [ ] Un clic pe iconița **Detalii** deschide fereastra **Detalii configurație** cu un rând pe grup (numele
+      în stânga, valorile `cheie: valoare` în dreapta, neîntrerupte); **Închide** revine la comandă.
+- [ ] Grupurile imbricate (părțile) au câte un rând compact, iar un grup cu text simplu are textul
+      direct în dreapta numelui.
 - [ ] Codul intern `id` trimis de conector nu apare în fereastră.
 - [ ] Valorile numerice (dimensiunile) apar, la fel ca textele.
 - [ ] Imaginile (`image`, `src`) apar ca poze, fiecare cu linkul **Deschide imaginea**, care o

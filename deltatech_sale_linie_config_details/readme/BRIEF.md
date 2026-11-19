@@ -45,14 +45,16 @@ its content.
 1. A connector creates or updates the order with `config_details` on the lines.
 2. The salesperson opens the order; lines with details have a **Details** icon (ⓘ, the text is
    the tooltip), in a narrow column at the end of the row, after the amount.
-3. A click opens the *Config Details* popup: group names in bold, the values as `key: value`,
-   nested groups as rows (name on the left, values on the right), pictures with an *Open image* link; *Close* returns to the order.
+3. A click opens the *Config Details* popup: one table row per group, the name on the left,
+   the values as `key: value` on one line, never broken inside, nested groups on compact lines,
+   pictures (proportions kept) with an *Open image* link; *Close* returns to the order.
 
 ## Acceptance criteria
 
 - **CA1:** a line created with a list of groups keeps it unchanged (read back equal). *(test)*
-- **CA2:** in the popup, texts show as `key: value`, nested dictionaries as nested rows, and a
-  group with a plain text value shows as `name: value`; the `id` key never shows. *(test)*
+- **CA2:** in the popup, each group is one table row (name on the left); texts show as unbroken
+  `key: value` pieces, nested dictionaries as compact lines, a plain text value next to its group
+  name; the `id` key never shows. *(test)*
 - **CA3:** text from the data is escaped (`<script>` shows as text) and never evaluated. *(test)*
 - **CA4:** a line without details has no **Details** icon; malformed details (not a list of
   groups) open an empty popup, without error. *(test)*

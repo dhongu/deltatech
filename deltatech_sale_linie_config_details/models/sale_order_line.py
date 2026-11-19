@@ -4,7 +4,7 @@
 import ast
 import json
 
-from markupsafe import Markup, escape
+from markupsafe import Markup
 
 from odoo import fields, models
 
@@ -62,59 +62,68 @@ class SaleOrderLine(models.Model):
         return images
 
     def _config_details_html(self, items):
-        """Render a dictionary of details: texts as ``key: value``, dictionaries as nested rows."""
-        rows, images = [], []
+        """Render a dictionary of details, compact.
+
+        Texts and numbers go on one line, one after the other (``key: value``, never broken inside);
+        each nested dictionary gets its own line, its name first; pictures keep their proportions.
+        """
+        values, nested, images = [], [], []
         for key, val in items.items():
             if key in HIDDEN_KEYS:
                 continue
             if key in IMAGE_KEYS and val:
                 images.append(
                     Markup(
-                        "<img src='{url}' width='{size}' height='{size}'/> <a href='{url}' target='_blank'>{label}</a>"
-                    ).format(url=escape(val), size=IMAGE_KEYS[key], label=self.env._("Open image"))
+                        "<a href='{url}' target='_blank' class='d-inline-flex flex-column align-items-start'>"
+                        "<img src='{url}' height='{size}' style='height: {size}px; width: auto;' class='img-thumbnail' alt='{key}'/>"
+                        "<small>{label}</small></a>"
+                    ).format(url=val, size=IMAGE_KEYS[key], key=key, label=self.env._("Open image"))
                 )
             elif isinstance(val, dict):
-                rows.append(
-                    Markup("<div class='col-2'>{key}</div><div class='col-10'>{inner}</div>").format(
-                        key=escape(key), inner=self._config_details_html(val)
-                    )
+                nested.append(
+                    Markup(
+                        "<div class='d-flex flex-wrap column-gap-3'><span class='fw-semibold'>{key}</span>{inner}</div>"
+                    ).format(key=key, inner=self._config_details_html(val))
                 )
             elif isinstance(val, str | int | float) and not isinstance(val, bool) and val != "":
-                rows.append(
-                    Markup("<div class='col-2'><span>{key}: {val}</span></div>").format(
-                        key=escape(key), val=escape(val)
-                    )
-                )
-        html = Markup("<div class='row'>") + Markup("").join(rows) + Markup("</div>")
+                values.append(Markup("<span class='text-nowrap'>{key}: {val}</span>").format(key=key, val=val))
+        html = Markup("")
+        if values:
+            html += Markup("<div class='d-flex flex-wrap column-gap-4'>") + Markup("").join(values) + Markup("</div>")
+        html += Markup("").join(nested)
         if images:
-            html += Markup("<div class='row'><div class='col-12'>") + Markup(" ").join(images) + Markup("</div></div>")
+            html += Markup("<div class='d-flex flex-wrap gap-2 mt-1'>") + Markup("").join(images) + Markup("</div>")
         return html
 
     def get_html_config_details(self, with_attributes=False):
-        """HTML of the details. Everything coming from the data is escaped.
+        """HTML of the details: one table row per group, the group name on the left.
+
+        Everything coming from the data is escaped.
 
         :param with_attributes: also show the groups whose value is a plain text
         """
         self.ensure_one()
-        parts = []
+        rows = []
         for item in self._get_config_details():
             if "name" not in item and "value" not in item:
                 # a bare dictionary of details, without a group name
-                parts.append(Markup("<div>{inner}</div>").format(inner=self._config_details_html(item)))
-                continue
-            name, value = item.get("name"), item.get("value")
-            label = Markup("<strong>{name}:</strong> ").format(name=name) if name not in (None, "") else Markup("")
-            if isinstance(value, str) and with_attributes:
-                parts.append(Markup("<div>{label}{value}</div>").format(label=label, value=value))
-            elif isinstance(value, dict):
-                parts.append(
-                    Markup("<div>{label}</div><div>{inner}</div>").format(
-                        label=label, inner=self._config_details_html(value)
-                    )
+                name, inner = "", self._config_details_html(item)
+            else:
+                name, value = item.get("name") or "", item.get("value")
+                if isinstance(value, str) and with_attributes:
+                    inner = value
+                elif isinstance(value, dict):
+                    inner = self._config_details_html(value)
+                else:
+                    continue
+            rows.append(
+                Markup("<tr><th class='text-nowrap pe-3' width='1%'>{name}</th><td>{inner}</td></tr>").format(
+                    name=name, inner=inner
                 )
-        if not parts:
+            )
+        if not rows:
             return Markup("")
-        return Markup("<div>") + Markup("").join(parts) + Markup("</div>")
+        return Markup("<table class='table table-sm mb-0'><tbody>") + Markup("").join(rows) + Markup("</tbody></table>")
 
     def action_open_config_details(self):
         self.ensure_one()

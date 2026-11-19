@@ -40,8 +40,9 @@ Main features:
   line when the order is duplicated.
 - **Details** icon (ⓘ) in its own narrow column of the order lines,
   shown only on lines with details.
-- Popup with the groups of details: names in bold, values as
-  ``key: value``, nested groups, pictures with an *Open image* link.
+- Popup with the details as a compact table, one row per group: values
+  as ``key: value`` on one line, nested groups on compact lines,
+  pictures with an *Open image* link.
 - Safe: every text is escaped and nothing is ever evaluated as code.
 - Reads the formats written by older importers (a JSON text, or the text
   of a Python list) and converts the details of a database coming from
@@ -80,20 +81,22 @@ module has no settings and no menu of its own.
    amount; the Montaj tâmplărie line has no icon|
 
 2. Click the **Details** icon to open the read-only **Config Details**
-   popup: group names in bold, values as ``key: value`` (numbers are
-   shown like texts), nested groups on their own rows, and a group with
-   a plain text value on one row as ``name: value``. The ``id`` key is
-   never shown. **Close** returns to the order.
+   popup, a compact table with one row per group: the group name on the
+   left, the values on the right as ``key: value``, one after the other
+   and never broken inside (numbers are shown like texts); each nested
+   group gets a compact line of its own, and a group with a plain text
+   value shows the text on the right. The ``id`` key is never shown.
+   **Close** returns to the order.
 
-   |Config Details popup of the Fereastră PVC 2 canate line: the bold
-   groups Identitate, Dimensiuni, Profil, Culoare, Părți, Schiță and
-   Observații, highlighted; values such as Poziție P1, H 1400 and L 1200
-   mm, the nested parts with x, y and opening, the sketch with its Open
-   image link, and the Close button|
+   |Config Details popup of the Fereastră PVC 2 canate line: one table
+   row per group, Identitate, Dimensiuni, Profil, Culoare, Părți, Schiță
+   and Observații, highlighted; values such as Poziție P1, H 1400 and L
+   1200 mm, the nested parts with x, y and opening, the sketch with its
+   Open image link, and the Close button|
 
 3. Values under the keys ``image`` and ``src`` are shown as pictures
-   (``src`` larger), each with an **Open image** link that opens it in a
-   new browser tab.
+   that keep their proportions (``src`` larger), each with an **Open
+   image** link that opens it in a new browser tab.
 
    |Config Details popup of the Ușă balcon PVC line: the Machetă group
    with a large and a small picture of the door, highlighted, each with
@@ -112,7 +115,7 @@ can print them with ``get_html_config_details()`` and
 ``get_images_config_detail()`` (the ``image`` URLs of the groups).
 
 .. |Quotation for Casa Verde Residence SRL, Order Lines tab: the lines Fereastră PVC 2 canate and Ușă balcon PVC have the Details icon (ⓘ), highlighted, in a narrow column at the end of the row, after the amount; the Montaj tâmplărie line has no icon| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_sale_linie_config_details/static/description/en/01_comanda_buton_detalii.png
-.. |Config Details popup of the Fereastră PVC 2 canate line: the bold groups Identitate, Dimensiuni, Profil, Culoare, Părți, Schiță and Observații, highlighted; values such as Poziție P1, H 1400 and L 1200 mm, the nested parts with x, y and opening, the sketch with its Open image link, and the Close button| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_sale_linie_config_details/static/description/en/02_popup_detalii_fereastra.png
+.. |Config Details popup of the Fereastră PVC 2 canate line: one table row per group, Identitate, Dimensiuni, Profil, Culoare, Părți, Schiță and Observații, highlighted; values such as Poziție P1, H 1400 and L 1200 mm, the nested parts with x, y and opening, the sketch with its Open image link, and the Close button| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_sale_linie_config_details/static/description/en/02_popup_detalii_fereastra.png
 .. |Config Details popup of the Ușă balcon PVC line: the Machetă group with a large and a small picture of the door, highlighted, each with its Open image link| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_sale_linie_config_details/static/description/en/03_popup_detalii_imagini.png
 
 Changelog
@@ -133,8 +136,10 @@ Changelog
 - The **Details** button is an icon (ⓘ, text as tooltip) at the end of
   the line, after the amounts: between the description and the quantity
   it took width from those columns.
-- Pictures get a translatable *Open image* link; ``src`` pictures are
-  larger, as on 19.0.
+- The popup is a compact table, one row per group: values on one line,
+  never broken inside; nested groups on compact lines. Pictures keep
+  their proportions, with a translatable *Open image* link under them;
+  ``src`` pictures are larger, as on 19.0.
 - Upgrade from 19.0: the text column is converted to JSON before the
   update, instead of being dropped by Odoo.
 

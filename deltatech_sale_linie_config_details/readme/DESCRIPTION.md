@@ -11,7 +11,8 @@ Main features:
 - `config_details` on sale order lines, a JSON field copied with the line when the order is
   duplicated.
 - **Details** icon (ⓘ) in its own narrow column of the order lines, shown only on lines with details.
-- Popup with the groups of details: names in bold, values as `key: value`, nested groups,
+- Popup with the details as a compact table, one row per group: values as `key: value` on one
+  line, nested groups on compact lines,
   pictures with an *Open image* link.
 - Safe: every text is escaped and nothing is ever evaluated as code.
 - Reads the formats written by older importers (a JSON text, or the text of a Python list) and

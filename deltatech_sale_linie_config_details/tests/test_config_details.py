@@ -32,7 +32,7 @@ class TestConfigDetails(TransactionCase):
         return order.order_line
 
     def test_json_roundtrip_and_html(self):
-        """CA1, CA2: stored as JSON; the HTML shows texts and nested groups, never the ``id`` key."""
+        """CA1, CA2: stored as JSON; one table row per group, texts and nested groups, never the ``id`` key."""
         details = [
             {"name": "Identitate", "value": {"id": "SECRET-ID", "pozitie": "1"}},
             {"name": "Parti", "value": {"Usa": {"x": "900", "y": "2100"}}},
@@ -41,9 +41,18 @@ class TestConfigDetails(TransactionCase):
         line = self.line(details)
         self.assertEqual(line.config_details, details)
         html = str(line.get_html_config_details(with_attributes=True))
-        for expected in ("pozitie: 1", "Usa", "x: 900", "Amplasare:", "Dormitor"):
+        for expected in (
+            "pozitie: 1",
+            "Usa",
+            "x: 900",
+            "<th class='text-nowrap pe-3' width='1%'>Amplasare</th>",
+            "Dormitor",
+        ):
             self.assertIn(expected, html)
         self.assertNotIn("SECRET-ID", html)
+        self.assertEqual(html.count("<tr>"), 3)  # one row per group
+        # values are never broken inside: each ``key: value`` is one unbreakable piece
+        self.assertIn("<span class='text-nowrap'>x: 900</span>", html)
         self.assertNotIn("Dormitor", str(line.get_html_config_details()))  # plain text only with attributes
 
     def test_no_eval_and_escaping(self):
@@ -64,8 +73,10 @@ class TestConfigDetails(TransactionCase):
         line = self.line([{"name": "Img", "value": {"image": "/web/image/1", "src": "/web/image/2", "x": "1"}}])
         self.assertEqual(line.get_images_config_detail(), ["/web/image/1"])
         html = str(line.get_html_config_details())
-        self.assertIn("<img src='/web/image/1' width='100'", html)
-        self.assertIn("<img src='/web/image/2' width='200'", html)
+        # only the height is set: the picture keeps its proportions
+        self.assertIn("<img src='/web/image/1' height='100'", html)
+        self.assertIn("<img src='/web/image/2' height='200'", html)
+        self.assertNotIn("width='100'", html)
         self.assertIn("Open image", html)
 
     def test_open_details(self):

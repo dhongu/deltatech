@@ -148,7 +148,7 @@ class TestConfigDetailsScreenshots(AccountTestInvoicingCommon, ScreenshotCase or
                 "wait": ".o_form_view .o_data_row",
                 "click_btn": DETAILS_BUTTON % 1,
                 "wait_after": ".modal .o_form_view",
-                "highlight": [".modal strong"],
+                "highlight": [".modal .o_field_html th"],
                 "settle": 2000,
             },
             # 3. fereastra de detalii a ușii de balcon: imaginile și linkul de deschidere (CA5)
