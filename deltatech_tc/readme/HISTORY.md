@@ -28,7 +28,7 @@
   failed after the retry limit. `pg_rows()` returns the rows of a page. Pages are retry-safe.
 - Heartbeat: the agent name (`agent`) and the installed queries (`pg_profiles`) are stored on
   the station (**Agent**, **PostgreSQL queries**). `_tc_find(feature)` returns the company's
-  active station announcing a feature (whole element, e.g. `pg:winarhi`);
+  active station announcing a feature (whole element, e.g. `pg:erp`);
   `_tc_has_pg_query(profile, query)` checks an installed query.
 - Daily cleanup: finished `pg_query` pages are deleted after 3 days
   (`deltatech_tc.pg_done_ttl_days`).
