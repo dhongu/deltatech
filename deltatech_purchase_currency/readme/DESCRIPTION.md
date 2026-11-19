@@ -1,0 +1,24 @@
+Bill a purchase order in another currency than the order currency, chosen through an
+**Invoicing Journal** set on the order — the purchase counterpart of *Sale Invoice Currency*
+(`deltatech_sale_currency`).
+
+Typical case: a Romanian supplier quotes and confirms the order in EUR, but issues the vendor
+bill in RON at the exchange rate of the bill date.
+
+- **Invoicing Journal on the purchase order** (*Other Information* tab): the vendor bill is
+  created in this journal and in its currency — the company currency when the journal has none.
+  Without a journal the bill stays in the order currency, as in standard Odoo, so foreign
+  suppliers are not affected.
+- **Price conversion**: the order unit prices are converted to the bill currency at today's
+  rate when the bill is created, and again at the rate of the *Bill Date* when it is set or
+  changed. The price is first brought to the unit of measure of the bill line.
+- **Vendor Rate** on the vendor bill: filled in with the Odoo (BNR) rate of the bill date, as
+  bill currency for 1 unit of the order currency (e.g. 5.0912 RON for 1 EUR). When the supplier
+  invoice states another rate, type it there and the order prices are converted at it. Changing
+  the bill date brings the Odoo rate of the new date back, with a warning when it replaces a
+  rate typed by hand. Shown only when the bill lines come from orders in one other currency.
+- **Auto-Complete** on a new vendor bill takes the order journal and currency.
+- **Extension points**: `account.move._get_purchase_odoo_rate()` gives the rate filled in
+  *Vendor Rate* (override it for another default rate, for example the BNR rate plus a percentage
+  agreed with the supplier); `purchase.order.line._get_invoice_price_unit()` converts the order
+  price (unit of measure and rate) and always applies the rate it receives.

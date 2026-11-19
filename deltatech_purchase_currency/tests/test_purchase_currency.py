@@ -1,0 +1,193 @@
+# © 2026 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+from freezegun import freeze_time
+
+from odoo import Command, fields
+from odoo.exceptions import ValidationError
+from odoo.tests import Form, tagged
+from odoo.tools import mute_logger
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+
+
+@freeze_time("2026-11-19")
+@tagged("post_install", "-at_install")
+class TestPurchaseCurrency(AccountTestInvoicingCommon):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company = cls.company_data["company"]
+        # 1 company currency = 0.2 EUR from January, 0.25 EUR from November
+        cls.eur = cls.setup_other_currency("EUR", rates=[("2026-01-01", 0.2), ("2026-11-01", 0.25)])
+        cls.journal_company = cls.company_data["default_journal_purchase"]
+        cls.journal_company.currency_id = False
+        cls.journal_eur = cls.env["account.journal"].create(
+            {
+                "name": "Vendor Bills EUR",
+                "code": "BEUR",
+                "type": "purchase",
+                "currency_id": cls.eur.id,
+                "company_id": cls.company.id,
+            }
+        )
+        cls.product = cls.env["product.product"].create(
+            {
+                "name": "Profile",
+                "type": "consu",
+                "purchase_method": "purchase",
+                "standard_price": 10.0,
+                "supplier_taxes_id": [Command.clear()],
+            }
+        )
+        cls.uom_unit = cls.env.ref("uom.product_uom_unit")
+        cls.uom_dozen = cls.env.ref("uom.product_uom_dozen")
+
+    def _create_po(self, journal=None, price=100.0, currency=None):
+        po = self.env["purchase.order"].create(
+            {
+                "partner_id": self.partner_a.id,
+                "currency_id": (currency or self.eur).id,
+                "journal_id": journal.id if journal else False,
+                "order_line": [
+                    Command.create(
+                        {
+                            "product_id": self.product.id,
+                            "product_qty": 1.0,
+                            "product_uom_id": self.uom_unit.id,
+                            "price_unit": price,
+                            "tax_ids": [Command.clear()],
+                        }
+                    )
+                ],
+            }
+        )
+        po.button_confirm()
+        return po
+
+    def _create_bill(self, po):
+        po.action_create_invoice()
+        return po.invoice_ids
+
+    def test_ca1_bill_in_journal_currency(self):
+        """CA1: EUR order with a journal without currency is billed in the company currency."""
+        po = self._create_po(self.journal_company)
+        bill = self._create_bill(po)
+        self.assertEqual(bill.currency_id, self.company.currency_id)
+        self.assertEqual(bill.journal_id, self.journal_company)
+        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 400.0)  # 100 / 0.25
+
+    def test_ca2_bill_date_rate(self):
+        """CA2: changing the bill date converts the order price at that date's rate."""
+        bill = self._create_bill(self._create_po(self.journal_company))
+        with Form(bill) as form:
+            form.invoice_date = fields.Date.to_date("2026-03-01")
+        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 500.0)  # 100 / 0.2
+
+    def test_ca3_no_journal_keeps_order_currency(self):
+        """CA3: without an invoicing journal the bill stays in the order currency."""
+        bill = self._create_bill(self._create_po())
+        self.assertEqual(bill.currency_id, self.eur)
+        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 100.0)
+        with Form(bill) as form:
+            form.invoice_date = fields.Date.to_date("2026-03-01")
+        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 100.0)
+
+    def test_ca4_eur_journal(self):
+        """CA4: with a journal in EUR the bill is in EUR, on that journal."""
+        bill = self._create_bill(self._create_po(self.journal_eur))
+        self.assertEqual(bill.currency_id, self.eur)
+        self.assertEqual(bill.journal_id, self.journal_eur)
+        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 100.0)
+
+    def test_ca5_bill_line_uom(self):
+        """CA5: the order price is brought to the bill line unit, then converted."""
+        bill = self._create_bill(self._create_po(self.journal_company, price=10.0))
+        with Form(bill) as form:
+            with form.invoice_line_ids.edit(0) as line:
+                line.product_uom_id = self.uom_dozen
+            form.invoice_date = fields.Date.to_date("2026-03-01")
+        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 600.0)  # 10 * 12 / 0.2
+
+    def test_ca7_auto_complete(self):
+        """CA7: a new bill auto-completed from the order takes its journal and currency."""
+        po = self._create_po(self.journal_company)
+        form = Form(self.env["account.move"].with_context(default_move_type="in_invoice"))
+        form.partner_id = self.partner_a
+        form.invoice_date = fields.Date.to_date("2026-03-01")
+        with mute_logger("odoo.tests.form.onchange"):
+            form.purchase_vendor_bill_id = self.env["purchase.bill.union"].browse(-po.id)
+        bill = form.save()
+        self.assertEqual(bill.currency_id, self.company.currency_id)
+        self.assertEqual(bill.journal_id, self.journal_company)
+        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 500.0)
+
+    def test_ca8_vendor_rate_visibility(self):
+        """CA8: the vendor rate applies only to bills of one order currency other than the bill's."""
+        bill = self._create_bill(self._create_po(self.journal_company))
+        self.assertEqual(bill.purchase_source_currency_id, self.eur)
+        bill_eur = self._create_bill(self._create_po())
+        self.assertFalse(bill_eur.purchase_source_currency_id)
+        cad = self.setup_other_currency("CAD", rates=[("2026-01-01", 1.5)])
+        po_cad = self._create_po(self.journal_company, currency=cad)
+        with Form(bill) as form, mute_logger("odoo.tests.form.onchange"):
+            form.purchase_vendor_bill_id = self.env["purchase.bill.union"].browse(-po_cad.id)
+        self.assertFalse(bill.purchase_source_currency_id)
+
+    def test_ca9_vendor_rate_converts(self):
+        """CA9: the vendor rate converts the order price, in the bill line unit."""
+        bill = self._create_bill(self._create_po(self.journal_company))
+        with Form(bill) as form:
+            form.purchase_vendor_rate = 5.1
+        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 510.0)
+        with Form(bill) as form:
+            with form.invoice_line_ids.edit(0) as line:
+                line.product_uom_id = self.uom_dozen
+            form.purchase_vendor_rate = 5.2
+        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 6240.0)  # 100 * 12 * 5.2
+
+    def test_ca10_bill_date_resets_rate(self):
+        """CA10: the bill date sets the Odoo rate of the new date; clearing the rate puts it back."""
+        bill = self._create_bill(self._create_po(self.journal_company))
+        with Form(bill) as form:
+            form.invoice_date = fields.Date.to_date("2026-03-01")
+        self.assertAlmostEqual(bill.purchase_vendor_rate, 5.0)  # 1 / 0.2
+        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 500.0)
+        with Form(bill) as form:
+            form.purchase_vendor_rate = 5.1
+        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 510.0)
+        with Form(bill) as form:
+            form.purchase_vendor_rate = 0.0
+        self.assertAlmostEqual(bill.purchase_vendor_rate, 5.0)
+        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 500.0)
+
+    def test_ca13_rate_filled_in(self):
+        """CA13: a bill created from the order shows the Odoo rate, matching the prices."""
+        bill = self._create_bill(self._create_po(self.journal_company))
+        self.assertAlmostEqual(bill.purchase_vendor_rate, 4.0)  # 1 / 0.25
+        self.assertAlmostEqual(bill.purchase_odoo_rate, 4.0)
+        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 400.0)
+        bill_eur = self._create_bill(self._create_po())
+        self.assertFalse(bill_eur.purchase_vendor_rate)
+
+    def test_ca14_typed_rate_replaced_warning(self):
+        """CA14: a typed rate replaced by the bill date gives a warning; an automatic one does not."""
+        bill = self._create_bill(self._create_po(self.journal_company))
+        with Form(bill) as form:
+            form.purchase_vendor_rate = 5.1
+            with self.assertLogs("odoo.tests.form.onchange", level="WARNING") as logs:
+                form.invoice_date = fields.Date.to_date("2026-03-01")
+        self.assertIn("5.1", "\n".join(logs.output))
+        self.assertAlmostEqual(bill.purchase_vendor_rate, 5.0)
+        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 500.0)
+        with Form(bill) as form, self.assertNoLogs("odoo.tests.form.onchange", level="WARNING"):
+            form.invoice_date = fields.Date.to_date("2026-11-19")
+        self.assertAlmostEqual(bill.purchase_vendor_rate, 4.0)
+
+    def test_ca12_negative_vendor_rate(self):
+        """CA12: a negative vendor rate is refused."""
+        bill = self._create_bill(self._create_po(self.journal_company))
+        with self.assertRaises(ValidationError):
+            bill.purchase_vendor_rate = -1.0
+            bill.flush_recordset()
