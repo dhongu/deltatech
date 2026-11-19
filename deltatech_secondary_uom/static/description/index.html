@@ -65,10 +65,62 @@ an input/information helper, it never affects pricing, invoicing or stock
 valuation.</p>
 <p>Unlike creating dedicated UoM records per product, this approach keeps the
 global UoM table clean and does not affect standard reports, stock valuation
-or any code reading <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom.factor</code> directly in SQL.</p>
+or any code reading <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom.factor</code> directly in SQL. The other side of this
+choice is that prices, received quantities, stock and manufacturing stay in
+the base unit: see <em>Use Cases / Context</em> for the limitations and for the
+standard alternative when the alternative unit must be a real unit.</p>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;"><span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">Limitations</span></h2>
+<p>The secondary quantity is an input and information helper on the line. The
+document itself stays in the line unit (usually the product base unit), so the
+alternative unit does not reach:</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-tag" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Prices.</span><div>The unit price stays per line unit. A vendor price of 120 per
+  bar of 6 m must be entered as 20 per m, and the vendor pricelist cannot be
+  expressed in bars. When the factor does not divide the price exactly
+  (125 / 6 = 20.8333), the vendor bill and the received e-Invoice (in bars)
+  can differ by rounding.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-cubes" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Received quantity.</span><div>On the receipt, the secondary column shows the
+  demand, computed from the ordered quantity, not the quantity actually
+  received. A short delivery of 8 bars out of 10 is entered as 48 m. Detailed
+  operations and the Barcode app have no secondary unit.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-cubes" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Stock.</span><div>Stock and stock reports are only in the base unit; the quantity
+  on hand is never shown in bars.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-industry" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Manufacturing.</span><div>The module does not depend on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">mrp</code>: bills of materials
+  and manufacturing orders have no secondary unit, and the consumption is in
+  the base unit. Cutting, offcuts and bar remnants are not handled.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Rounding.</span><div>A quantity entered in the secondary unit is rounded <strong>up</strong> to
+  a whole base unit. This fits pieces, not metres or kilograms: with
+  1 bar = 5.8 m, 3 bars become 18 m instead of 17.4 m, and the line then shows
+  3.103 bars.</div></div></div></li></ul>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Do not use the alternative unit as the line <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">unit</span></h2>
+<p>The conversion factor lives only in this module. If the generic unit (e.g.
+&#8220;Bar&#8221;) is added to the product packagings, to a bill of materials line or to
+a vendor pricelist line, Odoo converts it with the <strong>global</strong> factor of the
+unit, not with the product factor, and no error is raised.</p>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">When the bar must be a real <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">unit</span></h2>
+<p>When the price, the receipt or the bill of materials must be in the
+alternative unit, use a real unit of measure per factor instead of this
+module, with standard Odoo:</p>
+<ol>
+<li>Create one unit per distinct factor, with the base unit as reference unit:
+   &#8220;Bar 6 m&#8221; (reference unit <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">m</code>, ratio 6), &#8220;Bar 5 m&#8221; (reference unit <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">m</code>,
+   ratio 5). Products with the same bar length share the same unit.</li>
+<li>Add the unit to the <em>Packagings</em> of each product (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom_ids</code>).</li>
+<li>Map the UNECE code of each such unit (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_uom_unece</code>), otherwise
+   e-Invoicing declares <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">C62</code> (piece).</li>
+<li>To keep the order unit on receipts and deliveries, enable the system
+   parameter <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">stock.propagate_uom</code>; it applies to all products.</li>
+</ol>
+<p>Overriding <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom.uom._compute_quantity</code> with the product in the context is not
+enough to obtain the same result: stock valuation at receipt
+(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase_stock</code>), the purchase price, the sale, purchase and invoice SQL
+reports and the product catalog in JS use <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom.factor</code> directly.</p>
+<p>Generating these units automatically from the product factor lines is a
+possible future evolution of this module.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.2.2 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-19)</span></h2>
+<ul>
+<li>Documented the limitations of the secondary unit (prices, received
+  quantities, stock, manufacturing, rounding) and the standard alternative of
+  one real unit per factor ("Bar 6 m").</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.2.1 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-10-09)</span></h2>
 <ul>
 <li>Apps Store banner (banner.json).</li>

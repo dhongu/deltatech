@@ -29,6 +29,20 @@ Review date: 2026-10-01. Target version: Odoo 19.
 - **Suggested fix:** Define whether conversion ratios are live or document snapshots. For live ratios, invalidate stored quantities on relevant conversion changes; for snapshots, store the applied ratio on each line and use it consistently for forward and inverse edits.
 - **Validation needed:** Edit conversion base_qty/uom_qty, add/remove a conversion, and edit secondary quantity afterward on sale, purchase and stock lines; explicitly verify the intended behavior for historical documents.
 
+## SECONDARY-002 — P2: Secondary quantity rounded up to a whole base unit
+
+- **Status:** Open, issue dhongu/deltatech#4242 (2026-11-19).
+- **Location:** models/secondary_uom_mixin.py, `_inverse_secondary_uom_qty`.
+- **Trigger:** Product in `m` with `1 Bar = 5.8 m`; enter 3 Bar on a sale or
+  purchase line or on a stock move.
+- **Actual behavior:** The base quantity is rounded up with
+  `precision_rounding=1.0`: the line gets 18 m instead of 17.4 m and the
+  secondary quantity is recomputed to 3.103 Bar.
+- **Impact:** Every product with a continuous base unit (m, kg, m²) and a
+  non-integer factor is ordered, delivered or received in excess.
+- **Suggested fix:** Round up to a whole unit only when the base unit is
+  piece-like; otherwise round with the `Product Unit` precision.
+
 ## Review limitations
 
 Findings are based on local source inspection and the isolated reproductions stated above. No database-backed integration tests were run. SECONDARY-001 was fixed and verified with database tests on 2026-10-01.

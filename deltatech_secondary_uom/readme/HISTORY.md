@@ -1,3 +1,9 @@
+## 20.0.1.2.2 (2026-11-19)
+
+- Documented the limitations of the secondary unit (prices, received
+  quantities, stock, manufacturing, rounding) and the standard alternative of
+  one real unit per factor ("Bar 6 m").
+
 ## 20.0.1.2.1 (2026-10-09)
 
 - Apps Store banner (banner.json).

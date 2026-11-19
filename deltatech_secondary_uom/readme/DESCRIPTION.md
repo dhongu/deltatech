@@ -20,4 +20,7 @@ valuation.
 
 Unlike creating dedicated UoM records per product, this approach keeps the
 global UoM table clean and does not affect standard reports, stock valuation
-or any code reading `uom.factor` directly in SQL.
+or any code reading `uom.factor` directly in SQL. The other side of this
+choice is that prices, received quantities, stock and manufacturing stay in
+the base unit: see *Use Cases / Context* for the limitations and for the
+standard alternative when the alternative unit must be a real unit.
