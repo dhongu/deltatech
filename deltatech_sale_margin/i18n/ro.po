@@ -1,24 +1,46 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_sale_margin
+#
 msgid ""
-msgstr "Content-Type: text/plain; charset=UTF-8\n"
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-19 06:41+0000\n"
+"PO-Revision-Date: 2026-11-19 06:41+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
 
+#. module: deltatech_sale_margin
 msgid "Can Change Price"
 msgstr "Poate modifica prețul"
 
+#. module: deltatech_sale_margin
 msgid "Check price in sale order, cost price on invoices and profit report"
 msgstr "Verificarea prețului în comanda de vânzare, prețul de achiziție pe facturi și raportul de profit"
 
+#. module: deltatech_sale_margin
 msgid "Check the price only when the order is confirmed, instead of on every change of a line."
 msgstr "Verifică prețul doar la confirmarea comenzii, nu la fiecare modificare a unei linii."
 
+#. module: deltatech_sale_margin
 msgid "Price Warning Message"
 msgstr "Mesaj de avertizare preț"
 
+#. module: deltatech_sale_margin
 msgid "Sale Margin & Profit"
 msgstr "Marjă și profit la vânzare"
 
+#. module: deltatech_sale_margin
 msgid "The margin of this line is under the configured margin limit."
 msgstr "Marja acestei linii este sub limita de marjă configurată."
 
+#. module: deltatech_sale_margin
 msgid "You are not allowed to change the price or the discount on sale order lines."
 msgstr "Nu aveți dreptul să modificați prețul sau discountul pe liniile comenzii de vânzare."
 

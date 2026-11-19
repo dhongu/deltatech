@@ -1,9 +1,26 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_sale_commission
+#
 msgid ""
-msgstr "Content-Type: text/plain; charset=UTF-8\n"
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-19 06:41+0000\n"
+"PO-Revision-Date: 2026-11-19 06:41+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
 
+#. module: deltatech_sale_commission
 msgid "Salesperson commissions on the profit report of the invoices"
 msgstr "Comisioanele agenților de vânzări pe raportul de profit al facturilor"
 
+#. module: deltatech_sale_commission
 msgid "The journal %(journal)s belongs to %(journal_company)s, but the commission rate is set on %(company)s. The margin report would ignore this rate."
 msgstr "Jurnalul %(journal)s aparține companiei %(journal_company)s, dar rata comisionului este setată pe %(company)s. Raportul de marjă ar ignora această rată."
 
