@@ -17,7 +17,6 @@
                         name="purchase_vendor_rate"
                         class="oe_inline"
                         readonly="state != 'draft'"
-                        placeholder="Odoo rate of the bill date"
                     />
                     <span class="text-muted text-nowrap">
                         <field name="currency_id" readonly="1" class="oe_inline" options="{'no_open': True}" />

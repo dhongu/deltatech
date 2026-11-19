@@ -96,10 +96,5 @@ msgstr "Cursul furnizorului nu poate fi negativ."
 
 #. module: deltatech_purchase_currency
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_currency.view_move_form
-msgid "Odoo rate of the bill date"
-msgstr "Cursul din Odoo la data facturii"
-
-#. module: deltatech_purchase_currency
-#: model_terms:ir.ui.view,arch_db:deltatech_purchase_currency.view_move_form
 msgid "per 1"
 msgstr "pentru 1"
