@@ -42,20 +42,23 @@ accountant creates and checks the vendor bill (group *Invoicing*).
 2. On the *Other Info* tab they set *Invoicing Journal* to a purchase journal without currency
    (the RON vendor bills journal).
 3. He confirms the order; the goods are received.
-4. *Create Bill*: the bill is in RON, on that journal, with the EUR prices converted at today's
-   rate.
+4. *Create Bills* (purchase order list, order selected) or *Upload Bill* (order form, with the
+   supplier PDF) — Odoo 20 has no *Create Bill* button on the order form: the bill is in RON, on
+   that journal, with the EUR prices converted at today's rate (in Odoo 20, the last rate dated
+   before today).
 5. The accountant sets the *Bill Date* from the supplier invoice: the prices are converted
    again, at the rate of that date.
 
 ## Acceptance criteria
 
 - **CA1:** EUR purchase order with *Invoicing Journal* = a journal without currency → *Create
-  Bill* → the bill is in the company currency, on that journal, and the unit price is the EUR
+  Bills* → the bill is in the company currency, on that journal, and the unit price is the EUR
   price converted at today's rate.
 - **CA2:** On that draft bill, setting *Bill Date* to an earlier date → the unit price becomes
   the EUR price converted at the rate of that date.
 - **CA3:** EUR purchase order without *Invoicing Journal* → the bill stays in EUR with the order
-  price (standard behaviour, foreign suppliers unaffected).
+  price (standard behaviour, foreign suppliers unaffected; the journal is the one standard Odoo
+  picks for the currency).
 - **CA4:** EUR purchase order with *Invoicing Journal* = a journal in EUR → the bill is in EUR,
   on that journal, with the order price.
 - **CA5:** The bill line in another unit of measure than the order line (Dozens vs Units) →
@@ -74,8 +77,9 @@ accountant creates and checks the vendor bill (group *Invoicing*).
   as in `deltatech_sale_currency` (the bill date drives the rate).
 - Bill date change on a bill in the same currency as the order → prices are left untouched
   (manual corrections on EUR bills are kept).
-- Several orders on one bill: native grouping is by partner and bill currency, so RON bills of
-  EUR orders are grouped.
+- Several orders on one bill: native grouping is by partner and bill currency, not by journal,
+  so orders with different journals but the same bill currency end up on one bill, in the journal
+  of the first order (documented; bill them one by one to keep the journals apart).
 
 ## Decisions taken
 

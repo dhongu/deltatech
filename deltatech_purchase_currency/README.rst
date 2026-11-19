@@ -16,8 +16,11 @@ Purchase Invoice Currency
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_purchase_currency
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_purchase_currency/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_fisa|
 
 Bill a purchase order in another currency than the order currency,
 chosen through an **Invoicing Journal** set on the order — the purchase
@@ -52,16 +55,83 @@ but issues the vendor bill in RON at the exchange rate of the bill date.
 Usage
 =====
 
-1. Create a purchase order in EUR for a supplier who bills in RON.
-2. On the **Other Info** tab, set **Invoicing Journal** to the vendor
-   bills journal without currency.
-3. Confirm the order and click **Create Bill**: the bill is in RON, with
-   the EUR prices converted at today's rate.
+1. Create a purchase order in EUR for a supplier who bills in RON
+   (**Purchase → Orders → Purchase Orders**). On the **Other Info** tab,
+   set **Invoicing Journal** to the vendor bills journal without
+   currency, then confirm the order.
+
+   |Purchase order in EUR with the Invoicing Journal set on the Other
+   Info tab|
+
+2. In the purchase order list, select the order and click **Create
+   Bills** (or use **Upload Bill** on the order form with the supplier
+   PDF).
+
+   |Purchase order list with the order selected and the Create Bills
+   button|
+
+3. The bill is in RON, on the order journal, with the EUR prices
+   converted at today's rate (Odoo 20 uses the last rate dated before
+   the day).
+
+   |Draft bill in RON on the order journal, with the converted price|
+
 4. Set the **Bill Date** from the supplier invoice: the prices are
-   converted again, at the rate of that date.
+   converted again from the order price, at the rate of that date.
+   Changing the bill **Currency** converts them again too, and price
+   changes made by hand on order lines are lost, so correct prices after
+   the date is final.
+
+   |Draft bill with the Bill Date set and the price converted at that
+   date's rate|
 
 Leave **Invoicing Journal** empty for suppliers who bill in the order
-currency.
+currency: the bill stays in EUR with the order price, as in standard
+Odoo.
+
+|Bill in EUR for an order without invoicing journal|
+
+With a journal in EUR on the order, the bill is created in that journal,
+in EUR, with the order price.
+
+|Bill in EUR on the journal chosen on the order|
+
+If the bill line is in another unit of measure than the order line (e.g.
+Dozens instead of Units), the order price is first brought to that unit,
+then converted. Change the Unit before setting the Bill Date, or set the
+date again after changing it.
+
+|Bill line in Dozens with the price brought to the dozen and converted|
+
+The optional **Purchase Order** column of the bill lines compares the
+bill price with the order price converted to the bill currency:
+converted lines show only the order, a price changed by hand shows the
+difference.
+
+|Purchase Order column: no flag on the converted line, an up arrow with
+the converted order price on the line changed by hand|
+
+A new vendor bill completed from the order with **Auto-Complete** takes
+the order invoicing journal and currency, with the converted prices.
+
+|New vendor bill auto-completed from the order, in RON on the order
+journal|
+
+When several orders of the same vendor are billed together from the
+list, Odoo groups them by vendor and bill currency, not by journal:
+orders with different journals but the same bill currency end up on one
+bill, in the journal of the first order. Bill them one by one to keep
+the journals apart.
+
+.. |Purchase order in EUR with the Invoicing Journal set on the Other Info tab| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_purchase_currency/static/description/en/01_comanda_jurnal_facturare.png
+.. |Purchase order list with the order selected and the Create Bills button| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_purchase_currency/static/description/en/02_creare_factura_din_lista.png
+.. |Draft bill in RON on the order journal, with the converted price| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_purchase_currency/static/description/en/03_factura_lei_curs_azi.png
+.. |Draft bill with the Bill Date set and the price converted at that date's rate| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_purchase_currency/static/description/en/04_factura_data_reconversie.png
+.. |Bill in EUR for an order without invoicing journal| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_purchase_currency/static/description/en/05_factura_fara_jurnal_eur.png
+.. |Bill in EUR on the journal chosen on the order| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_purchase_currency/static/description/en/06_factura_jurnal_eur.png
+.. |Bill line in Dozens with the price brought to the dozen and converted| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_purchase_currency/static/description/en/07_factura_unitate_duzina.png
+.. |Purchase Order column: no flag on the converted line, an up arrow with the converted order price on the line changed by hand| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_purchase_currency/static/description/en/08_indicator_potrivire_pret.png
+.. |New vendor bill auto-completed from the order, in RON on the order journal| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_purchase_currency/static/description/en/09_factura_completare_automata.png
 
 Changelog
 =========
