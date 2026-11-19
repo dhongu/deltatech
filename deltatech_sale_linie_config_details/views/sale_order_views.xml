@@ -10,7 +10,7 @@
                  quantity takes width from them; icon only, the text is the tooltip -->
             <xpath expr="//field[@name='order_line']//list/widget[@name='section_state']" position="before">
                 <field name="config_details" column_invisible="1" />
-                <button name="action_open_config_details" type="object" icon="fa-info-circle"
+                <button name="action_open_config_details" type="object" icon="info"
                         title="Details" width="40px" invisible="not config_details" />
             </xpath>
         </field>

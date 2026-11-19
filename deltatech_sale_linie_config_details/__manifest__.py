@@ -4,7 +4,7 @@
 {
     "name": "Sale Line Configuration Details",
     "summary": "Structured configuration details (dimensions, parts, images) on sale order lines",
-    "version": "20.0.1.1.0",
+    "version": "20.0.1.1.1",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
