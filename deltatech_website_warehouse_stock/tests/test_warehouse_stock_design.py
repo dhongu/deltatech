@@ -115,8 +115,8 @@ class TestWarehouseStockDesign(HttpCase):
         self.website.write({"warehouse_stock_style": "list", "warehouse_stock_zero_message": "on_order"})
         html = self._page()
         self.assertIn("o_wh_stock_list", html)
-        self.assertIn("fa-check-circle", html)
-        self.assertIn("fa-clock-o", html)
+        self.assertIn('data-icon="check_circle"', html)
+        self.assertIn('data-icon="schedule"', html)
 
     def test_render_card(self):
         self.website.write(
@@ -128,7 +128,7 @@ class TestWarehouseStockDesign(HttpCase):
         )
         html = self._page()
         self.assertIn("o_wh_stock_card", html)
-        self.assertIn("fa-map-marker", html)
+        self.assertIn('data-icon="location_on"', html)
         self.assertIn("Delivery in 3-5 days", html)
 
     def test_render_selector(self):

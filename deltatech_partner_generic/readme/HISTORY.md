@@ -1,3 +1,8 @@
+## 20.0.2.0.5 (2026-11-19)
+
+- The company-specific marker of the *Generic partner* setting is drawn with the Material
+  Symbols icon (`business`); the Font Awesome class no longer has a style in Odoo 20.
+
 ## 20.0.2.0.4 (2026-11-06)
 
 - Port of 19.0.2.0.4: a new payment for the generic partner proposes an allowed journal

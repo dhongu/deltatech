@@ -16,7 +16,7 @@
                         <option value="uniform" t-att-selected="this.state.method === 'uniform'">Uniform background</option>
                         <option value="rembg" t-att-selected="this.state.method === 'rembg'" t-att-disabled="!this.state.rembg">AI model</option>
                     </select>
-                    <i t-if="this.state.loading" class="fa fa-spinner fa-spin" role="img" title="Loading" />
+                    <i t-if="this.state.loading" class="oi oi-spin" data-icon="autorenew" role="img" title="Loading" />
                 </div>
                 <div class="row g-3">
                     <div class="col-6">
