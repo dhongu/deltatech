@@ -101,8 +101,10 @@ lives in `%ProgramData%\Terrabit\tc-postgresql\`:
 - `station.conf` downloaded from the station (or `[odoo]` in `config.toml`);
 - `config.toml`: one `[profiles.<name>]` per database (host, database, a **read-only**
   user, timeouts, page limits); passwords encrypted with
-  `tc-postgresql secret set <profile>` (Windows DPAPI);
-- `queries\<profile>\*.sql`: the named queries, delivered with the customer's module.
+  `tc-postgresql secret set <profile>` (Windows DPAPI). `allow_sql = true` lets Odoo send
+  SQL for the profile (feature `pg_sql:<profile>`): give that database user `SELECT` only,
+  only on the schema or tables Odoo needs — its grants are what Odoo can read;
+- `queries\<profile>\*.sql` (optional): named queries, for profiles without `allow_sql`.
 
 `tc-postgresql check` verifies the files, the database and the Odoo connection. The
 station form then shows **Agent** `tc-postgresql`, the features `postgresql,pg:<profile>`

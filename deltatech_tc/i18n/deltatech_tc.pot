@@ -34,6 +34,12 @@ msgid "A PostgreSQL job needs a '%(key)s' made of letters, digits and underscore
 msgstr ""
 
 #. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "A PostgreSQL job needs either a query name or SQL, not both."
+msgstr ""
+
+#. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__api_key
 msgid "API Key"
 msgstr ""
@@ -477,6 +483,12 @@ msgstr ""
 #. module: deltatech_tc
 #: model:ir.model.constraint,message:deltatech_tc.constraint_deltatech_tc_station_api_key_uniq
 msgid "The API key must be unique."
+msgstr ""
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "The SQL of a PostgreSQL job must be a non-empty text of at most %(max)s bytes."
 msgstr ""
 
 #. module: deltatech_tc

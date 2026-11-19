@@ -36,9 +36,10 @@ network.
   server) and reports the response back. Queue it with `_tc_enqueue_http()` and
   read the answer with `response_dict()` / `response_json()`.
 - **`pg_query` job type** — for the *Terrabit Connect PostgreSQL* agent (a Windows
-  service, separate from the desktop app): Odoo asks for one page of a **named,
-  read-only query** installed on the station (e.g. orders from a local production
-  database) and receives the rows; the next pages are queued automatically. Queue it
+  service, separate from the desktop app): Odoo asks for one page of a **read-only
+  query** on a database in the customer's network (e.g. orders from a local production
+  database) — SQL written in the feature module, or a named query installed on the
+  station — and receives the rows; the next pages are queued automatically. Queue it
   with `_tc_enqueue_pg_query()` and read the rows with `pg_rows()`.
 
 **Cloud model — no inbound ports.** The station always initiates the connection
@@ -57,10 +58,12 @@ validates the shape of the request (scheme, host present, known method); the
 decision to actually place the call belongs to the machine sitting in that
 network.
 
-**Security of `pg_query`.** Odoo never sends SQL: it names a profile (a database
-configured on the station) and a query (a `.sql` file installed there) and passes
-parameters, which the station checks against the file's declarations and binds. Each
-page runs in a read-only transaction with a timeout, under a read-only database user.
+**Security of `pg_query`.** Odoo names a profile (a database configured on the
+station, never a host or a user) and sends either SQL or the name of a query file
+installed there. SQL is accepted only on profiles where the station allows it
+(`allow_sql`). Each page is a single `SELECT` with bound parameters, in a read-only
+transaction with a timeout, under a database user that should only be able to read
+what Odoo needs: **that user's grants are the boundary** of what Odoo can read.
 
 Callbacks are restricted to methods whose name starts with **`_tc_`**. The method
 name is stored in the database, so without that rule a modified record could call

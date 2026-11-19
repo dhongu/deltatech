@@ -30,9 +30,10 @@ DEFAULT_ERROR_TTL_DAYS = 90
 DEFAULT_PENDING_TTL_HOURS = 0  # 0 = pending jobs never expire
 DEFAULT_PG_DONE_TTL_DAYS = 3  # pg_query pages can be large; their data lives on in the callback's records
 
-# pg_query: profile and query are names of things installed on the station, never SQL
+# pg_query: profile, query and key are plain names (the SQL itself is checked apart, by size)
 PG_NAME_RE = re.compile(r"^[A-Za-z0-9_]{1,64}$")
 PG_PAGE_SIZE_MAX = 10000
+PG_SQL_MAX_BYTES = 100000  # the agent refuses longer SQL too
 
 
 class DeltatechTcJob(models.Model):
@@ -47,7 +48,8 @@ class DeltatechTcJob(models.Model):
     Three job types ship here: ``ping`` (round-trip check), ``http_request``,
     which has the station call a device reachable only inside the customer's
     network, and ``pg_query``, which has the *Terrabit Connect PostgreSQL* agent run
-    a named, read-only query on a local PostgreSQL database, one page per job.
+    a read-only query (SQL from the calling module or a named file installed on the
+    station) on a local PostgreSQL database, one page per job.
     Feature modules add device-specific types with ``selection_add`` on
     ``job_type``.
     """
@@ -136,7 +138,11 @@ class DeltatechTcJob(models.Model):
     def _check_pg_payload(self):
         for job in self.filtered(lambda j: j.job_type == "pg_query"):
             payload = job.payload_dict()
-            for key in ("profile", "query"):
+            sql = payload.get("sql")
+            names = ("profile",) if sql else ("profile", "query")
+            if sql and payload.get("key"):
+                names += ("key",)
+            for key in names:
                 if not PG_NAME_RE.match(str(payload.get(key) or "")):
                     raise ValidationError(
                         self.env._(
@@ -144,6 +150,15 @@ class DeltatechTcJob(models.Model):
                             key=key,
                         )
                     )
+            if sql is not None and (
+                not isinstance(sql, str) or not sql.strip() or len(sql.encode()) > PG_SQL_MAX_BYTES
+            ):
+                raise ValidationError(
+                    self.env._(
+                        "The SQL of a PostgreSQL job must be a non-empty text of at most %(max)s bytes.",
+                        max=PG_SQL_MAX_BYTES,
+                    )
+                )
             if not isinstance(payload.get("params", {}), dict):
                 raise ValidationError(self.env._("The 'params' of a PostgreSQL job must be an object."))
             page_size = payload.get("page_size", 1000)
@@ -255,7 +270,7 @@ class DeltatechTcJob(models.Model):
         self,
         station,
         profile,
-        query,
+        query=None,
         params=None,
         page_size=1000,
         follow=True,
@@ -263,14 +278,24 @@ class DeltatechTcJob(models.Model):
         company=None,
         after=None,
         page=0,
+        sql=None,
+        key=None,
     ):
-        """Queue one page of a named query for a *Terrabit Connect PostgreSQL* station.
+        """Queue one page of a read-only query for a *Terrabit Connect PostgreSQL* station.
 
-        **Odoo never sends SQL.** ``profile`` names a database configured on the
-        station and ``query`` a ``.sql`` file installed there; the station checks
-        ``params`` against the file's declared parameters and runs it in a read-only
-        transaction. A compromised Odoo account can therefore only run the queries the
-        customer installed.
+        Two forms:
+
+        * ``sql`` (recommended): the SQL text lives in the calling module, with
+          psycopg2-style ``%(name)s`` parameters bound by the station. Accepted only on
+          a station profile with ``allow_sql`` (feature ``pg_sql:<profile>``, see
+          :meth:`deltatech.tc.station._tc_has_pg_sql`). ``key`` names the column for
+          keyset pagination; the SQL must then use ``%(after)s``, e.g.
+          ``(%(after)s::text IS NULL OR code > %(after)s) ORDER BY code``.
+        * ``query``: the name of a ``.sql`` file installed on the station.
+
+        Either way the station runs one ``SELECT`` in a read-only transaction with a
+        timeout, as a database user that should only be able to read what Odoo needs:
+        that user's grants are the real boundary of what Odoo can read.
 
         The station answers with one page (``rows``, ``more``, ``next``); with
         ``follow`` the next page is queued automatically, after the callback of this
@@ -283,21 +308,25 @@ class DeltatechTcJob(models.Model):
         """
         if not station:
             raise UserError(self.env._("No Terrabit Connect station given for the PostgreSQL job."))
+        if bool(sql) == bool(query):
+            raise UserError(self.env._("A PostgreSQL job needs either a query name or SQL, not both."))
+        payload = {
+            "profile": profile,
+            "params": params or {},
+            "after": after,
+            "page": page,
+            "page_size": page_size,
+            "follow": bool(follow),
+        }
+        if sql:
+            payload.update({"sql": sql, "key": key})
+        else:
+            payload["query"] = query
         vals = {
             "station_id": station.id,
             "company_id": (company or station.company_id or self.env.company).id,
             "job_type": "pg_query",
-            "payload": json.dumps(
-                {
-                    "profile": profile,
-                    "query": query,
-                    "params": params or {},
-                    "after": after,
-                    "page": page,
-                    "page_size": page_size,
-                    "follow": bool(follow),
-                }
-            ),
+            "payload": json.dumps(payload),
         }
         vals.update(self._tc_callback_vals(callback))
         return self.create(vals)
@@ -352,7 +381,9 @@ class DeltatechTcJob(models.Model):
         return self._tc_enqueue_pg_query(
             self.station_id,
             payload["profile"],
-            payload["query"],
+            payload.get("query"),
+            sql=payload.get("sql"),
+            key=payload.get("key"),
             params=payload.get("params") or {},
             page_size=payload.get("page_size") or 1000,
             follow=True,

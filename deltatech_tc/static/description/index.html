@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 60 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 62 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
         <div class="rounded-pill" style="height:8px;width:84%;background-color:#57B952;"></div>
       </div>
@@ -100,9 +100,10 @@ network.</p>
   answers only inside the local network (a sorting line, a scale, a PLC, a label
   server) and reports the response back. Queue it with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_enqueue_http()</code> and
   read the answer with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">response_dict()</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">response_json()</code>.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg_query</code> job type</span><div>&#8212; for the <em>Terrabit Connect PostgreSQL</em> agent (a Windows
-  service, separate from the desktop app): Odoo asks for one page of a <strong>named,
-  read-only query</strong> installed on the station (e.g. orders from a local production
-  database) and receives the rows; the next pages are queued automatically. Queue it
+  service, separate from the desktop app): Odoo asks for one page of a <strong>read-only
+  query</strong> on a database in the customer's network (e.g. orders from a local production
+  database) &#8212; SQL written in the feature module, or a named query installed on the
+  station &#8212; and receives the rows; the next pages are queued automatically. Queue it
   with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_enqueue_pg_query()</code> and read the rows with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg_rows()</code>.</div></div></div></li></ul>
 <p><strong>Cloud model &#8212; no inbound ports.</strong> The station always initiates the connection
 to Odoo; Odoo never connects back to the workstation. The same agent works with
@@ -117,10 +118,12 @@ create a job in Odoo reach any address inside the customer's network. Odoo only
 validates the shape of the request (scheme, host present, known method); the
 decision to actually place the call belongs to the machine sitting in that
 network.</p>
-<p><strong>Security of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg_query</code>.</strong> Odoo never sends SQL: it names a profile (a database
-configured on the station) and a query (a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.sql</code> file installed there) and passes
-parameters, which the station checks against the file's declarations and binds. Each
-page runs in a read-only transaction with a timeout, under a read-only database user.</p>
+<p><strong>Security of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg_query</code>.</strong> Odoo names a profile (a database configured on the
+station, never a host or a user) and sends either SQL or the name of a query file
+installed there. SQL is accepted only on profiles where the station allows it
+(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">allow_sql</code>). Each page is a single <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">SELECT</code> with bound parameters, in a read-only
+transaction with a timeout, under a database user that should only be able to read
+what Odoo needs: <strong>that user's grants are the boundary</strong> of what Odoo can read.</p>
 <p>Callbacks are restricted to methods whose name starts with <strong><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_</code></strong>. The method
 name is stored in the database, so without that rule a modified record could call
 any ORM method. The prefix also makes "reachable from a job" a property you can
@@ -296,8 +299,10 @@ lives in <code class="border rounded px-2" style="font-family:ui-monospace,SFMon
 <li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">station.conf</code> downloaded from the station (or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">[odoo]</code> in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">config.toml</code>);</li>
 <li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">config.toml</code>: one <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">[profiles.&lt;name&gt;]</code> per database (host, database, a <strong>read-only</strong>
   user, timeouts, page limits); passwords encrypted with
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tc-postgresql secret set &lt;profile&gt;</code> (Windows DPAPI);</li>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">queries\&lt;profile&gt;\*.sql</code>: the named queries, delivered with the customer's module.</li>
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tc-postgresql secret set &lt;profile&gt;</code> (Windows DPAPI). <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">allow_sql = true</code> lets Odoo send
+  SQL for the profile (feature <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg_sql:&lt;profile&gt;</code>): give that database user <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">SELECT</code> only,
+  only on the schema or tables Odoo needs &#8212; its grants are what Odoo can read;</li>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">queries\&lt;profile&gt;\*.sql</code> (optional): named queries, for profiles without <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">allow_sql</code>.</li>
 </ul>
 <p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tc-postgresql check</code> verifies the files, the database and the Odoo connection. The
 station form then shows <strong>Agent</strong> <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tc-postgresql</code>, the features <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">postgresql,pg:&lt;profile&gt;</code>
@@ -465,20 +470,34 @@ the result arrive later; do not queue a job and read its result in the same
 transaction.</p>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Reading a PostgreSQL database in the local <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">network</span></h2>
 <p>Install the <em>Terrabit Connect PostgreSQL</em> agent on a server that reaches the database
-(its own station, not the one of the desktop app), put the customer's <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.sql</code> files in its
-<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">queries\&lt;profile&gt;\</code> folder, and queue pages from a feature module:</p>
-<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">station = self.env[&quot;deltatech.tc.station&quot;]._tc_find(&quot;pg:winarhi&quot;)
-if not station._tc_has_pg_query(&quot;winarhi&quot;, &quot;orders_since&quot;):
-    raise UserError(self.env._(&quot;The query orders_since is not installed on the Winarhi station.&quot;))
+(its own station, not the one of the desktop app), with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">allow_sql = true</code> on the profile,
+and queue pages from a feature module; the SQL lives in the module:</p>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">ORDERS_SINCE = &quot;&quot;&quot;
+    SELECT codunic, nume, datatrecutinprod
+      FROM winarhi.comenzi
+     WHERE datatrecutinprod &gt;= %(since)s
+       AND (%(after)s::bigint IS NULL OR codunic &gt; %(after)s)
+     ORDER BY codunic
+&quot;&quot;&quot;
+
+station = self.env[&quot;deltatech.tc.station&quot;]._tc_find(&quot;pg:winarhi&quot;)
+if not station._tc_has_pg_sql(&quot;winarhi&quot;):
+    raise UserError(self.env._(&quot;The Winarhi station does not accept SQL from Odoo (allow_sql).&quot;))
 self.env[&quot;deltatech.tc.job&quot;]._tc_enqueue_pg_query(
     station,
     &quot;winarhi&quot;,
-    &quot;orders_since&quot;,
+    sql=ORDERS_SINCE,
+    key=&quot;codunic&quot;,
     params={&quot;since&quot;: &quot;2026-11-01 00:00:00&quot;},
     page_size=500,
     callback=(self, &quot;_tc_receive_orders&quot;),
 )
 </code></pre>
+<p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">%(name)s</code> parameters are bound by the station, never pasted into the SQL; PostgreSQL infers
+their types, so add a cast where it cannot (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">%(after)s::bigint IS NULL</code>). With <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">key</code>, the SQL
+must page on that column with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">%(after)s</code>. On a profile without <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">allow_sql</code>, name a query file
+installed in its <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">queries\&lt;profile&gt;\</code> folder instead (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_enqueue_pg_query(station, "winarhi",
+"orders_since", params=...)</code>, checked with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_has_pg_query</code>).</p>
 <p>The station form then shows the agent and the installed queries:</p>
 <div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
   <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
@@ -519,6 +538,16 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.4.0 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-19)</span></h2>
+<ul>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg_query</code> accepts <strong>SQL written in the calling module</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_enqueue_pg_query(station, profile,
+  sql=..., key=...)</code>), with psycopg2-style <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">%(name)s</code> parameters bound by the station and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">key</code>
+  for keyset pagination (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">%(after)s</code> in the SQL). The station runs it only on a profile with
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">allow_sql</code> (Terrabit Connect PostgreSQL 0.2.0, feature <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg_sql:&lt;profile&gt;</code>;
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">station._tc_has_pg_sql(profile)</code>). The read-only database user of the profile bounds what
+  Odoo can read. Named query files on the station remain available.</li>
+<li>The station form lists a profile without query files by its name.</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.3.1 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-19)</span></h2>
 <ul>
 <li>Database neutralization (odoo.sh staging / development copies, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">odoo-bin neutralize</code>) gives
@@ -584,22 +613,6 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.2.1 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-09-29)</span></h2>
 <ul>
 <li>Own module icon, instead of the generic gears it had.</li>
-</ul>
-<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.2.0 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-09-29)</span></h2>
-<ul>
-<li><strong>Atomic claim.</strong> <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/poll</code> locks the rows it hands out (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">FOR UPDATE SKIP LOCKED</code>). Two
-  simultaneous polls with the same key (a second workstation installed by copying the
-  profile) could both receive, and run, the same job.</li>
-<li><strong>Lost results.</strong> A job claimed longer than <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_tc.claim_timeout_minutes</code> (15)
-  without a result used to stay <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">claimed</code> for ever. A retry-safe job (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ping</code>, an
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">http_request</code> with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">GET</code>/<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">HEAD</code>; extend <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_is_retry_safe()</code> for other read-only types)
-  is offered again, up to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_tc.max_attempts</code> (3), then fails. Any other job is left
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">claimed</code>: it may have run, and its late result is still accepted.</li>
-<li><strong>Retry</strong> button on the job (managers): error or stuck jobs go back to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pending</code>. No
-  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sudo</code>, so a read-only user cannot re-run a job over RPC either.</li>
-<li><strong>Daily cleanup</strong> cron: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">done</code> jobs older than 30 days and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">error</code> jobs older than 90 are
-  deleted; pending jobs can expire after <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_tc.pending_ttl_hours</code> (off by default).</li>
-<li>New field <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">attempt_count</code>, new <strong>Claimed</strong> filter.</li>
 </ul>
 <p><em>Older releases are listed in the module's HISTORY file.</em></p>
 </div>

@@ -4,7 +4,7 @@
 {
     "name": "Terrabit Connect - Base",
     "summary": "Base for Terrabit Connect: station registry, outbound job queue, REST endpoints (X-Station-Key), HTTP calls and named read-only PostgreSQL queries in the customer's local network.",
-    "version": "20.0.1.3.1",
+    "version": "20.0.1.4.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Technical",

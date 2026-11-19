@@ -92,7 +92,7 @@ Fiecare punct de mai sus se duce și pe 20.0.
 ### 9. Agentul Terrabit Connect PostgreSQL — primul client
 Jobul `pg_query` (20.0.1.3.0) e folosit întâi de Maxima: logica din agentul Python
 Winarhi (`select_elements`, `assign_recipe`, ordinea articole → oferte → comenzi) se
-mută în `maxima_winarhi_connector`, interogările devin fișiere `.sql` livrate cu modulul,
+mută în `maxima_winarhi_connector`, împreună cu SQL-ul (trimis din Odoo, 20.0.1.4.0),
 iar utilizatorul tehnic cu cheie API dispare. Agentul Python rămâne în paralel până dă
 aceleași loturi. Design: `proiecte_doc/maxima/TC_POSTGRESQL_DESIGN.md`.
 La al doilea agent fără interfață, clientul `/tc/*` din `tc-postgresql` devine crate-ul
