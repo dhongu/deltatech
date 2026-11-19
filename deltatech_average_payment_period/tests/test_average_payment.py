@@ -14,8 +14,23 @@ class TestAveragePaymentPeriod(common.TransactionCase):
         cls.journal_sale = cls.env["account.journal"].search([("type", "=", "sale")], limit=1)
         cls.journal_bank = cls.env["account.journal"].search([("type", "=", "bank")], limit=1)
 
-    def test_average_payment_period(self):
-        # 1. Creează o factură de vânzare (out_invoice)
+        cls.outstanding_account = cls.env["account.account"].create(
+            {
+                "name": "Outstanding Receipts (test)",
+                "code": "TESTOUT1",
+                "account_type": "asset_current",
+                "reconcile": True,
+            }
+        )
+        cls.journal_bank.inbound_payment_method_line_ids[:1].payment_account_id = cls.outstanding_account
+
+    def _stored_payment_date(self, line):
+        # payment_date din nucleul Odoo 19 suprascrie citirea prin ORM; citim coloana stocată
+        self.env.flush_all()
+        self.env.cr.execute("SELECT payment_date FROM account_move_line WHERE id = %s", [line.id])
+        return self.env.cr.fetchone()[0]
+
+    def _create_paid_invoice(self, days=10):
         invoice = self.env["account.move"].create(
             {
                 "move_type": "out_invoice",
@@ -23,27 +38,12 @@ class TestAveragePaymentPeriod(common.TransactionCase):
                 "journal_id": self.journal_sale.id,
                 "invoice_date": fields.Date.today(),
                 "invoice_line_ids": [
-                    (
-                        0,
-                        0,
-                        {
-                            "name": "Test product",
-                            "quantity": 1,
-                            "price_unit": 100.0,
-                        },
-                    )
+                    (0, 0, {"name": "Test product", "quantity": 1, "price_unit": 100.0}),
                 ],
             }
         )
         invoice.action_post()
-
-        # 2. Înregistrează o plată pentru această factură peste 10 zile
-        payment_date = fields.Date.add(invoice.invoice_date, days=10)
-
-        # Obține liniile de plată ce pot fi reconciliate
-        receivable_line = invoice.line_ids.filtered(lambda l: l.account_id.account_type == "asset_receivable")
-
-        # Creează plata folosind account.payment.register pentru simplitate și reconciliere automată
+        payment_date = fields.Date.add(invoice.invoice_date, days=days)
         payment_register = (
             self.env["account.payment.register"]
             .with_context(active_model="account.move", active_ids=invoice.ids)
@@ -56,11 +56,16 @@ class TestAveragePaymentPeriod(common.TransactionCase):
             )
         )
         payment_register.action_create_payments()
+        receivable_line = invoice.line_ids.filtered(lambda l: l.account_id.account_type == "asset_receivable")
+        return invoice, receivable_line, payment_date
+
+    def test_average_payment_period(self):
+        invoice, receivable_line, payment_date = self._create_paid_invoice()
 
         # Verifică dacă factura este plătită și reconciliată
-        self.assertEqual(invoice.payment_state, "paid", "Factura ar trebui să fie în starea 'paid'")
+        self.assertIn(invoice.payment_state, ("paid", "in_payment"), "Factura ar trebui să fie plătită")
 
-        # 3. Verifică calculul payment_days pe liniile facturii
+        # Verifică calculul payment_days pe liniile facturii
         # Forțăm recalcularea câmpurilor compute store=True dacă e cazul,
         # deși în Odoo 17+ se face automat la flush.
         invoice.invalidate_model(["line_ids"])
@@ -68,7 +73,9 @@ class TestAveragePaymentPeriod(common.TransactionCase):
 
         for line in receivable_line:
             self.assertTrue(line.full_reconcile_id, "Linia ar trebui să fie reconciliată complet")
-            self.assertEqual(line.payment_date, payment_date, "Data plății ar trebui să fie data plății înregistrate")
+            self.assertEqual(
+                self._stored_payment_date(line), payment_date, "Data plății ar trebui să fie data plății înregistrate"
+            )
             self.assertEqual(line.payment_days, 10, "Zilele de plată ar trebui să fie 10")
             self.assertEqual(line.payment_days_simple, 10.0, "Zilele de plată simple ar trebui să fie 10.0")
 
@@ -91,3 +98,31 @@ class TestAveragePaymentPeriod(common.TransactionCase):
             [("partner_id", "=", self.partner.id)], ["partner_id"], ["payment_days:avg"]
         )
         self.assertEqual(group_data[0][1], 10.0, "Media zilelor de plată în raport ar trebui să fie 10.0")
+
+    def test_unreconcile_clears_payment_fields(self):
+        """AVGPAY-001: câmpurile se golesc când dispare reconcilierea completă"""
+        invoice, receivable_line, payment_date = self._create_paid_invoice()
+        self.assertEqual(receivable_line.payment_days, 10)
+
+        # contrapartida (linia de plată), o păstrăm ca să putem reconcilia din nou
+        counterpart = receivable_line.full_reconcile_id.reconciled_line_ids - receivable_line
+
+        # 1. anulăm reconcilierea
+        receivable_line.remove_move_reconcile()
+        self.env.flush_all()
+        receivable_line.invalidate_recordset()
+
+        self.assertFalse(receivable_line.full_reconcile_id)
+        self.assertFalse(self._stored_payment_date(receivable_line))
+        self.assertEqual(receivable_line.payment_days, 0)
+        self.assertEqual(receivable_line.payment_days_simple, 0.0)
+
+        # 2. reconciliem din nou: valorile trebuie să revină
+        (receivable_line | counterpart).reconcile()
+        self.env.flush_all()
+        receivable_line.invalidate_recordset()
+
+        self.assertTrue(receivable_line.full_reconcile_id)
+        self.assertEqual(self._stored_payment_date(receivable_line), payment_date)
+        self.assertEqual(receivable_line.payment_days, 10)
+        self.assertEqual(receivable_line.payment_days_simple, 10.0)

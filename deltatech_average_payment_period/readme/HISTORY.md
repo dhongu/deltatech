@@ -1,3 +1,12 @@
+## 19.0.1.0.6 (2026-11-19)
+
+- Payment date and payment days on journal items are reset when the full
+  reconciliation is removed; before, the old values stayed on the unpaid
+  item (AVGPAY-001).
+- Payment date and payment days are recomputed when an item is reconciled
+  again: Odoo 19 links the full reconciliation through SQL, so the stored
+  fields were not refreshed.
+
 ## 19.0.1.0.5 (2026-10-11)
 
 - Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.
