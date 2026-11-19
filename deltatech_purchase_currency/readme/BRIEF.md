@@ -8,6 +8,9 @@
 >
 > Follow-up: „in functie de jurnalul de facturare, de pus jurnalul in comanda la fel ca la
 > comanda de vanzare” (2026-11-19)
+>
+> Version 20.0.1.1.0: „si daca furnizorul factureaza la un alt curs cum se poate specifica cursul
+> in factura” (2026-11-19)
 
 ## Purpose
 
@@ -41,13 +44,16 @@ accountant creates and checks the vendor bill (group *Invoicing*).
 1. The buyer creates a purchase order for a Romanian supplier, in EUR.
 2. On the *Other Info* tab they set *Invoicing Journal* to a purchase journal without currency
    (the RON vendor bills journal).
-3. He confirms the order; the goods are received.
+3. They confirm the order; the goods are received.
 4. *Create Bills* (purchase order list, order selected) or *Upload Bill* (order form, with the
    supplier PDF) — Odoo 20 has no *Create Bill* button on the order form: the bill is in RON, on
    that journal, with the EUR prices converted at today's rate (in Odoo 20, the last rate dated
    before today).
 5. The accountant sets the *Bill Date* from the supplier invoice: the prices are converted
    again, at the rate of that date.
+6. When the supplier invoice states another rate, the accountant types it in *Vendor Rate*
+   (bill currency for 1 unit of the order currency, e.g. 5.1000 RON for 1 EUR): the prices are
+   converted at that rate, and a later bill date change no longer changes them.
 
 ## Acceptance criteria
 
@@ -68,6 +74,16 @@ accountant creates and checks the vendor bill (group *Invoicing*).
   difference; after the price is changed by hand it shows the difference.
 - **CA7:** A new vendor bill to which the order is added via *Auto-Complete* → the bill takes
   the order invoicing journal and currency, with converted prices.
+- **CA8:** On a RON bill of a EUR order, *Vendor Rate* is shown next to the bill date; on a
+  bill in the order currency, or with lines from orders in different currencies, it is hidden.
+- **CA9:** Setting *Vendor Rate* = 5.10 → the unit price becomes the EUR price × 5.10 (in the
+  bill line unit).
+- **CA10:** With *Vendor Rate* set, changing the bill date leaves the prices unchanged;
+  clearing *Vendor Rate* converts them again at the Odoo rate of the bill date.
+- **CA11:** With *Vendor Rate* set, the matching flag compares with the order price at that
+  rate (no difference shown on unchanged lines).
+- **CA12:** A negative *Vendor Rate* is refused with an error on save (0 means empty: the Odoo
+  rate is used).
 
 ## Edge cases
 
@@ -90,6 +106,10 @@ accountant creates and checks the vendor bill (group *Invoicing*).
 | Rate used | Odoo currency rate (BNR provider) at the bill date, today when unset | Same as `deltatech_sale_currency` |
 | BNR + percentage (Maxima FR1) | not in this module; one method `purchase.order.line._get_invoice_price_unit()` that `maxima_purchase` extends | User's choice |
 | Price | free (no `price` key), like the pair module | User's choice |
+| Vendor rate direction | bill currency per 1 unit of order currency (RON per EUR) | That is how a Romanian vendor invoice states it; the inverse Odoo rate would confuse the accountant |
+| Vendor rate scope | one field per bill, only when all order lines come from one other currency | A single rate cannot serve two source currencies |
+| Vendor rate vs bill date | the vendor rate wins; the bill date drives the rate only while the field is empty | The rate printed on the invoice is the one to book |
+| Vendor rate on the bill, not on the order | bill field, empty by default | The rate is known only when the invoice arrives |
 | Matching flag | converted PO price compared in the bill currency | Otherwise every converted line is flagged as a price difference |
 
 ## Open decisions

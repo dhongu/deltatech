@@ -51,3 +51,9 @@ When several orders of the same vendor are billed together from the list, Odoo g
 vendor and bill currency, not by journal: orders with different journals but the same bill
 currency end up on one bill, in the journal of the first order. Bill them one by one to keep the
 journals apart.
+
+If the supplier invoice states another rate than the one in Odoo, type it in **Vendor Rate**,
+next to the bill date (bill currency for 1 unit of the order currency, e.g. 5.10 RON for 1 EUR).
+The order prices are converted at that rate and a later change of the bill date no longer changes
+them; clear the field to go back to the Odoo rate. The field is shown only when the bill lines
+come from orders in one other currency.

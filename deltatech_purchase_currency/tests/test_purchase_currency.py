@@ -5,6 +5,7 @@
 from freezegun import freeze_time
 
 from odoo import Command, fields
+from odoo.exceptions import ValidationError
 from odoo.tests import Form, tagged
 from odoo.tools import mute_logger
 
@@ -43,11 +44,11 @@ class TestPurchaseCurrency(AccountTestInvoicingCommon):
         cls.uom_unit = cls.env.ref("uom.product_uom_unit")
         cls.uom_dozen = cls.env.ref("uom.product_uom_dozen")
 
-    def _create_po(self, journal=None, price=100.0):
+    def _create_po(self, journal=None, price=100.0, currency=None):
         po = self.env["purchase.order"].create(
             {
                 "partner_id": self.partner_a.id,
-                "currency_id": self.eur.id,
+                "currency_id": (currency or self.eur).id,
                 "journal_id": journal.id if journal else False,
                 "order_line": [
                     Command.create(
@@ -130,3 +131,55 @@ class TestPurchaseCurrency(AccountTestInvoicingCommon):
         self.assertEqual(bill.currency_id, self.company.currency_id)
         self.assertEqual(bill.journal_id, self.journal_company)
         self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 500.0)
+
+    def test_ca8_vendor_rate_visibility(self):
+        """CA8: the vendor rate applies only to bills of one order currency other than the bill's."""
+        bill = self._create_bill(self._create_po(self.journal_company))
+        self.assertEqual(bill.purchase_source_currency_id, self.eur)
+        bill_eur = self._create_bill(self._create_po())
+        self.assertFalse(bill_eur.purchase_source_currency_id)
+        cad = self.setup_other_currency("CAD", rates=[("2026-01-01", 1.5)])
+        po_cad = self._create_po(self.journal_company, currency=cad)
+        with Form(bill) as form, mute_logger("odoo.tests.form.onchange"):
+            form.purchase_vendor_bill_id = self.env["purchase.bill.union"].browse(-po_cad.id)
+        self.assertFalse(bill.purchase_source_currency_id)
+
+    def test_ca9_vendor_rate_converts(self):
+        """CA9: the vendor rate converts the order price, in the bill line unit."""
+        bill = self._create_bill(self._create_po(self.journal_company))
+        with Form(bill) as form:
+            form.purchase_vendor_rate = 5.1
+        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 510.0)
+        with Form(bill) as form:
+            with form.invoice_line_ids.edit(0) as line:
+                line.product_uom_id = self.uom_dozen
+            form.purchase_vendor_rate = 5.2
+        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 6240.0)  # 100 * 12 * 5.2
+
+    def test_ca10_vendor_rate_wins_over_date(self):
+        """CA10: with a vendor rate the bill date no longer changes the prices; clearing it does."""
+        bill = self._create_bill(self._create_po(self.journal_company))
+        with Form(bill) as form:
+            form.purchase_vendor_rate = 5.1
+            form.invoice_date = fields.Date.to_date("2026-03-01")
+        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 510.0)
+        with Form(bill) as form:
+            form.purchase_vendor_rate = 0.0
+        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 500.0)  # 100 / 0.2
+
+    def test_ca11_vendor_rate_matching_flag(self):
+        """CA11: the matching flag compares with the order price at the vendor rate."""
+        bill = self._create_bill(self._create_po(self.journal_company))
+        with Form(bill) as form:
+            form.purchase_vendor_rate = 5.1
+        line = bill.invoice_line_ids
+        self.assertFalse(line.purchase_matching_issue_msg)
+        line.price_unit = 520.0
+        self.assertIn("⬆", line.purchase_matching_issue_msg)
+
+    def test_ca12_negative_vendor_rate(self):
+        """CA12: a negative vendor rate is refused."""
+        bill = self._create_bill(self._create_po(self.journal_company))
+        with self.assertRaises(ValidationError):
+            bill.purchase_vendor_rate = -1.0
+            bill.flush_recordset()

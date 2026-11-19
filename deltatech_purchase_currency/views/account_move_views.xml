@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_move_form" model="ir.ui.view">
+        <field name="name">account.move.form.purchase.vendor.rate</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <field name="delivery_date" position="after">
+                <field name="purchase_source_currency_id" invisible="1" />
+                <label for="purchase_vendor_rate" invisible="not purchase_source_currency_id" />
+                <div
+                    name="purchase_vendor_rate_div"
+                    class="d-flex gap-1 align-items-baseline"
+                    invisible="not purchase_source_currency_id"
+                >
+                    <field
+                        name="purchase_vendor_rate"
+                        class="oe_inline"
+                        readonly="state != 'draft'"
+                        placeholder="Odoo rate of the bill date"
+                    />
+                    <span class="text-muted text-nowrap">
+                        <field name="currency_id" readonly="1" class="oe_inline" options="{'no_open': True}" />
+                        per 1
+                        <field name="purchase_source_currency_id" readonly="1" class="oe_inline" options="{'no_open': True}" />
+                    </span>
+                </div>
+            </field>
+        </field>
+    </record>
+</odoo>
