@@ -105,6 +105,7 @@ class TestConfigDetails(TransactionCase):
         # icon only: no text in the cell, the text is the tooltip
         self.assertFalse(button[0].get("string"))
         self.assertEqual(button[0].get("title"), "Details")
+        self.assertEqual(button[0].get("icon"), "info")  # Material Symbols name (Odoo 20), not fa-*
 
     def test_legacy_formats(self):
         """CA8: JSON text, str() of a Python list, bare dictionaries and numbers are shown."""

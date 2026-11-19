@@ -124,6 +124,13 @@ Changelog
 Changelog
 =========
 
+20.0.1.1.1 (2026-11-19)
+-----------------------
+
+- The **Details** icon uses the Odoo 20 icon name ``info`` (Material
+  Symbols). With the Font Awesome name ``fa-info-circle``, Odoo 20
+  showed pieces of the name as glyphs (``-ⓘ-◯``) instead of one icon.
+
 20.0.1.1.0 (2026-11-19)
 -----------------------
 
