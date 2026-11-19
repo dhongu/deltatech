@@ -83,20 +83,21 @@ dicționar fără `name` și `value` se afișează ca grup fără nume.
 
 ## 6. Flux de utilizare
 
-### Pasul 1 — Comanda venită de la configurator, cu butonul Detalii pe linii
+### Pasul 1 — Comanda venită de la configurator, cu iconița Detalii pe linii
 
 Conectorul creează oferta cu detaliile pe linii. Agentul o deschide din **Vânzări → Comenzi →
 Oferte** (sau **Vânzări → Comenzi → Comenzi**, după ce e confirmată).
 
-În tab-ul **Linii comandă**, între descriere și **Cantitate**, apare o coloană fără titlu cu
-butonul **Detalii**, doar pe liniile care au configurație: fereastra și ușa de balcon îl au,
-montajul nu. Coloana **Cantitate** își păstrează titlul și valorile.
+În tab-ul **Linii comandă**, la capătul rândului, după **Sumă**, apare o coloană îngustă, fără titlu, cu
+iconița **Detalii** (ⓘ; textul „Detalii” apare la trecerea mouse-ului), doar pe liniile care au
+configurație: fereastra și ușa de balcon o au, montajul nu. Coloanele
+de descriere și cantitate rămân ca în Odoo standard.
 
-![Oferta pentru Casa Verde Residence SRL, tab-ul Linii comandă: liniile Fereastră PVC 2 canate și Ușă balcon PVC au butonul Detalii, evidențiat cu 1 și 2, într-o coloană proprie înaintea coloanei Cantitate; linia Montaj tâmplărie nu are buton](../static/description/01_comanda_buton_detalii.png)
+![Oferta pentru Casa Verde Residence SRL, tab-ul Linii comandă: liniile Fereastră PVC 2 canate și Ușă balcon PVC au iconița Detalii (ⓘ), evidențiată cu 1 și 2, într-o coloană îngustă la capătul rândului, după Sumă; linia Montaj tâmplărie nu are iconiță](../static/description/01_comanda_buton_detalii.png)
 
 ### Pasul 2 — Fereastra cu detaliile configurației
 
-Un clic pe **Detalii** la linia ferestrei deschide fereastra **Detalii configurație**:
+Un clic pe iconița **Detalii** (ⓘ) la linia ferestrei deschide fereastra **Detalii configurație**:
 
 - numele fiecărui grup apare îngroșat (**Identitate**, **Dimensiuni**, **Profil**, **Culoare**,
   **Părți**, **Schiță**, **Observații**);
@@ -142,7 +143,7 @@ sau pe factură și nu ajung în e-Factura; un proiect care vrea să le tipărea
 | Rapoarte de proiect | tipăresc detaliile prin `get_html_config_details()` și imaginile prin `get_images_config_detail()` | extensie în proiect |
 
 **Ce e automat:**
-- butonul **Detalii** apare singur pe liniile care au detalii;
+- iconița **Detalii** apare singură pe liniile care au detalii;
 - detaliile se copiază la duplicarea comenzii;
 - la actualizarea unei baze venite din 19.0, detaliile vechi (text JSON sau textul unei liste
   Python) se convertesc în noul format; un text care nu e niciunul dintre ele se păstrează ca atare.
@@ -154,11 +155,11 @@ sau pe factură și nu ajung în e-Factura; un proiect care vrea să le tipărea
 
 ## 8. Verificări pentru consultant
 
-- [ ] Pe o comandă creată de conector, liniile cu configurație au butonul **Detalii**, iar cele fără
-      configurație (servicii, transport) nu îl au.
-- [ ] Coloana **Cantitate** își păstrează titlul și valorile; butonul **Detalii** stă în coloana lui,
-      înaintea cantității.
-- [ ] Un clic pe **Detalii** deschide fereastra **Detalii configurație** cu grupurile îngroșate și
+- [ ] Pe o comandă creată de conector, liniile cu configurație au iconița **Detalii** (ⓘ), iar cele
+      fără configurație (servicii, transport) nu o au.
+- [ ] Iconița **Detalii** stă la capătul rândului, după **Sumă**; coloanele de descriere și
+      cantitate arată ca în Odoo standard.
+- [ ] Un clic pe iconița **Detalii** deschide fereastra **Detalii configurație** cu grupurile îngroșate și
       valorile `cheie: valoare`; **Închide** revine la comandă.
 - [ ] Grupurile imbricate (părțile) apar pe rânduri proprii, iar un grup cu text simplu apare pe un
       rând, ca `nume: valoare`.
@@ -179,7 +180,7 @@ afișează. Situațiile de mai jos apar la verificarea unui conector.
 
 | Situație | Cauză | Remediere |
 |---|---|---|
-| Linia are butonul **Detalii**, dar fereastra se deschide goală | conectorul a scris o valoare care nu e o listă de grupuri (un număr, un text care nu e JSON); valoarea se păstrează, dar nu se afișează | corectați conectorul să trimită formatul din secțiunea 4 |
+| Linia are iconița **Detalii**, dar fereastra se deschide goală | conectorul a scris o valoare care nu e o listă de grupuri (un număr, un text care nu e JSON); valoarea se păstrează, dar nu se afișează | corectați conectorul să trimită formatul din secțiunea 4 |
 | O valoare trimisă de conector lipsește din fereastră | valoarea e o listă, `true`/`false` sau un text gol (se afișează doar texte, numere și dicționare), ori cheia ei e `id` | trimiteți valoarea ca text sau ca dicționar; nu folosiți cheia `id` pentru date de afișat |
 | Un grup cu valoare număr nu apare | valoarea unui grup trebuie să fie text sau dicționar | trimiteți `{"name": "Cantitate", "value": "4"}` sau un dicționar |
 | Imaginea apare ca imagine lipsă | adresa din `image` / `src` nu e accesibilă utilizatorului (fișier privat, server extern oprit) | folosiți o adresă `/web/image/...` a unui produs sau a unui atașament accesibil |
@@ -191,8 +192,8 @@ Capturile sunt generate automat din `tests/test_screenshots.py` (mixinul `Screen
 `deltatech_doc_screenshots`, import defensiv), în română, pe compania „Demo Tâmplărie SRL” în RON;
 aceleași ecrane în engleză stau în `static/description/en/` pentru `readme/USAGE.md`.
 
-1. `01_comanda_buton_detalii.png` — oferta cu butonul **Detalii** pe liniile configurate, într-o
-   coloană proprie înaintea cantității; linia de montaj fără buton.
+1. `01_comanda_buton_detalii.png` — oferta cu iconița **Detalii** (ⓘ) pe liniile configurate, într-o
+   coloană îngustă la capătul rândului; linia de montaj fără iconiță.
 2. `02_popup_detalii_fereastra.png` — fereastra **Detalii configurație** a ferestrei PVC: grupuri,
    valori, părți imbricate, schița și observația text.
 3. `03_popup_detalii_imagini.png` — fereastra de detalii a ușii de balcon: imaginile `src` și

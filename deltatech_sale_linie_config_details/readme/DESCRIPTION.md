@@ -1,6 +1,6 @@
 Stores the configuration of the product sold on a sale order line — dimensions, profile, colour,
 parts, mock-up images — as structured data, and shows it to the salesperson from a **Details**
-button on the line.
+icon on the line.
 
 Connectors and marketplace importers write the configuration they receive (a window configurator,
 a print shop's mock-ups) into one common field, `config_details`, instead of each inventing its
@@ -10,7 +10,7 @@ Main features:
 
 - `config_details` on sale order lines, a JSON field copied with the line when the order is
   duplicated.
-- **Details** button in its own column of the order lines, shown only on lines with details.
+- **Details** icon (ⓘ) in its own narrow column of the order lines, shown only on lines with details.
 - Popup with the groups of details: names in bold, values as `key: value`, nested groups,
   pictures with an *Open image* link.
 - Safe: every text is escaped and nothing is ever evaluated as code.

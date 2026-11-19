@@ -22,15 +22,12 @@ Sale Line Configuration Details
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_sale_linie_config_details/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-12%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_linie_config_details/tests
-    :alt: 12 automated tests
 
-|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge3| |badge_fisa|
 
 Stores the configuration of the product sold on a sale order line —
 dimensions, profile, colour, parts, mock-up images — as structured data,
-and shows it to the salesperson from a **Details** button on the line.
+and shows it to the salesperson from a **Details** icon on the line.
 
 Connectors and marketplace importers write the configuration they
 receive (a window configurator, a print shop's mock-ups) into one common
@@ -41,8 +38,8 @@ Main features:
 
 - ``config_details`` on sale order lines, a JSON field copied with the
   line when the order is duplicated.
-- **Details** button in its own column of the order lines, shown only on
-  lines with details.
+- **Details** icon (ⓘ) in its own narrow column of the order lines,
+  shown only on lines with details.
 - Popup with the groups of details: names in bold, values as
   ``key: value``, nested groups, pictures with an *Open image* link.
 - Safe: every text is escaped and nothing is ever evaluated as code.
@@ -73,19 +70,20 @@ module has no settings and no menu of its own.
 1. Open the order created by the connector (*Sales → Orders →
    Quotations*, or *Sales → Orders → Orders* once confirmed). In the
    **Order Lines** tab, the lines with a configuration have a
-   **Details** button, in its own column before **Quantity**; lines
-   without details (a service, for instance) have no button.
+   **Details** icon (ⓘ, the text shows on hover), in a narrow column at
+   the end of the row, after the amount; lines without details (a
+   service, for instance) have no icon.
 
    |Quotation for Casa Verde Residence SRL, Order Lines tab: the lines
-   Fereastră PVC 2 canate and Ușă balcon PVC have the Details button,
-   highlighted, in its own column before Quantity; the Montaj tâmplărie
-   line has no button|
+   Fereastră PVC 2 canate and Ușă balcon PVC have the Details icon (ⓘ),
+   highlighted, in a narrow column at the end of the row, after the
+   amount; the Montaj tâmplărie line has no icon|
 
-2. Click **Details** to open the read-only **Config Details** popup:
-   group names in bold, values as ``key: value`` (numbers are shown like
-   texts), nested groups on their own rows, and a group with a plain
-   text value on one row as ``name: value``. The ``id`` key is never
-   shown. **Close** returns to the order.
+2. Click the **Details** icon to open the read-only **Config Details**
+   popup: group names in bold, values as ``key: value`` (numbers are
+   shown like texts), nested groups on their own rows, and a group with
+   a plain text value on one row as ``name: value``. The ``id`` key is
+   never shown. **Close** returns to the order.
 
    |Config Details popup of the Fereastră PVC 2 canate line: the bold
    groups Identitate, Dimensiuni, Profil, Culoare, Părți, Schiță and
@@ -113,7 +111,7 @@ on the standard quotation, delivery or invoice reports. Project reports
 can print them with ``get_html_config_details()`` and
 ``get_images_config_detail()`` (the ``image`` URLs of the groups).
 
-.. |Quotation for Casa Verde Residence SRL, Order Lines tab: the lines Fereastră PVC 2 canate and Ușă balcon PVC have the Details button, highlighted, in its own column before Quantity; the Montaj tâmplărie line has no button| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_sale_linie_config_details/static/description/en/01_comanda_buton_detalii.png
+.. |Quotation for Casa Verde Residence SRL, Order Lines tab: the lines Fereastră PVC 2 canate and Ușă balcon PVC have the Details icon (ⓘ), highlighted, in a narrow column at the end of the row, after the amount; the Montaj tâmplărie line has no icon| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_sale_linie_config_details/static/description/en/01_comanda_buton_detalii.png
 .. |Config Details popup of the Fereastră PVC 2 canate line: the bold groups Identitate, Dimensiuni, Profil, Culoare, Părți, Schiță and Observații, highlighted; values such as Poziție P1, H 1400 and L 1200 mm, the nested parts with x, y and opening, the sketch with its Open image link, and the Close button| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_sale_linie_config_details/static/description/en/02_popup_detalii_fereastra.png
 .. |Config Details popup of the Ușă balcon PVC line: the Machetă group with a large and a small picture of the door, highlighted, each with its Open image link| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_sale_linie_config_details/static/description/en/03_popup_detalii_imagini.png
 
@@ -132,6 +130,9 @@ Changelog
   (19.0 importers), never evaluating them; a dictionary without ``name``
   / ``value`` is shown as an unnamed group; number values are shown like
   texts.
+- The **Details** button is an icon (ⓘ, text as tooltip) at the end of
+  the line, after the amounts: between the description and the quantity
+  it took width from those columns.
 - Pictures get a translatable *Open image* link; ``src`` pictures are
   larger, as on 19.0.
 - Upgrade from 19.0: the text column is converted to JSON before the

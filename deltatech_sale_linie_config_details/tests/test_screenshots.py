@@ -133,7 +133,7 @@ class TestConfigDetailsScreenshots(AccountTestInvoicingCommon, ScreenshotCase or
     def _shots(self):
         order = self._order_url()
         return [
-            # 1. comanda: coloana cu butonul Detalii, doar pe liniile care au configurație (CA7, CA4)
+            # 1. comanda: coloana cu iconița Detalii, doar pe liniile care au configurație (CA7, CA4)
             {
                 "url": order,
                 "name": "01_comanda_buton_detalii.png",
@@ -176,8 +176,8 @@ class TestConfigDetailsScreenshots(AccountTestInvoicingCommon, ScreenshotCase or
             },
             {
                 "caption": {
-                    "ro_RO": "Butonul Detalii apare doar pe liniile configurate",
-                    "en_US": "The Details button shows only on configured lines",
+                    "ro_RO": "Iconița Detalii apare doar pe liniile configurate",
+                    "en_US": "The Details icon shows only on configured lines",
                 },
                 "move": "tr.o_data_row:nth-child(3)",
                 "hold": 2200,

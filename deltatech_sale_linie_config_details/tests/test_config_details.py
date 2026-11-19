@@ -78,7 +78,7 @@ class TestConfigDetails(TransactionCase):
         self.assertIn("x: 10", wizard.config_details)
 
     def test_order_form_list_columns(self):
-        """CA7: the Details button is its own column: the quantity column keeps its header and its fields."""
+        """CA7: the Details icon is its own column at the end of the row; the quantity column is untouched."""
         arch = self.env["sale.order"].get_view(self.env.ref("sale.view_order_form").id)["arch"]
         root = etree.fromstring(arch)
         sol_qty = root.xpath("//field[@name='order_line']//list//column[@name='sol_qty']")[0]
@@ -87,7 +87,13 @@ class TestConfigDetails(TransactionCase):
         self.assertFalse(sol_qty.xpath(".//field[@name='config_details']"))
         button = root.xpath("//field[@name='order_line']//list/button[@name='action_open_config_details']")
         self.assertEqual(len(button), 1)
+        # at the end of the row: after the amounts, nothing between the description and the quantity
+        self.assertEqual(button[0].getnext().get("name"), "section_state")
+        self.assertFalse(sol_qty.xpath("preceding-sibling::button[@name='action_open_config_details']"))
         self.assertEqual(button[0].get("invisible"), "not config_details")
+        # icon only: no text in the cell, the text is the tooltip
+        self.assertFalse(button[0].get("string"))
+        self.assertEqual(button[0].get("title"), "Details")
 
     def test_legacy_formats(self):
         """CA8: JSON text, str() of a Python list, bare dictionaries and numbers are shown."""

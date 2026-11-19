@@ -7,6 +7,8 @@
 - Reads details written as a JSON text or as the text of a Python list (19.0 importers), never
   evaluating them; a dictionary without `name` / `value` is shown as an unnamed group; number values
   are shown like texts.
+- The **Details** button is an icon (ⓘ, text as tooltip) at the end of the line, after the
+  amounts: between the description and the quantity it took width from those columns.
 - Pictures get a translatable *Open image* link; `src` pictures are larger, as on 19.0.
 - Upgrade from 19.0: the text column is converted to JSON before the update, instead of being
   dropped by Odoo.

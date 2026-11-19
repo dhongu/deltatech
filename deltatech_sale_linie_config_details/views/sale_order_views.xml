@@ -6,12 +6,12 @@
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="priority" eval="100" />
         <field name="arch" type="xml">
-            <!-- before the whole quantity column (sol_qty groups several fields; inside it the button would
-                 become part of that column and rename its header) -->
-            <xpath expr="//field[@name='order_line']//list//column[@name='sol_qty']" position="before">
+            <!-- at the end of the row, after the amounts: a column between the description and the
+                 quantity takes width from them; icon only, the text is the tooltip -->
+            <xpath expr="//field[@name='order_line']//list/widget[@name='section_state']" position="before">
                 <field name="config_details" column_invisible="1" />
-                <button name="action_open_config_details" type="object" icon="fa-external-link"
-                        string="Details" invisible="not config_details" />
+                <button name="action_open_config_details" type="object" icon="fa-info-circle"
+                        title="Details" width="40px" invisible="not config_details" />
             </xpath>
         </field>
     </record>

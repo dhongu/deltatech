@@ -13,10 +13,7 @@
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px dashed #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;"><span class="fa fa-balance-scale" style="margin-right:6px;" aria-hidden="true"></span>LGPL-3</span>
       </div>
     </div>
-    <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 12 automated tests</div>
-      
-    </div>
+    
   </div>
 </div>
 
@@ -54,13 +51,13 @@
 </div>
 <p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Stores the configuration of the product sold on a sale order line &#8212; dimensions, profile, colour,
 parts, mock-up images &#8212; as structured data, and shows it to the salesperson from a <strong>Details</strong>
-button on the line.</p>
+icon on the line.</p>
 <p>Connectors and marketplace importers write the configuration they receive (a window configurator,
 a print shop's mock-ups) into one common field, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">config_details</code>, instead of each inventing its
 own field and popup. The salesperson reads it in a popup without leaving the order.</p>
 <p>Main features:</p>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-sliders" style="" aria-hidden="true"></span></span><div><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">config_details</code> on sale order lines, a JSON field copied with the line when the order is
-  duplicated.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Details</span><div>button in its own column of the order lines, shown only on lines with details.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-picture-o" style="" aria-hidden="true"></span></span><div>Popup with the groups of details: names in bold, values as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">key: value</code>, nested groups,
+  duplicated.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Details</span><div>icon (&#9432;) in its own narrow column of the order lines, shown only on lines with details.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-picture-o" style="" aria-hidden="true"></span></span><div>Popup with the groups of details: names in bold, values as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">key: value</code>, nested groups,
   pictures with an <em>Open image</em> link.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div>Safe: every text is escaped and nothing is ever evaluated as code.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-exchange" style="" aria-hidden="true"></span></span><div>Reads the formats written by older importers (a JSON text, or the text of a Python list) and
   converts the details of a database coming from 19.0 when it is upgraded.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-tasks" style="" aria-hidden="true"></span></span><div>Helpers for project reports: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">get_html_config_details()</code> and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">get_images_config_detail()</code>.</div></div></li></ul>
 <p>Format of the field: a list of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">{"name": ..., "value": ...}</code> groups, where <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">value</code> is a text or a
@@ -75,21 +72,21 @@ interface. The module has no settings and no menu of its own.</p>
 <ol>
 <li>Open the order created by the connector (<em>Sales &#8594; Orders &#8594; Quotations</em>, or <em>Sales &#8594; Orders &#8594;
    Orders</em> once confirmed). In the <strong>Order Lines</strong> tab, the lines with a configuration have a
-   <strong>Details</strong> button, in its own column before <strong>Quantity</strong>; lines without details (a service,
-   for instance) have no button.</li>
+   <strong>Details</strong> icon (&#9432;, the text shows on hover), in a narrow column at the end of the row, after the amount;
+   lines without details (a service, for instance) have no icon.</li>
 </ol>
 <div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
   <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
-    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Quotation for Casa Verde Residence SRL, Order Lines tab: the lines Fereastr&#259; PVC 2 canate and U&#537;&#259; balcon PVC have the Details button, highlighted, in its own column before Quantity; the Montaj t&#226;mpl&#259;rie line has no button" src="en/01_comanda_buton_detalii.png"/>
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Quotation for Casa Verde Residence SRL, Order Lines tab: the lines Fereastr&#259; PVC 2 canate and U&#537;&#259; balcon PVC have the Details icon (&#9432;), highlighted, in a narrow column at the end of the row, after the amount; the Montaj t&#226;mpl&#259;rie line has no icon" src="en/01_comanda_buton_detalii.png"/>
   </div>
   <div class="d-flex align-items-center px-3 py-2 border-top">
     <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
           style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
-    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Quotation for Casa Verde Residence SRL, Order Lines tab: the lines Fereastr&#259; PVC 2 canate and U&#537;&#259; balcon PVC have the Details button, highlighted, in its own column before Quantity; the Montaj t&#226;mpl&#259;rie line has no button</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Quotation for Casa Verde Residence SRL, Order Lines tab: the lines Fereastr&#259; PVC 2 canate and U&#537;&#259; balcon PVC have the Details icon (&#9432;), highlighted, in a narrow column at the end of the row, after the amount; the Montaj t&#226;mpl&#259;rie line has no icon</span>
   </div>
 </div>
 <ol start="2">
-<li>Click <strong>Details</strong> to open the read-only <strong>Config Details</strong> popup: group names in bold, values as
+<li>Click the <strong>Details</strong> icon to open the read-only <strong>Config Details</strong> popup: group names in bold, values as
    <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">key: value</code> (numbers are shown like texts), nested groups on their own rows, and a group with a
    plain text value on one row as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">name: value</code>. The <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">id</code> key is never shown. <strong>Close</strong> returns to
    the order.</li>
@@ -136,6 +133,8 @@ delivery or invoice reports. Project reports can print them with <code class="bo
 <li>Reads details written as a JSON text or as the text of a Python list (19.0 importers), never
   evaluating them; a dictionary without <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">name</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">value</code> is shown as an unnamed group; number values
   are shown like texts.</li>
+<li>The <strong>Details</strong> button is an icon (&#9432;, text as tooltip) at the end of the line, after the
+  amounts: between the description and the quantity it took width from those columns.</li>
 <li>Pictures get a translatable <em>Open image</em> link; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">src</code> pictures are larger, as on 19.0.</li>
 <li>Upgrade from 19.0: the text column is converted to JSON before the update, instead of being
   dropped by Odoo.</li>

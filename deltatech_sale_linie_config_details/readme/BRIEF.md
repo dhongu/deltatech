@@ -43,8 +43,8 @@ its content.
 ## Flow
 
 1. A connector creates or updates the order with `config_details` on the lines.
-2. The salesperson opens the order; lines with details have a **Details** button, in its own
-   column before the quantity.
+2. The salesperson opens the order; lines with details have a **Details** icon (ⓘ, the text is
+   the tooltip), in a narrow column at the end of the row, after the amount.
 3. A click opens the *Config Details* popup: group names in bold, the values as `key: value`,
    nested groups as rows (name on the left, values on the right), pictures with an *Open image* link; *Close* returns to the order.
 
@@ -54,13 +54,13 @@ its content.
 - **CA2:** in the popup, texts show as `key: value`, nested dictionaries as nested rows, and a
   group with a plain text value shows as `name: value`; the `id` key never shows. *(test)*
 - **CA3:** text from the data is escaped (`<script>` shows as text) and never evaluated. *(test)*
-- **CA4:** a line without details has no **Details** button; malformed details (not a list of
+- **CA4:** a line without details has no **Details** icon; malformed details (not a list of
   groups) open an empty popup, without error. *(test)*
 - **CA5:** `image` / `src` values show as pictures with an *Open image* link;
   `get_images_config_detail()` returns the `image` URLs. *(test)*
-- **CA6:** a salesperson clicks **Details** and sees the popup with the details. *(test)*
-- **CA7:** the **Details** button is its own column on the order lines; the quantity column keeps
-  its header and fields. *(test)*
+- **CA6:** a salesperson clicks the **Details** icon and sees the popup with the details. *(test)*
+- **CA7:** the **Details** icon (no text, tooltip *Details*) is its own narrow column at the end
+  of the row, after the amounts; the description and quantity columns are as in standard Odoo. *(test)*
 - **CA8:** details written as a JSON text, or as `str()` of a Python list, show like a list;
   a dictionary without `name`/`value` shows as an unnamed group; number values show. *(test)*
 - **CA9:** updating a database coming from 19.0 (text column) converts the stored details to JSON
