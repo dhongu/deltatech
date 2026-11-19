@@ -9,6 +9,11 @@ class PurchaseOrderLine(models.Model):
     _name = "purchase.order.line"
     _inherit = ["purchase.order.line", "deltatech.secondary.uom.mixin"]
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        self._complete_secondary_create_vals(vals_list, "product_qty", "uom_id")
+        return super().create(vals_list)
+
     def _get_secondary_product(self):
         return self.product_id
 

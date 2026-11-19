@@ -44,6 +44,22 @@ Review date: 2026-10-01. Target version: Odoo 19.
 - **Suggested fix:** Round up to a whole unit only when the base unit is
   piece-like; otherwise round with the `Product Unit` precision.
 
+## SECONDARY-003 — P2: Line created from the secondary quantity keeps amounts for quantity 1
+
+- **Status:** Fixed in 20.0.1.2.4, issue dhongu/deltatech#4246 (2026-11-19).
+  Covered by `test_create_sale_line_from_secondary_qty`,
+  `test_create_purchase_line_from_secondary_qty` and
+  `test_create_stock_move_from_secondary_qty`.
+- **Location:** models/secondary_uom_mixin.py (`_inverse_secondary_uom_qty`);
+  `create` of the sale, purchase and stock move lines.
+- **Trigger:** Create a sale order line with `secondary_uom_id` and
+  `secondary_uom_qty` but without `product_uom_qty` (API, import).
+- **Actual behavior:** The inverse sets the quantity (60 m) after the
+  precomputed amounts were computed with quantity 1, and `create` protects
+  them: `price_subtotal` 32 while `amount_untaxed` is 1,920.
+- **Fix:** `create` fills the line quantity from the secondary quantity and
+  the product conversion before calling `super()`.
+
 ## Review limitations
 
 Findings are based on local source inspection and the isolated reproductions stated above. No database-backed integration tests were run. SECONDARY-001 was fixed and verified with database tests on 2026-10-01.
