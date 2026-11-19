@@ -1,0 +1,54 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_purchase_currency
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-19 05:30+0000\n"
+"PO-Revision-Date: 2026-11-19 05:30+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_purchase_currency
+#: model:ir.model,name:deltatech_purchase_currency.model_account_move
+msgid "Journal Entry"
+msgstr "Înregistrare contabilă"
+
+#. module: deltatech_purchase_currency
+#: model:ir.model,name:deltatech_purchase_currency.model_account_move_line
+msgid "Journal Item"
+msgstr "Element jurnal"
+
+#. module: deltatech_purchase_currency
+#: model:ir.model,name:deltatech_purchase_currency.model_purchase_order
+msgid "Purchase Order"
+msgstr "Comandă de achiziție"
+
+#. module: deltatech_purchase_currency
+#: model:ir.model,name:deltatech_purchase_currency.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Linie comandă de achiziție"
+
+#. module: deltatech_purchase_currency
+#: model:ir.model.fields,field_description:deltatech_purchase_currency.field_purchase_order__journal_id
+msgid "Invoicing Journal"
+msgstr "Jurnal de facturare"
+
+#. module: deltatech_purchase_currency
+#: model:ir.model.fields,help:deltatech_purchase_currency.field_purchase_order__journal_id
+msgid ""
+"If set, the vendor bill is created in this journal and in its currency (the "
+"company currency when the journal has none); the order prices are converted "
+"at the bill date rate. If empty, the bill is in the order currency."
+msgstr ""
+"Dacă este completat, factura furnizorului se creează în acest jurnal și în "
+"moneda lui (moneda companiei, dacă jurnalul nu are monedă); prețurile din "
+"comandă se convertesc la cursul de la data facturii. Dacă este gol, factura "
+"este în moneda comenzii."
