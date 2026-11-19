@@ -19,8 +19,23 @@ class DeltatechTcController(http.Controller):
         return request.make_json_response(payload, status=status)
 
     def _station(self):
+        """Authenticate the station and switch the request to the system user.
+
+        The routes are ``auth="none"``: until the station is known, the request
+        (and the transaction's ``default_env``) has no user and no companies. Every
+        flush of the request - savepoint exit, the final commit - recomputes the
+        pending fields in that default env, so a compute calling ``with_company`` or
+        reading ``env.company`` would fail with ``IndexError``. Once authenticated, the
+        request runs as the system user in the station's company.
+        """
         key = request.httprequest.headers.get("X-Station-Key")
-        return request.env["deltatech.tc.station"]._authenticate(key)
+        station = request.env["deltatech.tc.station"]._authenticate(key)
+        if station:
+            company = station.company_id
+            context = dict(request.env.context, allowed_company_ids=company.ids)
+            request.update_env(user=SUPERUSER_ID, context=context)
+            station = station.with_env(request.env)
+        return station
 
     def _body(self):
         try:
@@ -60,7 +75,7 @@ class DeltatechTcController(http.Controller):
         except (ValueError, TypeError):
             limit = 10
         limit = max(1, min(limit, 50))
-        jobs = request.env["deltatech.tc.job"].sudo()._claim_for_station(station, limit=limit)
+        jobs = request.env["deltatech.tc.job"]._claim_for_station(station, limit=limit)
         return self._json({"jobs": [{"id": j.id, "type": j.job_type, "payload": j.payload_dict()} for j in jobs]})
 
     @http.route("/tc/result", type="http", auth="none", methods=["POST"], csrf=False, readonly=False)
@@ -74,13 +89,9 @@ class DeltatechTcController(http.Controller):
             job_id = int(body.get("job_id"))
         except (ValueError, TypeError):
             return self._json({"error": "invalid job_id"}, status=400)
-        # auth="none" has no env.user; run result processing as the system user so
-        # _process_result hooks (e.g. DUK message_post) have a valid singleton user.
-        job = (
-            request.env["deltatech.tc.job"]
-            .with_user(SUPERUSER_ID)
-            .search([("id", "=", job_id), ("station_id", "=", station.id)], limit=1)
-        )
+        # _station() switched the request to the system user, so _process_result hooks
+        # (e.g. DUK message_post) have a valid singleton user and company.
+        job = request.env["deltatech.tc.job"].search([("id", "=", job_id), ("station_id", "=", station.id)], limit=1)
         if not job:
             return self._json({"error": "job not found"}, status=404)
         # Only a claimed job accepts a result: re-posting on a finished job would

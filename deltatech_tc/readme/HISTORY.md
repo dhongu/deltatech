@@ -1,3 +1,11 @@
+## 20.0.1.4.2 (2026-11-19)
+
+- `/tc/heartbeat`, `/tc/poll` and `/tc/result` switch the request to the system user, in the
+  station's company, right after authenticating the station. The routes are `auth="none"`, so
+  the transaction's default environment had no user and no companies: a flush during a callback
+  (savepoint exit, final commit) recomputed fields there and computes using `with_company` or
+  `env.company` failed with `IndexError` (e.g. `sale_stock_margin` on a `pg_query` callback).
+
 ## 20.0.1.4.1 (2026-11-19)
 
 - Documentation, examples, tests and screenshots use a neutral `erp` profile and a `Server ERP`
