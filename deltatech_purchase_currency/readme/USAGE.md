@@ -52,11 +52,14 @@ vendor and bill currency, not by journal: orders with different journals but the
 currency end up on one bill, in the journal of the first order. Bill them one by one to keep the
 journals apart.
 
-If the supplier invoice states another rate than the one in Odoo, type it in **Vendor Rate**,
-in the bill header, under the dates (bill currency for 1 unit of the order currency, e.g. 5.10 RON for 1 EUR).
-The order prices are converted at that rate and a later change of the bill date no longer changes
-them; clear the field to go back to the Odoo rate. The field is shown only when the bill lines
-come from orders in one other currency, and the Purchase Order column compares with the order price
-at the same rate.
+**Vendor Rate**, in the bill header under the dates, shows the Odoo (BNR) rate of the bill date
+(bill currency for 1 unit of the order currency, e.g. 5.0912 RON for 1 EUR). If the supplier
+invoice states another rate, type it there **after setting the Bill Date**: the order prices are
+converted at that rate. Changing the Bill Date afterwards brings the Odoo rate of the new date
+back and a warning names the rate it replaced; clearing the field also puts the Odoo rate back.
+The field is shown only when the bill lines come from orders in one other currency, and the
+Purchase Order column compares with the order price at the same rate.
 
 ![Draft bill in RON with Vendor Rate 5.100000 RON per 1 EUR and the Bill Date set: the price is 12.50 EUR × 5.10 = 63.75, and the Purchase Order column shows no price difference](static/description/en/10_factura_curs_furnizor.png)
+
+![Vendor rate replaced dialog after the Bill Date was changed: the vendor rate 5.1000 was replaced with the rate of the new date, 5.0912 RON for 1 EUR, and the price is converted again to 63.64](static/description/en/11_avertisment_curs_inlocuit.png)

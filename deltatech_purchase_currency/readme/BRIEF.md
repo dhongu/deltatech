@@ -11,6 +11,11 @@
 >
 > Version 20.0.1.1.0: „si daca furnizorul factureaza la un alt curs cum se poate specifica cursul
 > in factura” (2026-11-19)
+>
+> Version 20.0.1.2.0: „nu se poate afisa cursul valutar de la BNR in loc de zero ? dupa schimbarea
+> datei se aduca cursul valutar de la BNR si se afiseaza o notificare ca a fost modificat (asta pt
+> cazul in care userul introduse cusrul si apoi data si cursul este uprascris cu cel de la BNR)”
+> (2026-11-19)
 
 ## Purpose
 
@@ -51,9 +56,10 @@ accountant creates and checks the vendor bill (group *Invoicing*).
    before today).
 5. The accountant sets the *Bill Date* from the supplier invoice: the prices are converted
    again, at the rate of that date.
-6. When the supplier invoice states another rate, the accountant types it in *Vendor Rate*
-   (bill currency for 1 unit of the order currency, e.g. 5.1000 RON for 1 EUR): the prices are
-   converted at that rate, and a later bill date change no longer changes them.
+6. *Vendor Rate* shows the Odoo (BNR) rate of the bill date, as bill currency for 1 unit of the
+   order currency (e.g. 5.0912 RON for 1 EUR). When the supplier invoice states another rate,
+   the accountant types it there, after the bill date: the prices are converted at that rate.
+   A later bill date change brings the BNR rate of the new date back and says so.
 
 ## Acceptance criteria
 
@@ -78,12 +84,16 @@ accountant creates and checks the vendor bill (group *Invoicing*).
   bill in the order currency, or with lines from orders in different currencies, it is hidden.
 - **CA9:** Setting *Vendor Rate* = 5.10 → the unit price becomes the EUR price × 5.10 (in the
   bill line unit).
-- **CA10:** With *Vendor Rate* set, changing the bill date leaves the prices unchanged;
-  clearing *Vendor Rate* converts them again at the Odoo rate of the bill date.
+- **CA10:** Changing the bill date sets *Vendor Rate* to the Odoo rate of the new date and
+  converts the prices at it; clearing *Vendor Rate* puts the Odoo rate of the bill date back.
 - **CA11:** With *Vendor Rate* set, the matching flag compares with the order price at that
   rate (no difference shown on unchanged lines).
-- **CA12:** A negative *Vendor Rate* is refused with an error on save (0 means empty: the Odoo
-  rate is used).
+- **CA12:** A negative *Vendor Rate* is refused with an error on save.
+- **CA13:** A RON bill created from a EUR order shows in *Vendor Rate* the Odoo rate of the bill
+  date (not 0), and the prices match it.
+- **CA14:** *Vendor Rate* typed by hand, then the bill date changed → the rate is replaced by the
+  Odoo rate of the new date and a warning names the replaced rate and the new one; when the
+  rate was not typed by hand, the date change shows no warning.
 
 ## Edge cases
 
@@ -108,7 +118,8 @@ accountant creates and checks the vendor bill (group *Invoicing*).
 | Price | free (no `price` key), like the pair module | User's choice |
 | Vendor rate direction | bill currency per 1 unit of order currency (RON per EUR) | That is how a Romanian vendor invoice states it; the inverse Odoo rate would confuse the accountant |
 | Vendor rate scope | one field per bill, only when all order lines come from one other currency | A single rate cannot serve two source currencies |
-| Vendor rate vs bill date | the vendor rate wins; the bill date drives the rate only while the field is empty | The rate printed on the invoice is the one to book |
+| Vendor rate vs bill date | the bill date resets the rate to the Odoo rate, with a warning when a typed rate is replaced | User's choice (v1.2): the field always shows a real rate; the accountant types the vendor rate after the date |
+| How a typed rate is recognised | a hidden *Odoo Rate* field keeps the last rate filled in automatically; a different *Vendor Rate* is a typed one | No guess from the dates; works before the bill is saved |
 | Vendor rate on the bill, not on the order | bill field, empty by default | The rate is known only when the invoice arrives |
 | Matching flag | converted PO price compared in the bill currency | Otherwise every converted line is flagged as a price difference |
 
