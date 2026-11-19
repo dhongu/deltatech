@@ -12,6 +12,6 @@
     "depends": ["account"],
     "data": [],
     "images": ["static/description/main_screenshot.png"],
-    "development_status": "Beta",
+    "development_status": "Mature",
     "maintainers": ["dhongu"],
 }

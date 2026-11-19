@@ -61,7 +61,8 @@ Date minime pentru demo:
 
 ## 5. Configurare inițială
 
-1. Instalați modulul `deltatech_purchase_ubl` (depinde de `purchase_stock` și `account`).
+1. Instalați modulul `deltatech_purchase_ubl` (depinde de `purchase_stock` și de `deltatech_account_ubl_import`,
+   modulul de bază cu citirea XML-ului UBL, care se instalează automat).
 2. Pe prețurile furnizorului (**Achiziții → Produse → Produse**, tab **Achiziție**), completați
    **Cod produs furnizor**, pentru ca asocierea să se facă după cod (linie verde), nu după nume.
 3. Verificați că furnizorul are CUI-ul completat; fără comandă în context, furnizorul se caută după
@@ -211,7 +212,8 @@ achiziții.
 | Modul / proces | Rol în flux | Tip legătură |
 |---|---|---|
 | `purchase_stock` | comanda de achiziție, recepția și prețurile furnizorului | dependență (manifest) |
-| `account` | factura furnizorului | dependență (manifest) |
+| `deltatech_account_ubl_import` | citirea XML-ului UBL, identificarea furnizorului și a produselor, actualizarea prețurilor furnizorului (modul de bază, fără ecrane proprii; aduce și `account`) | dependență (manifest) |
+| `account` | factura furnizorului | dependență (prin `deltatech_account_ubl_import`) |
 | Preluarea facturilor din SPV (`l10n_ro_message_spv_purchase`) | atașează automat XML-ul pe comandă și declanșează importul automat | opțional |
 
 Ce este automat: identificarea furnizorului și a comenzii din XML, asocierea produselor, actualizarea
