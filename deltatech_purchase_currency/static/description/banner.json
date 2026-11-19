@@ -1,0 +1,10 @@
+{
+  "title": "Purchase Invoice Currency",
+  "summary": "Bill purchase orders in the journal currency",
+  "icon": "globe",
+  "features": [
+    "Invoicing journal on the purchase order",
+    "Prices converted at the bill date rate",
+    "Price matching in the bill currency"
+  ]
+}
