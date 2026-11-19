@@ -1,3 +1,8 @@
+## 20.0.1.4.1 (2026-11-19)
+
+- Documentation, examples, tests and screenshots use a neutral `erp` profile and a `Server ERP`
+  station instead of a customer's names; no functional change.
+
 ## 20.0.1.4.0 (2026-11-19)
 
 - `pg_query` accepts **SQL written in the calling module** (`_tc_enqueue_pg_query(station, profile,
@@ -28,7 +33,7 @@
   failed after the retry limit. `pg_rows()` returns the rows of a page. Pages are retry-safe.
 - Heartbeat: the agent name (`agent`) and the installed queries (`pg_profiles`) are stored on
   the station (**Agent**, **PostgreSQL queries**). `_tc_find(feature)` returns the company's
-  active station announcing a feature (whole element, e.g. `pg:winarhi`);
+  active station announcing a feature (whole element, e.g. `pg:erp`);
   `_tc_has_pg_query(profile, query)` checks an installed query.
 - Daily cleanup: finished `pg_query` pages are deleted after 3 days
   (`deltatech_tc.pg_done_ttl_days`).

@@ -96,25 +96,25 @@ class TestTcScreenshots(ScreenshotCase or object):
         Job.create({"station_id": cls.simulated.id, "company_id": company.id, "job_type": "ping"})
 
         # agentul Terrabit Connect PostgreSQL: stație proprie, interogări instalate, un lanț de pagini
-        cls.pg_station = Station.create({"name": "Server Winarhi", "company_id": company.id})
+        cls.pg_station = Station.create({"name": "Server ERP", "company_id": company.id})
         cls.pg_station._touch(
             {
                 "version": "0.1.0",
                 "os": "windows",
                 "agent": "tc-postgresql",
-                "features": ["postgresql", "pg:winarhi"],
-                "pg_profiles": {"winarhi": ["articles", "offers_since", "orders_since"]},
+                "features": ["postgresql", "pg:erp"],
+                "pg_profiles": {"erp": ["articles", "offers_since", "orders_since"]},
             }
         )
         rows = [
-            {"cod_mag": "ALU-4512", "denumire": "Profil toc 70 mm", "pret": "41.2500"},
-            {"cod_mag": "ALU-4518", "denumire": "Profil cercevea 70 mm", "pret": "38.9000"},
-            {"cod_mag": "ALU-4520", "denumire": "Baghetă geam 24 mm", "pret": "6.1500"},
+            {"code": "ALU-4512", "name": "Profil toc 70 mm", "price": "41.2500"},
+            {"code": "ALU-4518", "name": "Profil cercevea 70 mm", "price": "38.9000"},
+            {"code": "ALU-4520", "name": "Baghetă geam 24 mm", "price": "6.1500"},
         ]
         pages = []
         for page, (after, state) in enumerate(((None, "done"), ("ALU-4508", "done"), ("ALU-4520", "pending"))):
             job = Job._tc_enqueue_pg_query(
-                cls.pg_station, "winarhi", "articles", params={"year": 2026}, page_size=3, after=after, page=page
+                cls.pg_station, "erp", "articles", params={"year": 2026}, page_size=3, after=after, page=page
             )
             pages.append(job)
             if state == "done":
@@ -127,14 +127,14 @@ class TestTcScreenshots(ScreenshotCase or object):
                         "result": json.dumps(
                             {
                                 "columns": [
-                                    {"name": "cod_mag", "type": "varchar"},
-                                    {"name": "denumire", "type": "text"},
-                                    {"name": "pret", "type": "numeric"},
+                                    {"name": "code", "type": "varchar"},
+                                    {"name": "name", "type": "text"},
+                                    {"name": "price", "type": "numeric"},
                                 ],
                                 "rows": rows,
                                 "count": 3,
                                 "more": True,
-                                "next": rows[-1]["cod_mag"],
+                                "next": rows[-1]["code"],
                                 "page": page,
                                 "elapsed_ms": 38,
                             },

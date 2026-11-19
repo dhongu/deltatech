@@ -322,12 +322,12 @@ within the throttle window.</p>
 </ol>
 <div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
   <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
-    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Terrabit Connect Stations list: Casa 1 Magazin (test) highlighted with Simulation ticked, PC Contabilitate and Server Winarhi (the PostgreSQL agent, version 0.1.0)" src="en/01_lista_statii.png"/>
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Terrabit Connect Stations list: Casa 1 Magazin (test) highlighted with Simulation ticked, PC Contabilitate and Server ERP (the PostgreSQL agent, version 0.1.0)" src="en/01_lista_statii.png"/>
   </div>
   <div class="d-flex align-items-center px-3 py-2 border-top">
     <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
           style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
-    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Terrabit Connect Stations list: Casa 1 Magazin (test) highlighted with Simulation ticked, PC Contabilitate and Server Winarhi (the PostgreSQL agent, version 0.1.0)</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Terrabit Connect Stations list: Casa 1 Magazin (test) highlighted with Simulation ticked, PC Contabilitate and Server ERP (the PostgreSQL agent, version 0.1.0)</span>
   </div>
 </div>
 <ol start="2">
@@ -393,12 +393,12 @@ station or job type.</p>
 </ul>
 <div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
   <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
-    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN) in Error (red), one Claimed (muted), a Ping Pending and three PostgreSQL query (LAN) pages on Server Winarhi, two Done and the third Pending" src="en/04_lista_joburi.png"/>
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN) in Error (red), one Claimed (muted), a Ping Pending and three PostgreSQL query (LAN) pages on Server ERP, two Done and the third Pending" src="en/04_lista_joburi.png"/>
   </div>
   <div class="d-flex align-items-center px-3 py-2 border-top">
     <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
           style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">4</span>
-    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN) in Error (red), one Claimed (muted), a Ping Pending and three PostgreSQL query (LAN) pages on Server Winarhi, two Done and the third Pending</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN) in Error (red), one Claimed (muted), a Ping Pending and three PostgreSQL query (LAN) pages on Server ERP, two Done and the third Pending</span>
   </div>
 </div>
 <p>Open a job to read its <strong>Payload</strong>, <strong>Result</strong> and <strong>Error</strong> tabs.</p>
@@ -473,21 +473,21 @@ transaction.</p>
 (its own station, not the one of the desktop app), with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">allow_sql = true</code> on the profile,
 and queue pages from a feature module; the SQL lives in the module:</p>
 <pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">ORDERS_SINCE = &quot;&quot;&quot;
-    SELECT codunic, nume, datatrecutinprod
-      FROM winarhi.comenzi
-     WHERE datatrecutinprod &gt;= %(since)s
-       AND (%(after)s::bigint IS NULL OR codunic &gt; %(after)s)
-     ORDER BY codunic
+    SELECT id, name, confirmed_at
+      FROM erp.orders
+     WHERE confirmed_at &gt;= %(since)s
+       AND (%(after)s::bigint IS NULL OR id &gt; %(after)s)
+     ORDER BY id
 &quot;&quot;&quot;
 
-station = self.env[&quot;deltatech.tc.station&quot;]._tc_find(&quot;pg:winarhi&quot;)
-if not station._tc_has_pg_sql(&quot;winarhi&quot;):
-    raise UserError(self.env._(&quot;The Winarhi station does not accept SQL from Odoo (allow_sql).&quot;))
+station = self.env[&quot;deltatech.tc.station&quot;]._tc_find(&quot;pg:erp&quot;)
+if not station._tc_has_pg_sql(&quot;erp&quot;):
+    raise UserError(self.env._(&quot;The ERP station does not accept SQL from Odoo (allow_sql).&quot;))
 self.env[&quot;deltatech.tc.job&quot;]._tc_enqueue_pg_query(
     station,
-    &quot;winarhi&quot;,
+    &quot;erp&quot;,
     sql=ORDERS_SINCE,
-    key=&quot;codunic&quot;,
+    key=&quot;id&quot;,
     params={&quot;since&quot;: &quot;2026-11-01 00:00:00&quot;},
     page_size=500,
     callback=(self, &quot;_tc_receive_orders&quot;),
@@ -496,17 +496,17 @@ self.env[&quot;deltatech.tc.job&quot;]._tc_enqueue_pg_query(
 <p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">%(name)s</code> parameters are bound by the station, never pasted into the SQL; PostgreSQL infers
 their types, so add a cast where it cannot (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">%(after)s::bigint IS NULL</code>). With <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">key</code>, the SQL
 must page on that column with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">%(after)s</code>. On a profile without <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">allow_sql</code>, name a query file
-installed in its <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">queries\&lt;profile&gt;\</code> folder instead (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_enqueue_pg_query(station, "winarhi",
+installed in its <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">queries\&lt;profile&gt;\</code> folder instead (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_enqueue_pg_query(station, "erp",
 "orders_since", params=...)</code>, checked with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_has_pg_query</code>).</p>
 <p>The station form then shows the agent and the installed queries:</p>
 <div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
   <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
-    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Station Server Winarhi: Agent tc-postgresql (1), Features postgresql,pg:winarhi and PostgreSQL queries winarhi: articles, offers_since, orders_since (2)" src="en/07_statie_postgresql.png"/>
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Station Server ERP: Agent tc-postgresql (1), Features postgresql,pg:erp and PostgreSQL queries erp: articles, offers_since, orders_since (2)" src="en/07_statie_postgresql.png"/>
   </div>
   <div class="d-flex align-items-center px-3 py-2 border-top">
     <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
           style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">6</span>
-    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Station Server Winarhi: Agent tc-postgresql (1), Features postgresql,pg:winarhi and PostgreSQL queries winarhi: articles, offers_since, orders_since (2)</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Station Server ERP: Agent tc-postgresql (1), Features postgresql,pg:erp and PostgreSQL queries erp: articles, offers_since, orders_since (2)</span>
   </div>
 </div>
 <p>The callback runs once per page, and once more if a page fails:</p>
@@ -522,12 +522,12 @@ installed in its <code class="border rounded px-2" style="font-family:ui-monospa
 text (no precision lost), dates and timestamps as ISO text.</p>
 <div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
   <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
-    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Job #6 PostgreSQL query (LAN) on Server Winarhi, Done, Result tab (2): columns cod_mag, denumire, pret and the rows of the page, prices as text (41.2500)" src="en/06_pg_query_pagina.png"/>
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="A PostgreSQL query (LAN) job on Server ERP, Done, Result tab (2): columns code, name, price and the rows of the page, prices as text (41.2500)" src="en/06_pg_query_pagina.png"/>
   </div>
   <div class="d-flex align-items-center px-3 py-2 border-top">
     <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
           style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">7</span>
-    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Job #6 PostgreSQL query (LAN) on Server Winarhi, Done, Result tab (2): columns cod_mag, denumire, pret and the rows of the page, prices as text (41.2500)</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">A PostgreSQL query (LAN) job on Server ERP, Done, Result tab (2): columns code, name, price and the rows of the page, prices as text (41.2500)</span>
   </div>
 </div>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Adding feature <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">modules</span></h2>
@@ -538,6 +538,11 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.4.1 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-19)</span></h2>
+<ul>
+<li>Documentation, examples, tests and screenshots use a neutral <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">erp</code> profile and a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Server ERP</code>
+  station instead of a customer's names; no functional change.</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.4.0 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-19)</span></h2>
 <ul>
 <li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg_query</code> accepts <strong>SQL written in the calling module</strong> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_enqueue_pg_query(station, profile,
@@ -568,7 +573,7 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
   failed after the retry limit. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg_rows()</code> returns the rows of a page. Pages are retry-safe.</li>
 <li>Heartbeat: the agent name (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">agent</code>) and the installed queries (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg_profiles</code>) are stored on
   the station (<strong>Agent</strong>, <strong>PostgreSQL queries</strong>). <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_find(feature)</code> returns the company's
-  active station announcing a feature (whole element, e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg:winarhi</code>);
+  active station announcing a feature (whole element, e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg:erp</code>);
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_has_pg_query(profile, query)</code> checks an installed query.</li>
 <li>Daily cleanup: finished <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg_query</code> pages are deleted after 3 days
   (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_tc.pg_done_ttl_days</code>).</li>
@@ -609,10 +614,6 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.2.2 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-09-30)</span></h2>
 <ul>
 <li>New Apps Store banner, with the module icon, and the job retry and queue cleanup feature.</li>
-</ul>
-<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.2.1 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-09-29)</span></h2>
-<ul>
-<li>Own module icon, instead of the generic gears it had.</li>
 </ul>
 <p><em>Older releases are listed in the module's HISTORY file.</em></p>
 </div>

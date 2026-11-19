@@ -315,7 +315,7 @@ Registering a station
    whether it runs in **Simulation** (highlighted rows).
 
    |Terrabit Connect Stations list: Casa 1 Magazin (test) highlighted
-   with Simulation ticked, PC Contabilitate and Server Winarhi (the
+   with Simulation ticked, PC Contabilitate and Server ERP (the
    PostgreSQL agent, version 0.1.0)|
 
 2. Click **New** and give the station a descriptive name (e.g.
@@ -390,7 +390,7 @@ The job list uses colour coding:
 
 |Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN)
 in Error (red), one Claimed (muted), a Ping Pending and three PostgreSQL
-query (LAN) pages on Server Winarhi, two Done and the third Pending|
+query (LAN) pages on Server ERP, two Done and the third Pending|
 
 Open a job to read its **Payload**, **Result** and **Error** tabs.
 
@@ -491,21 +491,21 @@ module; the SQL lives in the module:
 .. code:: python
 
    ORDERS_SINCE = """
-       SELECT codunic, nume, datatrecutinprod
-         FROM winarhi.comenzi
-        WHERE datatrecutinprod >= %(since)s
-          AND (%(after)s::bigint IS NULL OR codunic > %(after)s)
-        ORDER BY codunic
+       SELECT id, name, confirmed_at
+         FROM erp.orders
+        WHERE confirmed_at >= %(since)s
+          AND (%(after)s::bigint IS NULL OR id > %(after)s)
+        ORDER BY id
    """
 
-   station = self.env["deltatech.tc.station"]._tc_find("pg:winarhi")
-   if not station._tc_has_pg_sql("winarhi"):
-       raise UserError(self.env._("The Winarhi station does not accept SQL from Odoo (allow_sql)."))
+   station = self.env["deltatech.tc.station"]._tc_find("pg:erp")
+   if not station._tc_has_pg_sql("erp"):
+       raise UserError(self.env._("The ERP station does not accept SQL from Odoo (allow_sql)."))
    self.env["deltatech.tc.job"]._tc_enqueue_pg_query(
        station,
-       "winarhi",
+       "erp",
        sql=ORDERS_SINCE,
-       key="codunic",
+       key="id",
        params={"since": "2026-11-01 00:00:00"},
        page_size=500,
        callback=(self, "_tc_receive_orders"),
@@ -516,14 +516,13 @@ SQL; PostgreSQL infers their types, so add a cast where it cannot
 (``%(after)s::bigint IS NULL``). With ``key``, the SQL must page on that
 column with ``%(after)s``. On a profile without ``allow_sql``, name a
 query file installed in its ``queries\<profile>\`` folder instead
-(``_tc_enqueue_pg_query(station, "winarhi", "orders_since", params=...)``,
+(``_tc_enqueue_pg_query(station, "erp", "orders_since", params=...)``,
 checked with ``_tc_has_pg_query``).
 
 The station form then shows the agent and the installed queries:
 
-|Station Server Winarhi: Agent tc-postgresql (1), Features
-postgresql,pg:winarhi and PostgreSQL queries winarhi: articles,
-offers_since, orders_since (2)|
+|Station Server ERP: Agent tc-postgresql (1), Features postgresql,pg:erp
+and PostgreSQL queries erp: articles, offers_since, orders_since (2)|
 
 The callback runs once per page, and once more if a page fails:
 
@@ -541,8 +540,8 @@ page is marked **Error** and **Retry** takes the chain up from that
 page. ``numeric`` values arrive as text (no precision lost), dates and
 timestamps as ISO text.
 
-|Job #6 PostgreSQL query (LAN) on Server Winarhi, Done, Result tab (2):
-columns cod_mag, denumire, pret and the rows of the page, prices as text
+|A PostgreSQL query (LAN) job on Server ERP, Done, Result tab (2):
+columns code, name, price and the rows of the page, prices as text
 (41.2500)|
 
 Adding feature modules
@@ -554,16 +553,23 @@ printer, Zebra labels, DUKIntegrator) to activate additional job types.
 They appear automatically in the **Job Type** column of the job list
 once the feature module is installed.
 
-.. |Terrabit Connect Stations list: Casa 1 Magazin (test) highlighted with Simulation ticked, PC Contabilitate and Server Winarhi (the PostgreSQL agent, version 0.1.0)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/01_lista_statii.png
+.. |Terrabit Connect Stations list: Casa 1 Magazin (test) highlighted with Simulation ticked, PC Contabilitate and Server ERP (the PostgreSQL agent, version 0.1.0)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/01_lista_statii.png
 .. |Station form PC Contabilitate: Ping and Download config in the header, Last Seen, TC Version 1.8.2, Operating System Windows 11, Features and Fiscal Driver fiscalwire| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/02_formular_statie.png
 .. |Station form Casa 1 Magazin (test): Simulation ribbon, the warning with the simulated devices fiscal,terminal:demo and Fiscal Driver simulated| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/03_statie_simulata.png
-.. |Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN) in Error (red), one Claimed (muted), a Ping Pending and three PostgreSQL query (LAN) pages on Server Winarhi, two Done and the third Pending| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/04_lista_joburi.png
+.. |Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN) in Error (red), one Claimed (muted), a Ping Pending and three PostgreSQL query (LAN) pages on Server ERP, two Done and the third Pending| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/04_lista_joburi.png
 .. |An HTTP request (LAN) job in Error, Error tab open with the message returned by the station, Retry button in the header| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/05_job_eroare.png
-.. |Station Server Winarhi: Agent tc-postgresql (1), Features postgresql,pg:winarhi and PostgreSQL queries winarhi: articles, offers_since, orders_since (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/07_statie_postgresql.png
-.. |Job #6 PostgreSQL query (LAN) on Server Winarhi, Done, Result tab (2): columns cod_mag, denumire, pret and the rows of the page, prices as text (41.2500)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/06_pg_query_pagina.png
+.. |Station Server ERP: Agent tc-postgresql (1), Features postgresql,pg:erp and PostgreSQL queries erp: articles, offers_since, orders_since (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/07_statie_postgresql.png
+.. |A PostgreSQL query (LAN) job on Server ERP, Done, Result tab (2): columns code, name, price and the rows of the page, prices as text (41.2500)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/06_pg_query_pagina.png
 
 Changelog
 =========
+
+20.0.1.4.1 (2026-11-19)
+-----------------------
+
+- Documentation, examples, tests and screenshots use a neutral ``erp``
+  profile and a ``Server ERP`` station instead of a customer's names; no
+  functional change.
 
 20.0.1.4.0 (2026-11-19)
 -----------------------
@@ -607,7 +613,7 @@ Changelog
 - Heartbeat: the agent name (``agent``) and the installed queries
   (``pg_profiles``) are stored on the station (**Agent**, **PostgreSQL
   queries**). ``_tc_find(feature)`` returns the company's active station
-  announcing a feature (whole element, e.g. ``pg:winarhi``);
+  announcing a feature (whole element, e.g. ``pg:erp``);
   ``_tc_has_pg_query(profile, query)`` checks an installed query.
 - Daily cleanup: finished ``pg_query`` pages are deleted after 3 days
   (``deltatech_tc.pg_done_ttl_days``).

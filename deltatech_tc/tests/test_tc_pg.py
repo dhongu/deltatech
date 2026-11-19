@@ -43,7 +43,7 @@ class TestTcPgQuery(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.station = cls.env["deltatech.tc.station"].create({"name": "Winarhi server"})
+        cls.station = cls.env["deltatech.tc.station"].create({"name": "ERP server"})
         cls.Job = cls.env["deltatech.tc.job"]
         cls.partner = cls.env["res.partner"].create({"name": "Sync request"})
 
@@ -52,7 +52,7 @@ class TestTcPgQuery(TransactionCase):
 
     def _enqueue(self, **kw):
         kw.setdefault("params", {"since": "2026-11-01"})
-        return self.Job._tc_enqueue_pg_query(self.station, "winarhi", "orders_since", **kw)
+        return self.Job._tc_enqueue_pg_query(self.station, "erp", "orders_since", **kw)
 
     def _answer(self, job, result=None, error=None):
         """What /tc/result does: the station claims the job, then reports."""
@@ -71,7 +71,7 @@ class TestTcPgQuery(TransactionCase):
         self.assertEqual(
             job.payload_dict(),
             {
-                "profile": "winarhi",
+                "profile": "erp",
                 "query": "orders_since",
                 "params": {"since": "2026-11-01"},
                 "after": None,
@@ -84,7 +84,7 @@ class TestTcPgQuery(TransactionCase):
 
     def test_rejects_unusable_payloads(self):
         """Only names travel to the station - never SQL, never a path."""
-        for profile, query in (("winarhi", "select * from x"), ("../etc", "q"), ("", "q"), ("winarhi", "a;b")):
+        for profile, query in (("erp", "select * from x"), ("../etc", "q"), ("", "q"), ("erp", "a;b")):
             with self.assertRaises(ValidationError, msg=f"{profile}/{query}"):
                 self.Job._tc_enqueue_pg_query(self.station, profile, query)
         with self.assertRaises(ValidationError):
@@ -122,30 +122,27 @@ class TestTcPgQuery(TransactionCase):
         self.assertEqual(second.pg_rows(), [{"code": "A3"}])
 
     def test_sql_from_odoo_is_chained_with_its_key(self):
-        sql = (
-            "SELECT cod_mag FROM winarhi.consumelementcomplet_2026"
-            " WHERE (%(after)s::text IS NULL OR cod_mag > %(after)s) ORDER BY cod_mag"
-        )
-        first = self.Job._tc_enqueue_pg_query(self.station, "winarhi", sql=sql, key="cod_mag", page_size=2)
+        sql = "SELECT code FROM erp.articles WHERE (%(after)s::text IS NULL OR code > %(after)s) ORDER BY code"
+        first = self.Job._tc_enqueue_pg_query(self.station, "erp", sql=sql, key="code", page_size=2)
         payload = first.payload_dict()
-        self.assertEqual((payload["sql"], payload["key"]), (sql, "cod_mag"))
+        self.assertEqual((payload["sql"], payload["key"]), (sql, "code"))
         self.assertNotIn("query", payload, "the station must not look for a query file")
         self._answer(first, _page(["A1", "A2"], more=True, next_key="A2"))
         second = self._chain()[1].payload_dict()
-        self.assertEqual((second["sql"], second["key"], second["after"], second["page"]), (sql, "cod_mag", "A2", 1))
+        self.assertEqual((second["sql"], second["key"], second["after"], second["page"]), (sql, "code", "A2", 1))
 
     def test_sql_or_query_but_not_both(self):
         with self.assertRaises(UserError):
-            self.Job._tc_enqueue_pg_query(self.station, "winarhi")
+            self.Job._tc_enqueue_pg_query(self.station, "erp")
         with self.assertRaises(UserError):
-            self.Job._tc_enqueue_pg_query(self.station, "winarhi", "orders_since", sql="SELECT 1")
+            self.Job._tc_enqueue_pg_query(self.station, "erp", "orders_since", sql="SELECT 1")
         with self.assertRaises(ValidationError):
-            self.Job._tc_enqueue_pg_query(self.station, "winarhi", sql="SELECT 1", key="cod mag")
+            self.Job._tc_enqueue_pg_query(self.station, "erp", sql="SELECT 1", key="cod mag")
         with self.assertRaises(ValidationError):
-            self.Job._tc_enqueue_pg_query(self.station, "winarhi", sql="SELECT '" + "x" * 100001 + "'")
+            self.Job._tc_enqueue_pg_query(self.station, "erp", sql="SELECT '" + "x" * 100001 + "'")
         with self.assertRaises(ValidationError):
             self.Job._tc_enqueue_pg_query(self.station, "bad profile", sql="SELECT 1")
-        job = self.Job._tc_enqueue_pg_query(self.station, "winarhi", sql="SELECT 1 AS x")
+        job = self.Job._tc_enqueue_pg_query(self.station, "erp", sql="SELECT 1 AS x")
         self.assertIsNone(job.payload_dict()["key"], "one page, no pagination key")
 
     def test_no_follow_stops_after_one_page(self):
@@ -201,7 +198,7 @@ class TestTcPgQuery(TransactionCase):
         partner = self.env["res.partner"].create({"name": "Short-lived request"})
         with self._with_callback():
             job = self.Job._tc_enqueue_pg_query(
-                self.station, "winarhi", "articles", callback=(partner, "_tc_test_collect_page")
+                self.station, "erp", "articles", callback=(partner, "_tc_test_collect_page")
             )
             partner.unlink()
             with self.assertLogs(_JOB_LOGGER, level="WARNING"):
@@ -228,7 +225,7 @@ class TestTcPgStation(HttpCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.Station = cls.env["deltatech.tc.station"]
-        cls.station = cls.Station.create({"name": "Winarhi server"})
+        cls.station = cls.Station.create({"name": "ERP server"})
 
     def _heartbeat(self, body):
         res = self.url_open(
@@ -245,35 +242,35 @@ class TestTcPgStation(HttpCase):
                 "version": "0.1.0",
                 "os": "windows",
                 "agent": "tc-postgresql",
-                "features": ["postgresql", "pg:winarhi", "pg_sql:winarhi"],
-                "pg_profiles": {"winarhi": ["orders_since", "articles"], "bad": "not a list"},
+                "features": ["postgresql", "pg:erp", "pg_sql:erp"],
+                "pg_profiles": {"erp": ["orders_since", "articles"], "bad": "not a list"},
             }
         )
         self.assertEqual(self.station.agent_name, "tc-postgresql")
-        self.assertEqual(self.station.features, "postgresql,pg:winarhi,pg_sql:winarhi")
-        self.assertTrue(self.station._tc_has_pg_sql("winarhi"))
+        self.assertEqual(self.station.features, "postgresql,pg:erp,pg_sql:erp")
+        self.assertTrue(self.station._tc_has_pg_sql("erp"))
         self.assertFalse(self.station._tc_has_pg_sql("bad"), "SQL is allowed per profile")
-        self.assertEqual(self.station.capabilities, {"winarhi": ["orders_since", "articles"], "bad": []})
-        self.assertIn("winarhi: orders_since, articles", self.station.capabilities_display)
+        self.assertEqual(self.station.capabilities, {"erp": ["orders_since", "articles"], "bad": []})
+        self.assertIn("erp: orders_since, articles", self.station.capabilities_display)
         self.assertIn(
             "bad", self.station.capabilities_display.splitlines(), "a profile without query files shows its name"
         )
-        self.assertTrue(self.station._tc_has_pg_query("winarhi", "articles"))
-        self.assertFalse(self.station._tc_has_pg_query("winarhi", "clients"))
+        self.assertTrue(self.station._tc_has_pg_query("erp", "articles"))
+        self.assertFalse(self.station._tc_has_pg_query("erp", "clients"))
         self.assertFalse(self.station._tc_has_pg_query("other", "articles"))
         # the desktop app sends no pg_profiles: what is stored stays
         self._heartbeat({"version": "0.1.1"})
-        self.assertTrue(self.station._tc_has_pg_query("winarhi", "articles"))
+        self.assertTrue(self.station._tc_has_pg_query("erp", "articles"))
         self._heartbeat({"pg_profiles": {}})
         self.assertFalse(self.station.capabilities)
         self.assertFalse(self.station.capabilities_display)
 
     def test_find_station_by_whole_feature(self):
-        self.station.sudo().write({"features": "postgresql,pg:winarhi_test"})
-        self.assertFalse(self.Station._tc_find("pg:winarhi"), "a prefix is not a match")
-        other = self.Station.create({"name": "Second", "features": "postgresql,pg:winarhi"})
-        self.assertEqual(self.Station._tc_find("pg:winarhi"), other)
+        self.station.sudo().write({"features": "postgresql,pg:erp_test"})
+        self.assertFalse(self.Station._tc_find("pg:erp"), "a prefix is not a match")
+        other = self.Station.create({"name": "Second", "features": "postgresql,pg:erp"})
+        self.assertEqual(self.Station._tc_find("pg:erp"), other)
         other.active = False
-        self.assertFalse(self.Station._tc_find("pg:winarhi"), "archived stations are skipped")
+        self.assertFalse(self.Station._tc_find("pg:erp"), "archived stations are skipped")
         company = self.env["res.company"].create({"name": "Elsewhere"})
-        self.assertFalse(self.Station._tc_find("pg:winarhi_test", company=company), "only the company's stations")
+        self.assertFalse(self.Station._tc_find("pg:erp_test", company=company), "only the company's stations")
