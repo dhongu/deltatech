@@ -91,6 +91,15 @@ If a station key is compromised:
 3. Download the updated `station.conf` and deploy it to the workstation.
    Terrabit Connect will fail to authenticate until it is reconfigured with the new key.
 
+## Staging and other copies of the database
+
+When the database is copied and neutralized (an odoo.sh staging or development branch, or
+`odoo-bin neutralize`), every station of the copy gets a **new key**, so the agents of
+production never serve the copy and an agent set up for the copy can not authenticate on
+production. Jobs that were still **Pending** or **Claimed** are closed in **Error** instead of
+being run a second time. To test on the copy, download `station.conf` from the copy and use it
+on a test station (for the PostgreSQL agent: a `[connections.staging]` entry).
+
 ## Calling a device on the local network
 
 Queue the call from a feature module:

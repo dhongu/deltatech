@@ -8,6 +8,13 @@
   Odoo can read. Named query files on the station remain available.
 - The station form lists a profile without query files by its name.
 
+## 20.0.1.3.1 (2026-11-19)
+
+- Database neutralization (odoo.sh staging / development copies, `odoo-bin neutralize`) gives
+  every station a new random key, so production's agents never serve the copy and an agent set
+  up for the copy can not authenticate on production. Jobs still pending or claimed are closed
+  in error instead of being run a second time.
+
 ## 20.0.1.3.0 (2026-11-18)
 
 - New job type **`pg_query`** for the *Terrabit Connect PostgreSQL* agent

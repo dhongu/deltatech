@@ -19,9 +19,9 @@ Terrabit Connect - Base
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_tc/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-61%20automated%20tests%20%C2%B7%2084%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-62%20automated%20tests%20%C2%B7%2084%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_tc
-    :alt: 61 automated tests · 84% code coverage
+    :alt: 62 automated tests · 84% code coverage
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
@@ -432,6 +432,18 @@ If a station key is compromised:
    workstation. Terrabit Connect will fail to authenticate until it is
    reconfigured with the new key.
 
+Staging and other copies of the database
+----------------------------------------
+
+When the database is copied and neutralized (an odoo.sh staging or
+development branch, or ``odoo-bin neutralize``), every station of the
+copy gets a **new key**, so the agents of production never serve the
+copy and an agent set up for the copy can not authenticate on
+production. Jobs that were still **Pending** or **Claimed** are closed
+in **Error** instead of being run a second time. To test on the copy,
+download ``station.conf`` from the copy and use it on a test station
+(for the PostgreSQL agent: a ``[connections.staging]`` entry).
+
 Calling a device on the local network
 -------------------------------------
 
@@ -566,6 +578,15 @@ Changelog
   the profile bounds what Odoo can read. Named query files on the
   station remain available.
 - The station form lists a profile without query files by its name.
+
+20.0.1.3.1 (2026-11-19)
+-----------------------
+
+- Database neutralization (odoo.sh staging / development copies,
+  ``odoo-bin neutralize``) gives every station a new random key, so
+  production's agents never serve the copy and an agent set up for the
+  copy can not authenticate on production. Jobs still pending or claimed
+  are closed in error instead of being run a second time.
 
 20.0.1.3.0 (2026-11-18)
 -----------------------

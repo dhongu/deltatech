@@ -264,6 +264,7 @@ preluării joburilor pe stație, lista aparatelor din rețea pe care stația le 
 |---|---|---|
 | Joburile rămân **În așteptare** | Preluarea joburilor nu e activată pe stație | Setați `TERRABIT_POLL_JOBS=1` în profilul stației |
 | **Văzut ultima dată** nu se actualizează | Cheie greșită sau regenerată, stație arhivată, adresă Odoo greșită | Descărcați din nou `station.conf` și importați-l; verificați că stația e activă |
+| Pe staging nicio stație nu răspunde, joburile copiate sunt în **Eroare** („the database was neutralized”) | La copierea bazei (staging / dezvoltare pe odoo.sh) fiecare stație primește o cheie nouă, iar joburile rămase în așteptare se închid, ca să nu ruleze a doua oară | Comportament intenționat: pentru teste descărcați `station.conf` din staging și folosiți-l pe o stație de test |
 | Jobul HTTP în **Eroare**: aparatul nu e în lista permisă | Aparatul nu e în `TERRABIT_HTTP_ALLOW` pe calculatorul stației | Adăugați adresa aparatului în profilul stației |
 | „Un job HTTP are nevoie de „url” în parametri.” (*An HTTP job needs a 'url' in its payload.*) | Jobul HTTP nu are adresă | Corectați modulul sau parametrii jobului |
 | „Un job PostgreSQL are nevoie de 'profile'/'query' format din litere, cifre și liniuțe de subliniere.” (*A PostgreSQL job needs a '%(key)s' made of letters, digits and underscores.*) | Modulul de integrare a cerut un profil sau o interogare cu nume invalid | Corectați modulul; numele vin din fișierele `.sql` instalate pe server |

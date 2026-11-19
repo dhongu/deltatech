@@ -1,3 +1,21 @@
+## 20.0.1.2.3 (2026-11-19)
+
+- A quantity entered in the secondary unit is rounded up to a whole base unit
+  only when the base unit counts pieces. For metres, kilograms or square
+  metres the exact quantity is kept: with 1 bar = 5.8 m, 3 bars now give
+  17.4 m instead of 18 m (#4242).
+
+## 20.0.1.2.2 (2026-11-19)
+
+- Documented the limitations of the secondary unit (prices, received
+  quantities, stock, manufacturing, rounding) and the standard alternative of
+  one real unit per factor ("Bar 6 m").
+- Sale order lines: the *Secondary Quantity* and *Secondary Unit* columns are
+  placed before the quantity column again; on 20.0 they were rendered inside
+  another cell of the lines list.
+- Consultant sheet, usage guide with screenshots and demo GIF.
+- Romanian translation of the "alternative unit must be different" error.
+
 ## 20.0.1.2.1 (2026-10-09)
 
 - Apps Store banner (banner.json).
