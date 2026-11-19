@@ -2,15 +2,14 @@
 # Dorin Hongu <dhongu(@)gmail(.)com>
 # See README.rst file on addons root folder for license details
 
-import re
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
-from odoo.tools import SQL
 
 
 class PurchaseInvoiceImportMixin(models.AbstractModel):
     _name = "purchase.invoice.import.mixin"
+    _inherit = ["account.ubl.import.mixin"]
     _description = "Common matching/bill-creation logic for purchase invoice import wizards"
 
     state = fields.Selection(
@@ -43,6 +42,12 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
     # ------------------------------------------------------------
     # Helpers
     # ------------------------------------------------------------
+    def _prepare_product_from_xml_line(self, line_vals):
+        # the purchase flow receives goods: a product created from the invoice is storable
+        values = super()._prepare_product_from_xml_line(line_vals)
+        values["is_storable"] = True
+        return values
+
     @api.depends("order_id", "order_id.order_line")
     def _compute_order_lines_warning(self):
         for wizard in self:
@@ -53,165 +58,6 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 )
             else:
                 wizard.order_lines_warning = False
-
-    def _resolve_currency(self, code):
-        """Resolve a currency by ISO code or fall back to the company currency.
-        Always returns a valid res.currency record.
-        """
-        Currency = self.env["res.currency"]
-        name = (code or "").upper()
-        cur = Currency.search([("name", "=", name)], limit=1)
-        if not cur:
-            # Fallback to company currency to avoid null constraint errors
-            cur = self.env.company.currency_id
-        return cur
-
-    _SET_UNIT_CODES = ("SET",)
-    _SET_UNIT_NAMES = ("Set", "Sets", "Seturi")
-
-    def _uom_from_code(self, unit_code, fallback=True):
-        """Resolve a uom.uom record from a unit code/text found in the source document.
-        Covers both UBL unitCode enum values (C62, KGM, ...) and common Romanian
-        text units used on vendor-specific PDF layouts (Buc, Kg, L, ...).
-        With fallback=False an empty or unknown code returns an empty recordset
-        instead of Units, so callers can tell "unknown unit" from "pieces".
-        """
-        code = (unit_code or "").strip().upper()
-        xml_ids = {
-            # pieces / units
-            "C62": "uom.product_uom_unit",
-            "H87": "uom.product_uom_unit",
-            "PCE": "uom.product_uom_unit",
-            "EA": "uom.product_uom_unit",
-            "BUC": "uom.product_uom_unit",
-            "DZN": "uom.product_uom_dozen",
-            # weight
-            "KGM": "uom.product_uom_kgm",
-            "KG": "uom.product_uom_kgm",
-            "GRM": "uom.product_uom_gram",
-            "G": "uom.product_uom_gram",
-            "TNE": "uom.product_uom_ton",
-            # volume
-            "LTR": "uom.product_uom_litre",
-            "L": "uom.product_uom_litre",
-            "MLT": "uom.product_uom_milliliter",
-            "MTQ": "uom.product_uom_cubic_meter",
-            # length / area
-            "MTR": "uom.product_uom_meter",
-            "M": "uom.product_uom_meter",
-            "CMT": "uom.product_uom_cm",
-            "MMT": "uom.product_uom_millimeter",
-            "MTK": "uom.product_uom_square_meter",
-            # time
-            "HUR": "uom.product_uom_hour",
-            "DAY": "uom.product_uom_day",
-        }
-        xid = xml_ids.get(code)
-        if xid:
-            rec = self.env.ref(xid, raise_if_not_found=False)
-            if rec:
-                return rec
-        if code in self._SET_UNIT_CODES:
-            # Odoo has no standard "set" unit: use one defined in the database, if any
-            Uom = self.env["uom.uom"]
-            for name in self._SET_UNIT_NAMES:
-                rec = Uom.search([("name", "=ilike", name)], limit=1)
-                if rec:
-                    return rec
-
-        if not fallback:
-            return self.env["uom.uom"]
-        return self.env.ref("uom.product_uom_unit", raise_if_not_found=True)
-
-    def _source_uom(self, src_ln):
-        """Unit of a source line, or an empty recordset when the code is missing/unknown
-        (the quantity and price are then assumed to be in the destination unit)."""
-        return self._uom_from_code(src_ln.get("unit_code"), fallback=False)
-
-    def _source_uom_compatible(self, src_uom, target_uom):
-        return bool(src_uom and target_uom and src_uom._has_common_reference(target_uom))
-
-    def _convert_source_line(self, src_ln, target_uom, uom_warnings=None):
-        """Return (qty, price) of a source line expressed in target_uom.
-
-        The source quantity/price are in the unit of the source document (UBL unitCode);
-        they are converted when that unit is known and shares a reference with target_uom.
-        An unknown unit keeps the values as they are; an incompatible unit keeps them too
-        and records a warning, since no meaningful conversion exists.
-        """
-        qty = src_ln.get("qty")
-        price = src_ln.get("price")
-        src_uom = self._source_uom(src_ln)
-        unit_code = (src_ln.get("unit_code") or "").strip()
-        if not src_uom and unit_code and target_uom and uom_warnings is not None:
-            uom_warnings.append(
-                self.env._(
-                    "Warning: unit %(code)s of source line %(line)s is not known; "
-                    "quantity and price were taken as %(target)s.",
-                    code=unit_code,
-                    line=src_ln.get("code") or src_ln.get("name") or "/",
-                    target=target_uom.name,
-                )
-            )
-        if not src_uom or not target_uom or src_uom == target_uom:
-            return qty, price
-        if not self._source_uom_compatible(src_uom, target_uom):
-            if uom_warnings is not None:
-                uom_warnings.append(
-                    self.env._(
-                        "Warning: unit %(src)s of source line %(line)s is not compatible with %(target)s; "
-                        "quantity and price were kept unconverted.",
-                        src=src_uom.name,
-                        line=src_ln.get("code") or src_ln.get("name") or "/",
-                        target=target_uom.name,
-                    )
-                )
-            return qty, price
-        if qty:
-            qty = src_uom._compute_quantity(qty, target_uom, rounding_method="HALF-UP")
-        if price:
-            price = src_uom._compute_price(price, target_uom)
-        return qty, price
-
-    def _create_product_from_xml_line(self, supplier, line_vals, currency):
-        """Create a storable product based on an invoice line and link supplierinfo.
-        - supplier: res.partner (vendor)
-        - line_vals: dict with keys code, barcode, name, unit_code, price
-        - currency: code like RON/EUR
-        Returns product.product record.
-        """
-        Product = self.env["product.product"]
-        SupplierInfo = self.env["product.supplierinfo"]
-
-        name = (line_vals.get("name") or line_vals.get("code") or "New Product").strip()
-        code = (line_vals.get("code") or "").strip() or False
-        barcode = (line_vals.get("barcode") or "").strip() or False
-        uom = self._uom_from_code(line_vals.get("unit_code"))
-
-        product = Product.create(
-            {
-                "name": name,
-                "is_storable": True,
-                "purchase_ok": True,
-                "sale_ok": False,
-                "barcode": barcode or False,
-                "uom_id": uom.id,
-            }
-        )
-        # Create supplierinfo with provided vendor code and price
-        cur = self._resolve_currency(currency)
-        SupplierInfo.create(
-            {
-                "partner_id": supplier.id,
-                "product_tmpl_id": product.product_tmpl_id.id,
-                "product_id": product.id,
-                "product_code": code or False,
-                "price": line_vals.get("price") or 0.0,
-                "currency_id": cur.id,
-                "delay": 1,
-            }
-        )
-        return product
 
     def _get_order_total_checks(self, order, invoice_data):
         """Compare the order with the document on the value without VAT and, when the document
@@ -282,34 +128,6 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             )
             % values
         )
-
-    @api.model
-    def _normalize_vat(self, vat):
-        """Comparable form of a VAT number: upper case, letters and digits only, and a Romanian
-        CUI without its RO prefix, since "12345678", "RO12345678" and "ro 12345678" are the
-        same company. Other countries keep their prefix."""
-        vat = re.sub(r"[^0-9A-Z]", "", (vat or "").upper())
-        if vat.startswith("RO") and vat[2:].isdigit():
-            vat = vat[2:]
-        return vat
-
-    def _find_supplier_partner(self, supplier_vat, supplier_name):
-        Partner = self.env["res.partner"]
-        supplier_name = (supplier_name or "").strip()
-
-        partner = False
-        vat_key = self._normalize_vat(supplier_vat)
-        if vat_key:
-            candidates = Partner.search([("supplier_rank", ">", 0), ("vat", "ilike", vat_key)], limit=50)
-            partner = candidates.filtered(lambda p: self._normalize_vat(p.vat) == vat_key)[:1]
-
-        if not partner and supplier_name:
-            partner = Partner.search(
-                [("supplier_rank", ">", 0), ("name", "=ilike", supplier_name)],
-                limit=1,
-            )
-
-        return partner
 
     def _find_order_from_xml(self, order_ref, partner=False):
         PurchaseOrder = self.env["purchase.order"]
@@ -393,88 +211,6 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         order.onchange_partner_id()
         return self.env._("Vendor set on the order from the document: %s.") % partner.display_name
 
-    def _match_product(self, supplier, code, name, barcode=None):
-        return self._match_product_detailed(supplier, code, name, barcode=barcode)[0]
-
-    def _match_product_detailed(self, supplier, code, name, barcode=None):
-        """Same matching as _match_product, but also reports HOW the product was found:
-        ("code" - supplier code/internal reference, "barcode", "name", or False when no
-        match). The match type feeds the wizard preview, where code/barcode matches are
-        trustworthy (green), name matches deserve a human look (yellow) and unmatched
-        lines would spawn a new product (red)."""
-        Product = self.env["product.product"]
-        SupplierInfo = self.env["product.supplierinfo"]
-        code = (code or "").strip()
-        barcode = (barcode or "").strip()
-
-        # Try explicit barcode from source document first
-        if barcode:
-            product = Product.search([("barcode", "=", barcode)], limit=1)
-            if product:
-                return product, "barcode"
-
-        if supplier and code:
-            domain = [("partner_id", "=", supplier.id), ("product_code", "=ilike", code)]
-            sinfo = SupplierInfo.search(domain, limit=1)
-            if sinfo:
-                product = sinfo.product_id or sinfo.product_tmpl_id.product_variant_id
-                if product:
-                    return product, "code"
-
-        if supplier and name:
-            domain = [("partner_id", "=", supplier.id), ("product_name", "=ilike", name)]
-            sinfo = SupplierInfo.search(domain, limit=1)
-            if sinfo:
-                product = sinfo.product_id or sinfo.product_tmpl_id.product_variant_id
-                if product:
-                    return product, "name"
-
-        if code:
-            product = Product.search([("default_code", "=ilike", code)], limit=1)
-            if product:
-                return product, "code"
-
-        # Fallback: sometimes supplier code is actually barcode digits
-        if code and code.isdigit():
-            product = Product.search([("barcode", "=", code)], limit=1)
-            if product:
-                return product, "barcode"
-        if name:
-            products = Product.search([("name", "=ilike", name)], limit=2)
-            if len(products) == 1:
-                return products[0], "name"
-
-        if name:
-            product_template = self._match_template_by_name_without_spaces(name)
-            if product_template:
-                return product_template.product_variant_id, "name"
-
-        return Product.browse(), False
-
-    def _match_template_by_name_without_spaces(self, name):
-        """The product template whose name equals ``name`` once spaces and case are left
-        out (UBL-010), or an empty recordset when there is none or more than one.
-
-        The name is read in the user's language, falling back to English: a product
-        created in English has no translation in the user's language. The candidates
-        go through the ORM, which leaves out archived products and those of other
-        companies."""
-        lang = self.env.context.get("lang") or self.env.user.lang or "en_US"
-        self.env.cr.execute(
-            SQL(
-                "SELECT id FROM product_template"
-                " WHERE lower(replace(COALESCE(name ->> %(lang)s, name ->> 'en_US'), ' ', '')) = %(name)s"
-                " LIMIT 10",
-                lang=lang,
-                name=name.replace(" ", "").lower(),
-            )
-        )
-        template_ids = [row[0] for row in self.env.cr.fetchall()]
-        if not template_ids:
-            return self.env["product.template"]
-        templates = self.env["product.template"].search([("id", "in", template_ids)], limit=2)
-        return templates if len(templates) == 1 else self.env["product.template"]
-
     def _match_product_on_order(self, order, partner, code, name, barcode=None):
         return self._match_product_on_order_detailed(order, partner, code, name, barcode=barcode)[0]
 
@@ -528,54 +264,6 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 if (line.product_id.name or "").strip() == (name or "").strip():
                     return line.product_id, "name"
         return Product.browse(), False
-
-    def _update_supplier_price(self, supplier, product, code, price, currency, uom=False, company=None):
-        """uom: unit of the source price. The price is converted to the unit of the
-        existing vendor pricelist row; a new row is created in the source unit.
-
-        Only a row of this variant (or, for a single-variant product, a row of the
-        template) in this company or shared between companies is updated: a row of
-        another variant or of another company is never repurposed."""
-        SupplierInfo = self.env["product.supplierinfo"]
-        company = company or self.env.company
-        if product.product_tmpl_id.product_variant_count > 1:
-            variant_domain = [("product_id", "=", product.id)]
-        else:
-            variant_domain = [("product_id", "in", [product.id, False])]
-        sinfo = SupplierInfo.search(
-            [
-                ("partner_id", "=", supplier.id),
-                ("product_tmpl_id", "=", product.product_tmpl_id.id),
-                ("company_id", "in", [company.id, False]),
-                *variant_domain,
-            ],
-            order="product_id, company_id, sequence, min_qty, id",
-            limit=1,
-        )
-        uom_vals = {}
-        if uom:
-            target_uom = sinfo.product_uom_id if sinfo else product.uom_id
-            if self._source_uom_compatible(uom, target_uom):
-                if sinfo:
-                    price = uom._compute_price(price, target_uom) if price else price
-                else:
-                    uom_vals["product_uom_id"] = uom.id
-        values = {
-            "partner_id": supplier.id,
-            "product_tmpl_id": product.product_tmpl_id.id,
-            "product_id": product.id,
-            "price": price,
-            "currency_id": self._resolve_currency(currency).id,
-            **uom_vals,
-        }
-        # a source line without a supplier code must not erase the code already on the row
-        if code:
-            values["product_code"] = code
-        if sinfo:
-            sinfo.write(values)
-        else:
-            values["company_id"] = company.id
-            SupplierInfo.create(values)
 
     def _on_unmatched_lines(self, order, partner, invoice_data, unmatched_indexes):
         """Hook for the source lines left without a product by an import nobody reviewed.
@@ -683,102 +371,6 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         if qty and move.product_uom and move.product_uom != move.product_id.uom_id:
             qty = move.product_id.uom_id._compute_quantity(qty, move.product_uom, rounding_method="HALF-UP")
         return qty
-
-    # Colored emoji keep the level visible wherever the log ends up: the chatter, the note of the
-    # review activity, the plain-text log.
-    _LOG_ICONS = {"success": "✅", "warning": "⚠️", "danger": "❌", "info": "ℹ️"}
-
-    def _classify_message(self, msg):
-        """Level of a message given as plain text, guessed from its English wording.
-
-        Only a fallback for callers that still pass plain strings: once translated, the text
-        no longer holds these words, so the log builders here pass (level, text) pairs."""
-        m = msg.lower()
-        if any(k in m for k in ("not created", "unmatched")):
-            return "danger"
-        if any(k in m for k in ("warning", "differs", "mismatch", "already exists", "skipped", "no receipt found")):
-            return "warning"
-        if any(k in m for k in ("total check ok", "updated", "added", "created", "receipt updated")):
-            return "success"
-        return "info"
-
-    def _log_entries(self, messages):
-        """(level, text) pairs from messages given as pairs or as plain strings."""
-        return [msg if isinstance(msg, tuple) else (self._classify_message(msg), msg) for msg in messages]
-
-    def _build_log_text(self, messages):
-        return "\n".join(f"{self._LOG_ICONS[level]} {text}" for level, text in self._log_entries(messages))
-
-    def _build_log_html(self, messages):
-        def _esc(s):
-            return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-
-        parts = ["<div>"]
-        for level, msg in self._log_entries(messages):
-            lines = msg.split("\n")
-            parts.append(
-                f'<p class="mb-1 text-{level}"><span class="me-1">{self._LOG_ICONS[level]}</span>'
-                f"<strong>{_esc(lines[0])}</strong></p>"
-            )
-            for sub in lines[1:]:
-                if sub.strip():
-                    parts.append(f'<p class="mb-0 ms-3 text-muted">{_esc(sub)}</p>')
-        parts.append("</div>")
-        return "".join(parts)
-
-    def _find_duplicate_bill(self, partner, invoice_ref, company=None):
-        """Return an existing non-cancelled vendor bill with the same ref for this partner
-        in the given company (the current company by default)."""
-        if not invoice_ref or not partner:
-            return False
-        company = company or self.env.company
-        return self.env["account.move"].search(
-            [
-                ("move_type", "=", "in_invoice"),
-                ("company_id", "=", company.id),
-                ("partner_id", "=", partner.id),
-                ("ref", "=", invoice_ref),
-                ("state", "!=", "cancel"),
-            ],
-            limit=1,
-        )
-
-    # source categories for which a 0% rate is applied as such: zero rated (Z), exempt (E),
-    # outside the scope of VAT, e.g. a supplier not registered for VAT (O), and export (G).
-    # For reverse charge (AE), intra-community supply (K) and unknown categories the buyer
-    # self-assesses the VAT through the fiscal position, so the existing taxes are kept.
-    _ZERO_RATE_TAX_CATEGORIES = ("Z", "E", "O", "G")
-
-    def _source_tax_percent(self, source_line):
-        """Tax rate declared by a source line, or None when it must not override the bill.
-
-        A 0 rate counts only with an explicit zero-rated/exempt category: the PDF parsers
-        report 0 when they could not read the rate.
-        """
-        tax_pct = source_line.get("tax_percent")
-        if tax_pct is None:
-            return None
-        tax_pct = float(tax_pct)
-        if tax_pct:
-            return tax_pct
-        if (source_line.get("tax_category") or "").upper() in self._ZERO_RATE_TAX_CATEGORIES:
-            return 0.0
-        return None
-
-    def _source_tax_percent_to_check(self, invoice_data, source_line):
-        """Tax rate of a source line to compare with the order line, or None when unknown.
-
-        A 0 rate counts with a zero-rated, reverse charge or intra-community category, or when
-        the reader of the document vouches for the rates it read (``tax_percent_read``): the
-        vendor-specific PDF parsers report 0 when they could not read the rate."""
-        tax_pct = source_line.get("tax_percent")
-        if tax_pct is None:
-            return None
-        tax_pct = float(tax_pct)
-        category = (source_line.get("tax_category") or "").upper()
-        if tax_pct or invoice_data.get("tax_percent_read") or category in self._ZERO_RATE_TAX_CATEGORIES + ("K", "AE"):
-            return tax_pct
-        return None
 
     @api.model
     def _order_line_tax_percent(self, line):

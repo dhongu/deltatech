@@ -6,14 +6,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-20 07:18+0000\n"
-"PO-Revision-Date: 2026-10-20 07:18+0000\n"
+"POT-Creation-Date: 2026-11-19 06:44+0000\n"
+"PO-Revision-Date: 2026-11-19 06:44+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid "%s%% reverse charge"
+msgstr ""
 
 #. module: deltatech_purchase_ubl
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
@@ -123,11 +129,6 @@ msgid "Created products (%s):\n"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
-#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__name
-msgid "Vendor Description"
-msgstr ""
-
-#. module: deltatech_purchase_ubl
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_invoice_import_mixin__display_name
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_order__display_name
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__display_name
@@ -200,12 +201,6 @@ msgstr ""
 #. module: deltatech_purchase_ubl
 #: model:ir.model,name:deltatech_purchase_ubl.model_purchase_ubl_import_wizard
 msgid "Import UBL XML for Vendor Invoice/Receipt"
-msgstr ""
-
-#. module: deltatech_purchase_ubl
-#. odoo-python
-#: code:addons/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:0
-msgid "Invalid XML: %s"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
@@ -444,6 +439,18 @@ msgid "Use product"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid ""
+"VAT rate differs on %(count)s line(s) (%(lines)s): the document has %(doc)s,"
+" the order %(order)s. The order's VAT comes from the products and the "
+"vendor's fiscal position. Check the fiscal position before creating the "
+"vendor bill: an intra-community acquisition takes the intra-community "
+"position (reverse charge), an import the extra-community one (VAT paid at "
+"customs)."
+msgstr ""
+
+#. module: deltatech_purchase_ubl
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_invoice_import_mixin__validate_receipt
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__validate_receipt
 msgid "Validate receipt from XML"
@@ -453,6 +460,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_invoice_import_mixin__bill_id
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__bill_id
 msgid "Vendor Bill"
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__name
+msgid "Vendor Description"
 msgstr ""
 
 #. module: deltatech_purchase_ubl
@@ -510,6 +522,12 @@ msgstr ""
 #. module: deltatech_purchase_ubl
 #. odoo-python
 #: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid "Vendor set on the order from the document: %s."
+msgstr ""
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
 msgid "Vendor: %(name)s (%(vat)s)"
 msgstr ""
 
@@ -550,22 +568,6 @@ msgid ""
 msgstr ""
 
 #. module: deltatech_purchase_ubl
-#. odoo-python
-#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
-msgid ""
-"Warning: unit %(code)s of source line %(line)s is not known; quantity and "
-"price were taken as %(target)s."
-msgstr ""
-
-#. module: deltatech_purchase_ubl
-#. odoo-python
-#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
-msgid ""
-"Warning: unit %(src)s of source line %(line)s is not compatible with "
-"%(target)s; quantity and price were kept unconverted."
-msgstr ""
-
-#. module: deltatech_purchase_ubl
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__wizard_id
 msgid "Wizard"
 msgstr ""
@@ -592,29 +594,4 @@ msgstr ""
 #. odoo-python
 #: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
 msgid "untaxed total"
-msgstr ""
-
-#. module: deltatech_purchase_ubl
-#. odoo-python
-#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
-msgid "Vendor set on the order from the document: %s."
-msgstr ""
-
-
-#. module: deltatech_purchase_ubl
-#. odoo-python
-#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
-msgid ""
-"VAT rate differs on %(count)s line(s) (%(lines)s): the document has %(doc)s,"
-" the order %(order)s. The order's VAT comes from the products and the "
-"vendor's fiscal position. Check the fiscal position before creating the "
-"vendor bill: an intra-community acquisition takes the intra-community "
-"position (reverse charge), an import the extra-community one (VAT paid at "
-"customs)."
-msgstr ""
-
-#. module: deltatech_purchase_ubl
-#. odoo-python
-#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
-msgid "%s%% reverse charge"
 msgstr ""

@@ -1,0 +1,53 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_account_ubl_import
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-19 06:44+0000\n"
+"PO-Revision-Date: 2026-11-19 06:44+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_account_ubl_import
+#: model:ir.model.fields,field_description:deltatech_account_ubl_import.field_account_ubl_import_mixin__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_account_ubl_import
+#: model:ir.model.fields,field_description:deltatech_account_ubl_import.field_account_ubl_import_mixin__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_account_ubl_import
+#. odoo-python
+#: code:addons/deltatech_account_ubl_import/models/account_ubl_import_mixin.py:0
+msgid "Invalid XML: %s"
+msgstr ""
+
+#. module: deltatech_account_ubl_import
+#: model:ir.model,name:deltatech_account_ubl_import.model_account_ubl_import_mixin
+msgid "UBL invoice parsing and product matching"
+msgstr ""
+
+#. module: deltatech_account_ubl_import
+#. odoo-python
+#: code:addons/deltatech_account_ubl_import/models/account_ubl_import_mixin.py:0
+msgid ""
+"Warning: unit %(code)s of source line %(line)s is not known; quantity and "
+"price were taken as %(target)s."
+msgstr ""
+
+#. module: deltatech_account_ubl_import
+#. odoo-python
+#: code:addons/deltatech_account_ubl_import/models/account_ubl_import_mixin.py:0
+msgid ""
+"Warning: unit %(src)s of source line %(line)s is not compatible with "
+"%(target)s; quantity and price were kept unconverted."
+msgstr ""

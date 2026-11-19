@@ -1,13 +1,10 @@
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-# 	* deltatech_purchase_ubl
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0+e\n"
+"Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-29 07:26+0000\n"
-"PO-Revision-Date: 2026-05-29 07:26+0000\n"
+"POT-Creation-Date: 2026-11-19 06:44+0000\n"
+"PO-Revision-Date: 2026-11-19 06:44+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ro\n"
@@ -17,9 +14,29 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid "%s%% reverse charge"
+msgstr "%s%% taxare inversă"
+
+#. module: deltatech_purchase_ubl
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
 msgid "<i class=\"fa fa-exclamation-triangle me-1\" title=\"Warning\"/>"
 msgstr "<i class=\"fa fa-exclamation-triangle me-1\" title=\"Avertisment\"/>"
+
+#. module: deltatech_purchase_ubl
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
+msgid ""
+"<i class=\"fa fa-info-circle me-1\" title=\"Info\"/>\n"
+"                    <span>Green lines matched by supplier code or barcode; yellow lines matched only by name — double-check them; red lines have no match. For each red line pick a product, choose \"Create new product\", or leave it on \"Ignore\" (the line is not imported). You can pick a different product on any line before importing.</span>"
+msgstr ""
+"<i class=\"fa fa-info-circle me-1\" title=\"Info\"/>\n"
+"                    <span>Liniile verzi au fost potrivite după codul de furnizor sau codul de bare; liniile galbene au fost potrivite doar după nume — verificați-le; liniile roșii nu au nicio potrivire. Pentru fiecare linie roșie alegeți un produs, alegeți „Creează produs nou” sau lăsați „Ignoră” (linia nu se importă). Puteți alege un alt produs pe orice linie înainte de import.</span>"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__line_action
+msgid "Action"
+msgstr "Acțiune"
 
 #. module: deltatech_purchase_ubl
 #. odoo-python
@@ -28,9 +45,52 @@ msgid "Added %s lines to the purchase order from source document."
 msgstr "Adăugat %s linii la comanda de achiziție din documentul sursă."
 
 #. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:0
+msgid ""
+"All lines of invoice %(invoice)s were matched and the total matches purchase"
+" order %(order)s."
+msgstr ""
+"Toate liniile facturii %(invoice)s au fost identificate, iar totalul "
+"corespunde cu comanda de achiziție %(order)s."
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__barcode
+msgid "Barcode"
+msgstr "Cod de bare"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__match_type__barcode
+msgid "By barcode"
+msgstr "După cod de bare"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__match_type__name
+msgid "By name"
+msgstr "După nume"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__match_type__code
+msgid "By supplier code"
+msgstr "După cod furnizor"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__match_type__manual
+msgid "Chosen manually"
+msgstr "Ales manual"
+
+#. module: deltatech_purchase_ubl
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
 msgid "Close"
 msgstr "Închide"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model,name:deltatech_purchase_ubl.model_purchase_invoice_import_mixin
+msgid ""
+"Common matching/bill-creation logic for purchase invoice import wizards"
+msgstr ""
+"Logică comună de potrivire și creare factură pentru wizard-urile de import "
+"factură furnizor"
 
 #. module: deltatech_purchase_ubl
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
@@ -42,6 +102,11 @@ msgstr "Creează o factură de furnizor (account.move) din datele facturii XML"
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__create_missing_products
 msgid "Create missing products"
 msgstr "Creează produse lipsă"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__line_action__create
+msgid "Create new product"
+msgstr "Creează produs nou"
 
 #. module: deltatech_purchase_ubl
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_invoice_import_mixin__create_bill
@@ -98,12 +163,29 @@ msgid "Filename"
 msgstr "Nume fișier"
 
 #. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_invoice_import_mixin__has_warning
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__has_warning
+msgid "Has Warning"
+msgstr "Are avertisment"
+
+#. module: deltatech_purchase_ubl
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_invoice_import_mixin__id
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_order__id
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__id
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__id
 msgid "ID"
 msgstr "ID"
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid "Identified products and updated prices for %s line(s)."
+msgstr "Produse identificate și prețuri actualizate pentru %s linie(i)."
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__line_action__skip
+msgid "Ignore"
+msgstr "Ignoră"
 
 #. module: deltatech_purchase_ubl
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
@@ -128,8 +210,8 @@ msgstr "Importă UBL XML pentru Factură/Recepție Furnizor"
 #. module: deltatech_purchase_ubl
 #. odoo-python
 #: code:addons/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:0
-msgid "Invalid XML: %s"
-msgstr "XML nevalid: %s"
+msgid "Invoice imported"
+msgstr "Factură importată"
 
 #. module: deltatech_purchase_ubl
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__write_uid
@@ -156,6 +238,16 @@ msgid "Log Html"
 msgstr "Jurnal (HTML)"
 
 #. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__match_type
+msgid "Match Type"
+msgstr "Tip potrivire"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__matched_product_id
+msgid "Matched Product"
+msgstr "Produs potrivit"
+
+#. module: deltatech_purchase_ubl
 #. odoo-python
 #: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
 msgid "No receipt found to validate."
@@ -171,6 +263,16 @@ msgstr ""
 "Nu s-a găsit niciun furnizor pentru codul de TVA '%(vat)s' / numele "
 "'%(name)s'. Lansați importul dintr-o comandă de achiziție sau creați mai "
 "întâi furnizorul."
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__match_type__none
+msgid "Not found"
+msgstr "Negăsit"
+
+#. module: deltatech_purchase_ubl
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
+msgid "Open Purchase Order"
+msgstr "Deschide comanda de achiziție"
 
 #. module: deltatech_purchase_ubl
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
@@ -196,6 +298,23 @@ msgid "Please select an XML file."
 msgstr "Vă rugăm să selectați un fișier XML."
 
 #. module: deltatech_purchase_ubl
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_invoice_import_mixin__state__preview
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard__state__preview
+#: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
+msgid "Preview"
+msgstr "Previzualizare"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__line_ids
+msgid "Preview Lines"
+msgstr "Linii previzualizare"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__product_id
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_purchase_ubl
 #: model:ir.model,name:deltatech_purchase_ubl.model_purchase_order
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_invoice_import_mixin__order_id
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__order_id
@@ -215,36 +334,15 @@ msgstr ""
 "comanda de achiziție."
 
 #. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__qty
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_purchase_ubl
 #. odoo-python
 #: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
 msgid "Receipt updated: %s"
 msgstr "Recepție actualizată: %s"
-
-#. module: deltatech_purchase_ubl
-#. odoo-python
-#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
-msgid ""
-"Warning: the document %s is a credit note; credit notes are not imported. "
-"Record the vendor refund manually."
-msgstr ""
-"Atenție: documentul %s este o notă de credit; notele de credit nu se "
-"importă. Înregistrați manual rambursarea de la furnizor."
-
-#. module: deltatech_purchase_ubl
-#. odoo-python
-#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
-msgid ""
-"Vendor bill creation skipped: nothing left to invoice on purchase order "
-"%(order)s."
-msgstr ""
-"Factura de furnizor nu a fost creată: pe comanda de achiziție %(order)s nu a"
-" mai rămas nimic de facturat."
-
-#. module: deltatech_purchase_ubl
-#. odoo-python
-#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
-msgid "Warning: receipt %s could not be validated; check it manually."
-msgstr "Atenție: recepția %s nu a putut fi validată; verificați-o manual."
 
 #. module: deltatech_purchase_ubl
 #. odoo-python
@@ -262,12 +360,23 @@ msgid "Result"
 msgstr "Rezultat"
 
 #. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_order.py:0
+msgid "SPV import needs review"
+msgstr "Import SPV necesită verificare"
+
+#. module: deltatech_purchase_ubl
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
 msgid ""
 "Select a UBL XML invoice file from your vendor (e-Factura format supported)"
 msgstr ""
 "Selectați un fișier de factură XML UBL de la furnizorul dvs. (format "
 "e-Factura acceptat)"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__sequence
+msgid "Sequence"
+msgstr "Secvență"
 
 #. module: deltatech_purchase_ubl
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
@@ -279,6 +388,11 @@ msgstr "Setați cantitățile realizate pe recepția de stoc legată și valida�
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__state
 msgid "State"
 msgstr "Stare"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__code
+msgid "Supplier Code"
+msgstr "Cod furnizor"
 
 #. module: deltatech_purchase_ubl
 #. odoo-python
@@ -300,6 +414,16 @@ msgid ""
 msgstr ""
 "Verificare total OK: comanda de achiziție %(label)s %(order_amount)s "
 "%(currency)s se potrivește cu XML %(label)s %(xml_amount)s %(currency)s."
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model,name:deltatech_purchase_ubl.model_purchase_ubl_import_wizard_line
+msgid "UBL Import Preview Line"
+msgstr "Linie previzualizare import UBL"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__price
+msgid "Unit Price"
+msgstr "Preț unitar"
 
 #. module: deltatech_purchase_ubl
 #. odoo-python
@@ -326,16 +450,27 @@ msgid "Updated %s purchase order lines from source document."
 msgstr "Actualizat %s linii de comandă de achiziție din documentul sursă."
 
 #. module: deltatech_purchase_ubl
-#. odoo-python
-#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
-msgid "Identified products and updated prices for %s line(s)."
-msgstr "Produse identificate și prețuri actualizate pentru %s linie(i)."
+#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__line_action__product
+msgid "Use product"
+msgstr "Folosește produsul"
 
 #. module: deltatech_purchase_ubl
 #. odoo-python
-#: code:addons/deltatech_purchase_ubl/models/purchase_order.py:0
-msgid "SPV import needs review"
-msgstr "Import SPV necesită verificare"
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid ""
+"VAT rate differs on %(count)s line(s) (%(lines)s): the document has %(doc)s,"
+" the order %(order)s. The order's VAT comes from the products and the "
+"vendor's fiscal position. Check the fiscal position before creating the "
+"vendor bill: an intra-community acquisition takes the intra-community "
+"position (reverse charge), an import the extra-community one (VAT paid at "
+"customs)."
+msgstr ""
+"Cota TVA diferă pe %(count)s linie(i) (%(lines)s): documentul are %(doc)s, "
+"comanda %(order)s. TVA-ul comenzii vine din produse și din poziția fiscală a"
+" furnizorului. Verificați poziția fiscală înainte de a crea factura "
+"furnizorului: pentru o achiziție intracomunitară se aplică poziția "
+"intracomunitară (taxare inversă), pentru import poziția extracomunitară (TVA"
+" plătit în vamă)."
 
 #. module: deltatech_purchase_ubl
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_invoice_import_mixin__validate_receipt
@@ -348,6 +483,11 @@ msgstr "Validează recepția din XML"
 #: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__bill_id
 msgid "Vendor Bill"
 msgstr "Factură furnizor"
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__name
+msgid "Vendor Description"
+msgstr "Descriere furnizor"
 
 #. module: deltatech_purchase_ubl
 #. odoo-python
@@ -369,11 +509,32 @@ msgstr "Factură furnizor creată: %s"
 #. odoo-python
 #: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
 msgid ""
+"Vendor bill creation skipped: %(count)s line(s) of the source document are "
+"unmatched. Resolve them on purchase order %(order)s, then create the bill."
+msgstr ""
+"Crearea facturii de furnizor a fost sărită: %(count)s linie(i) din "
+"documentul sursă nu sunt asociate. Rezolvați-le pe comanda de achiziție "
+"%(order)s, apoi creați factura."
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid ""
 "Vendor bill creation skipped: no purchase order was resolved from the "
 "context or source document."
 msgstr ""
 "Crearea facturii de furnizor a fost sărită: nu s-a rezolvat nicio comandă de"
 " achiziție din context sau din documentul sursă."
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid ""
+"Vendor bill creation skipped: nothing left to invoice on purchase order "
+"%(order)s."
+msgstr ""
+"Factura de furnizor nu a fost creată: pe comanda de achiziție %(order)s nu a"
+" mai rămas nimic de facturat."
 
 #. module: deltatech_purchase_ubl
 #. odoo-python
@@ -390,6 +551,12 @@ msgstr ""
 #: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
 msgid "Vendor bill not created: %s"
 msgstr "Factura furnizor nu a fost creată: %s"
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid "Vendor set on the order from the document: %s."
+msgstr "Furnizorul comenzii a fost luat din document: %s."
 
 #. module: deltatech_purchase_ubl
 #. odoo-python
@@ -426,6 +593,27 @@ msgstr ""
 "%(difference)s %(currency)s)."
 
 #. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid "Warning: receipt %s could not be validated; check it manually."
+msgstr "Atenție: recepția %s nu a putut fi validată; verificați-o manual."
+
+#. module: deltatech_purchase_ubl
+#. odoo-python
+#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
+msgid ""
+"Warning: the document %s is a credit note; credit notes are not imported. "
+"Record the vendor refund manually."
+msgstr ""
+"Atenție: documentul %s este o notă de credit; notele de credit nu se "
+"importă. Înregistrați manual rambursarea de la furnizor."
+
+#. module: deltatech_purchase_ubl
+#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__wizard_id
+msgid "Wizard"
+msgstr "Asistent"
+
+#. module: deltatech_purchase_ubl
 #: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
 msgid ""
 "Write the unit price from each XML line into the vendor pricelist "
@@ -450,221 +638,3 @@ msgstr "total"
 #: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
 msgid "untaxed total"
 msgstr "total fără tva"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_invoice_import_mixin__state__preview
-#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard__state__preview
-#: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
-msgid "Preview"
-msgstr "Previzualizare"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__line_ids
-msgid "Preview Lines"
-msgstr "Linii previzualizare"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model,name:deltatech_purchase_ubl.model_purchase_ubl_import_wizard_line
-msgid "UBL Import Preview Line"
-msgstr "Linie previzualizare import UBL"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__code
-msgid "Supplier Code"
-msgstr "Cod furnizor"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__barcode
-msgid "Barcode"
-msgstr "Cod de bare"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__name
-msgid "Vendor Description"
-msgstr "Descriere furnizor"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__qty
-msgid "Quantity"
-msgstr "Cantitate"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__price
-msgid "Unit Price"
-msgstr "Preț unitar"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__product_id
-msgid "Product"
-msgstr "Produs"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__matched_product_id
-msgid "Matched Product"
-msgstr "Produs potrivit"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__match_type
-msgid "Match Type"
-msgstr "Tip potrivire"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__match_type__code
-msgid "By supplier code"
-msgstr "După cod furnizor"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__match_type__barcode
-msgid "By barcode"
-msgstr "După cod de bare"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__match_type__name
-msgid "By name"
-msgstr "După nume"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__match_type__manual
-msgid "Chosen manually"
-msgstr "Ales manual"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__match_type__none
-msgid "Not found"
-msgstr "Negăsit"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__wizard_id
-msgid "Wizard"
-msgstr "Asistent"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__sequence
-msgid "Sequence"
-msgstr "Secvență"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model,name:deltatech_purchase_ubl.model_purchase_invoice_import_mixin
-msgid ""
-"Common matching/bill-creation logic for purchase invoice import wizards"
-msgstr ""
-"Logică comună de potrivire și creare factură pentru wizard-urile de import "
-"factură furnizor"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_invoice_import_mixin__has_warning
-#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard__has_warning
-msgid "Has Warning"
-msgstr "Are avertisment"
-
-#. module: deltatech_purchase_ubl
-#: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
-msgid ""
-"<i class=\"fa fa-info-circle me-1\" title=\"Info\"/>\n"
-"                    <span>Green lines matched by supplier code or barcode; yellow lines matched only by name — double-check them; red lines have no match. For each red line pick a product, choose \"Create new product\", or leave it on \"Ignore\" (the line is not imported). You can pick a different product on any line before importing.</span>"
-msgstr ""
-"<i class=\"fa fa-info-circle me-1\" title=\"Info\"/>\n"
-"                    <span>Liniile verzi au fost potrivite după codul de furnizor sau codul de bare; liniile galbene au fost potrivite doar după nume — verificați-le; liniile roșii nu au nicio potrivire. Pentru fiecare linie roșie alegeți un produs, alegeți „Creează produs nou” sau lăsați „Ignoră” (linia nu se importă). Puteți alege un alt produs pe orice linie înainte de import.</span>"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model.fields,field_description:deltatech_purchase_ubl.field_purchase_ubl_import_wizard_line__line_action
-msgid "Action"
-msgstr "Acțiune"
-
-#. module: deltatech_purchase_ubl
-#. odoo-python
-#: code:addons/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:0
-msgid ""
-"All lines of invoice %(invoice)s were matched and the total matches purchase"
-" order %(order)s."
-msgstr ""
-"Toate liniile facturii %(invoice)s au fost identificate, iar totalul "
-"corespunde cu comanda de achiziție %(order)s."
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__line_action__create
-msgid "Create new product"
-msgstr "Creează produs nou"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__line_action__skip
-msgid "Ignore"
-msgstr "Ignoră"
-
-#. module: deltatech_purchase_ubl
-#. odoo-python
-#: code:addons/deltatech_purchase_ubl/wizard/ubl_import_wizard.py:0
-msgid "Invoice imported"
-msgstr "Factură importată"
-
-#. module: deltatech_purchase_ubl
-#: model_terms:ir.ui.view,arch_db:deltatech_purchase_ubl.view_purchase_ubl_import_wizard
-msgid "Open Purchase Order"
-msgstr "Deschide comanda de achiziție"
-
-#. module: deltatech_purchase_ubl
-#: model:ir.model.fields.selection,name:deltatech_purchase_ubl.selection__purchase_ubl_import_wizard_line__line_action__product
-msgid "Use product"
-msgstr "Folosește produsul"
-
-#. module: deltatech_purchase_ubl
-#. odoo-python
-#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
-msgid ""
-"Vendor bill creation skipped: %(count)s line(s) of the source document are "
-"unmatched. Resolve them on purchase order %(order)s, then create the bill."
-msgstr ""
-"Crearea facturii de furnizor a fost sărită: %(count)s linie(i) din "
-"documentul sursă nu sunt asociate. Rezolvați-le pe comanda de achiziție "
-"%(order)s, apoi creați factura."
-
-#. module: deltatech_purchase_ubl
-#. odoo-python
-#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
-msgid ""
-"Warning: unit %(code)s of source line %(line)s is not known; quantity and "
-"price were taken as %(target)s."
-msgstr ""
-"Avertisment: unitatea %(code)s de pe linia sursă %(line)s nu este cunoscută;"
-" cantitatea și prețul au fost considerate în %(target)s."
-
-#. module: deltatech_purchase_ubl
-#. odoo-python
-#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
-msgid ""
-"Warning: unit %(src)s of source line %(line)s is not compatible with "
-"%(target)s; quantity and price were kept unconverted."
-msgstr ""
-"Avertisment: unitatea %(src)s de pe linia sursă %(line)s nu este compatibilă"
-" cu %(target)s; cantitatea și prețul au rămas neconvertite."
-
-#. module: deltatech_purchase_ubl
-#. odoo-python
-#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
-msgid "Vendor set on the order from the document: %s."
-msgstr "Furnizorul comenzii a fost luat din document: %s."
-
-
-#. module: deltatech_purchase_ubl
-#. odoo-python
-#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
-msgid ""
-"VAT rate differs on %(count)s line(s) (%(lines)s): the document has %(doc)s,"
-" the order %(order)s. The order's VAT comes from the products and the "
-"vendor's fiscal position. Check the fiscal position before creating the "
-"vendor bill: an intra-community acquisition takes the intra-community "
-"position (reverse charge), an import the extra-community one (VAT paid at "
-"customs)."
-msgstr ""
-"Cota TVA diferă pe %(count)s linie(i) (%(lines)s): documentul are %(doc)s, "
-"comanda %(order)s. TVA-ul comenzii vine din produse și din poziția fiscală a"
-" furnizorului. Verificați poziția fiscală înainte de a crea factura "
-"furnizorului: pentru o achiziție intracomunitară se aplică poziția "
-"intracomunitară (taxare inversă), pentru import poziția extracomunitară (TVA"
-" plătit în vamă)."
-
-#. module: deltatech_purchase_ubl
-#. odoo-python
-#: code:addons/deltatech_purchase_ubl/models/purchase_invoice_import_mixin.py:0
-msgid "%s%% reverse charge"
-msgstr "%s%% taxare inversă"
