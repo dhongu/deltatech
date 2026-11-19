@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import fields, models
+from odoo import api, fields, models
 from odoo.tools import float_round
 
 
@@ -49,9 +49,27 @@ class SecondaryUomMixin(models.AbstractModel):
         """Write the given quantity (expressed in the line UoM) on the line."""
         raise NotImplementedError
 
+    def _get_line_qty_fname(self):
+        """Name of the line quantity field written by ``_set_line_qty``."""
+        raise NotImplementedError
+
     def _get_secondary_uom_open_domain(self):
         """Domain of the lines still editable, recomputed when a conversion changes."""
         return []
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        # The inverse of the secondary quantity writes the line quantity while
+        # create() protects the precomputed fields (e.g. the sale line amounts),
+        # which then keep the values computed for the initial quantity.
+        # Recompute what depends on the line quantity, outside that protection.
+        lines = self.browse(
+            [rec.id for rec, vals in zip(records, vals_list, strict=True) if vals.get("secondary_uom_qty")]
+        )
+        if lines:
+            lines.modified([lines._get_line_qty_fname()])
+        return records
 
     def _get_secondary_conversion(self):
         self.ensure_one()
