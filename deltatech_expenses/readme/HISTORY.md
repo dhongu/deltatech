@@ -1,3 +1,7 @@
+## 20.0.3.8.1 (2026-11-19)
+
+- Button icons use Odoo 20 Material Symbols names instead of Font Awesome classes, which Odoo 20 no longer styles: the buttons showed fragments of the icon name instead of the icon.
+
 # Changelog
 
 ## 20.0.3.8.0 (2026-11-05)

@@ -1,3 +1,7 @@
+## 20.0.1.2.2 (2026-11-19)
+
+- Button icons use Odoo 20 Material Symbols names instead of Font Awesome classes, which Odoo 20 no longer styles: the buttons showed fragments of the icon name instead of the icon.
+
 ## 20.0.1.2.1 (2026-11-16)
 
 - Empty `__init__.py` restored: the OCA tools (manifestoo, oca-checks-odoo-module) do not

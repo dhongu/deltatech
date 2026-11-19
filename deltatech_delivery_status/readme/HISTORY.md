@@ -1,3 +1,7 @@
+## 20.0.2.3.5 (2026-11-19)
+
+- Button icons use Odoo 20 Material Symbols names instead of Font Awesome classes, which Odoo 20 no longer styles: the buttons showed fragments of the icon name instead of the icon.
+
 ## 20.0.2.3.4 (2026-10-09)
 
 - Apps Store banner (banner.json).

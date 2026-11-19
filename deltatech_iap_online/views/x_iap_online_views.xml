@@ -86,7 +86,7 @@
                             name="%(action_x_iap_online_usage)d"
                             type="action"
                             class="oe_stat_button"
-                            icon="fa-bar-chart"
+                            icon="bar_chart"
                             context="{'search_default_x_service_id': id}"
                             string="Credit Usage"
                             invisible="not id"
