@@ -19,22 +19,17 @@ Sale Commission
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_sale_commission/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-59%20automated%20tests%20%C2%B7%2075%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-62%20automated%20tests%20%C2%B7%2085%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_sale_commission
-    :alt: 59 automated tests · 75% code coverage
+    :alt: 62 automated tests · 85% code coverage
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
 - Features:
 
-  - New technical access group for display margin and purchase price in
-    customer invoice
-  - Technical access group to prevent changing price in customer invoice
-  - New technical access group to allow sale price below the purchase
-    price
-  - Warning/Error on customer invoice if sale price is below the
-    purchase price
-  - New report for analysis profitability
+  - Commission columns, filters and menu on the profit report of
+    ``deltatech_sale_margin`` (the cost price on the invoice and the
+    report itself are there)
   - Calculation of sales commissions on sale order salesperson or
     invoice salesperson (configurable)
   - Added parameter "deltatech_sale_commission.days_for_commission", the
@@ -58,10 +53,13 @@ Configuration
   installation, not even the administrator. In **Settings → Users**,
   give **Commission Manager** to those who compute commissions and
   **Commission Viewer** to those who only consult them. Until then, the
-  *Commission* and *Profit Analysis* menus are hidden. The viewer group
-  shows cost and margin, so grant it only to people allowed to see
-  costs. To see the cost on invoices, also add the cost group from
-  \`deltatech_sale_margin\`.
+  *Commission* menu is hidden; *Profit Analysis* (from
+  ``deltatech_sale_margin``) is shown to the cost group and the Sales
+  administrators. The viewer group shows cost and margin, so grant it
+  only to people allowed to see costs. To see the cost on invoices, also
+  add the cost group from ``deltatech_sale_margin``. Only **Commission
+  Manager** can change the real commission and *Commission Paid*; the
+  Sales administrators can change the cost.
 - **Who earns the commission.** In **Settings → Sales → Invoicing**, set
   **Salesperson commission compute** to *Invoice* or *Sales Order*. Do
   not enable the standard *Commissions* option below it: it is a
@@ -71,7 +69,7 @@ Configuration
   rates as fractions of the profit (0.100 = 10%).
 - **Payment on time (optional).** In **Settings → Technical → System
   Parameters** (developer mode), create
-  \`deltatech_sale_commission.days_for_commission\` with the maximum
+  ``deltatech_sale_commission.days_for_commission`` with the maximum
   number of days between due date and last payment, as an integer (0 =
   paid by the due date). Without it, commission is granted whether or
   not the invoice is paid.
@@ -102,39 +100,11 @@ an agent can have only one row per journal.
 
 |Commission rates per agent, manager and director|
 
-**Step 3 — Check the cost on the customer invoice**
+The cost on the invoice lines, the **Profit Analysis** report and the
+cost recalculation come from ``deltatech_sale_margin``; see its usage
+guide.
 
-On the customer invoice, the **Cost Price** column shows the unit cost
-of the goods next to the **Price**. It is computed automatically:
-
-- from the **delivery** of the invoiced order (value of the stock move
-  to the customer divided by quantity);
-- for kit products, from the delivered components;
-- for invoices without an order or delivery, from the product cost;
-- for credit notes, from the **goods return**. Without a return, a
-  reversal of the invoice takes the cost of the invoice line (invoice
-  and reversal net to zero profit), while a price or discount reduction
-  has cost 0.
-
-The column is visible only to users in the cost group from
-``deltatech_sale_margin``. If your company uses the **Block sale**
-policy, a draft invoice with a price below cost cannot be saved.
-
-|Customer invoice with the cost price on each line|
-
-**Step 4 — Analyse the profit**
-
-Go to **Sales → Reporting → Profit Analysis**. The pivot opens on last
-month, grouped by product. Each row shows the sale value, cost value,
-profit value, **Markup** (profit / cost) and **Margin** (profit / sale).
-Regroup by agent, category, customer, invoice, journal or month. Totals
-recalculate markup and margin from the sums. Use **Insert in
-Spreadsheet** or the export to take the table to Excel. Credit notes
-reduce both sale and cost.
-
-|Profit analysis report|
-
-**Step 5 — Review the commissions to compute**
+**Step 3 — Review the commissions to compute**
 
 Go to **Sales → Orders → Commission → Commission**. The list opens on
 last month and only on **paid** invoices (including *In payment*);
@@ -142,11 +112,13 @@ remove the *Paid* filter to see unpaid ones as well. Each line shows the
 invoice, product, agent, customer, sale, cost, profit, **Computed
 commission** (agent rate × profit), **Real commission** (initially 0)
 and **Commission paid**. Manager and director commissions are optional
-columns and are informative only.
+columns and are informative only. Point of Sale orders of
+``deltatech_sale_margin_pos`` are not in this list: their computed
+commission shows in **Profit Analysis**.
 
 |Commission list before the calculation|
 
-**Step 6 — Compute the commissions**
+**Step 4 — Compute the commissions**
 
 Select the lines and choose **Actions → Compute Commission**. The wizard
 lists the selected lines. Click **Apply**. **Real commission** becomes:
@@ -165,7 +137,7 @@ stay informative.
 
 |Compute Commission wizard|
 
-**Step 7 — Review the result**
+**Step 5 — Review the result**
 
 After **Apply**, the list opens on the computed lines. Compare
 **Computed commission** with **Real commission**: every line with real
@@ -176,7 +148,7 @@ row and edit the field in the form.
 
 |Commissions after the calculation|
 
-**Step 8 — Mark commissions as paid**
+**Step 6 — Mark commissions as paid**
 
 After the agent has been paid (outside this module), select the lines
 and click **Set Paid** in the list header. The filters **Commission not
@@ -185,39 +157,63 @@ is still due.
 
 |Commission marked as paid|
 
-**Step 9 — Recompute the cost when needed**
-
-If a line cost is wrong (for example the delivery was validated after
-invoicing), select the lines and choose **Actions → Update Purchase
-Price**:
-
-- **Price from delivery** (default) recomputes the cost from the
-  delivery, falling back to the product cost;
-- unchecked, it takes the current product cost;
-- **For all lines** applies to every line in the report, not only the
-  selected ones.
-
-Profit and computed commission update immediately; **Real commission**
-stays as set until you compute again (Step 6). A scheduled action also
-refreshes the cost of lines invoiced in the last 7 days every day.
-
-|Update Purchase Price wizard|
-
 .. |Setting that decides which agent earns the commission| image:: https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_settings_agent.png
 .. |Commission rates per agent, manager and director| image:: https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_agent_rates.png
-.. |Customer invoice with the cost price on each line| image:: https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_invoice_cost_price.png
-.. |Profit analysis report| image:: https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_profit_report.png
 .. |Commission list before the calculation| image:: https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_list_before.png
 .. |Compute Commission wizard| image:: https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_compute_wizard.png
 .. |Commissions after the calculation| image:: https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_list_after.png
 .. |Commission marked as paid| image:: https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_marked_paid.png
-.. |Update Purchase Price wizard| image:: https://apps.odoocdn.com/apps/assets/20.0/deltatech_sale_commission/commission_update_cost_wizard.png
 
 Changelog
 =========
 
 Changelog
 =========
+
+20.0.2.0.1 (2026-10-22)
+-----------------------
+
+- Consultant sheet: *Sale Margin Report by Manufacturer* listed among
+  the related modules. Screenshots unchanged.
+
+20.0.2.0.0 (2026-10-22)
+-----------------------
+
+- **The cost price and the margin report move to
+  ``deltatech_sale_margin``.** This module keeps only the commissions:
+  the rates per salesperson and journal, the salesperson of the sale
+  order on the invoice line, the real commission and *Commission Paid*,
+  the commission wizard and the commission columns, filters and menu of
+  the report. Nothing changes for a database that has both modules: the
+  records keep their ids and the report the same columns. Update both
+  modules together (``deltatech_sale_margin`` moves the external ids
+  before it loads its data).
+- The rows of the report that are not invoice lines (the POS orders of
+  ``deltatech_sale_margin_pos``) get the rates of their salesperson on
+  the invoice journal of the point of sale, so the computed commission
+  is there for them too; the real commission stays on the invoice lines:
+  *Set Paid* and the commission wizard leave them out.
+- Own module icon (``icon.svg`` + ``icon.png``), replacing the generic
+  Deltatech one.
+- Only *Commission Manager* can change the real commission and
+  *Commission Paid* in the report: the sales managers, who may now
+  change the cost there, can not.
+- *Commission* list: *Due Date* and *Payment Term* are optional
+  (hidden), so the commission columns fit.
+- Consultant sheet, usage guide and screenshots updated: the cost, the
+  profit report and the cost recalculation moved to
+  ``deltatech_sale_margin``.
+
+20.0.1.6.4 (2026-10-17)
+-----------------------
+
+- Cost price from deliveries: when an invoice line is delivered in moves
+  of different units (e.g. 12 pieces + 1 dozen), the quantities are
+  converted to the product unit before the value is divided, and the
+  unit cost is expressed in the unit of the invoice line. Before, the
+  raw quantities were added (12 + 1 = 13), which gave a wrong cost
+  price, margin and commission, and could block the invoice with "You
+  can not sell below the purchase price".
 
 20.0.1.6.3 (2026-10-15)
 -----------------------
@@ -383,10 +379,16 @@ Maintainers
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu
     :alt: dhongu
+.. |maintainer-VoicuStefan2001| image:: https://github.com/VoicuStefan2001.png?size=40px
+    :target: https://github.com/VoicuStefan2001
+    :alt: VoicuStefan2001
+.. |maintainer-danila12| image:: https://github.com/danila12.png?size=40px
+    :target: https://github.com/danila12
+    :alt: danila12
 
-Current maintainer:
+Current maintainers:
 
-|maintainer-dhongu| 
+|maintainer-dhongu| |maintainer-VoicuStefan2001| |maintainer-danila12| 
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_sale_commission>`_ project on GitHub.
 

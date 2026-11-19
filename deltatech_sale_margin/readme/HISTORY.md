@@ -1,5 +1,65 @@
 # Changelog
 
+## 20.0.1.3.5 (2026-11-19)
+
+- Port of the 19.0 series 1.3.0-1.3.4 (below): cost price on the customer invoices and the profit report moved here from `deltatech_sale_commission`, no-change-price enforced on the server, below-cost check only when the price changes, profit report fixes. Adapted to Odoo 20 (`ir.access`, `uom_id` on stock moves, `get_str`, `_read_group_select`).
+
+## 20.0.1.3.4 (2026-10-28)
+
+- Profit report: the purchase price is shown per product unit, like the quantity (it was per unit of the invoice line, so a line sold by the dozen showed the cost of a dozen next to a quantity in units). Changing it in the report converts it back to the unit of the line.
+- Profit report: a line without a unit of measure keeps its quantity instead of an empty one.
+- *Update Purchase Price* without *Price from delivery* converts the product cost to the unit of the invoice line.
+- Profit report: new *Storable Products* filter (*Track Inventory* on the product), on by default.
+
+## 20.0.1.3.3 (2026-10-22)
+
+- The *selling below cost* check on customer invoices runs only when the sale price is set or changed, not when the cost is recomputed. Installing the module on a database with draft invoices below cost (the check mode defaults to *Block the sale*) stopped with "You can not sell below the purchase price."; it now installs, and a new line or a changed price below cost is still blocked.
+
+## 20.0.1.3.2 (2026-10-22)
+
+- Listed on Odoo Apps as *Sale Margin & Profit* (was *Sale Margin*). The technical name `deltatech_sale_margin` does not change.
+
+## 20.0.1.3.1 (2026-10-22)
+
+- Consultant sheet: points to *Sale Margin Report by Manufacturer* for the profit per
+  manufacturer. Screenshots unchanged.
+
+## 20.0.1.3.0 (2026-10-22)
+
+- **Cost price on the customer invoices and the profit report (*Raport analiză profit*), moved
+  here from `deltatech_sale_commission`**, which keeps only the commissions. A database with both
+  modules keeps its records, ids and figures. A database with only this module gets the report
+  (menu for *Show purchase price* and the sales managers) and the cost on the invoice lines; the
+  cost of the old invoices is not computed at the update, run *Update Purchase Price* on them.
+- The report accepts other sources of sales (`_extra_sources()`), added with UNION ALL and matched
+  by column name with the invoices, so the extensions that add a column keep working. Their rows
+  are read-only. Used by `deltatech_sale_margin_pos` for the POS orders without an invoice.
+- *Update Purchase Price* and changing the cost in the report are allowed to whoever may change the
+  report: the sales managers, and the commission managers with `deltatech_sale_commission`.
+- Own module icon (`icon.svg` + `icon.png`), replacing the generic Deltatech one.
+- Profit report action: no default grouping by salesperson in the context (it could not be removed from the search bar); it opens grouped by product.
+- Margin report list: the product and the invoice are shown, so the lines can be told apart; the cost group gets its Romanian name.
+- Consultant sheet, usage guide and screenshots: steps for the cost on the invoice, the profit report and the cost recalculation.
+
+## 19.0.1.2.3 (2026-10-17)
+
+- **Fix (MARGIN-002): the "No change price on sale order" group is enforced on
+  the server.** It only made the price and the discount readonly in the order
+  form, so the same user could still change them through RPC, another client or
+  the discount wizard. Changing `price_unit` or `discount` on an existing line,
+  directly or through the order lines, now raises an access error for members
+  of the group, unless the new value is the one the pricelist computes.
+  Automatic repricing ("Update prices", price recomputed on a product or
+  quantity change), marketplace imports, the website cart and delivery, down
+  payment and reward lines are still allowed. Creating a line with its own price
+  (RMA, EDI and Excel imports) is not restricted.
+
+## 19.0.1.2.2 (2026-10-10)
+
+- Usage guide (`USAGE.md`) rebuilt from the consultant sheet, with numbered steps and screenshots; new `CONFIGURE.md`.
+
+## 19.0.1.2.1 (2026-10-01)
+
 ## 20.0.1.2.4 (2026-11-12)
 
 - The *Cost*, *Margin* and *Margin (%)* columns of the sale order lines are shown only to users in the *Show purchase price on sale order lines and customer invoice* group, like the margin total on the order. Before, any internal user could add them from the optional columns menu.

@@ -8,3 +8,4 @@ from . import test_invoice_below_cost
 from . import test_company_rules
 from . import test_commission_audit
 from . import test_screenshots
+from . import test_purchase_price_uom

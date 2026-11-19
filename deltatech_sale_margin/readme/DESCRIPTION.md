@@ -12,6 +12,11 @@
     stays silent when the line unit and the product base unit belong to different
     unit families - Odoo 19 converts any pair of units by their absolute factors,
     so a wrong `uom_id` would otherwise report every line as below cost.
+  - Cost price on the customer invoice lines, from the delivery (or the product cost), and a
+    warning/error on the invoice when the price is below it
+  - Profit report on the posted customer invoices (Sales > Reporting), with the cost, the profit,
+    the markup and the margin; other sources can be added (POS orders, with
+    `deltatech_sale_margin_pos`)
 
 sale.margin_limit and sale.margin_limit_check_validate are configurable from
 Settings > Sales. sale.margin_limit is the margin percentage below which a line is

@@ -4,7 +4,7 @@
 {
     "name": "Sale Feedback",
     "summary": "Feedback request e-mail with product rating links, a few days after the invoice",
-    "version": "20.0.1.0.8",
+    "version": "20.0.1.0.9",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

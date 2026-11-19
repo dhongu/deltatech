@@ -3,8 +3,8 @@
 
 {
     "name": "Sale Margin & Profit",
-    "summary": "Check price in sale order",
-    "version": "20.0.1.2.4",
+    "summary": "Check price in sale order, cost price on invoices and profit report",
+    "version": "20.0.1.3.5",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
@@ -14,10 +14,16 @@
     # behaviour does not depend on install order
     "depends": ["sale_margin", "sale_stock_margin", "account", "stock_account", "delivery"],
     "license": "OPL-1",
+    "consultant_sheet": "full",
     "data": [
         "security/sale_security.xml",
+        "security/ir.access.csv",
         "views/sale_margin_view.xml",
         "views/res_config_settings_views.xml",
+        "views/account_invoice_view.xml",
+        "report/sale_margin_report.xml",
+        "wizard/update_purchase_price_view.xml",
+        "data/cron_jobs.xml",
     ],
     "images": ["static/description/main_screenshot.png"],
     "development_status": "Mature",

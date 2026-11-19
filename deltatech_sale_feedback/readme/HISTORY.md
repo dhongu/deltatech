@@ -1,3 +1,9 @@
+## 20.0.1.0.9 (2026-11-19)
+
+- Consultant sheet (readme/FISA_CONSULTANT.md) with the screenshots of the flow.
+- The default of the template field of the company is a lambda, so that the
+  modules that inherit it can override the method (pylint-odoo E8148).
+
 ## 20.0.1.0.8 (2026-11-03)
 
 - Description rewritten after the code: the per-line rating links, the

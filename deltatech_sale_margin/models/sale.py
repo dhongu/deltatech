@@ -3,9 +3,13 @@
 
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError
+from odoo.tools import float_compare
 from odoo.tools.safe_eval import safe_eval
 from odoo.tools.translate import get_translation
+
+# Line values that only the users allowed to change the price may set
+PRICE_FIELDS = ("price_unit", "discount")
 
 
 class SaleOrder(models.Model):
@@ -33,8 +37,9 @@ class SaleOrder(models.Model):
             warning_message = ""
             for line in order.order_line.filtered("margin_below_limit"):
                 warning_message += self.env._(
-                    "The unit price of product %s is lower than the purchase price. The margin is negative."
-                ) % (line.product_id.display_name)
+                    "The unit price of product %s is lower than the purchase price. The margin is negative.",
+                    line.product_id.display_name,
+                )
             if warning_message and company.sale_margin_check_mode == "warn":
                 # in "warn" mode nothing is blocked, so the banner has to say so
                 # explicitly - otherwise the seller stops at it waiting for a
@@ -75,6 +80,11 @@ class SaleOrder(models.Model):
                     if not (line.get("label") == margin_label and line.get("value") == order.margin)
                 ]
             order.extra_total_fields = groups
+
+    def _recompute_prices(self):
+        # "Update prices" re-applies the pricelist: an automatic repricing, which
+        # the users of `group_sale_no_change_price` may run
+        return super(SaleOrder, self.with_context(dt_allow_price_change=True))._recompute_prices()
 
     # la validare se verifica pretul de vanzare
     def action_confirm(self):
@@ -279,7 +289,104 @@ class SaleOrderLine(models.Model):
         """
         return {"product_id", "product_uom_id", "price_unit", "discount", "tax_ids", "purchase_price"}
 
+    def _price_change_restricted(self):
+        """Is the current user barred from changing the price or the discount?
+
+        `group_sale_no_change_price` used to make the fields readonly in the form
+        only, so the same user could still change them through RPC or another
+        client. Superuser code and the flows that price the line themselves stay
+        allowed:
+
+        - `sale_write_from_compute`: the standard price computation (also when a
+          module calls `_compute_price_unit()` directly, e.g. repair);
+        - `dt_allow_price_change`: "Update prices" (`sale.order._recompute_prices`);
+        - `ignore_price_check` / `from_marketplace`: marketplace imports, which
+          copy the price of the platform onto the order;
+        - `website_id`: the shop prices the cart itself (website requests carry
+          it in the context), including the extra lines of
+          `deltatech_sale_add_extra_line`, priced as a percent of the main line
+          when the cart is updated.
+        """
+        if self.env.su:
+            return False
+        context = self.env.context
+        if any(
+            context.get(key)
+            for key in (
+                "sale_write_from_compute",
+                "dt_allow_price_change",
+                "ignore_price_check",
+                "from_marketplace",
+                "website_id",
+            )
+        ):
+            return False
+        return self.env.user.has_group("deltatech_sale_margin.group_sale_no_change_price")
+
+    def _price_change_exempt(self):
+        """Lines whose price does not come from the pricelist.
+
+        Notes and sections, down payments, delivery and loyalty reward lines are
+        priced by the flows that manage them.
+        """
+        self.ensure_one()
+        return bool(
+            self.display_type
+            or self.is_downpayment
+            or self.is_delivery
+            or ("reward_id" in self._fields and self.reward_id)
+        )
+
+    def _price_change_expected(self, vals):
+        """In-memory line with the price and discount the pricelist gives it,
+        after `vals` (without the price fields) is applied."""
+        self.ensure_one()
+        values = {
+            "order_id": self.order_id.id,
+            "product_id": self.product_id.id,
+            "product_uom_id": self.product_uom_id.id,
+            "product_uom_qty": self.product_uom_qty,
+            "tax_ids": [(6, 0, self.tax_ids.ids)],
+        }
+        values.update({k: v for k, v in vals.items() if k in values})
+        return self.new(values)
+
+    def _price_changed(self, field_name, value, line):
+        if field_name == "price_unit":
+            currency = line.currency_id or line.order_id.currency_id or self.env.company.currency_id
+            return bool(currency.compare_amounts(value or 0.0, line[field_name]))
+        digits = self.env["decimal.precision"].precision_get("Discount")
+        return bool(float_compare(value or 0.0, line[field_name], precision_digits=digits))
+
+    def _check_price_change(self, vals):
+        """Refuse a price or discount set by hand by a restricted user.
+
+        A value that is unchanged, or equal to the one the pricelist computes
+        (sale_edi_ubl and `deltatech_discount_policy` write the computed discount
+        outside of a compute), goes through.
+
+        Only `write` is guarded. Creating a line with an explicit price is how
+        many server flows run under the current user (RMA handling fee and
+        replacement order, EDI / EDInet and Excel imports, expense re-invoicing),
+        and the form does not send the readonly price of a new line anyway.
+        """
+        fields_set = [f for f in PRICE_FIELDS if f in vals]
+        if not fields_set or not self._price_change_restricted():
+            return
+        for line in self:
+            if line._price_change_exempt():
+                continue
+            changed = [f for f in fields_set if self._price_changed(f, vals[f], line)]
+            if not changed:
+                continue
+            expected = line._price_change_expected(vals)
+            if any(self._price_changed(f, vals[f], expected) for f in changed):
+                raise AccessError(
+                    self.env._("You are not allowed to change the price or the discount on sale order lines.")
+                )
+
     def write(self, vals):
+        self._check_price_change(vals)
         res = super().write(vals)
         if not self._margin_check_fields().intersection(vals):
             return res
@@ -338,9 +445,9 @@ class SaleOrderLine(models.Model):
                 if hasattr(line, "reward_id") and line.reward_id:
                     continue
                 if not self.env.user.has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
-                    raise UserError(self.env._("You can not sell %s without price.") % line.product_id.name)
+                    raise UserError(self.env._("You can not sell %s without price.", line.product_id.name))
                 else:
-                    message = self.env._("Sale %s without price.") % line.product_id.name
+                    message = self.env._("Sale %s without price.", line.product_id.name)
                     line.order_id.message_post(body=message)
             # Enforcement follows the same unit policy as `margin_below_limit`:
             # when the line unit and the product's base unit are in different
@@ -356,13 +463,13 @@ class SaleOrderLine(models.Model):
                             self.env._("You can not sell below the purchase price: %s.", line.product_id.name)
                         )
                     else:
-                        message = self.env._("Sale %s under the purchase price.") % line.product_id.name
+                        message = self.env._("Sale %s under the purchase price.", line.product_id.name)
                         line.order_id.message_post(body=message)
 
                 margin = (price_unit - line.purchase_price) / price_unit * 100
                 if margin < margin_limit:
                     if not self.env.user.has_group("deltatech_sale_margin.group_sale_below_margin"):
-                        raise UserError(self.env._("You can not sell below margin: %s") % line.product_id.name)
+                        raise UserError(self.env._("You can not sell below margin: %s", line.product_id.name))
                     else:
-                        message = self.env._("Sale %s below margin.") % line.product_id.name
+                        message = self.env._("Sale %s below margin.", line.product_id.name)
                         line.order_id.message_post(body=message)

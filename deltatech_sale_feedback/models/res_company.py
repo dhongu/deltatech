@@ -19,6 +19,6 @@ class Company(models.Model):
         "mail.template",
         string="Email Template Request Feedback",
         domain="[('model', '=', 'account.move')]",
-        default=_default_sale_feedback_template_id,
+        default=lambda self: self._default_sale_feedback_template_id(),
         help="Email sent to the customer after invoice for feedback.",
     )

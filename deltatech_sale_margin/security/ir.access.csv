@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_sale_margin_report_cost,Sale margin report,sale.margin.report,deltatech_sale_margin.group_sale_margin,r,
+access_sale_margin_report_sale_manager,Sale margin report,sale.margin.report,sales_team.group_sale_manager,ru,
+sale_margin_report_comp_rule,Sale Margin Report multi-company,sale.margin.report,,crud,"['|',('company_id','=',False),('company_id', 'in', company_ids)]"
+access_update_purchase_price_sale_manager,Update purchase price,commission.update.purchase.price,sales_team.group_sale_manager,crud,

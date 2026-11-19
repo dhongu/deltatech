@@ -1,5 +1,35 @@
 # Changelog
 
+## 20.0.2.0.1 (2026-10-22)
+
+- Consultant sheet: *Sale Margin Report by Manufacturer* listed among the related modules.
+  Screenshots unchanged.
+
+## 20.0.2.0.0 (2026-10-22)
+
+- **The cost price and the margin report move to `deltatech_sale_margin`.** This module keeps only
+  the commissions: the rates per salesperson and journal, the salesperson of the sale order on the
+  invoice line, the real commission and *Commission Paid*, the commission wizard and the commission
+  columns, filters and menu of the report. Nothing changes for a database that has both modules:
+  the records keep their ids and the report the same columns. Update both modules together
+  (`deltatech_sale_margin` moves the external ids before it loads its data).
+- The rows of the report that are not invoice lines (the POS orders of `deltatech_sale_margin_pos`)
+  get the rates of their salesperson on the invoice journal of the point of sale, so the computed commission is there for them
+  too; the real commission stays on the invoice lines: *Set Paid* and the commission wizard leave
+  them out.
+- Own module icon (`icon.svg` + `icon.png`), replacing the generic Deltatech one.
+- Only *Commission Manager* can change the real commission and *Commission Paid* in the report: the sales managers, who may now change the cost there, can not.
+- *Commission* list: *Due Date* and *Payment Term* are optional (hidden), so the commission columns fit.
+- Consultant sheet, usage guide and screenshots updated: the cost, the profit report and the cost recalculation moved to `deltatech_sale_margin`.
+
+## 20.0.1.6.4 (2026-10-17)
+
+- Cost price from deliveries: when an invoice line is delivered in moves of different units
+  (e.g. 12 pieces + 1 dozen), the quantities are converted to the product unit before the
+  value is divided, and the unit cost is expressed in the unit of the invoice line. Before,
+  the raw quantities were added (12 + 1 = 13), which gave a wrong cost price, margin and
+  commission, and could block the invoice with "You can not sell below the purchase price".
+
 ## 20.0.1.6.3 (2026-10-15)
 
 Port of the 19.0 1.6.x series (19.0.1.6.0 and 19.0.1.6.3; 19.0.1.6.1 and 19.0.1.6.2 were

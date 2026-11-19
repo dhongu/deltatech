@@ -1,10 +1,7 @@
 - Features:
 
-  - New technical access group for display margin and purchase price in customer invoice
-  - Technical access group to prevent changing price in customer invoice
-  - New technical access group to allow sale price below the purchase price
-  - Warning/Error on customer invoice if sale price is below the purchase price
-  - New report for analysis profitability
+  - Commission columns, filters and menu on the profit report of `deltatech_sale_margin`
+    (the cost price on the invoice and the report itself are there)
   - Calculation of sales commissions on sale order salesperson or invoice salesperson (configurable)
   - Added parameter "deltatech_sale_commission.days_for_commission", the value should be an integer
   - When the parameter is set when the commission is calculated, the system will check if the invoice is _fully paid_

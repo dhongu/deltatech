@@ -89,6 +89,25 @@ class TestCommissionAccess(TestSaleCommissionBase):
         # the report reads the new values back
         self.assertTrue(all(lines.mapped("commission_paid")))
 
+    def test_sale_manager_can_not_write_commission(self):
+        # the sales managers may change the cost in the report (deltatech_sale_margin), not the commission
+        sale_manager = new_test_user(
+            self.env,
+            "commission.sale.manager",
+            groups="sales_team.group_sale_manager",
+            company_id=self.env.company.id,
+            company_ids=[(6, 0, self.env.company.ids)],
+        )
+        _invoice, lines = self._invoice_report_lines()
+        with self.assertRaises(AccessError):
+            lines.with_user(sale_manager).write({"commission": 5.0})
+        with self.assertRaises(AccessError):
+            lines.with_user(sale_manager).write({"commission_paid": True})
+        lines.with_user(sale_manager).write({"purchase_price": 90.0})
+        invoice_lines = self.env["account.move.line"].browse(lines.ids)
+        self.assertEqual(invoice_lines.mapped("purchase_price"), [90.0] * len(lines))
+        self.assertFalse(any(invoice_lines.mapped("commission_paid")))
+
     def test_write_keeps_zero_cost(self):
         _invoice, lines = self._invoice_report_lines()
         invoice_lines = self.env["account.move.line"].browse(lines.ids)
