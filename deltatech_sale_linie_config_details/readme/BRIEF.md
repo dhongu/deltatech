@@ -37,7 +37,7 @@ connector does not invent its own field and its own popup.
 A list of `{"name": ..., "value": ...}` groups. `value` is a text or a dictionary; dictionary
 values are texts, numbers or dictionaries (nesting allowed). Inside a dictionary the key `id` is
 never shown, the keys `image` and `src` are shown as pictures. A dictionary without `name` and
-`value` is shown as an unnamed group. A JSON text (as written by the 19.0 importers) is read as
+`value`, or a group without `name`, is shown as an unnamed group. A JSON text (as written by the 19.0 importers) is read as
 its content.
 
 ## Flow
@@ -46,7 +46,7 @@ its content.
 2. The salesperson opens the order; lines with details have a **Details** button, in its own
    column before the quantity.
 3. A click opens the *Config Details* popup: group names in bold, the values as `key: value`,
-   nested groups indented, pictures with an *Open image* link; *Close* returns to the order.
+   nested groups as rows (name on the left, values on the right), pictures with an *Open image* link; *Close* returns to the order.
 
 ## Acceptance criteria
 
@@ -54,8 +54,8 @@ its content.
 - **CA2:** in the popup, texts show as `key: value`, nested dictionaries as nested rows, and a
   group with a plain text value shows as `name: value`; the `id` key never shows. *(test)*
 - **CA3:** text from the data is escaped (`<script>` shows as text) and never evaluated. *(test)*
-- **CA4:** missing or malformed details (empty, not a list) give no button and an empty popup
-  content, without error. *(test)*
+- **CA4:** a line without details has no **Details** button; malformed details (not a list of
+  groups) open an empty popup, without error. *(test)*
 - **CA5:** `image` / `src` values show as pictures with an *Open image* link;
   `get_images_config_detail()` returns the `image` URLs. *(test)*
 - **CA6:** a salesperson clicks **Details** and sees the popup with the details. *(test)*
@@ -69,6 +69,9 @@ its content.
 
 ## Edge cases
 
+- Key order: the JSON column (`jsonb`) does not keep the order of the keys inside a group; the
+  popup shows them in the stored order (shorter keys first). Connectors that need an order use
+  separate groups.
 - Multi-company: the field follows the line; no company-specific behaviour.
 - Rights: anyone who can read the order line can open the popup (the wizard is open to
   `base.group_user`; it only holds rendered HTML of a line the user already read).

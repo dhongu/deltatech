@@ -100,6 +100,10 @@ class TestConfigDetails(TransactionCase):
         self.assertIn("Inaltime: 2100", html)
         self.assertNotIn(">X<", html)
         self.assertEqual(self.line({"name": "Dim", "value": {"x": "1"}})._get_config_details()[0]["name"], "Dim")
+        # a group without a name shows its values without a "None:" label
+        html = str(self.line([{"value": {"x": "7"}}]).get_html_config_details())
+        self.assertIn("x: 7", html)
+        self.assertNotIn("None", html)
 
     def test_copy(self):
         """CA10: duplicating the order copies the details."""

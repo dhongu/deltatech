@@ -103,14 +103,13 @@ class SaleOrderLine(models.Model):
                 parts.append(Markup("<div>{inner}</div>").format(inner=self._config_details_html(item)))
                 continue
             name, value = item.get("name"), item.get("value")
+            label = Markup("<strong>{name}:</strong> ").format(name=name) if name not in (None, "") else Markup("")
             if isinstance(value, str) and with_attributes:
-                parts.append(
-                    Markup("<div><strong>{name}:</strong> {value}</div>").format(name=escape(name), value=escape(value))
-                )
+                parts.append(Markup("<div>{label}{value}</div>").format(label=label, value=value))
             elif isinstance(value, dict):
                 parts.append(
-                    Markup("<div><strong>{name}:</strong></div><div>{inner}</div>").format(
-                        name=escape(name), inner=self._config_details_html(value)
+                    Markup("<div>{label}</div><div>{inner}</div>").format(
+                        label=label, inner=self._config_details_html(value)
                     )
                 )
         if not parts:
