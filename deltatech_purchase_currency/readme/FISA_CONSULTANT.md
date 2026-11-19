@@ -17,7 +17,8 @@ comenzii, așa că o comandă în EUR dă o factură în EUR, iar contabilul tre
 preț în lei. Modulul adaugă pe comanda de achiziție câmpul **Jurnal de facturare**, la fel ca la
 comanda de vânzare (`deltatech_sale_currency`): dacă este completat, factura furnizorului se creează
 în acel jurnal și în moneda lui (lei, dacă jurnalul nu are monedă), iar prețurile din comandă se
-convertesc la cursul zilei și se reconvertesc la cursul **Datei facturii**. Fără jurnal pe comandă,
+convertesc la cursul zilei și se reconvertesc la cursul **Datei facturii** sau, dacă furnizorul a
+aplicat alt curs, la **Cursul furnizorului** scris pe factură. Fără jurnal pe comandă,
 comportamentul rămâne cel standard, deci furnizorii externi care facturează în EUR nu sunt afectați.
 
 ## 2. Bază legală și context
@@ -25,8 +26,8 @@ comportamentul rămâne cel standard, deci furnizorii externi care facturează �
 - **Legea contabilității nr. 82/1991** — evidența contabilă se ține în moneda națională; o factură
   de furnizor emisă în lei se înregistrează direct în lei, fără reevaluarea datoriei.
 - **Codul fiscal (Legea 227/2015), art. 290 alin. (2)** — când baza de impozitare a TVA este exprimată în
-  valută, se folosește ultimul curs comunicat de BNR (sau publicat de BCE) la data exigibilității
-  taxei. În practică, furnizorul care facturează în lei o comandă în EUR aplică acest curs.
+  valută, se folosește ultimul curs comunicat de BNR, ultimul curs publicat de BCE sau cursul
+  utilizat de banca prin care se efectuează decontările, la data exigibilității taxei. În practică, furnizorul care facturează în lei o comandă în EUR aplică acest curs.
 - **HG 1/2016 (Normele Codului fiscal), Titlul VII, pct. 35 alin. (1)** — prin ultimul curs comunicat
   de BNR se înțelege cursul comunicat în ziua anterioară, valabil pentru operațiunile din ziua
   următoare.
@@ -35,14 +36,15 @@ Modulul folosește cursul înregistrat în Odoo (în practică cursul BNR, înc�
 cursul folosit pentru o dată este **ultimul curs cu dată strict anterioară** acelei zile: pentru o
 factură din 19 noiembrie se aplică cursul înregistrat pe 18 noiembrie (cursul BNR publicat în ziua
 lucrătoare precedentă). Cursul pe care îl aplică efectiv furnizorul pe factură trebuie comparat cu
-cel din Odoo la verificare.
+cel din Odoo la verificare; dacă diferă, contabilul scrie cursul furnizorului în câmpul **Curs
+furnizor** de pe factură (Pasul 10), iar prețurile se convertesc la acel curs.
 
 ## 3. Utilizatori și roluri
 
 | Rol | Ce face |
 |---|---|
 | Cumpărător (*Achiziții / Utilizator*) | Creează comanda în EUR, completează **Jurnal de facturare** și o confirmă |
-| Contabil (*Facturare*) | Creează factura din comandă (sau o completează automat), stabilește **Data facturii**, verifică prețurile și o confirmă |
+| Contabil (*Facturare*) | Creează factura din comandă (sau o completează automat), stabilește **Data facturii** și, dacă e cazul, **Curs furnizor**, verifică prețurile și o confirmă |
 | Administrator contabilitate | Configurează jurnalele de achiziții (cu sau fără monedă) și cursurile valutare |
 
 Modulul nu adaugă grupuri. Câmpul **Jurnal de facturare** este vizibil pentru toți utilizatorii
@@ -106,7 +108,8 @@ jurnale, creați factura fiecărei comenzi separat.
 Factura nouă se deschide în ciornă.
 
 1. **Găsește pe ecran** — rândul **Jurnal** (jurnalul și moneda, după „în”) și coloana **Preț** din
-   tab-ul **Linii factură**.
+   tab-ul **Linii factură**. Rândul **Curs furnizor** rămâne 0,000000: se folosește cursul din Odoo
+   (vezi Pasul 10).
 2. **Verifică** — jurnalul este cel din comandă (*Achiziții*), moneda este **RON**, iar prețul este
    prețul din comandă × cursul zilei: 12,50 EUR × 5,0912 = **63,64 lei**; cantitatea și taxa sunt cele
    din comandă. **Data facturii** este încă necompletată.
@@ -141,7 +144,9 @@ comandă rămâne în **EUR**, cu prețul din comandă (12,50), ca în Odoo stan
 după monedă (în demo, primul jurnal de achiziții în EUR, *Facturi furnizor EUR*). Schimbarea **Datei
 facturii** nu modifică prețurile.
 
-![Factura de furnizor în ciornă pentru o comandă fără jurnal de facturare: Jurnal Facturi furnizor EUR în EUR (marcate cu portocaliu), cursul informativ 1 RON = 0.196417 EUR, linia Profil aluminiu 40x40 la 12,50 (marcat cu portocaliu), total 1.512,50 €](../static/description/05_factura_fara_jurnal_eur.png)
+Pe o factură în moneda comenzii câmpul **Curs furnizor** nu apare (nu are ce converti).
+
+![Factura de furnizor în ciornă pentru o comandă fără jurnal de facturare: Jurnal Facturi furnizor EUR în EUR (marcate cu portocaliu), cursul informativ 1 RON = 0.196417 EUR, fără câmpul Curs furnizor, linia Profil aluminiu 40x40 la 12,50 (marcat cu portocaliu), total 1.512,50 €](../static/description/05_factura_fara_jurnal_eur.png)
 
 ### Pasul 6 — Jurnal de facturare în EUR (CA4)
 
@@ -187,6 +192,36 @@ cursul datei facturii (în demo, 80 de unități la 63,48125 lei).
 
 ![Factură de furnizor nouă, completată automat din comanda P00017: Jurnal Achiziții în RON (marcate cu portocaliu), Data facturii 1 nov., linia Profil aluminiu 40x40 cu 80,00 unități la 63,48125 lei și coloana Comandă de achiziție P00017 (marcat cu portocaliu)](../static/description/09_factura_completare_automata.png)
 
+### Pasul 10 — Cursul scris de furnizor pe factură (CA8–CA12)
+
+Când factura furnizorului este emisă la alt curs decât cel din Odoo (de exemplu cursul băncii prin
+care se fac decontările sau un curs convenit prin contract, cum ar fi cursul BNR plus un procent),
+contabilul îl introduce în câmpul **Curs furnizor**, sub **Data scadenței** și deasupra rândului
+**Jurnal**. Cursul se scrie așa cum apare pe factura furnizorului:
+**lei pentru 1 EUR** (eticheta de lângă câmp arată „RON pentru 1 EUR”), cu până la 6 zecimale.
+
+Câmpul apare doar pe factura în altă monedă decât comanda (factura în lei a unei comenzi în EUR) și
+doar dacă toate liniile din comenzi vin dintr-o singură monedă; pe o factură în EUR sau cu linii din
+comenzi în monede diferite (de ex. EUR și USD) este ascuns. Se poate modifica doar cât timp factura
+este în ciornă. Cât timp nu e completat, afișează **0,000000** și se folosește cursul din Odoo.
+
+1. **Găsește pe ecran** — câmpul **Curs furnizor**, **Data facturii** și coloana **Preț** din tab-ul
+   **Linii factură**.
+2. **Verifică** — cu **Curs furnizor** 5,10, prețul liniei din comandă este 12,50 EUR × 5,10 =
+   **63,75 lei** (în unitatea de măsură a liniei facturii, ca la Pasul 7). Data facturii 1 noiembrie,
+   completată după curs, nu a mai schimbat prețul (cursul Odoo al acelei date ar fi dat 63,48125 lei).
+   Coloana opțională **Comandă de achiziție** compară cu prețul comenzii la același curs, deci linia
+   arată doar comanda (P00018), fără săgeată; un preț schimbat de mână ar arăta diferența.
+3. **Treci mai departe** — confirmați factura. Ca să reveniți la cursul din Odoo, ștergeți valoarea
+   (sau scrieți 0): prețurile se reconvertesc la cursul **Datei facturii**. Orice modificare a
+   cursului reconvertește prețurile din comandă, deci prețurile corectate de mână pe liniile din
+   comandă se pierd. Un curs negativ este refuzat la salvare.
+
+Cursul furnizorului se aplică doar prețurilor din comandă; nu modifică cursurile valutare din Odoo
+și nu schimbă **Data contabilă**.
+
+![Factura de furnizor în ciornă pentru comanda P00018, în RON: Curs furnizor 5,100000 RON pentru 1 EUR (marcaj 1), Data facturii 1 nov. (marcaj 2), linia Profil aluminiu 40x40 cu 100 de unități la 63,75 lei (marcat cu portocaliu) și coloana Comandă de achiziție P00018 fără săgeată, total 7.713,75 lei](../static/description/10_factura_curs_furnizor.png)
+
 ### Note de monografie și raportare
 
 Factura confirmată este în moneda facturii (lei), cu nota standard de achiziție:
@@ -195,6 +230,9 @@ Factura confirmată este în moneda facturii (lei), cu nota standard de achiziț
 |---|---|---|
 | 371 Mărfuri / 607 Cheltuieli privind mărfurile (după produs și evidența stocului) | 401 Furnizori | baza în lei (preț convertit × cantitate) |
 | 4426 TVA deductibilă | 401 Furnizori | TVA în lei |
+
+Cu **Curs furnizor**, baza în lei este prețul la cursul furnizorului (la Pasul 10: 6.375,00 lei, TVA
+1.338,75 lei, total 7.713,75 lei); nota contabilă are aceeași structură.
 
 Exemplu pe factura de la Pasul 4 (produs fără stoc, cont **607000 Cheltuieli privind mărfurile**):
 Dr 607 6.348,13 lei și Dr 4426 1.333,11 lei = Cr 401 7.681,24 lei.
@@ -219,11 +257,13 @@ standard a stocurilor; modulul nu le tratează.
 | Jurnalul de cumpărări / D300 / D394 | preiau factura în lei, cu valorile convertite |
 
 **Ce e automat:** jurnalul și moneda facturii după jurnalul comenzii, conversia prețurilor la crearea
-facturii, reconversia la schimbarea **Datei facturii** sau a **Monedei**, aducerea prețului la unitatea
-liniei, compararea prețului în moneda facturii.
+facturii, reconversia la schimbarea **Datei facturii**, a **Monedei** sau a **Cursului furnizor**, aducerea
+prețului la unitatea liniei, compararea prețului în moneda facturii (la cursul furnizorului, dacă e
+completat).
 
 **Ce rămâne manual:** alegerea jurnalului de facturare pe fiecare comandă (nu există încă un jurnal
-implicit pe furnizor); încărcarea cursurilor; verificarea prețurilor față de factura furnizorului.
+implicit pe furnizor); încărcarea cursurilor; introducerea **Cursului furnizor** când factura are alt
+curs decât Odoo; verificarea prețurilor față de factura furnizorului.
 
 ## 8. Verificări pentru consultant
 
@@ -238,13 +278,22 @@ implicit pe furnizor); încărcarea cursurilor; verificarea prețurilor față d
   schimbat de mână.
 - [ ] O factură nouă completată automat din comandă ia jurnalul, moneda și prețurile convertite.
 - [ ] **Jurnal de facturare** nu oferă jurnale de vânzări sau jurnale ale altei companii.
+- [ ] **Curs furnizor** apare pe factura în lei a unei comenzi în EUR și lipsește pe factura în EUR.
+- [ ] Cu **Curs furnizor** 5,10, prețul liniei este prețul comenzii în EUR × 5,10 (în unitatea liniei).
+- [ ] Cu **Curs furnizor** completat, schimbarea **Datei facturii** nu schimbă prețurile; după
+  ștergerea cursului, prețurile se reconvertesc la cursul din Odoo al datei facturii.
+- [ ] Coloana **Comandă de achiziție** nu semnalează liniile convertite la cursul furnizorului.
+- [ ] Un **Curs furnizor** negativ este refuzat la salvare.
 
 ## 9. Mesaje de eroare frecvente
 
 | Mesaj | Cauză | Remediere |
 |---|---|---|
 | Factura e în EUR, nu în lei | Comanda nu are **Jurnal de facturare** sau jurnalul ales are moneda EUR | Alegeți pe comandă jurnalul de achiziții fără monedă, apoi refaceți factura |
-| Prețul în lei nu corespunde facturii furnizorului | Lipsește cursul pentru ziua precedentă datei facturii (Odoo ia cel mai apropiat curs anterior) sau furnizorul a folosit alt curs | Încărcați cursul lipsă și schimbați din nou **Data facturii**; dacă furnizorul aplică alt curs, corectați prețul după ultima schimbare de dată |
+| Prețul în lei nu corespunde facturii furnizorului | Lipsește cursul pentru ziua precedentă datei facturii (Odoo ia cel mai apropiat curs anterior) sau furnizorul a folosit alt curs | Încărcați cursul lipsă și schimbați din nou **Data facturii**; dacă furnizorul aplică alt curs, scrieți-l în **Curs furnizor** |
+| Câmpul **Curs furnizor** nu apare pe factură | Factura este în moneda comenzii sau are linii din comenzi în monede diferite | Câmpul servește doar facturii în altă monedă decât comanda; facturați separat comenzile în monede diferite |
+| Cursul furnizorului nu poate fi negativ. | S-a introdus un curs negativ în **Curs furnizor** | Introduceți cursul pozitiv de pe factura furnizorului sau 0 pentru cursul din Odoo |
+| Schimbarea **Datei facturii** nu mai schimbă prețurile | **Curs furnizor** este completat și are prioritate față de cursul datei | Ștergeți **Curs furnizor** dacă vreți conversia la cursul din Odoo |
 | Două comenzi cu jurnale diferite au ajuns pe aceeași factură | Facturile create din listă se grupează după furnizor și moneda facturii, nu după jurnal; factura ia jurnalul primei comenzi | Ștergeți factura ciornă și creați factura fiecărei comenzi separat |
 | Prețul liniei s-a schimbat după ce am schimbat **Unitatea** și nu mai corespunde comenzii | Schimbarea unității recalculează prețul după regula standard (costul produsului); modulul reconvertește din comandă doar la schimbarea datei sau a monedei | După schimbarea unității, completați din nou **Data facturii** |
 | Prețul corectat de mână a revenit la valoarea calculată | S-a schimbat **Data facturii** sau **Moneda** după corectură | Faceți corecturile de preț după ce data facturii este definitivă |
@@ -268,6 +317,7 @@ planul de conturi RO și interfața în română; aceleași ecrane, în engleză
 | `07_factura_unitate_duzina.png` | CA5: linia în duzine, prețul adus la duzină și convertit |
 | `08_indicator_potrivire_pret.png` | CA6: indicatorul de potrivire a prețului pe liniile facturii |
 | `09_factura_completare_automata.png` | CA7: factură nouă completată automat din comandă |
+| `10_factura_curs_furnizor.png` | CA8–CA11: **Curs furnizor** completat, prețul la acest curs, data facturii fără efect |
 
 Regenerare:
 
@@ -290,8 +340,12 @@ Regenerare:
   Bill** și **Receive**, câmpurile **Arrival Confirmation**, **Receipt Status**, **Incoterm Location**,
   titlul **Purchase Order**, iar pe factură butoanele **Journal Items**, **PO Matching** și **Tax Excl.
   / Tax Incl.**; manualul trebuie să le citeze așa.
+- De explicat sensul **Cursului furnizor**: lei pentru 1 EUR, exact ca pe factura furnizorului (nu
+  cursul invers, EUR pentru 1 leu, pe care Odoo îl afișează pe facturile în EUR).
 - Modulul pune la dispoziție un singur punct de extindere pentru alt curs (de ex. cursul BNR plus un
-  procent convenit cu furnizorul), folosit de module de client.
+  procent convenit cu furnizorul), folosit de module de client; **Cursul furnizor** completat pe
+  factură are prioritate, cu condiția ca modulul de client care extinde metoda să respecte cursul
+  primit.
 
 ---
 

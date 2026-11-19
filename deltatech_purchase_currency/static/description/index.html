@@ -59,7 +59,10 @@ bill in RON at the exchange rate of the bill date.</p>
   journal the bill stays in the order currency, as in standard Odoo, so foreign suppliers are
   not affected.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-tag" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Price conversion</span><div>the order unit prices are converted to the bill currency at today's
   rate when the bill is created, and again at the rate of the <em>Bill Date</em> when it is set or
-  changed. The price is first brought to the unit of measure of the bill line.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Auto-Complete</span><div>on a new vendor bill takes the order journal and currency.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-tag" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Price matching flag</span><div>on the bill lines compares the bill price with the order price
+  changed. The price is first brought to the unit of measure of the bill line.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-shopping-cart" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Vendor Rate</span><div>on the vendor bill: when the supplier invoice states another rate than the
+  Odoo one, type it on the bill (e.g. 5.10 RON for 1 EUR) and the order prices are converted at
+  that rate; the bill date no longer changes them. Shown only when the bill lines come from
+  orders in one other currency.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Auto-Complete</span><div>on a new vendor bill takes the order journal and currency.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-tag" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Price matching flag</span><div>on the bill lines compares the bill price with the order price
   converted to the bill currency, so converted lines are not reported as price differences.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">One extension point</span><div>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase.order.line._get_invoice_price_unit()</code>, for another rate
   (for example the BNR rate plus a percentage agreed with the supplier).</div></div></div></li></ul>
 </div>
@@ -189,9 +192,31 @@ journal and currency, with the converted prices.</p>
 vendor and bill currency, not by journal: orders with different journals but the same bill
 currency end up on one bill, in the journal of the first order. Bill them one by one to keep the
 journals apart.</p>
+<p>If the supplier invoice states another rate than the one in Odoo, type it in <strong>Vendor Rate</strong>,
+in the bill header, under the dates (bill currency for 1 unit of the order currency, e.g. 5.10 RON for 1 EUR).
+The order prices are converted at that rate and a later change of the bill date no longer changes
+them; clear the field to go back to the Odoo rate. The field is shown only when the bill lines
+come from orders in one other currency, and the Purchase Order column compares with the order price
+at the same rate.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Draft bill in RON with Vendor Rate 5.100000 RON per 1 EUR and the Bill Date set: the price is 12.50 EUR &#215; 5.10 = 63.75, and the Purchase Order column shows no price difference" src="en/10_factura_curs_furnizor.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">10</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Draft bill in RON with Vendor Rate 5.100000 RON per 1 EUR and the Bill Date set: the price is 12.50 EUR &#215; 5.10 = 63.75, and the Purchase Order column shows no price difference</span>
+  </div>
+</div>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.1.0 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-19)</span></h2>
+<ul>
+<li>New <em>Vendor Rate</em> on the vendor bill: the rate stated on the supplier invoice (bill currency
+  for 1 unit of the order currency). When set, the order prices are converted at this rate
+  instead of the Odoo rate of the bill date; the price matching flag uses the same rate.</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.0.0 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-19)</span></h2>
 <ul>
 <li>First version: invoicing journal on the purchase order, vendor bill in the journal currency,

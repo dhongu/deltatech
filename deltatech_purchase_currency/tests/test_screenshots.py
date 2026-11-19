@@ -7,7 +7,7 @@
 #
 # Seedează cursul EUR (ieri și cu o lună în urmă), jurnalul de achiziții fără monedă,
 # două jurnale de facturi furnizor în EUR, furnizorul român „Aluprof Distribuție SRL” și câte o comandă
-# în EUR pentru fiecare criteriu de acceptare din readme/BRIEF.md (CA1–CA7), cu factura ei.
+# în EUR pentru fiecare criteriu de acceptare din readme/BRIEF.md (CA1–CA11), cu factura ei.
 #
 # Rulare:
 #   .venv/bin/python odoo/odoo-bin -c odoo.conf -d <db> \
@@ -30,6 +30,7 @@ except ImportError:
 
 RATE_TODAY = 5.0912
 RATE_EARLIER = 5.0785
+VENDOR_RATE = 5.10
 
 # Afișează coloanele opționale cerute din lista de linii a facturii.
 SHOW_COLUMNS = """
@@ -210,6 +211,13 @@ class TestPurchaseCurrencyScreenshots(AccountTestInvoicingCommon, ScreenshotCase
         with mute_logger("odoo.tests.form.onchange"):
             form.purchase_vendor_bill_id = env["purchase.bill.union"].browse(-cls.po_ca7.id)
         cls.bill_ca7 = form.save()
+        # CA8-CA11: cursul scris de furnizor pe factură; data facturii completată după curs nu
+        # mai schimbă prețul (12,50 EUR × 5,10 = 63,75 lei), iar coloana de potrivire nu
+        # semnalează linia
+        cls.bill_ca9 = cls._create_bill(cls._create_po(cls.journal_ron))
+        with Form(cls.bill_ca9) as form:
+            form.purchase_vendor_rate = VENDOR_RATE
+            form.invoice_date = cls.bill_date
 
     @classmethod
     def _create_po(cls, journal=None, price=12.50, qty=100.0, corner=False):
@@ -267,7 +275,8 @@ class TestPurchaseCurrencyScreenshots(AccountTestInvoicingCommon, ScreenshotCase
     def _shots(self):
         action = self.env.ref("purchase.purchase_form_action")
         menu = self.env.ref("purchase.menu_purchase_form_action")
-        head = ["div[name='journal_id']", "div[name='currency_id']"]
+        # moneda din rândul Jurnal (rândul Curs furnizor are și el un câmp currency_id)
+        head = ["div[name='journal_id']", "div[name='journal_div'] div[name='currency_id']"]
         price = ".o_field_widget[name='invoice_line_ids'] td[name='price_unit']"
         return [
             # 1. comanda în EUR, jurnalul de facturare în tab-ul Other Info
@@ -315,6 +324,13 @@ class TestPurchaseCurrencyScreenshots(AccountTestInvoicingCommon, ScreenshotCase
                 self.bill_ca7,
                 "09_factura_completare_automata.png",
                 [*head, ".o_field_widget[name='invoice_line_ids'] td[name='purchase_line_id']"],
+                columns='["purchase_line_id"]',
+            ),
+            # 10. CA8-CA11: cursul furnizorului lângă data facturii, prețul la acest curs
+            self._bill_shot(
+                self.bill_ca9,
+                "10_factura_curs_furnizor.png",
+                ["div[name='purchase_vendor_rate_div']", "div[name='invoice_date']", price],
                 columns='["purchase_line_id"]',
             ),
         ]
