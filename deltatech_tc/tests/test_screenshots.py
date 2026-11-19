@@ -95,6 +95,56 @@ class TestTcScreenshots(ScreenshotCase or object):
         )
         Job.create({"station_id": cls.simulated.id, "company_id": company.id, "job_type": "ping"})
 
+        # agentul Terrabit Connect PostgreSQL: stație proprie, interogări instalate, un lanț de pagini
+        cls.pg_station = Station.create({"name": "Server Winarhi", "company_id": company.id})
+        cls.pg_station._touch(
+            {
+                "version": "0.1.0",
+                "os": "windows",
+                "agent": "tc-postgresql",
+                "features": ["postgresql", "pg:winarhi"],
+                "pg_profiles": {"winarhi": ["articles", "offers_since", "orders_since"]},
+            }
+        )
+        rows = [
+            {"cod_mag": "ALU-4512", "denumire": "Profil toc 70 mm", "pret": "41.2500"},
+            {"cod_mag": "ALU-4518", "denumire": "Profil cercevea 70 mm", "pret": "38.9000"},
+            {"cod_mag": "ALU-4520", "denumire": "Baghetă geam 24 mm", "pret": "6.1500"},
+        ]
+        pages = []
+        for page, (after, state) in enumerate(((None, "done"), ("ALU-4508", "done"), ("ALU-4520", "pending"))):
+            job = Job._tc_enqueue_pg_query(
+                cls.pg_station, "winarhi", "articles", params={"year": 2026}, page_size=3, after=after, page=page
+            )
+            pages.append(job)
+            if state == "done":
+                job.write(
+                    {
+                        "state": "done",
+                        "attempt_count": 1,
+                        "claimed_at": now - timedelta(seconds=30 - page * 10),
+                        "done_at": now - timedelta(seconds=29 - page * 10),
+                        "result": json.dumps(
+                            {
+                                "columns": [
+                                    {"name": "cod_mag", "type": "varchar"},
+                                    {"name": "denumire", "type": "text"},
+                                    {"name": "pret", "type": "numeric"},
+                                ],
+                                "rows": rows,
+                                "count": 3,
+                                "more": True,
+                                "next": rows[-1]["cod_mag"],
+                                "page": page,
+                                "elapsed_ms": 38,
+                            },
+                            ensure_ascii=False,
+                            indent=1,
+                        ),
+                    }
+                )
+        cls.pg_page = pages[1]
+
     def _shots(self):
         env = self.env
         act_station = env.ref("deltatech_tc.action_deltatech_tc_station").id
@@ -137,6 +187,24 @@ class TestTcScreenshots(ScreenshotCase or object):
                 "url": f"action={act_job}&view_type=list",
                 "name": "04_lista_joburi.png",
                 "wait": ".o_list_view",
+                "settle": 1500,
+            },
+            # 6. o pagină de interogare PostgreSQL: parametrii (pagina, after) și rândurile primite
+            {
+                "url": f"action={act_job}&id={self.pg_page.id}&model=deltatech.tc.job&view_type=form",
+                "name": "06_pg_query_pagina.png",
+                "wait": ".o_form_view",
+                "click_tab": {"ro_RO": "Rezultat", "en_US": "Result"},
+                "highlight": ["div[name='job_type']", ".o_notebook .tab-pane.active"],
+                "settle": 1500,
+            },
+            # 7. stația agentului PostgreSQL: Agent și interogările instalate
+            {
+                "url": f"action={act_station}&id={self.pg_station.id}&model=deltatech.tc.station&view_type=form",
+                "name": "07_statie_postgresql.png",
+                "eval": _pad_values("agent_name", "capabilities_display"),
+                "wait": ".o_form_view",
+                "highlight": ["div[name='agent_name']", "div[name='capabilities_display']"],
                 "settle": 1500,
             },
             # 5. un job în eroare: tab-ul Eroare și butonul Reîncearcă

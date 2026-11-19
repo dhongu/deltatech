@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 42 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 59 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
         <div class="rounded-pill" style="height:8px;width:84%;background-color:#57B952;"></div>
       </div>
@@ -99,7 +99,11 @@ network.</p>
   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/heartbeat</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/poll</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/result</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/config/&lt;id&gt;</code>.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">http_request</code> job type</span><div>&#8212; Odoo asks the station to call a device that
   answers only inside the local network (a sorting line, a scale, a PLC, a label
   server) and reports the response back. Queue it with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_enqueue_http()</code> and
-  read the answer with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">response_dict()</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">response_json()</code>.</div></div></div></li></ul>
+  read the answer with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">response_dict()</code> / <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">response_json()</code>.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold"><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg_query</code> job type</span><div>&#8212; for the <em>Terrabit Connect PostgreSQL</em> agent (a Windows
+  service, separate from the desktop app): Odoo asks for one page of a <strong>named,
+  read-only query</strong> installed on the station (e.g. orders from a local production
+  database) and receives the rows; the next pages are queued automatically. Queue it
+  with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_enqueue_pg_query()</code> and read the rows with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg_rows()</code>.</div></div></div></li></ul>
 <p><strong>Cloud model &#8212; no inbound ports.</strong> The station always initiates the connection
 to Odoo; Odoo never connects back to the workstation. The same agent works with
 on-premise and cloud deployments without opening any port on the client side.</p>
@@ -113,6 +117,10 @@ create a job in Odoo reach any address inside the customer's network. Odoo only
 validates the shape of the request (scheme, host present, known method); the
 decision to actually place the call belongs to the machine sitting in that
 network.</p>
+<p><strong>Security of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg_query</code>.</strong> Odoo never sends SQL: it names a profile (a database
+configured on the station) and a query (a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.sql</code> file installed there) and passes
+parameters, which the station checks against the file's declarations and binds. Each
+page runs in a read-only transaction with a timeout, under a read-only database user.</p>
 <p>Callbacks are restricted to methods whose name starts with <strong><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_</code></strong>. The method
 name is stored in the database, so without that rule a modified record could call
 any ORM method. The prefix also makes "reachable from a job" a property you can
@@ -280,6 +288,22 @@ line of defence if an Odoo account is compromised.</p>
 port on that host; with a port, the match is exact. <strong>The default is empty &#8212; until
 a host is listed there, every <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">http_request</code> job comes back as an error.</strong> Keep it
 as narrow as the job actually needs.</p>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Terrabit Connect PostgreSQL (workstation <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">side)</span></h2>
+<p>The PostgreSQL agent is a separate Windows service (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tc-postgresql</code>), installed from
+the release zip with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">install.ps1</code>, with its own station and key. Its configuration
+lives in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">%ProgramData%\Terrabit\tc-postgresql\</code>:</p>
+<ul>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">station.conf</code> downloaded from the station (or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">[odoo]</code> in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">config.toml</code>);</li>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">config.toml</code>: one <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">[profiles.&lt;name&gt;]</code> per database (host, database, a <strong>read-only</strong>
+  user, timeouts, page limits); passwords encrypted with
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tc-postgresql secret set &lt;profile&gt;</code> (Windows DPAPI);</li>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">queries\&lt;profile&gt;\*.sql</code>: the named queries, delivered with the customer's module.</li>
+</ul>
+<p><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tc-postgresql check</code> verifies the files, the database and the Odoo connection. The
+station form then shows <strong>Agent</strong> <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tc-postgresql</code>, the features <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">postgresql,pg:&lt;profile&gt;</code>
+and the installed queries. The agent updates itself from signed releases.</p>
+<p>On the Odoo side, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_tc.pg_done_ttl_days</code> (default 3) sets how long finished
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg_query</code> pages are kept.</p>
 <p>The server applies a 60-second throttle on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">last_seen</code> writes to reduce database
 load when many stations are polling frequently; online detection remains accurate
 within the throttle window.</p>
@@ -293,12 +317,12 @@ within the throttle window.</p>
 </ol>
 <div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
   <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
-    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Terrabit Connect Stations list: PC Contabilitate and Casa 1 Magazin (test), the latter highlighted with Simulation ticked" src="en/01_lista_statii.png"/>
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Terrabit Connect Stations list: Casa 1 Magazin (test) highlighted with Simulation ticked, PC Contabilitate and Server Winarhi (the PostgreSQL agent, version 0.1.0)" src="en/01_lista_statii.png"/>
   </div>
   <div class="d-flex align-items-center px-3 py-2 border-top">
     <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
           style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
-    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Terrabit Connect Stations list: PC Contabilitate and Casa 1 Magazin (test), the latter highlighted with Simulation ticked</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Terrabit Connect Stations list: Casa 1 Magazin (test) highlighted with Simulation ticked, PC Contabilitate and Server Winarhi (the PostgreSQL agent, version 0.1.0)</span>
   </div>
 </div>
 <ol start="2">
@@ -364,12 +388,12 @@ station or job type.</p>
 </ul>
 <div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
   <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
-    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN) in Error (red), one Claimed (muted) and a Ping Pending" src="en/04_lista_joburi.png"/>
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN) in Error (red), one Claimed (muted), a Ping Pending and three PostgreSQL query (LAN) pages on Server Winarhi, two Done and the third Pending" src="en/04_lista_joburi.png"/>
   </div>
   <div class="d-flex align-items-center px-3 py-2 border-top">
     <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
           style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">4</span>
-    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN) in Error (red), one Claimed (muted) and a Ping Pending</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN) in Error (red), one Claimed (muted), a Ping Pending and three PostgreSQL query (LAN) pages on Server Winarhi, two Done and the third Pending</span>
   </div>
 </div>
 <p>Open a job to read its <strong>Payload</strong>, <strong>Result</strong> and <strong>Error</strong> tabs.</p>
@@ -432,6 +456,54 @@ CONFIGURE).</p>
 job is created. Interactive buttons must therefore show a pending state and let
 the result arrive later; do not queue a job and read its result in the same
 transaction.</p>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Reading a PostgreSQL database in the local <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">network</span></h2>
+<p>Install the <em>Terrabit Connect PostgreSQL</em> agent on a server that reaches the database
+(its own station, not the one of the desktop app), put the customer's <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.sql</code> files in its
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">queries\&lt;profile&gt;\</code> folder, and queue pages from a feature module:</p>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">station = self.env[&quot;deltatech.tc.station&quot;]._tc_find(&quot;pg:winarhi&quot;)
+if not station._tc_has_pg_query(&quot;winarhi&quot;, &quot;orders_since&quot;):
+    raise UserError(self.env._(&quot;The query orders_since is not installed on the Winarhi station.&quot;))
+self.env[&quot;deltatech.tc.job&quot;]._tc_enqueue_pg_query(
+    station,
+    &quot;winarhi&quot;,
+    &quot;orders_since&quot;,
+    params={&quot;since&quot;: &quot;2026-11-01 00:00:00&quot;},
+    page_size=500,
+    callback=(self, &quot;_tc_receive_orders&quot;),
+)
+</code></pre>
+<p>The station form then shows the agent and the installed queries:</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Station Server Winarhi: Agent tc-postgresql (1), Features postgresql,pg:winarhi and PostgreSQL queries winarhi: articles, offers_since, orders_since (2)" src="en/07_statie_postgresql.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">6</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Station Server Winarhi: Agent tc-postgresql (1), Features postgresql,pg:winarhi and PostgreSQL queries winarhi: articles, offers_since, orders_since (2)</span>
+  </div>
+</div>
+<p>The callback runs once per page, and once more if a page fails:</p>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-python">def _tc_receive_orders(self, job):
+    if job.state == &quot;error&quot;:
+        self.message_post(body=job.pg_error().get(&quot;message&quot;))
+        return
+    for row in job.pg_rows():
+        ...  # idempotent: a page may arrive twice after a lost result
+</code></pre>
+<p>The next page is queued after the callback returns; if it raises, the page is marked
+<strong>Error</strong> and <strong>Retry</strong> takes the chain up from that page. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">numeric</code> values arrive as
+text (no precision lost), dates and timestamps as ISO text.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Job #6 PostgreSQL query (LAN) on Server Winarhi, Done, Result tab (2): columns cod_mag, denumire, pret and the rows of the page, prices as text (41.2500)" src="en/06_pg_query_pagina.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">7</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Job #6 PostgreSQL query (LAN) on Server Winarhi, Done, Result tab (2): columns cod_mag, denumire, pret and the rows of the page, prices as text (41.2500)</span>
+  </div>
+</div>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Adding feature <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">modules</span></h2>
 <p>This base module does not talk to any device by itself. Install the relevant
 Terrabit Connect feature module (e.g. ANAF messages, fiscal printer, Zebra labels,
@@ -440,6 +512,24 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.3.0 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-18)</span></h2>
+<ul>
+<li>New job type <strong><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg_query</code></strong> for the <em>Terrabit Connect PostgreSQL</em> agent
+  (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">terrabit-solutions/terrabit-connect-postgresql</code>), a Windows service that runs <strong>named,
+  read-only</strong> queries on a PostgreSQL database in the customer's network. Odoo sends only the
+  profile name, the query name and its parameters, never SQL; the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.sql</code> files live on the
+  station. One page per job, keyset pagination (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">after</code> = key of the last row).</li>
+<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_enqueue_pg_query()</code> queues the first page; with <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">follow</code> the next page is queued
+  automatically once the callback of the current one succeeded. The callback also receives a
+  failed page (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">job.state == "error"</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">job.pg_error()</code> gives <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">{code, message}</code>), including one
+  failed after the retry limit. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg_rows()</code> returns the rows of a page. Pages are retry-safe.</li>
+<li>Heartbeat: the agent name (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">agent</code>) and the installed queries (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg_profiles</code>) are stored on
+  the station (<strong>Agent</strong>, <strong>PostgreSQL queries</strong>). <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_find(feature)</code> returns the company's
+  active station announcing a feature (whole element, e.g. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg:winarhi</code>);
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_tc_has_pg_query(profile, query)</code> checks an installed query.</li>
+<li>Daily cleanup: finished <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">pg_query</code> pages are deleted after 3 days
+  (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_tc.pg_done_ttl_days</code>).</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.2.7 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-15)</span></h2>
 <ul>
 <li>The heartbeat answer (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/heartbeat</code>) carries <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">lang</code>, the language of the station company's
@@ -506,15 +596,6 @@ DUKIntegrator) to activate additional job types. They appear automatically in th
   workstation (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TERRABIT_POLL_JOBS=1</code>). <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">TERRABIT_HEARTBEAT_SEC</code> is no longer documented:
   the heartbeat interval is fixed at 300 seconds.</li>
 <li>New <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/ROADMAP.md</code>.</li>
-</ul>
-<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.1.2 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-09-25)</span></h2>
-<ul>
-<li>Security: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/poll</code> returns only the jobs queued for the calling station. It used to
-  claim every pending job of the station's company and reassign it, so one station could
-  take (and read the payload of) jobs meant for another workstation.</li>
-<li>Security: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/result</code> accepts a result only for a job in state <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">claimed</code> (409 otherwise).
-  A finished job could be re-posted, overwriting its result and replaying the callback.</li>
-<li><code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/poll</code> caps <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">limit</code> to 1&#8211;50; <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/tc/result</code> rejects a non-integer <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">job_id</code> with 400.</li>
 </ul>
 <p><em>Older releases are listed in the module's HISTORY file.</em></p>
 </div>

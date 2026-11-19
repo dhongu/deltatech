@@ -1,5 +1,6 @@
 import json
 import logging
+import re
 from datetime import timedelta
 from urllib.parse import urlparse
 
@@ -27,6 +28,11 @@ DEFAULT_MAX_ATTEMPTS = 3  # offers of a retry-safe job before it is failed
 DEFAULT_DONE_TTL_DAYS = 30
 DEFAULT_ERROR_TTL_DAYS = 90
 DEFAULT_PENDING_TTL_HOURS = 0  # 0 = pending jobs never expire
+DEFAULT_PG_DONE_TTL_DAYS = 3  # pg_query pages can be large; their data lives on in the callback's records
+
+# pg_query: profile and query are names of things installed on the station, never SQL
+PG_NAME_RE = re.compile(r"^[A-Za-z0-9_]{1,64}$")
+PG_PAGE_SIZE_MAX = 10000
 
 
 class DeltatechTcJob(models.Model):
@@ -38,9 +44,11 @@ class DeltatechTcJob(models.Model):
     to the :meth:`_process_result` hook, which feature modules extend per
     ``job_type``.
 
-    Two job types ship here: ``ping`` (round-trip check) and ``http_request``,
+    Three job types ship here: ``ping`` (round-trip check), ``http_request``,
     which has the station call a device reachable only inside the customer's
-    network. Feature modules add device-specific types with ``selection_add`` on
+    network, and ``pg_query``, which has the *Terrabit Connect PostgreSQL* agent run
+    a named, read-only query on a local PostgreSQL database, one page per job.
+    Feature modules add device-specific types with ``selection_add`` on
     ``job_type``.
     """
 
@@ -52,7 +60,11 @@ class DeltatechTcJob(models.Model):
     station_id = fields.Many2one("deltatech.tc.station", required=True, ondelete="cascade", index=True)
     company_id = fields.Many2one("res.company", required=True, default=lambda self: self.env.company)
     job_type = fields.Selection(
-        selection=[("ping", "Ping"), ("http_request", "HTTP request (LAN)")],
+        selection=[
+            ("ping", "Ping"),
+            ("http_request", "HTTP request (LAN)"),
+            ("pg_query", "PostgreSQL query (LAN)"),
+        ],
         required=True,
         default="ping",
     )
@@ -120,6 +132,24 @@ class DeltatechTcJob(models.Model):
             if method not in ALLOWED_METHODS:
                 raise ValidationError(self.env._("Unsupported HTTP method %(method)s.", method=method))
 
+    @api.constrains("job_type", "payload")
+    def _check_pg_payload(self):
+        for job in self.filtered(lambda j: j.job_type == "pg_query"):
+            payload = job.payload_dict()
+            for key in ("profile", "query"):
+                if not PG_NAME_RE.match(str(payload.get(key) or "")):
+                    raise ValidationError(
+                        self.env._(
+                            "A PostgreSQL job needs a '%(key)s' made of letters, digits and underscores.",
+                            key=key,
+                        )
+                    )
+            if not isinstance(payload.get("params", {}), dict):
+                raise ValidationError(self.env._("The 'params' of a PostgreSQL job must be an object."))
+            page_size = payload.get("page_size", 1000)
+            if not isinstance(page_size, int) or not 1 <= page_size <= PG_PAGE_SIZE_MAX:
+                raise ValidationError(self.env._("The page size must be between 1 and %(max)s.", max=PG_PAGE_SIZE_MAX))
+
     @api.constrains("callback_method")
     def _check_callback_method(self):
         for job in self.filtered("callback_method"):
@@ -186,32 +216,151 @@ class DeltatechTcJob(models.Model):
                 }
             ),
         }
-        if callback:
-            record, method_name = callback
-            if not method_name.startswith(CALLBACK_PREFIX):
-                raise UserError(
-                    self.env._(
-                        "The callback method %(method)s must start with '%(prefix)s'.",
-                        method=method_name,
-                        prefix=CALLBACK_PREFIX,
-                    )
-                )
-            if not hasattr(record, method_name):
-                raise UserError(
-                    self.env._(
-                        "%(model)s has no method %(method)s.",
-                        model=record._name,
-                        method=method_name,
-                    )
-                )
-            vals.update(
-                {
-                    "callback_model": record._name,
-                    "callback_res_id": record.id if record else 0,
-                    "callback_method": method_name,
-                }
-            )
+        vals.update(self._tc_callback_vals(callback))
         return self.create(vals)
+
+    @api.model
+    def _tc_callback_vals(self, callback):
+        """Validate ``(record, method_name)`` and return the job fields that store it."""
+        if not callback:
+            return {}
+        record, method_name = callback
+        if not method_name.startswith(CALLBACK_PREFIX):
+            raise UserError(
+                self.env._(
+                    "The callback method %(method)s must start with '%(prefix)s'.",
+                    method=method_name,
+                    prefix=CALLBACK_PREFIX,
+                )
+            )
+        if not hasattr(record, method_name):
+            raise UserError(
+                self.env._(
+                    "%(model)s has no method %(method)s.",
+                    model=record._name,
+                    method=method_name,
+                )
+            )
+        return {
+            "callback_model": record._name,
+            "callback_res_id": record.id if record else 0,
+            "callback_method": method_name,
+        }
+
+    # ------------------------------------------------------------------
+    # pg_query: one page of a named query on the customer's PostgreSQL
+    # ------------------------------------------------------------------
+    @api.model
+    def _tc_enqueue_pg_query(
+        self,
+        station,
+        profile,
+        query,
+        params=None,
+        page_size=1000,
+        follow=True,
+        callback=None,
+        company=None,
+        after=None,
+        page=0,
+    ):
+        """Queue one page of a named query for a *Terrabit Connect PostgreSQL* station.
+
+        **Odoo never sends SQL.** ``profile`` names a database configured on the
+        station and ``query`` a ``.sql`` file installed there; the station checks
+        ``params`` against the file's declared parameters and runs it in a read-only
+        transaction. A compromised Odoo account can therefore only run the queries the
+        customer installed.
+
+        The station answers with one page (``rows``, ``more``, ``next``); with
+        ``follow`` the next page is queued automatically, after the callback of this
+        one succeeded (see :meth:`_tc_enqueue_next_page`). Pages are retry-safe, so the
+        callback must be idempotent.
+
+        :param callback: ``(record, method_name)`` called with each finished page *and*
+            with a failed one (check ``job.state``). The name must start with ``_tc_``.
+        :returns: the created job (the first page).
+        """
+        if not station:
+            raise UserError(self.env._("No Terrabit Connect station given for the PostgreSQL job."))
+        vals = {
+            "station_id": station.id,
+            "company_id": (company or station.company_id or self.env.company).id,
+            "job_type": "pg_query",
+            "payload": json.dumps(
+                {
+                    "profile": profile,
+                    "query": query,
+                    "params": params or {},
+                    "after": after,
+                    "page": page,
+                    "page_size": page_size,
+                    "follow": bool(follow),
+                }
+            ),
+        }
+        vals.update(self._tc_callback_vals(callback))
+        return self.create(vals)
+
+    def pg_rows(self):
+        """The rows of a finished ``pg_query`` page (list of dicts)."""
+        self.ensure_one()
+        rows = self.response_dict().get("rows")
+        return rows if isinstance(rows, list) else []
+
+    def pg_error(self):
+        """``{code, message}`` of a failed ``pg_query`` page (``{}`` when there is none).
+
+        The agent reports machine-readable codes (``undefined_table``, ``timeout``,
+        ``bad_params``...); a plain-text error (lost result, old agent) comes back as
+        ``{"code": "error", "message": ...}``.
+        """
+        self.ensure_one()
+        if not self.error:
+            return {}
+        try:
+            data = json.loads(self.error)
+        except ValueError:
+            data = None
+        if isinstance(data, dict) and data.get("code"):
+            return data
+        return {"code": "error", "message": self.error}
+
+    def _tc_enqueue_next_page(self):
+        """Queue the page after this one, when the station said there is more.
+
+        Called by :meth:`_process_result` once the page callback succeeded. Same
+        station, query, parameters and callback; ``after`` is the key of the last row
+        (keyset pagination: no row repeated or skipped from the start of the chain).
+        """
+        self.ensure_one()
+        payload = self.payload_dict()
+        result = self.response_dict()
+        if not (payload.get("follow") and result.get("more")):
+            return self.browse()
+        if result.get("next") is None:
+            raise UserError(self.env._("The station reported more rows but no key to continue from."))
+        callback = None
+        if self.callback_method:
+            target = self.env[self.callback_model]
+            if self.callback_res_id:
+                target = target.browse(self.callback_res_id).exists()
+                if not target:
+                    # nobody left to receive the next pages
+                    return self.browse()
+            callback = (target, self.callback_method)
+        return self._tc_enqueue_pg_query(
+            self.station_id,
+            payload["profile"],
+            payload["query"],
+            params=payload.get("params") or {},
+            page_size=payload.get("page_size") or 1000,
+            follow=True,
+            callback=callback,
+            company=self.company_id,
+            after=result["next"],
+            page=(payload.get("page") or 0) + 1,
+        )
 
     def response_dict(self):
         """The agent's answer to an ``http_request``: ``{status, headers, body, truncated}``.
@@ -265,6 +414,9 @@ class DeltatechTcJob(models.Model):
             return True
         if self.job_type == "http_request":
             return (self.payload_dict().get("method") or "GET").upper() in SAFE_HTTP_METHODS
+        if self.job_type == "pg_query":
+            # read-only on the station's side (READ ONLY transaction); the page callback is idempotent
+            return True
         return False
 
     @api.model
@@ -353,6 +505,7 @@ class DeltatechTcJob(models.Model):
                         ),
                     }
                 )
+                job._tc_notify_error()
             else:
                 job.write({"state": "pending", "claimed_at": False})
                 requeued |= job
@@ -408,6 +561,15 @@ class DeltatechTcJob(models.Model):
                 }
             )
         old = Job.browse()
+        pg_days = self._tc_param("pg_done_ttl_days", DEFAULT_PG_DONE_TTL_DAYS)
+        if pg_days:
+            old |= Job.search(
+                [
+                    ("job_type", "=", "pg_query"),
+                    ("state", "=", "done"),
+                    ("done_at", "<", now - timedelta(days=pg_days)),
+                ]
+            )
         for state, days in (("done", done_days), ("error", error_days)):
             if not days:
                 continue
@@ -447,38 +609,62 @@ class DeltatechTcJob(models.Model):
                 self.sudo().write({"state": "error", "error": str(exc)[:4000]})
         else:
             self.sudo().write({"state": "error", "error": error or "", "done_at": fields.Datetime.now()})
+            self.sudo()._tc_notify_error()
         return True
 
     def _process_result(self):
         """Turn the station's result into business records.
 
-        Handles the callback of finished ``http_request`` jobs; feature modules
+        Handles the callback of finished ``http_request`` and ``pg_query`` jobs and
+        queues the next ``pg_query`` page; feature modules
         (ANAF messages, fiscal, labels) extend this per ``job_type``.
 
         A failing callback is deliberately left to propagate: ``_store_result``
         catches it and flips the job to ``error`` with the message, so swallowing
         it here would hide a real failure.
         """
-        for job in self.filtered(lambda j: j.job_type == "http_request" and j.callback_method):
-            target = job.env[job.callback_model]
-            if job.callback_res_id:
-                target = target.browse(job.callback_res_id).exists()
-                if not target:
-                    _logger.warning(
-                        "Job %s: callback target %s,%s no longer exists",
-                        job.id,
-                        job.callback_model,
-                        job.callback_res_id,
-                    )
-                    continue
-            # re-checked at call time: the stored value could have been tampered with
-            if not job.callback_method.startswith(CALLBACK_PREFIX):
-                raise UserError(
-                    self.env._(
-                        "Refusing to call %(method)s - callbacks must start with '%(prefix)s'.",
-                        method=job.callback_method,
-                        prefix=CALLBACK_PREFIX,
-                    )
-                )
-            getattr(target, job.callback_method)(job)
+        for job in self.filtered(lambda j: j.job_type in ("http_request", "pg_query")):
+            job._tc_run_callback()
+        for job in self.filtered(lambda j: j.job_type == "pg_query"):
+            job._tc_enqueue_next_page()
         return True
+
+    def _tc_run_callback(self):
+        """Call the job's callback, if any, with the job."""
+        self.ensure_one()
+        if not self.callback_method:
+            return
+        target = self.env[self.callback_model]
+        if self.callback_res_id:
+            target = target.browse(self.callback_res_id).exists()
+            if not target:
+                _logger.warning(
+                    "Job %s: callback target %s,%s no longer exists",
+                    self.id,
+                    self.callback_model,
+                    self.callback_res_id,
+                )
+                return
+        # re-checked at call time: the stored value could have been tampered with
+        if not self.callback_method.startswith(CALLBACK_PREFIX):
+            raise UserError(
+                self.env._(
+                    "Refusing to call %(method)s - callbacks must start with '%(prefix)s'.",
+                    method=self.callback_method,
+                    prefix=CALLBACK_PREFIX,
+                )
+            )
+        getattr(target, self.callback_method)(self)
+
+    def _tc_notify_error(self):
+        """Tell the callback of a failed ``pg_query`` page, so the business record that
+        waits for the data (a sync request) can show the failure instead of waiting.
+
+        A failing callback is only logged: the job is already in error.
+        """
+        for job in self.filtered(lambda j: j.job_type == "pg_query" and j.callback_method):
+            try:
+                with self.env.cr.savepoint():
+                    job._tc_run_callback()
+            except Exception:  # noqa: BLE001 - the job already carries the real error
+                _logger.exception("Job %s: error callback failed", job.id)

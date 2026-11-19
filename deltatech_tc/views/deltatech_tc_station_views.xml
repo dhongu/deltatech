@@ -11,6 +11,7 @@
                 <field name="last_seen"/>
                 <field name="tc_version" optional="show"/>
                 <field name="os" optional="hide"/>
+                <field name="agent_name" optional="hide"/>
                 <field name="is_simulated" optional="show" widget="boolean"/>
                 <field name="job_count"/>
                 <field name="active" widget="boolean_toggle"/>
@@ -59,7 +60,9 @@
                             <field name="last_seen"/>
                             <field name="tc_version"/>
                             <field name="os"/>
+                            <field name="agent_name" invisible="not agent_name"/>
                             <field name="features"/>
+                            <field name="capabilities_display" invisible="not capabilities_display"/>
                             <field name="fiscal_driver"/>
                             <field name="is_simulated" invisible="1"/>
                         </group>

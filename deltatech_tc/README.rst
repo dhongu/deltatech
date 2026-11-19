@@ -19,9 +19,9 @@ Terrabit Connect - Base
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_tc/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-45%20automated%20tests%20%C2%B7%2084%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-59%20automated%20tests%20%C2%B7%2084%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_tc
-    :alt: 45 automated tests · 84% code coverage
+    :alt: 59 automated tests · 84% code coverage
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
@@ -46,7 +46,9 @@ Odoo and Sync SPV|
 SPV message sync Pending, a document download Claimed and a finished SPV
 sync|
 
-The agent's interface is in Romanian.
+The agent's interface is in Romanian and English. By default (**Auto**)
+it follows the language of the station's company in Odoo; it can also be
+fixed per workstation profile.
 
 This module is the **generic foundation** every Terrabit Connect feature
 builds on: the connection layer, the job protocol, and the one job type
@@ -69,6 +71,12 @@ inside the customer's network.
   PLC, a label server) and reports the response back. Queue it with
   ``_tc_enqueue_http()`` and read the answer with ``response_dict()`` /
   ``response_json()``.
+- **``pg_query`` job type** — for the *Terrabit Connect PostgreSQL*
+  agent (a Windows service, separate from the desktop app): Odoo asks
+  for one page of a **named, read-only query** installed on the station
+  (e.g. orders from a local production database) and receives the rows;
+  the next pages are queued automatically. Queue it with
+  ``_tc_enqueue_pg_query()`` and read the rows with ``pg_rows()``.
 
 **Cloud model — no inbound ports.** The station always initiates the
 connection to Odoo; Odoo never connects back to the workstation. The
@@ -87,6 +95,12 @@ this URL" would let anyone able to create a job in Odoo reach any
 address inside the customer's network. Odoo only validates the shape of
 the request (scheme, host present, known method); the decision to
 actually place the call belongs to the machine sitting in that network.
+
+**Security of ``pg_query``.** Odoo never sends SQL: it names a profile
+(a database configured on the station) and a query (a ``.sql`` file
+installed there) and passes parameters, which the station checks against
+the file's declarations and binds. Each page runs in a read-only
+transaction with a timeout, under a read-only database user.
 
 Callbacks are restricted to methods whose name starts with **``_tc_``**.
 The method name is stored in the database, so without that rule a
@@ -159,13 +173,19 @@ Terrabit Connect:
 |                          | secret                                    |
 +--------------------------+-------------------------------------------+
 
-In Terrabit Connect, import ``station.conf`` from **Setări → Importă
-config** (the agent's interface is in Romanian). The values are stored
-in the active profile of the workstation
+In Terrabit Connect, import ``station.conf`` from **Settings → Import
+config** (**Setări → Importă config** in the Romanian interface). The
+values are stored in the active profile of the workstation
 (``~/.terrabit-anaf-agent/profiles/<profile>.conf``) and applied without
-a restart. No other network configuration is required: the agent
-initiates all connections outbound to Odoo (no inbound port needs to be
-opened on the client side).
+a restart.
+
+The agent's interface language is set in **Settings → Appearance →
+Language**: **Auto** (default) follows the language of the station
+company's partner, sent by Odoo in the heartbeat answer (Romanian for
+``ro_RO``, English otherwise); **Română** or **English** fix it for the
+workstation profile (``TERRABIT_LANG=ro`` / ``en``). No other network
+configuration is required: the agent initiates all connections outbound
+to Odoo (no inbound port needs to be opened on the client side).
 
 |Terrabit Connect settings: configuration profile Default, active, on
 firma-demo.odoo.com with a station, and the features ANAF signature and
@@ -245,6 +265,30 @@ port allows any port on that host; with a port, the match is exact.
 ``http_request`` job comes back as an error.** Keep it as narrow as the
 job actually needs.
 
+Terrabit Connect PostgreSQL (workstation side)
+----------------------------------------------
+
+The PostgreSQL agent is a separate Windows service (``tc-postgresql``),
+installed from the release zip with ``install.ps1``, with its own
+station and key. Its configuration lives in
+``%ProgramData%\Terrabit\tc-postgresql\``:
+
+- ``station.conf`` downloaded from the station (or ``[odoo]`` in
+  ``config.toml``);
+- ``config.toml``: one ``[profiles.<name>]`` per database (host,
+  database, a **read-only** user, timeouts, page limits); passwords
+  encrypted with ``tc-postgresql secret set <profile>`` (Windows DPAPI);
+- ``queries\<profile>\*.sql``: the named queries, delivered with the
+  customer's module.
+
+``tc-postgresql check`` verifies the files, the database and the Odoo
+connection. The station form then shows **Agent** ``tc-postgresql``, the
+features ``postgresql,pg:<profile>`` and the installed queries. The
+agent updates itself from signed releases.
+
+On the Odoo side, ``deltatech_tc.pg_done_ttl_days`` (default 3) sets how
+long finished ``pg_query`` pages are kept.
+
 The server applies a 60-second throttle on ``last_seen`` writes to
 reduce database load when many stations are polling frequently; online
 detection remains accurate within the throttle window.
@@ -262,8 +306,9 @@ Registering a station
    each station, when it was **Last Seen**, its **TC Version** and
    whether it runs in **Simulation** (highlighted rows).
 
-   |Terrabit Connect Stations list: PC Contabilitate and Casa 1 Magazin
-   (test), the latter highlighted with Simulation ticked|
+   |Terrabit Connect Stations list: Casa 1 Magazin (test) highlighted
+   with Simulation ticked, PC Contabilitate and Server Winarhi (the
+   PostgreSQL agent, version 0.1.0)|
 
 2. Click **New** and give the station a descriptive name (e.g.
    ``Accounting PC``).
@@ -336,7 +381,8 @@ The job list uses colour coding:
   reported)
 
 |Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN)
-in Error (red), one Claimed (muted) and a Ping Pending|
+in Error (red), one Claimed (muted), a Ping Pending and three PostgreSQL
+query (LAN) pages on Server Winarhi, two Done and the third Pending|
 
 Open a job to read its **Payload**, **Result** and **Error** tabs.
 
@@ -414,6 +460,54 @@ when the job is created. Interactive buttons must therefore show a
 pending state and let the result arrive later; do not queue a job and
 read its result in the same transaction.
 
+Reading a PostgreSQL database in the local network
+--------------------------------------------------
+
+Install the *Terrabit Connect PostgreSQL* agent on a server that reaches
+the database (its own station, not the one of the desktop app), put the
+customer's ``.sql`` files in its ``queries\<profile>\`` folder, and
+queue pages from a feature module:
+
+.. code:: python
+
+   station = self.env["deltatech.tc.station"]._tc_find("pg:winarhi")
+   if not station._tc_has_pg_query("winarhi", "orders_since"):
+       raise UserError(self.env._("The query orders_since is not installed on the Winarhi station."))
+   self.env["deltatech.tc.job"]._tc_enqueue_pg_query(
+       station,
+       "winarhi",
+       "orders_since",
+       params={"since": "2026-11-01 00:00:00"},
+       page_size=500,
+       callback=(self, "_tc_receive_orders"),
+   )
+
+The station form then shows the agent and the installed queries:
+
+|Station Server Winarhi: Agent tc-postgresql (1), Features
+postgresql,pg:winarhi and PostgreSQL queries winarhi: articles,
+offers_since, orders_since (2)|
+
+The callback runs once per page, and once more if a page fails:
+
+.. code:: python
+
+   def _tc_receive_orders(self, job):
+       if job.state == "error":
+           self.message_post(body=job.pg_error().get("message"))
+           return
+       for row in job.pg_rows():
+           ...  # idempotent: a page may arrive twice after a lost result
+
+The next page is queued after the callback returns; if it raises, the
+page is marked **Error** and **Retry** takes the chain up from that
+page. ``numeric`` values arrive as text (no precision lost), dates and
+timestamps as ISO text.
+
+|Job #6 PostgreSQL query (LAN) on Server Winarhi, Done, Result tab (2):
+columns cod_mag, denumire, pret and the rows of the page, prices as text
+(41.2500)|
+
 Adding feature modules
 ----------------------
 
@@ -423,14 +517,50 @@ printer, Zebra labels, DUKIntegrator) to activate additional job types.
 They appear automatically in the **Job Type** column of the job list
 once the feature module is installed.
 
-.. |Terrabit Connect Stations list: PC Contabilitate and Casa 1 Magazin (test), the latter highlighted with Simulation ticked| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/01_lista_statii.png
+.. |Terrabit Connect Stations list: Casa 1 Magazin (test) highlighted with Simulation ticked, PC Contabilitate and Server Winarhi (the PostgreSQL agent, version 0.1.0)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/01_lista_statii.png
 .. |Station form PC Contabilitate: Ping and Download config in the header, Last Seen, TC Version 1.8.2, Operating System Windows 11, Features and Fiscal Driver fiscalwire| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/02_formular_statie.png
 .. |Station form Casa 1 Magazin (test): Simulation ribbon, the warning with the simulated devices fiscal,terminal:demo and Fiscal Driver simulated| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/03_statie_simulata.png
-.. |Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN) in Error (red), one Claimed (muted) and a Ping Pending| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/04_lista_joburi.png
+.. |Terrabit Connect Jobs list: a Ping Done (green), an HTTP request (LAN) in Error (red), one Claimed (muted), a Ping Pending and three PostgreSQL query (LAN) pages on Server Winarhi, two Done and the third Pending| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/04_lista_joburi.png
 .. |An HTTP request (LAN) job in Error, Error tab open with the message returned by the station, Retry button in the header| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/05_job_eroare.png
+.. |Station Server Winarhi: Agent tc-postgresql (1), Features postgresql,pg:winarhi and PostgreSQL queries winarhi: articles, offers_since, orders_since (2)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/07_statie_postgresql.png
+.. |Job #6 PostgreSQL query (LAN) on Server Winarhi, Done, Result tab (2): columns cod_mag, denumire, pret and the rows of the page, prices as text (41.2500)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_tc/static/description/en/06_pg_query_pagina.png
 
 Changelog
 =========
+
+20.0.1.3.0 (2026-11-18)
+-----------------------
+
+- New job type **``pg_query``** for the *Terrabit Connect PostgreSQL*
+  agent (``terrabit-solutions/terrabit-connect-postgresql``), a Windows
+  service that runs **named, read-only** queries on a PostgreSQL
+  database in the customer's network. Odoo sends only the profile name,
+  the query name and its parameters, never SQL; the ``.sql`` files live
+  on the station. One page per job, keyset pagination (``after`` = key
+  of the last row).
+- ``_tc_enqueue_pg_query()`` queues the first page; with ``follow`` the
+  next page is queued automatically once the callback of the current one
+  succeeded. The callback also receives a failed page
+  (``job.state == "error"``, ``job.pg_error()`` gives
+  ``{code, message}``), including one failed after the retry limit.
+  ``pg_rows()`` returns the rows of a page. Pages are retry-safe.
+- Heartbeat: the agent name (``agent``) and the installed queries
+  (``pg_profiles``) are stored on the station (**Agent**, **PostgreSQL
+  queries**). ``_tc_find(feature)`` returns the company's active station
+  announcing a feature (whole element, e.g. ``pg:winarhi``);
+  ``_tc_has_pg_query(profile, query)`` checks an installed query.
+- Daily cleanup: finished ``pg_query`` pages are deleted after 3 days
+  (``deltatech_tc.pg_done_ttl_days``).
+
+20.0.1.2.7 (2026-11-15)
+-----------------------
+
+- The heartbeat answer (``/tc/heartbeat``) carries ``lang``, the
+  language of the station company's partner (``en_US`` when it has
+  none). Terrabit Connect set to **Auto** uses it for its interface:
+  Romanian for ``ro_*``, English otherwise. Older agents ignore the key.
+- Docs: the agent's interface is available in Romanian and English.
+- Port of 19.0.1.2.7 (dhongu/deltatech#4186).
 
 20.0.1.2.6 (2026-11-15)
 -----------------------

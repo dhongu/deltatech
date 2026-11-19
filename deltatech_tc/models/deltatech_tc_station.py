@@ -55,6 +55,20 @@ class DeltatechTcStation(models.Model):
         copy=False,
         help="At least one device of the station is simulated.",
     )
+    agent_name = fields.Char(
+        string="Agent",
+        readonly=True,
+        copy=False,
+        help="Program running on the station, as reported at heartbeat (e.g. tc-postgresql). "
+        "Empty for the Terrabit Connect desktop app.",
+    )
+    capabilities = fields.Json(
+        readonly=True,
+        copy=False,
+        help="What the station can run, reported at heartbeat. For Terrabit Connect PostgreSQL: "
+        "{profile: [installed queries]}.",
+    )
+    capabilities_display = fields.Text(string="PostgreSQL queries", compute="_compute_capabilities_display")
     note = fields.Text()
     job_ids = fields.One2many("deltatech.tc.job", "station_id")
     job_count = fields.Integer(compute="_compute_job_count")
@@ -64,6 +78,15 @@ class DeltatechTcStation(models.Model):
     _LAST_SEEN_THROTTLE = 60  # seconds
 
     _api_key_uniq = models.Constraint("unique(api_key)", "The API key must be unique.")
+
+    @api.depends("capabilities")
+    def _compute_capabilities_display(self):
+        for rec in self:
+            caps = rec.capabilities if isinstance(rec.capabilities, dict) else {}
+            rec.capabilities_display = (
+                "\n".join(f"{profile}: {', '.join(queries or [])}" for profile, queries in sorted(caps.items()))
+                or False
+            )
 
     def _compute_job_count(self):
         data = self.env["deltatech.tc.job"]._read_group([("station_id", "in", self.ids)], ["station_id"], ["__count"])
@@ -99,7 +122,8 @@ class DeltatechTcStation(models.Model):
 
         ``info`` is the JSON body sent by Terrabit Connect at heartbeat and may
         carry ``version``, ``os``, ``features``, ``fiscal_driver`` and ``simulated`` describing the
-        workstation.
+        workstation. Terrabit Connect PostgreSQL also sends ``agent`` and ``pg_profiles``
+        (``{profile: [installed queries]}``), stored in ``capabilities``.
         """
         self.ensure_one()
         info = info or {}
@@ -119,6 +143,20 @@ class DeltatechTcStation(models.Model):
             if simulated != (self.simulated_devices or ""):
                 vals["simulated_devices"] = simulated or False
                 vals["is_simulated"] = bool(simulated)
+        if info.get("agent") and info["agent"] != self.agent_name:
+            vals["agent_name"] = str(info["agent"])
+        if "pg_profiles" in info:
+            profiles = info.get("pg_profiles")
+            profiles = (
+                {
+                    str(k): [q for q in v if isinstance(q, str)] if isinstance(v, list) else []
+                    for k, v in profiles.items()
+                }
+                if isinstance(profiles, dict)
+                else {}
+            )
+            if profiles != (self.capabilities or {}):
+                vals["capabilities"] = profiles
         if info.get("features"):
             features = info["features"]
             if isinstance(features, (list, tuple)):
@@ -131,6 +169,36 @@ class DeltatechTcStation(models.Model):
             vals["last_seen"] = now
         if vals:
             self.sudo().write(vals)
+
+    def features_list(self):
+        """The features the station announced, as a list of whole names."""
+        self.ensure_one()
+        return [f.strip() for f in (self.features or "").split(",") if f.strip()]
+
+    @api.model
+    def _tc_find(self, feature, company=None):
+        """The first active station of the company that announces ``feature``.
+
+        ``feature`` is compared as a whole element of the list (``pg:winarhi`` does not
+        match ``pg:winarhi_test``). Feature modules use it to address their jobs, e.g.
+        ``_tc_find("pg:winarhi")`` for the station that reads the Winarhi database.
+        """
+        company = company or self.env.company
+        candidates = self.sudo().search(
+            [("company_id", "=", company.id), ("active", "=", True), ("features", "ilike", feature)],
+            order="last_seen desc, name, id",
+        )
+        return candidates.filtered(lambda s: feature in s.features_list())[:1]
+
+    def _tc_has_pg_query(self, profile, query):
+        """Did the station announce ``query`` in ``profile`` at its last heartbeat?
+
+        Lets a feature module refuse with a clear message ("query x is not installed on
+        station Y") before queueing a job that would only fail on the station.
+        """
+        self.ensure_one()
+        caps = self.capabilities if isinstance(self.capabilities, dict) else {}
+        return query in (caps.get(profile) or [])
 
     def _notify_manual_heartbeat(self):
         """Send a popup (bus) notification to Terrabit Connect managers on manual heartbeat.

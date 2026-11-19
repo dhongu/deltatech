@@ -28,6 +28,12 @@ msgid "%(name)s sent a manual heartbeat."
 msgstr ""
 
 #. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "A PostgreSQL job needs a '%(key)s' made of letters, digits and underscores."
+msgstr ""
+
+#. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__api_key
 msgid "API Key"
 msgstr ""
@@ -35,6 +41,11 @@ msgstr ""
 #. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__active
 msgid "Active"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__agent_name
+msgid "Agent"
 msgstr ""
 
 #. module: deltatech_tc
@@ -78,6 +89,11 @@ msgstr ""
 #. module: deltatech_tc
 #: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_job__callback_res_id
 msgid "Callback Res"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__capabilities
+msgid "Capabilities"
 msgstr ""
 
 #. module: deltatech_tc
@@ -260,6 +276,12 @@ msgid "No Terrabit Connect station given for the HTTP job."
 msgstr ""
 
 #. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "No Terrabit Connect station given for the PostgreSQL job."
+msgstr ""
+
+#. module: deltatech_tc
 #: model_terms:ir.actions.act_window,help:deltatech_tc.action_deltatech_tc_station
 msgid "No Terrabit Connect station registered"
 msgstr ""
@@ -309,6 +331,21 @@ msgstr ""
 #: model:ir.model.fields.selection,name:deltatech_tc.selection__deltatech_tc_job__job_type__ping
 #: model_terms:ir.ui.view,arch_db:deltatech_tc.view_deltatech_tc_station_form
 msgid "Ping"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,field_description:deltatech_tc.field_deltatech_tc_station__capabilities_display
+msgid "PostgreSQL queries"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields.selection,name:deltatech_tc.selection__deltatech_tc_job__job_type__pg_query
+msgid "PostgreSQL query (LAN)"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_station__agent_name
+msgid "Program running on the station, as reported at heartbeat (e.g. tc-postgresql). Empty for the Terrabit Connect desktop app."
 msgstr ""
 
 #. module: deltatech_tc
@@ -432,6 +469,12 @@ msgid "Terrabit Connect: queue cleanup"
 msgstr ""
 
 #. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "The 'params' of a PostgreSQL job must be an object."
+msgstr ""
+
+#. module: deltatech_tc
 #: model:ir.model.constraint,message:deltatech_tc.constraint_deltatech_tc_station_api_key_uniq
 msgid "The API key must be unique."
 msgstr ""
@@ -446,6 +489,18 @@ msgstr ""
 #. odoo-python
 #: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
 msgid "The callback method %(method)s must start with '%(prefix)s'."
+msgstr ""
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "The page size must be between 1 and %(max)s."
+msgstr ""
+
+#. module: deltatech_tc
+#. odoo-python
+#: code:addons/deltatech_tc/models/deltatech_tc_job.py:0
+msgid "The station reported more rows but no key to continue from."
 msgstr ""
 
 #. module: deltatech_tc
@@ -476,6 +531,11 @@ msgstr ""
 #. module: deltatech_tc
 #: model:res.groups,name:deltatech_tc.group_deltatech_tc_user
 msgid "User"
+msgstr ""
+
+#. module: deltatech_tc
+#: model:ir.model.fields,help:deltatech_tc.field_deltatech_tc_station__capabilities
+msgid "What the station can run, reported at heartbeat. For Terrabit Connect PostgreSQL: {profile: [installed queries]}."
 msgstr ""
 
 #. module: deltatech_tc
