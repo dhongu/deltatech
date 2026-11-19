@@ -30,7 +30,7 @@ class TestAveragePaymentPeriod(common.TransactionCase):
         self.env.cr.execute("SELECT payment_date FROM account_move_line WHERE id = %s", [line.id])
         return self.env.cr.fetchone()[0]
 
-    def _create_paid_invoice(self, days=10):
+    def _create_paid_invoice(self, days=10, price_unit=100.0):
         invoice = self.env["account.move"].create(
             {
                 "move_type": "out_invoice",
@@ -38,7 +38,7 @@ class TestAveragePaymentPeriod(common.TransactionCase):
                 "journal_id": self.journal_sale.id,
                 "invoice_date": fields.Date.today(),
                 "invoice_line_ids": [
-                    (0, 0, {"name": "Test product", "quantity": 1, "price_unit": 100.0}),
+                    (0, 0, {"name": "Test product", "quantity": 1, "price_unit": price_unit}),
                 ],
             }
         )
@@ -126,3 +126,19 @@ class TestAveragePaymentPeriod(common.TransactionCase):
         self.assertEqual(self._stored_payment_date(receivable_line), payment_date)
         self.assertEqual(receivable_line.payment_days, 10)
         self.assertEqual(receivable_line.payment_days_simple, 10.0)
+
+    def test_report_weighted_average_in_pivot(self):
+        """Pivotul (_read_grouping_sets) și graficul (_read_group) dau aceeași medie ponderată"""
+        small, __, __ = self._create_paid_invoice(days=10, price_unit=100.0)
+        big, __, __ = self._create_paid_invoice(days=30, price_unit=200.0)
+        self.env.flush_all()
+        a1, a2 = small.amount_total, big.amount_total
+        expected = (a1 * 10 + a2 * 30) / (a1 + a2)
+
+        report = self.env["account.average.payment.report"]
+        domain = [("partner_id", "=", self.partner.id)]
+        pivot = report._read_grouping_sets(domain, [["partner_id"], []], ["payment_days:avg"])
+        self.assertAlmostEqual(pivot[0][0][1], expected, places=2, msg="Pivot: media pe partener")
+        self.assertAlmostEqual(pivot[1][0][0], expected, places=2, msg="Pivot: totalul")
+        graph = report._read_group(domain, ["partner_id"], ["payment_days:avg"])
+        self.assertAlmostEqual(graph[0][1], expected, places=2, msg="Grafic: media pe partener")

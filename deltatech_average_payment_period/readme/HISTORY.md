@@ -1,3 +1,12 @@
+## 19.0.1.0.7 (2026-11-19)
+
+- Average Payment Period report: the pivot now shows the amount-weighted average of Payment Days,
+  like the graph; before, the pivot showed a plain average (the weighting was only applied to
+  `_read_group`, while the Odoo 19 pivot reads through `_read_grouping_sets`).
+- Dedicated graph view, opening on the Payment Days measure.
+- Consultant sheet (`readme/FISA_CONSULTANT.md`) with screenshots, `readme/USAGE.md` rewritten in
+  English with the English screenshots, `readme/DESCRIPTION.md` aligned with the code.
+
 ## 19.0.1.0.6 (2026-11-19)
 
 - Payment date and payment days on journal items are reset when the full
