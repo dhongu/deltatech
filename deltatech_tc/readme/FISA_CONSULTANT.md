@@ -88,8 +88,10 @@ Nu se folosesc conturi contabile. Date minime pentru demo:
    (`tc-postgresql`, serviciu Windows, fără fereastră), cu **stație proprie** în Odoo și cheie proprie
    — nu folosiți cheia stației aplicației de birou. Pe server, în
    `%ProgramData%\Terrabit\tc-postgresql\`, se pun `station.conf` (descărcat ca la pasul 2),
-   `config.toml` cu baza de date și un utilizator **doar de citire**, și fișierele `.sql` ale
-   interogărilor, livrate cu modulul clientului. Comanda `tc-postgresql check` verifică totul.
+   `config.toml` cu baza de date și un utilizator **doar de citire**. Cu `allow_sql = true` pe
+   profil, interogările (SQL) vin din modulul Odoo al clientului și nu se copiază nimic pe server;
+   utilizatorul bazei de date trebuie să aibă atunci drept de citire **doar** pe tabelele de care
+   are nevoie Odoo. Comanda `tc-postgresql check` verifică totul.
    Detaliile sunt în `readme/CONFIGURE.md`.
 6. Parametrul de sistem `deltatech_tc.pg_done_ttl_days` (implicit 3) spune câte zile se păstrează
    paginile de interogare PostgreSQL finalizate; celelalte joburi finalizate se păstrează 30 de zile.
@@ -128,7 +130,9 @@ config**). La pornire, stația trimite primul heartbeat: în dreapta formularulu
 **Văzut ultima dată**, **Versiune TC**, **Sistem de operare**, **Funcționalități** și **Driver
 fiscal**. La o stație cu agentul PostgreSQL apar în plus **Agent** (`tc-postgresql`) și **Interogări
 PostgreSQL** — pe fiecare rând un profil (o bază de date) și interogările instalate pe server, de
-exemplu `winarhi: articles, orders_since`; **Funcționalități** este atunci `postgresql,pg:<profil>`.
+exemplu `winarhi: articles, orders_since` (doar numele profilului, dacă nu are fișiere de
+interogări); **Funcționalități** este atunci `postgresql,pg:<profil>`, plus `pg_sql:<profil>`
+pentru profilurile care acceptă SQL trimis din Odoo.
 
 ![Formularul stației Server Winarhi: Versiune TC 0.1.0, Sistem de operare windows, câmpul Agent tc-postgresql evidențiat 1, Funcționalități postgresql,pg:winarhi și câmpul Interogări PostgreSQL winarhi: articles, offers_since, orders_since evidențiat 2](../static/description/07_statie_postgresql.png) Butonul **Joburi** de deasupra formularului deschide joburile stației.
 
@@ -192,9 +196,10 @@ operația a avut loc.
 ### Pasul 6 — Citirea unei baze PostgreSQL în pagini
 
 Joburile **Interogare PostgreSQL (LAN)** le creează un modul de integrare (de exemplu conectorul
-Winarhi), nu utilizatorul. Odoo nu trimite SQL: cere stației o interogare **după nume**, dintre cele
-instalate pe server, cu parametrii ei (tab-ul **Parametri (JSON)**: profilul, numele interogării,
-parametrii, pagina). Fiecare job aduce **o pagină** de rânduri, vizibilă în tab-ul **Rezultat**:
+Winarhi), nu utilizatorul. Modulul trimite stației fie textul interogării (SQL, doar citire, pe
+profilurile care îl acceptă), fie numele unei interogări instalate pe server, cu parametrii ei
+(tab-ul **Parametri (JSON)**: profilul, SQL-ul sau numele interogării, parametrii, pagina). Stația
+rulează doar instrucțiuni `SELECT`, într-o tranzacție doar de citire. Fiecare job aduce **o pagină** de rânduri, vizibilă în tab-ul **Rezultat**:
 
 - dacă stația spune că mai sunt rânduri, Odoo pune singur în coadă jobul pentru **pagina următoare**,
   după ce modulul de integrare a procesat pagina curentă; lista de joburi arată atunci mai multe
@@ -264,7 +269,9 @@ preluării joburilor pe stație, lista aparatelor din rețea pe care stația le 
 | „Un job PostgreSQL are nevoie de 'profile'/'query' format din litere, cifre și liniuțe de subliniere.” (*A PostgreSQL job needs a '%(key)s' made of letters, digits and underscores.*) | Modulul de integrare a cerut un profil sau o interogare cu nume invalid | Corectați modulul; numele vin din fișierele `.sql` instalate pe server |
 | „Parametrii ('params') unui job PostgreSQL trebuie să fie un obiect.” | Parametrii jobului nu sunt o listă cheie–valoare | Corectați modulul de integrare |
 | „Mărimea paginii trebuie să fie între 1 și 10000.” | Pagina cerută e prea mare sau zero | Corectați mărimea paginii în modulul de integrare |
-| „Stația a raportat că mai sunt rânduri, dar fără cheia de la care să continue.” | Interogarea de pe server nu are o coloană-cheie unică și completată | Corectați fișierul `.sql` de pe server (coloana `@key`) |
+| „Stația a raportat că mai sunt rânduri, dar fără cheia de la care să continue.” | Coloana-cheie de paginare a interogării lipsește din rezultat sau e goală | Corectați SQL-ul din modul (parametrul `key`) sau fișierul `.sql` de pe server (`@key`): coloana trebuie să fie unică și completată |
+| Jobul PostgreSQL în **Eroare** cu `sql_not_allowed` | Profilul de pe stație nu acceptă SQL trimis din Odoo | Puneți `allow_sql = true` pe profil în `config.toml` (cu un utilizator al bazei doar de citire) |
+| „Un job PostgreSQL are nevoie fie de numele unei interogări, fie de SQL, nu de amândouă.” | Modulul de integrare a cerut ambele sau niciuna | Corectați modulul de integrare |
 | Jobul PostgreSQL în **Eroare** cu `unknown_query` / `undefined_table` / `timeout` | Interogarea nu e instalată pe server, tabela anului nu există, sau interogarea a durat prea mult | Copiați fișierul `.sql` pe server; verificați anul cerut; măriți `statement_timeout_sec` în `config.toml` |
 | Pagină negăsită la **Descarcă config** | Utilizatorul nu este Manager Terrabit Connect sau stația este a altei companii | Dați rolul de Manager sau lucrați în compania stației |
 | Panglica **Simulare** pe o stație de producție | Terrabit Connect a rămas în mod simulat pe calculator | Opriți simularea în Terrabit Connect; marcajul dispare la următorul heartbeat |

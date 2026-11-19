@@ -19,9 +19,9 @@ Terrabit Connect - Base
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_tc/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-59%20automated%20tests%20%C2%B7%2084%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-61%20automated%20tests%20%C2%B7%2084%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_tc
-    :alt: 59 automated tests · 84% code coverage
+    :alt: 61 automated tests · 84% code coverage
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
@@ -73,10 +73,11 @@ inside the customer's network.
   ``response_json()``.
 - **``pg_query`` job type** — for the *Terrabit Connect PostgreSQL*
   agent (a Windows service, separate from the desktop app): Odoo asks
-  for one page of a **named, read-only query** installed on the station
-  (e.g. orders from a local production database) and receives the rows;
-  the next pages are queued automatically. Queue it with
-  ``_tc_enqueue_pg_query()`` and read the rows with ``pg_rows()``.
+  for one page of a **read-only query** on a database in the customer's
+  network (e.g. orders from a local production database) — SQL written
+  in the feature module, or a named query installed on the station — and
+  receives the rows; the next pages are queued automatically. Queue it
+  with ``_tc_enqueue_pg_query()`` and read the rows with ``pg_rows()``.
 
 **Cloud model — no inbound ports.** The station always initiates the
 connection to Odoo; Odoo never connects back to the workstation. The
@@ -96,11 +97,14 @@ address inside the customer's network. Odoo only validates the shape of
 the request (scheme, host present, known method); the decision to
 actually place the call belongs to the machine sitting in that network.
 
-**Security of ``pg_query``.** Odoo never sends SQL: it names a profile
-(a database configured on the station) and a query (a ``.sql`` file
-installed there) and passes parameters, which the station checks against
-the file's declarations and binds. Each page runs in a read-only
-transaction with a timeout, under a read-only database user.
+**Security of ``pg_query``.** Odoo names a profile (a database
+configured on the station, never a host or a user) and sends either SQL
+or the name of a query file installed there. SQL is accepted only on
+profiles where the station allows it (``allow_sql``). Each page is a
+single ``SELECT`` with bound parameters, in a read-only transaction with
+a timeout, under a database user that should only be able to read what
+Odoo needs: **that user's grants are the boundary** of what Odoo can
+read.
 
 Callbacks are restricted to methods whose name starts with **``_tc_``**.
 The method name is stored in the database, so without that rule a
@@ -277,9 +281,13 @@ station and key. Its configuration lives in
   ``config.toml``);
 - ``config.toml``: one ``[profiles.<name>]`` per database (host,
   database, a **read-only** user, timeouts, page limits); passwords
-  encrypted with ``tc-postgresql secret set <profile>`` (Windows DPAPI);
-- ``queries\<profile>\*.sql``: the named queries, delivered with the
-  customer's module.
+  encrypted with ``tc-postgresql secret set <profile>`` (Windows DPAPI).
+  ``allow_sql = true`` lets Odoo send SQL for the profile (feature
+  ``pg_sql:<profile>``): give that database user ``SELECT`` only, only
+  on the schema or tables Odoo needs — its grants are what Odoo can
+  read;
+- ``queries\<profile>\*.sql`` (optional): named queries, for profiles
+  without ``allow_sql``.
 
 ``tc-postgresql check`` verifies the files, the database and the Odoo
 connection. The station form then shows **Agent** ``tc-postgresql``, the
@@ -464,23 +472,40 @@ Reading a PostgreSQL database in the local network
 --------------------------------------------------
 
 Install the *Terrabit Connect PostgreSQL* agent on a server that reaches
-the database (its own station, not the one of the desktop app), put the
-customer's ``.sql`` files in its ``queries\<profile>\`` folder, and
-queue pages from a feature module:
+the database (its own station, not the one of the desktop app), with
+``allow_sql = true`` on the profile, and queue pages from a feature
+module; the SQL lives in the module:
 
 .. code:: python
 
+   ORDERS_SINCE = """
+       SELECT codunic, nume, datatrecutinprod
+         FROM winarhi.comenzi
+        WHERE datatrecutinprod >= %(since)s
+          AND (%(after)s::bigint IS NULL OR codunic > %(after)s)
+        ORDER BY codunic
+   """
+
    station = self.env["deltatech.tc.station"]._tc_find("pg:winarhi")
-   if not station._tc_has_pg_query("winarhi", "orders_since"):
-       raise UserError(self.env._("The query orders_since is not installed on the Winarhi station."))
+   if not station._tc_has_pg_sql("winarhi"):
+       raise UserError(self.env._("The Winarhi station does not accept SQL from Odoo (allow_sql)."))
    self.env["deltatech.tc.job"]._tc_enqueue_pg_query(
        station,
        "winarhi",
-       "orders_since",
+       sql=ORDERS_SINCE,
+       key="codunic",
        params={"since": "2026-11-01 00:00:00"},
        page_size=500,
        callback=(self, "_tc_receive_orders"),
    )
+
+``%(name)s`` parameters are bound by the station, never pasted into the
+SQL; PostgreSQL infers their types, so add a cast where it cannot
+(``%(after)s::bigint IS NULL``). With ``key``, the SQL must page on that
+column with ``%(after)s``. On a profile without ``allow_sql``, name a
+query file installed in its ``queries\<profile>\`` folder instead
+(``_tc_enqueue_pg_query(station, "winarhi", "orders_since", params=...)``,
+checked with ``_tc_has_pg_query``).
 
 The station form then shows the agent and the installed queries:
 
@@ -527,6 +552,20 @@ once the feature module is installed.
 
 Changelog
 =========
+
+20.0.1.4.0 (2026-11-19)
+-----------------------
+
+- ``pg_query`` accepts **SQL written in the calling module**
+  (``_tc_enqueue_pg_query(station, profile, sql=..., key=...)``), with
+  psycopg2-style ``%(name)s`` parameters bound by the station and
+  ``key`` for keyset pagination (``%(after)s`` in the SQL). The station
+  runs it only on a profile with ``allow_sql`` (Terrabit Connect
+  PostgreSQL 0.2.0, feature ``pg_sql:<profile>``;
+  ``station._tc_has_pg_sql(profile)``). The read-only database user of
+  the profile bounds what Odoo can read. Named query files on the
+  station remain available.
+- The station form lists a profile without query files by its name.
 
 20.0.1.3.0 (2026-11-18)
 -----------------------

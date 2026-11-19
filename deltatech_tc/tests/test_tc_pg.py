@@ -121,6 +121,33 @@ class TestTcPgQuery(TransactionCase):
         self.assertEqual(self.partner.ref, "|0:A1,A2|1:A3")
         self.assertEqual(second.pg_rows(), [{"code": "A3"}])
 
+    def test_sql_from_odoo_is_chained_with_its_key(self):
+        sql = (
+            "SELECT cod_mag FROM winarhi.consumelementcomplet_2026"
+            " WHERE (%(after)s::text IS NULL OR cod_mag > %(after)s) ORDER BY cod_mag"
+        )
+        first = self.Job._tc_enqueue_pg_query(self.station, "winarhi", sql=sql, key="cod_mag", page_size=2)
+        payload = first.payload_dict()
+        self.assertEqual((payload["sql"], payload["key"]), (sql, "cod_mag"))
+        self.assertNotIn("query", payload, "the station must not look for a query file")
+        self._answer(first, _page(["A1", "A2"], more=True, next_key="A2"))
+        second = self._chain()[1].payload_dict()
+        self.assertEqual((second["sql"], second["key"], second["after"], second["page"]), (sql, "cod_mag", "A2", 1))
+
+    def test_sql_or_query_but_not_both(self):
+        with self.assertRaises(UserError):
+            self.Job._tc_enqueue_pg_query(self.station, "winarhi")
+        with self.assertRaises(UserError):
+            self.Job._tc_enqueue_pg_query(self.station, "winarhi", "orders_since", sql="SELECT 1")
+        with self.assertRaises(ValidationError):
+            self.Job._tc_enqueue_pg_query(self.station, "winarhi", sql="SELECT 1", key="cod mag")
+        with self.assertRaises(ValidationError):
+            self.Job._tc_enqueue_pg_query(self.station, "winarhi", sql="SELECT '" + "x" * 100001 + "'")
+        with self.assertRaises(ValidationError):
+            self.Job._tc_enqueue_pg_query(self.station, "bad profile", sql="SELECT 1")
+        job = self.Job._tc_enqueue_pg_query(self.station, "winarhi", sql="SELECT 1 AS x")
+        self.assertIsNone(job.payload_dict()["key"], "one page, no pagination key")
+
     def test_no_follow_stops_after_one_page(self):
         job = self._enqueue(follow=False)
         self._answer(job, _page(["A1"], more=True, next_key="A1"))
@@ -218,14 +245,19 @@ class TestTcPgStation(HttpCase):
                 "version": "0.1.0",
                 "os": "windows",
                 "agent": "tc-postgresql",
-                "features": ["postgresql", "pg:winarhi"],
+                "features": ["postgresql", "pg:winarhi", "pg_sql:winarhi"],
                 "pg_profiles": {"winarhi": ["orders_since", "articles"], "bad": "not a list"},
             }
         )
         self.assertEqual(self.station.agent_name, "tc-postgresql")
-        self.assertEqual(self.station.features, "postgresql,pg:winarhi")
+        self.assertEqual(self.station.features, "postgresql,pg:winarhi,pg_sql:winarhi")
+        self.assertTrue(self.station._tc_has_pg_sql("winarhi"))
+        self.assertFalse(self.station._tc_has_pg_sql("bad"), "SQL is allowed per profile")
         self.assertEqual(self.station.capabilities, {"winarhi": ["orders_since", "articles"], "bad": []})
         self.assertIn("winarhi: orders_since, articles", self.station.capabilities_display)
+        self.assertIn(
+            "bad", self.station.capabilities_display.splitlines(), "a profile without query files shows its name"
+        )
         self.assertTrue(self.station._tc_has_pg_query("winarhi", "articles"))
         self.assertFalse(self.station._tc_has_pg_query("winarhi", "clients"))
         self.assertFalse(self.station._tc_has_pg_query("other", "articles"))

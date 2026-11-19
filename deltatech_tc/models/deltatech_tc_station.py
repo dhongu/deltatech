@@ -84,7 +84,10 @@ class DeltatechTcStation(models.Model):
         for rec in self:
             caps = rec.capabilities if isinstance(rec.capabilities, dict) else {}
             rec.capabilities_display = (
-                "\n".join(f"{profile}: {', '.join(queries or [])}" for profile, queries in sorted(caps.items()))
+                "\n".join(
+                    f"{profile}: {', '.join(queries)}" if queries else profile
+                    for profile, queries in sorted(caps.items())
+                )
                 or False
             )
 
@@ -199,6 +202,12 @@ class DeltatechTcStation(models.Model):
         self.ensure_one()
         caps = self.capabilities if isinstance(self.capabilities, dict) else {}
         return query in (caps.get(profile) or [])
+
+    def _tc_has_pg_sql(self, profile):
+        """Does the station accept SQL sent by Odoo for ``profile`` (``allow_sql`` on the
+        station, announced as the feature ``pg_sql:<profile>``)?"""
+        self.ensure_one()
+        return f"pg_sql:{profile}" in self.features_list()
 
     def _notify_manual_heartbeat(self):
         """Send a popup (bus) notification to Terrabit Connect managers on manual heartbeat.

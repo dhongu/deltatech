@@ -129,22 +129,37 @@ transaction.
 ## Reading a PostgreSQL database in the local network
 
 Install the *Terrabit Connect PostgreSQL* agent on a server that reaches the database
-(its own station, not the one of the desktop app), put the customer's `.sql` files in its
-`queries\<profile>\` folder, and queue pages from a feature module:
+(its own station, not the one of the desktop app), with `allow_sql = true` on the profile,
+and queue pages from a feature module; the SQL lives in the module:
 
 ```python
+ORDERS_SINCE = """
+    SELECT codunic, nume, datatrecutinprod
+      FROM winarhi.comenzi
+     WHERE datatrecutinprod >= %(since)s
+       AND (%(after)s::bigint IS NULL OR codunic > %(after)s)
+     ORDER BY codunic
+"""
+
 station = self.env["deltatech.tc.station"]._tc_find("pg:winarhi")
-if not station._tc_has_pg_query("winarhi", "orders_since"):
-    raise UserError(self.env._("The query orders_since is not installed on the Winarhi station."))
+if not station._tc_has_pg_sql("winarhi"):
+    raise UserError(self.env._("The Winarhi station does not accept SQL from Odoo (allow_sql)."))
 self.env["deltatech.tc.job"]._tc_enqueue_pg_query(
     station,
     "winarhi",
-    "orders_since",
+    sql=ORDERS_SINCE,
+    key="codunic",
     params={"since": "2026-11-01 00:00:00"},
     page_size=500,
     callback=(self, "_tc_receive_orders"),
 )
 ```
+
+`%(name)s` parameters are bound by the station, never pasted into the SQL; PostgreSQL infers
+their types, so add a cast where it cannot (`%(after)s::bigint IS NULL`). With `key`, the SQL
+must page on that column with `%(after)s`. On a profile without `allow_sql`, name a query file
+installed in its `queries\<profile>\` folder instead (`_tc_enqueue_pg_query(station, "winarhi",
+"orders_since", params=...)`, checked with `_tc_has_pg_query`).
 
 The station form then shows the agent and the installed queries:
 

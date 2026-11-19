@@ -1,3 +1,13 @@
+## 20.0.1.4.0 (2026-11-19)
+
+- `pg_query` accepts **SQL written in the calling module** (`_tc_enqueue_pg_query(station, profile,
+  sql=..., key=...)`), with psycopg2-style `%(name)s` parameters bound by the station and `key`
+  for keyset pagination (`%(after)s` in the SQL). The station runs it only on a profile with
+  `allow_sql` (Terrabit Connect PostgreSQL 0.2.0, feature `pg_sql:<profile>`;
+  `station._tc_has_pg_sql(profile)`). The read-only database user of the profile bounds what
+  Odoo can read. Named query files on the station remain available.
+- The station form lists a profile without query files by its name.
+
 ## 20.0.1.3.0 (2026-11-18)
 
 - New job type **`pg_query`** for the *Terrabit Connect PostgreSQL* agent
