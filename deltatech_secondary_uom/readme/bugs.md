@@ -31,7 +31,8 @@ Review date: 2026-10-01. Target version: Odoo 19.
 
 ## SECONDARY-002 — P2: Secondary quantity rounded up to a whole base unit
 
-- **Status:** Open, issue dhongu/deltatech#4242 (2026-11-19).
+- **Status:** Fixed in 20.0.1.2.3, issue dhongu/deltatech#4242 (2026-11-19).
+  Covered by `test_no_round_up_on_continuous_unit`.
 - **Location:** models/secondary_uom_mixin.py, `_inverse_secondary_uom_qty`.
 - **Trigger:** Product in `m` with `1 Bar = 5.8 m`; enter 3 Bar on a sale or
   purchase line or on a stock move.

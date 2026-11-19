@@ -82,9 +82,9 @@ unit), so the alternative unit does not reach:
   consumption is in the base unit. Cutting, offcuts and bar remnants are
   not handled.
 - **Rounding.** A quantity entered in the secondary unit is rounded
-  **up** to a whole base unit. This fits pieces, not metres or
-  kilograms: with 1 bar = 5.8 m, 3 bars become 18 m instead of 17.4 m,
-  and the line then shows 3.103 bars.
+  **up** to a whole base unit only when the base unit counts pieces (the
+  reference tree of *Units*). For continuous units (m, kg, m²) the exact
+  quantity is kept.
 
 Do not use the alternative unit as the line unit
 ------------------------------------------------
@@ -121,6 +121,14 @@ possible future evolution of this module.
 
 Changelog
 =========
+
+20.0.1.2.3 (2026-11-19)
+-----------------------
+
+- A quantity entered in the secondary unit is rounded up to a whole base
+  unit only when the base unit counts pieces. For metres, kilograms or
+  square metres the exact quantity is kept: with 1 bar = 5.8 m, 3 bars
+  now give 17.4 m instead of 18 m (#4242).
 
 20.0.1.2.2 (2026-11-19)
 -----------------------

@@ -19,9 +19,8 @@ alternative unit does not reach:
   and manufacturing orders have no secondary unit, and the consumption is in
   the base unit. Cutting, offcuts and bar remnants are not handled.
 - **Rounding.** A quantity entered in the secondary unit is rounded **up** to
-  a whole base unit. This fits pieces, not metres or kilograms: with
-  1 bar = 5.8 m, 3 bars become 18 m instead of 17.4 m, and the line then shows
-  3.103 bars.
+  a whole base unit only when the base unit counts pieces (the reference tree
+  of *Units*). For continuous units (m, kg, m²) the exact quantity is kept.
 
 ## Do not use the alternative unit as the line unit
 
