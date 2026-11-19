@@ -38,11 +38,13 @@ but issues the vendor bill in RON at the exchange rate of the bill date.
   currency at today's rate when the bill is created, and again at the
   rate of the *Bill Date* when it is set or changed. The price is first
   brought to the unit of measure of the bill line.
-- **Vendor Rate** on the vendor bill: when the supplier invoice states
-  another rate than the Odoo one, type it on the bill (e.g. 5.10 RON for
-  1 EUR) and the order prices are converted at that rate; the bill date
-  no longer changes them. Shown only when the bill lines come from
-  orders in one other currency.
+- **Vendor Rate** on the vendor bill: filled in with the Odoo (BNR) rate
+  of the bill date, as bill currency for 1 unit of the order currency
+  (e.g. 5.0912 RON for 1 EUR). When the supplier invoice states another
+  rate, type it there and the order prices are converted at it. Changing
+  the bill date brings the Odoo rate of the new date back, with a
+  warning when it replaces a rate typed by hand. Shown only when the
+  bill lines come from orders in one other currency.
 - **Auto-Complete** on a new vendor bill takes the order journal and
   currency.
 - **Price matching flag** on the bill lines compares the bill price with
@@ -128,18 +130,24 @@ orders with different journals but the same bill currency end up on one
 bill, in the journal of the first order. Bill them one by one to keep
 the journals apart.
 
-If the supplier invoice states another rate than the one in Odoo, type
-it in **Vendor Rate**, in the bill header, under the dates (bill
-currency for 1 unit of the order currency, e.g. 5.10 RON for 1 EUR). The
-order prices are converted at that rate and a later change of the bill
-date no longer changes them; clear the field to go back to the Odoo
-rate. The field is shown only when the bill lines come from orders in
-one other currency, and the Purchase Order column compares with the
-order price at the same rate.
+**Vendor Rate**, in the bill header under the dates, shows the Odoo
+(BNR) rate of the bill date (bill currency for 1 unit of the order
+currency, e.g. 5.0912 RON for 1 EUR). If the supplier invoice states
+another rate, type it there **after setting the Bill Date**: the order
+prices are converted at that rate. Changing the Bill Date afterwards
+brings the Odoo rate of the new date back and a warning names the rate
+it replaced; clearing the field also puts the Odoo rate back. The field
+is shown only when the bill lines come from orders in one other
+currency, and the Purchase Order column compares with the order price at
+the same rate.
 
 |Draft bill in RON with Vendor Rate 5.100000 RON per 1 EUR and the Bill
 Date set: the price is 12.50 EUR × 5.10 = 63.75, and the Purchase Order
 column shows no price difference|
+
+|Vendor rate replaced dialog after the Bill Date was changed: the vendor
+rate 5.1000 was replaced with the rate of the new date, 5.0912 RON for 1
+EUR, and the price is converted again to 63.64|
 
 .. |Purchase order in EUR with the Invoicing Journal set on the Other Info tab| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_purchase_currency/static/description/en/01_comanda_jurnal_facturare.png
 .. |Purchase order list with the order selected and the Create Bills button| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_purchase_currency/static/description/en/02_creare_factura_din_lista.png
@@ -151,9 +159,19 @@ column shows no price difference|
 .. |Purchase Order column: no flag on the converted line, an up arrow with the converted order price on the line changed by hand| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_purchase_currency/static/description/en/08_indicator_potrivire_pret.png
 .. |New vendor bill auto-completed from the order, in RON on the order journal| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_purchase_currency/static/description/en/09_factura_completare_automata.png
 .. |Draft bill in RON with Vendor Rate 5.100000 RON per 1 EUR and the Bill Date set: the price is 12.50 EUR × 5.10 = 63.75, and the Purchase Order column shows no price difference| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_purchase_currency/static/description/en/10_factura_curs_furnizor.png
+.. |Vendor rate replaced dialog after the Bill Date was changed: the vendor rate 5.1000 was replaced with the rate of the new date, 5.0912 RON for 1 EUR, and the price is converted again to 63.64| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_purchase_currency/static/description/en/11_avertisment_curs_inlocuit.png
 
 Changelog
 =========
+
+20.0.1.2.0 (2026-11-19)
+-----------------------
+
+- *Vendor Rate* is no longer 0 when not typed: it shows the Odoo (BNR)
+  rate of the bill date.
+- Changing the bill date brings the Odoo rate of the new date back into
+  *Vendor Rate*; when it replaces a rate typed by hand, a warning names
+  both rates. Type the vendor rate after the bill date.
 
 20.0.1.1.0 (2026-11-19)
 -----------------------

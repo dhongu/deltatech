@@ -7,7 +7,7 @@
 #
 # Seedează cursul EUR (ieri și cu o lună în urmă), jurnalul de achiziții fără monedă,
 # două jurnale de facturi furnizor în EUR, furnizorul român „Aluprof Distribuție SRL” și câte o comandă
-# în EUR pentru fiecare criteriu de acceptare din readme/BRIEF.md (CA1–CA11), cu factura ei.
+# în EUR pentru fiecare criteriu de acceptare din readme/BRIEF.md (CA1–CA14), cu factura ei.
 #
 # Rulare:
 #   .venv/bin/python odoo/odoo-bin -c odoo.conf -d <db> \
@@ -58,6 +58,39 @@ SHOW_COLUMNS = """
                     toggle().click();
                 }
                 await wait(800);
+            } finally {
+                resolve();
+            }
+        })();
+    })
+"""
+
+# Schimbă Data facturii din interfață, ca operatorul (în Odoo 20 câmpul e un buton care deschide
+# calendarul; se alege ziua de azi), apoi așteaptă dialogul „Cursul furnizorului a fost înlocuit”.
+CHANGE_BILL_DATE = """
+    new Promise((resolve) => {
+        const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+        (async () => {
+            try {
+                await wait(800);
+                const button = document.querySelector("div[name='invoice_date'] .o_input");
+                if (!button) {
+                    return;
+                }
+                button.click();
+                let today = null;
+                for (let i = 0; i < 50 && !today; i++) {
+                    await wait(100);
+                    today = document.querySelector(".o_datetime_picker .o_date_item_cell.o_today");
+                }
+                if (!today) {
+                    return;
+                }
+                today.click();
+                for (let i = 0; i < 50 && !document.querySelector(".modal .modal-content"); i++) {
+                    await wait(100);
+                }
+                await wait(400);
             } finally {
                 resolve();
             }
@@ -211,13 +244,20 @@ class TestPurchaseCurrencyScreenshots(AccountTestInvoicingCommon, ScreenshotCase
         with mute_logger("odoo.tests.form.onchange"):
             form.purchase_vendor_bill_id = env["purchase.bill.union"].browse(-cls.po_ca7.id)
         cls.bill_ca7 = form.save()
-        # CA8-CA11: cursul scris de furnizor pe factură; data facturii completată după curs nu
-        # mai schimbă prețul (12,50 EUR × 5,10 = 63,75 lei), iar coloana de potrivire nu
-        # semnalează linia
+        # CA8-CA11: cursul scris de furnizor pe factură, după data facturii (data aduce cursul
+        # BNR al zilei, deci se completează întâi); prețul e 12,50 EUR × 5,10 = 63,75 lei, iar
+        # coloana de potrivire nu semnalează linia
         cls.bill_ca9 = cls._create_bill(cls._create_po(cls.journal_ron))
         with Form(cls.bill_ca9) as form:
-            form.purchase_vendor_rate = VENDOR_RATE
             form.invoice_date = cls.bill_date
+            form.purchase_vendor_rate = VENDOR_RATE
+        # CA14: cursul furnizorului introdus de mână, apoi data facturii schimbată din interfață
+        # (captura 11): cursul revine la cel BNR al noii date și apare avertismentul
+        # (90 de unități, ca Odoo să nu o semnaleze drept duplicat al facturii de la captura 10)
+        cls.bill_ca14 = cls._create_bill(cls._create_po(cls.journal_ron, qty=90.0))
+        with Form(cls.bill_ca14) as form:
+            form.invoice_date = cls.bill_date
+            form.purchase_vendor_rate = VENDOR_RATE
 
     @classmethod
     def _create_po(cls, journal=None, price=12.50, qty=100.0, corner=False):
@@ -333,6 +373,17 @@ class TestPurchaseCurrencyScreenshots(AccountTestInvoicingCommon, ScreenshotCase
                 ["div[name='purchase_vendor_rate_div']", "div[name='invoice_date']", price],
                 columns='["purchase_line_id"]',
             ),
+            # 11. CA14: data facturii schimbată după cursul introdus de mână: cursul revine la cel
+            # BNR al noii date, iar dialogul numește cursul înlocuit și cursul nou
+            {
+                "url": self._url(self.bill_ca14),
+                "name": "11_avertisment_curs_inlocuit.png",
+                "wait": ".o_form_view",
+                "eval": CHANGE_BILL_DATE,
+                "eval_wait": 300,
+                "highlight": [".modal .modal-content"],
+                "settle": 500,
+            },
         ]
 
     def _gif_steps(self):
