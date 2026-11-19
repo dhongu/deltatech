@@ -1,3 +1,10 @@
+## 19.0.1.5.0 (2026-11-19)
+
+- The UBL reader and the product matcher moved to the new base module
+  `deltatech_account_ubl_import`, installed automatically as a dependency. They are now shared
+  with the vendor bill review (`deltatech_vendor_bill_ubl_review`). The import works as before;
+  `purchase.invoice.import.mixin` keeps its name, so the modules that extend it are unchanged.
+
 ## 19.0.1.4.22 (2026-11-02)
 
 - Updating vendor prices from an imported invoice no longer resets the lead time
