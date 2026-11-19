@@ -18,6 +18,9 @@ class SaleOrderLine(models.Model):
     def _set_line_qty(self, qty):
         self.product_uom_qty = qty
 
+    def _get_line_qty_fname(self):
+        return "product_uom_qty"
+
     @api.depends("product_uom_qty", "product_uom_id", "secondary_uom_id", "product_id")
     def _compute_secondary_uom_qty(self):
         return super()._compute_secondary_uom_qty()

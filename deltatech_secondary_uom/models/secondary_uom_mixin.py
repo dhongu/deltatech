@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import fields, models
+from odoo import api, fields, models
 from odoo.tools import float_round
 
 
@@ -49,9 +49,27 @@ class SecondaryUomMixin(models.AbstractModel):
         """Write the given quantity (expressed in the line UoM) on the line."""
         raise NotImplementedError
 
+    def _get_line_qty_fname(self):
+        """Name of the line quantity field written by ``_set_line_qty``."""
+        raise NotImplementedError
+
     def _get_secondary_uom_open_domain(self):
         """Domain of the lines still editable, recomputed when a conversion changes."""
         return []
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        # The inverse of the secondary quantity writes the line quantity while
+        # create() protects the precomputed fields (e.g. the sale line amounts),
+        # which then keep the values computed for the initial quantity.
+        # Recompute what depends on the line quantity, outside that protection.
+        lines = self.browse(
+            [rec.id for rec, vals in zip(records, vals_list, strict=True) if vals.get("secondary_uom_qty")]
+        )
+        if lines:
+            lines.modified([lines._get_line_qty_fname()])
+        return records
 
     def _get_secondary_conversion(self):
         self.ensure_one()
@@ -76,15 +94,25 @@ class SecondaryUomMixin(models.AbstractModel):
             qty_base = uom._compute_quantity(qty, product.uom_id, round=False) if uom else qty
             line.secondary_uom_qty = conv._from_base_qty(qty_base)
 
+    def _is_piece_uom(self, uom):
+        """Whether ``uom`` counts pieces (same reference tree as the standard Unit)."""
+        unit = self.env.ref("uom.product_uom_unit", raise_if_not_found=False)
+        return bool(uom and unit and uom._has_common_reference(unit))
+
     def _inverse_secondary_uom_qty(self):
+        digits = self.env["decimal.precision"].precision_get("Product Unit")
         for line in self:
             conv = line._get_secondary_conversion()
             if not conv:
                 continue
             product = line._get_secondary_product()
             qty_base = conv._to_base_qty(line.secondary_uom_qty)
-            # round up to whole base units: we cannot deliver fractional pieces
-            qty_base = float_round(qty_base, precision_rounding=1.0, rounding_method="UP")
+            if line._is_piece_uom(product.uom_id):
+                # round up to whole pieces: we cannot deliver fractional pieces
+                qty_base = float_round(qty_base, precision_rounding=1.0, rounding_method="UP")
+            else:
+                # continuous unit (m, kg, m²): keep the exact quantity
+                qty_base = float_round(qty_base, precision_digits=digits, rounding_method="HALF-UP")
             qty_line = qty_base
             qty, uom = line._get_line_qty_and_uom()
             if uom:

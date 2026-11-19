@@ -16,11 +16,14 @@ Product Secondary UoM
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_secondary_uom
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-17%20automated%20tests%20%C2%B7%2091%25%20code%20coverage-2ea44f.png
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_secondary_uom/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-23%20automated%20tests%20%C2%B7%2091%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_secondary_uom
-    :alt: 17 automated tests · 91% code coverage
+    :alt: 23 automated tests · 91% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 This module adds **product specific conversion factors** between units
 of measure, following the SAP material master (MARM) pattern.
@@ -52,8 +55,92 @@ valuation or any code reading ``uom.factor`` directly in SQL.
 .. contents::
    :local:
 
+Usage
+=====
+
+Define the conversions on the product
+-------------------------------------
+
+Open the product (**Inventory → Products → Products**) and go to the
+**Alternative Units** tab. Each line says how many alternative units
+correspond to how many base units, for example **3 m² = 4 Units** for a
+tile kept in pieces, or **15 kg = 1 Units**. The **Base Unit** column is
+the product unit, filled in automatically. A product has at most one
+conversion per alternative unit, and the alternative unit must differ
+from the base unit.
+
+|Alternative Units tab of a tile kept in Units, with the lines 3 m² = 4
+Units and 15 kg = 1 Units|
+
+A product kept in a continuous unit works the same way: an aluminium
+profile kept in **m** has the line **1 Bar = 5.8 m**. A unit that does
+not exist yet (such as **Bar**) is created first in **Inventory →
+Configuration → Products → Units & Packagings**. A counting unit that
+will be the base unit of products (Bag, Roll, Box) must be created with
+the **Units** reference, otherwise it is treated as a continuous unit
+and quantities are not rounded up to whole pieces.
+
+|Alternative Units tab of a profile kept in m, with the line 1 Bar = 5.8
+m|
+
+Enter the quantity in the secondary unit
+----------------------------------------
+
+On a quotation (**Sales → Orders → Quotations**), show the **Secondary
+Quantity** and **Secondary Unit** columns from the optional columns menu
+of the order lines (they are hidden by default). On each line, choose
+the **Secondary Unit** among the product conversions, type the
+**Secondary Quantity** and save: the line **Quantity** is computed in
+the base unit when the order is saved.
+
+- For a product kept in pieces, the quantity is rounded **up** to whole
+  pieces: 40 m² of tiles give 54 Units, and the secondary quantity is
+  realigned to 40.50 m².
+- For a product kept in a continuous unit (m, kg, m²), the exact
+  quantity is kept: 3 bars of 5.8 m give 17.40 m.
+
+The unit price and the amounts stay in the base unit.
+
+|Sales order with the Secondary Quantity and Secondary Unit columns:
+tiles 40.50 m² for 54.00 Units, profile 3.00 Bar for 17.40 m|
+
+Deliveries and receipts
+-----------------------
+
+The secondary unit follows the order on the delivery or the receipt. On
+the **Operations** tab of the transfer, the same two optional columns
+show the secondary quantity computed from the move quantity.
+
+|Delivery of the order, Operations tab with the secondary quantity of
+each move|
+
+Purchase order lines work the same way: 150 kg of tiles give 10.00
+Units.
+
+|Request for quotation with the tiles entered in kg: 150.00 in Secondary
+Quantity and 10.00 Units in Quantity|
+
+.. |Alternative Units tab of a tile kept in Units, with the lines 3 m² = 4 Units and 15 kg = 1 Units| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_secondary_uom/static/description/en/01_produs_gresie_unitati_alternative.png
+.. |Alternative Units tab of a profile kept in m, with the line 1 Bar = 5.8 m| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_secondary_uom/static/description/en/02_produs_profil_bara.png
+.. |Sales order with the Secondary Quantity and Secondary Unit columns: tiles 40.50 m² for 54.00 Units, profile 3.00 Bar for 17.40 m| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_secondary_uom/static/description/en/03_comanda_vanzare_unitate_secundara.png
+.. |Delivery of the order, Operations tab with the secondary quantity of each move| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_secondary_uom/static/description/en/04_livrare_unitate_secundara.png
+.. |Request for quotation with the tiles entered in kg: 150.00 in Secondary Quantity and 10.00 Units in Quantity| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_secondary_uom/static/description/en/05_comanda_achizitie_unitate_secundara.png
+
 Changelog
 =========
+
+19.0.1.2.3 (2026-11-19)
+-----------------------
+
+- A quantity entered in the secondary unit is rounded up to a whole base
+  unit only when the base unit counts pieces. For metres, kilograms or
+  square metres the exact quantity is kept: with 1 bar = 5.8 m, 3 bars
+  now give 17.4 m instead of 18 m (#4242).
+- A line created with a quantity in the secondary unit now gets its
+  amounts (subtotal, taxes, total) from the computed line quantity.
+  Before, the line subtotal kept the value of quantity 1, while the
+  order total was right (#4247).
+- Consultant sheet (FISA_CONSULTANT.md) with screenshots and demo GIF.
 
 19.0.1.2.2 (2026-10-17)
 -----------------------

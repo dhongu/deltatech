@@ -14,11 +14,11 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 17 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 23 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
-        <div class="rounded-pill" style="height:8px;width:92%;background-color:#57B952;"></div>
+        <div class="rounded-pill" style="height:8px;width:91%;background-color:#57B952;"></div>
       </div>
-      <div class="mt-1" style="font-size:13px;color:#cdeccf;">92% code coverage</div>
+      <div class="mt-1" style="font-size:13px;color:#cdeccf;">91% code coverage</div>
     </div>
   </div>
 </div>
@@ -38,6 +38,11 @@
        style="padding:10px 22px;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</a>
@@ -46,6 +51,10 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</span></div>
+
+<div class="rounded-4 border shadow-sm p-2 mb-4" style="background-color:#f4f8f4;">
+  <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" src="en/demo.gif" alt="Animated demo of the module" loading="lazy"/>
+</div>
 <p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module adds <strong>product specific conversion factors</strong> between units of
 measure, following the SAP material master (MARM) pattern.</p>
 <p>In standard Odoo 19 the conversion factor belongs to the unit of measure
@@ -67,8 +76,102 @@ valuation.</p>
 global UoM table clean and does not affect standard reports, stock valuation
 or any code reading <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">uom.factor</code> directly in SQL.</p>
 </div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Define the conversions on the <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">product</span></h2>
+<p>Open the product (<strong>Inventory &#8594; Products &#8594; Products</strong>) and go to the <strong>Alternative Units</strong> tab.
+Each line says how many alternative units correspond to how many base units, for example
+<strong>3 m&#178; = 4 Units</strong> for a tile kept in pieces, or <strong>15 kg = 1 Units</strong>. The <strong>Base Unit</strong> column is the
+product unit, filled in automatically. A product has at most one conversion per alternative unit,
+and the alternative unit must differ from the base unit.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Alternative Units tab of a tile kept in Units, with the lines 3 m&#178; = 4 Units and 15 kg = 1 Units" src="en/01_produs_gresie_unitati_alternative.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Alternative Units tab of a tile kept in Units, with the lines 3 m&#178; = 4 Units and 15 kg = 1 Units</span>
+  </div>
+</div>
+<p>A product kept in a continuous unit works the same way: an aluminium profile kept in <strong>m</strong> has the
+line <strong>1 Bar = 5.8 m</strong>. A unit that does not exist yet (such as <strong>Bar</strong>) is created first in
+<strong>Inventory &#8594; Configuration &#8594; Products &#8594; Units &amp; Packagings</strong>. A counting unit that will be the
+base unit of products (Bag, Roll, Box) must be created with the <strong>Units</strong> reference, otherwise it is
+treated as a continuous unit and quantities are not rounded up to whole pieces.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Alternative Units tab of a profile kept in m, with the line 1 Bar = 5.8 m" src="en/02_produs_profil_bara.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">2</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Alternative Units tab of a profile kept in m, with the line 1 Bar = 5.8 m</span>
+  </div>
+</div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Enter the quantity in the secondary <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">unit</span></h2>
+<p>On a quotation (<strong>Sales &#8594; Orders &#8594; Quotations</strong>), show the <strong>Secondary Quantity</strong> and
+<strong>Secondary Unit</strong> columns from the optional columns menu of the order lines (they are hidden by
+default). On each line, choose the <strong>Secondary Unit</strong> among the product conversions, type the
+<strong>Secondary Quantity</strong> and save: the line <strong>Quantity</strong> is computed in the base unit when the order
+is saved.</p>
+<ul>
+<li>For a product kept in pieces, the quantity is rounded <strong>up</strong> to whole pieces: 40 m&#178; of tiles give
+  54 Units, and the secondary quantity is realigned to 40.50 m&#178;.</li>
+<li>For a product kept in a continuous unit (m, kg, m&#178;), the exact quantity is kept: 3 bars of 5.8 m
+  give 17.40 m.</li>
+</ul>
+<p>The unit price and the amounts stay in the base unit.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Sales order with the Secondary Quantity and Secondary Unit columns: tiles 40.50 m&#178; for 54.00 Units, profile 3.00 Bar for 17.40 m" src="en/03_comanda_vanzare_unitate_secundara.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">3</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Sales order with the Secondary Quantity and Secondary Unit columns: tiles 40.50 m&#178; for 54.00 Units, profile 3.00 Bar for 17.40 m</span>
+  </div>
+</div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Deliveries and <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">receipts</span></h2>
+<p>The secondary unit follows the order on the delivery or the receipt. On the <strong>Operations</strong> tab of
+the transfer, the same two optional columns show the secondary quantity computed from the move
+quantity.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Delivery of the order, Operations tab with the secondary quantity of each move" src="en/04_livrare_unitate_secundara.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">4</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Delivery of the order, Operations tab with the secondary quantity of each move</span>
+  </div>
+</div>
+<p>Purchase order lines work the same way: 150 kg of tiles give 10.00 Units.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Request for quotation with the tiles entered in kg: 150.00 in Secondary Quantity and 10.00 Units in Quantity" src="en/05_comanda_achizitie_unitate_secundara.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">5</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Request for quotation with the tiles entered in kg: 150.00 in Secondary Quantity and 10.00 Units in Quantity</span>
+  </div>
+</div>
+</div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.2.3 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-19)</span></h2>
+<ul>
+<li>A quantity entered in the secondary unit is rounded up to a whole base unit
+  only when the base unit counts pieces. For metres, kilograms or square
+  metres the exact quantity is kept: with 1 bar = 5.8 m, 3 bars now give
+  17.4 m instead of 18 m (#4242).</li>
+<li>A line created with a quantity in the secondary unit now gets its amounts
+  (subtotal, taxes, total) from the computed line quantity. Before, the line
+  subtotal kept the value of quantity 1, while the order total was right
+  (#4247).</li>
+<li>Consultant sheet (FISA_CONSULTANT.md) with screenshots and demo GIF.</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.2.2 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-10-17)</span></h2>
 <ul>
 <li>A secondary quantity entered on a line expressed in a coarser unit (e.g.
@@ -267,6 +370,26 @@ or any code reading <code class="border rounded px-2" style="font-family:ui-mono
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_stock_picking_image" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">TP</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_stock_picking_image/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Transfer Product Images</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Inventory/Inventory</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Product image on transfer lines, delivery slip and picking operations report</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_warehouse_map" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
@@ -283,26 +406,6 @@ or any code reading <code class="border rounded px-2" style="font-family:ui-mono
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Visual warehouse map: navigate locations by hierarchy (levels, lines, racks, shelves, cells)</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DE</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Deltatech</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Tools</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Shared base for the Deltatech suite: common technical extensions used by all modules</p>
         </div>
       </a>
     </div>

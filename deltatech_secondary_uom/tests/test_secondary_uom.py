@@ -85,6 +85,85 @@ class TestSecondaryUom(TransactionCase):
         # the secondary quantity is recomputed from the rounded pieces
         self.assertEqual(order.order_line.secondary_uom_qty, 40.5)
 
+    def test_no_round_up_on_continuous_unit(self):
+        """A base unit in metres is not rounded up to whole metres (issue #4242)."""
+        uom_m = self.env.ref("uom.product_uom_meter")
+        uom_bar = self.env["uom.uom"].create({"name": "Test Bar"})
+        product = self.env["product.product"].create(
+            {
+                "name": "Test Profile",
+                "type": "consu",
+                "is_storable": True,
+                "uom_id": uom_m.id,
+                # 1 bar = 5.8 m
+                "secondary_uom_ids": [(0, 0, {"uom_id": uom_bar.id, "uom_qty": 1.0, "base_qty": 5.8})],
+            }
+        )
+        order_form = Form(self.env["sale.order"])
+        order_form.partner_id = self.partner
+        with order_form.order_line.new() as line:
+            line.product_id = product
+            line.secondary_uom_id = uom_bar
+            line.secondary_uom_qty = 3.0  # 3 bars -> 17.4 m, not 18 m
+        order = order_form.save()
+        self.assertAlmostEqual(order.order_line.product_uom_qty, 17.4)
+        self.assertAlmostEqual(order.order_line.secondary_uom_qty, 3.0)
+
+    def test_amounts_follow_secondary_qty_sale(self):
+        """The line amounts use the quantity computed from the secondary one (issue #4247)."""
+        self.product.list_price = 89.0
+        order_form = Form(self.env["sale.order"])
+        order_form.partner_id = self.partner
+        with order_form.order_line.new() as line:
+            line.product_id = self.product
+            line.secondary_uom_id = self.uom_m2
+            line.secondary_uom_qty = 40.0  # 40 m2 -> 54 pieces
+        order = order_form.save()
+        line = order.order_line
+        self.assertEqual(line.product_uom_qty, 54.0)
+        self.assertAlmostEqual(line.price_subtotal, 54 * 89.0)
+        self.assertAlmostEqual(order.amount_untaxed, line.price_subtotal)
+        self.assertEqual(line.secondary_uom_qty, 40.5)
+
+        order = self.env["sale.order"].create(
+            {
+                "partner_id": self.partner.id,
+                "order_line": [
+                    (
+                        0,
+                        0,
+                        {"product_id": self.product.id, "secondary_uom_id": self.uom_m2.id, "secondary_uom_qty": 30.0},
+                    )
+                ],
+            }
+        )
+        self.assertEqual(order.order_line.product_uom_qty, 40.0)
+        self.assertAlmostEqual(order.order_line.price_subtotal, 40 * 89.0)
+
+    def test_amounts_follow_secondary_qty_purchase(self):
+        order = self.env["purchase.order"].create(
+            {
+                "partner_id": self.partner.id,
+                "order_line": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": self.product.id,
+                            "price_unit": 60.0,
+                            "secondary_uom_id": self.uom_kg.id,
+                            "secondary_uom_qty": 10.0,  # 10 kg -> 20 pieces
+                        },
+                    )
+                ],
+            }
+        )
+        line = order.order_line
+        self.assertEqual(line.product_qty, 20.0)
+        self.assertAlmostEqual(line.price_unit, 60.0)
+        self.assertAlmostEqual(line.price_subtotal, 20 * 60.0)
+        self.assertAlmostEqual(order.amount_untaxed, line.price_subtotal)
+
     def test_propagation_so_to_picking(self):
         order = self.env["sale.order"].create(
             {
