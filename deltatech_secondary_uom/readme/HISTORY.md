@@ -1,3 +1,10 @@
+## 19.0.1.2.3 (2026-11-19)
+
+- A quantity entered in the secondary unit is rounded up to a whole base unit
+  only when the base unit counts pieces. For metres, kilograms or square
+  metres the exact quantity is kept: with 1 bar = 5.8 m, 3 bars now give
+  17.4 m instead of 18 m (#4242).
+
 ## 19.0.1.2.2 (2026-10-17)
 
 - A secondary quantity entered on a line expressed in a coarser unit (e.g.
