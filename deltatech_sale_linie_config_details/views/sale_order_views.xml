@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="sale_order_view_form" model="ir.ui.view">
+        <field name="name">sale.order.form.config.details</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="priority" eval="100" />
+        <field name="arch" type="xml">
+            <!-- at the end of the row, after the amounts: a column between the description and the
+                 quantity takes width from them; icon only, the text is the tooltip -->
+            <xpath expr="//field[@name='order_line']//list/widget[@name='section_state']" position="before">
+                <field name="config_details" column_invisible="1" />
+                <button name="action_open_config_details" type="object" icon="fa-info-circle"
+                        title="Details" width="40px" invisible="not config_details" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_order_line_config_details_form" model="ir.ui.view">
+        <field name="name">sale.order.line.config.details.form</field>
+        <field name="model">sale.order.line.config.details</field>
+        <field name="arch" type="xml">
+            <form string="Config Details">
+                <field name="config_details" nolabel="1" />
+                <footer>
+                    <button string="Close" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
