@@ -74,7 +74,7 @@ accountant creates and checks the vendor bill (group *Invoicing*).
   difference; after the price is changed by hand it shows the difference.
 - **CA7:** A new vendor bill to which the order is added via *Auto-Complete* → the bill takes
   the order invoicing journal and currency, with converted prices.
-- **CA8:** On a RON bill of a EUR order, *Vendor Rate* is shown next to the bill date; on a
+- **CA8:** On a RON bill of a EUR order, *Vendor Rate* is shown in the bill header, under the bill dates; on a
   bill in the order currency, or with lines from orders in different currencies, it is hidden.
 - **CA9:** Setting *Vendor Rate* = 5.10 → the unit price becomes the EUR price × 5.10 (in the
   bill line unit).
