@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <field name="delivery_date" position="after">
                 <field name="purchase_source_currency_id" invisible="1" />
+                <field name="purchase_odoo_rate" invisible="1" />
                 <label for="purchase_vendor_rate" invisible="not purchase_source_currency_id" />
                 <div
                     name="purchase_vendor_rate_div"

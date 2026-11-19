@@ -12,10 +12,11 @@ bill in RON at the exchange rate of the bill date.
 - **Price conversion**: the order unit prices are converted to the bill currency at today's
   rate when the bill is created, and again at the rate of the *Bill Date* when it is set or
   changed. The price is first brought to the unit of measure of the bill line.
-- **Vendor Rate** on the vendor bill: when the supplier invoice states another rate than the
-  Odoo one, type it on the bill (e.g. 5.10 RON for 1 EUR) and the order prices are converted at
-  that rate; the bill date no longer changes them. Shown only when the bill lines come from
-  orders in one other currency.
+- **Vendor Rate** on the vendor bill: filled in with the Odoo (BNR) rate of the bill date, as
+  bill currency for 1 unit of the order currency (e.g. 5.0912 RON for 1 EUR). When the supplier
+  invoice states another rate, type it there and the order prices are converted at it. Changing
+  the bill date brings the Odoo rate of the new date back, with a warning when it replaces a
+  rate typed by hand. Shown only when the bill lines come from orders in one other currency.
 - **Auto-Complete** on a new vendor bill takes the order journal and currency.
 - **Price matching flag** on the bill lines compares the bill price with the order price
   converted to the bill currency, so converted lines are not reported as price differences.

@@ -156,16 +156,43 @@ class TestPurchaseCurrency(AccountTestInvoicingCommon):
             form.purchase_vendor_rate = 5.2
         self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 6240.0)  # 100 * 12 * 5.2
 
-    def test_ca10_vendor_rate_wins_over_date(self):
-        """CA10: with a vendor rate the bill date no longer changes the prices; clearing it does."""
+    def test_ca10_bill_date_resets_rate(self):
+        """CA10: the bill date sets the Odoo rate of the new date; clearing the rate puts it back."""
         bill = self._create_bill(self._create_po(self.journal_company))
         with Form(bill) as form:
-            form.purchase_vendor_rate = 5.1
             form.invoice_date = fields.Date.to_date("2026-03-01")
+        self.assertAlmostEqual(bill.purchase_vendor_rate, 5.0)  # 1 / 0.2
+        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 500.0)
+        with Form(bill) as form:
+            form.purchase_vendor_rate = 5.1
         self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 510.0)
         with Form(bill) as form:
             form.purchase_vendor_rate = 0.0
-        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 500.0)  # 100 / 0.2
+        self.assertAlmostEqual(bill.purchase_vendor_rate, 5.0)
+        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 500.0)
+
+    def test_ca13_rate_filled_in(self):
+        """CA13: a bill created from the order shows the Odoo rate, matching the prices."""
+        bill = self._create_bill(self._create_po(self.journal_company))
+        self.assertAlmostEqual(bill.purchase_vendor_rate, 4.0)  # 1 / 0.25
+        self.assertAlmostEqual(bill.purchase_odoo_rate, 4.0)
+        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 400.0)
+        bill_eur = self._create_bill(self._create_po())
+        self.assertFalse(bill_eur.purchase_vendor_rate)
+
+    def test_ca14_typed_rate_replaced_warning(self):
+        """CA14: a typed rate replaced by the bill date gives a warning; an automatic one does not."""
+        bill = self._create_bill(self._create_po(self.journal_company))
+        with Form(bill) as form:
+            form.purchase_vendor_rate = 5.1
+            with self.assertLogs("odoo.tests.form.onchange", level="WARNING") as logs:
+                form.invoice_date = fields.Date.to_date("2026-03-01")
+        self.assertIn("5.1", "\n".join(logs.output))
+        self.assertAlmostEqual(bill.purchase_vendor_rate, 5.0)
+        self.assertAlmostEqual(bill.invoice_line_ids.price_unit, 500.0)
+        with Form(bill) as form, self.assertNoLogs("odoo.tests.form.onchange", level="WARNING"):
+            form.invoice_date = fields.Date.to_date("2026-11-19")
+        self.assertAlmostEqual(bill.purchase_vendor_rate, 4.0)
 
     def test_ca11_vendor_rate_matching_flag(self):
         """CA11: the matching flag compares with the order price at the vendor rate."""

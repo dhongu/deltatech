@@ -4,7 +4,7 @@
 
 {
     "name": "Purchase Invoice Currency",
-    "version": "20.0.1.1.0",
+    "version": "20.0.1.2.0",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
