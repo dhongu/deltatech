@@ -8,6 +8,7 @@
     "category": "Accounting/Accounting",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
+    "consultant_sheet": "simple",
     "website": "https://www.terrabit.ro",
     "depends": ["account"],
     "data": [],

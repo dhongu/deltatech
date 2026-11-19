@@ -3,9 +3,10 @@ It has no menu, view or setting of its own and changes nothing in the standard f
 
 It provides an abstract model with:
 
-- **UBL reading**: invoice and credit note header (number, dates, currency, order reference,
-  totals, supplier VAT and name) and lines (supplier code, barcode, name, quantity, unit,
-  price, discount from `AllowanceCharge`, VAT rate and category).
+- **UBL reading**: document header (number, dates, currency, order reference, totals,
+  supplier VAT and name; a credit note is recognized by its document type or type code 381)
+  and invoice lines (`InvoiceLine`: supplier code, barcode, name, quantity, unit, price,
+  discount from `AllowanceCharge`, VAT rate and category).
 - **Vendor lookup** by VAT number (a Romanian CUI with or without the `RO` prefix) or by name.
 - **Product matching** by barcode, supplier code, internal reference, supplier product name
   or product name, reporting how each product was found.

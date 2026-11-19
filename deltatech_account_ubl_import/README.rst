@@ -10,14 +10,17 @@ UBL Invoice Import Base
    !! source digest: sha256:dfaf6b5f0afb3cdf1ad25a443567b4f1989494d318a2a61437e52c37fbd9cadd
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_account_ubl_import
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_account_ubl_import/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_fisa|
 
 Technical base module, shared by the tools that import vendor invoices
 in UBL XML format. It has no menu, view or setting of its own and
@@ -25,10 +28,11 @@ changes nothing in the standard flows.
 
 It provides an abstract model with:
 
-- **UBL reading**: invoice and credit note header (number, dates,
-  currency, order reference, totals, supplier VAT and name) and lines
-  (supplier code, barcode, name, quantity, unit, price, discount from
-  ``AllowanceCharge``, VAT rate and category).
+- **UBL reading**: document header (number, dates, currency, order
+  reference, totals, supplier VAT and name; a credit note is recognized
+  by its document type or type code 381) and invoice lines
+  (``InvoiceLine``: supplier code, barcode, name, quantity, unit, price,
+  discount from ``AllowanceCharge``, VAT rate and category).
 - **Vendor lookup** by VAT number (a Romanian CUI with or without the
   ``RO`` prefix) or by name.
 - **Product matching** by barcode, supplier code, internal reference,
