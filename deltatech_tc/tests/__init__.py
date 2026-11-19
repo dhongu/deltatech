@@ -4,3 +4,4 @@ from . import test_tc_queue
 from . import test_config_download
 from . import test_screenshots
 from . import test_tc_pg
+from . import test_tc_neutralize
