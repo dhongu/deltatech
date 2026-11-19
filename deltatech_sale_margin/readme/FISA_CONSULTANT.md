@@ -61,7 +61,9 @@ Patru grupuri tehnice, instalate de modul, decid ce vede și ce poate face fieca
 | **Afișează prețul de achiziție în comanda de vânzare și factura client** (grupul de cost) | fără el, utilizatorul **nu** vede costul și marja | doar administratorii |
 | **Vânzare sub prețul de achiziție** | pe politica „Blochează", membrii **trec** peste blocaj (rămâne o notă în chatter) | doar administratorii |
 | **Poate vinde sub limita de marjă** | la fel, pentru pragul de marjă | doar administratorii |
-| **Nu permite modificarea prețului în comanda de vânzare** | preț și discount devin **readonly** pe comandă | nimeni |
+| **Nu permite modificarea prețului în comanda de vânzare** | preț și discount devin **readonly** pe comandă, iar modificarea lor este **refuzată și pe server** (la scrierea liniei), nu doar în formular | nimeni |
+
+Restricția grupului „Nu permite modificarea prețului" se aplică la scrierea liniei, deci și prin import, API sau alt client, nu numai în formular: o valoare de preț sau discount diferită de cea pe care o calculează lista de prețuri dă eroarea *„You are not allowed to change the price or the discount on sale order lines."*. Rămân permise: **Actualizează prețurile** pe comandă, recalcularea standard a prețului, comenzile din website și importurile de marketplace, liniile de secțiune și notă, avansurile, transportul și recompensele de fidelitate. Crearea unei linii cu preț explicit nu este blocată; se verifică doar modificarea.
 
 Raportul **Raport analiză profit** îl văd membrii grupului de cost și administratorii aplicației
 Vânzări (rolul **Administrator** pe Vânzări). Doar administratorii Vânzări pot rula **Actualizare preț
@@ -320,6 +322,7 @@ cost.
 - [ ] Un utilizator cu rolul **Utilizator** pe Vânzări, fără grupul de cost, nu vede meniul *Raport
       analiză profit*; unul cu rolul **Administrator** îl vede și poate rula **Actualizare preț
       achiziție**.
+- [ ] Un utilizator din grupul **Nu permite modificarea prețului** nu poate schimba prețul sau discountul unei linii existente (nici din formular, nici dintr-un import): primește eroarea de acces; **Actualizează prețurile** funcționează totuși și rescrie prețurile din lista de prețuri.
 - [ ] Un operator **fără** grupul de cost vede rândul marcat și bannerul, **nu** vede marja și **nu**
       primește eroare de drepturi.
 - [ ] Pe liniile unei comenzi, un utilizator **fără** grupul de cost **nu** găsește **Cost**,
@@ -338,6 +341,7 @@ cost.
 |-----------------|-----------------|-----------|
 | „Nu puteți vinde sub prețul de achiziție: X." (blocant) | Politica e **Blochează vânzarea** și utilizatorul nu e în grupul de excepție | Dacă vânzarea sub cost e legitimă în această afacere, treceți politica pe „Doar avertisment"; altfel, corectați prețul |
 | „Nu puteți vinde sub marjă: X" | Marja e sub „Limită de marjă", pe politica „Blochează" | Corectați prețul sau ajustați pragul |
+| „You are not allowed to change the price or the discount on sale order lines." (eroare de acces, în engleză) | Utilizatorul e în grupul **Nu permite modificarea prețului în comanda de vânzare** și a încercat să schimbe prețul sau discountul unei linii existente (din formular, import sau API) | Scoateți utilizatorul din grup, sau folosiți **Actualizează prețurile** ca să revină prețul din lista de prețuri |
 | „Nu puteți vinde X fără preț." | Linie cu preț 0 pe politica „Blochează" | Completați prețul; recompensele de fidelitate sunt exceptate automat |
 | „…Marja este negativă. Comanda poate fi confirmată." | **Avertisment**, nu eroare — politica e „Doar avertisment" | Nimic de remediat; decizia e comercială |
 | Ne-a blocat brusc comenzile pe o companie nouă | Politica e **per companie**; una nouă pornește pe „Blochează vânzarea" | Setați politica pe compania respectivă |
