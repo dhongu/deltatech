@@ -175,6 +175,6 @@ msgstr "Regulă stoc"
 #. odoo-python
 #: code:addons/deltatech_secondary_uom/models/product_uom_conversion.py:0
 msgid "The alternative unit must be different from the product base unit."
-msgstr ""
+msgstr "Unitatea alternativă trebuie să fie diferită de unitatea de bază a produsului."
 "Unitatea alternativă trebuie să fie diferită de unitatea de bază a "
 "produsului."

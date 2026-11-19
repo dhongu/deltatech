@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='order_line']/list//field[@name='product_qty']" position="before">
                 <field name="allowed_secondary_uom_ids" column_invisible="True"/>
-                <field name="secondary_uom_qty" optional="hide" readonly="not secondary_uom_id"/>
+                <field name="secondary_uom_qty" optional="hide" readonly="not secondary_uom_id" width="140px"/>
                 <field name="secondary_uom_id" optional="hide" options="{'no_create': True}"/>
             </xpath>
         </field>

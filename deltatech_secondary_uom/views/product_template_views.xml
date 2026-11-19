@@ -9,9 +9,9 @@
                 <page name="secondary_uom" string="Alternative Units">
                     <field name="secondary_uom_ids">
                         <list editable="bottom">
-                            <field name="uom_qty"/>
+                            <field name="uom_qty" width="130px"/>
                             <field name="uom_id" options="{'no_create': True}"/>
-                            <field name="base_qty"/>
+                            <field name="base_qty" width="130px"/>
                             <field name="base_uom_id"/>
                             <field name="factor" optional="hide"/>
                         </list>

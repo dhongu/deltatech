@@ -37,7 +37,7 @@ Review date: 2026-10-01. Target version: Odoo 19.
   purchase line or on a stock move.
 - **Actual behavior:** The base quantity is rounded up with
   `precision_rounding=1.0`: the line gets 18 m instead of 17.4 m and the
-  secondary quantity is recomputed to 3.103 Bar.
+  secondary quantity is recomputed to 3.10 Bar.
 - **Impact:** Every product with a continuous base unit (m, kg, m²) and a
   non-integer factor is ordered, delivered or received in excess.
 - **Suggested fix:** Round up to a whole unit only when the base unit is

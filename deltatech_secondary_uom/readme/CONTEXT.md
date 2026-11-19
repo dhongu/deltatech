@@ -21,7 +21,7 @@ alternative unit does not reach:
 - **Rounding.** A quantity entered in the secondary unit is rounded **up** to
   a whole base unit. This fits pieces, not metres or kilograms: with
   1 bar = 5.8 m, 3 bars become 18 m instead of 17.4 m, and the line then shows
-  3.103 bars.
+  3.10 bars.
 
 ## Do not use the alternative unit as the line unit
 

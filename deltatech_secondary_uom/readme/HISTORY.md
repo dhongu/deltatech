@@ -3,6 +3,11 @@
 - Documented the limitations of the secondary unit (prices, received
   quantities, stock, manufacturing, rounding) and the standard alternative of
   one real unit per factor ("Bar 6 m").
+- Sale order lines: the *Secondary Quantity* and *Secondary Unit* columns are
+  placed before the quantity column again; on 20.0 they were rendered inside
+  another cell of the lines list.
+- Consultant sheet, usage guide with screenshots and demo GIF.
+- Romanian translation of the "alternative unit must be different" error.
 
 ## 20.0.1.2.1 (2026-10-09)
 
