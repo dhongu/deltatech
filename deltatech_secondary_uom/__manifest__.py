@@ -4,7 +4,7 @@
 
 {
     "name": "Product Secondary UoM",
-    "version": "20.0.1.2.3",
+    "version": "20.0.1.2.4",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",

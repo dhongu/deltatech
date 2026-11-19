@@ -284,3 +284,74 @@ class TestSecondaryUom(TransactionCase):
         # the kg conversion is moved to another unit: kg lines lose it
         self._kg_conversion().uom_id = self.env.ref("uom.product_uom_litre")
         self.assertEqual(line.secondary_uom_qty, 0.0)
+
+    def _bar_product(self):
+        uom_bar = self.env["uom.uom"].create({"name": "Test Bar"})
+        product = self.env["product.product"].create(
+            {
+                "name": "Test Profile",
+                "type": "consu",
+                "is_storable": True,
+                "uom_id": self.env.ref("uom.product_uom_meter").id,
+                "list_price": 32.0,
+                # 1 bar = 6 m
+                "secondary_uom_ids": [(0, 0, {"uom_id": uom_bar.id, "uom_qty": 1.0, "base_qty": 6.0})],
+            }
+        )
+        return product, uom_bar
+
+    def test_create_sale_line_from_secondary_qty(self):
+        """Created only from the secondary quantity, the line amounts use the computed quantity (#4246)."""
+        product, uom_bar = self._bar_product()
+        order = self.env["sale.order"].create(
+            {
+                "partner_id": self.partner.id,
+                "order_line": [
+                    (0, 0, {"product_id": product.id, "secondary_uom_id": uom_bar.id, "secondary_uom_qty": 10.0})
+                ],
+            }
+        )
+        line = order.order_line
+        self.assertEqual(line.product_uom_qty, 60.0)
+        self.assertEqual(line.secondary_uom_qty, 10.0)
+        self.assertEqual(line.price_subtotal, 1920.0)
+        self.assertEqual(order.amount_untaxed, 1920.0)
+
+    def test_create_purchase_line_from_secondary_qty(self):
+        """A purchase line created only from the secondary quantity gets the computed quantity (#4246)."""
+        product, uom_bar = self._bar_product()
+        order = self.env["purchase.order"].create(
+            {
+                "partner_id": self.partner.id,
+                "order_line": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": product.id,
+                            "secondary_uom_id": uom_bar.id,
+                            "secondary_uom_qty": 8.0,
+                            "price_unit": 20.0,
+                        },
+                    )
+                ],
+            }
+        )
+        self.assertEqual(order.order_line.product_qty, 48.0)
+        self.assertEqual(order.order_line.price_subtotal, 960.0)
+
+    def test_create_stock_move_from_secondary_qty(self):
+        """A stock move created only from the secondary quantity gets the computed demand (#4246)."""
+        product, uom_bar = self._bar_product()
+        warehouse = self.env["stock.warehouse"].search([("company_id", "=", self.env.company.id)], limit=1)
+        move = self.env["stock.move"].create(
+            {
+                "product_id": product.id,
+                "location_id": self.env.ref("stock.stock_location_suppliers").id,
+                "location_dest_id": warehouse.lot_stock_id.id,
+                "secondary_uom_id": uom_bar.id,
+                "secondary_uom_qty": 3.0,
+            }
+        )
+        self.assertEqual(move.product_uom_qty, 18.0)
+        self.assertEqual(move.product_qty, 18.0)

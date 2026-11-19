@@ -1,3 +1,9 @@
+## 20.0.1.2.4 (2026-11-19)
+
+- A sale order line, purchase order line or stock move created with only the
+  secondary quantity (API, import) gets its quantity before the amounts are
+  computed: the line subtotal no longer stays at quantity 1 (#4246).
+
 ## 20.0.1.2.3 (2026-11-19)
 
 - A quantity entered in the secondary unit is rounded up to a whole base unit

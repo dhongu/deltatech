@@ -2,7 +2,7 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-from odoo import fields, models
+from odoo import api, fields, models
 from odoo.tools import float_round
 
 
@@ -81,20 +81,46 @@ class SecondaryUomMixin(models.AbstractModel):
         unit = self.env.ref("uom.product_uom_unit", raise_if_not_found=False)
         return bool(uom and unit and uom._has_common_reference(unit))
 
-    def _inverse_secondary_uom_qty(self):
+    def _round_secondary_base_qty(self, product, qty_base):
+        """Round a base quantity computed from the secondary quantity."""
+        if self._is_piece_uom(product.uom_id):
+            # round up to whole pieces: we cannot deliver fractional pieces
+            return float_round(qty_base, precision_rounding=1.0, rounding_method="UP")
+        # continuous unit (m, kg, m²): keep the exact quantity
         digits = self.env["decimal.precision"].precision_get("Product Unit")
+        return float_round(qty_base, precision_digits=digits, rounding_method="HALF-UP")
+
+    @api.model
+    def _complete_secondary_create_vals(self, vals_list, qty_field, uom_field):
+        """Fill the line quantity from the secondary quantity before ``create``.
+
+        When a line is created with the secondary quantity but without its own
+        quantity (API, import), the inverse would set the quantity only after
+        the precomputed fields (amounts, taxes) were computed with the default
+        quantity, and ``create`` protects them from recomputation.
+        """
+        Uom = self.env["uom.uom"]
+        for vals in vals_list:
+            if qty_field in vals or not vals.get("secondary_uom_qty"):
+                continue
+            if not vals.get("secondary_uom_id") or not vals.get("product_id"):
+                continue
+            product = self.env["product.product"].browse(vals["product_id"])
+            conv = product.product_tmpl_id._get_secondary_uom_conversion(Uom.browse(vals["secondary_uom_id"]))
+            if not conv:
+                continue
+            qty_base = self._round_secondary_base_qty(product, conv._to_base_qty(vals["secondary_uom_qty"]))
+            uom = Uom.browse(vals[uom_field]) if vals.get(uom_field) else product.uom_id
+            vals[qty_field] = product.uom_id._compute_quantity(qty_base, uom, rounding_method="HALF-UP")
+        return vals_list
+
+    def _inverse_secondary_uom_qty(self):
         for line in self:
             conv = line._get_secondary_conversion()
             if not conv:
                 continue
             product = line._get_secondary_product()
-            qty_base = conv._to_base_qty(line.secondary_uom_qty)
-            if line._is_piece_uom(product.uom_id):
-                # round up to whole pieces: we cannot deliver fractional pieces
-                qty_base = float_round(qty_base, precision_rounding=1.0, rounding_method="UP")
-            else:
-                # continuous unit (m, kg, m²): keep the exact quantity
-                qty_base = float_round(qty_base, precision_digits=digits, rounding_method="HALF-UP")
+            qty_base = line._round_secondary_base_qty(product, conv._to_base_qty(line.secondary_uom_qty))
             qty_line = qty_base
             qty, uom = line._get_line_qty_and_uom()
             if uom:
