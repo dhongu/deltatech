@@ -93,9 +93,8 @@ alternative unit does not reach:</p>
   on hand is never shown in bars.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-industry" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Manufacturing.</span><div>The module does not depend on <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">mrp</code>: bills of materials
   and manufacturing orders have no secondary unit, and the consumption is in
   the base unit. Cutting, offcuts and bar remnants are not handled.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Rounding.</span><div>A quantity entered in the secondary unit is rounded <strong>up</strong> to
-  a whole base unit. This fits pieces, not metres or kilograms: with
-  1 bar = 5.8 m, 3 bars become 18 m instead of 17.4 m, and the line then shows
-  3.10 bars.</div></div></div></li></ul>
+  a whole base unit only when the base unit counts pieces (the reference tree
+  of <em>Units</em>). For continuous units (m, kg, m&#178;) the exact quantity is kept.</div></div></div></li></ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Do not use the alternative unit as the line <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">unit</span></h2>
 <p>The conversion factor lives only in this module. If the generic unit (e.g.
 &#8220;Bar&#8221;) is added to the product packagings, to a bill of materials line or to
@@ -212,6 +211,13 @@ materials must be in bars.</p>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.2.3 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-19)</span></h2>
+<ul>
+<li>A quantity entered in the secondary unit is rounded up to a whole base unit
+  only when the base unit counts pieces. For metres, kilograms or square
+  metres the exact quantity is kept: with 1 bar = 5.8 m, 3 bars now give
+  17.4 m instead of 18 m (#4242).</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.2.2 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-19)</span></h2>
 <ul>
 <li>Documented the limitations of the secondary unit (prices, received

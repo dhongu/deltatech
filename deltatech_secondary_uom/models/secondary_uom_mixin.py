@@ -76,15 +76,25 @@ class SecondaryUomMixin(models.AbstractModel):
             qty_base = uom._compute_quantity(qty, product.uom_id, round=False) if uom else qty
             line.secondary_uom_qty = conv._from_base_qty(qty_base)
 
+    def _is_piece_uom(self, uom):
+        """Whether ``uom`` counts pieces (same reference tree as the standard Unit)."""
+        unit = self.env.ref("uom.product_uom_unit", raise_if_not_found=False)
+        return bool(uom and unit and uom._has_common_reference(unit))
+
     def _inverse_secondary_uom_qty(self):
+        digits = self.env["decimal.precision"].precision_get("Product Unit")
         for line in self:
             conv = line._get_secondary_conversion()
             if not conv:
                 continue
             product = line._get_secondary_product()
             qty_base = conv._to_base_qty(line.secondary_uom_qty)
-            # round up to whole base units: we cannot deliver fractional pieces
-            qty_base = float_round(qty_base, precision_rounding=1.0, rounding_method="UP")
+            if line._is_piece_uom(product.uom_id):
+                # round up to whole pieces: we cannot deliver fractional pieces
+                qty_base = float_round(qty_base, precision_rounding=1.0, rounding_method="UP")
+            else:
+                # continuous unit (m, kg, m²): keep the exact quantity
+                qty_base = float_round(qty_base, precision_digits=digits, rounding_method="HALF-UP")
             qty_line = qty_base
             qty, uom = line._get_line_qty_and_uom()
             if uom:

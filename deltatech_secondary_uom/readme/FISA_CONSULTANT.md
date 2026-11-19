@@ -165,9 +165,9 @@ standard, în unitatea produsului:
 **Limitări** (detaliate în README, secțiunea „Use Cases / Context”):
 - prețul, stocul, rapoartele de stoc și producția rămân în unitatea de bază;
 - operațiunile detaliate și aplicația Barcode nu au unitatea alternativă;
-- o cantitate scrisă în unitatea alternativă se rotunjește în sus la unitatea de bază întreagă
-  (60,5 m devin 61 m); pentru metri sau kilograme cu factor zecimal rezultă o cantitate mai mare
-  decât cea cerută.
+- o cantitate scrisă în unitatea alternativă se rotunjește în sus la unitatea întreagă doar când
+  unitatea de bază e la bucată (o placă de 0,75 m² nu se vinde pe jumătate); la metri, kilograme
+  sau m² cantitatea rămâne exactă (3 bare de 5,8 m dau 17,4 m).
 
 **Când bara trebuie să fie unitate reală** (preț pe bară, recepție în bare, bară pe lista de
 materiale), nu se folosește acest modul, ci o unitate standard pentru fiecare factor: „Bară 6 m” cu
@@ -200,7 +200,7 @@ al produsului, fără nicio eroare.
 | „Unitatea alternativă trebuie să fie diferită de unitatea de bază a produsului.” | unitatea alternativă este chiar unitatea produsului | alegeți altă unitate; unitatea produsului nu are nevoie de conversie |
 | Unitatea Bară nu apare în coloana **Unitate secundară** | produsul nu are linie pentru Bară în tab-ul **Unități alternative** | adăugați linia pe produs |
 | Cantitatea în bare nu se poate scrie | coloana **Unitate secundară** e goală | alegeți întâi unitatea secundară |
-| Cantitatea în metri iese mai mare decât bare × metri pe bară | rotunjirea în sus la unitatea de bază întreagă (secțiunea 7) | corectați cantitatea liniei direct în metri |
+| Cantitatea în bucăți iese mai mare decât cea calculată din unitatea alternativă | la unitatea de bază în bucăți, cantitatea se rotunjește în sus la bucata întreagă (secțiunea 7) | e comportamentul dorit; cantitatea în unitatea alternativă se recalculează din bucățile rotunjite |
 
 ## 10. Capturi de ecran
 
