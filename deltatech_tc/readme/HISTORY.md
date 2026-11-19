@@ -1,3 +1,8 @@
+## 20.0.1.4.1 (2026-11-19)
+
+- Documentation, examples, tests and screenshots use a neutral `erp` profile and a `Server ERP`
+  station instead of a customer's names; no functional change.
+
 ## 20.0.1.4.0 (2026-11-19)
 
 - `pg_query` accepts **SQL written in the calling module** (`_tc_enqueue_pg_query(station, profile,
