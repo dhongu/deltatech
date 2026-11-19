@@ -253,8 +253,9 @@ preluării joburilor pe stație, lista aparatelor din rețea pe care stația le 
 - [ ] Un job în **Eroare** are mesajul în tab-ul **Eroare**, iar **Reîncearcă** îl readuce **În
   așteptare**.
 - [ ] O stație cu agentul PostgreSQL are, după heartbeat, **Agent** = `tc-postgresql`,
-  **Funcționalități** = `postgresql,pg:<profil>` și, la **Interogări PostgreSQL**, interogările
-  instalate pe server.
+  **Funcționalități** = `postgresql,pg:<profil>` (plus `pg_sql:<profil>` pentru profilurile care
+  acceptă SQL trimis din modul, `allow_sql`) și, la **Interogări PostgreSQL**, interogările
+  instalate pe server; un profil fără fișiere `.sql` apare doar cu numele lui.
 - [ ] O interogare cu mai multe pagini lasă în coadă joburi succesive (pagina 0, 1, ...), toate
   **Finalizat**, iar ultimul nu mai are pagină după el.
 
@@ -267,7 +268,8 @@ preluării joburilor pe stație, lista aparatelor din rețea pe care stația le 
 | Pe staging nicio stație nu răspunde, joburile copiate sunt în **Eroare** („the database was neutralized”) | La copierea bazei (staging / dezvoltare pe odoo.sh) fiecare stație primește o cheie nouă, iar joburile rămase în așteptare se închid, ca să nu ruleze a doua oară | Comportament intenționat: pentru teste descărcați `station.conf` din staging și folosiți-l pe o stație de test |
 | Jobul HTTP în **Eroare**: aparatul nu e în lista permisă | Aparatul nu e în `TERRABIT_HTTP_ALLOW` pe calculatorul stației | Adăugați adresa aparatului în profilul stației |
 | „Un job HTTP are nevoie de „url” în parametri.” (*An HTTP job needs a 'url' in its payload.*) | Jobul HTTP nu are adresă | Corectați modulul sau parametrii jobului |
-| „Un job PostgreSQL are nevoie de 'profile'/'query' format din litere, cifre și liniuțe de subliniere.” (*A PostgreSQL job needs a '%(key)s' made of letters, digits and underscores.*) | Modulul de integrare a cerut un profil sau o interogare cu nume invalid | Corectați modulul; numele vin din fișierele `.sql` instalate pe server |
+| „Un job PostgreSQL are nevoie de 'profile'/'query' format din litere, cifre și liniuțe de subliniere.” (*A PostgreSQL job needs a '%(key)s' made of letters, digits and underscores.*) | Modulul de integrare a cerut un profil, o interogare sau o coloană de paginare (`key`, la SQL trimis din modul) cu nume invalid | Corectați modulul; profilul vine din configurarea stației, interogarea din fișierele `.sql` instalate pe server, iar `key` e o coloană din SQL-ul modulului |
+| „SQL-ul unui job PostgreSQL trebuie să fie un text nevid de cel mult 100000 de octeți.” (*The SQL of a PostgreSQL job must be a non-empty text of at most %(max)s bytes.*) | Modulul de integrare a trimis un SQL gol sau prea lung | Corectați modulul: interogarea trebuie să fie scurtă și cu parametri, nu cu valori lipite în text |
 | „Parametrii ('params') unui job PostgreSQL trebuie să fie un obiect.” | Parametrii jobului nu sunt o listă cheie–valoare | Corectați modulul de integrare |
 | „Mărimea paginii trebuie să fie între 1 și 10000.” | Pagina cerută e prea mare sau zero | Corectați mărimea paginii în modulul de integrare |
 | „Stația a raportat că mai sunt rânduri, dar fără cheia de la care să continue.” | Coloana-cheie de paginare a interogării lipsește din rezultat sau e goală | Corectați SQL-ul din modul (parametrul `key`) sau fișierul `.sql` de pe server (`@key`): coloana trebuie să fie unică și completată |

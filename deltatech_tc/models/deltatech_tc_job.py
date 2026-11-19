@@ -30,7 +30,7 @@ DEFAULT_ERROR_TTL_DAYS = 90
 DEFAULT_PENDING_TTL_HOURS = 0  # 0 = pending jobs never expire
 DEFAULT_PG_DONE_TTL_DAYS = 3  # pg_query pages can be large; their data lives on in the callback's records
 
-# pg_query: profile and query are names of things installed on the station, never SQL
+# pg_query: profile, query and key are plain names (the SQL itself is checked apart, by size)
 PG_NAME_RE = re.compile(r"^[A-Za-z0-9_]{1,64}$")
 PG_PAGE_SIZE_MAX = 10000
 PG_SQL_MAX_BYTES = 100000  # the agent refuses longer SQL too
@@ -48,7 +48,8 @@ class DeltatechTcJob(models.Model):
     Three job types ship here: ``ping`` (round-trip check), ``http_request``,
     which has the station call a device reachable only inside the customer's
     network, and ``pg_query``, which has the *Terrabit Connect PostgreSQL* agent run
-    a named, read-only query on a local PostgreSQL database, one page per job.
+    a read-only query (SQL from the calling module or a named file installed on the
+    station) on a local PostgreSQL database, one page per job.
     Feature modules add device-specific types with ``selection_add`` on
     ``job_type``.
     """
