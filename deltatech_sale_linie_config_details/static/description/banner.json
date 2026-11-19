@@ -1,0 +1,10 @@
+{
+  "title": "Sale Line Configuration Details",
+  "summary": "Product configuration shown right on the order line",
+  "features": [
+    "Details button and popup on each line",
+    "Dimensions, parts and images in one field",
+    "Safe display, reads 19.0 formats"
+  ],
+  "lang": "en"
+}

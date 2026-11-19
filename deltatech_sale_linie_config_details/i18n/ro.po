@@ -1,0 +1,107 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_sale_linie_config_details
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-19 10:38+0000\n"
+"PO-Revision-Date: 2026-11-19 10:38+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#. module: deltatech_sale_linie_config_details
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_linie_config_details.sale_order_line_config_details_form
+msgid "Close"
+msgstr "Închide"
+
+#. module: deltatech_sale_linie_config_details
+#. odoo-python
+#: code:addons/deltatech_sale_linie_config_details/models/sale_order_line.py:0
+#: model:ir.model.fields,field_description:deltatech_sale_linie_config_details.field_sale_order_line__config_details
+#: model:ir.model.fields,field_description:deltatech_sale_linie_config_details.field_sale_order_line_config_details__config_details
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_linie_config_details.sale_order_line_config_details_form
+msgid "Config Details"
+msgstr "Detalii configurație"
+
+#. module: deltatech_sale_linie_config_details
+#: model:ir.model.fields,help:deltatech_sale_linie_config_details.field_sale_order_line__config_details
+msgid ""
+"Configuration of the line as a list of {'name': ..., 'value': ...}; the "
+"value is a text or a dictionary of texts (dictionaries can nest)."
+msgstr ""
+"Configurația liniei ca listă de {'name': ..., 'value': ...}; valoarea este "
+"un text sau un dicționar de texte (dicționarele pot fi imbricate)."
+
+#. module: deltatech_sale_linie_config_details
+#: model:ir.model.fields,field_description:deltatech_sale_linie_config_details.field_sale_order_line_config_details__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_sale_linie_config_details
+#: model:ir.model.fields,field_description:deltatech_sale_linie_config_details.field_sale_order_line_config_details__create_date
+msgid "Created on"
+msgstr "Creat la"
+
+#. module: deltatech_sale_linie_config_details
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_linie_config_details.sale_order_view_form
+msgid "Details"
+msgstr "Detalii"
+
+#. module: deltatech_sale_linie_config_details
+#: model:ir.model.fields,field_description:deltatech_sale_linie_config_details.field_sale_order_line__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_linie_config_details.field_sale_order_line_config_details__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_sale_linie_config_details
+#: model:ir.model.fields,field_description:deltatech_sale_linie_config_details.field_sale_order_line__id
+#: model:ir.model.fields,field_description:deltatech_sale_linie_config_details.field_sale_order_line_config_details__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_sale_linie_config_details
+#: model:ir.model.fields,field_description:deltatech_sale_linie_config_details.field_sale_order_line_config_details__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_sale_linie_config_details
+#: model:ir.model.fields,field_description:deltatech_sale_linie_config_details.field_sale_order_line_config_details__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_sale_linie_config_details
+#. odoo-python
+#: code:addons/deltatech_sale_linie_config_details/models/sale_order_line.py:0
+msgid "Open image"
+msgstr "Deschide imaginea"
+
+#. module: deltatech_sale_linie_config_details
+#: model:ir.module.module,shortdesc:base.module_deltatech_sale_linie_config_details
+msgid "Sale Line Configuration Details"
+msgstr "Detalii configurație pe linia de vânzare"
+
+#. module: deltatech_sale_linie_config_details
+#: model:ir.model,name:deltatech_sale_linie_config_details.model_sale_order_line_config_details
+msgid "Sale Order Line Configuration Details"
+msgstr "Detalii configurație linie comandă de vânzare"
+
+#. module: deltatech_sale_linie_config_details
+#: model:ir.model,name:deltatech_sale_linie_config_details.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Linie comandă de vânzare"
+
+#. module: deltatech_sale_linie_config_details
+#: model:ir.module.module,summary:base.module_deltatech_sale_linie_config_details
+msgid ""
+"Structured configuration details (dimensions, parts, images) on sale order "
+"lines"
+msgstr ""
+"Detalii de configurație structurate (dimensiuni, părți, imagini) pe liniile "
+"comenzilor de vânzare"
