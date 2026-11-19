@@ -5,3 +5,4 @@ from . import res_company
 from . import uom_uom
 from . import sale
 from . import res_config_settings
+from . import account_move
