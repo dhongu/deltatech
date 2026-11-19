@@ -182,9 +182,9 @@ class DeltatechTcStation(models.Model):
     def _tc_find(self, feature, company=None):
         """The first active station of the company that announces ``feature``.
 
-        ``feature`` is compared as a whole element of the list (``pg:winarhi`` does not
-        match ``pg:winarhi_test``). Feature modules use it to address their jobs, e.g.
-        ``_tc_find("pg:winarhi")`` for the station that reads the Winarhi database.
+        ``feature`` is compared as a whole element of the list (``pg:erp`` does not
+        match ``pg:erp_test``). Feature modules use it to address their jobs, e.g.
+        ``_tc_find("pg:erp")`` for the station that reads the ``erp`` database profile.
         """
         company = company or self.env.company
         candidates = self.sudo().search(
