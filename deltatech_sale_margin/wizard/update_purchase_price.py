@@ -55,7 +55,7 @@ class CommissionUpdatePurchasePrice(models.TransientModel):
         # the margin report may run it (the wizard access is also limited to them)
         self.env["sale.margin.report"].check_access("write")
         if self.for_all:
-            lines = self.env["sale.margin.report"].search([])
+            lines = self.env["sale.margin.report"].search([], limit=None)
         else:
             lines = self.invoice_line_ids
         # the cost is kept on the invoice lines; the rows of the other sources are left out

@@ -37,8 +37,9 @@ class SaleOrder(models.Model):
             warning_message = ""
             for line in order.order_line.filtered("margin_below_limit"):
                 warning_message += self.env._(
-                    "The unit price of product %s is lower than the purchase price. The margin is negative."
-                ) % (line.product_id.display_name)
+                    "The unit price of product %s is lower than the purchase price. The margin is negative.",
+                    line.product_id.display_name,
+                )
             if warning_message and company.sale_margin_check_mode == "warn":
                 # in "warn" mode nothing is blocked, so the banner has to say so
                 # explicitly - otherwise the seller stops at it waiting for a
@@ -444,9 +445,9 @@ class SaleOrderLine(models.Model):
                 if hasattr(line, "reward_id") and line.reward_id:
                     continue
                 if not self.env.user.has_group("deltatech_sale_margin.group_sale_below_purchase_price"):
-                    raise UserError(self.env._("You can not sell %s without price.") % line.product_id.name)
+                    raise UserError(self.env._("You can not sell %s without price.", line.product_id.name))
                 else:
-                    message = self.env._("Sale %s without price.") % line.product_id.name
+                    message = self.env._("Sale %s without price.", line.product_id.name)
                     line.order_id.message_post(body=message)
             # Enforcement follows the same unit policy as `margin_below_limit`:
             # when the line unit and the product's base unit are in different
@@ -462,13 +463,13 @@ class SaleOrderLine(models.Model):
                             self.env._("You can not sell below the purchase price: %s.", line.product_id.name)
                         )
                     else:
-                        message = self.env._("Sale %s under the purchase price.") % line.product_id.name
+                        message = self.env._("Sale %s under the purchase price.", line.product_id.name)
                         line.order_id.message_post(body=message)
 
                 margin = (price_unit - line.purchase_price) / price_unit * 100
                 if margin < margin_limit:
                     if not self.env.user.has_group("deltatech_sale_margin.group_sale_below_margin"):
-                        raise UserError(self.env._("You can not sell below margin: %s") % line.product_id.name)
+                        raise UserError(self.env._("You can not sell below margin: %s", line.product_id.name))
                     else:
-                        message = self.env._("Sale %s below margin.") % line.product_id.name
+                        message = self.env._("Sale %s below margin.", line.product_id.name)
                         line.order_id.message_post(body=message)
