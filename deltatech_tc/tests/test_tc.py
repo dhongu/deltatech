@@ -1,6 +1,17 @@
 import json
+from unittest.mock import patch
 
 from odoo.tests import HttpCase, tagged
+
+
+def _tc_store_default_env(self, job):
+    """Stand-in callback: records the transaction's default env.
+
+    Flushes (savepoint exit, the request's commit) recompute fields in that env, so
+    it must have a user and a company; ``env.company`` raises ``IndexError`` otherwise.
+    """
+    default_env = self.env.cr.transaction.default_env
+    self.ref = f"{default_env.uid}:{default_env.company.id}"
 
 
 @tagged("post_install", "-at_install")
@@ -151,3 +162,24 @@ class TestDeltatechTc(HttpCase):
         self.assertEqual(res.status_code, 200)
         res = self._post("/tc/result", {"job_id": "x"}, key=self.station.api_key)
         self.assertEqual(res.status_code, 400)
+
+    def test_result_runs_callback_with_a_user_and_company(self):
+        """``/tc/result`` is ``auth="none"``: the callback must not see an anonymous default env."""
+        partner = self.env["res.partner"].create({"name": "Callback target"})
+        Job = self.env["deltatech.tc.job"]
+        with patch.object(type(partner), "_tc_test_store_default_env", _tc_store_default_env, create=True):
+            job = Job._tc_enqueue_http(
+                self.station, url="http://192.168.1.50/api/x", callback=(partner, "_tc_test_store_default_env")
+            )
+            Job._claim_for_station(self.station)
+            res = self._post(
+                "/tc/result",
+                {"job_id": job.id, "status": "done", "result": json.dumps({"status": 200, "body": "{}"})},
+                key=self.station.api_key,
+            )
+        self.assertEqual(res.status_code, 200)
+        job.invalidate_recordset()
+        partner.invalidate_recordset()
+        self.assertEqual(job.state, "done", job.error)
+        expected = f"{self.env.ref('base.user_root').id}:{self.station.company_id.id}"
+        self.assertEqual(partner.ref, expected, "the callback ran with an anonymous default env")
