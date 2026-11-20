@@ -111,6 +111,13 @@ class StockDisassembly(models.Model):
         copy=False,
         help="Cost at which the disassembled product left the stock, set at validation.",
     )
+    source_cost_fixed = fields.Boolean(
+        string="Actual Cost Set",
+        readonly=True,
+        copy=False,
+        help="Set during validation, as soon as the actual cost of the disassembled product is known: "
+        "from then on the cost is allocated on it, not on the estimate.",
+    )
     value = fields.Monetary(
         string="Value",
         compute="_compute_value",
@@ -153,10 +160,10 @@ class StockDisassembly(models.Model):
         for disassembly in self:
             disassembly.scrap_location_id = locations.get(disassembly.company_id.id, False)
 
-    @api.depends("source_value", "state", "product_id", "lot_id", "product_qty", "product_uom_id")
+    @api.depends("source_value", "source_cost_fixed", "state", "product_id", "lot_id", "product_qty", "product_uom_id")
     def _compute_value(self):
         for disassembly in self:
-            if disassembly.state == "done":
+            if disassembly.state == "done" or disassembly.source_cost_fixed:
                 disassembly.value = disassembly.source_value
             else:
                 disassembly.value = disassembly._estimate_source_value()
@@ -240,12 +247,66 @@ class StockDisassembly(models.Model):
     def action_cancel(self):
         if any(disassembly.state != "draft" for disassembly in self):
             raise UserError(self.env._("Only draft disassembly reports can be cancelled."))
-        self.write({"state": "cancel"})
+        self._set_state("cancel", ("draft",))
 
     def action_draft(self):
         if any(disassembly.state != "cancel" for disassembly in self):
             raise UserError(self.env._("Only cancelled disassembly reports can be reset to draft."))
-        self.write({"state": "draft"})
+        self._set_state("draft", ("cancel",))
+
+    # Fields set only by the workflow methods, never by a direct create/write (RPC included)
+    _SYSTEM_FIELDS = ("state", "source_value", "source_cost_fixed", "account_move_id")
+    # Fields that change the stock or the accounting result: frozen once the report leaves draft
+    _FROZEN_FIELDS = (
+        "name",
+        "date",
+        "company_id",
+        "product_id",
+        "lot_id",
+        "product_qty",
+        "product_uom_id",
+        "location_id",
+        "location_dest_id",
+        "scrap_location_id",
+        "allocation_method",
+        "line_ids",
+    )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get("state", "draft") != "draft" or any(
+                vals.get(name) for name in ("source_value", "source_cost_fixed", "account_move_id")
+            ):
+                raise UserError(
+                    self.env._("A disassembly report is created in draft: it is validated with the Validate button.")
+                )
+        return super().create(vals_list)
+
+    def write(self, vals):
+        system = [name for name in self._SYSTEM_FIELDS if name in vals]
+        if system:
+            raise UserError(
+                self.env._(
+                    "The fields %s are set by the validation workflow and cannot be changed directly.",
+                    ", ".join(self._fields[name]._description_string(self.env) for name in system),
+                )
+            )
+        frozen = [name for name in self._FROZEN_FIELDS if name in vals]
+        if frozen and any(disassembly.state != "draft" for disassembly in self):
+            raise UserError(
+                self.env._("A disassembly report that is not in draft cannot be modified: %s.", ", ".join(frozen))
+            )
+        return super().write(vals)
+
+    def _write_system(self, vals):
+        """Workflow write of the protected fields (state, actual cost, journal entry)."""
+        return super().write(vals)
+
+    def _set_state(self, new_state, from_states):
+        if any(disassembly.state not in from_states for disassembly in self):
+            raise UserError(self.env._("This change of state is not allowed for the disassembly report."))
+        return self._write_system({"state": new_state})
 
     def unlink(self):
         if any(disassembly.state == "done" for disassembly in self):
@@ -273,7 +334,7 @@ class StockDisassembly(models.Model):
         self.ensure_one()
         self.env.cr.execute(SQL("SELECT id FROM stock_disassembly WHERE id = %s FOR UPDATE", self.id))
         self.invalidate_recordset(["state"])
-        if self.state != "draft":
+        if self.state != "draft" or self.source_cost_fixed:
             raise UserError(self.env._("The disassembly report %s is not in draft.", self.display_name))
 
     def _check_before_validate(self):
@@ -358,7 +419,8 @@ class StockDisassembly(models.Model):
         self._create_source_move()
         # the localization may split the move by FIFO layer: the cost is the sum of the pieces
         source_moves = self.move_ids.filtered(lambda move: not move.disassembly_line_id and move.state == "done")
-        self.source_value = sum(source_moves.mapped("value"))
+        # from here on the cost is allocated on the actual cost, not on the estimate
+        self._write_system({"source_value": sum(source_moves.mapped("value")), "source_cost_fixed": True})
         self._check_allocation()
 
         result_moves = self.env["stock.move"]
@@ -373,7 +435,7 @@ class StockDisassembly(models.Model):
             self.move_ids.move_line_ids.write({"date": moment})
 
         self._create_account_move()
-        self.state = "done"
+        self._set_state("done", ("draft",))
         if self.over_norm_value:
             self.message_post(
                 body=self.env._(
@@ -624,7 +686,7 @@ class StockDisassembly(models.Model):
             )
         )
         account_move._post()
-        self.account_move_id = account_move
+        self._write_system({"account_move_id": account_move.id})
         # the scrap moves do not touch the stock (virtual to virtual): the localization cannot type them
         self.move_ids.filtered(
             lambda move: move.disassembly_line_id.line_type != "scrap"
@@ -739,6 +801,25 @@ class StockDisassemblyLine(models.Model):
             line.value = allocations[disassembly].get(line, 0.0)
             qty = line.quantity
             line.unit_cost = line.value / qty if qty else 0.0
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        disassemblies = self.env["stock.disassembly"].browse([vals["disassembly_id"] for vals in vals_list])
+        if any(disassembly.state != "draft" for disassembly in disassemblies):
+            raise UserError(self.env._("Lines cannot be added to a disassembly report that is not in draft."))
+        return super().create(vals_list)
+
+    def write(self, vals):
+        if any(line.disassembly_id.state != "draft" for line in self):
+            raise UserError(self.env._("The lines of a disassembly report that is not in draft cannot be modified."))
+        if "disassembly_id" in vals and self.env["stock.disassembly"].browse(vals["disassembly_id"]).state != "draft":
+            raise UserError(self.env._("Lines cannot be moved to a disassembly report that is not in draft."))
+        return super().write(vals)
+
+    def unlink(self):
+        if any(line.disassembly_id.state != "draft" for line in self):
+            raise UserError(self.env._("The lines of a disassembly report that is not in draft cannot be deleted."))
+        return super().unlink()
 
     def _get_product_qty(self):
         self.ensure_one()
