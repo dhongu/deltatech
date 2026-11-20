@@ -1,5 +1,14 @@
 # Changelog
 
+## 20.0.3.8.1 (2026-11-20)
+
+Forward-port of 19.0.3.12.3.
+
+- An **Employee** without any accounting group can create and open an expenses deduction again: the
+  default cash/diem journal, the settlement mode change and the currency of the journal no longer need
+  read access to journals (no more "You are not allowed to access 'Journal'"), and the form hides the
+  journal fields from those without accounting rights. The employee gets no extra rights.
+
 ## 20.0.3.8.0 (2026-11-05)
 
 Forward-port of 19.0.3.9.0 – 19.0.3.11.0.

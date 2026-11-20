@@ -51,12 +51,14 @@ Utilizatori**, secțiunea **„Decont Cheltuieli"**. Fiecare rol îl include pe 
 
 | Rol | Ce poate face |
 |---|---|
-| **Angajat** | vede și completează doar deconturile proprii |
+| **Angajat** | vede și completează doar deconturile proprii; le creează și le deschide fără drepturi contabile și fără acces la jurnale: jurnalul de numerar și jurnalul de diurnă se propun automat, iar la schimbarea modului de decontare i se alege jurnalul potrivit (casă sau bancă), fără a-i da drepturi pe jurnale |
 | **Aprobator** | vede toate deconturile; apasă **Avans** (aprobă și contabilizează acordarea avansului) |
 | **Contabil** | apasă **Validează** (contabilizează decontul) și **Invalidare**; poate șterge deconturi în Ciornă |
 
 Administratorii (grupul „Setări") primesc automat rolul de Contabil. Fără rolul potrivit,
-butoanele respective nu apar pe formular.
+butoanele respective nu apar pe formular. La fel, câmpurile de jurnal (**Jurnal de plată**, **Jurnal
+card firmă**, **Jurnal avansuri (542)** și **Jurnal diurnă**) apar doar utilizatorilor cu rolul Contabil
+sau cu drept de citire în contabilitate (`account.group_account_readonly`); Angajatul nu le vede.
 
 Meniul decontului se află în aplicația Facturare/Contabilitate, deci utilizatorul are nevoie și de un
 drept de acces în Facturare. Butonul „Deconturi" de pe fișa angajatului apare doar utilizatorilor care
@@ -154,10 +156,12 @@ Date minime pentru demo:
 
 Meniul este **Facturare → Furnizori → Decont Cheltuieli** (cu Enterprise: **Contabilitate →
 Furnizori → Decont Cheltuieli**). Apăsați **Nou**, alegeți **angajatul**, **modul de decontare**
-(implicit **Numerar**) și **jurnalul de plată** (jurnalul de numerar), completați **data avansului** (implicit data de azi),
+(implicit **Numerar**) și, dacă vedeți câmpul (Contabil sau drept de citire în contabilitate; Angajatul
+nu îl vede, iar jurnalul de numerar se propune automat), **jurnalul de plată**, completați **data avansului** (implicit data de azi),
 **data cheltuielii** (data decontului; se completează din data avansului dacă e goală), **ordinul de
 deplasare**, **avansul** acordat și, dacă e cazul, **diurna** (sumă/zi și număr de zile). În tabul
-„Alte informații" verificați **jurnalul de avansuri (542)**.
+„Alte informații" contabilul verifică **jurnalul de avansuri (542)** și **jurnalul de diurnă** (câmpuri
+ascunse Angajatului).
 
 **Moneda decontului** (câmpul **„Monedă"**, în antet, după jurnale; apare utilizatorilor cu
 monede multiple activate) se preia din registrul de casă ales: moneda registrului, sau moneda
@@ -498,6 +502,7 @@ liniile „Plată furnizor”, reclasificarea avansului la furnizor pe 4091 (bun
 - [ ] „Jurnal avansuri (542)" are contul implicit 542.
 - [ ] În modul Numerar, acordarea avansului produce nota Dr 542 = Cr 5311.
 - [ ] Utilizatorii au rolurile potrivite (Angajat / Aprobator / Contabil).
+- [ ] Angajatul fără grup contabil creează și deschide decontul fără eroarea „You are not allowed to access 'Journal'", iar câmpurile de jurnal nu apar pe formularul lui (le vede Contabilul).
 - [ ] Liniile de deplasare au contul 625, nu 623 implicit.
 - [ ] Un bon de 555 lei cu TVA 11% dă bază 500 și TVA 55; „Total chitanțe" este egal cu suma bonurilor.
 - [ ] Diferența = cheltuieli + diurnă − avans (negativă = angajatul restituie).
