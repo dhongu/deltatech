@@ -3,8 +3,8 @@
 
 {
     "name": "Report Layout",
-    "summary": "Eight extra PDF report layouts; data-only, importable on Odoo Online",
-    "version": "19.0.1.3.2",
+    "summary": "Nine extra PDF report layouts; data-only, importable on Odoo Online",
+    "version": "19.0.1.4.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
@@ -20,6 +20,7 @@
         "views/report_template_style6.xml",
         "views/report_template_style7.xml",
         "views/report_template_style8.xml",
+        "views/report_template_style9.xml",
         "data/report_layout.xml",
     ],
     "assets": {
@@ -32,6 +33,7 @@
             "deltatech_report_layout/static/src/scss/report_style6.scss",
             "deltatech_report_layout/static/src/scss/report_style7.scss",
             "deltatech_report_layout/static/src/scss/report_style8.scss",
+            "deltatech_report_layout/static/src/scss/report_style9.scss",
         ],
     },
     "images": ["static/description/main_screenshot.png"],

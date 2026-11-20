@@ -1,6 +1,6 @@
 1. Go to **Settings > General Settings** and, in the **Companies** section, click
    **Configure Document Layout**.
-2. Under **Layout**, the eight new layouts (**Grid**, **Inline**, **Band**, **Modern**, **Title Box**, **Compact**, **Minimal** and **Accent**) are listed after the standard
+2. Under **Layout**, the nine new layouts (**Grid**, **Inline**, **Band**, **Modern**, **Title Box**, **Compact**, **Minimal**, **Accent** and **Card**) are listed after the standard
    ones. Select **Grid**: the preview shows a sample invoice with the logo on the left and the
    company address aligned to the right.
 
@@ -26,6 +26,7 @@
    | **Compact** | Small font, tight margins and a one-line header, for documents with many lines |
    | **Minimal** | Black and white, no colored backgrounds, cheap to print (ignores the company colors) |
    | **Accent** | Colored vertical bar along the left edge of the content, colored title |
+   | **Card** | Large colored title on the right, the recipient address in a box with rounded corners, tables without filled areas (toner friendly), document number and page in the footer |
 
    ![Invoice preview with Modern: logo on the left, title and company address on the right, teal table header](static/description/en/07_document_style4.png)
 

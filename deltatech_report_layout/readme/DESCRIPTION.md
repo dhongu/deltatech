@@ -6,9 +6,9 @@ This module provides specialized report layout styles for Odoo, allowing busines
 Key Features
 ============
 
-1.  **Eight Predefined Layouts**:
-    *   Adds eight report layouts to the system: Grid, Inline, Band, Modern, Title Box, Compact, Minimal and Accent.
-    *   Each one has its own header, footer and table design: a full-width colored header band, a boxed title, a compact one-line header for long documents, a black-and-white minimal design or a colored accent bar along the left edge of the content.
+1.  **Nine Predefined Layouts**:
+    *   Adds nine report layouts to the system: Grid, Inline, Band, Modern, Title Box, Compact, Minimal, Accent and Card.
+    *   Each one has its own header, footer and table design: a full-width colored header band, a boxed title, a compact one-line header for long documents, a black-and-white minimal design or a colored accent bar along the left edge of the content, or Card: a large colored title, the recipient address in a box with rounded corners and toner-friendly tables without filled areas.
     *   Colors follow the primary and secondary colors of the company (except Minimal, which is black and white).
 
 2.  **Per-Company Layout Selection**:
