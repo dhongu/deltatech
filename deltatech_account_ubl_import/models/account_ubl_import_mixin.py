@@ -488,6 +488,44 @@ class AccountUblImportMixin(models.AbstractModel):
             return False
         return False
 
+    def _normalize_price_base(self, price, base_el, unit_code, qty=0.0, line_total=0.0, adjust=0.0):
+        """Return (unit price, base quantity, base ignored) for a UBL cac:Price.
+
+        PriceAmount is the price of cbc:BaseQuantity units (default 1), expressed in the unit of
+        BaseQuantity (unitCode), which can differ from the unit of InvoicedQuantity. The price is
+        brought to one unit of the invoiced quantity. A missing, zero, negative or unreadable base
+        is taken as 1.
+
+        Many invoicing programs fill BaseQuantity wrongly (typically with the line quantity while
+        PriceAmount is already a unit price). When the line total is known, the reading that
+        reproduces it wins: qty x price (+ charges - allowances) must give LineExtensionAmount.
+        If only the price without the base does, the base is ignored (third value True).
+        `adjust` is charges minus allowances of the line.
+        """
+        if base_el is None or not price:
+            return price, 1.0, False
+        try:
+            base = float(str(base_el.text).replace(",", "."))
+        except (TypeError, ValueError):
+            base = 0.0
+        if base <= 0:
+            _logger.warning("Ignoring invalid UBL BaseQuantity '%s'", base_el.text)
+            return price, 1.0, False
+        normalized = price / base
+        base_uom = self._uom_from_code(base_el.get("unitCode"), fallback=False)
+        line_uom = self._uom_from_code(unit_code, fallback=False)
+        if base_uom and line_uom and base_uom != line_uom and self._source_uom_compatible(base_uom, line_uom):
+            normalized = base_uom._compute_price(normalized, line_uom)
+        if base != 1.0 and qty and line_total:
+            tolerance = 0.02 + abs(line_total) * 0.001
+
+            def _matches(unit_price):
+                return abs(qty * unit_price + adjust - line_total) <= tolerance
+
+            if not _matches(normalized) and _matches(price):
+                return price, 1.0, True
+        return normalized, base, False
+
     def _parse_xml(self, content):
         def _to_float(val):
             try:
@@ -568,9 +606,15 @@ class AccountUblImportMixin(models.AbstractModel):
 
             # Extract line-level discount (AllowanceCharge with ChargeIndicator=false)
             allowance_amount = 0.0
+            charge_amount = 0.0
             discount_percent = 0.0
             for ac in inv_line.findall("cac:AllowanceCharge", namespaces=NS):
                 charge_indicator = (ac.findtext("cbc:ChargeIndicator", namespaces=NS) or "").strip().lower()
+                if charge_indicator == "true":
+                    try:
+                        charge_amount += float(str(ac.findtext("cbc:Amount", namespaces=NS)).replace(",", "."))
+                    except ValueError as e:
+                        _logger.warning("Could not parse AllowanceCharge/Amount of a charge: %s", e)
                 if charge_indicator == "false":
                     ac_amount_text = ac.findtext("cbc:Amount", namespaces=NS)
                     try:
@@ -580,6 +624,14 @@ class AccountUblImportMixin(models.AbstractModel):
 
             price_f = _to_float(price)
             qty_f = _to_float(qty)
+            price_f, base_qty, base_ignored = self._normalize_price_base(
+                price_f,
+                inv_line.find("cac:Price/cbc:BaseQuantity", namespaces=NS),
+                unit_code,
+                qty=qty_f,
+                line_total=_to_float(line_total),
+                adjust=charge_amount - allowance_amount,
+            )
             if allowance_amount and price_f and qty_f:
                 gross_total = price_f * qty_f
                 discount_percent = round(allowance_amount / gross_total * 100, 2)
@@ -591,6 +643,8 @@ class AccountUblImportMixin(models.AbstractModel):
                     "name": (name or "").strip(),
                     "qty": qty_f,
                     "price": price_f,
+                    "price_base_qty": base_qty,
+                    "price_base_ignored": base_ignored,
                     "discount": discount_percent,
                     "line_total": _to_float(line_total),
                     "tax_percent": _to_float(tax_percent),

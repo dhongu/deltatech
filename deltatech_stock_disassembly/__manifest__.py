@@ -5,7 +5,7 @@
 {
     "name": "Free Disassembly",
     "summary": "Disassembly report without bill of materials, with cost allocation",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Inventory/Inventory",

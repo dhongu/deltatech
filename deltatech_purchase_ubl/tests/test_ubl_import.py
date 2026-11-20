@@ -60,11 +60,17 @@ def _xml_invoice(
             f"""
             <cac:InvoiceLine>
                 <cbc:ID>1</cbc:ID>
-                <cbc:InvoicedQuantity unitCode=\"{l.get("unit_code", "C62")}\">{l.get("qty", "1")}</cbc:InvoicedQuantity>
+                <cbc:InvoicedQuantity unitCode=\"{l.get("unit_code", "C62")}\">{
+                l.get("qty", "1")
+            }</cbc:InvoicedQuantity>
                 <cbc:LineExtensionAmount currencyID=\"{currency}\">{l.get("line_total", "0")}</cbc:LineExtensionAmount>
                 {allowance_xml}
                 <cac:Price>
-                    <cbc:PriceAmount currencyID=\"{currency}\">{l.get("price", "0")}</cbc:PriceAmount>
+                    <cbc:PriceAmount currencyID=\"{currency}\">{l.get("price", "0")}</cbc:PriceAmount>{
+                f'<cbc:BaseQuantity unitCode="{l.get("unit_code", "C62")}">{l["base_qty"]}</cbc:BaseQuantity>'
+                if l.get("base_qty")
+                else ""
+            }
                 </cac:Price>
                 <cac:Item>
                     <cbc:Description>{l.get("description", "")}</cbc:Description>

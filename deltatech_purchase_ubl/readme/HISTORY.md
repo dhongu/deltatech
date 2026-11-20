@@ -1,8 +1,22 @@
-## 19.0.1.5.1 (2026-11-20)
+## 19.0.1.5.2 (2026-11-20)
 
 - Packaging: the dependency `deltatech_account_ubl_import` is taken from this repository
   (`depends_override`), since it is not published on the wheelhouse. Suites that install
   `deltatech_purchase_ubl` from git (bitshop_ent) can install it again. No functional change.
+
+## 19.0.1.5.1 (2026-11-20)
+
+- A price declared per 100 or 1,000 units (`BaseQuantity`) is no longer taken as the price of
+  one unit on the order line and in the vendor prices (fix in `deltatech_account_ubl_import`), unless the line total shows that the program filled
+  `BaseQuantity` wrongly (e.g. with the line quantity): then the price is kept and a warning is logged.
+  Fixes #3590.
+- Importing a partial invoice on an order already invoiced in part no longer overwrites the
+  ordered quantity with the quantity of the invoice: the ordered quantity is never lowered below
+  the quantity already invoiced plus the quantity of the document (a line already fully invoiced
+  is left as it is), and importing the same
+  invoice again does not change it. The vendor bill takes the quantity of the document for
+  products billed on ordered quantities; for products billed on received quantities a warning
+  reports the difference. Fixes #3591.
 
 ## 19.0.1.5.0 (2026-11-19)
 
