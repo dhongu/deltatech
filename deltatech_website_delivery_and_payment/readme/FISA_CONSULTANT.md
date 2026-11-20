@@ -76,6 +76,9 @@ Date minime pentru demo (cele din capturi, toate de exemplu):
   curier), **Ridicare din depozit** (gratuit, permite doar Transfer bancar), **Transport paletizat**
   (180 lei, de la 50 kg) și **Curier local București** (15 lei, ascuns pentru eticheta „Provincie”);
 - clientul **Maria Ionescu**, utilizator portal din Cluj-Napoca, cu eticheta „Provincie”;
+- pentru Pasul 10: pe **Card la curier**, **Ascuns pentru etichetele** = „Revânzător B2B”; firma
+  **Auto Distribuție SRL** (Cluj-Napoca, eticheta „Revânzător B2B”) cu persoana de contact
+  **Andrei Pop**, utilizator portal, fără etichetă;
 - un coș cu 2 × „Set chei combinate 12 piese” (189 lei, 1,5 kg/buc.).
 
 ## 5. Configurare inițială
@@ -202,8 +205,8 @@ Clientul mărește cantitatea la 10 bucăți și revine la plată cu **Curier ra
 ### Pasul 10 — Revânzători: plata cu cardul ascunsă pentru o firmă
 
 Cazul tipic B2B: revânzătorii nu au voie să plătească cu cardul, iar comenzile le plasează
-persoanele lor de contact. Pe furnizorul **Card la curier** (Pasul 4), în **Ascuns pentru
-etichetele**, puneți eticheta „Revânzător B2B”, apoi deschideți firma revânzătorului din
+persoanele lor de contact. Pe furnizorul **Card la curier**, în același grup **Restricții** ca la
+Pasul 4 (captura 04), câmpul **Ascuns pentru etichetele**, puneți eticheta „Revânzător B2B”, apoi deschideți firma revânzătorului din
 **Pagină web → eCommerce → Clienți** (ex. **Auto Distribuție SRL**) și completați **Etichete** ①.
 Eticheta stă **doar pe firmă**; persoana de contact (**Andrei Pop**) nu o are.
 
@@ -237,9 +240,11 @@ comenzii. Nu există raport sau export propriu.
 **Ce e automat:** filtrarea metodelor de livrare la pasul **Adresa** și a metodelor de plată la
 pasul **Plată**, la fiecare încărcare a paginii, după coșul și clientul curent. Regulile de plată
 (furnizori permiși, limită de valoare, etichete) se aplică și când clientul plătește din portal o
-ofertă trimisă pe email. Etichetele furnizorului de plată se aplică, în plus, la plata unei facturi
-din portal și la linkurile de plată, unde contează partenerul care plătește (utilizatorul
-autentificat, altfel partenerul din link); cele de livrare, doar în checkout-ul site-ului.
+ofertă trimisă pe email. La plata unei facturi din portal și la un link de plată fără comandă se
+aplică **doar etichetele** furnizorului (nu Limită valoare și nici Furnizori de plată permiși); acolo
+contează partenerul care plătește: utilizatorul autentificat, altfel partenerul din link. La un link
+de plată al unei comenzi contează clientul comenzii. Regulile de livrare se aplică doar în
+checkout-ul site-ului.
 
 **Ce rămâne manual:** etichetele pe clienți, configurarea limitelor și a listelor de furnizori,
 alinierea cu regulile standard ale Odoo:

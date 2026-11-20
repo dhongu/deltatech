@@ -190,6 +190,7 @@ class TestDeliveryPaymentScreenshots(ScreenshotCase or object):
         cls.reseller = env["res.partner"].create(
             {
                 "name": "Auto Distribuție SRL",
+                "lang": "ro_RO",
                 "is_company": True,
                 "vat": "RO1234567",
                 "street": "Bd. Muncii nr. 10",

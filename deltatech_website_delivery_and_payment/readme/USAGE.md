@@ -37,7 +37,7 @@ published.
 5. **Tag the customers** — on the customer (**Website → eCommerce → Customers**), fill in **Tags**
    (1).
 
-   ![Customer form with the tag Provincie](static/description/en/05_client_etichete.png)
+   ![Customer Maria Ionescu from Cluj-Napoca: the Tags field with Provincie is highlighted](static/description/en/05_client_etichete.png)
 
 **Which tags are read**
 
@@ -73,7 +73,7 @@ contact person of a company, a tag set only on the company is enough to hide bot
     card provider and set it on the reseller **company** only (1). Its contact persons no longer see
     **Card** at checkout, nor when they pay an invoice from the portal or through a payment link.
 
-    ![Reseller company with the tag Revânzător B2B](static/description/en/10_firma_revanzator_eticheta.png)
+    ![Reseller company Auto Distribuție SRL: the Tags field with Revânzător B2B is highlighted; the Contacts tab lists Andrei Pop](static/description/en/10_firma_revanzator_eticheta.png)
 
     ![Checkout Payment step of the reseller's contact person: only Cash on Delivery, no Card](static/description/en/11_site_plata_revanzator.png)
 
