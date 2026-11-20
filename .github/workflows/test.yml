@@ -12,6 +12,19 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
     branches:
       - "20.0*"
+    # PR-urile care ating doar documentație, prezentare Apps Store sau traduceri
+    # nu pot schimba rezultatul testelor: sărim peste rulare.
+    paths-ignore:
+      - "**/*.md"
+      - "**/*.rst"
+      - "**/readme/**"
+      - "**/screenshots/**"
+      - "**/static/description/**"
+      # Apps Store image the manifest `images` key may point to (addon root only).
+      - "*/images/**"
+      - "**/i18n/**"
+      - "**/index.html"
+      - "scripts/**"
 
 # A new push on a PR cancels the previous run: no point keeping a runner busy
 # with an outdated version of the branch.
