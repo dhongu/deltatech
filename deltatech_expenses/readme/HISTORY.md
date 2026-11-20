@@ -1,5 +1,14 @@
 # Changelog
 
+## 20.0.3.8.2 (2026-11-20)
+
+Forward-port of 19.0.3.12.4.
+
+- An expense entered with the **gross receipt amount** and a single percentage tax excluded from price
+  keeps the receipt total: the one-cent rounding difference between the rounded base and the recomputed
+  VAT is absorbed in the VAT of the draft receipt, so a settlement with an advance equal to the receipt
+  no longer generates a cash move for a non-existent difference. Open settlements are recomputed on update.
+
 ## 20.0.3.8.1 (2026-11-20)
 
 Forward-port of 19.0.3.12.3.
