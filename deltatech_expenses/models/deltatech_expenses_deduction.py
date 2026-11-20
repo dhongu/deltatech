@@ -1,6 +1,8 @@
 # ©  2008-2021 Deltatech
 # See README.rst file on addons root folder for license details
 
+from copy import deepcopy
+
 from odoo import api, fields, models
 from odoo.exceptions import AccessError, UserError, ValidationError
 
@@ -1155,7 +1157,9 @@ class DeltatechExpensesDeduction(models.Model):
                             )
                         ],
                     }
-                    vouchers |= self.env["account.move"].create(voucher_value)
+                    voucher = self.env["account.move"].create(voucher_value)
+                    line._sync_receipt_rounding(voucher)
+                    vouchers |= voucher
                 else:
                     # plată directă către furnizor din avans (fără chitanță): Dr 401 = Cr 542,
                     # reconciliată cu facturile alese pe linie sau, fără ele, cu cele mai vechi datorii
@@ -1616,6 +1620,45 @@ class DeltatechExpensesDeductionLine(models.Model):
     def _get_company(self):
         return self.env.context.get("company_id", self.env.user.company_id.id)
 
+    def _uses_receipt_rounding(self):
+        self.ensure_one()
+        tax = self.tax_ids
+        return (
+            self.type == "expenses"
+            and len(tax) == 1
+            and tax.amount_type == "percent"
+            and tax.amount > 0
+            and not tax.price_include
+            and self.amount > 0
+            and tax.invoice_repartition_line_ids.filtered(lambda line: line.repartition_type == "tax").mapped(
+                "factor_percent"
+            )
+            == [100.0]
+        )
+
+    def _sync_receipt_rounding(self, voucher):
+        self.ensure_one()
+        if not self._uses_receipt_rounding():
+            return
+        currency = self.currency_id
+        delta = currency.round(self.amount - voucher.amount_total)
+        if currency.is_zero(delta):
+            return
+        totals = deepcopy(voucher.tax_totals or {})
+        groups = [group for subtotal in totals.get("subtotals", []) for group in subtotal["tax_groups"]]
+        if (
+            abs(delta) > currency.rounding
+            or len(groups) != 1
+            or groups[0]["id"] != self.tax_ids.tax_group_id.id
+            or currency.compare_amounts(voucher.amount_untaxed, self.price_subtotal)
+        ):
+            raise UserError(self.env._("The generated receipt does not match the gross amount of line %s.", self.name))
+        # Use the native tax group inverse, just like a correction on an invoice in draft.
+        groups[0]["tax_amount_currency"] = self.tax_amount
+        voucher.tax_totals = totals
+        if currency.compare_amounts(voucher.amount_total, self.amount):
+            raise UserError(self.env._("The generated receipt does not match the gross amount of line %s.", self.name))
+
     @api.depends("amount", "tax_ids", "type")
     def _compute_subtotal(self):
         for expenses in self:
@@ -1626,10 +1669,6 @@ class DeltatechExpensesDeductionLine(models.Model):
             if taxes:
                 price_unit = expenses.amount
                 if not all(taxes.mapped("price_include")):
-                    # suma e brută: baza se extrage ca pentru o taxă inclusă, apoi TVA-ul se
-                    # recalculează pe baza rotunjită, exact ca pe chitanța generată (care primește
-                    # netul), ca totalul decontului să fie identic cu cel al chitanței — altfel 542
-                    # nu s-ar închide la zero. Față de bon poate rămâne o rotunjire de 1 ban.
                     price_unit = expenses.currency_id.round(
                         taxes.with_context(force_price_include=True).compute_all(
                             expenses.amount, expenses.currency_id, quantity=1, partner=expenses.partner_id
@@ -1638,5 +1677,7 @@ class DeltatechExpensesDeductionLine(models.Model):
                 tax_info = taxes.compute_all(price_unit, expenses.currency_id, quantity=1, partner=expenses.partner_id)
                 tax_amount += sum(t.get("amount", 0.0) for t in tax_info.get("taxes", False))
                 price_subtotal = tax_info["total_excluded"]
+                if expenses._uses_receipt_rounding():
+                    tax_amount = expenses.currency_id.round(expenses.amount - price_subtotal)
             expenses.tax_amount = tax_amount
             expenses.price_subtotal = price_subtotal
