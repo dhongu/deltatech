@@ -217,3 +217,96 @@ class TestMRPSimple(TransactionCase):
         self.assertAlmostEqual(move.product_uom_qty, 4.0)
         self.assertAlmostEqual(move.price_unit, 45.0)
         self.assertAlmostEqual(move.value, 180.0)
+
+    def _simple_uom(self, product, qty, uom, price_unit=None, validation_consume=True):
+        """One consumed line of `product`, `qty` in `uom`, and one received line"""
+        out = {"product_id": product.id, "quantity": qty, "uom_id": uom.id}
+        if price_unit is not None:
+            out["price_unit"] = price_unit
+        return self.env["mrp.simple"].create(
+            {
+                "picking_type_consume": self.picking_type_consume.id,
+                "picking_type_receipt_production": self.picking_type_receipt_production.id,
+                "validation_consume": validation_consume,
+                "product_in_ids": [
+                    (0, 0, {"product_id": self.product_a.id, "quantity": 1, "uom_id": self.product_a.uom_id.id})
+                ],
+                "product_out_ids": [(0, 0, out)],
+            }
+        )
+
+    def test_transfer_quantity_in_alternative_uom(self):
+        """SIMPLE-004: 2 dozens are consumed and received as 24 units, not 288"""
+        dozen = self.env.ref("uom.product_uom_dozen")
+        mrp = self._simple_uom(self.product_b, 2, dozen, price_unit=70.0)
+        mrp.product_in_ids.write({"quantity": 2, "uom_id": dozen.id, "price_unit": 10.0})
+        before_b = self.product_b.qty_available
+        before_a = self.product_a.qty_available
+        mrp.do_transfer()
+        self.assertEqual(mrp.state, "done")
+        self.assertEqual(mrp.consume_id.state, "done")
+        self.assertEqual(mrp.receipt_id.state, "done")
+        self.assertAlmostEqual(self.product_b.qty_available, before_b - 24)
+        self.assertAlmostEqual(self.product_a.qty_available, before_a + 24)
+        self.assertEqual(mrp.consume_id.move_ids.move_line_ids.product_uom_id, dozen)
+        self.assertAlmostEqual(mrp.consume_id.move_ids.move_line_ids.quantity, 2)
+
+    def test_transfer_quantity_in_fractional_uom(self):
+        """SIMPLE-004: a unit smaller than the product unit keeps the fractional quantity"""
+        dozen = self.env.ref("uom.product_uom_dozen")
+        self.product_b.uom_id = dozen
+        unit = self.env.ref("uom.product_uom_unit")
+        mrp = self._simple_uom(self.product_b, 6, unit, price_unit=70.0)
+        mrp.product_in_ids.price_unit = 10.0
+        before = self.product_b.qty_available
+        mrp.do_transfer()
+        self.assertEqual(mrp.consume_id.state, "done")
+        self.assertAlmostEqual(self.product_b.qty_available, before - 0.5)
+
+    def test_backorder_dialog_stops_the_production(self):
+        """SIMPLE-005: with a partial reservation and backorder 'ask' the receipt waits for the decision"""
+        self.picking_type_consume.create_backorder = "ask"
+        product_c = self.env["product.product"].create(
+            {"name": "Test C", "type": "consu", "is_storable": True, "standard_price": 10}
+        )
+        self.env["stock.quant"]._update_available_quantity(product_c, self.stock_location, 4)
+        mrp = self._simple_uom(product_c, 10, product_c.uom_id, price_unit=10.0)
+        mrp.product_in_ids.price_unit = 10.0
+        before_a = self.product_a.qty_available
+        action = mrp.do_transfer()
+        self.assertIsInstance(action, dict)
+        self.assertEqual(action["res_model"], "stock.backorder.confirmation")
+        self.assertEqual(mrp.state, "draft")
+        self.assertNotEqual(mrp.consume_id.state, "done")
+        self.assertNotEqual(mrp.receipt_id.state, "done")
+        self.assertAlmostEqual(self.product_a.qty_available, before_a)
+        # the user decides on the backorder, then confirms again without duplicating the pickings
+        consume, receipt = mrp.consume_id, mrp.receipt_id
+        wizard = Form.from_action(self.env, action).save()
+        wizard.process()
+        self.assertEqual(consume.state, "done")
+        mrp.do_transfer()
+        self.assertEqual(mrp.state, "done")
+        self.assertEqual((mrp.consume_id, mrp.receipt_id), (consume, receipt))
+        self.assertEqual(receipt.state, "done")
+        self.assertAlmostEqual(self.product_a.qty_available, before_a + 1)
+        with self.assertRaises(UserError):
+            mrp.do_transfer()
+
+    def test_costs_in_alternative_uom(self):
+        """SIMPLE-006: 2 dozens of a component at 10 per unit cost 240"""
+        dozen = self.env.ref("uom.product_uom_dozen")
+        self.product_b.write({"standard_price": 10.0, "list_price": 15.0})
+        mrp = self._simple_uom(self.product_b, 2, dozen, price_unit=10.0)
+        line = mrp.product_out_ids
+        self.assertAlmostEqual(line.value, 240.0)
+        mrp.final_product_qty = 1
+        self.assertEqual(mrp.get_final_product_prices(), (240.0, 360.0))
+        mrp.compute_finit_price()
+        self.assertAlmostEqual(mrp.product_in_ids.value, 240.0)
+        # the onchange of the received line uses the same convention
+        mrp.product_in_ids.compute_finit_price()
+        self.assertAlmostEqual(mrp.product_in_ids.value, 240.0)
+        # the consume move is valued at the cost per dozen
+        mrp.do_transfer()
+        self.assertAlmostEqual(mrp.consume_id.move_ids.price_unit, 120.0)
