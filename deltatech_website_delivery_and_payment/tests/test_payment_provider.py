@@ -244,3 +244,42 @@ class TestWebsiteDeliveryAndPayment(TransactionCase):
         order.carrier_id = carrier
         result = self.env["payment.provider"]._get_compatible_providers(*compatible_args, sale_order_id=order.id)
         self.assertEqual(result, self.provider_with_limit)
+
+    def _compatible_from_both(self, **kwargs):
+        ids = [self.provider_with_limit.id, self.provider_with_tag_restriction.id]
+        with patch(
+            "odoo.addons.payment.models.payment_provider.PaymentProvider._get_compatible_providers",
+            lambda model_self, *a, **kw: model_self.env["payment.provider"].browse(ids),
+        ):
+            return self.env["payment.provider"]._get_compatible_providers(**kwargs)
+
+    def test_restrict_label_on_company_hides_provider_for_contact(self):
+        # The tag is only on the company; the order is placed by one of its contact persons
+        company = self.env["res.partner"].create(
+            {"name": "Reseller Company", "is_company": True, "category_id": [(6, 0, [self.restricted_tag.id])]}
+        )
+        contact = self.env["res.partner"].create({"name": "Reseller Contact", "parent_id": company.id})
+        self.assertTrue(self.provider_with_tag_restriction.is_restricted(contact))
+        order = self.env["sale.order"].create({"partner_id": contact.id, "pricelist_id": self.pricelist.id})
+        result = self._compatible_from_both(sale_order_id=order.id)
+        self.assertNotIn(self.provider_with_tag_restriction, result)
+        self.assertIn(self.provider_with_limit, result)
+
+    def test_restrict_label_without_order_uses_payment_partner(self):
+        # Invoice payment from the portal or a payment link: no order, only the partner of the payment
+        company = self.env.company.id
+        result = self._compatible_from_both(company_id=company, partner_id=self.partner_restricted.id, amount=10.0)
+        self.assertNotIn(self.provider_with_tag_restriction, result)
+        self.assertIn(self.provider_with_limit, result)
+
+        # Same call with positional arguments, as the standard controllers do
+        ids = [self.provider_with_limit.id, self.provider_with_tag_restriction.id]
+        with patch(
+            "odoo.addons.payment.models.payment_provider.PaymentProvider._get_compatible_providers",
+            lambda model_self, *a, **kw: model_self.env["payment.provider"].browse(ids),
+        ):
+            result = self.env["payment.provider"]._get_compatible_providers(company, self.partner_restricted.id, 10.0)
+        self.assertNotIn(self.provider_with_tag_restriction, result)
+
+        result = self._compatible_from_both(company_id=company, partner_id=self.partner_ok.id, amount=10.0)
+        self.assertIn(self.provider_with_tag_restriction, result)

@@ -5,7 +5,7 @@
     "name": "Delivery and Payment",
     "category": "Website",
     "summary": "Limit eCommerce delivery methods and payment providers",
-    "version": "19.0.2.1.8",
+    "version": "19.0.2.1.9",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "consultant_sheet": "full",

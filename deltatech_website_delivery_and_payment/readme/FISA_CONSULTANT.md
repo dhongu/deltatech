@@ -58,13 +58,11 @@ taxele comenzii. Adaugă câmpuri de configurare:
 | Metoda de livrare, tab **Plată** / *Payment Acquirer* | **Furnizori de plată permiși** / *Payments Provider Allowed* | Cu această metodă se oferă doar furnizorii din listă; listă goală = toți. |
 | Metoda de livrare, tab **Plată** | **Ascunsă pentru partenerii cu eticheta** / *Restrict for partners with label* | Metoda nu apare dacă **compania** clientului are una dintre etichete. |
 | Furnizorul de plată, grupul **Restricții** | **Limită valoare** / *Value Limit* | Peste acest total al comenzii (cu TVA) furnizorul nu se mai oferă; 0 = fără limită. |
-| Furnizorul de plată, grupul **Restricții** | **Ascuns pentru etichetele** / *Restrict Label* | Furnizorul nu apare dacă **clientul de pe comandă** are una dintre etichete. |
+| Furnizorul de plată, grupul **Restricții** | **Ascuns pentru etichetele** / *Restrict Label* | Furnizorul nu apare dacă clientul sau **firma clientului** are una dintre etichete, în checkout și la plata unei facturi din portal sau printr-un link de plată. |
 
-Diferența dintre cele două reguli de etichete e reală, din cod: la **metodele de livrare** se citesc
-etichetele **companiei** clientului (partenerul comercial), la **furnizorii de plată** cele ale
-**partenerului comenzii**. Pentru o persoană de contact a unei firme, eticheta pusă doar pe firmă
-ascunde metoda de livrare, dar nu și furnizorul de plată; ca să le ascundă pe amândouă, puneți
-eticheta și pe firmă, și pe persoana de contact.
+La **metodele de livrare** se citesc etichetele **companiei** clientului (partenerul comercial), la
+**furnizorii de plată** cele ale clientului și ale **companiei** lui. Pentru o persoană de contact a
+unei firme, eticheta pusă doar pe firmă ascunde și metoda de livrare, și furnizorul de plată.
 
 Modulul mai adaugă un **Logo** pe formularul metodei de livrare și un câmp **Furnizor de plată** în
 tab-ul **Vânzări & Achiziții** al contactului. Acestea se salvează pentru alte module și rapoarte;
@@ -135,8 +133,9 @@ fizică, compania este chiar ea.
 - **Limită valoare** ① — totalul comenzii, cu TVA și cu transportul inclus, peste care furnizorul nu
   se mai oferă (ex. 1.500 lei); la un total egal cu limita, furnizorul rămâne disponibil. Limita se
   compară cu totalul în moneda comenzii, fără conversie;
-- **Ascuns pentru etichetele** ② — furnizorul nu apare pentru clienții de pe comandă care au una
-  dintre etichete (ex. „Client restant”).
+- **Ascuns pentru etichetele** ② — furnizorul nu apare pentru clienții care au una dintre etichete,
+  direct sau pe firma lor (ex. „Client restant”), nici în checkout, nici la plata unei facturi din
+  portal sau printr-un link de plată.
 
 ![Formularul furnizorului de plată Numerar la livrare, Stare Activ și publicat; în grupul Restricții, Limită valoare 1.500,00 și Ascuns pentru etichetele cu eticheta Client restant, evidențiate cu 1 și 2; deasupra, grupul standard Disponibilitate cu Valoare maximă 0,00](../static/description/04_furnizor_plata_restrictii.png)
 
@@ -144,8 +143,8 @@ fizică, compania este chiar ea.
 
 **Pagină web → eCommerce → Clienți**, deschideți clientul (ex. **Maria Ionescu**) și completați
 câmpul **Etichete** ①. Aici, eticheta „Provincie” ascunde metoda **Curier local București**. Pentru
-o persoană de contact a unei firme, rețineți regula din secțiunea 4: etichetele de pe firmă contează
-la livrare, cele de pe persoana de pe comandă contează la plată.
+o persoană de contact a unei firme, este suficient să puneți eticheta pe firmă: ea ascunde atât
+metoda de livrare, cât și furnizorul de plată.
 
 ![Fișa clientului Maria Ionescu, persoană fizică din Cluj-Napoca, cu email și telefon de exemplu; câmpul Etichete conține Provincie și este evidențiat](../static/description/05_client_etichete.png)
 

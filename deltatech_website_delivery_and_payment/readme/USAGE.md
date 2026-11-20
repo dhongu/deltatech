@@ -29,7 +29,8 @@ published.
    **Value Limit** (1) is the order total, taxes and delivery included, above which the provider is
    no longer offered (a total equal to the limit is still allowed; the limit is compared with the total in the order currency, without
    conversion); **Restrict Label** (2) hides the
-   provider from the customers on the order that have one of the tags.
+   provider from the customers that have one of the tags, at checkout and when paying an invoice from
+   the portal or through a payment link.
 
    ![Payment provider form, Restrictions group: Value Limit 1,500.00 and Restrict Label](static/description/en/04_furnizor_plata_restrictii.png)
 
@@ -41,9 +42,8 @@ published.
 **Which tags are read**
 
 For delivery methods the module reads the tags of the customer's **company** (the commercial
-partner); for payment providers, the tags of the **customer on the order**. For a contact person of
-a company, a tag set only on the company hides the delivery method but not the payment provider: set
-it on both when both must be hidden.
+partner); for payment providers, the tags of the customer and of the customer's **company**. For a
+contact person of a company, a tag set only on the company is enough to hide both.
 
 **What the customer sees in the checkout**
 
