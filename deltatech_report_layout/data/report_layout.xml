@@ -3,13 +3,13 @@
 
     <record id="report_layout_style1" model="report.layout">
         <field name="view_id" ref="deltatech_report_layout.external_layout_style1" />
-        <field name="name">Style1</field>
+        <field name="name">Grid</field>
         <field name="sequence">101</field>
     </record>
 
      <record id="report_layout_style2" model="report.layout">
         <field name="view_id" ref="deltatech_report_layout.external_layout_style2" />
-        <field name="name">Style2</field>
+        <field name="name">Inline</field>
          <field name="sequence">102</field>
     </record>
 
@@ -47,6 +47,12 @@
         <field name="view_id" ref="deltatech_report_layout.external_layout_style8" />
         <field name="name">Accent</field>
         <field name="sequence">108</field>
+    </record>
+
+    <record id="report_layout_style9" model="report.layout">
+        <field name="view_id" ref="deltatech_report_layout.external_layout_style9" />
+        <field name="name">Card</field>
+        <field name="sequence">109</field>
     </record>
 
 </odoo>

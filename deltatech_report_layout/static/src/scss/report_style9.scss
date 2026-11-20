@@ -1,0 +1,101 @@
+// Card: thin rules and bold text, no filled areas (toner friendly).
+$style9-ink: #1c2730;
+$style9-muted: #5f6b73;
+$style9-rule: #c9d2d7;
+
+.o_header_style9 {
+    color: $style9-ink;
+    .o_company_logo_big {
+        max-height: 60px;
+        max-width: 240px;
+    }
+    .o_style9_company {
+        margin-top: 6px;
+        font-size: 0.8rem;
+        line-height: 1.35;
+        color: $style9-muted;
+    }
+    .o_style9_title {
+        font-size: 1.6rem;
+        font-weight: bold;
+        letter-spacing: 0.4px;
+        line-height: 1.15;
+        margin: 0;
+        overflow-wrap: anywhere;
+    }
+    .o_style9_rule {
+        border-top: 2px solid $style9-ink;
+        margin: 10px 0 4px;
+    }
+}
+
+.o_report_layout_style9 {
+    color: $style9-ink;
+
+    // recipient and information blocks as cards with rounded corners; without the row's negative
+    // margins the bordered columns stay inside the page margins
+    .address.row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .address div[name="address"],
+    .address div[name="information_block"] {
+        border: 1px solid $style9-rule;
+        border-radius: 5px;
+        padding: 8px 10px 9px;
+    }
+
+    #informations strong {
+        display: block;
+        font-size: 0.72rem;
+        font-weight: bold;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+}
+
+.o_table_style9 {
+    table:not(.o_ignore_layout_styling) {
+        thead th {
+            font-size: 0.72rem;
+            font-weight: bold;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            border-top: none;
+            border-bottom: 1.5px solid $style9-ink;
+            background-color: transparent;
+        }
+        tbody td {
+            border-top: none;
+            border-bottom: 1px solid $style9-rule;
+            background-color: transparent;
+        }
+        tbody tr.o_line_section td {
+            font-weight: bold;
+            border-bottom: 1.5px solid $style9-ink;
+        }
+        tbody tr.o_line_note td {
+            font-style: italic;
+            color: $style9-muted;
+        }
+        tbody tr.is-subtotal td {
+            font-weight: bold;
+        }
+    }
+
+    .o_total_table:not(.o_ignore_layout_styling) td {
+        border-bottom: none;
+    }
+}
+
+.o_footer_style9 {
+    font-size: 0.75rem;
+    color: $style9-muted;
+    .o_footer_content {
+        border-top: 1px solid $style9-rule;
+        padding-top: 6px;
+    }
+    strong {
+        color: $style9-ink;
+    }
+}
