@@ -1,3 +1,10 @@
+## 20.0.1.4.0 (2026-11-20)
+
+- New Card layout: logo and company details on the left, a large title in the primary color on
+  the right, a rule under the header, the recipient address in a box with rounded corners,
+  tables without filled areas (toner friendly) and the document number with the page in the
+  footer.
+
 ## 20.0.1.3.2 (2026-11-20)
 
 - Style1 and Style2 renamed to Grid (bordered table, address on the right) and Inline

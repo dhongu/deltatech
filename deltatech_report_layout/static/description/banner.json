@@ -4,8 +4,8 @@
   "summary": "Modern PDF report designs, also on Odoo Online",
   "icon": "file",
   "features": [
-    "Eight extra layouts for all documents",
-    "Band, boxed, compact, minimal, accent",
+    "Nine extra layouts for all documents",
+    "Band, boxed, compact, minimal, card",
     "No Python: importable on Odoo Online"
   ]
 }
