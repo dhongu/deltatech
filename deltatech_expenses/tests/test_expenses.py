@@ -1571,6 +1571,47 @@ class TestExpenses(TransactionCase):
         deduction._onchange_employee_card()
         self.assertFalse(deduction.card_journal_id)
 
+    def test_employee_without_accounting_group_can_create_and_open_deduction(self):
+        """#3811: rolul Angajat, fără niciun grup contabil, creează și deschide un decont: jurnalul de
+        casă implicit și onchange-ul modului de decontare nu cer drept de citire pe account.journal,
+        iar formularul nu îi expune jurnalele."""
+        user = self._expenses_user("expenses_3811_employee", ["deltatech_expenses.group_expenses_user"])
+        self.employee.user_id = user
+        self.assertFalse(user.has_group("account.group_account_readonly"))
+        self.assertFalse(user.has_group("account.group_account_invoice"))
+        self.env["account.journal"].invalidate_model()
+        with self.assertRaises(AccessError):
+            self.env["account.journal"].with_user(user).search([])
+        deduction_model = self.env["deltatech.expenses.deduction"].with_user(user).with_company(self.company)
+        # valorile implicite (jurnal de casă, jurnal de diurnă) se completează fără AccessError
+        deduction = deduction_model.new({"employee_id": self.employee.id})
+        self.assertEqual(deduction.journal_id.sudo().type, "cash")
+        self.assertTrue(deduction.currency_id)
+        # onchange-ul modului de decontare
+        deduction.settlement_mode = "transfer"
+        deduction._onchange_settlement_mode()
+        self.assertEqual(deduction.journal_id.sudo().type, "bank")
+        deduction.settlement_mode = "cash"
+        deduction._onchange_settlement_mode()
+        self.assertEqual(deduction.journal_id.sudo().type, "cash")
+        # crearea și citirea decontului
+        record = deduction_model.create({"employee_id": self.employee.id})
+        record.invalidate_recordset()
+        self.assertEqual(record.employee_id, self.employee)
+        self.assertEqual(record.currency_id, self.company.currency_id)
+        self.assertTrue(record.read(["journal_id", "currency_id"]))
+        # formularul nu expune jurnalele celui fără drepturi contabile
+        arch = deduction_model.get_view(view_type="form")["arch"]
+        for name in ("journal_id", "card_journal_id", "expense_journal_id", "journal_diem_id"):
+            self.assertNotIn(f'name="{name}"', arch)
+        # contabilul le vede
+        arch_acc = (
+            self.env["deltatech.expenses.deduction"]
+            .with_user(self.env.ref("base.user_admin"))
+            .get_view(view_type="form")["arch"]
+        )
+        self.assertIn('name="journal_id"', arch_acc)
+
     def test_company_card_journal_of_another_company_rejected(self):
         """Jurnalul cardului trebuie să fie al companiei decontului (check_company), și prin RPC."""
         company_b = self.env["res.company"].create({"name": "Expenses card company B"})
