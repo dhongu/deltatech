@@ -41,9 +41,13 @@ contact name in relational fields, or put the name and address on one line.
 - Because the birthdate is filled from the CNP, and the CNP is then rebuilt from
   the birthdate, a CNP typed in the form with a wrong check digit gets the
   correct check digit without any message. A CNP of 12 digits is completed
-  with a check digit the same way. Compare the CNP with the identity
+  with a check digit the same way. This happens only when the birthdate taken
+  from the CNP differs from the one already on the contact; otherwise the CNP
+  is kept as typed and rejected on save. Compare the CNP with the identity
   card.
 - First digits 1 and 2 give a birth year in the 1900s, any other digit the
   2000s; the gender is male only for the first digits 1 and 5.
-- A CNP of 8 to 11 characters, or one whose digits 2 to 7 are not a valid date,
-  makes the form fail with a technical error instead of a validation message.
+- When the CNP contains a letter or separator in its first 7 characters, or its
+  digits 2 to 7 are not a valid date, the birthdate and gender are not filled
+  in, without a message. A CNP of 8 to 11 digits fills in the birthdate but is
+  not completed; it is rejected as invalid on save.

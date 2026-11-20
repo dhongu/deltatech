@@ -101,14 +101,36 @@ greșită (sau unul de 12 cifre) e rescris cu cifra de control calculată, făr�
 după ieșirea din câmp: dacă ultima cifră s-a schimbat, CNP-ul introdus avea o greșeală de tastare,
 care poate fi și în altă cifră decât ultima (issue dhongu/deltatech#3921).
 
+Corecția cifrei de control se face **doar când data nașterii se schimbă** prin CNP. Dacă data nașterii
+era deja cea din CNP (un contact existent, sau corectarea doar a ultimei cifre pe un contact nou),
+CNP-ul rămâne exact cum l-ați scris; dacă e greșit, pe un contact existent salvarea dă **CNP invalid**,
+iar pe un contact nou contactul se salvează **fără CNP**, fără mesaj (pasul 3).
+
+Completarea automată se oprește, fără niciun mesaj, când CNP-ul nu se poate citi:
+
+- dacă CNP-ul are cel mult 7 caractere, nu se completează nimic;
+- dacă primele 7 caractere conțin o literă sau un separator (de exemplu `A234567890123`), sau cifrele
+  2–7 nu formează o dată reală (de exemplu luna 13), **Dată naștere** și **Gen** rămân cum erau;
+- dacă CNP-ul are 8–11 cifre sau o literă pe pozițiile 8–12 (de exemplu `1850101A2345B`), data
+  nașterii și genul se completează, dar CNP-ul **nu** mai e rescris și nici completat cu cifra de
+  control. O literă doar în locul ultimei cifre e înlocuită cu cifra de control, ca mai sus.
+
+Un CNP de 8–11 cifre sau cu litere e respins la salvare (eroare pe un contact existent, golit pe un
+contact nou; pasul 3). Un CNP cu dată imposibilă (de
+exemplu luna 13), dar cu 13 cifre și cifra de control corectă, **este acceptat**: modulul nu verifică
+data. Verificați-l pe actul de identitate, pentru că ajunge drept cod fiscal în exporturi.
+
 ### Pasul 3 — CNP invalid la salvare
 
 La salvarea unui contact **existent** cu un CNP invalid, Odoo refuză salvarea cu mesajul **Eroare de
 validare — CNP invalid**. Corectați CNP-ul (sau ștergeți-l) și salvați din nou. Un CNP gol e acceptat.
 
-În formular, eroarea apare practic doar la un CNP prea scurt (sub 8 caractere): de la 8 cifre
-în sus, completarea automată de la pasul 2 intervine înainte de salvare (vezi secțiunea 9). O cifră de
-control greșită dă eroarea doar la un import care modifică un contact existent.
+Este invalid un CNP care nu are exact 13 cifre (sunt respinse și literele, spațiile sau alte
+separatoare din interiorul lui, de exemplu `A234567890123`; spațiile de la început și de la sfârșit
+sunt ignorate) sau care are cifra de control greșită. În formular, eroarea apare la un CNP sub 12
+cifre sau cu litere pe primele 12 poziții. La 12 cifre și la cifra de control greșită, completarea
+automată de la pasul 2 corectează CNP-ul înainte de salvare **doar dacă data nașterii se schimbă**;
+dacă data nașterii era deja cea din CNP, CNP-ul rămâne cum l-ați scris și salvarea dă **CNP invalid**.
 
 ![Fișa lui Andrei Popescu cu CNP-ul scurtat la 1850101, după butonul de salvare: fereastra Eroare de validare cu mesajul CNP invalid și butonul Închide, marcată cu 1](../static/description/03_cnp_invalid.png)
 
@@ -166,8 +188,17 @@ introdus e chiar al persoanei (modulul verifică doar lungimea și cifra de cont
 - [ ] Schimbarea datei nașterii rescrie cifrele 2–7 ale CNP-ului și cifra de control.
 - [ ] CNP `1850101` pe un contact existent → **Eroare de validare — CNP invalid**; CNP gol → salvare fără
       mesaj.
-- [ ] CNP `1850101123459` (cifră de control greșită) → după ieșirea din câmp devine `1850101123451`, fără
-      mesaj (comportamentul de la pasul 2).
+- [ ] CNP `A234567890123` pe un contact existent → **Eroare de validare — CNP invalid**, fără eroare de
+      server; pe un contact nou → contactul se salvează fără CNP; **Dată naștere** și **Gen** nu se
+      completează.
+- [ ] CNP `185010112` (9 cifre) pe un contact existent → data nașterii 01.01.1985 se completează, CNP-ul
+      rămâne neschimbat, iar la salvare apare **Eroare de validare — CNP invalid**.
+- [ ] CNP `1851301123451` (luna 13) → data nașterii și genul rămân neschimbate, fără eroare de server; la
+      salvare CNP-ul e acceptat (cifra de control e corectă).
+- [ ] CNP `1850101123459` (cifră de control greșită) pe un contact **nou**, fără dată de naștere → după
+      ieșirea din câmp devine `1850101123451`, fără mesaj (comportamentul de la pasul 2).
+- [ ] Același CNP `1850101123459` pe un contact existent care are deja data nașterii 01.01.1985 → CNP-ul
+      rămâne neschimbat, iar la salvare apare **Eroare de validare — CNP invalid**.
 - [ ] **Mijloc de transport** apare în **Vânzări & Achiziții → Diverse** pe persoană, nu pe firmă.
 - [ ] Filtrul **Livrare** arată doar adresele de livrare, **Facturare** doar pe cele de facturare.
 - [ ] Filtrul **Persoane** nu arată persoanele de contact ale firmelor.
@@ -176,9 +207,8 @@ introdus e chiar al persoanei (modulul verifică doar lungimea și cifra de cont
 
 | Mesaj | Cauză | Remediere |
 |---|---|---|
-| Eroare de validare — **CNP invalid** | La salvarea unui contact existent, CNP-ul e prea scurt (sub 8 caractere); la importul care modifică un contact existent, și cifra de control greșită | Corectați CNP-ul sau ștergeți-l |
-| Eroare Server Odoo, „string index out of range" | CNP de 8–11 cifre: completarea automată nu are destule cifre | Scrieți CNP-ul complet, de 13 cifre (issue dhongu/deltatech#3922) |
-| Eroare Server Odoo, „unconverted data remains" sau „does not match format" | Cifrele 2–7 nu formează o dată validă (de exemplu luna 13) sau CNP-ul conține litere | Verificați CNP-ul; cifrele 2–7 sunt data nașterii AAMMZZ (issue-urile dhongu/deltatech#3922 și #3379) |
+| Eroare de validare — **CNP invalid** | La salvarea unui contact existent, CNP-ul are sub 12 cifre sau conține litere, spații ori alte caractere care nu sunt cifre; are 12 cifre sau cifra de control greșită, iar data nașterii nu s-a schimbat (era deja cea din CNP); la importul care modifică un contact existent, orice cifră de control greșită | Corectați CNP-ul sau ștergeți-l; CNP-ul are exact 13 cifre |
+| (fără mesaj) Data nașterii și genul nu se completează din CNP | Primele 7 caractere ale CNP-ului conțin o literă sau un separator, ori cifrele 2–7 nu formează o dată reală (de exemplu luna 13) | Verificați CNP-ul pe actul de identitate; cifrele 2–7 sunt data nașterii AAMMZZ (issue-urile dhongu/deltatech#3922 și #3379) |
 | (fără mesaj) CNP-ul dispare după salvare | Contact nou sau import de contacte noi cu CNP invalid: CNP-ul e golit tăcut | Corectați CNP-ul și salvați din nou |
 
 ## 10. Capturi de ecran

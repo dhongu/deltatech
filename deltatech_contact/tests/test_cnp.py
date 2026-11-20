@@ -64,6 +64,23 @@ class TestCNP(TransactionCase):
         form_partner.cnp = "5000101015977"
         self.assertEqual(str(form_partner.birthdate), "2000-01-01")
 
+    def test_onchange_short_or_mixed_cnp(self):
+        # 8-11 digits or a letter after the date: birthdate filled, CNP not rebuilt, no crash
+        for cnp in ("185010112", "18501011234", "1850101A2345B"):
+            with self.subTest(cnp=cnp):
+                form_partner = Form(self.env["res.partner"])
+                form_partner.name = "Test"
+                form_partner.cnp = cnp
+                self.assertEqual(form_partner.cnp, cnp)
+                self.assertEqual(str(form_partner.birthdate), "1985-01-01")
+                partner = form_partner.save()
+                self.assertFalse(partner.cnp)  # cleared on create
+        partner = self.env["res.partner"].create({"name": "Test"})
+        for cnp in ("185010112", "1850101A2345B"):
+            with self.subTest(existing=cnp), self.assertRaises(ValidationError):
+                with Form(partner) as form_partner:
+                    form_partner.cnp = cnp
+
     def test_search_partner(self):
         values = {"name": "Test 2", "is_company": True, "vat": "RO20603502"}
         self.env["res.partner"].create(values)
