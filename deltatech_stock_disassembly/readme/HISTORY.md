@@ -1,3 +1,11 @@
+## 19.0.1.0.1 (2026-11-20)
+
+- Fix: the cost of the disassembled product is allocated on the actual cost during the validation
+  (resulting moves, journal entry and line values), not on the estimate from the standard price.
+- Fix: a validated or cancelled disassembly report and its lines can no longer be changed, nor reset
+  to draft, by a direct write (RPC included); the state and the actual cost change only through the
+  workflow buttons.
+
 ## 19.0.1.0.0 (2026-10-12)
 
 - New module: disassembly report without a bill of materials. The disassembled product leaves the

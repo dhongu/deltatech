@@ -249,6 +249,97 @@ class TestStockDisassembly(TestStockValuationCommon):
         with self.assertRaises(UserError):
             disassembly.unlink()
 
+    def test_allocation_on_actual_cost(self):
+        """FIFO: the actual cost (90) differs from the estimate (7 x standard price): the whole
+        validation, moves and journal entry included, uses the actual cost."""
+        self.product_fifo_auto.standard_price = 1
+        self._make_in_move(self.product_fifo_auto, 5, unit_cost=10)
+        self._make_in_move(self.product_fifo_auto, 5, unit_cost=20)
+        disassembly = self._disassembly(
+            self.product_fifo_auto,
+            7,
+            [
+                {"product_id": self.result_a.id, "quantity": 1, "percent": 30},
+                {"product_id": self.result_b.id, "quantity": 1, "percent": 70},
+            ],
+            allocation_method="percent",
+        )
+        self.assertNotAlmostEqual(disassembly.value, 90)
+        disassembly.action_validate()
+        self.assertTrue(disassembly.source_cost_fixed)
+        self.assertAlmostEqual(disassembly.value, 90)
+        self.assertAlmostEqual(disassembly.allocated_value, 90)
+        result_moves = disassembly.move_ids.filtered("disassembly_line_id")
+        self.assertAlmostEqual(sum(result_moves.mapped("value")), 90)
+        entry = disassembly.account_move_id
+        self.assertAlmostEqual(sum(entry.line_ids.mapped("debit")), 90)
+        self.assertAlmostEqual(sum(entry.line_ids.mapped("credit")), 90)
+
+    def _done_disassembly(self):
+        self._make_in_move(self.product_avco_auto, 4, unit_cost=10)
+        disassembly = self._disassembly(self.product_avco_auto, 1, [{"product_id": self.result_a.id, "quantity": 1}])
+        disassembly.action_validate()
+        return disassembly
+
+    def test_done_cannot_be_reset_by_write(self):
+        disassembly = self._done_disassembly()
+        with self.assertRaises(UserError):
+            disassembly.write({"state": "draft"})
+        with self.assertRaises(UserError):
+            disassembly.write({"source_cost_fixed": False})
+        with self.assertRaises(UserError):
+            disassembly.action_draft()
+        with self.assertRaises(UserError):
+            disassembly.action_validate()
+        self.assertEqual(disassembly.state, "done")
+        self.assertEqual(self.product_avco_auto.qty_available, 3)
+
+    def test_done_cannot_be_modified(self):
+        disassembly = self._done_disassembly()
+        for vals in (
+            {"product_qty": 2},
+            {"product_id": self.product_fifo_auto.id},
+            {"allocation_method": "percent"},
+            {"line_ids": [(5, 0, 0)]},
+        ):
+            with self.assertRaises(UserError), self.cr.savepoint():
+                disassembly.write(vals)
+        # notes and activities stay possible
+        disassembly.message_post(body="note")
+        disassembly.write({"reason": "checked"})
+
+    def test_done_lines_are_locked(self):
+        disassembly = self._done_disassembly()
+        line = disassembly.line_ids
+        with self.assertRaises(UserError), self.cr.savepoint():
+            line.write({"quantity": 5})
+        with self.assertRaises(UserError), self.cr.savepoint():
+            line.unlink()
+        with self.assertRaises(UserError), self.cr.savepoint():
+            self.env["stock.disassembly.line"].create(
+                {"disassembly_id": disassembly.id, "product_id": self.result_b.id, "quantity": 1}
+            )
+        self.assertEqual(len(disassembly.line_ids), 1)
+
+    def test_create_not_in_draft(self):
+        with self.assertRaises(UserError):
+            self._disassembly(
+                self.product_avco_auto, 1, [{"product_id": self.result_a.id, "quantity": 1}], state="done"
+            )
+
+    def test_draft_and_cancel_flow(self):
+        self._make_in_move(self.product_avco_auto, 2, unit_cost=10)
+        disassembly = self._disassembly(self.product_avco_auto, 1, [{"product_id": self.result_a.id, "quantity": 1}])
+        disassembly.write({"product_qty": 2})
+        disassembly.line_ids.write({"quantity": 3})
+        disassembly.action_cancel()
+        with self.assertRaises(UserError):
+            disassembly.write({"product_qty": 1})
+        disassembly.action_draft()
+        disassembly.write({"product_qty": 1})
+        disassembly.action_validate()
+        self.assertEqual(disassembly.state, "done")
+
 
 @tagged("post_install", "-at_install")
 class TestStockDisassemblyRomania(TestStockValuationCommon):
