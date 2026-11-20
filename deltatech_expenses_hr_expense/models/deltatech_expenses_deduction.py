@@ -24,6 +24,24 @@ class DeltatechExpensesDeduction(models.Model):
             ]
         )
 
+    def _hr_expense_amount(self, expense):
+        """Suma brută a cheltuielii hr.expense, exprimată în moneda decontului (moneda liniei).
+
+        `total_amount` e în moneda companiei, `total_amount_currency` în moneda cheltuielii; linia
+        de decont are suma în moneda decontului, deci nu se copiază orbește unul dintre ele:
+        - aceeași monedă ca decontul: suma din document, fără conversie;
+        - decontul în moneda companiei: contravaloarea din cheltuială (`total_amount`);
+        - altfel conversie la cursul de la data cheltuielii."""
+        self.ensure_one()
+        deduction_currency = self.currency_id or self.company_id.currency_id
+        if expense.currency_id == deduction_currency:
+            return expense.total_amount_currency
+        if deduction_currency == self.company_id.currency_id:
+            return expense.total_amount
+        return expense.currency_id._convert(
+            expense.total_amount_currency, deduction_currency, self.company_id, expense.date or self.date_advance
+        )
+
     def _import_hr_expenses(self, expenses):
         """Creează linii de decont din cheltuielile hr.expense date și le leagă de decont
         (setând expenses_deduction_id), astfel încât contabilizarea să se facă doar aici.
@@ -64,13 +82,12 @@ class DeltatechExpensesDeduction(models.Model):
                     "hr_expense_id": expense.id,
                     "name": expense.name,
                     "date": expense.date,
-                    "amount": expense.total_amount,
+                    "amount": self._hr_expense_amount(expense),
                     "tax_ids": [(6, 0, expense.tax_ids.ids)],
                     "partner_id": expense.vendor_id.id,
                     "expense_account_id": expense.account_id.id,
                     "analytic_distribution": expense.analytic_distribution,
                     "type": "expenses",
-                    "currency_id": expense.currency_id.id,
                 }
             )
         if expenses:

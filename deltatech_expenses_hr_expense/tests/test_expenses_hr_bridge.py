@@ -295,3 +295,64 @@ class TestExpensesHrBridge(TestExpenses):
         with self.assertRaises(UserError):
             deduction._import_hr_expenses(expense)
         self.assertFalse(expense.expenses_deduction_id)
+
+    def _hr_expense_in(self, currency, amount):
+        product = self.env["product.product"].create({"name": "Cheltuiala HR valuta", "can_be_expensed": True})
+        expense = self.env["hr.expense"].create(
+            {
+                "name": f"Cheltuiala {currency.name}",
+                "employee_id": self.employee.id,
+                "product_id": product.id,
+                "currency_id": currency.id,
+                "total_amount_currency": amount,
+                "account_id": self.acc_exp.id,
+                "date": fields.Date.today(),
+            }
+        )
+        expense.approval_state = "approved"
+        return expense
+
+    def _deduction_with_journal(self, journal):
+        return self.env["deltatech.expenses.deduction"].create(
+            {
+                "date_advance": fields.Date.today(),
+                "employee_id": self.employee.id,
+                "advance": 0.0,
+                "journal_id": journal.id,
+                "expense_journal_id": self.adv_journal.id,
+                "journal_diem_id": self.diary_journal.id,
+                "account_diem_id": self.acc_exp.id,
+            }
+        )
+
+    def test_import_foreign_expense_into_foreign_deduction(self):
+        """#3977: cheltuiala de 100 EUR (500 RON la curs 5) intră în decontul EUR cu 100, nu cu 500."""
+        foreign = self._foreign_currency(self.company)
+        self._set_rate(foreign, fields.Date.today(), 5.0)
+        deduction = self._deduction_with_journal(self._foreign_cash_journal(foreign))
+        self.assertEqual(deduction.currency_id, foreign)
+        expense = self._hr_expense_in(foreign, 100.0)
+        self.assertAlmostEqual(expense.total_amount, 500.0, places=2)
+        deduction._import_hr_expenses(expense)
+        line = deduction.expenses_line_ids
+        self.assertEqual(line.currency_id, foreign)
+        self.assertAlmostEqual(line.amount, 100.0, places=2)
+
+    def test_import_company_currency_expense_into_foreign_deduction(self):
+        """#3977: cheltuiala în moneda companiei (500 RON) într-un decont EUR se convertește: 100 EUR."""
+        foreign = self._foreign_currency(self.company)
+        self._set_rate(foreign, fields.Date.today(), 5.0)
+        deduction = self._deduction_with_journal(self._foreign_cash_journal(foreign))
+        expense = self._hr_expense_in(self.company.currency_id, 500.0)
+        deduction._import_hr_expenses(expense)
+        self.assertAlmostEqual(deduction.expenses_line_ids.amount, 100.0, places=2)
+
+    def test_import_foreign_expense_into_company_currency_deduction(self):
+        """#3977: cheltuiala de 100 EUR într-un decont în moneda companiei intră cu contravaloarea (500)."""
+        foreign = self._foreign_currency(self.company)
+        self._set_rate(foreign, fields.Date.today(), 5.0)
+        deduction = self._deduction_with_journal(self.cash_journal)
+        self.assertEqual(deduction.currency_id, self.company.currency_id)
+        expense = self._hr_expense_in(foreign, 100.0)
+        deduction._import_hr_expenses(expense)
+        self.assertAlmostEqual(deduction.expenses_line_ids.amount, 500.0, places=2)

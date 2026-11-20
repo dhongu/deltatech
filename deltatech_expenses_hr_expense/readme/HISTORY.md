@@ -1,3 +1,10 @@
+## 19.0.1.1.3 (2026-11-20)
+
+- Importing an HR expense into a deduction in a foreign currency no longer reads the amount in the
+  company currency as if it were foreign currency (100 EUR was imported as 500 EUR). The line amount is
+  now in the deduction currency: the document amount when the currencies match, the company-currency
+  value for a deduction in the company currency, otherwise converted at the rate of the expense date.
+
 ## 19.0.1.1.2 (2026-10-09)
 
 - Apps Store banner (banner.json).
