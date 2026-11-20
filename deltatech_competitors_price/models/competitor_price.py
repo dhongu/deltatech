@@ -4,7 +4,7 @@
 import ipaddress
 import logging
 import socket
-from urllib.parse import urljoin, urlsplit
+from urllib.parse import urljoin, urlsplit, urlunsplit
 
 from odoo import fields, models
 from odoo.exceptions import UserError
@@ -14,9 +14,11 @@ _logger = logging.getLogger(__name__)
 try:
     import requests
     from lxml import html as lxml_html
+    from requests.adapters import HTTPAdapter
 except Exception:  # pragma: no cover - optional at runtime
     requests = None
     lxml_html = None
+    HTTPAdapter = object  # keeps _PinnedIPAdapter importable; it is never used without requests
 
 # extruct is optional; use it when available to parse JSON-LD/Microdata
 try:  # pragma: no cover - optional at runtime
@@ -25,6 +27,35 @@ except Exception:  # pragma: no cover - optional at runtime
     extruct = None
 
 MAX_REDIRECTS = 5
+
+
+class _PinnedIPAdapter(HTTPAdapter):
+    """Connect to an already validated IP instead of resolving the host name again.
+
+    The Host header, the TLS SNI and the certificate check keep the original host name,
+    so a second DNS answer (DNS rebinding) can never redirect the connection.
+    """
+
+    def __init__(self, ip, hostname, **kw):
+        self._ip, self._hostname = ip, hostname
+        super().__init__(**kw)
+
+    def send(self, request, **kwargs):
+        # Overriding send() (not get_connection*) works on every requests version Odoo ships
+        # (2.25 / 2.31 pin get_connection(), 2.32+ get_connection_with_tls_context()).
+        split = urlsplit(request.url)
+        default_port = 443 if split.scheme == "https" else 80
+        port = split.port or default_port
+        ip = f"[{self._ip}]" if ":" in self._ip else self._ip
+        request.url = urlunsplit(split._replace(netloc=f"{ip}:{port}"))
+        # Host header without credentials (user:pass@) and without the default port
+        host = f"[{split.hostname}]" if ":" in split.hostname else split.hostname
+        request.headers["Host"] = host if port == default_port else f"{host}:{port}"
+        if split.scheme == "https":
+            # TLS SNI and certificate check on the original host name, not on the IP
+            self.poolmanager.connection_pool_kw["server_hostname"] = self._hostname
+            self.poolmanager.connection_pool_kw["assert_hostname"] = self._hostname
+        return super().send(request, **kwargs)
 
 
 def _resolve_host_ips(host, port):
@@ -66,7 +97,8 @@ def _check_public_url(env, url):
                     "The product URL points to a non-public address (%(host)s -> %(ip)s).", host=split.hostname, ip=ip
                 )
             )
-    return url
+    # prefer IPv4: servers without IPv6 connectivity would fail on dual-stack hosts
+    return url, sorted(ips, key=lambda ip: (":" in ip, ip))[0]
 
 
 class DeltatechCompetitorPrice(models.Model):
@@ -238,10 +270,17 @@ class DeltatechCompetitorPrice(models.Model):
         return None
 
     def _get_public_url(self, url, headers):
-        """GET a public URL; redirects are followed manually so each hop is validated."""
+        """GET a public URL; redirects are followed manually so each hop is validated
+        and the connection is pinned to the validated IP (no DNS rebinding)."""
         for _hop in range(MAX_REDIRECTS + 1):
-            _check_public_url(self.env, url)
-            resp = requests.get(url, headers=headers, timeout=15, allow_redirects=False)
+            url, ip = _check_public_url(self.env, url)
+            hostname = urlsplit(url).hostname
+            adapter = _PinnedIPAdapter(ip, hostname)
+            with requests.Session() as session:
+                session.trust_env = False  # ignoră proxy-urile din mediu, care ar ocoli fixarea IP-ului
+                session.mount("http://", adapter)
+                session.mount("https://", adapter)
+                resp = session.get(url, headers=headers, timeout=15, allow_redirects=False)
             if not getattr(resp, "is_redirect", False):
                 return resp
             url = urljoin(url, resp.headers.get("location") or "")
