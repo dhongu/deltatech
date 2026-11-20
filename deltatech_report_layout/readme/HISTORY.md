@@ -1,3 +1,10 @@
+## 20.0.1.3.2 (2026-11-20)
+
+- Style1 and Style2 renamed to Grid (bordered table, address on the right) and Inline
+  (address next to the logo, striped rows); Compact Header renamed to Dense, so no name
+  is close to the standard Odoo 20 **Compact** layout. Only the displayed name changes:
+  the XML IDs stay, so companies that already use them keep their layout.
+
 ## 20.0.1.3.1 (2026-11-16)
 
 - Empty `__init__.py` restored: the OCA tools (manifestoo, oca-checks-odoo-module) do not
