@@ -45,16 +45,40 @@ class MRPSimple(models.Model):
 
     def _check_can_transfer(self):
         """Confirm only once: the button is hidden after draft, but RPC or a retried request
-        would consume and receive the stock a second time."""
+        would consume and receive the stock a second time.
+
+        Returns True when the confirmation is resumed: the pickings were already created, but the
+        consumption was left waiting for the backorder decision, so the receipt was not made yet.
+        """
         self.ensure_one()
         # lock the record so that two concurrent confirmations cannot both pass the check
         self.env.cr.execute(SQL("SELECT id FROM mrp_simple WHERE id = %s FOR UPDATE", self.id))
         self.invalidate_recordset(["state", "consume_id", "receipt_id"])
+        if self.state == "draft" and self.consume_id and self.receipt_id and self.receipt_id.state != "done":
+            return True
         if self.state != "draft" or self.consume_id or self.receipt_id:
             raise UserError(self.env._("The simple production %s is already confirmed.", self.display_name))
+        return False
+
+    @api.model
+    def _line_base_qty(self, line):
+        """Quantity of a line in the unit of measure of its product, the unit of the product costs."""
+        product_uom = line.product_id.uom_id
+        if not line.product_id or not line.uom_id or line.uom_id == product_uom:
+            return line.quantity
+        return line.uom_id._compute_quantity(line.quantity, product_uom)
+
+    @api.model
+    def _set_done_quantities(self, picking):
+        """Done quantity = reserved quantity, expressed in the unit of the move line."""
+        for move_line in picking.move_ids.move_line_ids:
+            move_line.quantity = move_line.product_id.uom_id._compute_quantity(
+                move_line.quantity_product_uom, move_line.product_uom_id
+            )
 
     def do_transfer(self):
-        self._check_can_transfer()
+        if self._check_can_transfer():
+            return self._validate_transfers(self.consume_id, self.receipt_id)
         picking_type_consume = self.picking_type_consume
         picking_type_receipt_production = self.picking_type_receipt_production
 
@@ -89,25 +113,31 @@ class MRPSimple(models.Model):
         self.consume_id = picking_out
         self.receipt_id = picking_in
 
+        return self._validate_transfers(picking_out, picking_in)
+
+    def _validate_transfers(self, picking_out, picking_in):
+        """Consume, then receive. Stops, returning the action of Odoo, when a transfer is not
+        completed (e.g. the backorder dialog), so that a production is never done without it."""
+        self.ensure_one()
         # se face consumul
-        if picking_out.move_ids:
+        if picking_out.move_ids and picking_out.state not in ("done", "cancel"):
             picking_out.action_assign()
             if self.validation_consume:
                 if picking_out.state == "assigned":
-                    for move in picking_out.move_ids:
-                        for move_line in move.move_line_ids:
-                            move_line.quantity = move_line.quantity_product_uom
-                picking_out.button_validate()
+                    self._set_done_quantities(picking_out)
+                result = picking_out.button_validate()
+                if isinstance(result, dict):
+                    return result
 
         # se face receptia
-        if picking_in.move_ids:
+        if picking_in.move_ids and picking_in.state not in ("done", "cancel"):
             picking_in.action_assign()
             if self.validation_receipt:
                 if picking_in.state == "assigned":
-                    for move in picking_in.move_ids:
-                        for move_line in move.move_line_ids:
-                            move_line.quantity = move_line.quantity_product_uom
-                picking_in.button_validate()
+                    self._set_done_quantities(picking_in)
+                result = picking_in.button_validate()
+                if isinstance(result, dict):
+                    return result
 
         self.write({"state": "done"})
         return self
@@ -173,8 +203,9 @@ class MRPSimple(models.Model):
         standard_price = 0.0
         list_price = 0.0
         for line in self.product_out_ids:
-            standard_price += line.product_id.standard_price * line.quantity
-            list_price += line.product_id.lst_price * line.quantity
+            qty = self._line_base_qty(line)
+            standard_price += line.product_id.standard_price * qty
+            list_price += line.product_id.lst_price * qty
         standard_price = standard_price / self.final_product_qty
         list_price = list_price / self.final_product_qty
         return standard_price, list_price
@@ -187,7 +218,7 @@ class MRPSimple(models.Model):
                 raise UserError(self.env._("Error creating final product!"))
             standard_price = 0.0
             for line in self.product_out_ids:
-                standard_price += line.price_unit * line.quantity
+                standard_price += line.value
             standard_price = standard_price / self.final_product_qty
             vals = {
                 "mrp_simple_id": self.id,
@@ -312,7 +343,10 @@ class MRPSimple(models.Model):
                     product=line.product_id,
                     quantity=line.quantity,
                     uom=line.uom_id,
-                    price_unit=line.product_id.standard_price,
+                    # the cost is per unit of the product, the move is in the unit of the line
+                    price_unit=line.product_id.uom_id._compute_price(
+                        line.product_id.standard_price, line.uom_id or line.product_id.uom_id
+                    ),
                 )
 
     def add_multiple_lines(self):
@@ -353,7 +387,7 @@ class MRPSimpleLineIn(models.Model):
         mrpsimple = self.mrp_simple_id
         price = 0.0
         for line in mrpsimple.product_out_ids:
-            price += line.product_id.standard_price * line.quantity
+            price += line.product_id.standard_price * mrpsimple._line_base_qty(line)
         mrpsimple._allocate_finit_price(price)
 
     @api.depends("quantity", "price_unit")
@@ -374,10 +408,11 @@ class MRPSimpleLineOut(models.Model):
     stock = fields.Float(related="product_id.qty_available")
     value = fields.Float(compute="_compute_value", string="Value", store=True)
 
-    @api.depends("quantity", "price_unit")
+    @api.depends("quantity", "price_unit", "uom_id", "product_id")
     def _compute_value(self):
+        # the price is per unit of the product, the quantity may be in another unit
         for line in self:
-            line.value = line.quantity * line.price_unit
+            line.value = line.mrp_simple_id._line_base_qty(line) * line.price_unit
 
     @api.onchange("product_id", "quantity")
     def onchange_product_id(self):
