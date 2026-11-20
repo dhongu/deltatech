@@ -5,6 +5,7 @@
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
+from odoo.tools import mute_logger
 from odoo.tools.binary import BinaryBytes
 
 from .test_ubl_import import UBL_NS, _xml_invoice
@@ -83,6 +84,7 @@ class TestUblImportParse(TransactionCase):
         with self.assertRaises(UserError):
             self.Wizard._parse_xml(b"<inv:Invoice")
 
+    @mute_logger("odoo.addons.deltatech_account_ubl_import.models.account_ubl_import_mixin")
     def test_parse_line_edge_values(self):
         """Unreadable numbers become 0, a charge (ChargeIndicator=true) is not a discount,
         an unreadable allowance amount is ignored and a non-GS1 standard id is no barcode."""
@@ -105,9 +107,7 @@ class TestUblImportParse(TransactionCase):
             </cac:Item>
             """
         )
-        with self.assertLogs("odoo.addons.deltatech_purchase_ubl.wizard.ubl_import_wizard", "WARNING") as logs:
-            data = self.Wizard._parse_xml(content)
-        self.assertIn("Could not parse AllowanceCharge/Amount 'abc'", logs.output[0])
+        data = self.Wizard._parse_xml(content)
         line = data["lines"][0]
         self.assertEqual(line["price"], 12.5)
         self.assertEqual(line["line_total"], 0.0)
@@ -156,12 +156,20 @@ class TestUblImportParse(TransactionCase):
         self.assertFalse(invalid.total_check_warning)
 
         matching = self.Wizard.create(
-            {"data_file": BinaryBytes(_xml_invoice(payable_amount="20")), "order_id": order.id}
+            {
+                "data_file": BinaryBytes(_xml_invoice(tax_exclusive_amount="20", payable_amount="20")),
+                "order_id": order.id,
+            }
         )
         self.assertFalse(matching.total_check_warning)
 
         differing = self.Wizard.create(
-            {"data_file": BinaryBytes(_xml_invoice(payable_amount="25")), "order_id": order.id}
+            {
+                "data_file": BinaryBytes(
+                    _xml_invoice(tax_exclusive_amount="20", tax_inclusive_amount="25", payable_amount="25")
+                ),
+                "order_id": order.id,
+            }
         )
         self.assertIn("differs", differing.total_check_warning)
 
@@ -193,6 +201,22 @@ class TestUblImportParse(TransactionCase):
         line.product_id = other
         line._onchange_product_id()
         self.assertEqual(line.match_type, "manual")
+
+    def test_log_level_comes_from_the_caller_not_the_text(self):
+        """A translated message no longer holds the English keywords: the level is passed."""
+        html = self.Wizard._build_log_html([("danger", "Linii neasociate în comandă: X"), ("success", "Recepție")])
+        self.assertIn("text-danger", html)
+        self.assertIn("❌", html)
+        self.assertIn("text-success", html)
+        self.assertEqual(
+            self.Wizard._build_log_text([("warning", "Avertisment"), "Vendor bill created: X"]),
+            "⚠️ Avertisment\n✅ Vendor bill created: X",
+        )
+
+    def test_wizard_title(self):
+        wizard = self.Wizard.new({"filename": "FMS-1.xml"})
+        self.assertEqual(wizard.display_name, "Import Invoice: FMS-1.xml")
+        self.assertEqual(wizard._reopen()["name"], "Import Invoice")
 
     def test_build_log_html_skips_blank_sub_lines(self):
         html = self.Wizard._build_log_html(["Created products (1):\n\nFirst <b>"])

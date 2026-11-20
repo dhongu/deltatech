@@ -323,12 +323,12 @@ class AccountUblImportMixin(models.AbstractModel):
         )
         uom_vals = {}
         if uom:
-            target_uom = sinfo.product_uom_id if sinfo else product.uom_id
+            target_uom = sinfo.uom_id if sinfo else product.uom_id
             if self._source_uom_compatible(uom, target_uom):
                 if sinfo:
                     price = uom._compute_price(price, target_uom) if price else price
                 else:
-                    uom_vals["product_uom_id"] = uom.id
+                    uom_vals["uom_id"] = uom.id
         values = {
             "partner_id": supplier.id,
             "product_tmpl_id": product.product_tmpl_id.id,

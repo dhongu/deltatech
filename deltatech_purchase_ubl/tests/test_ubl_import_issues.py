@@ -1,10 +1,10 @@
 # © 2026 Terrabit
 # See README.rst file on addons root folder for license details
 
-from base64 import b64encode
 
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
+from odoo.tools.binary import BinaryBytes
 
 from .test_ubl_import import _xml_invoice
 
@@ -21,7 +21,7 @@ class TestUblImportIssues(TransactionCase):
         cls.env.user.company_ids |= cls.company_b
         cls.Wizard = cls.env["purchase.ubl.import.wizard"]
         cls.vendor = cls.env["res.partner"].create(
-            {"name": "Issues Vendor SRL", "is_company": True, "vat": "RO30000003", "supplier_rank": 1}
+            {"name": "Issues Vendor SRL", "vat": "RO30000003", "supplier_rank": 1}
         )
         cls.unit = cls.env.ref("uom.product_uom_unit")
 
@@ -152,7 +152,7 @@ class TestUblImportIssues(TransactionCase):
             ],
         )
         wiz = self.Wizard.with_context(active_model="purchase.order", active_id=po.id).create(
-            {"data_file": b64encode(xml), "update_prices": False, "create_missing_products": False}
+            {"data_file": BinaryBytes(xml), "update_prices": False, "create_missing_products": False}
         )
         wiz.action_import()
         self.assertAlmostEqual(po.order_line.product_qty, 2.0)
