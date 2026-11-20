@@ -57,7 +57,28 @@
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
-<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.4.16 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-02)</span></h2>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.5.1 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-20)</span></h2>
+<ul>
+<li>A price declared per 100 or 1,000 units (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">BaseQuantity</code>) is no longer taken as the price of
+  one unit on the order line and in the vendor prices (fix in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_account_ubl_import</code>), unless the line total shows that the program filled
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">BaseQuantity</code> wrongly (e.g. with the line quantity): then the price is kept and a warning is logged.
+  Fixes #3590.</li>
+<li>Importing a partial invoice on an order already invoiced in part no longer overwrites the
+  ordered quantity with the quantity of the invoice: the ordered quantity is never lowered below
+  the quantity already invoiced plus the quantity of the document (a line already fully invoiced
+  is left as it is), and importing the same
+  invoice again does not change it. The vendor bill takes the quantity of the document for
+  products billed on ordered quantities; for products billed on received quantities a warning
+  reports the difference. Fixes #3591.</li>
+</ul>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.5.0 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-20)</span></h2>
+<ul>
+<li>The UBL reader and the product matcher moved to the new base module
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_account_ubl_import</code>, installed automatically as a dependency. They are now shared
+  with the vendor bill review (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_vendor_bill_ubl_review</code>). The import works as before;
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">purchase.invoice.import.mixin</code> keeps its name, so the modules that extend it are unchanged.</li>
+</ul>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.4.22 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-02)</span></h2>
 <ul>
 <li>Fixed: importing an invoice with <em>Update vendor prices</em> checked no longer resets the lead time
   (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">delay</code>) of the existing vendor line to 1 day; only the price (converted to the line unit), currency and code are updated.</li>
@@ -145,21 +166,6 @@
   is now skipped with a message in the log, and the automatic import schedules
   the "SPV import needs review" activity on the order, since it may be a
   duplicate invoice or an extra charge.</li>
-</ul>
-<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.4.8 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-10-12)</span></h2>
-<ul>
-<li>Fixed: a receipt validated without a purchase order context (or still waiting
-  for another operation) stayed undone when the invoice covered only part of it,
-  while the log said "Receipt updated". The received quantities are now validated
-  and the rest goes to a backorder. When the receipt still cannot be validated,
-  the log shows a warning instead.</li>
-</ul>
-<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.4.7 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-10-12)</span></h2>
-<ul>
-<li>Tests: 33 new tests for the automatic import on attachment, XML parsing and
-  detection, wizard defaults and preview, vendor/order resolution, product
-  matching, units of measure, partial receipts and vendor bill taxes. Local
-  coverage of the module goes from 82.5% to 95.8%. No change in behaviour.</li>
 </ul>
 <p><em>Older releases are listed in the module's HISTORY file.</em></p>
 </div>
