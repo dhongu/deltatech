@@ -7,7 +7,7 @@ Key Features
 ============
 
 1.  **Eight Predefined Layouts**:
-    *   Adds eight report layouts to the system: Style1, Style2, Band, Modern, Title Box, Compact, Minimal and Accent.
+    *   Adds eight report layouts to the system: Grid, Inline, Band, Modern, Title Box, Compact, Minimal and Accent.
     *   Each one has its own header, footer and table design: a full-width colored header band, a boxed title, a compact one-line header for long documents, a black-and-white minimal design or a colored accent bar along the left edge of the content.
     *   Colors follow the primary and secondary colors of the company (except Minimal, which is black and white).
 
