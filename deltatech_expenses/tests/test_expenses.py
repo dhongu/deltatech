@@ -681,6 +681,29 @@ class TestExpenses(TransactionCase):
         self.assertAlmostEqual(voucher.amount_tax, 21.0, places=2)
         self.assertAlmostEqual(voucher.amount_total, 121.0, places=2)
 
+    def test_receipt_rounding_preserves_gross_and_does_not_pay_a_difference(self):
+        deduction = self._new_deduction(199.85)
+        line = self._new_line(deduction, 199.85, self.tax_21)
+        self.assertAlmostEqual(line.price_subtotal, 165.17, places=2)
+        self.assertAlmostEqual(line.tax_amount, 34.68, places=2)
+        self.assertAlmostEqual(deduction.difference, 0.0, places=2)
+
+        deduction.validate_expenses()
+
+        voucher = deduction.voucher_ids
+        voucher.ensure_one()
+        self.assertEqual(deduction.state, "done")
+        self.assertEqual(voucher.state, "posted")
+        self.assertAlmostEqual(voucher.amount_untaxed, 165.17, places=2)
+        self.assertAlmostEqual(voucher.amount_tax, 34.68, places=2)
+        self.assertAlmostEqual(voucher.amount_total, 199.85, places=2)
+        lines = self._lines_for_expenses(deduction)
+        cash = lines.filtered(lambda line: line.account_id == self.acc_cash)
+        self.assertEqual(len(cash), 1)
+        self.assertAlmostEqual(cash.credit, 199.85, places=2)
+        advance = lines.filtered(lambda line: line.account_id == self.acc_542)
+        self.assertAlmostEqual(sum(advance.mapped("balance")), 0.0, places=2)
+
     def test_gross_amount_rounding_still_closes_542(self):
         """Un brut care nu se împarte exact (100 lei cu TVA 21% pe deasupra) dă un total al
         decontului identic cu al chitanței, deci 542 se închide la zero."""
