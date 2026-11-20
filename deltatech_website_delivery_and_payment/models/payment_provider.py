@@ -14,11 +14,11 @@ class PaymentAcquirer(models.Model):
     restrict_label_ids = fields.Many2many("res.partner.category")
 
     def is_restricted(self, partner_id):
+        """The provider is hidden when the partner or its company has one of the restricted tags."""
         self.ensure_one()
-        for label in self.sudo().restrict_label_ids:
-            if label in partner_id.sudo().category_id:
-                return True
-        return False
+        partner = partner_id.sudo()
+        labels = partner.category_id | partner.commercial_partner_id.category_id
+        return bool(self.sudo().restrict_label_ids & labels)
 
     def _filter_allowed_for_order(self, order, report=None):
         """Return the providers of `self` that are allowed to pay the sales order.
@@ -26,7 +26,7 @@ class PaymentAcquirer(models.Model):
         A provider is excluded when:
 
         - the order total exceeds its `value_limit`;
-        - the commercial partner of the order has one of its restricted labels;
+        - the customer of the order, or its company, has one of its restricted labels;
         - the delivery method of the order allows only some providers (`acquirer_allowed_ids`)
           and it is not one of them.
 
@@ -48,7 +48,7 @@ class PaymentAcquirer(models.Model):
             reason=self.env._("Order amount exceeds the value limit"),
         )
 
-        partner = order.partner_id.commercial_partner_id
+        partner = order.partner_id
         unfiltered_providers = providers
         providers = providers.filtered(lambda p: not p.is_restricted(partner))
         payment_utils.add_to_report(
@@ -76,11 +76,25 @@ class PaymentAcquirer(models.Model):
         self, company_id, partner_id, amount, *args, sale_order_id=None, report=None, **kwargs
     ):
         """Exclude the providers that are not allowed for the sales order
-        (see `_filter_allowed_for_order`)."""
+        (see `_filter_allowed_for_order`).
+
+        Without a sales order (invoice payment from the portal, payment link, saved payment methods), only the
+        tag restriction applies, on the partner that pays: the `partner_id` received from the caller.
+        """
         available_providers = super()._find_available_providers(
             company_id, partner_id, amount, *args, sale_order_id=sale_order_id, report=report, **kwargs
         )
         order = sale_order_id and self.env["sale.order"].browse(sale_order_id).exists()
         if not order:
+            partner = self.env["res.partner"].browse(partner_id).exists()
+            if partner:
+                unfiltered_providers = available_providers
+                available_providers = available_providers.filtered(lambda p: not p.is_restricted(partner))
+                payment_utils.add_to_report(
+                    report,
+                    unfiltered_providers - available_providers,
+                    available=False,
+                    reason=self.env._("Restricted for the partner labels"),
+                )
             return available_providers
         return available_providers._filter_allowed_for_order(order, report=report)

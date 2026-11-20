@@ -116,3 +116,42 @@ class TestWebsiteDeliveryAndPayment(DeliveryPaymentCommon):
         methods = order._get_delivery_methods()
         self.assertNotIn(self.carrier_b, methods)
         self.assertIn(self.carrier_a, methods)
+
+    def test_restrict_label_on_company_hides_provider_for_contact(self):
+        """A tag set only on the company hides the provider for its contact persons."""
+        company = self.env["res.partner"].create(
+            {"name": "Reseller Company", "category_id": [Command.set(self.restricted_tag.ids)]}
+        )
+        contact = self.env["res.partner"].create({"name": "Reseller Contact", "parent_id": company.id})
+        self.provider_b.restrict_label_ids = self.restricted_tag
+        self.assertTrue(self.provider_b.is_restricted(contact))
+        self.assertFalse(self.provider_a.is_restricted(contact))
+
+    def test_restrict_label_without_order_uses_payment_partner(self):
+        """Without a sales order (invoice from the portal, payment link), the tags of the partner that pays apply;
+        the value limit does not."""
+        self.provider_b.restrict_label_ids = self.restricted_tag
+        self.provider_b.value_limit = 1.0
+        provider_model = self.env["payment.provider"].sudo()
+
+        # Positional arguments, as the standard controllers call it
+        providers = provider_model._find_available_providers(
+            self.company_id, self.partner_restricted.id, 10.0, currency_id=self.currency.id
+        )
+        self.assertNotIn(self.provider_b, providers)
+        self.assertIn(self.provider_a, providers)
+
+        # Keyword arguments
+        providers = provider_model._find_available_providers(
+            company_id=self.company_id,
+            partner_id=self.partner_restricted.id,
+            amount=10.0,
+            currency_id=self.currency.id,
+        )
+        self.assertNotIn(self.provider_b, providers)
+        self.assertIn(self.provider_a, providers)
+
+        providers = provider_model._find_available_providers(
+            self.company_id, self.partner.id, 10.0, currency_id=self.currency.id
+        )
+        self.assertIn(self.provider_b, providers)

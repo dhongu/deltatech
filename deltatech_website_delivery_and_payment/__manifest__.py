@@ -5,7 +5,7 @@
     "name": "Delivery and Payment",
     "category": "Website",
     "summary": "Limit eCommerce delivery methods and payment providers",
-    "version": "20.0.2.2.1",
+    "version": "20.0.2.2.3",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
