@@ -4,7 +4,7 @@
 {
     "name": "Report Layout",
     "summary": "Eight extra PDF report layouts; data-only, importable on Odoo Online",
-    "version": "20.0.1.3.1",
+    "version": "20.0.1.3.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
