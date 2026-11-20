@@ -12,6 +12,19 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
     branches:
       - "19.0*"
+    # PR-urile care ating doar documentație, prezentare Apps Store sau traduceri
+    # nu pot schimba rezultatul testelor: sărim peste rulare.
+    paths-ignore:
+      - "**/*.md"
+      - "**/*.rst"
+      - "**/readme/**"
+      - "**/screenshots/**"
+      - "**/static/description/**"
+      # Apps Store image the manifest `images` key may point to (addon root only).
+      - "*/images/**"
+      - "**/i18n/**"
+      - "**/index.html"
+      - "scripts/**"
   # No run on push to 19.0: the PR already ran these tests. The nightly run tests the
   # whole repo (plan_tests.py: any event other than push/PR is a full run) and
   # uploads a complete report. Schedules only fire on the default branch (19.0).
