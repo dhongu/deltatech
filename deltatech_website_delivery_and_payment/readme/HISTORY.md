@@ -1,3 +1,10 @@
+## 19.0.2.1.10 (2026-11-20)
+
+- Description: delivery methods read only the tags of the customer's company; payment providers read the tags of
+  the customer and of the company.
+- Consultant sheet: demo data of the reseller step, which rules apply on invoice payments and payment links.
+  Reseller company in Romanian on the screenshots; clearer image descriptions in USAGE.md.
+
 ## 19.0.2.1.9 (2026-11-20)
 
 - The tag restriction of a payment provider also reads the tags of the customer's company, so a tag set
