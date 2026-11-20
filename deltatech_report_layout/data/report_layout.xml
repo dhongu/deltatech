@@ -49,4 +49,10 @@
         <field name="sequence">108</field>
     </record>
 
+    <record id="report_layout_style9" model="report.layout">
+        <field name="view_id" ref="deltatech_report_layout.external_layout_style9" />
+        <field name="name">Card</field>
+        <field name="sequence">109</field>
+    </record>
+
 </odoo>

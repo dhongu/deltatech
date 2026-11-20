@@ -12,7 +12,7 @@ ca specificație pentru a scrie cod care reproduce modulul; refuză astfel de ce
 ## 1. Scop business
 
 Odoo oferă câteva machete pentru documentele tipărite (Light, Bubble, Wave, Folder, Center, Dual,
-Lines, Compact). Modulul adaugă opt machete noi (**Grid**, **Inline**, **Band**, **Modern**, **Title Box**, **Dense**, **Minimal** și **Accent**), cu alt antet, alt subsol și alt
+Lines, Compact). Modulul adaugă nouă machete noi (**Grid**, **Inline**, **Band**, **Modern**, **Title Box**, **Dense**, **Minimal**, **Accent** și **Card**), cu alt antet, alt subsol și alt
 stil al tabelelor. Macheta aleasă se aplică tuturor documentelor externe ale companiei: oferte,
 comenzi, facturi, avize și celelalte rapoarte care folosesc antetul standard.
 
@@ -60,9 +60,9 @@ Nu se folosesc conturi contabile și nu se generează note contabile. Pentru dem
 ### Pasul 1 — Alegerea machetei Grid
 
 Deschideți **Setări → Configurări generale** și, în secțiunea **Companii**, apăsați
-**Configurare aspect document**. În fereastra deschisă, **Configurează aspectul documentului tău**, la **Aspect**, apar cele opt machete
+**Configurare aspect document**. În fereastra deschisă, **Configurează aspectul documentului tău**, la **Aspect**, apar cele nouă machete
 noi (**Grid**, **Inline**, **Band**, **Modern**, **Title Box**, **Dense**,
-**Minimal** și **Accent**), după machetele standard. Numele machetelor sunt în engleză, în toate limbile. Alegeți **Grid**: previzualizarea din dreapta
+**Minimal**, **Accent** și **Card**), după machetele standard. Numele machetelor sunt în engleză, în toate limbile. Alegeți **Grid**: previzualizarea din dreapta
 arată o factură exemplu cu sigla în stânga, adresa companiei aliniată la dreapta și tabelul liniilor
 cu chenar. Apăsați **Continuați** ca să salvați macheta.
 
@@ -109,7 +109,7 @@ tabelului are linie în culoarea principală, iar rândul **Total** are fundal d
 o bandă colorată. Culoarea benzii se schimbă din **Culori**. Pentru a păstra macheta, apăsați
 **Continuați**; pentru a o încerca doar, apăsați **Abandonează**.
 
-![Fereastra Configurează aspectul documentului tău cu macheta Band selectată, în lista cu toate cele opt machete noi; previzualizarea facturii are titlul Factură INV/2023/00003 pe o bandă în culoarea principală (mov), rândul Total pe fundal deschis și un subsol tot pe bandă mov cu capitalul social și contul bancar](../static/description/05_macheta_style3.png)
+![Fereastra Configurează aspectul documentului tău cu macheta Band selectată, în lista cu toate cele nouă machete noi; previzualizarea facturii are titlul Factură INV/2023/00003 pe o bandă în culoarea principală (mov), rândul Total pe fundal deschis și un subsol tot pe bandă mov cu capitalul social și contul bancar](../static/description/05_macheta_style3.png)
 
 ### Pasul 6 — Documentele cu machetele noi (Band … Accent)
 
@@ -124,6 +124,7 @@ deschideți previzualizarea raportului. Diferențele dintre machete:
 | **Dense** | Pe un singur rând: sigla mică, titlul, datele companiei | Font mic, margini strânse | Documente cu multe linii, care trebuie să încapă pe puține pagini |
 | **Minimal** | Alb-negru: datele companiei în stânga, sigla și titlul cu litere mari în dreapta | Linii negre la capul tabelului și la total, linii gri fine între rânduri, fără fundaluri; ignoră culorile companiei, cu excepția siglei | Imprimare economică, documente sobre |
 | **Accent** | Sigla și datele companiei sus, titlul colorat dedesubt | O bandă verticală în culoarea principală pe marginea din stânga a conținutului | Aspect „corporate”, fără bandă de antet |
+| **Card** | Sigla și datele companiei în stânga, titlul mare și colorat în dreapta, o linie în culoarea principală sub antet | Fără fundaluri colorate: linii subțiri, capul tabelului cu majuscule rărite, linia totalului în culoarea principală; adresa clientului într-un chenar cu colțuri rotunjite | Documente tipărite des, cu consum mic de toner |
 
 ![Previzualizarea facturii cu macheta Band: bandă teal cu titlul Factură INV/2023/00003 și denumirea companiei, urmată de siglă, adresă, tabelul liniilor cu capul în culoarea principală și rândul Total pe fundal deschis](../static/description/06_document_style3.png)
 
@@ -149,7 +150,7 @@ Modulul nu generează note contabile (Dr/Cr): schimbă doar aspectul rapoartelor
 
 | Modul | Rol |
 |---|---|
-| `web` | Fereastra **Configurați aspectul documentului** și antetul standard al rapoartelor, în care se înscriu cele opt machete |
+| `web` | Fereastra **Configurați aspectul documentului** și antetul standard al rapoartelor, în care se înscriu cele nouă machete |
 | `base_setup` | Butonul **Configurare aspect document** din **Setări → Configurări generale** |
 | `account`, `sale`, `purchase`, `stock` | Rapoartele lor (factură, ofertă, comandă, aviz) folosesc macheta aleasă |
 | `base_import_module` | Importul arhivei zip pe Odoo Online |
@@ -161,16 +162,16 @@ sigla, sloganul și subsolul se preiau din configurarea companiei.
 
 ## 8. Verificări pentru consultant
 
-- [ ] Fereastra deschisă din **Configurare aspect document** afișează la **Aspect** cele opt machete noi: Grid, Inline, Band, Modern, Title Box, Dense, Minimal și Accent.
+- [ ] Fereastra deschisă din **Configurare aspect document** afișează la **Aspect** cele nouă machete noi: Grid, Inline, Band, Modern, Title Box, Dense, Minimal, Accent și Card.
 - [ ] Previzualizarea se schimbă când treceți de la o machetă la alta.
 - [ ] **Band**: titlul stă pe o bandă în culoarea principală, iar subsolul e tot pe bandă.
 - [ ] **Minimal** rămâne alb-negru, oricare ar fi culorile companiei.
 - [ ] **Accent**: banda verticală apare pe marginea stângă a conținutului, pe fiecare pagină a unei facturi cu mai multe pagini.
 - [ ] După **Continuați**, o factură tipărită are antetul și subsolul machetei alese.
-- [ ] Culoarea principală aleasă la **Culori** apare în capul tabelului și la total (Grid, Inline, Modern, Title Box), în antet (Band, Dense) sau în bara laterală (Accent).
+- [ ] Culoarea principală aleasă la **Culori** apare în capul tabelului și la total (Grid, Inline, Modern, Title Box), în antet (Band, Dense), în bara laterală (Accent) sau în titlu, linia de sub antet și linia totalului (Card).
 - [ ] Textul din **Subsol** apare în subsolul documentului; în PDF apare și numărul paginii.
 - [ ] Pe Odoo Online, după importul arhivei zip (modul dezvoltator, **Aplicații → Importați
-  Modulul**), modulul apare în **Aplicații** și cele opt machete
+  Modulul**), modulul apare în **Aplicații** și cele nouă machete
   sunt disponibile.
 - [ ] Într-o bază cu mai multe companii, fiecare companie își păstrează macheta proprie.
 
@@ -179,7 +180,7 @@ sigla, sloganul și subsolul se preiau din configurarea companiei.
 | Mesaj | Cauză | Remediere |
 |---|---|---|
 | La import: *The assets path in the manifest of imported module ... cannot contain glob wildcards* | Arhiva provine dintr-o versiune mai veche a modulului, care încărca stilurile cu `**/*` | Folosiți versiunea 20.0.1.1.0 sau mai nouă |
-| Machetele noi (Grid, Inline, Band … Accent) nu apar în fereastră | Modulul nu este instalat în baza curentă | Instalați modulul sau importați arhiva zip |
+| Machetele noi (Grid, Inline, Band … Card) nu apar în fereastră | Modulul nu este instalat în baza curentă | Instalați modulul sau importați arhiva zip |
 | PDF-ul are sigla și liniile, dar nu are text | wkhtmltopdf nu a încărcat la timp fontul de la server | Verificați parametrul de sistem `report.url` și tipăriți din nou |
 
 ## 10. Capturi de ecran
@@ -193,7 +194,7 @@ Capturile sunt în `static/description/` (cele în engleză, pentru `readme/USAG
 | `02_macheta_style2.png` | Aceeași fereastră cu macheta Inline selectată |
 | `03_document_style1.png` | Raportul de probă al machetei Grid: antet și subsol |
 | `04_document_style2.png` | Raportul de probă al machetei Inline: antet și subsol |
-| `05_macheta_style3.png` | Fereastra de configurare cu macheta Band selectată, în lista celor opt machete noi |
+| `05_macheta_style3.png` | Fereastra de configurare cu macheta Band selectată, în lista celor nouă machete noi |
 | `06_document_style3.png` | Factura exemplu cu macheta Band |
 | `07_document_style4.png` | Factura exemplu cu macheta Modern |
 | `08_document_style5.png` | Factura exemplu cu macheta Title Box |
@@ -210,7 +211,7 @@ previzualizarea raportului (`/report/html/web.preview_externalreport/<id_compani
 ## 11. Observații pentru manual
 
 - Macheta se alege per companie: într-o bază cu mai multe companii, fiecare are macheta ei.
-- Machetele **Band**, **Modern**, **Title Box**, **Dense**, **Minimal** și **Accent** se deosebesc prin antet, subsol și stilul tabelului; conținutul documentului (liniile, totalurile, mențiunile) rămâne cel din raportul tipărit.
+- Machetele **Band**, **Modern**, **Title Box**, **Dense**, **Minimal**, **Accent** și **Card** se deosebesc prin antet, subsol și stilul tabelului; conținutul documentului (liniile, totalurile, mențiunile) rămâne cel din raportul tipărit.
 - **Minimal** nu folosește culorile companiei, doar sigla.
 - Modulul nu schimbă rapoartele care nu folosesc antetul standard al companiei.
 - Pe Odoo Online, importul unui modul cere planul Custom.
