@@ -1,3 +1,18 @@
+## 19.0.1.1.6 (2026-11-20)
+
+- Fixed SIMPLE-004: for lines in a unit other than the product unit, the quantity
+  prepared for validation was converted twice (2 dozens became 288 units instead
+  of 24). The done quantity is now expressed in the unit of the move line.
+- Fixed SIMPLE-005: the result of the automatic validation of the consumption was
+  ignored, so a backorder dialog left the components unconsumed while the
+  production was marked Done and the final product received. The confirmation
+  now stops and shows the dialog; after the decision, Confirm resumes with the
+  receipt, without creating the pickings again.
+- Fixed SIMPLE-006: the costs and prices of the consumed lines, of the final
+  product and of the received lines ignored the unit of the line (2 dozens at
+  10 per unit cost 20 instead of 240). The quantity is converted to the product
+  unit, and the consume moves are valued at the cost per unit of the line.
+
 ## 19.0.1.1.5 (2026-11-03)
 
 - Description rewritten from the code: the zero-cost system parameter is
