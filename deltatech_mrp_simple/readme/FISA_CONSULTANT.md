@@ -63,6 +63,8 @@ alternativă (de exemplu duzină).
 recepție*, data, și bifați *Validare consum* și/sau *Validare recepție* (recepția este bifată
 implicit; când opțiunea nu e bifată, transferul rămâne de validat manual).
 
+![Formularul Producție simplă în Ciornă: tipurile de operație pentru consum și recepție, data și bifele Validează consumul și Validează recepția, ambele active](../static/description/01_document_nou.png)
+
 ### Pasul 2 — Componentele consumate
 În lista **Consum**, adăugați produsul, cantitatea și unitatea de măsură. Butonul **Adaugă linii**
 adaugă mai multe componente deodată, cu aceeași cantitate. Prețul liniei este costul produsului per
@@ -70,21 +72,29 @@ unitatea lui de măsură de bază, iar *Valoare* = cantitatea convertită în un
 cantitate în altă unitate (de exemplu 2 duzini) se convertește corect: 2 duzini la 10 lei/bucată
 înseamnă 240 lei.
 
+![Lista Consum a documentului: produsul Ouă, cantitatea 2 în unitatea Duzină, prețul unitar 1,20 și valoarea 28,80, calculată pe 24 de bucăți](../static/description/02_linii_consum.png)
+
 ### Pasul 3 — Produsele obținute și costul lor
 În lista **Recepție**, adăugați produsele obținute, cu cantitate și unitate. Butonul **Recalculează
 prețurile** repartizează costul consumat peste produsele obținute, proporțional cu valoarea lor
 standard (cost × cantitate), sau cu cantitatea când niciunul nu are cost. Prețul unitar al unui produs
 obținut se poate modifica și manual.
 
+![Lista Recepție: produsul Tort aniversar, cantitatea 1, prețul unitar 28,80 repartizat din consum, și butonul Recalculare prețuri evidențiat](../static/description/03_linii_receptie.png)
+
 ### Pasul 4 — Confirmarea
 Butonul **Confirmă** creează transferul de consum și pe cel de recepție, apoi îl validează pe fiecare
 dacă opțiunea lui este bifată. Un document se confirmă o singură dată; transferurile se deschid din
 butoanele **Consum** și **Recepție**.
 
+![Documentul în starea Efectuat: butoanele Consum și Recepție evidențiate, deasupra listelor cu valorile consumate și recepționate, egale la 14,40](../static/description/04_confirmat.png)
+
 Dacă tipul de operație de consum cere decizia pentru comandă restantă (*backorder*), iar cantitatea
 disponibilă nu acoperă consumul, **Confirmă** afișează dialogul Odoo și se oprește: documentul rămâne
 în Ciornă, iar recepția nu se face. După alegerea din dialog, apăsați din nou **Confirmă**: se continuă
 cu recepția, fără să se creeze transferuri noi.
+
+![Dialogul Creați restanță? afișat peste document, cu butoanele Creați restanță, Fără restanță și Abandonează; documentul rămâne în Ciornă](../static/description/05_dialog_backorder.png)
 
 ### Pasul 5 — Produs final și ofertă (opțional)
 Cu *Creează produs și ofertă* bifat, **Confirmă** creează (sau actualizează) produsul final din
@@ -93,14 +103,17 @@ ofertă pentru *Client*, cu termenul de plată și lista de prețuri ale clientu
 este costul componentelor, iar prețul de vânzare suma prețurilor lor de vânzare, ambele per unitate a
 cantității finale. Oferta afișează butonul **MRP Simple**, care deschide documentul.
 
+![Oferta pentru produsul final: clientul Cofetăria Dulce SRL, linia Tort aniversar premium și butonul MRP Simple evidențiat în partea de sus](../static/description/06_oferta_mrp_simple.png)
+
 ### Note de monografie și raportare
 Notele sunt generate de `stock_account` pe conturile categoriei, deci se confirmă pe firma
-clientului. Forma generală:
+clientului. Exemplu orientativ, cu planul de conturi RO și o categorie de materii prime / produse
+finite (OMFP 1802/2014); conturile efective depind de configurarea categoriei:
 
 | Transfer | Debit | Credit |
 |---|---|---|
-| Consum | contul de producție / consum al categoriei | contul de stoc al componentei |
-| Recepție | contul de stoc al produsului obținut | contul de producție al categoriei |
+| Consum (2 duzini × 10 lei/bucată = 240 lei) | 601 (consum / producție) | 301 (stoc componentă) |
+| Recepție (produs obținut, la 240 lei) | 345 (stoc produs finit) | 711 (producție stocată) sau contul de producție configurat |
 
 Recepția este evaluată la prețul unitar repartizat pe document, deci valoarea ei este egală cu
 valoarea consumată.
@@ -137,12 +150,17 @@ validarea transferurilor când opțiunea nu e bifată.
 
 ## 10. Capturi de ecran
 
-Capturile nu sunt generate încă. Lista planificată, în ordinea pașilor din secțiunea 6, de generat cu
-skill-ul `fisa-screenshots` (`tests/test_screenshots.py`, `ScreenshotCase`):
+Capturile sunt generate automat din `tests/test_screenshots.py` (mixinul `ScreenshotCase` din
+`deltatech_doc_screenshots`, import defensiv), în RO, pe compania demo în RON. Regenerare:
+
+```bash
+./odoo/odoo-bin -c odoo.conf -d <db> -i l10n_ro,deltatech_mrp_simple,deltatech_doc_screenshots \
+    --test-tags=/deltatech_mrp_simple:TestMrpSimpleScreenshots --stop-after-init
+```
 
 - `01_document_nou.png` — documentul Producție simplă, cu tipurile de operație;
 - `02_linii_consum.png` — lista Consum, cu o cantitate în duzini;
-- `03_linii_recepție.png` — lista Recepție, după **Recalculează prețurile**;
+- `03_linii_receptie.png` — lista Recepție, cu costul repartizat;
 - `04_confirmat.png` — documentul confirmat, cu butoanele **Consum** și **Recepție**;
 - `05_dialog_backorder.png` — dialogul de comandă restantă;
 - `06_oferta_mrp_simple.png` — oferta cu butonul **MRP Simple**.

@@ -12,6 +12,7 @@
   product and of the received lines ignored the unit of the line (2 dozens at
   10 per unit cost 20 instead of 240). The quantity is converted to the product
   unit, and the consume moves are valued at the cost per unit of the line.
+- Added the consultant sheet, the usage guide and the screenshots (RO and EN).
 
 ## 19.0.1.1.5 (2026-11-03)
 
