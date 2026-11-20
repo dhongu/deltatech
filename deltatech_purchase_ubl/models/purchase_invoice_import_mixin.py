@@ -493,7 +493,54 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             not line.product_uom_id.is_zero(line.qty_to_invoice) for line in order.order_line if not line.display_type
         )
 
-    def _create_vendor_bill(self, invoice_data, order, mapped_lines=None):
+    def _order_qty_for_source_qty(self, line, source_qty, bill_already_imported=False):
+        """Ordered quantity of an existing order line after importing a source line.
+
+        The source document holds the quantity of ONE invoice, while the order line holds the
+        total ordered. On a line already (partly) invoiced the source quantity is what is still
+        to be invoiced, so the ordered quantity is never lowered below what was invoiced plus the
+        source quantity (a line already fully invoiced is left as it is): otherwise Odoo would bill product_qty - qty_invoiced, less than the
+        document. A document already imported leaves the order untouched.
+        """
+        if not line.qty_invoiced or line.qty_invoiced < 0:
+            return source_qty
+        if bill_already_imported or line.product_qty <= line.qty_invoiced:
+            # nothing left to invoice: a further document needs a human look, not a larger order
+            return line.product_qty
+        return max(line.product_qty, line.qty_invoiced + source_qty)
+
+    def _align_bill_quantities(self, bill, mapped_lines, warnings=None):
+        """Make the bill quantities follow the source document, line by line.
+
+        Odoo bills product_qty - qty_invoiced (lines billed on ordered quantities) or the
+        received quantity; when that differs from the source document the bill line takes the
+        document quantity if the product is billed on ordered quantities, otherwise a warning
+        reports the difference.
+        """
+        for ml in mapped_lines:
+            purchase_line = ml.get("purchase_line")
+            if not purchase_line or ml.get("qty") is None:
+                continue
+            bill_lines = bill.invoice_line_ids.filtered(lambda bl, pl=purchase_line: bl.purchase_line_id == pl)
+            if len(bill_lines) != 1:
+                continue
+            qty = self._convert_source_line(ml, purchase_line.product_uom_id)[0] or 0.0
+            if bill_lines.product_uom_id.is_zero(bill_lines.quantity - qty):
+                continue
+            if purchase_line.product_id.purchase_method == "purchase":
+                bill_lines.quantity = qty
+            elif warnings is not None:
+                warnings.append(
+                    self.env._(
+                        "Warning: line %(line)s is billed on received quantities: the bill has "
+                        "%(bill_qty)s, the source document %(qty)s.",
+                        line=ml.get("code") or ml.get("name") or "/",
+                        bill_qty=bill_lines.quantity,
+                        qty=qty,
+                    )
+                )
+
+    def _create_vendor_bill(self, invoice_data, order, mapped_lines=None, warnings=None):
         old_invoice = order.invoice_ids
         order.action_create_invoice()
         new_invoice = order.invoice_ids - old_invoice
@@ -507,6 +554,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 {"invoice_origin": origin, "invoice_date": invoice_date, "ref": ref, "invoice_date_due": due_date}
             )
             if mapped_lines:
+                self._align_bill_quantities(new_invoice, mapped_lines, warnings)
                 self._apply_xml_taxes_to_bill(new_invoice, mapped_lines)
 
         return new_invoice
@@ -569,6 +617,14 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             elif not product:
                 not_found.append(ln.get("code") or ln.get("name") or "/")
                 unmatched_indexes.append(index)
+            if ln.get("price_base_ignored"):
+                uom_warnings.append(
+                    self.env._(
+                        "Warning: BaseQuantity of source line %(line)s does not match the line total; "
+                        "the price was taken as a unit price.",
+                        line=ln.get("code") or ln.get("name") or "/",
+                    )
+                )
             ln_map = {**ln, "product": product}
             mapped_lines.append(ln_map)
             if self.update_prices and product:
@@ -595,6 +651,10 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         updated_lines_count = 0
         if order:
             POL = self.env["purchase.order.line"]
+            # the same invoice imported again must not raise the order quantities a second time
+            bill_already_imported = bool(
+                self._find_duplicate_bill(partner, invoice_data.get("invoice_id"), company=order.company_id)
+            )
             # Build a product->list of source lines map to support duplicates
             source_map = {}
             for ml in mapped_lines:
@@ -613,7 +673,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 # source qty/price are in the source unit; the order line keeps its own unit
                 qty, price = self._convert_source_line(src_ln, line.product_uom_id, uom_warnings)
                 if qty is not None:
-                    vals["product_qty"] = qty
+                    vals["product_qty"] = self._order_qty_for_source_qty(line, qty, bill_already_imported)
                 if price is not None:
                     vals["price_unit"] = price
                 discount = src_ln.get("discount")
@@ -724,7 +784,9 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                     ) % {"order": order.name}
                 else:
                     try:
-                        bill = self._create_vendor_bill(invoice_data, order, mapped_lines=mapped_lines)
+                        bill = self._create_vendor_bill(
+                            invoice_data, order, mapped_lines=mapped_lines, warnings=uom_warnings
+                        )
                         self.bill_id = bill and bill.id or False
                     except UserError as e:
                         bill_log = self.env._("Vendor bill not created: %s") % str(e)

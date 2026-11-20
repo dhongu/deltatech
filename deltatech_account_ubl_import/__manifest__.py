@@ -4,7 +4,7 @@
 {
     "name": "UBL Invoice Import Base",
     "summary": "Shared UBL invoice parser and product matcher for the vendor invoice import tools",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "category": "Accounting/Accounting",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",

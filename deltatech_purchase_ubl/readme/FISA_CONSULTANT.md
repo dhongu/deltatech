@@ -146,6 +146,11 @@ portocaliu/roșu = avertismente):
 - un avertisment „Cota TVA diferă pe … linie(i) …” când cota de TVA a liniilor de comandă diferă de
   cea din factură — de obicei lipsește poziția fiscală a furnizorului (achiziție intracomunitară cu
   taxare inversă sau import);
+- un avertisment „BaseQuantity … nu corespunde totalului liniei; prețul a fost luat ca preț unitar”
+  când programul furnizorului a completat greșit cantitatea de bază a prețului (vezi pasul 5);
+- un avertisment „linia … se facturează pe cantități primite: factura are …, documentul sursă …”
+  când un produs facturat pe cantitatea primită are altă cantitate pe factura creată decât în XML
+  (de obicei recepția nu e încă făcută sau e parțială);
 - dacă comanda fusese creată goală din butonul de încărcare al listei de achiziții, cu compania sau
   utilizatorul ca furnizor: „Furnizorul comenzii a fost luat din document: …”.
 
@@ -161,6 +166,24 @@ deschideți recepția din butonul **Recepție**: cantitățile realizate sunt ce
 recepția este validată.
 
 ![Comanda după import, cu liniile din factură](screenshots/05_comanda_dupa_import.png)
+
+**Prețul pe linie și `BaseQuantity`.** Prețul unitar de pe linia comenzii și din prețurile
+furnizorului este `PriceAmount` împărțit la `BaseQuantity` (cantitatea de bază a prețului): 50 RON
+declarat pentru 100 de bucăți devine 0,50 RON pe bucată. Normalizarea se face în modulul de bază
+`deltatech_account_ubl_import` (detaliile în fișa lui). Dacă programul furnizorului a completat
+greșit baza (de exemplu cu cantitatea liniei, deși prețul e deja unitar), totalul liniei din XML o
+trădează: baza se ignoră, prețul rămâne cel din XML și jurnalul avertizează. Comparați totalul
+liniei de pe comandă cu cel din factură.
+
+### Facturi parțiale pe aceeași comandă
+
+Factura din XML conține cantitatea unei singure facturi, nu totalul comenzii. Pe o linie deja
+facturată în parte, importul nu scade cantitatea comandată: aceasta rămâne cel puțin egală cu
+cantitatea deja facturată plus cea din XML (exemplu: comandă de 10, facturate 4, XML de 6 → comanda
+rămâne 10, factura nouă are 6). Dacă XML-ul depășește restul de pe comandă, cantitatea comenzii
+crește; o linie deja facturată integral rămâne neschimbată. Reimportul aceleiași facturi (același număr) nu modifică comanda. Factura de furnizor preia
+cantitatea din XML pentru produsele facturate pe cantitatea comandată; la cele facturate pe cantitatea
+primită, diferența față de XML apare ca avertisment în jurnal.
 
 ### Pasul 6 — Verificarea facturii furnizorului
 
@@ -231,6 +254,8 @@ Ce rămâne manual: verificarea rândurilor galbene/roșii în previzualizare, c
 - [ ] Schimbarea produsului pe un rând îl marchează „Ales manual”; „Ignoră” lasă linia neimportată.
 - [ ] După **Importă**, liniile existente au cantitatea și prețul din XML, iar produsele care nu erau
       pe comandă apar ca linii noi.
+- [ ] Pe o comandă de 10 bucăți, importați o factură de 4, apoi una de 6: comanda rămâne la 10, iar
+      facturile au 4 și 6 bucăți.
 - [ ] Prețul de furnizor (cu **Cod produs furnizor**) este actualizat pentru produsele importate, iar
       **Termenul de livrare** al liniilor de furnizor existente a rămas neschimbat (verificați cu un
       termen diferit de 1 zi pe linie înainte de import, de exemplu 9 zile; după import trebuie să fie tot 9 zile).
@@ -242,6 +267,12 @@ Ce rămâne manual: verificarea rândurilor galbene/roșii în previzualizare, c
 - [ ] O linie cu altă cotă de TVA decât în factură produce avertismentul de cotă TVA.
 - [ ] O notă de credit XML nu modifică comanda și este semnalată în jurnal.
 - [ ] La importul automat cu linii neasociate apare activitatea „Import SPV necesită verificare”.
+- [ ] O linie cu preț 50 pentru `BaseQuantity` 100 (200 de bucăți, total 100) dă 0,50 pe linia
+      comenzii și în prețul de furnizor; cu `BaseQuantity` egală cu cantitatea și total 2000 pentru
+      preț 10 rămâne 10, iar jurnalul avertizează.
+- [ ] Pentru un produs facturat pe cantitatea primită, fără recepție sau cu recepție parțială,
+      factura creată are cantitatea primită, iar jurnalul arată avertismentul „se facturează pe
+      cantități primite”.
 
 ## 9. Mesaje de eroare frecvente
 
@@ -258,6 +289,8 @@ Ce rămâne manual: verificarea rândurilor galbene/roșii în previzualizare, c
 | „Cota TVA diferă pe … linie(i) …” | Furnizorul nu are poziția fiscală potrivită (intracomunitar / import), deci comanda a luat TVA-ul intern | Setați poziția fiscală pe furnizor și pe comandă, apoi creați factura |
 | Total fără TVA corect, total cu TVA diferit | Cotele de TVA ale comenzii diferă de cele din factură | Verificați poziția fiscală și taxele liniilor |
 | Factură XML în altă monedă decât comanda | Prețurile din XML se scriu în moneda comenzii, fără conversie | Importați doar pe o comandă în aceeași monedă ca factura |
+| „BaseQuantity … nu corespunde totalului liniei; prețul a fost luat ca preț unitar” | Programul furnizorului a completat greșit cantitatea de bază a prețului | Verificați totalul liniei de pe comandă față de factură; dacă prețul unitar e greșit, corectați-l pe comandă |
+| „Linia … se facturează pe cantități primite: factura are …, documentul sursă …” | Produs cu politica de facturare pe cantitatea primită; recepția lipsește sau e parțială | Validați recepția (bifați **Validează recepția din XML**) sau corectați cantitatea facturii înainte de confirmare |
 
 ## 10. Capturi de ecran
 
