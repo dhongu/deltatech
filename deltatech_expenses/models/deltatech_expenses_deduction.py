@@ -19,7 +19,9 @@ class DeltatechExpensesDeduction(models.Model):
             return self.env["account.journal"].browse(self.env.context.get("default_journal_id"))
 
         domain = [("type", "=", "cash"), ("company_id", "=", self.env.company.id)]
-        return self.env["account.journal"].search(domain, limit=1)
+        # sudo: angajatul nu are drept de citire pe jurnale, dar decontul trebuie să poată fi creat;
+        # se returnează doar valoarea implicită (jurnalul de casă), fără a-i da acces la contabilitate
+        return self.env["account.journal"].sudo().search(domain, limit=1).sudo(False)
 
     @api.model
     def _default_journal_diem(self):
@@ -27,7 +29,8 @@ class DeltatechExpensesDeduction(models.Model):
             return self.env["account.journal"].browse(self.env.context.get("default_journal_diem_id"))
 
         domain = [("type", "=", "general"), ("company_id", "=", self.env.company.id)]
-        return self.env["account.journal"].search(domain, limit=1)
+        # sudo: vezi `_default_journal`
+        return self.env["account.journal"].sudo().search(domain, limit=1).sudo(False)
 
     @api.model
     def _default_account_diem(self):
@@ -335,9 +338,16 @@ class DeltatechExpensesDeduction(models.Model):
     @api.onchange("settlement_mode")
     def _onchange_settlement_mode(self):
         journal_type = "bank" if self.settlement_mode == "transfer" else "cash"
-        if self.journal_id.type != journal_type:
-            self.journal_id = self.env["account.journal"].search(
-                [("type", "=", journal_type), ("company_id", "=", (self.company_id or self.env.company).id)], limit=1
+        # sudo: angajatul completează decontul fără drept de citire pe jurnale (doar valoarea se păstrează)
+        if self.journal_id.sudo().type != journal_type:
+            self.journal_id = (
+                self.env["account.journal"]
+                .sudo()
+                .search(
+                    [("type", "=", journal_type), ("company_id", "=", (self.company_id or self.env.company).id)],
+                    limit=1,
+                )
+                .sudo(False)
             )
         if self.settlement_mode == "company_card":
             self.advance = 0.0
@@ -362,7 +372,8 @@ class DeltatechExpensesDeduction(models.Model):
     def _compute_currency(self):
         for expense in self:
             # cu cardul firmei chitanțele se decontează pe jurnalul cardului: moneda lui e moneda decontului
-            journal = expense._settlement_journal()
+            # sudo: moneda jurnalului se citește și pentru angajatul fără drept de citire pe jurnale
+            journal = expense._settlement_journal().sudo()
             expense.currency_id = journal.currency_id or expense.company_id.currency_id
 
     def _settlement_label(self):
