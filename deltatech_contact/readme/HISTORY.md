@@ -1,3 +1,10 @@
+## 19.0.1.4.16 (2026-11-20)
+
+- A CNP with a letter, separator or non-ASCII digit (for example `A234567890123`) is now
+  reported as invalid ("CNP invalid" on save, cleared on create/import) instead of stopping
+  the operation with a conversion error; the CNP and birthdate onchanges no longer fail on
+  such input or on an impossible birth date (CONTACT-002, dhongu/deltatech#3379).
+
 ## 19.0.1.4.15 (2026-11-14)
 
 - Animated demo for the Apps Store page (`static/description/en/demo.gif`, and `demo.gif` in
