@@ -69,6 +69,14 @@ contact person of a company, a tag set only on the company is enough to hide bot
 
    ![Checkout Payment step above the value limit: only Card](static/description/en/09_site_plata_peste_limita.png)
 
+10. **Resellers without card payment** — put a tag (here *Revânzător B2B*) in **Restrict Label** of the
+    card provider and set it on the reseller **company** only (1). Its contact persons no longer see
+    **Card** at checkout, nor when they pay an invoice from the portal or through a payment link.
+
+    ![Reseller company with the tag Revânzător B2B](static/description/en/10_firma_revanzator_eticheta.png)
+
+    ![Checkout Payment step of the reseller's contact person: only Cash on Delivery, no Card](static/description/en/11_site_plata_revanzator.png)
+
 **Standard rules that still apply**
 
 - Cash on Delivery is offered only by the delivery methods with the standard **Cash on Delivery**
