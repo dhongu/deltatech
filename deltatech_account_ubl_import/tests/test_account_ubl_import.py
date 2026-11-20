@@ -139,3 +139,38 @@ class TestAccountUblImport(TransactionCase):
             )
         )
         self.assertAlmostEqual(line["price"], 0.008)
+
+    def test_base_quantity_filled_with_line_quantity(self):
+        """A program that puts the line quantity in BaseQuantity while PriceAmount is a unit price:
+        the line total shows the price is per unit, so the base is ignored."""
+        line = self._line(
+            self._xml_with_price(
+                '<cac:Price><cbc:PriceAmount>10</cbc:PriceAmount><cbc:BaseQuantity unitCode="C62">200'
+                "</cbc:BaseQuantity></cac:Price>",
+                total="2000.00",
+            )
+        )
+        self.assertEqual(line["price"], 10.0)
+        self.assertTrue(line["price_base_ignored"])
+
+    def test_base_quantity_correct_is_not_ignored(self):
+        line = self._line(
+            self._xml_with_price(
+                '<cac:Price><cbc:PriceAmount>50</cbc:PriceAmount><cbc:BaseQuantity unitCode="C62">100'
+                "</cbc:BaseQuantity></cac:Price>"
+            )
+        )
+        self.assertAlmostEqual(line["price"], 0.5)
+        self.assertFalse(line["price_base_ignored"])
+
+    def test_base_quantity_wrong_without_matching_total(self):
+        """Neither reading matches the total: the standard reading (with the base) is kept."""
+        line = self._line(
+            self._xml_with_price(
+                '<cac:Price><cbc:PriceAmount>50</cbc:PriceAmount><cbc:BaseQuantity unitCode="C62">100'
+                "</cbc:BaseQuantity></cac:Price>",
+                total="777.00",
+            )
+        )
+        self.assertAlmostEqual(line["price"], 0.5)
+        self.assertFalse(line["price_base_ignored"])

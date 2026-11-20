@@ -283,6 +283,26 @@ class TestUblImportFlow(TransactionCase):
         bill.ref = ref
         return bill
 
+    def test_base_quantity_misfilled_keeps_unit_price(self):
+        """BaseQuantity = line quantity with a unit price: the total shows it, the price is kept."""
+        order = self._order([(self.product_a, 200.0)])
+        wizard = self._import(
+            order,
+            [
+                {
+                    "code": "FLOW-A",
+                    "name": self.product_a.name,
+                    "qty": "200",
+                    "price": "10",
+                    "base_qty": "200",
+                    "line_total": "2000",
+                }
+            ],
+            invoice_id="FLOW-BQ-2",
+        )
+        self.assertAlmostEqual(order.order_line.price_unit, 10.0)
+        self.assertIn("BaseQuantity", wizard.log)
+
     def test_partial_invoices_keep_order_quantity(self):
         """An invoice of 4 exists on an order of 10; importing the one of 6 keeps the order at 10."""
         order = self._order([(self.product_a, 10.0)])

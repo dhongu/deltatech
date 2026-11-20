@@ -615,6 +615,14 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             elif not product:
                 not_found.append(ln.get("code") or ln.get("name") or "/")
                 unmatched_indexes.append(index)
+            if ln.get("price_base_ignored"):
+                uom_warnings.append(
+                    self.env._(
+                        "Warning: BaseQuantity of source line %(line)s does not match the line total; "
+                        "the price was taken as a unit price.",
+                        line=ln.get("code") or ln.get("name") or "/",
+                    )
+                )
             ln_map = {**ln, "product": product}
             mapped_lines.append(ln_map)
             if self.update_prices and product:

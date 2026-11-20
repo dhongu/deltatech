@@ -134,6 +134,12 @@ bucăți se importă ca 0,50 RON pe bucată; dacă unitatea bazei diferă de cea
 `BaseQuantity`, sau cu valoare 0, negativă ori ilizibilă, prețul se ia ca atare. Reducerea de pe linie
 se calculează pe prețul astfel normalizat.
 
+Multe programe de facturare completează greșit `BaseQuantity` (de obicei cu cantitatea liniei, deși
+prețul e deja unitar). De aceea importul verifică totalul liniei (`LineExtensionAmount`): dacă doar
+prețul fără bază reproduce totalul (cantitate × preț, plus majorări, minus reduceri), baza se ignoră
+și în jurnalul importului apare un avertisment. Dacă niciuna dintre citiri nu dă totalul, se aplică
+citirea standard, cu baza.
+
 ### Pasul 2 — Identificarea furnizorului
 
 Căutarea de mai jos se folosește diferit în cele două module:
@@ -334,7 +340,8 @@ Verificările se fac din previzualizarea unuia dintre cele două module care îl
       cu codul și prețul din XML.
 
 - [ ] O linie cu `PriceAmount` 50 și `BaseQuantity` 100 pentru 200 de bucăți dă prețul unitar 0,50
-      (totalul liniei 100), nu 50.
+      (totalul liniei 100), nu 50; dacă `BaseQuantity` e egală cu cantitatea, dar totalul liniei arată că
+      prețul e unitar (preț 10, cantitate 200, total 2000), prețul rămâne 10 și apare avertisment.
 
 ## 9. Mesaje de eroare frecvente
 
