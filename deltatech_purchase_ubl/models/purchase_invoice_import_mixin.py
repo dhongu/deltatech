@@ -2,15 +2,14 @@
 # Dorin Hongu <dhongu(@)gmail(.)com>
 # See README.rst file on addons root folder for license details
 
-import re
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
-from odoo.tools import SQL
 
 
 class PurchaseInvoiceImportMixin(models.AbstractModel):
     _name = "purchase.invoice.import.mixin"
+    _inherit = ["account.ubl.import.mixin"]
     _description = "Common matching/bill-creation logic for purchase invoice import wizards"
 
     state = fields.Selection(
@@ -36,13 +35,19 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
     log = fields.Text(readonly=True)
     log_html = fields.Html(readonly=True, sanitize=True)
     # Set alongside log/log_html when at least one result message is a mismatch or an
-    # unmatched line (see _classify_message) - lets a headless caller (the SPV auto-import)
+    # unmatched line - lets a headless caller (the SPV auto-import)
     # decide whether the run needs a human's attention, without re-parsing the log text.
     has_warning = fields.Boolean(readonly=True)
 
     # ------------------------------------------------------------
     # Helpers
     # ------------------------------------------------------------
+    def _prepare_product_from_xml_line(self, line_vals):
+        # the purchase flow receives goods: a product created from the invoice is storable
+        values = super()._prepare_product_from_xml_line(line_vals)
+        values["is_storable"] = True
+        return values
+
     @api.depends("order_id", "order_id.order_line")
     def _compute_order_lines_warning(self):
         for wizard in self:
@@ -54,192 +59,51 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             else:
                 wizard.order_lines_warning = False
 
-    def _resolve_currency(self, code):
-        """Resolve a currency by ISO code or fall back to the company currency.
-        Always returns a valid res.currency record.
-        """
-        Currency = self.env["res.currency"]
-        name = (code or "").upper()
-        cur = Currency.search([("name", "=", name)], limit=1)
-        if not cur:
-            # Fallback to company currency to avoid null constraint errors
-            cur = self.env.company.currency_id
-        return cur
-
-    _SET_UNIT_CODES = ("SET",)
-    _SET_UNIT_NAMES = ("Set", "Sets", "Seturi")
-
-    def _uom_from_code(self, unit_code, fallback=True):
-        """Resolve a uom.uom record from a unit code/text found in the source document.
-        Covers both UBL unitCode enum values (C62, KGM, ...) and common Romanian
-        text units used on vendor-specific PDF layouts (Buc, Kg, L, ...).
-        With fallback=False an empty or unknown code returns an empty recordset
-        instead of Units, so callers can tell "unknown unit" from "pieces".
-        """
-        code = (unit_code or "").strip().upper()
-        xml_ids = {
-            # pieces / units
-            "C62": "uom.product_uom_unit",
-            "H87": "uom.product_uom_unit",
-            "PCE": "uom.product_uom_unit",
-            "EA": "uom.product_uom_unit",
-            "BUC": "uom.product_uom_unit",
-            "DZN": "uom.product_uom_dozen",
-            # weight
-            "KGM": "uom.product_uom_kgm",
-            "KG": "uom.product_uom_kgm",
-            "GRM": "uom.product_uom_gram",
-            "G": "uom.product_uom_gram",
-            "TNE": "uom.product_uom_ton",
-            # volume
-            "LTR": "uom.product_uom_litre",
-            "L": "uom.product_uom_litre",
-            "MLT": "uom.product_uom_milliliter",
-            "MTQ": "uom.product_uom_cubic_meter",
-            # length / area
-            "MTR": "uom.product_uom_meter",
-            "M": "uom.product_uom_meter",
-            "CMT": "uom.product_uom_cm",
-            "MMT": "uom.product_uom_millimeter",
-            "MTK": "uom.product_uom_square_meter",
-            # time
-            "HUR": "uom.product_uom_hour",
-            "DAY": "uom.product_uom_day",
-        }
-        xid = xml_ids.get(code)
-        if xid:
-            rec = self.env.ref(xid, raise_if_not_found=False)
-            if rec:
-                return rec
-        if code in self._SET_UNIT_CODES:
-            # Odoo has no standard "set" unit: use one defined in the database, if any
-            Uom = self.env["uom.uom"]
-            for name in self._SET_UNIT_NAMES:
-                rec = Uom.search([("name", "=ilike", name)], limit=1)
-                if rec:
-                    return rec
-
-        if not fallback:
-            return self.env["uom.uom"]
-        return self.env.ref("uom.product_uom_unit", raise_if_not_found=True)
-
-    def _source_uom(self, src_ln):
-        """Unit of a source line, or an empty recordset when the code is missing/unknown
-        (the quantity and price are then assumed to be in the destination unit)."""
-        return self._uom_from_code(src_ln.get("unit_code"), fallback=False)
-
-    def _source_uom_compatible(self, src_uom, target_uom):
-        return bool(src_uom and target_uom and src_uom._has_common_reference(target_uom))
-
-    def _convert_source_line(self, src_ln, target_uom, uom_warnings=None):
-        """Return (qty, price) of a source line expressed in target_uom.
-
-        The source quantity/price are in the unit of the source document (UBL unitCode);
-        they are converted when that unit is known and shares a reference with target_uom.
-        An unknown unit keeps the values as they are; an incompatible unit keeps them too
-        and records a warning, since no meaningful conversion exists.
-        """
-        qty = src_ln.get("qty")
-        price = src_ln.get("price")
-        src_uom = self._source_uom(src_ln)
-        unit_code = (src_ln.get("unit_code") or "").strip()
-        if not src_uom and unit_code and target_uom and uom_warnings is not None:
-            uom_warnings.append(
-                self.env._(
-                    "Warning: unit %(code)s of source line %(line)s is not known; "
-                    "quantity and price were taken as %(target)s.",
-                    code=unit_code,
-                    line=src_ln.get("code") or src_ln.get("name") or "/",
-                    target=target_uom.name,
-                )
+    def _get_order_total_checks(self, order, invoice_data):
+        """Compare the order with the document on the value without VAT and, when the document
+        states it, on the total with VAT. Both are needed: an order whose lines took another
+        VAT than the invoice (e.g. an intra-community vendor without its fiscal position) has
+        the right value without VAT and a wrong total."""
+        if not order:
+            return []
+        currency = order.currency_id.name or invoice_data.get("currency") or ""
+        untaxed = invoice_data.get("tax_exclusive_amount") or invoice_data.get("line_extension_amount")
+        if not untaxed:
+            untaxed = sum(line.get("line_total", 0.0) for line in invoice_data.get("lines", []))
+        total = invoice_data.get("tax_inclusive_amount") or invoice_data.get("payable_amount")
+        checks = []
+        for label, order_amount, xml_amount in (
+            (self.env._("untaxed total"), order.amount_untaxed, untaxed),
+            (self.env._("total"), order.amount_total, total),
+        ):
+            if not xml_amount:
+                continue
+            difference = order_amount - xml_amount
+            checks.append(
+                {
+                    "label": label,
+                    "currency": currency,
+                    "order_amount": order_amount,
+                    "xml_amount": xml_amount,
+                    "difference": difference,
+                    "matches": order.currency_id.is_zero(difference),
+                }
             )
-        if not src_uom or not target_uom or src_uom == target_uom:
-            return qty, price
-        if not self._source_uom_compatible(src_uom, target_uom):
-            if uom_warnings is not None:
-                uom_warnings.append(
-                    self.env._(
-                        "Warning: unit %(src)s of source line %(line)s is not compatible with %(target)s; "
-                        "quantity and price were kept unconverted.",
-                        src=src_uom.name,
-                        line=src_ln.get("code") or src_ln.get("name") or "/",
-                        target=target_uom.name,
-                    )
-                )
-            return qty, price
-        if qty:
-            qty = src_uom._compute_quantity(qty, target_uom, rounding_method="HALF-UP")
-        if price:
-            price = src_uom._compute_price(price, target_uom)
-        return qty, price
-
-    def _create_product_from_xml_line(self, supplier, line_vals, currency):
-        """Create a storable product based on an invoice line and link supplierinfo.
-        - supplier: res.partner (vendor)
-        - line_vals: dict with keys code, barcode, name, unit_code, price
-        - currency: code like RON/EUR
-        Returns product.product record.
-        """
-        Product = self.env["product.product"]
-        SupplierInfo = self.env["product.supplierinfo"]
-
-        name = (line_vals.get("name") or line_vals.get("code") or "New Product").strip()
-        code = (line_vals.get("code") or "").strip() or False
-        barcode = (line_vals.get("barcode") or "").strip() or False
-        uom = self._uom_from_code(line_vals.get("unit_code"))
-
-        product = Product.create(
-            {
-                "name": name,
-                "is_storable": True,
-                "purchase_ok": True,
-                "sale_ok": False,
-                "barcode": barcode or False,
-                "uom_id": uom.id,
-            }
-        )
-        # Create supplierinfo with provided vendor code and price
-        cur = self._resolve_currency(currency)
-        SupplierInfo.create(
-            {
-                "partner_id": supplier.id,
-                "product_tmpl_id": product.product_tmpl_id.id,
-                "product_id": product.id,
-                "product_code": code or False,
-                "price": line_vals.get("price") or 0.0,
-                "currency_id": cur.id,
-                "delay": 1,
-            }
-        )
-        return product
+        return checks
 
     def _get_order_total_check(self, order, invoice_data):
-        if not order:
+        """The check that decides: the first one that does not match, or else the total with
+        VAT (the untaxed total when the document has no total)."""
+        checks = self._get_order_total_checks(order, invoice_data)
+        if not checks:
             return False
+        return next((check for check in checks if not check["matches"]), checks[-1])
 
-        xml_total = invoice_data.get("payable_amount") or invoice_data.get("tax_inclusive_amount")
-        order_amount = order.amount_total
-        label = self.env._("total")
-
-        if not xml_total:
-            xml_total = invoice_data.get("tax_exclusive_amount") or invoice_data.get("line_extension_amount")
-            if not xml_total:
-                xml_total = sum(line.get("line_total", 0.0) for line in invoice_data.get("lines", []))
-            order_amount = order.amount_untaxed
-            label = self.env._("untaxed total")
-
-        if xml_total is None:
-            return False
-
-        difference = order_amount - xml_total
-        return {
-            "label": label,
-            "currency": order.currency_id.name or invoice_data.get("currency") or "",
-            "order_amount": order_amount,
-            "xml_amount": xml_total,
-            "difference": difference,
-            "matches": order.currency_id.is_zero(difference),
-        }
+    def _total_check_messages(self, order, invoice_data):
+        return [
+            ("success" if check["matches"] else "warning", self._format_total_check_message(check))
+            for check in self._get_order_total_checks(order, invoice_data)
+        ]
 
     def _format_total_check_message(self, total_check):
         values = {
@@ -264,34 +128,6 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             )
             % values
         )
-
-    @api.model
-    def _normalize_vat(self, vat):
-        """Comparable form of a VAT number: upper case, letters and digits only, and a Romanian
-        CUI without its RO prefix, since "12345678", "RO12345678" and "ro 12345678" are the
-        same company. Other countries keep their prefix."""
-        vat = re.sub(r"[^0-9A-Z]", "", (vat or "").upper())
-        if vat.startswith("RO") and vat[2:].isdigit():
-            vat = vat[2:]
-        return vat
-
-    def _find_supplier_partner(self, supplier_vat, supplier_name):
-        Partner = self.env["res.partner"]
-        supplier_name = (supplier_name or "").strip()
-
-        partner = False
-        vat_key = self._normalize_vat(supplier_vat)
-        if vat_key:
-            candidates = Partner.search([("supplier_rank", ">", 0), ("vat", "ilike", vat_key)], limit=50)
-            partner = candidates.filtered(lambda p: self._normalize_vat(p.vat) == vat_key)[:1]
-
-        if not partner and supplier_name:
-            partner = Partner.search(
-                [("supplier_rank", ">", 0), ("name", "=ilike", supplier_name)],
-                limit=1,
-            )
-
-        return partner
 
     def _find_order_from_xml(self, order_ref, partner=False):
         PurchaseOrder = self.env["purchase.order"]
@@ -333,6 +169,9 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             order = self._find_order_from_xml(invoice_data.get("order_ref"), xml_partner)
 
         partner = order.partner_id if order else xml_partner
+        if order and self._is_upload_placeholder_order(order):
+            # The order's vendor is only Odoo's placeholder, the vendor is the one on the document
+            partner = xml_partner
         vat_mismatch_warning = bool(
             order
             and supplier_vat
@@ -351,76 +190,26 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
 
         return order, partner, vat_mismatch_warning
 
-    def _match_product(self, supplier, code, name, barcode=None):
-        return self._match_product_detailed(supplier, code, name, barcode=barcode)[0]
+    def _is_upload_placeholder_order(self, order):
+        """An order created by the Upload button of the purchase list, still waiting for
+        its document: a draft without lines whose vendor is the current user or the company
+        itself, which Odoo puts there when it cannot read the uploaded file. Its real vendor
+        is the one on the document."""
+        return (
+            order.state == "draft"
+            and not order.order_line
+            and order.partner_id in (self.env.user.partner_id | order.company_id.partner_id)
+        )
 
-    def _match_product_detailed(self, supplier, code, name, barcode=None):
-        """Same matching as _match_product, but also reports HOW the product was found:
-        ("code" - supplier code/internal reference, "barcode", "name", or False when no
-        match). The match type feeds the wizard preview, where code/barcode matches are
-        trustworthy (green), name matches deserve a human look (yellow) and unmatched
-        lines would spawn a new product (red)."""
-        Product = self.env["product.product"]
-        SupplierInfo = self.env["product.supplierinfo"]
-        code = (code or "").strip()
-        barcode = (barcode or "").strip()
-
-        # Try explicit barcode from source document first
-        if barcode:
-            product = Product.search([("barcode", "=", barcode)], limit=1)
-            if product:
-                return product, "barcode"
-
-        if supplier and code:
-            domain = [("partner_id", "=", supplier.id), ("product_code", "=ilike", code)]
-            sinfo = SupplierInfo.search(domain, limit=1)
-            if sinfo:
-                product = sinfo.product_id or sinfo.product_tmpl_id.product_variant_id
-                if product:
-                    return product, "code"
-
-        if supplier and name:
-            domain = [("partner_id", "=", supplier.id), ("product_name", "=ilike", name)]
-            sinfo = SupplierInfo.search(domain, limit=1)
-            if sinfo:
-                product = sinfo.product_id or sinfo.product_tmpl_id.product_variant_id
-                if product:
-                    return product, "name"
-
-        if code:
-            product = Product.search([("default_code", "=ilike", code)], limit=1)
-            if product:
-                return product, "code"
-
-        # Fallback: sometimes supplier code is actually barcode digits
-        if code and code.isdigit():
-            product = Product.search([("barcode", "=", code)], limit=1)
-            if product:
-                return product, "barcode"
-        if name:
-            products = Product.search([("name", "=ilike", name)], limit=2)
-            if len(products) == 1:
-                return products[0], "name"
-
-        if name:
-            name_without_spaces = name.replace(" ", "")
-            lang = self.env.context.get("lang") or self.env.user.lang
-            self.env.cr.execute(
-                SQL(
-                    "SELECT id FROM product_template"
-                    " WHERE name ->> %(lang)s IS NOT NULL"
-                    " AND REPLACE(name ->> %(lang)s, ' ', '') = %(name)s"
-                    " LIMIT 1",
-                    lang=lang,
-                    name=name_without_spaces,
-                )
-            )
-            product_id = self.env.cr.fetchone()
-            if product_id:
-                product_template = self.env["product.template"].browse(product_id[0])
-                return product_template.product_variant_id, "name"
-
-        return Product.browse(), False
+    def _set_order_vendor_from_document(self, order, partner):
+        """Put the document's vendor on an order created by the Upload button, together with
+        what the vendor brings on a new order (fiscal position, payment terms, currency).
+        Returns the message for the import log, or False when the order keeps its vendor."""
+        if not order or partner == order.partner_id:
+            return False
+        order.partner_id = partner
+        order.onchange_partner_id()
+        return self.env._("Vendor set on the order from the document: %s.") % partner.display_name
 
     def _match_product_on_order(self, order, partner, code, name, barcode=None):
         return self._match_product_on_order_detailed(order, partner, code, name, barcode=barcode)[0]
@@ -475,54 +264,6 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                 if (line.product_id.name or "").strip() == (name or "").strip():
                     return line.product_id, "name"
         return Product.browse(), False
-
-    def _update_supplier_price(self, supplier, product, code, price, currency, uom=False, company=None):
-        """uom: unit of the source price. The price is converted to the unit of the
-        existing vendor pricelist row; a new row is created in the source unit.
-
-        Only a row of this variant (or, for a single-variant product, a row of the
-        template) in this company or shared between companies is updated: a row of
-        another variant or of another company is never repurposed."""
-        SupplierInfo = self.env["product.supplierinfo"]
-        company = company or self.env.company
-        if product.product_tmpl_id.product_variant_count > 1:
-            variant_domain = [("product_id", "=", product.id)]
-        else:
-            variant_domain = [("product_id", "in", [product.id, False])]
-        sinfo = SupplierInfo.search(
-            [
-                ("partner_id", "=", supplier.id),
-                ("product_tmpl_id", "=", product.product_tmpl_id.id),
-                ("company_id", "in", [company.id, False]),
-                *variant_domain,
-            ],
-            order="product_id, company_id, sequence, min_qty, id",
-            limit=1,
-        )
-        uom_vals = {}
-        if uom:
-            target_uom = sinfo.uom_id if sinfo else product.uom_id
-            if self._source_uom_compatible(uom, target_uom):
-                if sinfo:
-                    price = uom._compute_price(price, target_uom) if price else price
-                else:
-                    uom_vals["uom_id"] = uom.id
-        values = {
-            "partner_id": supplier.id,
-            "product_tmpl_id": product.product_tmpl_id.id,
-            "product_id": product.id,
-            "price": price,
-            "currency_id": self._resolve_currency(currency).id,
-            **uom_vals,
-        }
-        # a source line without a supplier code must not erase the code already on the row
-        if code:
-            values["product_code"] = code
-        if sinfo:
-            sinfo.write(values)
-        else:
-            values["company_id"] = company.id
-            SupplierInfo.create(values)
 
     def _on_unmatched_lines(self, order, partner, invoice_data, unmatched_indexes):
         """Hook for the source lines left without a product by an import nobody reviewed.
@@ -631,81 +372,71 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             qty = move.product_id.uom_id._compute_quantity(qty, move.uom_id, rounding_method="HALF-UP")
         return qty
 
-    def _classify_message(self, msg):
-        m = msg.lower()
-        if any(k in m for k in ("not created", "unmatched")):
-            return "danger"
-        if any(k in m for k in ("warning", "differs", "mismatch", "already exists", "skipped", "no receipt found")):
-            return "warning"
-        if any(k in m for k in ("total check ok", "updated", "added", "created", "receipt updated")):
-            return "success"
-        return "info"
-
-    def _build_log_html(self, messages):
-        def _esc(s):
-            return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-
-        icons = {
-            # Odoo 20: Font Awesome is gone, icons are `oi` glyphs named by `data-icon`
-            # (mapping from scripts/fa_to_oi.json; `oi-filled` = the solid FA variant).
-            "success": ("check_circle", True),
-            "warning": ("warning", False),
-            "danger": ("cancel", True),
-            "info": ("info", True),
-        }
-        parts = ["<div>"]
-        for msg in messages:
-            level = self._classify_message(msg)
-            icon, filled = icons[level]
-            icon_class = "oi oi-filled" if filled else "oi"
-            lines = msg.split("\n")
-            parts.append(
-                f'<p class="mb-1 text-{level}"><i class="{icon_class} me-1" data-icon="{icon}"></i><strong>{_esc(lines[0])}</strong></p>'
-            )
-            for sub in lines[1:]:
-                if sub.strip():
-                    parts.append(f'<p class="mb-0 ms-3 text-muted">{_esc(sub)}</p>')
-        parts.append("</div>")
-        return "".join(parts)
-
-    def _find_duplicate_bill(self, partner, invoice_ref, company=None):
-        """Return an existing non-cancelled vendor bill with the same ref for this partner
-        in the given company (the current company by default)."""
-        if not invoice_ref or not partner:
-            return False
-        company = company or self.env.company
-        return self.env["account.move"].search(
-            [
-                ("move_type", "=", "in_invoice"),
-                ("company_id", "=", company.id),
-                ("partner_id", "=", partner.id),
-                ("ref", "=", invoice_ref),
-                ("state", "!=", "cancel"),
-            ],
-            limit=1,
-        )
-
-    # source categories for which a 0% rate is applied as such: zero rated (Z), exempt (E),
-    # outside the scope of VAT, e.g. a supplier not registered for VAT (O), and export (G).
-    # For reverse charge (AE), intra-community supply (K) and unknown categories the buyer
-    # self-assesses the VAT through the fiscal position, so the existing taxes are kept.
-    _ZERO_RATE_TAX_CATEGORIES = ("Z", "E", "O", "G")
-
-    def _source_tax_percent(self, source_line):
-        """Tax rate declared by a source line, or None when it must not override the bill.
-
-        A 0 rate counts only with an explicit zero-rated/exempt category: the PDF parsers
-        report 0 when they could not read the rate.
-        """
-        tax_pct = source_line.get("tax_percent")
-        if tax_pct is None:
+    @api.model
+    def _order_line_tax_percent(self, line):
+        """VAT rate the order line actually charges: 0 for a reverse charge or
+        intra-community tax, where the buyer collects and deducts the same amount."""
+        if line.currency_id.is_zero(line.price_subtotal):
             return None
-        tax_pct = float(tax_pct)
-        if tax_pct:
-            return tax_pct
-        if (source_line.get("tax_category") or "").upper() in self._ZERO_RATE_TAX_CATEGORIES:
-            return 0.0
-        return None
+        return (line.price_total - line.price_subtotal) / line.price_subtotal * 100
+
+    # Document categories under which a reverse charge tax on the order is right: an
+    # intra-community supply (K) or a reverse charge (AE). Under a zero rate, an exemption,
+    # an operation outside the scope of VAT or an export (Z, E, O, G) the buyer does not
+    # self-assess the VAT, so a reverse charge tax on the order is reported.
+    _REVERSE_CHARGE_TAX_CATEGORIES = ("K", "AE")
+
+    @api.model
+    def _order_line_is_reverse_charge(self, line, order_pct):
+        """The line's tax collects and deducts the same amount (reverse charge, intra-community
+        acquisition): it has a rate, but the order line charges nothing."""
+        return abs(order_pct) < 0.5 and any(tax.amount for tax in line.tax_ids)
+
+    def _tax_check_messages(self, invoice_data, mapped_lines):
+        """Warn when the VAT of an order line differs from the rate on the document. Only a
+        warning: the order's VAT comes from the product and the vendor's fiscal position,
+        which is where it is corrected."""
+        differences = {}
+        for source_line in mapped_lines:
+            line = source_line.get("purchase_line")
+            doc_pct = self._source_tax_percent_to_check(invoice_data, source_line)
+            if not line or doc_pct is None:
+                continue
+            order_pct = self._order_line_tax_percent(line)
+            if order_pct is None:
+                continue
+            category = (source_line.get("tax_category") or "").upper()
+            reverse_charge = self._order_line_is_reverse_charge(line, order_pct)
+            if abs(order_pct - doc_pct) < 0.5 and not (
+                reverse_charge and category and category not in self._REVERSE_CHARGE_TAX_CATEGORIES
+            ):
+                continue
+            if reverse_charge:
+                order_label = self.env._("%s%% reverse charge") % f"{sum(line.tax_ids.mapped('amount')):g}"
+            else:
+                order_label = f"{order_pct:g}%"
+            key = (f"{doc_pct:g}%", order_label)
+            differences.setdefault(key, []).append(source_line.get("code") or source_line.get("name") or "-")
+        messages = []
+        for (doc_label, order_label), codes in differences.items():
+            shown = ", ".join(codes[:3]) + (", ..." if len(codes) > 3 else "")
+            messages.append(
+                (
+                    "warning",
+                    self.env._(
+                        "VAT rate differs on %(count)s line(s) (%(lines)s): the document has %(doc)s, the order "
+                        "%(order)s. The order's VAT comes from the products and the vendor's fiscal position. "
+                        "Check the fiscal position before creating the vendor bill: an intra-community "
+                        "acquisition takes the intra-community position (reverse charge), an import the "
+                        "extra-community one (VAT paid at customs).",
+                        count=len(codes),
+                        lines=shown,
+                        doc=doc_label,
+                        order=order_label,
+                    ),
+                )
+            )
+        return messages
 
     def _apply_xml_taxes_to_bill(self, bill, mapped_lines):
         """Override bill line taxes with the tax percentage declared in the source document.
@@ -755,7 +486,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
     def _order_has_qty_to_invoice(self, order):
         """True when at least one order line still has a quantity to invoice (or to refund).
 
-        Since Odoo 19 action_create_invoice() no longer raises when there is nothing to invoice: it
+        Odoo 19 action_create_invoice() no longer raises when there is nothing to invoice: it
         creates a vendor bill with every line at zero quantity, a useless ghost document.
         """
         return any(not line.uom_id.is_zero(line.qty_to_invoice) for line in order.order_line if not line.display_type)
@@ -807,6 +538,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         order, partner, vat_mismatch_warning = self._resolve_order_and_partner(invoice_data)
         if invoice_data.get("document_type") == "credit_note":
             return self._skip_credit_note(invoice_data, order, partner)
+        vendor_message = self._set_order_vendor_from_document(order, partner)
 
         mapped_lines = []
         updated = []
@@ -919,6 +651,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
 
         # Validate receipt
         pick_log = ""
+        pick_level = "warning"
         if self.validate_receipt:
             if order:
                 picking = self._find_receipt(order)
@@ -933,6 +666,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                             line_map[product.id] = line_map.get(product.id, 0.0) + qty
                     if self._validate_receipt_quantities(picking, line_map, order=order):
                         pick_log = self.env._("Receipt updated: %s") % picking.name
+                        pick_level = "success"
                     else:
                         pick_log = (
                             self.env._("Warning: receipt %s could not be validated; check it manually.") % picking.name
@@ -946,6 +680,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
 
         bill = False
         bill_log = ""
+        bill_level = "warning"
         duplicate_bill = False
         nothing_to_invoice = False
         # Always create the vendor bill when the source document identifies an invoice number,
@@ -991,62 +726,84 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
                         self.bill_id = bill and bill.id or False
                     except UserError as e:
                         bill_log = self.env._("Vendor bill not created: %s") % str(e)
+                        bill_level = "danger"
             else:
                 bill_log = self.env._(
                     "Vendor bill creation skipped: no purchase order was resolved from the context or source document."
                 )
 
-        # Build messages
+        # Build messages: (level, text), the level decided here and not guessed from the
+        # translated text (see _build_log_html)
         messages = []
 
         messages.append(
-            self.env._("Vendor: %(name)s (%(vat)s)") % {"name": partner.display_name, "vat": partner.vat or "-"}
+            (
+                "info",
+                self.env._("Vendor: %(name)s (%(vat)s)") % {"name": partner.display_name, "vat": partner.vat or "-"},
+            )
         )
         messages.append(
-            self.env._("Order: %(order)s | XML Reference: %(ref)s")
-            % {"order": (order.name if order else "-"), "ref": (invoice_data.get("order_ref") or "-")}
+            (
+                "info",
+                self.env._("Order: %(order)s | XML Reference: %(ref)s")
+                % {"order": (order.name if order else "-"), "ref": (invoice_data.get("order_ref") or "-")},
+            )
         )
+        if vendor_message:
+            messages.append(("success", vendor_message))
         total_check = self._get_order_total_check(order, invoice_data)
-        if total_check:
-            messages.append(self._format_total_check_message(total_check))
+        messages.extend(self._total_check_messages(order, invoice_data))
+        messages.extend(self._tax_check_messages(invoice_data, mapped_lines))
         if vat_mismatch_warning:
             messages.append(
-                self.env._(
-                    "Warning: Supplier VAT in source document (%(xml_vat)s) differs from order supplier (%(po_vat)s). Proceeded with order's vendor."
+                (
+                    "warning",
+                    self.env._(
+                        "Warning: Supplier VAT in source document (%(xml_vat)s) differs from order supplier (%(po_vat)s). Proceeded with order's vendor."
+                    )
+                    % {"xml_vat": supplier_vat or "-", "po_vat": partner.vat or "-"},
                 )
-                % {"xml_vat": supplier_vat or "-", "po_vat": partner.vat or "-"}
             )
         if updated:
-            messages.append(self.env._("Identified products and updated prices for %s line(s).") % len(updated))
+            messages.append(
+                ("success", self.env._("Identified products and updated prices for %s line(s).") % len(updated))
+            )
         if created:
-            messages.append(self.env._("Created products (%s):\n") % len(created) + "\n".join(created))
+            messages.append(("success", self.env._("Created products (%s):\n") % len(created) + "\n".join(created)))
         if order and updated_lines_count:
-            messages.append(self.env._("Updated %s purchase order lines from source document.") % updated_lines_count)
+            messages.append(
+                ("success", self.env._("Updated %s purchase order lines from source document.") % updated_lines_count)
+            )
         if order and added_count:
-            messages.append(self.env._("Added %s lines to the purchase order from source document.") % added_count)
-        messages.extend(dict.fromkeys(uom_warnings))
+            messages.append(
+                ("success", self.env._("Added %s lines to the purchase order from source document.") % added_count)
+            )
+        messages.extend(("warning", warning) for warning in dict.fromkeys(uom_warnings))
         if order and not_found:
-            messages.append(self.env._("Unmatched lines in the order: %s") % ", ".join(not_found))
+            messages.append(("danger", self.env._("Unmatched lines in the order: %s") % ", ".join(not_found)))
         elif not_found:
-            messages.append(self.env._("Unmatched products: %s") % ", ".join(not_found))
+            messages.append(("danger", self.env._("Unmatched products: %s") % ", ".join(not_found)))
         if pick_log:
-            messages.append(pick_log)
+            messages.append((pick_level, pick_log))
         if duplicate_bill:
             messages.append(
-                self.env._("Vendor bill already exists for this invoice reference (%s). No new bill was created.")
-                % (duplicate_bill.ref or duplicate_bill.name)
+                (
+                    "warning",
+                    self.env._("Vendor bill already exists for this invoice reference (%s). No new bill was created.")
+                    % (duplicate_bill.ref or duplicate_bill.name),
+                )
             )
         elif bill:
-            messages.append(self.env._("Vendor bill created: %s") % (bill.ref or ""))
+            messages.append(("success", self.env._("Vendor bill created: %s") % (bill.ref or "")))
         elif bill_log:
-            messages.append(bill_log)
+            messages.append((bill_level, bill_log))
 
-        self.log = "\n".join(messages)
+        self.log = self._build_log_text(messages)
         self.log_html = self._build_log_html(messages)
         # Deliberately narrower than "any warning/danger-classified message": routine steps
         # of an unattended import (bill creation skipped because the order isn't confirmed
-        # yet, no receipt to validate) also classify as "warning" via _classify_message's
-        # generic keywords, and would otherwise fire on every successful headless import.
+        # yet, no receipt to validate) are also logged as "warning", and would otherwise fire
+        # on every successful headless import.
         # Only these signals count here: a total that doesn't add up, lines the matcher
         # couldn't place (tichet #9287), and a supplier invoice for an order with nothing
         # left to invoice (a duplicate invoice or an extra charge).
@@ -1059,6 +816,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
     def _done_action(self):
         return {
             "type": "ir.actions.act_window",
+            "name": self.env._("Import Invoice"),
             "res_model": self._name,
             "res_id": self.id,
             "view_mode": "form",
@@ -1071,16 +829,25 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
         created from the order would be an invoice, not a refund. It only gets logged and
         flagged, so the automatic import schedules a review activity on the order."""
         messages = [
-            self.env._("Vendor: %(name)s (%(vat)s)") % {"name": partner.display_name, "vat": partner.vat or "-"},
-            self.env._("Order: %(order)s | XML Reference: %(ref)s")
-            % {"order": (order.name if order else "-"), "ref": (invoice_data.get("order_ref") or "-")},
-            self.env._(
-                "Warning: the document %s is a credit note; credit notes are not imported. "
-                "Record the vendor refund manually."
-            )
-            % (invoice_data.get("invoice_id") or "-"),
+            (
+                "info",
+                self.env._("Vendor: %(name)s (%(vat)s)") % {"name": partner.display_name, "vat": partner.vat or "-"},
+            ),
+            (
+                "info",
+                self.env._("Order: %(order)s | XML Reference: %(ref)s")
+                % {"order": (order.name if order else "-"), "ref": (invoice_data.get("order_ref") or "-")},
+            ),
+            (
+                "warning",
+                self.env._(
+                    "Warning: the document %s is a credit note; credit notes are not imported. "
+                    "Record the vendor refund manually."
+                )
+                % (invoice_data.get("invoice_id") or "-"),
+            ),
         ]
-        self.log = "\n".join(messages)
+        self.log = self._build_log_text(messages)
         self.log_html = self._build_log_html(messages)
         self.has_warning = True
         self.state = "done"

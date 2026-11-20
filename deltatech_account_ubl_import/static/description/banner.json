@@ -1,0 +1,9 @@
+{
+  "title": "UBL Invoice Import Base",
+  "summary": "Shared UBL parser and product matcher for vendor bill imports",
+  "features": [
+    "Reads UBL invoices and credit notes",
+    "Matches vendors and products",
+    "Converts UBL unit codes to Odoo units"
+  ]
+}

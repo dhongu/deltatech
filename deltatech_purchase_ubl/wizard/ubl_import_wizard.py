@@ -5,18 +5,12 @@
 import base64
 import binascii
 import logging
-import xml.etree.ElementTree as ET
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.binary import BinaryBytes
 
 _logger = logging.getLogger(__name__)
-NS = {
-    "inv": "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
-    "cac": "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
-    "cbc": "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
-}
 
 
 def ubl_binary_value(value):
@@ -58,6 +52,13 @@ class PurchaseUblImportWizard(models.TransientModel):
     total_check_warning = fields.Text(compute="_compute_total_check_warning")
     line_ids = fields.One2many("purchase.ubl.import.wizard.line", "wizard_id", string="Preview Lines")
 
+    @api.depends("filename")
+    def _compute_display_name(self):
+        # without it the title of the window is the technical "purchase.ubl.import.wizard,<id>"
+        for wizard in self:
+            title = self.env._("Import Invoice")
+            wizard.display_name = f"{title}: {wizard.filename}" if wizard.filename else title
+
     # ------------------------------------------------------------
     # Helpers specific to the UBL XML format
     # ------------------------------------------------------------
@@ -68,55 +69,15 @@ class PurchaseUblImportWizard(models.TransientModel):
             if not wizard.order_id or not wizard.data_file:
                 continue
             try:
-                invoice_xml = wizard._parse_xml(wizard.data_file.content)
+                invoice_xml = wizard._parse_source(wizard.data_file.content)
             except Exception:
                 continue
-            total_check = wizard._get_order_total_check(wizard.order_id, invoice_xml)
-            if total_check and not total_check["matches"]:
-                wizard.total_check_warning = wizard._format_total_check_message(total_check)
-
-    def _uom_from_ubl(self, unit_code):
-        return self._uom_from_code(unit_code)
-
-    def _barcode_from_description(self, description):
-        """Fallback for suppliers (e.g. PPG, tichet #9287) that put the EAN in the
-        free-text Item/Description instead of StandardItemIdentification. Accepts ONLY
-        a digit string of EAN-8/12/13/14 length WITH a valid check digit - anything
-        looser would misread a supplier's genuine free-text description (lot number,
-        internal note, ...) as a barcode and silently mismatch the product.
-        """
-        candidate = (description or "").strip()
-        if not candidate.isdigit() or len(candidate) not in (8, 12, 13, 14):
-            return None
-        digits = [int(d) for d in candidate]
-        check_digit = digits[-1]
-        body = digits[:-1][::-1]
-        total = sum(d * (3 if i % 2 == 0 else 1) for i, d in enumerate(body))
-        return candidate if (10 - total % 10) % 10 == check_digit else None
-
-    def _is_ubl_invoice(self, content: bytes) -> bool:
-        """Quickly check if provided XML bytes look like an UBL Invoice.
-        We validate the root namespace equals the UBL Invoice namespace or that
-        common UBL elements exist. Returns False on any parse error.
-        """
-        try:
-            root = ET.fromstring(content)
-        except ET.ParseError:
-            return False
-        # Extract namespace from the root tag: looks like {namespace}Invoice
-        if root.tag.startswith("{") and "}" in root.tag:
-            ns = root.tag.split("}", 1)[0].lstrip("{")
-            if ns == NS.get("inv"):
-                return True
-        # Fallback: look for a couple of UBL-specific elements
-        try:
-            inv_id = root.findtext("cbc:ID", namespaces=NS)
-            currency = root.findtext("cbc:DocumentCurrencyCode", namespaces=NS)
-            if inv_id or currency:
-                return True
-        except Exception:
-            return False
-        return False
+            differences = [
+                wizard._format_total_check_message(check)
+                for check in wizard._get_order_total_checks(wizard.order_id, invoice_xml)
+                if not check["matches"]
+            ]
+            wizard.total_check_warning = "\n".join(differences) or False
 
     @api.model
     def default_get(self, fields_list):
@@ -147,141 +108,11 @@ class PurchaseUblImportWizard(models.TransientModel):
                     break
         return res
 
-    def _parse_xml(self, content):
-        def _to_float(val):
-            try:
-                return float(str(val).replace(",", ".")) if val is not None else 0.0
-            except Exception:
-                return 0.0
+    def _parse_source(self, content):
+        """Invoice data of the uploaded file, shaped as `_process_invoice_data` expects.
 
-        try:
-            root = ET.fromstring(content)
-        except ET.ParseError as e:
-            raise UserError(self.env._("Invalid XML: %s") % e) from e
-
-        # Header
-        invoice_id = root.findtext("cbc:ID", namespaces=NS)
-        # A credit note comes either as a CreditNote document or as an Invoice with type code 381
-        type_code = (
-            root.findtext("cbc:InvoiceTypeCode", namespaces=NS)
-            or root.findtext("cbc:CreditNoteTypeCode", namespaces=NS)
-            or ""
-        ).strip()
-        is_credit_note = root.tag.rsplit("}", 1)[-1] == "CreditNote" or type_code == "381"
-        issue_date = root.findtext("cbc:IssueDate", namespaces=NS)
-        due_date = root.findtext("cbc:DueDate", namespaces=NS)
-        currency = root.findtext("cbc:DocumentCurrencyCode", namespaces=NS) or "RON"
-        order_ref = root.findtext("cac:OrderReference/cbc:ID", namespaces=NS)
-        monetary_total = root.find("cac:LegalMonetaryTotal", namespaces=NS)
-        tax_amount = sum(
-            _to_float(tax_total.findtext("cbc:TaxAmount", namespaces=NS))
-            for tax_total in root.findall("cac:TaxTotal", namespaces=NS)
-        )
-
-        # Supplier
-        supplier_vat = root.findtext(
-            "cac:AccountingSupplierParty/cac:Party/cac:PartyTaxScheme/cbc:CompanyID", namespaces=NS
-        ) or root.findtext(
-            # a supplier not registered for VAT has no PartyTaxScheme: its CUI is the legal entity id
-            "cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:CompanyID",
-            namespaces=NS,
-        )
-        supplier_name = root.findtext(
-            "cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:RegistrationName", namespaces=NS
-        )
-
-        # Lines
-        lines = []
-        for inv_line in root.findall("cac:InvoiceLine", namespaces=NS):
-            qty = inv_line.findtext("cbc:InvoicedQuantity", namespaces=NS)
-            price = inv_line.findtext("cac:Price/cbc:PriceAmount", namespaces=NS)
-            line_total = inv_line.findtext("cbc:LineExtensionAmount", namespaces=NS)
-            item_code = inv_line.findtext(
-                "cac:Item/cac:SellersItemIdentification/cbc:ID", namespaces=NS
-            ) or inv_line.findtext("cac:SellersItemIdentification/cbc:ID", namespaces=NS)
-            # Extract barcode from StandardItemIdentification, schemeID="0160" (GS1/EAN)
-            std_id_el = inv_line.find("cac:Item/cac:StandardItemIdentification/cbc:ID", namespaces=NS)
-            barcode_val = None
-            if std_id_el is not None:
-                scheme_id = std_id_el.get("schemeID") if hasattr(std_id_el, "get") else None
-                # Prefer when schemeID is 0160, but accept any value present in this tag if scheme missing
-                if not scheme_id or scheme_id == "0160":
-                    barcode_val = std_id_el.text
-            if not barcode_val:
-                # Some suppliers (e.g. PPG, tichet #9287) put the EAN in the free-text
-                # Description instead of StandardItemIdentification. Only accept it when
-                # it's a checksum-valid EAN, so a supplier that puts real free text there
-                # doesn't get misread as a barcode.
-                barcode_val = self._barcode_from_description(
-                    inv_line.findtext("cac:Item/cbc:Description", namespaces=NS)
-                )
-
-            name = inv_line.findtext("cac:Item/cbc:Name", namespaces=NS) or inv_line.findtext(
-                "cac:Item/cbc:Description", namespaces=NS
-            )
-            tax_percent = inv_line.findtext("cac:Item/cac:ClassifiedTaxCategory/cbc:Percent", namespaces=NS)
-            # UNCL5305 category (S, Z, E, AE, K, G, O): tells an explicit 0% apart from reverse charge
-            tax_category = inv_line.findtext("cac:Item/cac:ClassifiedTaxCategory/cbc:ID", namespaces=NS)
-            unit = inv_line.find("cbc:InvoicedQuantity", namespaces=NS)
-            unit_code = unit.get("unitCode") if unit is not None else False
-
-            # Extract line-level discount (AllowanceCharge with ChargeIndicator=false)
-            allowance_amount = 0.0
-            discount_percent = 0.0
-            for ac in inv_line.findall("cac:AllowanceCharge", namespaces=NS):
-                charge_indicator = (ac.findtext("cbc:ChargeIndicator", namespaces=NS) or "").strip().lower()
-                if charge_indicator == "false":
-                    ac_amount_text = ac.findtext("cbc:Amount", namespaces=NS)
-                    try:
-                        allowance_amount += float(str(ac_amount_text).replace(",", ".")) if ac_amount_text else 0.0
-                    except Exception as e:
-                        _logger.warning("Could not parse AllowanceCharge/Amount '%s': %s", ac_amount_text, e)
-
-            price_f = _to_float(price)
-            qty_f = _to_float(qty)
-            if allowance_amount and price_f and qty_f:
-                gross_total = price_f * qty_f
-                discount_percent = round(allowance_amount / gross_total * 100, 2)
-
-            lines.append(
-                {
-                    "code": (item_code or "").strip(),
-                    "barcode": (barcode_val or "").strip(),
-                    "name": (name or "").strip(),
-                    "qty": qty_f,
-                    "price": price_f,
-                    "discount": discount_percent,
-                    "line_total": _to_float(line_total),
-                    "tax_percent": _to_float(tax_percent),
-                    "tax_category": (tax_category or "").strip().upper(),
-                    "unit_code": unit_code,
-                }
-            )
-
-        return {
-            "invoice_id": (invoice_id or "").strip(),
-            "document_type": "credit_note" if is_credit_note else "invoice",
-            "issue_date": issue_date,
-            "due_date": due_date,
-            "currency": currency,
-            "order_ref": (order_ref or "").strip(),
-            "line_extension_amount": _to_float(
-                monetary_total is not None and monetary_total.findtext("cbc:LineExtensionAmount", namespaces=NS) or None
-            ),
-            "tax_exclusive_amount": _to_float(
-                monetary_total is not None and monetary_total.findtext("cbc:TaxExclusiveAmount", namespaces=NS) or None
-            ),
-            "tax_inclusive_amount": _to_float(
-                monetary_total is not None and monetary_total.findtext("cbc:TaxInclusiveAmount", namespaces=NS) or None
-            ),
-            "payable_amount": _to_float(
-                monetary_total is not None and monetary_total.findtext("cbc:PayableAmount", namespaces=NS) or None
-            ),
-            "tax_amount": tax_amount,
-            "supplier_vat": (supplier_vat or "").strip(),
-            "supplier_name": (supplier_name or "").strip(),
-            "lines": lines,
-        }
+        UBL XML here; an extension reads other formats (e.g. a PDF) by overriding it."""
+        return self._parse_xml(content)
 
     def action_import(self):
         """Direct, headless import — kept for automated callers
@@ -292,7 +123,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         if not self.data_file:
             raise UserError(self.env._("Please select an XML file."))
         content = self.data_file.content
-        invoice_xml = self._parse_xml(content)
+        invoice_xml = self._parse_source(content)
         return self._process_invoice_data(invoice_xml)
 
     def action_preview(self):
@@ -304,7 +135,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         if not self.data_file:
             raise UserError(self.env._("Please select an XML file."))
         content = self.data_file.content
-        invoice_data = self._parse_xml(content)
+        invoice_data = self._parse_source(content)
         if invoice_data.get("document_type") == "credit_note":
             # nothing to map: show the credit note warning instead of a preview
             return self._process_invoice_data(invoice_data)
@@ -346,7 +177,7 @@ class PurchaseUblImportWizard(models.TransientModel):
         if not self.data_file:
             raise UserError(self.env._("Please select an XML file."))
         content = self.data_file.content
-        invoice_data = self._parse_xml(content)
+        invoice_data = self._parse_source(content)
         product_map = {
             line.sequence: line.product_id if line.line_action == "product" else line.product_id.browse()
             for line in self.line_ids
@@ -365,7 +196,7 @@ class PurchaseUblImportWizard(models.TransientModel):
             return action
         if not self.line_ids or any(line.match_type not in ("code", "barcode") for line in self.line_ids):
             return action
-        invoice_data = self._parse_xml(self.data_file.content)
+        invoice_data = self._parse_source(self.data_file.content)
         product_map = {line.sequence: line.product_id for line in self.line_ids}
         try:
             with self.env.cr.savepoint():
@@ -398,17 +229,21 @@ class PurchaseUblImportWizard(models.TransientModel):
 
     def action_open_order(self):
         self.ensure_one()
+        # `views` is required: as the `next` action of the notification, this dict reaches the
+        # web client as it is, without the server-side clean-up a button's result goes through
         return {
             "type": "ir.actions.act_window",
             "res_model": "purchase.order",
             "res_id": self.order_id.id,
             "view_mode": "form",
+            "views": [[False, "form"]],
             "target": "current",
         }
 
     def _reopen(self):
         return {
             "type": "ir.actions.act_window",
+            "name": self.env._("Import Invoice"),
             "res_model": self._name,
             "res_id": self.id,
             "view_mode": "form",
@@ -429,7 +264,7 @@ class PurchaseUblImportWizardLine(models.TransientModel):
     sequence = fields.Integer()
     code = fields.Char(string="Supplier Code", readonly=True)
     barcode = fields.Char(string="Barcode", readonly=True)
-    name = fields.Char(string="Description (XML)", readonly=True)
+    name = fields.Char(string="Vendor Description", readonly=True)
     qty = fields.Float(string="Quantity", readonly=True)
     price = fields.Float(string="Unit Price", readonly=True)
     product_id = fields.Many2one("product.product", string="Product")
