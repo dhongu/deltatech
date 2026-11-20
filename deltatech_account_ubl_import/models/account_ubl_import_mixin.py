@@ -488,6 +488,30 @@ class AccountUblImportMixin(models.AbstractModel):
             return False
         return False
 
+    def _normalize_price_base(self, price, base_el, unit_code):
+        """Return (unit price, base quantity) for a UBL cac:Price.
+
+        PriceAmount is the price of cbc:BaseQuantity units (default 1), expressed in the unit of
+        BaseQuantity (unitCode), which can differ from the unit of InvoicedQuantity. The price is
+        brought to one unit of the invoiced quantity. A missing, zero, negative or unreadable base
+        is taken as 1.
+        """
+        if base_el is None or not price:
+            return price, 1.0
+        try:
+            base = float(str(base_el.text).replace(",", "."))
+        except (TypeError, ValueError):
+            base = 0.0
+        if base <= 0:
+            _logger.warning("Ignoring invalid UBL BaseQuantity '%s'", base_el.text)
+            return price, 1.0
+        price = price / base
+        base_uom = self._uom_from_code(base_el.get("unitCode"), fallback=False)
+        line_uom = self._uom_from_code(unit_code, fallback=False)
+        if base_uom and line_uom and base_uom != line_uom and self._source_uom_compatible(base_uom, line_uom):
+            price = base_uom._compute_price(price, line_uom)
+        return price, base
+
     def _parse_xml(self, content):
         def _to_float(val):
             try:
@@ -580,6 +604,11 @@ class AccountUblImportMixin(models.AbstractModel):
 
             price_f = _to_float(price)
             qty_f = _to_float(qty)
+            price_f, base_qty = self._normalize_price_base(
+                price_f,
+                inv_line.find("cac:Price/cbc:BaseQuantity", namespaces=NS),
+                unit_code,
+            )
             if allowance_amount and price_f and qty_f:
                 gross_total = price_f * qty_f
                 discount_percent = round(allowance_amount / gross_total * 100, 2)
@@ -591,6 +620,7 @@ class AccountUblImportMixin(models.AbstractModel):
                     "name": (name or "").strip(),
                     "qty": qty_f,
                     "price": price_f,
+                    "price_base_qty": base_qty,
                     "discount": discount_percent,
                     "line_total": _to_float(line_total),
                     "tax_percent": _to_float(tax_percent),

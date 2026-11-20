@@ -162,6 +162,16 @@ recepția este validată.
 
 ![Comanda după import, cu liniile din factură](screenshots/05_comanda_dupa_import.png)
 
+### Facturi parțiale pe aceeași comandă
+
+Factura din XML conține cantitatea unei singure facturi, nu totalul comenzii. Pe o linie deja
+facturată în parte, importul nu scade cantitatea comandată: aceasta rămâne cel puțin egală cu
+cantitatea deja facturată plus cea din XML (exemplu: comandă de 10, facturate 4, XML de 6 → comanda
+rămâne 10, factura nouă are 6). Dacă XML-ul depășește restul de pe comandă, cantitatea comenzii
+crește; o linie deja facturată integral rămâne neschimbată. Reimportul aceleiași facturi (același număr) nu modifică comanda. Factura de furnizor preia
+cantitatea din XML pentru produsele facturate pe cantitatea comandată; la cele facturate pe cantitatea
+primită, diferența față de XML apare ca avertisment în jurnal.
+
 ### Pasul 6 — Verificarea facturii furnizorului
 
 Din fereastra de rezultat apăsați **Vezi factura furnizor** (sau deschideți-o din butonul
@@ -231,6 +241,8 @@ Ce rămâne manual: verificarea rândurilor galbene/roșii în previzualizare, c
 - [ ] Schimbarea produsului pe un rând îl marchează „Ales manual”; „Ignoră” lasă linia neimportată.
 - [ ] După **Importă**, liniile existente au cantitatea și prețul din XML, iar produsele care nu erau
       pe comandă apar ca linii noi.
+- [ ] Pe o comandă de 10 bucăți, importați o factură de 4, apoi una de 6: comanda rămâne la 10, iar
+      facturile au 4 și 6 bucăți.
 - [ ] Prețul de furnizor (cu **Cod produs furnizor**) este actualizat pentru produsele importate, iar
       **Termenul de livrare** al liniilor de furnizor existente a rămas neschimbat (verificați cu un
       termen diferit de 1 zi pe linie înainte de import, de exemplu 9 zile; după import trebuie să fie tot 9 zile).
