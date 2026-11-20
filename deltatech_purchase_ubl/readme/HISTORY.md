@@ -1,3 +1,9 @@
+## 19.0.1.5.1 (2026-11-20)
+
+- Packaging: the dependency `deltatech_account_ubl_import` is taken from this repository
+  (`depends_override`), since it is not published on the wheelhouse. Suites that install
+  `deltatech_purchase_ubl` from git (bitshop_ent) can install it again. No functional change.
+
 ## 19.0.1.5.0 (2026-11-19)
 
 - The UBL reader and the product matcher moved to the new base module

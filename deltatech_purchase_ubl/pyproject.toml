@@ -4,6 +4,11 @@ requires = [
 ]
 build-backend = "whool.buildapi"
 
+# deltatech_account_ubl_import nu e publicat pe wheelhouse: se ia din repo-ul lui,
+# altfel suitele care folosesc deltatech_purchase_ubl din git nu-l găsesc pe index.
+[tool.whool.depends_override]
+deltatech_account_ubl_import = "odoo-addon-deltatech-account-ubl-import @ git+https://github.com/dhongu/deltatech.git@19.0#subdirectory=deltatech_account_ubl_import"
+
 [project]
 name = "odoo-addon-deltatech-purchase-ubl"
 dynamic = [
