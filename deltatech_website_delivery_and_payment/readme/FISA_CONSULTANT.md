@@ -58,13 +58,11 @@ taxele comenzii. Adaugă câmpuri de configurare:
 | Metoda de livrare, tab **Plată** / *Payment Acquirer* | **Furnizori de plată permiși** / *Payments Provider Allowed* | Cu această metodă se oferă doar furnizorii din listă; listă goală = toți. |
 | Metoda de livrare, tab **Plată** | **Ascunsă pentru partenerii cu eticheta** / *Restrict for partners with label* | Metoda nu apare dacă **compania** clientului are una dintre etichete. |
 | Furnizorul de plată, grupul **Restricții** | **Limită valoare** / *Value Limit* | Peste acest total al comenzii (cu TVA) furnizorul nu se mai oferă; 0 = fără limită. |
-| Furnizorul de plată, grupul **Restricții** | **Ascuns pentru etichetele** / *Restrict Label* | Furnizorul nu apare dacă **clientul de pe comandă** are una dintre etichete. |
+| Furnizorul de plată, grupul **Restricții** | **Ascuns pentru etichetele** / *Restrict Label* | Furnizorul nu apare dacă clientul sau **firma clientului** are una dintre etichete, în checkout și la plata unei facturi din portal sau printr-un link de plată. |
 
-Diferența dintre cele două reguli de etichete e reală, din cod: la **metodele de livrare** se citesc
-etichetele **companiei** clientului (partenerul comercial), la **furnizorii de plată** cele ale
-**partenerului comenzii**. Pentru o persoană de contact a unei firme, eticheta pusă doar pe firmă
-ascunde metoda de livrare, dar nu și furnizorul de plată; ca să le ascundă pe amândouă, puneți
-eticheta și pe firmă, și pe persoana de contact.
+La **metodele de livrare** se citesc etichetele **companiei** clientului (partenerul comercial), la
+**furnizorii de plată** cele ale clientului și ale **companiei** lui. Pentru o persoană de contact a
+unei firme, eticheta pusă doar pe firmă ascunde și metoda de livrare, și furnizorul de plată.
 
 Modulul mai adaugă un **Logo** pe formularul metodei de livrare și un câmp **Furnizor de plată** în
 tab-ul **Vânzări & Achiziții** al contactului. Acestea se salvează pentru alte module și rapoarte;
@@ -135,8 +133,9 @@ fizică, compania este chiar ea.
 - **Limită valoare** ① — totalul comenzii, cu TVA și cu transportul inclus, peste care furnizorul nu
   se mai oferă (ex. 1.500 lei); la un total egal cu limita, furnizorul rămâne disponibil. Limita se
   compară cu totalul în moneda comenzii, fără conversie;
-- **Ascuns pentru etichetele** ② — furnizorul nu apare pentru clienții de pe comandă care au una
-  dintre etichete (ex. „Client restant”).
+- **Ascuns pentru etichetele** ② — furnizorul nu apare pentru clienții care au una dintre etichete,
+  direct sau pe firma lor (ex. „Client restant”), nici în checkout, nici la plata unei facturi din
+  portal sau printr-un link de plată.
 
 ![Formularul furnizorului de plată Numerar la livrare, Stare Activ și publicat; în grupul Restricții, Limită valoare 1.500,00 și Ascuns pentru etichetele cu eticheta Client restant, evidențiate cu 1 și 2; deasupra, grupul standard Disponibilitate cu Valoare maximă 0,00](../static/description/04_furnizor_plata_restrictii.png)
 
@@ -144,8 +143,8 @@ fizică, compania este chiar ea.
 
 **Pagină web → eCommerce → Clienți**, deschideți clientul (ex. **Maria Ionescu**) și completați
 câmpul **Etichete** ①. Aici, eticheta „Provincie” ascunde metoda **Curier local București**. Pentru
-o persoană de contact a unei firme, rețineți regula din secțiunea 4: etichetele de pe firmă contează
-la livrare, cele de pe persoana de pe comandă contează la plată.
+o persoană de contact a unei firme, este suficient să puneți eticheta pe firmă: ea ascunde atât
+metoda de livrare, cât și furnizorul de plată.
 
 ![Fișa clientului Maria Ionescu, persoană fizică din Cluj-Napoca, cu email și telefon de exemplu; câmpul Etichete conține Provincie și este evidențiat](../static/description/05_client_etichete.png)
 
@@ -200,6 +199,25 @@ Clientul mărește cantitatea la 10 bucăți și revine la plată cu **Curier ra
 
 ![Pasul Plată cu Curier rapid și 10 bucăți în coș: totalul comenzii cu TVA este 2.317,15 lei, iar lista Metodă de plată are doar Card; Numerar la livrare nu mai apare](../static/description/09_site_plata_peste_limita.png)
 
+### Pasul 10 — Revânzători: plata cu cardul ascunsă pentru o firmă
+
+Cazul tipic B2B: revânzătorii nu au voie să plătească cu cardul, iar comenzile le plasează
+persoanele lor de contact. Pe furnizorul **Card la curier** (Pasul 4), în **Ascuns pentru
+etichetele**, puneți eticheta „Revânzător B2B”, apoi deschideți firma revânzătorului din
+**Pagină web → eCommerce → Clienți** (ex. **Auto Distribuție SRL**) și completați **Etichete** ①.
+Eticheta stă **doar pe firmă**; persoana de contact (**Andrei Pop**) nu o are.
+
+![Fișa firmei Auto Distribuție SRL, companie din Cluj-Napoca, cu codul de TVA RO1234567; câmpul Etichete conține Revânzător B2B și este evidențiat; în tab-ul Contacte, persoana de contact Andrei Pop](../static/description/10_firma_revanzator_eticheta.png)
+
+1. **Găsiți pe ecran** — Andrei Pop, autentificat pe site, finalizează același coș cu **Curier
+   rapid** și ajunge la lista **Metodă de plată** ①.
+2. **Verificați** — apare doar **Numerar la livrare**; **Card** lipsește, deși Curier rapid permite
+   furnizorul Card la curier: eticheta firmei îl ascunde și pentru persoana ei de contact.
+3. **Continuați** — **Confirmă** cu metoda rămasă. Aceeași regulă se aplică și când revânzătorul
+   plătește o factură din portal sau printr-un link de plată.
+
+![Pasul Plată pentru Andrei Pop, persoana de contact a firmei Auto Distribuție SRL, cu Curier rapid: lista Metodă de plată are doar Numerar la livrare; Card nu apare; în dreapta, totalul comenzii 487,63 lei](../static/description/11_site_plata_revanzator.png)
+
 ### Note de monografie și raportare
 
 Modulul **nu generează note contabile** și nu modifică documentele contabile. Comanda de vânzare,
@@ -219,7 +237,9 @@ comenzii. Nu există raport sau export propriu.
 **Ce e automat:** filtrarea metodelor de livrare la pasul **Adresa** și a metodelor de plată la
 pasul **Plată**, la fiecare încărcare a paginii, după coșul și clientul curent. Regulile de plată
 (furnizori permiși, limită de valoare, etichete) se aplică și când clientul plătește din portal o
-ofertă trimisă pe email; cele de livrare, doar în checkout-ul site-ului.
+ofertă trimisă pe email. Etichetele furnizorului de plată se aplică, în plus, la plata unei facturi
+din portal și la linkurile de plată, unde contează partenerul care plătește (utilizatorul
+autentificat, altfel partenerul din link); cele de livrare, doar în checkout-ul site-ului.
 
 **Ce rămâne manual:** etichetele pe clienți, configurarea limitelor și a listelor de furnizori,
 alinierea cu regulile standard ale Odoo:
@@ -243,7 +263,7 @@ alinierea cu regulile standard ale Odoo:
 - [ ] Un client cu eticheta din **Ascunsă pentru partenerii cu eticheta** nu vede metoda; pentru o
       persoană de contact, eticheta trebuie să fie pe **firmă**.
 - [ ] Un client cu eticheta din **Ascuns pentru etichetele** (furnizor) nu vede furnizorul; pentru o
-      persoană de contact, eticheta trebuie să fie pe **persoana de pe comandă**.
+      persoană de contact, ajunge eticheta pe **firmă**. Verificați și plata unei facturi din portal.
 - [ ] O comandă cu totalul (cu TVA și transport) peste **Limită valoare** nu vede furnizorul; la un
       total egal cu limita îl vede.
 - [ ] Rambursul apare doar pe metodele de livrare cu bifa standard **Numerar la livrare**.
@@ -256,7 +276,7 @@ alinierea cu regulile standard ale Odoo:
 | „Ne pare rău, nu putem expedia comanda dvs.” la pasul **Plată** | După filtrare (greutate, etichete, plus regulile standard de destinație) nu a rămas nicio metodă de livrare pentru coș și adresă. | Verificați **Limite greutate** și etichetele clientului; asigurați o metodă de livrare fără restricții, ca rezervă. |
 | „Nicio metodă de plată disponibilă” (alertă la pasul **Plată**) | Intersecția dintre **Furnizori de plată permiși**, limita de valoare și etichete a eliminat toți furnizorii. | Adăugați în lista metodei de livrare un furnizor fără limită de valoare (ex. Transfer bancar). |
 | Numerar la livrare nu apare deși e în **Furnizori de plată permiși** | Metoda de livrare nu are bifa standard **Numerar la livrare**, totalul depășește **Limită valoare** sau clientul are o etichetă restricționată. | Bifați **Numerar la livrare** pe metoda de livrare; verificați limita și etichetele. |
-| Eticheta pusă pe firmă nu ascunde furnizorul de plată | La plată se citesc etichetele persoanei de pe comandă, nu ale firmei. | Puneți eticheta și pe persoana de contact. |
+| Revânzătorul vede totuși cardul la plata unei facturi | Plata se face dintr-un cont autentificat al altui partener (contează utilizatorul logat, nu partenerul facturii) sau eticheta lipsește de pe firmă. | Verificați eticheta pe firma revânzătorului și contul cu care se plătește. |
 
 ## 10. Capturi de ecran
 
@@ -276,6 +296,9 @@ pentru `readme/USAGE.md`. Datele sunt de exemplu, fără date reale de client.
 | `07_site_plata_curier.png` | Pasul Plată cu Curier rapid: Card și Numerar la livrare. |
 | `08_site_plata_ridicare.png` | Pasul Plată cu Ridicare din depozit: doar Transfer bancar. |
 | `09_site_plata_peste_limita.png` | Pasul Plată peste limita de 1.500 lei (total 2.317,15 lei): doar Card. |
+| `10_firma_revanzator_eticheta.png` | Firma Auto Distribuție SRL, cu eticheta Revânzător B2B doar pe firmă. |
+| `11_site_plata_revanzator.png` | Pasul Plată pentru persoana de contact Andrei Pop: Card nu apare. |
+| `demo.gif` (și `en/demo.gif`) | GIF-ul demo al paginii de Apps: checkout cu Curier rapid, apoi cu Ridicare din depozit. |
 
 Regenerare:
 
@@ -286,8 +309,8 @@ Regenerare:
 
 ## 11. Observații pentru manual
 
-- Păstrați explicația diferenței dintre etichetele citite la livrare (compania clientului) și la
-  plată (partenerul comenzii); este cauza cea mai frecventă a întrebărilor de suport.
+- Pentru revânzători (B2B), recomandați eticheta pe **firmă**: ascunde furnizorul de plată pentru
+  toate persoanele ei de contact, în checkout, la plata facturilor din portal și la linkurile de plată.
 - Clientul vede **metodele de plată** (Card, Transfer bancar), nu numele furnizorilor din backend;
   în manual, numiți furnizorii astfel încât consultantul să-i recunoască după metoda afișată.
 - Recomandați o metodă de livrare și un furnizor de plată fără restricții, ca rezervă, ca să nu se

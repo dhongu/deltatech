@@ -1,3 +1,10 @@
+## 19.0.2.1.9 (2026-11-20)
+
+- The tag restriction of a payment provider also reads the tags of the customer's company, so a tag set
+  only on the company hides the provider for its contact persons too (as for delivery methods).
+- The tag restriction of a payment provider now also applies when there is no order: paying an invoice
+  from the portal, a payment link, saved payment methods.
+
 ## 19.0.2.1.8 (2026-11-03)
 
 - Description rewritten to match the code: value limit of a payment provider, weight limits of a
