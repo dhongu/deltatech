@@ -191,6 +191,42 @@ class TestLedger(TransactionCase):
             )
             self.assertEqual(link.name, "Linked project")
 
+    def test_links_multi_company(self):
+        company_b = self.env["res.company"].create({"name": "Ledger company B"})
+        record_b = self.Ledger.create({"record_type": "entry", "company_id": company_b.id})
+        link_b = self.env["ledger.link"].create(
+            {"ledger_id": record_b.id, "link_type": "url", "url": "https://b.example.com"}
+        )
+        record_a = self.Ledger.create({"record_type": "entry"})
+        user_a = self.user.with_company(self.env.company)
+        user_a.company_ids = self.env.company
+        link_model = self.env["ledger.link"].with_user(user_a).with_context(allowed_company_ids=self.env.company.ids)
+        self.assertFalse(link_model.search([("id", "=", link_b.id)]))
+        with self.assertRaises(AccessError):
+            link_b.with_user(user_a).read(["name", "url"])
+        with self.assertRaises(AccessError):
+            link_b.with_user(user_a).write({"url": "https://x.example.com"})
+        with self.assertRaises(AccessError):
+            link_b.with_user(user_a).unlink()
+        with self.assertRaises(ValidationError):
+            link_model.create({"ledger_id": record_b.id, "link_type": "url", "url": "https://y.example.com"})
+        own = link_model.create({"ledger_id": record_a.id, "link_type": "url", "url": "https://a.example.com"})
+        with self.assertRaises(ValidationError):
+            own.write({"ledger_id": record_b.id})
+        with self.assertRaises(AccessError):
+            record_b.with_user(user_a).read(["name"])
+        # both companies active: the links of company B are reachable
+        user_a.company_ids = self.env.company | company_b
+        both = (
+            self.env["ledger.link"]
+            .with_user(user_a)
+            .with_context(allowed_company_ids=(self.env.company | company_b).ids)
+        )
+        self.assertEqual(both.search([("id", "=", link_b.id)]), link_b)
+        link_b.with_user(user_a).with_context(allowed_company_ids=(self.env.company | company_b).ids).write(
+            {"url": "https://z.example.com"}
+        )
+
     # --- report ---------------------------------------------------------------------------------
 
     def test_report_wizard(self):

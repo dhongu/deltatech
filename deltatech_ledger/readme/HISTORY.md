@@ -1,3 +1,10 @@
+## 19.0.0.1.2 (2026-11-20)
+
+- **Security:** links (`ledger.link`) are now restricted by the company of their
+  register record, like the register itself; a user can no longer read, change or
+  delete the links of a register of a company that is not active, and cannot create
+  or move a link to such a register.
+
 ## 19.0.0.1.1 (2026-10-09)
 
 - Apps Store banner (banner.json).
