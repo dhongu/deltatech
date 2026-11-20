@@ -7,6 +7,8 @@ Open the **Ledger** app. The menu has three entries:
 - **Reserve a Number** - opens a new record already in the *Reserved* state.
 - **Print Ledger** - the PDF report of the register for a period.
 
+![Records list: number, date, type, document number, contact and state of each record; the canceled one is muted](static/description/en/01_lista_registru.png)
+
 ## The life of a record
 
 A record has one of three states:
@@ -32,6 +34,8 @@ Reserve a Number --> Reserved --Register--> Active
    *Description* tab, a short description.
 4. Save. The record gets its number (`2026/00123`) and is *Active*.
 
+![An active record: type, date, document number, contact and place of origin filled in](static/description/en/02_inregistrare_noua.png)
+
 The record stays editable afterwards, and every change of the type, date, document number
 or contact is logged in the chatter. A canceled record is read-only.
 
@@ -53,6 +57,8 @@ when a document has to be dated in the past.
 4. Click **Register**. The record becomes *Active*. The button refuses to work while the
    date is empty.
 
+![A reserved record: the blue banner shows the interval allowed for the date, and the Register button](static/description/en/03_rezervare.png)
+
 What the date is checked against, on every save:
 
 - it must be in the same year as the number (`2026/...` only accepts dates in 2026);
@@ -67,8 +73,12 @@ The bounds themselves are allowed (several documents can have the same date).
 1. Open the record (a reservation or an active record) and click **Cancel**.
 2. Write the **reason** in the window that opens and click **Cancel Records**.
 
+![The cancellation window with the reason filled in](static/description/en/05_anulare.png)
+
 The record becomes *Canceled*, a red ribbon appears, the reason is shown on the form and
 posted in the chatter, and the number stays in the register.
+
+![A canceled record: red ribbon, the reason banner and a read-only form](static/description/en/06_inregistrare_anulata.png)
 
 A canceled number is never reused. To see only the canceled records, use the
 **Canceled** filter.
@@ -93,6 +103,8 @@ Only a Ledger Manager can delete, and should do it only for test data.
   - *Web Link* - paste an address (a shared folder, a web page...).
   - The **Label** is filled in automatically (the name of the record or the address);
     type another text to replace it.
+
+![The Links tab of a record with a web link and its automatic label](static/description/en/04_legaturi.png)
 
 ## Searching and viewing the register
 
@@ -122,6 +134,10 @@ The icons at the top right change the view:
 4. **Include Undated Reservations** adds the reserved numbers that have no date yet,
    for the years of the period.
 5. Click **Print**. The PDF lists the records in order of their number, in landscape.
+
+![The Print Ledger window: period, record type and the options for canceled and undated records](static/description/en/07_tiparire.png)
+
+![The printed register: records in the order of their number, with the canceled one and its reason](static/description/en/08_raport_pdf.png)
 
 To print only some records, select them in the list and choose **Print > Ledger**.
 

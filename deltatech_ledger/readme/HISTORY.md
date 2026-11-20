@@ -4,6 +4,7 @@
   register record, like the register itself; a user can no longer read, change or
   delete the links of a register of a company that is not active, and cannot create
   or move a link to such a register.
+- Consultant sheet (`FISA_CONSULTANT.md`) with screenshots and a demo GIF; screenshots in the usage guide.
 
 ## 19.0.0.1.1 (2026-10-09)
 
