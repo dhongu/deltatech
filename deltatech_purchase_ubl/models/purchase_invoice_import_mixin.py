@@ -522,7 +522,7 @@ class PurchaseInvoiceImportMixin(models.AbstractModel):
             bill_lines = bill.invoice_line_ids.filtered(lambda bl, pl=purchase_line: bl.purchase_line_id == pl)
             if len(bill_lines) != 1:
                 continue
-            qty = self._convert_source_line(ml, purchase_line.product_uom_id)[0] or 0.0
+            qty = self._convert_source_line(ml, purchase_line.uom_id)[0] or 0.0
             if bill_lines.product_uom_id.is_zero(bill_lines.quantity - qty):
                 continue
             if purchase_line.product_id.purchase_method == "purchase":

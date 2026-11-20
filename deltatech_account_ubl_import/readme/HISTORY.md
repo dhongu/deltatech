@@ -1,4 +1,4 @@
-## 19.0.1.0.1 (2026-11-20)
+## 20.0.1.0.1 (2026-11-20)
 
 - The line price now takes the `BaseQuantity` of the UBL price into account (`cac:Price`): a
   price of 50 declared for 100 units is read as 0.50 per unit, also when the base unit differs

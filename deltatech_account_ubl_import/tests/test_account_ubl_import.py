@@ -4,6 +4,7 @@
 from odoo import Command
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase, tagged
+from odoo.tools import mute_logger
 
 XML = b"""<?xml version="1.0" encoding="UTF-8"?>
 <Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
@@ -98,6 +99,7 @@ class TestAccountUblImport(TransactionCase):
         )
         self.assertAlmostEqual(line["price"], 0.05)
 
+    @mute_logger("odoo.addons.deltatech_account_ubl_import.models.account_ubl_import_mixin")
     def test_base_quantity_missing_or_invalid(self):
         for base in (
             "",
