@@ -26,4 +26,11 @@
         <field name="model_id" ref="model_ledger_ledger" />
         <field name="domain_force">[('company_id', 'in', company_ids)]</field>
     </record>
+
+    <!-- ledger_id is a plain Many2one (not _inherits), so the parent rule does not reach the links. -->
+    <record id="ledger_link_company_rule" model="ir.rule">
+        <field name="name">Ledger link: multi-company</field>
+        <field name="model_id" ref="model_ledger_link" />
+        <field name="domain_force">[('ledger_id.company_id', 'in', company_ids)]</field>
+    </record>
 </odoo>
