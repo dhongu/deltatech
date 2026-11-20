@@ -305,6 +305,21 @@ class TestUblImportFlow(TransactionCase):
         self.assertAlmostEqual(order.order_line.price_unit, 10.0)
         self.assertIn("BaseQuantity", wizard.log)
 
+    def test_bill_on_received_quantity_warns_when_different_from_xml(self):
+        """Billed on received quantities: the bill keeps the received quantity and the log warns."""
+        product = self.env["product.product"].create(
+            {"name": "Flow Recv Warn", "default_code": "FLOW-RW", "is_storable": True, "purchase_method": "receive"}
+        )
+        order = self._order([(product, 10.0)])
+        picking = order.picking_ids
+        picking.move_ids.quantity = 4.0
+        picking.with_context(skip_backorder=True, picking_ids_not_to_backorder=picking.ids).button_validate()
+        self.assertEqual(order.order_line.qty_received, 4.0)
+        wizard = self._import(order, [{"code": "FLOW-RW", "name": product.name, "qty": "6"}], invoice_id="FLOW-RW-1")
+        bill = order.invoice_ids
+        self.assertEqual(bill.invoice_line_ids.quantity, 4.0)
+        self.assertIn("billed on received quantities", wizard.log)
+
     def test_partial_invoices_keep_order_quantity(self):
         """An invoice of 4 exists on an order of 10; importing the one of 6 keeps the order at 10."""
         order = self._order([(self.product_a, 10.0)])
