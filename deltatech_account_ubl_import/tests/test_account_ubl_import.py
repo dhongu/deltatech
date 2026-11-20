@@ -68,3 +68,74 @@ class TestAccountUblImport(TransactionCase):
         )
         self.assertEqual(product.type, "consu")
         self.assertEqual(product.seller_ids.product_code, "N-1")
+
+    def _xml_with_price(self, price_block, qty="200", qty_unit="C62", total="100.00", extra=""):
+        xml = XML.decode()
+        xml = xml.replace(
+            '<cbc:InvoicedQuantity unitCode="KGM">10</cbc:InvoicedQuantity>',
+            f'<cbc:InvoicedQuantity unitCode="{qty_unit}">{qty}</cbc:InvoicedQuantity>',
+        ).replace("<cbc:LineExtensionAmount>100.00", f"<cbc:LineExtensionAmount>{total}")
+        xml = xml.replace("<cac:Price><cbc:PriceAmount>10.00</cbc:PriceAmount></cac:Price>", extra + price_block)
+        return xml.encode()
+
+    def _line(self, xml):
+        return self.mixin._parse_xml(xml)["lines"][0]
+
+    def test_base_quantity(self):
+        line = self._line(
+            self._xml_with_price(
+                '<cac:Price><cbc:PriceAmount>50</cbc:PriceAmount><cbc:BaseQuantity unitCode="C62">100'
+                "</cbc:BaseQuantity></cac:Price>"
+            )
+        )
+        self.assertAlmostEqual(line["price"], 0.5)
+        self.assertEqual(line["price_base_qty"], 100.0)
+        line = self._line(
+            self._xml_with_price(
+                '<cac:Price><cbc:PriceAmount>50</cbc:PriceAmount><cbc:BaseQuantity unitCode="C62">1000'
+                "</cbc:BaseQuantity></cac:Price>"
+            )
+        )
+        self.assertAlmostEqual(line["price"], 0.05)
+
+    def test_base_quantity_missing_or_invalid(self):
+        for base in (
+            "",
+            "<cbc:BaseQuantity>1</cbc:BaseQuantity>",
+            "<cbc:BaseQuantity>0</cbc:BaseQuantity>",
+            "<cbc:BaseQuantity>abc</cbc:BaseQuantity>",
+            "<cbc:BaseQuantity>-5</cbc:BaseQuantity>",
+        ):
+            line = self._line(
+                self._xml_with_price(f"<cac:Price><cbc:PriceAmount>50</cbc:PriceAmount>{base}</cac:Price>")
+            )
+            self.assertEqual(line["price"], 50.0, base)
+
+    def test_base_quantity_with_discount(self):
+        # 200 x 0.50 = 100 gross, 10 allowance -> 10%
+        allowance = (
+            "<cac:AllowanceCharge><cbc:ChargeIndicator>false</cbc:ChargeIndicator>"
+            "<cbc:Amount>10.00</cbc:Amount></cac:AllowanceCharge>"
+        )
+        line = self._line(
+            self._xml_with_price(
+                '<cac:Price><cbc:PriceAmount>50</cbc:PriceAmount><cbc:BaseQuantity unitCode="C62">100'
+                "</cbc:BaseQuantity></cac:Price>",
+                extra=allowance,
+            )
+        )
+        self.assertAlmostEqual(line["price"], 0.5)
+        self.assertEqual(line["discount"], 10.0)
+
+    def test_base_quantity_other_unit(self):
+        # 3 000 g invoiced; price 8 per 1 kg -> 0.008 per g
+        line = self._line(
+            self._xml_with_price(
+                '<cac:Price><cbc:PriceAmount>8</cbc:PriceAmount><cbc:BaseQuantity unitCode="KGM">1'
+                "</cbc:BaseQuantity></cac:Price>",
+                qty="3000",
+                qty_unit="GRM",
+                total="24.00",
+            )
+        )
+        self.assertAlmostEqual(line["price"], 0.008)

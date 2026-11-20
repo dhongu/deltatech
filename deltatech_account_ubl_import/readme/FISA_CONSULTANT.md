@@ -127,6 +127,13 @@ Detalii care contează la verificare:
   trimisă ca factură cu codul `381` are liniile citite.
 - Un fișier care nu este XML corect oprește operația cu mesajul „XML nevalid: …”.
 
+**Prețul și `BaseQuantity`.** Prețul unitar este `PriceAmount` împărțit la `BaseQuantity` (cantitatea
+de bază a prețului, de exemplu 100 sau 1.000 de bucăți). Un preț de 50 RON declarat pentru 100 de
+bucăți se importă ca 0,50 RON pe bucată; dacă unitatea bazei diferă de cea a cantității facturate
+(preț pe kg, cantitate în g), prețul se aduce în unitatea cantității facturate. Fără
+`BaseQuantity`, sau cu valoare 0, negativă ori ilizibilă, prețul se ia ca atare. Reducerea de pe linie
+se calculează pe prețul astfel normalizat.
+
 ### Pasul 2 — Identificarea furnizorului
 
 Căutarea de mai jos se folosește diferit în cele două module:
@@ -325,6 +332,9 @@ Verificările se fac din previzualizarea unuia dintre cele două module care îl
       referință) nu creează o a doua factură, inclusiv când prima factură este în ciornă.
 - [ ] Produsul creat dintr-o linie roșie are codul de bare și unitatea din XML și o linie de furnizor
       cu codul și prețul din XML.
+
+- [ ] O linie cu `PriceAmount` 50 și `BaseQuantity` 100 pentru 200 de bucăți dă prețul unitar 0,50
+      (totalul liniei 100), nu 50.
 
 ## 9. Mesaje de eroare frecvente
 
