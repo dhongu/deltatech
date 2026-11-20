@@ -10,7 +10,9 @@ the value and weight of the order and the tags of the customer.
 - **Weight limits of a delivery method**: the method is offered only when the estimated weight of the cart is between
   its minimum and maximum. An empty limit is not checked.
 - **Restrictions by customer tags**: a delivery method or a payment provider can be hidden from the customers that have
-  one of its tags. The tags of the customer's company (the commercial partner) are read for both.
+  one of its tags. For payment providers the tags of the customer and of the customer's company are read; for
+  delivery methods, the tags of the customer's company (commercial partner). For payment providers the restriction
+  applies at checkout and also when paying an invoice from the portal or through a payment link.
 - **Check when paying**: the payment provider is checked again when the transaction is created, so a provider that is
   not allowed for the order is refused, also in the express checkout. The express checkout hides the delivery methods
   whose allowed providers have no express checkout.

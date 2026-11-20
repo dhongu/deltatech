@@ -30,20 +30,21 @@ published.
    **Value Limit** (1) is the order total, taxes and delivery included, above which the provider is
    no longer offered (a total equal to the limit is still allowed; the limit is compared with the total in the order currency, without
    conversion); **Restrict Label** (2) hides the
-   provider from the customers whose **company** has one of the tags.
+   provider from the customers that have one of the tags, at checkout and when paying an invoice from
+   the portal or through a payment link.
 
    ![Payment provider form, Restrictions group: Value Limit 1,500.00 and Restrict Label](static/description/en/04_furnizor_plata_restrictii.png)
 
 5. **Tag the customers** — on the customer (**Website → eCommerce → Customers**), fill in **Tags**
    (1).
 
-   ![Customer form with the tag Provincie](static/description/en/05_client_etichete.png)
+   ![Customer Maria Ionescu from Cluj-Napoca: the Tags field with Provincie is highlighted](static/description/en/05_client_etichete.png)
 
 **Which tags are read**
 
-For delivery methods and for payment providers the module reads the tags of the customer's
-**company** (the commercial partner). A tag set on a company applies to all its contact persons; a
-tag set only on a contact person is not read.
+For delivery methods the module reads the tags of the customer's **company** (the commercial partner);
+for payment providers, the tags of the customer and of the customer's **company**. For a contact person
+of a company, a tag set only on the company is enough to hide both.
 
 **What the customer sees in the checkout**
 
@@ -68,6 +69,14 @@ tag set only on a contact person is not read.
    limit of Cash on Delivery, so only **Card** is left.
 
    ![Checkout Payment step above the value limit: only Card](static/description/en/09_site_plata_peste_limita.png)
+
+10. **Resellers without card payment** — put a tag (here *Revânzător B2B*) in **Restrict Label** of the
+    card provider and set it on the reseller **company** only (1). Its contact persons no longer see
+    **Card** at checkout, nor when they pay an invoice from the portal or through a payment link.
+
+    ![Reseller company Auto Distribuție SRL: the Tags field with Revânzător B2B is highlighted; the Contacts tab lists Andrei Pop](static/description/en/10_firma_revanzator_eticheta.png)
+
+    ![Checkout Payment step of the reseller's contact person: only Cash on Delivery, no Card](static/description/en/11_site_plata_revanzator.png)
 
 **Standard rules that still apply**
 
