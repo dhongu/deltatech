@@ -49,3 +49,9 @@ class LedgerLink(models.Model):
                 raise ValidationError(self.env._("Select the record to link."))
             if link.link_type == "url" and not link.url:
                 raise ValidationError(self.env._("Enter the web address to link."))
+
+    @api.constrains("ledger_id")
+    def _check_ledger_company(self):
+        for link in self:
+            if link.ledger_id.sudo().company_id not in self.env.companies:
+                raise ValidationError(self.env._("The ledger record belongs to a company that is not active."))
