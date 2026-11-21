@@ -56,7 +56,7 @@
                             name="action_view_employee_balance"
                             type="object"
                             class="oe_stat_button"
-                            icon="fa-balance-scale"
+                            icon="balance"
                             invisible="not partner_id or not expense_journal_id"
                             groups="account.group_account_readonly"
                         >
@@ -214,7 +214,7 @@
                                     <button
                                         name="action_open_allocations"
                                         type="object"
-                                        icon="fa-file-text-o"
+                                        icon="description"
                                         title="Bills Paid"
                                         invisible="type != 'supplier_payment'"
                                         groups="deltatech_expenses.group_expenses_approver"

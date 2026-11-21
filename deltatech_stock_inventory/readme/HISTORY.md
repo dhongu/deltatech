@@ -1,3 +1,7 @@
+## 20.0.2.10.8 (2026-11-19)
+
+- Button icons use Odoo 20 Material Symbols names instead of Font Awesome classes, which Odoo 20 no longer styles: the buttons showed fragments of the icon name instead of the icon.
+
 ## 20.0.2.10.7 (2026-10-14)
 
 - The *Clear* button on a counted quant now detaches it from its inventory document and line again.

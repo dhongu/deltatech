@@ -5,10 +5,10 @@ This module extends the functionality of the delivery system in Odoo to provide 
 ## Features
 
 - Adds detailed delivery status tracking to stock pickings
-- Integrates carrier status information with sales orders
-- Provides delivery status management within sales teams
-- Extends payment providers with delivery status information
-- Supports tracking of delivery packages through carriers
+- Lets you postpone and release the deliveries of a sales order
+- Lets sales teams postpone the deliveries of their orders paid by wire transfer
+- Extends payment providers with a Postponed Delivery option
+- Keeps the carrier status of the parcel on the delivery, updated by the shipping integrations
 - Enables monitoring of delivery status throughout the logistics process
 - Improves communication between sales, warehouse, and customers regarding shipment status
 - Centralizes delivery information for better visibility across the organization
@@ -18,12 +18,12 @@ This module extends the functionality of the delivery system in Odoo to provide 
 - **Manual Delivery Blocking**: Allows users to manually postpone deliveries by marking pickings as postponed
 - **Payment Provider Based Blocking**: Automatically postpones deliveries based on payment provider configuration
   - Each payment provider can be configured with the "Postponed Delivery" option
-  - When enabled, deliveries are automatically blocked until payment confirmation
+  - When enabled, deliveries are automatically blocked when the order is confirmed before the payment is done
   - Once payment is confirmed, the system automatically releases the blocked deliveries
-- **Sales Team Configuration**: Sales teams can be configured to postpone deliveries for specific payment methods
-  - Special handling for wire transfers, allowing businesses to verify payment before shipping
+- **Sales Team Configuration**: Sales teams can be configured to postpone the deliveries of the orders paid by wire transfer
+  - Special handling for wire transfers, allowing businesses to verify payment before shipping; these deliveries are released manually, from the order
 - **Order-level Management**: Provides functions to postpone or release deliveries at the sales order level
-- **Status Visibility**: Shows the postponed status on orders and pickings for better operational awareness
+- **Status Visibility**: Shows the postponed status on pickings (ribbon and field) and, on orders, through the Release button and the Postponed delivery filter
 
 ## Delivery State Tracking
 
@@ -36,6 +36,7 @@ The module introduces a comprehensive `delivery_state` field on stock pickings t
 - **In Carrier Warehouse**: The package has arrived at the carrier's sorting facility/warehouse
 - **In delivery**: The package is out for final delivery to the customer
 - **Delivered**: The package has been successfully delivered to the customer
+- **Refused**: The customer refused the package
 
 This granular state tracking provides several benefits:
 
@@ -49,6 +50,6 @@ The module also adds an `available_state` field that visually indicates the avai
 
 - **Available**: All products are available and ready for delivery
 - **Partially available**: Some products are available, but not all
-- **Unavailable**: None of the products are available yet
+- **Unavailable**: The products are not reserved (for transfers delivered all at once, also when they are only partially reserved)
 
 This module is essential for businesses that need to closely monitor the status of their deliveries and want to provide accurate tracking information to their customers. It enhances the standard Odoo delivery system by adding more granular status tracking, payment-dependent delivery control, and better integration between the sales, warehouse, and payment processes.

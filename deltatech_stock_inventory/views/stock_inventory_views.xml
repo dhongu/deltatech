@@ -60,7 +60,7 @@
                 <button
                     name="action_refresh_quantity"
                     title="Refresh quantity"
-                    icon="fa-refresh"
+                    icon="refresh"
                     type="object"
                     invisible="not outdated"
                 />
@@ -301,7 +301,7 @@
                             type="object"
                             name="action_view_related_move_lines"
                             class="oe_stat_button"
-                            icon="fa-exchange"
+                            icon="swap_horiz"
                             invisible="state != 'done'"
                             context="{'no_reference': True}"
                         />

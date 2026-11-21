@@ -5,7 +5,7 @@
 {
     "name": "Stock Inventory",
     "summary": "Restore the classic inventory adjustment document with valuation control",
-    "version": "20.0.2.10.7",
+    "version": "20.0.2.10.8",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Warehouse",

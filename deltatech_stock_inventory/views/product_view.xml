@@ -44,7 +44,7 @@
                 <form>
                     <header>
                         <button
-                        icon="fa-check-circle-o"
+                        icon="check_circle"
                         string="Confirm Stock"
                         name="%(deltatech_stock_inventory.action_stock_confirm_inventory)d"
                         type="action"
@@ -59,7 +59,7 @@
                             name="action_open_quants"
                             invisible="type != 'product'"
                             class="oe_stat_button"
-                            icon="fa-building-o"
+                            icon="business"
                         >
                                 <div class="o_field_widget o_stat_info">
                                     <span class="o_stat_value" widget="statinfo">
