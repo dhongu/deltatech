@@ -4,10 +4,10 @@
 
 {
     "name": "Auto-Invoice from Delivery",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
-    "live_test_url": "https://www.terrabit.ro/demo/deltatech_invoice_picking_automatically?v=19.0",
+    "live_test_url": "https://www.terrabit.ro/demo/deltatech_invoice_picking_automatically?v=20.0",
     "summary": "Generate invoice automatically from picking after validation",
     "category": "Sales",
     "depends": ["stock_account", "sale_stock", "sale", "stock", "account", "deltatech_invoice_picking"],

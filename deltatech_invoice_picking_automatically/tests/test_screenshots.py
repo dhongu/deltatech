@@ -129,8 +129,8 @@ class TestInvoicePickingAutomaticallyScreenshots(AccountTestInvoicingCommon, Scr
         ro = env.ref("base.ro").id
         cls.alfa, cls.beta = env["res.partner"].create(
             [
-                {"name": "Alfa Construct SRL", "is_company": True, "country_id": ro, "lang": "ro_RO"},
-                {"name": "Beta Mobila SRL", "is_company": True, "country_id": ro, "lang": "ro_RO"},
+                {"name": "Alfa Construct SRL", "country_id": ro, "lang": "ro_RO"},
+                {"name": "Beta Mobila SRL", "country_id": ro, "lang": "ro_RO"},
             ]
         )
 

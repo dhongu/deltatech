@@ -223,13 +223,7 @@ class TestInvoicePickingAutomatically(TransactionCase):
         delivery = self._confirm_and_validate_picking(sale_order)
         self.env["stock.picking"]._cron_generate_invoices()
         self.warehouse.in_type_id.create_invoice_automatically = True
-        wizard = (
-            self.env["stock.return.picking"]
-            .with_context(active_id=delivery.id, active_model="stock.picking")
-            .create({})
-        )
-        wizard.product_return_moves.quantity = 1
-        return_picking = wizard._create_return()
+        return_picking = delivery._create_return()
         return_picking.picking_type_id.create_invoice_automatically = True
         self._validate(return_picking, 1)
         self.env["stock.picking"]._cron_generate_invoices()
