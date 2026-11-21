@@ -4,7 +4,7 @@
 
 {
     "name": "Alternative Product Codes",
-    "version": "19.0.2.2.1",
+    "version": "19.0.2.2.2",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "summary": "Alternative product codes",

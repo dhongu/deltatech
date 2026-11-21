@@ -1,14 +1,13 @@
 ## Alternative Search Settings
 
-Navigate to **Settings > Inventory** (the setting is injected after the *Units of Measure*
-section) to configure the alternative-code search behaviour:
+Navigate to **Purchase > Configuration > Settings**, section **Products** (in the general
+*Settings* page, under **Purchase**) to configure the alternative-code search behaviour:
 
 | Setting | System Parameter | Default | Effect |
 |---|---|---|---|
 | **Alternative Search** (checkbox) | `alternative.search_name` | disabled | When enabled, product name-search queries also scan alternative codes. |
-| **Alternative Limit** | `alternative.limit` | 10 | Maximum number of extra results returned from the alternative-code search. |
-| **Minimum Length** | `alternative.length_min` | 3 | Minimum number of characters the user must type before the alternative search is triggered. |
-
+| **Alternative Limit** | `alternative.limit` | 10 | Stored, but not used by the search yet: the number of results is the one of the product dropdown. |
+| **Minimum Length** | `alternative.length_min` | 3 | Stored, but not used by the search yet: the search runs from the first character typed. |
 | **Code Before Name** | `alternative.dropdown_code_first` | disabled | The product selection list shows `[code] name` instead of the name with the code muted on the right. |
 | **Show Stock in Dropdown** | `alternative.dropdown_show_qty` | disabled | The product selection list shows, muted on the right, the quantity on hand of storable products. |
 

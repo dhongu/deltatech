@@ -62,7 +62,7 @@ class ProductTemplate(models.Model):
             if not product.alternative_ids:
                 product.alternative_ids = self.env["product.alternative"].create({"name": product.alternative_code})
 
-    @api.depends("alternative_ids")
+    @api.depends("alternative_ids", "alternative_ids.name", "alternative_ids.hide", "alternative_ids.sequence")
     def _compute_alternative_code(self):
         for product in self:
             codes = []
