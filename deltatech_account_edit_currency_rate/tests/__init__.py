@@ -3,3 +3,4 @@
 
 from . import test_edit_currency_rate
 from . import test_custom_rate_server
+from . import test_screenshots
