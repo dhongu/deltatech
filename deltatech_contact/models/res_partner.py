@@ -40,6 +40,11 @@ class Partner(models.Model):
         if not res:
             raise ValidationError(self.env._("CNP invalid"))
 
+    @staticmethod
+    def _is_ascii_digits(value):
+        # str.isdigit() accepts Unicode digits such as "²" that int() rejects
+        return bool(value) and value.isascii() and value.isdigit()
+
     def _get_cnp_checksum(self, cnp):
         key = "279146358279"
         suma = 0
@@ -56,7 +61,7 @@ class Partner(models.Model):
         if not cnp or not cnp.strip():
             return True
         cnp = cnp.strip()
-        if len(cnp) != 13:
+        if len(cnp) != 13 or not self._is_ascii_digits(cnp):
             return False
 
         rest = self._get_cnp_checksum(cnp)
@@ -66,13 +71,17 @@ class Partner(models.Model):
 
     @api.onchange("cnp")
     def cnp_change(self):
-        if self.cnp and len(self.cnp) > 7:
+        if self.cnp and len(self.cnp) > 7 and self._is_ascii_digits(self.cnp[:7]):
             birthdate = self.cnp[1:7]
             if self.cnp[0] in ["1", "2"]:
                 birthdate = "19" + birthdate
             else:
                 birthdate = "20" + birthdate
-            self.birthdate = time.strftime("%Y-%m-%d", time.strptime(birthdate, "%Y%m%d"))
+            try:
+                self.birthdate = time.strftime("%Y-%m-%d", time.strptime(birthdate, "%Y%m%d"))
+            except ValueError:
+                # impossible date (e.g. month 13): leave birthdate/gender as they are
+                return
             if self.cnp[0] in ["1", "5"]:
                 self.gender = "male"
             else:
@@ -83,6 +92,8 @@ class Partner(models.Model):
         if self.cnp and self.birthdate:
             cnp = self.cnp
             cnp = cnp[0] + self.birthdate.strftime("%y%m%d") + cnp[7:12]
+            if len(cnp) != 12 or not self._is_ascii_digits(cnp):
+                return
 
             rest = self._get_cnp_checksum(cnp)
 
