@@ -1,0 +1,23 @@
+# © 2025 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+{
+    "name": "Auto-Invoice from Delivery",
+    "version": "20.0.1.0.0",
+    "author": "Terrabit, Dorin Hongu",
+    "website": "https://www.terrabit.ro",
+    "live_test_url": "https://www.terrabit.ro/demo/deltatech_invoice_picking_automatically?v=20.0",
+    "summary": "Generate invoice automatically from picking after validation",
+    "category": "Sales",
+    "depends": ["stock_account", "sale_stock", "sale", "stock", "account", "deltatech_invoice_picking"],
+    "price": 5.00,
+    "currency": "EUR",
+    "license": "LGPL-3",
+    "data": ["views/stock_picking_view.xml", "data/ir_cron.xml"],
+    "images": ["static/description/main_screenshot.png"],
+    "installable": True,
+    "development_status": "Beta",
+    "consultant_sheet": "full",
+    "maintainers": ["dhongu", "VoicuStefan2001"],
+}

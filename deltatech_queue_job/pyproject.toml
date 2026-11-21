@@ -1,0 +1,13 @@
+[build-system]
+requires = [
+    "whool",
+]
+build-backend = "whool.buildapi"
+
+[project]
+name = "odoo-addon-deltatech-queue-job"
+dependencies = [
+    # queue_job from the same fork: queue_job_cron_jobrunner imports helpers the PyPI wheel lacks
+    "odoo-addon-queue_job @ git+https://github.com/dhongu/queue.git@20.0#subdirectory=queue_job",
+    "odoo-addon-queue-job-cron-jobrunner @ git+https://github.com/dhongu/queue.git@20.0#subdirectory=queue_job_cron_jobrunner",
+]

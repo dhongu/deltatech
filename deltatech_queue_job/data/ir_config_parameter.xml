@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!-- No API key is shipped: the external processor API stays disabled until an
+         administrator generates a key in Settings (QUEUE-002). -->
+
+    <record id="queue_processor_batch_size" model="ir.config_parameter">
+        <field name="key">queue_job_processor.batch_size</field>
+        <field name="value">20</field>
+    </record>
+
+    <record id="queue_processor_max_seconds" model="ir.config_parameter">
+        <field name="key">queue_job_processor.max_seconds</field>
+        <field name="value">50</field>
+    </record>
+
+</odoo>

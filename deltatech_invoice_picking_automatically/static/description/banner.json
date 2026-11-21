@@ -1,0 +1,10 @@
+{
+  "title": "Auto-Invoice from Delivery",
+  "summary": "Invoice each delivery, return and receipt automatically",
+  "icon": "file",
+  "features": [
+    "Invoice on validation or scheduled",
+    "Credit notes and draft vendor bills",
+    "Failure reason with Retry button"
+  ]
+}

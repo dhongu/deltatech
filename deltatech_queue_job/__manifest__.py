@@ -1,0 +1,24 @@
+# ©  2024 Deltatech
+#              Dorin Hongu <dhongu(@)gmail(.)com
+# See README.rst file on addons root folder for license details
+
+{
+    "name": "Queue Job Enhancements",
+    "summary": "Faster, lock-safe job queue execution with SKIP LOCKED concurrency",
+    "author": "Terrabit, Dorin Hongu",
+    "version": "20.0.1.4.6",
+    "license": "AGPL-3",
+    "consultant_sheet": "full",
+    "website": "https://www.terrabit.ro",
+    "category": "Others",
+    "depends": ["queue_job", "queue_job_cron_jobrunner"],
+    "data": [
+        "views/queue_job_views.xml",
+        "views/res_config_settings_views.xml",
+        "data/ir_config_parameter.xml",
+    ],
+    "images": ["static/description/main_screenshot.png"],
+    "installable": True,
+    "development_status": "Alpha",
+    "maintainers": ["dhongu"],
+}
