@@ -252,8 +252,16 @@ corner confirms that the operation will run in the background|
 Changelog
 =========
 
-19.0.1.4.6 (2026-11-01)
+20.0.1.4.6 (2026-11-21)
 -----------------------
+
+- Migration to Odoo 20.0: typed configuration parameters (``get_int`` /
+  ``get_str`` / ``set_*``), Odoo 20 icon on **Generate Key**,
+  ``queue_job`` and ``queue_job_cron_jobrunner`` from the dhongu/queue
+  ``20.0`` branch.
+
+19.0.1.4.6 (2026-11-01)
+~~~~~~~~~~~~~~~~~~~~~~~
 
 - Fix: cleaning up terminal jobs left without a completion date no
   longer overrides ``queue.job.autovacuum()``, which recent

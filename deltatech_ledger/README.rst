@@ -370,6 +370,15 @@ be edited, within their year.
 Changelog
 =========
 
+20.0.0.1.2 (2026-11-21)
+-----------------------
+
+- Migration to Odoo 20.0: access rights and both multi-company rules in
+  ``ir.access``, ``report_file`` dropped, the company passed to the
+  report layout as a ``t-call`` attribute.
+- The contact of a record must be shared or belong to the record's
+  company (``check_company``).
+
 19.0.0.1.2 (2026-11-20)
 -----------------------
 

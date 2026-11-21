@@ -1,3 +1,8 @@
+## 20.0.1.0.0 (2026-11-21)
+
+- Migration to Odoo 20.0. Tests: customer return through `picking._create_return()` (the
+  `stock.return.picking` wizard is gone), no write on the computed `is_company`.
+
 ## 19.0.1.0.0 (2026-11-18)
 
 - Each transfer gets its own document, with its own quantities: a delivery gets a customer
