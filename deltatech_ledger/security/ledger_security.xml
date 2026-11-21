@@ -7,30 +7,18 @@
 
     <record id="res_groups_privilege_ledger" model="res.groups.privilege">
         <field name="name">Ledger</field>
-        <field name="category_id" ref="module_category_ledger" />
+        <field name="category_id" ref="module_category_ledger"/>
     </record>
 
     <!-- Every internal user can keep the register; the manager can also delete and reactivate canceled records. -->
     <record id="group_ledger_manager" model="res.groups">
         <field name="name">Manager</field>
-        <field name="privilege_id" ref="res_groups_privilege_ledger" />
-        <field name="implied_ids" eval="[(4, ref('base.group_user'))]" />
+        <field name="privilege_id" ref="res_groups_privilege_ledger"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
     </record>
 
     <record id="base.group_system" model="res.groups">
-        <field name="implied_ids" eval="[(4, ref('group_ledger_manager'))]" />
+        <field name="implied_ids" eval="[(4, ref('group_ledger_manager'))]"/>
     </record>
 
-    <record id="ledger_company_rule" model="ir.rule">
-        <field name="name">Ledger: multi-company</field>
-        <field name="model_id" ref="model_ledger_ledger" />
-        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
-    </record>
-
-    <!-- ledger_id is a plain Many2one (not _inherits), so the parent rule does not reach the links. -->
-    <record id="ledger_link_company_rule" model="ir.rule">
-        <field name="name">Ledger link: multi-company</field>
-        <field name="model_id" ref="model_ledger_link" />
-        <field name="domain_force">[('ledger_id.company_id', 'in', company_ids)]</field>
-    </record>
 </odoo>

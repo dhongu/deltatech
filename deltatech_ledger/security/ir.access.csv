@@ -1,0 +1,8 @@
+id,name,model_id,group_id/id,operation,domain
+access_ledger_ledger,access_ledger_ledger,ledger.ledger,base.group_user,cru,
+access_ledger_ledger_manager,access_ledger_ledger_manager,ledger.ledger,deltatech_ledger.group_ledger_manager,crud,
+ledger_company_rule,Ledger: multi-company,ledger.ledger,,crud,"[('company_id', 'in', company_ids)]"
+access_ledger_link,access_ledger_link,ledger.link,base.group_user,crud,
+ledger_link_company_rule,Ledger link: multi-company,ledger.link,,crud,"[('ledger_id.company_id', 'in', company_ids)]"
+access_ledger_cancel_wizard,access_ledger_cancel_wizard,ledger.cancel.wizard,base.group_user,crud,
+access_ledger_report_wizard,access_ledger_report_wizard,ledger.report.wizard,base.group_user,crud,
