@@ -25,7 +25,7 @@ except ImportError:
 
 # Pașii pe lista ofertelor, rulați în pagină: bifează ofertele după număr, deschide meniul
 # Acțiuni și, în funcție de `stop`, merge mai departe până la wizard, la blocaj sau la unire.
-ACTIONS_TOGGLE = ".o_cp_action_menus .dropdown-toggle:has(.fa-cog)"
+ACTIONS_TOGGLE = ".o_cp_action_menus .dropdown-toggle:has([data-icon=settings])"
 
 LIST_STEPS_JS = """(async (cfg) => {
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -39,7 +39,7 @@ LIST_STEPS_JS = """(async (cfg) => {
         row.querySelector(".o_list_record_selector input").click();
         await sleep(300);
     }
-    document.querySelector(".o_cp_action_menus .dropdown-toggle:has(.fa-cog)").click();
+    document.querySelector(".o_cp_action_menus .dropdown-toggle:has([data-icon=settings])").click();
     await sleep(700);
     if (cfg.stop === "menu") {
         return;
