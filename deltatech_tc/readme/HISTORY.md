@@ -1,3 +1,11 @@
+## 19.0.1.2.8 (2026-11-19)
+
+- `/tc/heartbeat`, `/tc/poll` and `/tc/result` switch the request to the system user, in the
+  station's company, right after authenticating the station. The routes are `auth="none"`, so
+  the transaction's default environment had no user and no companies: a flush during a callback
+  (savepoint exit, final commit) recomputed fields there and computes using `with_company` or
+  `env.company` failed with `IndexError`.
+
 ## 19.0.1.2.7 (2026-11-15)
 
 - The heartbeat answer (`/tc/heartbeat`) carries `lang`, the language of the station company's
