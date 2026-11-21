@@ -19,7 +19,7 @@ PLACEHOLDER_API_KEYS = {"sk_live_CHANGE_ME_generate_random_key_here_123456789"}
 
 def _check_api_key(api_key):
     """True only for the configured key; an empty or shipped placeholder key disables the API."""
-    expected_key = request.env["ir.config_parameter"].sudo().get_param("queue_job_processor.api_key")
+    expected_key = request.env["ir.config_parameter"].sudo().get_str("queue_job_processor.api_key")
     if not expected_key or expected_key in PLACEHOLDER_API_KEYS:
         _logger.warning("Queue processor API disabled: generate an API key in Settings > Queue Job.")
         return False
@@ -64,9 +64,9 @@ class QueueJobProcessorController(http.Controller):
 
         # Load default values from config if not provided
         if batch_size is None:
-            batch_size = int(ConfigParam.get_param("queue_job_processor.batch_size", 20))
+            batch_size = ConfigParam.get_int("queue_job_processor.batch_size", 20)
         if max_seconds is None:
-            max_seconds = int(ConfigParam.get_param("queue_job_processor.max_seconds", 50))
+            max_seconds = ConfigParam.get_int("queue_job_processor.max_seconds", 50)
 
         try:
             QueueJob = request.env["queue.job"].sudo()

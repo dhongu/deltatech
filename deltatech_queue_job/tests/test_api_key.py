@@ -9,7 +9,7 @@ KEY_PARAM = "queue_job_processor.api_key"
 @tagged("post_install", "-at_install")
 class TestQueueApiKey(HttpCase):
     def _set_key(self, value):
-        self.env["ir.config_parameter"].sudo().set_param(KEY_PARAM, value)
+        self.env["ir.config_parameter"].sudo().set_str(KEY_PARAM, value)
 
     def _call(self, route, api_key):
         return self.make_jsonrpc_request(route, {"api_key": api_key})
@@ -22,7 +22,7 @@ class TestQueueApiKey(HttpCase):
             self.assertNotIn("processed", result["result"])
 
     def test_install_ships_no_shared_key(self):
-        self.assertNotEqual(self.env["ir.config_parameter"].sudo().get_param(KEY_PARAM), PLACEHOLDER)
+        self.assertNotEqual(self.env["ir.config_parameter"].sudo().get_str(KEY_PARAM), PLACEHOLDER)
 
     def test_placeholder_key_is_rejected(self):
         # an existing installation that kept the placeholder must not authenticate with it
@@ -44,7 +44,7 @@ class TestQueueApiKey(HttpCase):
         settings = self.env["res.config.settings"].create({})
         settings.action_generate_queue_job_processor_api_key()
         settings.execute()
-        key = self.env["ir.config_parameter"].sudo().get_param(KEY_PARAM)
+        key = self.env["ir.config_parameter"].sudo().get_str(KEY_PARAM)
         self.assertTrue(key)
         self.assertNotEqual(key, PLACEHOLDER)
         stats = self._call("/api/v1/queue/stats", key)["result"]

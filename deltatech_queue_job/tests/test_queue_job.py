@@ -11,8 +11,8 @@ class TestQueueJob(TransactionCase):
     def setUp(self):
         super().setUp()
         # Ensure config parameters are set
-        self.env["ir.config_parameter"].sudo().set_param("queue_job_processor.batch_size", "5")
-        self.env["ir.config_parameter"].sudo().set_param("queue_job_processor.max_seconds", "30")
+        self.env["ir.config_parameter"].sudo().set_int("queue_job_processor.batch_size", 5)
+        self.env["ir.config_parameter"].sudo().set_int("queue_job_processor.max_seconds", 30)
 
     def _create_pending_job(self):
         """Helper to create a pending queue.job record"""

@@ -240,10 +240,9 @@ class QueueJob(models.Model):
     @api.model
     def _job_runner(self, commit=True):
         """Short-lived job runner with limit and re-trigger"""
-        batch_size = self.env["ir.config_parameter"].sudo().get_param("queue_job_processor.batch_size", "20")
-        batch_size = int(batch_size)
-        max_seconds = self.env["ir.config_parameter"].sudo().get_param("queue_job_processor.max_seconds", "50")
-        max_seconds = int(max_seconds)
+        config = self.env["ir.config_parameter"].sudo()
+        batch_size = config.get_int("queue_job_processor.batch_size", 20)
+        max_seconds = config.get_int("queue_job_processor.max_seconds", 50)
 
         start_time = time.time()
 

@@ -23,7 +23,7 @@
                                         type="object"
                                         string="Generate Key"
                                         class="btn-link"
-                                        icon="fa-refresh"
+                                        icon="refresh"
                                     />
                                 </div>
                                 <div class="row mt8">

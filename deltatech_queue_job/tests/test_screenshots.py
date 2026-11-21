@@ -66,7 +66,7 @@ class TestQueueJobScreenshots(ScreenshotCase or object):
         super().setUpClass()
         cls.activate_ro_lang()
         cls.force_light_theme()
-        cls.env["ir.config_parameter"].sudo().set_param("queue_job_processor.api_key", DEMO_API_KEY)
+        cls.env["ir.config_parameter"].sudo().set_str("queue_job_processor.api_key", DEMO_API_KEY)
         # lista arată implicit doar joburile active; ștergem ce a rămas din alte teste
         cls.env["queue.job"].search([]).unlink()  # pylint: disable=no-search-all
         for minutes, (name, model, state, priority) in enumerate(JOBS, start=1):
