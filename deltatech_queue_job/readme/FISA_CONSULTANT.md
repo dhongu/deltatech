@@ -132,6 +132,8 @@ Cu o cheie greșită, rezultatul conține `status` = `error`, `message` = `Unaut
 și `code` = 401, iar niciun job nu este procesat. **Atenție:** statusul HTTP al răspunsului este mereu
 200, inclusiv la cheie greșită sau la eroare; alertele serviciului extern bazate pe statusul HTTP nu le
 semnalează. Verificați periodic corpul răspunsului (`status` = `error`) sau jurnalul serviciului extern.
+Adresa `/api/v1/queue/stats` răspunde altfel la o cheie greșită: `status` = `error` și `message` =
+`Unauthorized`, fără `code` 401.
 
 Pe un server cu mai multe baze de date, adresa trebuie să ajungă la baza corectă (domeniu dedicat
 bazei sau filtru de baze configurat pe server).
@@ -139,7 +141,10 @@ bazei sau filtru de baze configurat pe server).
 ### Pasul 3 — Procesarea manuală din lista de joburi
 
 **Coadă de joburi → Coadă → Joburi**. Lista arată implicit joburile active (care așteaptă
-dependențe, în așteptare, în coadă, pornite, eșuate). În antetul listei sunt butoanele modulului:
+dependențe, în așteptare, în coadă, pornite, eșuate). Modulul adaugă în căutare gruparea **Model**
+(joburile pe modelul la care se referă) și în listă coloana opțională **Identity Key** (cheia de
+identitate a jobului, ascunsă implicit; se afișează din meniul coloanelor). În antetul listei sunt
+butoanele modulului:
 
 - **Declanșator CRON** (①) — activează acțiunea programată a cozii, dacă era inactivă, și o pornește
   în câteva secunde;
@@ -161,8 +166,8 @@ Aceleași butoane sunt și în antetul formularului unui job; acolo **Proceseaz�
 După **Declanșator CRON**, Odoo afișează o notificare:
 
 1. **Găsiți pe ecran:** notificarea din dreapta sus, cu titlul **Declanșator CRON**.
-2. **Verificați:** mesajul este „Operația va fi executată în fundal!" (verde). „CRON Trigger already
-   exists" (galben) înseamnă că o pornire este deja programată; „No CRON Trigger found" (roșu)
+2. **Verificați:** mesajul este „Operația va fi executată în fundal!" (verde). „Declanșatorul CRON
+   există deja" (galben) înseamnă că o pornire este deja programată; „Niciun declanșator CRON găsit" (roșu)
    înseamnă că nu există nicio acțiune programată marcată ca procesor al cozii.
 3. **Treceți mai departe:** reîmprospătați lista după câteva secunde; joburile procesate dispar din
    filtrul implicit și se văd cu filtrul **Finalizat**.
@@ -212,7 +217,7 @@ coadă** (din **Acțiuni**, pe listă).
 - [ ] **Declanșator CRON** și **Procesează în fundal** sunt vizibile în listă fără selecție;
       **Procesează** apare după bifarea unui job și are efect doar pe joburi **În așteptare**.
 - [ ] **Declanșator CRON** afișează notificarea verde, iar a doua apăsare imediată pe cea galbenă
-      „CRON Trigger already exists".
+      „Declanșatorul CRON există deja".
 - [ ] Un job nou cu aceeași identitate ca un job **Eșuat** trece jobul eșuat în **Anulat**.
 - [ ] Apelul la `/api/v1/queue/stats` cu cheia corectă întoarce `status` = `success` și numărul de joburi
       pe stări, aceleași ca în lista de joburi.
@@ -224,10 +229,11 @@ coadă** (din **Acțiuni**, pe listă).
 
 | Mesaj | Cauză | Remediere |
 |---|---|---|
-| `Unauthorized - Invalid API key` (cod 401) | Cheie lipsă sau greșită în corpul apelului, ori nicio cheie generată în setări | Generați cheia, salvați și copiați-o în corpul JSON din serviciul extern |
+| `Unauthorized - Invalid API key` (cod 401) | Cheie lipsă sau greșită în corpul apelului la `/api/v1/queue/process`, ori nicio cheie generată în setări | Generați cheia, salvați și copiați-o în corpul JSON din serviciul extern |
+| `Unauthorized` (fără cod) | La fel, la apelul `/api/v1/queue/stats` | La fel |
 | `No pending jobs in queue` | Nu există joburi în așteptare | Nimic de făcut; mesajul este informativ |
-| `CRON Trigger already exists` | O pornire a acțiunii programate este deja planificată | Așteptați câteva secunde și reîmprospătați lista |
-| `No CRON Trigger found` | Acțiunea programată a cozii a fost ștearsă sau nu mai e marcată ca procesor al cozii | Verificați în **Setări → Tehnic → Acțiuni programate** sau actualizați modulul `queue_job_cron_jobrunner` |
+| Declanșatorul CRON există deja | O pornire a acțiunii programate este deja planificată | Așteptați câteva secunde și reîmprospătați lista |
+| Niciun declanșator CRON găsit | Acțiunea programată a cozii a fost ștearsă sau nu mai e marcată ca procesor al cozii | Verificați în **Setări → Tehnic → Acțiuni programate** sau actualizați modulul `queue_job_cron_jobrunner` |
 | Mesajul erorii Python (cod 500) | Eroare neprevăzută la procesare | Citiți jurnalul serverului; verificați jobul care a eșuat |
 
 ## 10. Capturi de ecran

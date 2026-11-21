@@ -54,7 +54,10 @@ comandă de vânzare pentru legături.
 
 Deschideți aplicația **Registru → Registru**. Lista afișează toate numerele, inclusiv cele anulate
 (estompate), cele mai noi primele. Căutarea găsește după număr, număr de document, contact, loc de
-proveniență, descriere sau dată.
+proveniență, descriere sau dată. Filtrele **Rezervat**, **Activ**, **Anulat** și **Intrare**,
+**Ieșire** restrâng lista, iar gruparea se face după **Tip înregistrare**, **Contact**, **Data
+înregistrare** (lună) sau **Stare**. Pe lângă listă, registrul are vizualizările **Kanban**
+(coloane pe stare), **Calendar** (după data înregistrării), **Pivot** și **Grafic**.
 
 ![Lista registrului: coloanele număr, dată, tip, număr document, contact și stare; numerele anulate apar estompate](../static/description/01_lista_registru.png)
 
@@ -81,26 +84,26 @@ refuză să lucreze cât timp data este goală.
 
 ### Pasul 4 — Legături
 
-Pe fila **Legături** adăugați câte o linie pentru fiecare legătură: *Odoo Record* (proiect, sarcină,
+Pe fila **Legături** adăugați câte o linie pentru fiecare legătură: *Înregistrare Odoo* (proiect, sarcină,
 tichet helpdesk, comandă de vânzare sau de achiziție, factură, transfer; doar aplicațiile
-instalate) sau *Web Link* (o adresă). Eticheta se completează automat. Legăturile se văd doar pentru
+instalate) sau *Legătură web* (o adresă). Eticheta se completează automat. Legăturile se văd doar pentru
 înregistrările din companiile în care utilizatorul este autentificat. Fișierele scanate se atașează din chatter.
 
-![Fila Links a unei înregistrări: o legătură web cu adresa și eticheta completată automat; legăturile către proiecte, comenzi sau facturi apar când aplicațiile respective sunt instalate](../static/description/04_legaturi.png)
+![Fila Legături a unei înregistrări: o legătură web cu adresa și eticheta completată automat; legăturile către proiecte, comenzi sau facturi apar când aplicațiile respective sunt instalate](../static/description/04_legaturi.png)
 
 ### Pasul 5 — Anularea
 
 Deschideți înregistrarea (rezervată sau activă) și apăsați **Anulează**. În fereastra care se
 deschide scrieți **motivul** și apăsați **Anulează înregistrările**.
 
-![Fereastra de anulare: câmpul Motiv completat și butoanele Cancel Records și Discard](../static/description/05_anulare.png)
+![Fereastra de anulare: câmpul Motiv completat și butoanele Anulează înregistrările și Abandonează](../static/description/05_anulare.png)
 
 Înregistrarea devine *Anulat*: apare o bandă roșie, motivul se vede pe formular și în chatter, iar
 numărul rămâne în registru și nu se mai refolosește. Un Registru / Manager vede butonul **Reactivează**
 (readuce înregistrarea la *Activ*, sau *Rezervat* dacă nu are dată). Utilizatorii obișnuiți nu pot
 reactiva și nu pot șterge.
 
-![Înregistrare anulată: banda roșie Canceled, bannerul cu motivul anulării și formularul doar în citire](../static/description/06_inregistrare_anulata.png)
+![Înregistrare anulată: banda roșie Anulat, bannerul cu motivul anulării și formularul doar în citire](../static/description/06_inregistrare_anulata.png)
 
 ### Pasul 6 — Tipărirea registrului
 
@@ -148,6 +151,8 @@ etichetei legăturii. **Manual:** înregistrarea documentului, anularea, tipări
 | The date of record … must be in …, the year of its number | Documentul are altă dată decât anul numărului | Rezervați numărul în anul documentului |
 | Set the record date before registering … | Se apasă Înregistrează pe o rezervare fără dată | Setați data înregistrării |
 | Only a Registru / Manager can reactivate a canceled record | Reactivare încercată de un utilizator obișnuit | Rugați un Registru / Manager |
+| Nu există înregistrări pentru perioada selectată. | La **Tipărește registrul**, perioada (și tipul ales) nu cuprinde nicio înregistrare | Lărgiți perioada sau bifați **Include anulatele** / **Include rezervările nedatate** |
+| Data de început nu poate fi după data de sfârșit. | La **Tipărește registrul**, **De la** este după **Către** | Corectați perioada |
 | The ledger record belongs to a company that is not active | Legătura se creează sau se mută la un registru din altă companie | Activați compania registrului |
 
 ## 10. Capturi de ecran
@@ -159,7 +164,7 @@ defensiv), în română, pe „RO Company". Comandă de regenerare:
 1. `01_lista_registru.png` — lista registrului
 2. `02_inregistrare_noua.png` — înregistrare activă
 3. `03_rezervare.png` — număr rezervat
-4. `04_legaturi.png` — fila Links
+4. `04_legaturi.png` — fila Legături
 5. `05_anulare.png` — fereastra de anulare
 6. `06_inregistrare_anulata.png` — înregistrare anulată
 7. `07_tiparire.png` — fereastra Tipărește registrul

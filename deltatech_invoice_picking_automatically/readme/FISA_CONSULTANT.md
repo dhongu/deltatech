@@ -176,7 +176,7 @@ contrapartidă în 401. Dacă documentul furnizorului nu sosește până la înc
 tratează pe aviz (cu localizarea `l10n_ro_stock_account`: Dr 371 = Cr 408 „Furnizori – facturi
 nesosite" la recepție, închis de factură), altfel stocul cantitativ nu se regăsește în soldul 371.
 
-**Cu evaluare automată (perpetuă), Odoo 19 standard:** factura furnizorului înregistrează Dr 371
+**Cu evaluare automată (perpetuă), Odoo standard:** factura furnizorului înregistrează Dr 371
 „Mărfuri" 4.000 + Dr 4426 840 = Cr 401 4.840, iar factura clientului adaugă descărcarea din gestiune
 Dr 607 = Cr 371 la costul mărfurilor livrate (6 × 300 = 1.800 lei).
 
