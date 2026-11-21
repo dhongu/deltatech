@@ -17,14 +17,14 @@ Auto-Invoice from Delivery
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_invoice_picking_automatically
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_invoice_picking_automatically
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_invoice_picking_automatically/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_invoice_picking_automatically/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-18%20automated%20tests%20%C2%B7%2090%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_invoice_picking_automatically
-    :alt: 18 automated tests · 90% code coverage
+.. |badge_tests| image:: https://img.shields.io/badge/-18%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_invoice_picking_automatically/tests
+    :alt: 18 automated tests
 
 |badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
@@ -126,12 +126,12 @@ Usage
    |Receipts list with the Receipts and Automatic Invoicing Failed
    filters and the Automatic Invoicing column|
 
-.. |Delivery Orders operation type with Create Invoice Automatically, Invoice Moment On validation and Post Invoice Automatically| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking_automatically/static/description/en/01_tip_operatie_facturare_automata.png
-.. |Validated delivery of order S00101 with Automatic Invoicing Invoiced and the linked invoice| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking_automatically/static/description/en/02_livrare_facturata_la_validare.png
-.. |Posted customer invoice with the delivered quantity, 6 Scaun ergonomic Nova| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking_automatically/static/description/en/03_factura_client_postata.png
-.. |Draft vendor bill created for the receipt of order P00101, 5 Birou reglabil Flex| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking_automatically/static/description/en/04_factura_furnizor_ciorna.png
-.. |Receipt with Automatic Invoicing Failed, the reason The selected receipts are already billed and the Retry Invoicing button| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking_automatically/static/description/en/05_receptie_facturare_esuata.png
-.. |Receipts list with the Receipts and Automatic Invoicing Failed filters and the Automatic Invoicing column| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_picking_automatically/static/description/en/06_lista_facturare_esuata.png
+.. |Delivery Orders operation type with Create Invoice Automatically, Invoice Moment On validation and Post Invoice Automatically| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_invoice_picking_automatically/static/description/en/01_tip_operatie_facturare_automata.png
+.. |Validated delivery of order S00101 with Automatic Invoicing Invoiced and the linked invoice| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_invoice_picking_automatically/static/description/en/02_livrare_facturata_la_validare.png
+.. |Posted customer invoice with the delivered quantity, 6 Scaun ergonomic Nova| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_invoice_picking_automatically/static/description/en/03_factura_client_postata.png
+.. |Draft vendor bill created for the receipt of order P00101, 5 Birou reglabil Flex| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_invoice_picking_automatically/static/description/en/04_factura_furnizor_ciorna.png
+.. |Receipt with Automatic Invoicing Failed, the reason The selected receipts are already billed and the Retry Invoicing button| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_invoice_picking_automatically/static/description/en/05_receptie_facturare_esuata.png
+.. |Receipts list with the Receipts and Automatic Invoicing Failed filters and the Automatic Invoicing column| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_invoice_picking_automatically/static/description/en/06_lista_facturare_esuata.png
 
 Changelog
 =========
@@ -206,6 +206,6 @@ Current maintainers:
 
 |maintainer-dhongu| |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_invoice_picking_automatically>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_invoice_picking_automatically>`_ project on GitHub.
 
 You are welcome to contribute.

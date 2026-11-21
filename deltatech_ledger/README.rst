@@ -14,13 +14,16 @@ Incoming and Outgoing Document Register
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_ledger
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_ledger
     :alt: dhongu/deltatech
-.. |badge_tests| image:: https://img.shields.io/badge/-21%20automated%20tests%20%C2%B7%2090%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_ledger
-    :alt: 21 automated tests · 90% code coverage
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_ledger/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
+.. |badge_tests| image:: https://img.shields.io/badge/-25%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_ledger/tests
+    :alt: 25 automated tests
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 Register of incoming and outgoing documents (a "registru de
 intrări-ieșiri"). Every document that enters or leaves the company gets
@@ -152,6 +155,9 @@ Open the **Ledger** app. The menu has three entries:
   state.
 - **Print Ledger** - the PDF report of the register for a period.
 
+|Records list: number, date, type, document number, contact and state of
+each record; the canceled one is muted|
+
 The life of a record
 --------------------
 
@@ -190,6 +196,9 @@ Registering a document
    short description.
 4. Save. The record gets its number (``2026/00123``) and is *Active*.
 
+|An active record: type, date, document number, contact and place of
+origin filled in|
+
 The record stays editable afterwards, and every change of the type,
 date, document number or contact is logged in the chatter. A canceled
 record is read-only.
@@ -214,6 +223,9 @@ issued yet, or when a document has to be dated in the past.
 4. Click **Register**. The record becomes *Active*. The button refuses
    to work while the date is empty.
 
+|A reserved record: the blue banner shows the interval allowed for the
+date, and the Register button|
+
 What the date is checked against, on every save:
 
 - it must be in the same year as the number (``2026/...`` only accepts
@@ -233,9 +245,13 @@ Canceling a record
 2. Write the **reason** in the window that opens and click **Cancel
    Records**.
 
+|The cancellation window with the reason filled in|
+
 The record becomes *Canceled*, a red ribbon appears, the reason is shown
 on the form and posted in the chatter, and the number stays in the
 register.
+
+|A canceled record: red ribbon, the reason banner and a read-only form|
 
 A canceled number is never reused. To see only the canceled records, use
 the **Canceled** filter.
@@ -265,6 +281,8 @@ Attachments and links
   - *Web Link* - paste an address (a shared folder, a web page...).
   - The **Label** is filled in automatically (the name of the record or
     the address); type another text to replace it.
+
+|The Links tab of a record with a web link and its automatic label|
 
 Searching and viewing the register
 ----------------------------------
@@ -308,6 +326,12 @@ Printing the register
 5. Click **Print**. The PDF lists the records in order of their number,
    in landscape.
 
+|The Print Ledger window: period, record type and the options for
+canceled and undated records|
+
+|The printed register: records in the order of their number, with the
+canceled one and its reason|
+
 To print only some records, select them in the list and choose **Print >
 Ledger**.
 
@@ -334,8 +358,28 @@ delete it.
 ``YYYY/00001``. Records of the old year stay as they are and can still
 be edited, within their year.
 
+.. |Records list: number, date, type, document number, contact and state of each record; the canceled one is muted| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_ledger/static/description/en/01_lista_registru.png
+.. |An active record: type, date, document number, contact and place of origin filled in| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_ledger/static/description/en/02_inregistrare_noua.png
+.. |A reserved record: the blue banner shows the interval allowed for the date, and the Register button| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_ledger/static/description/en/03_rezervare.png
+.. |The cancellation window with the reason filled in| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_ledger/static/description/en/05_anulare.png
+.. |A canceled record: red ribbon, the reason banner and a read-only form| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_ledger/static/description/en/06_inregistrare_anulata.png
+.. |The Links tab of a record with a web link and its automatic label| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_ledger/static/description/en/04_legaturi.png
+.. |The Print Ledger window: period, record type and the options for canceled and undated records| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_ledger/static/description/en/07_tiparire.png
+.. |The printed register: records in the order of their number, with the canceled one and its reason| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_ledger/static/description/en/08_raport_pdf.png
+
 Changelog
 =========
+
+19.0.0.1.2 (2026-11-20)
+-----------------------
+
+- **Security:** links (``ledger.link``) are now restricted by the
+  company of their register record, like the register itself; a user can
+  no longer read, change or delete the links of a register of a company
+  that is not active, and cannot create or move a link to such a
+  register.
+- Consultant sheet (``FISA_CONSULTANT.md``) with screenshots and a demo
+  GIF; screenshots in the usage guide.
 
 19.0.0.1.1 (2026-10-09)
 -----------------------
@@ -409,14 +453,17 @@ Authors
 Maintainers
 -----------
 
+.. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
+    :target: https://github.com/dhongu
+    :alt: dhongu
 .. |maintainer-VoicuStefan2001| image:: https://github.com/VoicuStefan2001.png?size=40px
     :target: https://github.com/VoicuStefan2001
     :alt: VoicuStefan2001
 
-Current maintainer:
+Current maintainers:
 
-|maintainer-VoicuStefan2001| 
+|maintainer-dhongu| |maintainer-VoicuStefan2001| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_ledger>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_ledger>`_ project on GitHub.
 
 You are welcome to contribute.

@@ -162,6 +162,9 @@
     "deltatech_invoice_picking": {
       "tests": 9
     },
+    "deltatech_invoice_picking_automatically": {
+      "tests": 18
+    },
     "deltatech_invoice_product_filter": {
       "tests": 0
     },
@@ -179,6 +182,9 @@
       "coverage": 87.0,
       "lines": 23,
       "tests": 4
+    },
+    "deltatech_ledger": {
+      "tests": 25
     },
     "deltatech_line_counter": {
       "coverage": 87.9,
@@ -429,6 +435,9 @@
       "lines": 192,
       "tests": 29
     },
+    "deltatech_queue_job": {
+      "tests": 34
+    },
     "deltatech_ral": {
       "coverage": 82.6,
       "lines": 46,
@@ -505,6 +514,9 @@
       "coverage": 82.0,
       "lines": 206,
       "tests": 37
+    },
+    "deltatech_sale_merge": {
+      "tests": 16
     },
     "deltatech_sale_multiple": {
       "coverage": 75.0,

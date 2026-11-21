@@ -17,14 +17,14 @@ Queue Job Enhancements
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_queue_job
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_queue_job
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_queue_job/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_queue_job/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-34%20automated%20tests%20%C2%B7%2071%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_queue_job
-    :alt: 34 automated tests · 71% code coverage
+.. |badge_tests| image:: https://img.shields.io/badge/-34%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_queue_job/tests
+    :alt: 34 automated tests
 
 |badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
@@ -33,8 +33,7 @@ in Odoo, focusing on performance, reliability, and flexibility in job
 execution. Here's a detailed breakdown of the features:
 ``deltatech_queue_job``
 
-Key Features
-============
+**Key Features**
 
 1. **Optimized Concurrency and Locking**:
 
@@ -93,8 +92,7 @@ Key Features
    - Buttons for "Cron Trigger", "Process", and "Process Background" are
      always accessible from the job list header.
 
-Optimized for Odoo.sh
-=====================
+**Optimized for Odoo.sh**
 
 This module is specifically designed to address common challenges on the
 Odoo.sh platform:
@@ -112,8 +110,7 @@ Odoo.sh platform:
 - **Transactional Safety**: Savepoints isolate individual job failures,
   ensuring that one failing job doesn't roll back the entire batch.
 
-Performance Benefits
-====================
+**Performance Benefits**
 
 This module is essential for high-volume Odoo environments. By
 decoupling the job runner from the standard Odoo cron schedule and
@@ -170,7 +167,7 @@ To process jobs every minute using an external service like
 **API Endpoints**
 
 Process Queue (External)
-~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------
 
 **POST** ``/api/v1/queue/process``
 
@@ -247,10 +244,10 @@ missing.
 |Jobs list after Cron Trigger: the green notification in the top right
 corner confirms that the operation will run in the background|
 
-.. |Settings, Queue Job section: the Queue Job Processor block with the API Key, the Generate Key button (1), Batch Size 20 (2) and Max Seconds 50 (3), followed by the cron-job.org setup instructions| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_queue_job/static/description/en/01_setari_procesor_extern.png
-.. |The POST request to api/v1/queue/stats with the Content-Type header and the JSON body with the API key, and the Odoo response wrapped twice in result, with status success and stats: pending 2, started 0, done 0, failed 1, total 4| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_queue_job/static/description/en/02_raspuns_api.png
-.. |Jobs list: four jobs, pending, enqueued and one failed in red, the first row selected; the header shows Cron Trigger (1), Process Background (2) and Process (3)| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_queue_job/static/description/en/03_lista_joburi.png
-.. |Jobs list after Cron Trigger: the green notification in the top right corner confirms that the operation will run in the background| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_queue_job/static/description/en/04_declansare_cron.png
+.. |Settings, Queue Job section: the Queue Job Processor block with the API Key, the Generate Key button (1), Batch Size 20 (2) and Max Seconds 50 (3), followed by the cron-job.org setup instructions| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_queue_job/static/description/en/01_setari_procesor_extern.png
+.. |The POST request to api/v1/queue/stats with the Content-Type header and the JSON body with the API key, and the Odoo response wrapped twice in result, with status success and stats: pending 2, started 0, done 0, failed 1, total 4| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_queue_job/static/description/en/02_raspuns_api.png
+.. |Jobs list: four jobs, pending, enqueued and one failed in red, the first row selected; the header shows Cron Trigger (1), Process Background (2) and Process (3)| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_queue_job/static/description/en/03_lista_joburi.png
+.. |Jobs list after Cron Trigger: the green notification in the top right corner confirms that the operation will run in the background| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_queue_job/static/description/en/04_declansare_cron.png
 
 Changelog
 =========
@@ -275,19 +272,19 @@ Changelog
   screenshots in RO and EN.
 
 19.0.1.4.5 (2026-10-17)
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 - QUEUE-003: removed the legacy ``/run_jobs`` route. It called a runner
   method that does not exist and always answered with a server error;
   external callers use ``/api/v1/queue/process``.
 
 19.0.1.4.4 (2026-10-09)
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 - Apps Store banner (banner.json).
 
 19.0.1.4.3 (2026-10-02)
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 - Security: the module shipped the same API key on every installation
   (``sk_live_CHANGE_ME_...``) and the public ``/api/v1/queue/process``
@@ -300,7 +297,7 @@ Changelog
   "Unauthorized".
 
 19.0.1.4.2
-==========
+----------
 
 - Fix: the API runner (``/queue_job/process``, "Process (Thread)")
   reported failed jobs as successful. ``_process()`` catches the job
@@ -311,15 +308,15 @@ Changelog
   ``postponed``, and the endpoint returns the two new keys too.
 
 19.0.1.4.1
-==========
+----------
 
 - Own module icon, instead of the generic gears it had.
 
 Changelog
-=========
+---------
 
 19.0.1.4.0
-----------
+~~~~~~~~~~
 
 - Fix: jobs cancelled through the dependency chain are now removed by
   the autovacuum cron. ``Job.cancel_dependent_jobs()`` cancels them with
@@ -340,7 +337,7 @@ Changelog
   ones worth keeping for diagnosis.
 
 19.0.1.3.0
-----------
+~~~~~~~~~~
 
 - Fix: ``_cron_trigger`` debounce actually works now. It used to compare
   against ``search(..., limit=1)`` with no ordering and no future
@@ -357,7 +354,7 @@ Changelog
   18.0 (18.0.1.3.0).
 
 19.0.1.2.0
-----------
+~~~~~~~~~~
 
 - When a new job is created, automatically move older jobs left in the
   ``failed`` state that share the same ``identity_key`` to
@@ -395,6 +392,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_queue_job>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_queue_job>`_ project on GitHub.
 
 You are welcome to contribute.
