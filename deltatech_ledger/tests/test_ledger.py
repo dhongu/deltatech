@@ -191,6 +191,15 @@ class TestLedger(TransactionCase):
             )
             self.assertEqual(link.name, "Linked project")
 
+    def test_contact_of_another_company_refused(self):
+        company_b = self.env["res.company"].create({"name": "Ledger contact company B"})
+        contact_b = self.env["res.partner"].create({"name": "Contact of B", "company_id": company_b.id})
+        with self.assertRaises(UserError):
+            self.Ledger.create({"record_type": "entry", "contact_id": contact_b.id})
+        # a contact shared between companies stays allowed
+        shared = self.env["res.partner"].create({"name": "Shared contact"})
+        self.assertEqual(self.Ledger.create({"record_type": "entry", "contact_id": shared.id}).contact_id, shared)
+
     def test_links_multi_company(self):
         company_b = self.env["res.company"].create({"name": "Ledger company B"})
         record_b = self.Ledger.create({"record_type": "entry", "company_id": company_b.id})

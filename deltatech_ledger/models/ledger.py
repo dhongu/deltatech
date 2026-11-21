@@ -9,6 +9,7 @@ class Ledger(models.Model):
     _description = "Ledger"
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _order = "record_date desc, id desc"
+    _check_company_auto = True
 
     name = fields.Char(string="Number of Record", default=lambda self: self.env._("New"), copy=False, readonly=True)
     record_date = fields.Date(
@@ -24,7 +25,7 @@ class Ledger(models.Model):
     record_type = fields.Selection(
         [("entry", "Entry"), ("exit", "Exit")], string="Record Type", required=True, tracking=True
     )
-    contact_id = fields.Many2one("res.partner", string="Contact", tracking=True)
+    contact_id = fields.Many2one("res.partner", string="Contact", tracking=True, check_company=True)
     state = fields.Selection(
         [("reserved", "Reserved"), ("active", "Active"), ("canceled", "Canceled")],
         string="State",
