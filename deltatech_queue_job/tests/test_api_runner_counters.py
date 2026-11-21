@@ -4,6 +4,7 @@
 from unittest.mock import patch
 
 from odoo.tests import TransactionCase, tagged
+from odoo.tools import mute_logger
 
 from odoo.addons.queue_job.job import Job
 
@@ -48,6 +49,8 @@ class TestApiRunnerCounters(TransactionCase):
         self.assertEqual(record.state, "done")
         self._assert_counters(result, processed=1, done=1, failed=0, postponed=0)
 
+    # the failed job is logged with its traceback by the cron job runner
+    @mute_logger("odoo.addons.queue_job_cron_jobrunner.models.queue_job")
     def test_business_failure(self):
         record = self._store_job(failure_rate=1)
         result = self._run()
@@ -60,6 +63,8 @@ class TestApiRunnerCounters(TransactionCase):
         self.assertEqual(record.state, "pending")
         self._assert_counters(result, processed=1, done=0, failed=0, postponed=1)
 
+    # the failed job is logged with its traceback by the cron job runner
+    @mute_logger("odoo.addons.queue_job_cron_jobrunner.models.queue_job")
     def test_mixed_batch(self):
         records = (
             self._store_job()

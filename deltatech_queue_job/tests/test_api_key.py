@@ -1,9 +1,11 @@
 # © 2026 Deltatech / Terrabit
 # Regression tests for QUEUE-002 (shipped shared API key)
 from odoo.tests import HttpCase, tagged
+from odoo.tools import mute_logger
 
 PLACEHOLDER = "sk_live_CHANGE_ME_generate_random_key_here_123456789"
 KEY_PARAM = "queue_job_processor.api_key"
+CONTROLLER_LOGGER = "odoo.addons.deltatech_queue_job.controllers.main"
 
 
 @tagged("post_install", "-at_install")
@@ -16,7 +18,9 @@ class TestQueueApiKey(HttpCase):
 
     def _assert_denied(self, api_key):
         for route in ("/api/v1/queue/process", "/api/v1/queue/stats"):
-            result = self._call(route, api_key)
+            # refused calls are logged as warnings; mute them so the CI log stays clean
+            with mute_logger(CONTROLLER_LOGGER):
+                result = self._call(route, api_key)
             self.assertEqual(result["result"]["status"], "error", f"{route} accepted {api_key!r}")
             self.assertNotIn("stats", result["result"])
             self.assertNotIn("processed", result["result"])
