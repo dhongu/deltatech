@@ -137,9 +137,71 @@ class TestUblImportResolve(TransactionCase):
         self.assertEqual(partner, self.vendor)
         self.assertFalse(vat_mismatch)
 
+    def test_upload_order_takes_the_vendor_from_the_document(self):
+        """The Upload button of the purchase list creates an empty draft whose vendor is the
+        current user; the import puts the document's vendor on it instead of importing the
+        lines (and saving vendor prices) under the user."""
+        order = self._order(partner_id=self.env.user.partner_id.id)
+        xml = _xml_invoice(order_ref="", supplier_vat=self.vendor.vat, supplier_name=self.vendor.name)
+        wizard = self.Wizard.with_context(active_model="purchase.order", active_id=order.id).create(
+            {"data_file": BinaryBytes(xml), "create_missing_products": True}
+        )
+        _order, partner, vat_mismatch = wizard._resolve_order_and_partner(wizard._parse_xml(xml))
+        self.assertEqual(partner, self.vendor)
+        self.assertFalse(vat_mismatch)
+
+        wizard.action_import()
+        self.assertEqual(order.partner_id, self.vendor)
+        self.assertTrue(order.order_line)
+        self.assertIn("Vendor set on the order from the document", wizard.log)
+        self.assertNotIn("differs from order supplier", wizard.log)
+
+    def test_upload_order_with_unknown_vendor_raises(self):
+        order = self._order(partner_id=self.company.partner_id.id)
+        xml = _xml_invoice(order_ref="", supplier_vat="RO30000003", supplier_name="Unknown Vendor SRL")
+        wizard = self.Wizard.with_context(active_model="purchase.order", active_id=order.id).create(
+            {"data_file": BinaryBytes(xml)}
+        )
+        with self.assertRaises(UserError):
+            wizard.action_import()
+        self.assertEqual(order.partner_id, self.company.partner_id)
+
+    def test_order_with_lines_keeps_its_vendor(self):
+        """Only an empty draft is an Upload placeholder: an order the user already filled in
+        keeps its vendor, and a different VAT on the document is only a warning."""
+        order = self._order(products=[self._product("Resolve Keep Vendor")], partner_id=self.env.user.partner_id.id)
+        wizard = self.Wizard.create({"data_file": BinaryBytes(_xml_invoice()), "order_id": order.id})
+        _order, partner, _mismatch = wizard._resolve_order_and_partner({"supplier_vat": self.vendor.vat})
+        self.assertEqual(partner, self.env.user.partner_id)
+
     # ------------------------------------------------------------------
     # Product matching
     # ------------------------------------------------------------------
+    def test_name_without_spaces_falls_back_to_english(self):
+        """UBL-010: a product created in English has no translation in the user's language;
+        on a Romanian database its name without spaces and case still matches."""
+        self.env["res.lang"]._activate_lang("ro_RO")
+        product = self._product("Cot PVC 110 mm UBL010")
+        Wizard = self.Wizard.with_context(lang="ro_RO")
+        self.assertEqual(Wizard._match_template_by_name_without_spaces("cot pvc110MM ubl010"), product.product_tmpl_id)
+        self.assertEqual(Wizard._match_product_detailed(self.vendor, "", "CotPVC110mmUBL010"), (product, "name"))
+
+    def test_name_without_spaces_skips_archived_products(self):
+        archived = self._product("Reductie PVC 110 UBL010")
+        archived.product_tmpl_id.active = False
+        self.assertFalse(self.Wizard._match_template_by_name_without_spaces("ReductiePVC110UBL010"))
+        active = self._product("Reductie PVC110 UBL010")
+        self.assertEqual(
+            self.Wizard._match_template_by_name_without_spaces("ReductiePVC110UBL010"), active.product_tmpl_id
+        )
+
+    def test_name_without_spaces_must_be_unique(self):
+        """Two products with the same name without spaces leave the line unmatched,
+        as the =ilike step does, instead of taking one of them at random."""
+        self._product("Teu PVC 110 UBL010")
+        self._product("TeuPVC 110 UBL010")
+        self.assertFalse(self.Wizard._match_template_by_name_without_spaces("TeuPVC110UBL010"))
+
     def test_match_product_global_paths(self):
         by_code = self._product("Resolve By Code")
         self.env["product.supplierinfo"].create(
@@ -163,10 +225,10 @@ class TestUblImportResolve(TransactionCase):
         self.assertEqual(match(self.vendor, "", "Vendor Label 77"), (by_vendor_name, "name"))
         # a numeric supplier code that is in fact the EAN
         self.assertEqual(match(self.vendor, "5940000000017", ""), (by_barcode, "barcode"))
-        # two products with the same name: the exact name match is ambiguous
+        # two products with the same name: ambiguous, the line stays unmatched (UBL-010)
         product, match_type = match(self.vendor, "", "Resolve Twin")
-        self.assertEqual(product.name, "Resolve Twin")
-        self.assertEqual(match_type, "name")
+        self.assertFalse(product)
+        self.assertFalse(match_type)
         empty, match_type = match(self.vendor, "", "Resolve Nothing Like This")
         self.assertFalse(empty)
         self.assertFalse(match_type)

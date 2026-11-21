@@ -1,10 +1,10 @@
 # © 2026 Deltatech
 # See README.rst file on addons root folder for license details
 
-from base64 import b64encode
 
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
+from odoo.tools.binary import BinaryBytes
 
 from .test_ubl_import import _xml_invoice
 
@@ -78,7 +78,7 @@ class TestUblImportLineMapping(TransactionCase):
             .with_context(active_model="purchase.order", active_id=order.id)
             .create(
                 {
-                    "data_file": b64encode(xml),
+                    "data_file": BinaryBytes(xml),
                     "filename": "lines.xml",
                     "update_prices": False,
                     "create_bill": create_bill,

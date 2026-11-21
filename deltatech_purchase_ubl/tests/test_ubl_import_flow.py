@@ -258,3 +258,102 @@ class TestUblImportFlow(TransactionCase):
         self.assertEqual(order.invoice_ids.invoice_line_ids.quantity, 2.0)
         self.assertEqual(wizard.bill_id, order.invoice_ids)
         self.assertFalse(wizard.has_warning)
+
+    # ------------------------------------------------------------------
+    # BaseQuantity and partial invoices (UBL-008, UBL-009)
+    # ------------------------------------------------------------------
+    def test_base_quantity_price_on_order_line(self):
+        """A price declared for 100 units is a per-unit price 100 times smaller."""
+        order = self._order([(self.product_a, 200.0)])
+        self._import(
+            order,
+            [{"code": "FLOW-A", "name": self.product_a.name, "qty": "200", "price": "50", "base_qty": "100"}],
+            invoice_id="FLOW-BQ-1",
+            update_prices=True,
+        )
+        self.assertAlmostEqual(order.order_line.price_unit, 0.5)
+        seller = self.product_a.seller_ids.filtered(lambda s: s.partner_id == self.vendor)
+        self.assertAlmostEqual(seller.price, 0.5)
+
+    def _bill_part(self, order, qty, ref):
+        """A vendor bill for part of the order, created outside the import."""
+        order.action_create_invoice()
+        bill = order.invoice_ids.sorted("id")[-1]
+        bill.invoice_line_ids.quantity = qty
+        bill.ref = ref
+        return bill
+
+    def test_base_quantity_misfilled_keeps_unit_price(self):
+        """BaseQuantity = line quantity with a unit price: the total shows it, the price is kept."""
+        order = self._order([(self.product_a, 200.0)])
+        wizard = self._import(
+            order,
+            [
+                {
+                    "code": "FLOW-A",
+                    "name": self.product_a.name,
+                    "qty": "200",
+                    "price": "10",
+                    "base_qty": "200",
+                    "line_total": "2000",
+                }
+            ],
+            invoice_id="FLOW-BQ-2",
+        )
+        self.assertAlmostEqual(order.order_line.price_unit, 10.0)
+        self.assertIn("BaseQuantity", wizard.log)
+
+    def test_bill_on_received_quantity_warns_when_different_from_xml(self):
+        """Billed on received quantities: the bill keeps the received quantity and the log warns."""
+        product = self.env["product.product"].create(
+            {"name": "Flow Recv Warn", "default_code": "FLOW-RW", "is_storable": True, "purchase_method": "receive"}
+        )
+        order = self._order([(product, 10.0)])
+        picking = order.picking_ids
+        picking.move_ids.quantity = 4.0
+        picking.with_context(skip_backorder=True, picking_ids_not_to_backorder=picking.ids).button_validate()
+        self.assertEqual(order.order_line.qty_received, 4.0)
+        wizard = self._import(order, [{"code": "FLOW-RW", "name": product.name, "qty": "6"}], invoice_id="FLOW-RW-1")
+        bill = order.invoice_ids
+        self.assertEqual(bill.invoice_line_ids.quantity, 4.0)
+        self.assertIn("billed on received quantities", wizard.log)
+
+    def test_partial_invoices_keep_order_quantity(self):
+        """An invoice of 4 exists on an order of 10; importing the one of 6 keeps the order at 10."""
+        order = self._order([(self.product_a, 10.0)])
+        self._bill_part(order, 4.0, "FLOW-P-1")
+        self.assertEqual(order.order_line.qty_invoiced, 4.0)
+        self._import(order, [{"code": "FLOW-A", "name": self.product_a.name, "qty": "6"}], invoice_id="FLOW-P-2")
+        self.assertEqual(order.order_line.product_qty, 10.0)
+        self.assertEqual(order.order_line.qty_invoiced, 10.0)
+        bills = order.invoice_ids.sorted("id")
+        self.assertEqual(bills.mapped("invoice_line_ids.quantity"), [4.0, 6.0])
+
+    def test_partial_invoice_smaller_than_remainder(self):
+        """A bill follows the document quantity even when more is left on the order."""
+        order = self._order([(self.product_a, 10.0)])
+        self._bill_part(order, 4.0, "FLOW-S-1")
+        self._import(order, [{"code": "FLOW-A", "name": self.product_a.name, "qty": "3"}], invoice_id="FLOW-S-2")
+        self.assertEqual(order.order_line.product_qty, 10.0)
+        self.assertEqual(order.invoice_ids.sorted("id")[-1].invoice_line_ids.quantity, 3.0)
+
+    def test_partial_invoice_above_remainder_raises_order(self):
+        order = self._order([(self.product_a, 10.0)])
+        self._bill_part(order, 4.0, "FLOW-O-1")
+        self._import(order, [{"code": "FLOW-A", "name": self.product_a.name, "qty": "8"}], invoice_id="FLOW-O-2")
+        self.assertEqual(order.order_line.product_qty, 12.0)
+        self.assertEqual(order.invoice_ids.sorted("id")[-1].invoice_line_ids.quantity, 8.0)
+
+    def test_same_invoice_twice_does_not_raise_order(self):
+        order = self._order([(self.product_a, 10.0)])
+        self._import(order, [{"code": "FLOW-A", "name": self.product_a.name, "qty": "10"}], invoice_id="FLOW-D-1")
+        self._import(order, [{"code": "FLOW-A", "name": self.product_a.name, "qty": "10"}], invoice_id="FLOW-D-1")
+        self.assertEqual(order.order_line.product_qty, 10.0)
+        self.assertEqual(len(order.invoice_ids), 1)
+
+    def test_first_invoice_sets_order_quantity(self):
+        """Without invoicing history the previous behaviour holds: the document sets the quantity."""
+        order = self._order([(self.product_a, 10.0)])
+        self._import(order, [{"code": "FLOW-A", "name": self.product_a.name, "qty": "7"}], invoice_id="FLOW-F-1")
+        self.assertEqual(order.order_line.product_qty, 7.0)
+        self.assertEqual(order.invoice_ids.invoice_line_ids.quantity, 7.0)

@@ -1,3 +1,14 @@
+## 20.0.1.2.14 (2026-11-20)
+
+- **Fix: the upgrade no longer fails when the template still has a numeric
+  `last_purchase_price`** (#3587). The migration to 19.0.1.2.6 assigned the
+  numeric template price to the company-dependent (`jsonb`) column of the
+  variants, which raised a type error, or a missing-column error when the
+  column did not exist yet. The column is now created if missing, the value is
+  written under the company key (every company for a shared template), a value
+  already migrated is kept, and all active variants of a multi-variant template
+  receive the price instead of losing it. Port of 19.0.1.2.16.
+
 ## 20.0.1.2.13 (2026-11-12)
 
 - **Change: editing the price on a vendor line (`product.supplierinfo`) no

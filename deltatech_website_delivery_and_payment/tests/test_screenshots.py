@@ -11,7 +11,10 @@
 #     Ridicare din depozit (permite doar Transfer bancar), Transport paletizat (de la 50 kg)
 #     și Curier local București (ascuns pentru eticheta „Provincie");
 #   - clientul „Maria Ionescu" (utilizator portal, din Cluj, eticheta „Provincie") cu un coș de
-#     2 x „Set chei combinate 12 piese" (1,5 kg/buc.).
+#     2 x „Set chei combinate 12 piese" (1,5 kg/buc.);
+#   - revânzătorul „Auto Distribuție SRL" (eticheta „Revânzător B2B", doar pe firmă) și persoana lui
+#     de contact „Andrei Pop" (utilizator portal), cu același coș; Card la curier e ascuns pentru
+#     eticheta „Revânzător B2B".
 #
 # Rulare:
 #   ./odoo/odoo-bin -c odoo.conf -d <db> -i deltatech_website_delivery_and_payment,deltatech_doc_screenshots \
@@ -29,6 +32,7 @@ except ImportError:
 
 VIEWPORT = (1920, 1080)
 CUSTOMER_LOGIN = "maria.ionescu@example.com"
+RESELLER_LOGIN = "andrei.pop@example.com"
 # tab-ul standard „Restrictions" (netradus în Odoo 20), unde modulul pune limita de valoare și etichetele
 TAB_RESTRICTIONS = ".o_notebook_headers .nav-link:has-text('Restrictions')"
 TAB_PAYMENT = {
@@ -68,6 +72,7 @@ class TestDeliveryPaymentScreenshots(ScreenshotCase or object):
         Tag = env["res.partner.category"]
         cls.tag_provincie = Tag.create({"name": "Provincie", "color": 4})
         cls.tag_restant = Tag.create({"name": "Client restant", "color": 1})
+        cls.tag_reseller = Tag.create({"name": "Revânzător B2B", "color": 10})
 
         # furnizori de plată: toți furnizori manuali, fără date reale de cont
         cls.wire = env.ref("payment.payment_provider_transfer")
@@ -91,6 +96,7 @@ class TestDeliveryPaymentScreenshots(ScreenshotCase or object):
                 "is_live": True,
                 "active": True,
                 "is_published": True,
+                "restrict_label_ids": [Command.set(cls.tag_reseller.ids)],
             }
         )
         # în Odoo 20 o metodă de plată aparține unui singur furnizor: „Card" se creează pe Card la curier
@@ -197,6 +203,48 @@ class TestDeliveryPaymentScreenshots(ScreenshotCase or object):
         )
         cls.order._set_delivery_method(cls.carrier_courier)
 
+        # revânzătorul: eticheta stă doar pe firmă, comanda o dă persoana de contact
+        cls.reseller = env["res.partner"].create(
+            {
+                "name": "Auto Distribuție SRL",
+                "lang": "ro_RO",
+                "vat": "RO1234565",
+                "street": "Bd. Muncii nr. 10",
+                "city": "Cluj-Napoca",
+                "zip": "400641",
+                "state_id": state_cj.id,
+                "country_id": env.ref("base.ro").id,
+                "category_id": [Command.set(cls.tag_reseller.ids)],
+                "company_id": company.id,
+            }
+        )
+        cls.reseller_user = (
+            env["res.users"]
+            .with_context(no_reset_password=True)
+            .create(
+                {
+                    "name": "Andrei Pop",
+                    "login": RESELLER_LOGIN,
+                    "password": RESELLER_LOGIN,
+                    "email": RESELLER_LOGIN,
+                    "company_id": company.id,
+                    "company_ids": [Command.set(company.ids)],
+                    "group_ids": [Command.set(env.ref("base.group_portal").ids)],
+                }
+            )
+        )
+        cls.reseller_contact = cls.reseller_user.partner_id
+        cls.reseller_contact.write({"parent_id": cls.reseller.id, "phone": "+40 700 000 001", "company_id": company.id})
+        cls.reseller_order = env["sale.order"].create(
+            {
+                "partner_id": cls.reseller_contact.id,
+                "website_id": cls.website.id,
+                "company_id": company.id,
+                "order_line": [Command.create({"product_id": cls.product.id, "product_uom_qty": 2})],
+            }
+        )
+        cls.reseller_order._set_delivery_method(cls.carrier_courier)
+
         cls.carrier_action = env.ref("delivery.action_delivery_carrier_form")
         cls.provider_action = env.ref("payment.action_payment_provider")
         cls.partner_action = env.ref("base.action_partner_customer_form")
@@ -261,6 +309,15 @@ class TestDeliveryPaymentScreenshots(ScreenshotCase or object):
                 "highlight": ["div[name='category_id']"],
                 "settle": 2000,
             },
+            # Pasul 10 — revânzătorul: eticheta pusă doar pe firmă
+            {
+                "url": f"action={self.partner_action.id}&menu_id={self.website_menu.id}&id={self.reseller.id}"
+                "&model=res.partner&view_type=form",
+                "name": "10_firma_revanzator_eticheta.png",
+                "wait": ".o_form_view",
+                "highlight": ["div[name='category_id']"],
+                "settle": 2000,
+            },
         ]
 
     def _checkout_shot(self, name, highlight):
@@ -311,6 +368,66 @@ class TestDeliveryPaymentScreenshots(ScreenshotCase or object):
             viewport=VIEWPORT,
             lang=lang,
         )
+
+        # Pasul 11 — persoana de contact a revânzătorului: Card la curier nu mai apare
+        self.reseller_contact.lang = lang
+        self.reseller_order._set_delivery_method(self.carrier_courier)
+        self.env.flush_all()
+        self.capture_screenshots(
+            [self._checkout_shot("11_site_plata_revanzator.png", "#o_payment_form_options ul.list-group")],
+            login=RESELLER_LOGIN,
+            viewport=VIEWPORT,
+            lang=lang,
+        )
+
+    def _gif_steps(self):
+        pick = "li[name='o_delivery_method']:has-text('{}') input[name='o_delivery_radio']"
+        confirm = "a[name='website_sale_main_button'] >> visible=true"
+        payment = "#o_payment_form_options"
+        return [
+            {
+                "path": {"ro_RO": "/shop/checkout", "en_US": "/en/shop/checkout"},
+                "wait": "#o_delivery_methods",
+                "caption": {
+                    "ro_RO": "Se oferă doar metodele de livrare permise pentru coș și client",
+                    "en_US": "Only the delivery methods allowed for this cart and customer are offered",
+                },
+                "move": "#o_delivery_methods",
+                "hold": 2500,
+            },
+            {
+                "caption": {
+                    "ro_RO": "Curier rapid: numerar la livrare și card la curier",
+                    "en_US": "Express courier: cash on delivery and card at the courier",
+                },
+                "click": pick.format("Curier rapid"),
+                "hold": 1200,
+            },
+            {"click": confirm, "wait_after": payment},
+            {"move": payment, "hold": 2500},
+            {
+                "path": {"ro_RO": "/shop/checkout", "en_US": "/en/shop/checkout"},
+                "wait": "#o_delivery_methods",
+                "caption": {
+                    "ro_RO": "Ridicare din depozit: doar transfer bancar",
+                    "en_US": "Warehouse pickup: only bank transfer",
+                },
+                "click": pick.format("Ridicare din depozit"),
+                "hold": 1200,
+            },
+            {"click": confirm, "wait_after": payment},
+            {"move": payment, "hold": 2500},
+            {"caption": "", "hide_cursor": True, "hold": 600},
+        ]
+
+    def test_capture_gif(self):
+        """Demo GIF of the Apps page: the checkout of a customer (demo.gif in RO, en/demo.gif in EN)."""
+        for lang in ("ro_RO", "en_US"):
+            self.customer.lang = lang
+            self.order._set_delivery_method(self.carrier_courier)
+            self.order.order_line.product_uom_qty = 2
+            self.env.flush_all()
+            self.capture_gif(self._gif_steps(), login=CUSTOMER_LOGIN, lang=lang)
 
     def test_capture_fise(self):
         self._capture("ro_RO")

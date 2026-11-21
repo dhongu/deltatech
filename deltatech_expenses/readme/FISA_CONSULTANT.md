@@ -51,12 +51,14 @@ Utilizatori**, secțiunea **„Decont Cheltuieli"**. Fiecare rol îl include pe 
 
 | Rol | Ce poate face |
 |---|---|
-| **Angajat** | vede și completează doar deconturile proprii |
+| **Angajat** | vede și completează doar deconturile proprii; le creează și le deschide fără drepturi contabile și fără acces la jurnale: jurnalul de numerar și jurnalul de diurnă se propun automat, iar la schimbarea modului de decontare i se alege jurnalul potrivit (casă sau bancă), fără a-i da drepturi pe jurnale |
 | **Aprobator** | vede toate deconturile; apasă **Avans** (aprobă și contabilizează acordarea avansului) |
 | **Contabil** | apasă **Validează** (contabilizează decontul) și **Invalidare**; poate șterge deconturi în Ciornă |
 
 Administratorii (grupul „Setări") primesc automat rolul de Contabil. Fără rolul potrivit,
-butoanele respective nu apar pe formular.
+butoanele respective nu apar pe formular. La fel, câmpurile de jurnal (**Jurnal de plată**, **Jurnal
+card firmă**, **Jurnal avansuri (542)** și **Jurnal diurnă**) apar doar utilizatorilor cu rolul Contabil
+sau cu drept de citire în contabilitate (`account.group_account_readonly`); Angajatul nu le vede.
 
 Meniul decontului se află în aplicația Facturare/Contabilitate, deci utilizatorul are nevoie și de un
 drept de acces în Facturare. Butonul „Deconturi" de pe fișa angajatului apare doar utilizatorilor care
@@ -154,10 +156,12 @@ Date minime pentru demo:
 
 Meniul este **Facturare → Furnizori → Decont Cheltuieli** (cu Enterprise: **Contabilitate →
 Furnizori → Decont Cheltuieli**). Apăsați **Nou**, alegeți **angajatul**, **modul de decontare**
-(implicit **Numerar**) și **jurnalul de plată** (jurnalul de numerar), completați **data avansului** (implicit data de azi),
+(implicit **Numerar**) și, dacă vedeți câmpul (Contabil sau drept de citire în contabilitate; Angajatul
+nu îl vede, iar jurnalul de numerar se propune automat), **jurnalul de plată**, completați **data avansului** (implicit data de azi),
 **data cheltuielii** (data decontului; se completează din data avansului dacă e goală), **ordinul de
 deplasare**, **avansul** acordat și, dacă e cazul, **diurna** (sumă/zi și număr de zile). În tabul
-„Alte informații" verificați **jurnalul de avansuri (542)**.
+„Alte informații" contabilul verifică **jurnalul de avansuri (542)** și **jurnalul de diurnă** (câmpuri
+ascunse Angajatului).
 
 **Moneda decontului** (câmpul **„Monedă"**, în antet, după jurnale; apare utilizatorilor cu
 monede multiple activate) se preia din registrul de casă ales: moneda registrului, sau moneda
@@ -192,8 +196,9 @@ contravaloarea în lei la cursul BNR din data avansului (casa este 5314).
 
 Adăugați liniile de cheltuieli: dată, referință (ce s-a cumpărat), **Total** = suma de pe bon sau
 factură, **cu TVA inclus**, taxa de achiziție, furnizor și contul de cheltuială. Modulul extrage
-baza și TVA-ul din total, oricum ar fi configurată taxa („inclusă în preț" sau „pe deasupra"); cu o
-taxă „pe deasupra" poate apărea o rotunjire de 1 ban față de bon. Alegeți cota corectă la data
+baza și TVA-ul din total, oricum ar fi configurată taxa („inclusă în preț" sau „pe deasupra"), iar
+totalul chitanței rămâne cel de pe bon. Cu o singură taxă procentuală „pe deasupra” (repartiție 100%),
+diferența de 1 ban dintre baza rotunjită și TVA-ul recalculat se absoarbe în TVA-ul chitanței. Alegeți cota corectă la data
 operațiunii (de ex. cazarea are 11%) și puneți taxă doar dacă documentul dă drept de deducere:
 factura sau un bon fiscal de cel mult 100 euro cu **codul de TVA al firmei** tipărit. Un bon fără cod
 de TVA sau peste 100 euro se introduce fără taxă, iar TVA-ul rămâne în cheltuială (pentru sume mari
@@ -498,8 +503,10 @@ liniile „Plată furnizor”, reclasificarea avansului la furnizor pe 4091 (bun
 - [ ] „Jurnal avansuri (542)" are contul implicit 542.
 - [ ] În modul Numerar, acordarea avansului produce nota Dr 542 = Cr 5311.
 - [ ] Utilizatorii au rolurile potrivite (Angajat / Aprobator / Contabil).
+- [ ] Angajatul fără grup contabil creează și deschide decontul fără eroarea „You are not allowed to access 'Journal'", iar câmpurile de jurnal nu apar pe formularul lui (le vede Contabilul).
 - [ ] Liniile de deplasare au contul 625, nu 623 implicit.
 - [ ] Un bon de 555 lei cu TVA 11% dă bază 500 și TVA 55; „Total chitanțe" este egal cu suma bonurilor.
+- [ ] Un bon de 199,85 lei cu TVA 21% „pe deasupra” dă bază 165,17 și TVA 34,68; chitanța are totalul 199,85, iar cu un avans tot de 199,85 lei nu apare nicio notă de diferență, iar 542 se închide la zero.
 - [ ] Diferența = cheltuieli + diurnă − avans (negativă = angajatul restituie).
 - [ ] Nota de diferență din casă are data decontului, nu data avansului.
 - [ ] O linie „Plată furnizor” are contul 401 din „Cont de plătit” al furnizorului, fără taxe, iar nota Dr 401 = Cr 542 e pe totalul liniei.
@@ -561,7 +568,8 @@ liniile „Plată furnizor”, reclasificarea avansului la furnizor pe 4091 (bun
 | „O factură poate fi alocată o singură dată pe o linie de plată furnizor.” | Aceeași factură a fost aleasă de două ori pe linie | Păstrați un singur rând pentru factură, cu suma totală alocată |
 | „Set the gain and loss exchange rate accounts (765/665) in the accounting settings of the company …" | Decont în valută cu diferență de curs la validare, iar compania nu are setate conturile de diferențe de curs | Setați conturile de câștig/pierdere din diferențe de curs (765/665) în Contabilitate → Configurare → Setări |
 | Contravaloarea în lei a unei note în valută este neașteptată | Cursul BNR lipsește sau este vechi pentru data notei (Odoo ia cursul zilei precedente) | Actualizați cursurile valutare și reluați decontul (Invalidare, apoi Avans / Validează) |
-| „Total chitanțe" diferă cu 1 ban de bon | Taxă „pe deasupra": TVA-ul se recalculează pe baza rotunjită | Folosiți o taxă „inclusă în preț" pentru potrivire exactă |
+| „The generated receipt does not match the gross amount of line ...” („Chitanța generată nu se potrivește cu suma brută a liniei ...”) | Linie cu o singură taxă procentuală „pe deasupra”, la care chitanța generată diferă de bon cu mai mult de 1 ban sau are alt grup de taxe (de ex. o poziție fiscală care schimbă taxa) | Verificați taxa liniei și poziția fiscală a furnizorului; folosiți o taxă „inclusă în preț” sau corectați taxa, apoi validați din nou |
+| „Total chitanțe" diferă cu 1 ban de bon | Linie cu mai multe taxe sau cu o taxă „pe deasupra” care nu e procentuală simplă (repartiție diferită de 100%): TVA-ul se recalculează pe baza rotunjită | Folosiți o taxă „inclusă în preț" pentru potrivire exactă |
 
 Pentru mesajele legate de preluarea cheltuielilor standard (`hr_expense`), vezi fișa modulului
 `deltatech_expenses_hr_expense`.

@@ -1,4 +1,25 @@
-## 20.0.1.4.16 (2026-11-02)
+## 20.0.1.5.1 (2026-11-20)
+
+- A price declared per 100 or 1,000 units (`BaseQuantity`) is no longer taken as the price of
+  one unit on the order line and in the vendor prices (fix in `deltatech_account_ubl_import`), unless the line total shows that the program filled
+  `BaseQuantity` wrongly (e.g. with the line quantity): then the price is kept and a warning is logged.
+  Fixes #3590.
+- Importing a partial invoice on an order already invoiced in part no longer overwrites the
+  ordered quantity with the quantity of the invoice: the ordered quantity is never lowered below
+  the quantity already invoiced plus the quantity of the document (a line already fully invoiced
+  is left as it is), and importing the same
+  invoice again does not change it. The vendor bill takes the quantity of the document for
+  products billed on ordered quantities; for products billed on received quantities a warning
+  reports the difference. Fixes #3591.
+
+## 20.0.1.5.0 (2026-11-20)
+
+- The UBL reader and the product matcher moved to the new base module
+  `deltatech_account_ubl_import`, installed automatically as a dependency. They are now shared
+  with the vendor bill review (`deltatech_vendor_bill_ubl_review`). The import works as before;
+  `purchase.invoice.import.mixin` keeps its name, so the modules that extend it are unchanged.
+
+## 20.0.1.4.22 (2026-11-02)
 
 - Fixed: importing an invoice with *Update vendor prices* checked no longer resets the lead time
   (`delay`) of the existing vendor line to 1 day; only the price (converted to the line unit), currency and code are updated.

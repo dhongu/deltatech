@@ -1,3 +1,19 @@
+## 20.0.2.2.3 (2026-11-20)
+
+- Description: delivery methods read only the tags of the customer's company; payment providers read the tags of
+  the customer and of the company.
+- Consultant sheet: demo data of the reseller step, which rules apply on invoice payments and payment links.
+  Reseller company in Romanian on the screenshots; clearer image descriptions in USAGE.md.
+- Demo GIF of the checkout in Romanian and English (`static/description/demo.gif`, `en/demo.gif`).
+
+## 20.0.2.2.2 (2026-11-20)
+
+- The tag restriction of a payment provider also reads the tags of the customer's company, so a tag set
+  only on the company hides the provider for its contact persons too (as for delivery methods).
+- The tag restriction of a payment provider now also applies when there is no order: paying an invoice
+  from the portal, a payment link, saved payment methods. The value limit and the providers allowed by
+  the delivery method still apply only to a sales order.
+
 ## 20.0.2.2.1 (2026-11-03)
 
 - Description rewritten to match the 20.0 code: value limit of a payment provider, weight limits of
