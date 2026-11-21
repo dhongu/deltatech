@@ -100,7 +100,8 @@ deschide scrieți **motivul** și apăsați **Anulează înregistrările**.
 
 Înregistrarea devine *Anulat*: apare o bandă roșie, motivul se vede pe formular și în chatter, iar
 numărul rămâne în registru și nu se mai refolosește. Un Registru / Manager vede butonul **Reactivează**
-(readuce înregistrarea la *Activ*, sau *Rezervat* dacă nu are dată). Utilizatorii obișnuiți nu pot
+(readuce înregistrarea la *Activ*, sau *Rezervat* dacă nu are dată), după confirmarea „Reactivezi
+această înregistrare?”. Utilizatorii obișnuiți nu pot
 reactiva și nu pot șterge.
 
 ![Înregistrare anulată: banda roșie Anulat, bannerul cu motivul anulării și formularul doar în citire](../static/description/06_inregistrare_anulata.png)
@@ -138,6 +139,7 @@ etichetei legăturii. **Manual:** înregistrarea documentului, anularea, tipări
 - [ ] Numerele sunt consecutive, fără goluri, în ordinea datelor (`2026/00001`, `2026/00002`, …).
 - [ ] O înregistrare anulată păstrează numărul și arată motivul.
 - [ ] Un utilizator obișnuit nu poate șterge și nu poate reactiva.
+- [ ] **Reactivează** cere confirmarea „Reactivezi această înregistrare?” înainte să schimbe starea.
 - [ ] Rezervarea nu acceptă o dată în afara intervalului dintre numărul anterior și cel următor.
 - [ ] Un utilizator autentificat doar în compania A nu vede înregistrările și legăturile companiei B.
 - [ ] Raportul tipărit pe perioadă conține toate numerele, inclusiv pe cele anulate.
@@ -146,10 +148,11 @@ etichetei legăturii. **Manual:** înregistrarea documentului, anularea, tipări
 
 | Mesaj | Cauză | Remediere |
 |---|---|---|
-| Record … cannot be dated before …, the date of the previous number … | Data este mai veche decât a numărului anterior | Datați numărul rezervat în intervalul permis; un document mai vechi decât ultimul număr datat se poate înregistra doar dacă numărul a fost rezervat din timp |
-| Record … cannot be dated after …, the date of the next number … | Data este mai nouă decât a numărului următor | La fel |
-| The date of record … must be in …, the year of its number | Documentul are altă dată decât anul numărului | Rezervați numărul în anul documentului |
-| Set the record date before registering … | Se apasă Înregistrează pe o rezervare fără dată | Setați data înregistrării |
+| Înregistrarea … nu poate fi datată înainte de …, data numărului anterior … | Data este mai veche decât a numărului anterior | Datați numărul rezervat în intervalul permis; un document mai vechi decât ultimul număr datat se poate înregistra doar dacă numărul a fost rezervat din timp |
+| Înregistrarea … nu poate fi datată după …, data numărului următor … | Data este mai nouă decât a numărului următor | La fel |
+| Data înregistrării … trebuie să fie în …, anul numărului. | Documentul are altă dată decât anul numărului | Rezervați numărul în anul documentului |
+| Setează data înregistrării înainte de a înregistra … | Se apasă Înregistrează pe o rezervare fără dată | Setați **Data înregistrare** |
+| Înregistrarea … trebuie să aibă dată. | Se salvează o înregistrare *Activ* fără dată | Completați **Data înregistrare** (doar rezervările pot rămâne nedatate) |
 | Doar un manager de registru poate reactiva o înregistrare anulată. | Reactivare încercată de un utilizator obișnuit | Rugați un Registru / Manager |
 | Selectează înregistrarea de legat. | Pe fila **Legături**, o linie *Înregistrare Odoo* fără înregistrarea aleasă | Alegeți înregistrarea sau ștergeți linia |
 | Introdu adresa web de legat. | Pe fila **Legături**, o linie *Legătură web* fără adresă | Completați adresa sau ștergeți linia |

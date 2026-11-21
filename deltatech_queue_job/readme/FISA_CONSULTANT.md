@@ -53,7 +53,10 @@ Date minime pentru demo:
 - adresa publică a bazei accesibilă din internet, dacă se testează cu un serviciu extern.
 
 Setările implicite: **Dimensiune lot** = 20 de joburi pe rulare, **Secunde maxime** = 50 de secunde
-pe rulare. Nu există cheie API implicită.
+pe rulare. Nu există cheie API implicită. La actualizarea de la o versiune mai veche de 19.0.1.4.3,
+migrarea șterge vechea cheie partajată (`sk_live_CHANGE_ME…`): adresele `/api/v1/queue/process` și
+`/api/v1/queue/stats` refuză orice apel până când se generează o cheie nouă (**Coadă de joburi → Setări**,
+**Generează cheia**) și se copiază în serviciul extern.
 
 ## 5. Configurare inițială
 
@@ -179,7 +182,7 @@ După **Declanșator CRON**, Odoo afișează o notificare:
 - La crearea unui job sau la schimbarea datei lui de execuție, programează pornirea acțiunii
   programate, fără să dubleze pornirile deja programate.
 - Când apare un job nou cu aceeași identitate ca unul **Eșuat**, joburile eșuate vechi trec în
-  **Anulat**, cu mesajul „Superseded by a new job with the same identity_key".
+  **Anulat**, cu mesajul „Înlocuit de un job nou cu același identity_key".
 - Joburile anulate în lanț (dependenții unui job anulat) primesc data anulării, ca să poată fi
   șterse la curățenie.
 - Curățenia automată a Odoo șterge și joburile **Finalizat** sau **Anulat** rămase fără dată de
