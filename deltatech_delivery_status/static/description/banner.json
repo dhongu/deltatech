@@ -3,7 +3,7 @@
   "summary": "Track and hold deliveries",
   "icon": "truck",
   "features": [
-    "Delivery status on pickings and orders",
+    "Carrier status on deliveries",
     "Postpone deliveries by payment provider",
     "Auto release once payment is confirmed"
   ],
