@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
-      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 5 automated tests</div>
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 9 automated tests</div>
       <div class="rounded-pill mt-2" style="height:8px;background-color:#2a6b4d;overflow:hidden;">
         <div class="rounded-pill" style="height:8px;width:79%;background-color:#57B952;"></div>
       </div>
@@ -52,36 +52,107 @@
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</span></div>
 <p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Tracks how long customers and suppliers actually take to pay, giving finance teams a concrete measure of cash-collection and payment efficiency.</p>
-<p>For each reconciled journal entry the module records the exact payment date and computes the number of days elapsed since the invoice date. An aggregated pivot/graph report &#8212; <strong>Average Payment Period</strong> &#8212; is added directly to the Accounting Reports menu so managers can slice the data by partner, journal, or period at a glance.</p>
+<p>For each customer invoice or vendor bill line fully reconciled with its payment, the module records the exact payment date and computes the number of days elapsed since the accounting date of the invoice. An aggregated pivot/graph report &#8212; <strong>Average Payment Period</strong> &#8212; is added directly to the Accounting Reports menu so managers can slice the data by partner, journal, or period at a glance.</p>
 <p><strong>&#10024; Key features:</strong></p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-credit-card" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Payment Date</span><div>&#8212; automatically derived from the reconciliation partner line and stored on each <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move.line</code>.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-credit-card" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Payment Days</span><div>&#8212; difference (in days) between the invoice date and the payment date, weighted by the line amount for accurate averages across grouped data.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-credit-card" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Plain Payment Days</span><div>&#8212; simplified variant limited to customer invoices (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">out_invoice</code>) and vendor bills (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">in_invoice</code>), excluding credit notes, for cleaner KPI reporting.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-credit-card" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Average Payment Period report</span><div>&#8212; a dedicated pivot and graph view (menu: Accounting &gt; Reporting &gt; Average Payment Period) grouped by partner by default; filterable by date, partner, journal, and account.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Weighted average calculation</span><div>&#8212; when grouping rows, the average is computed as <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sum(amount &#215; days) / sum(amount)</code> rather than a plain arithmetic mean, preventing distortion from small-amount outliers.</div></div></div></li></ul>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-credit-card" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Payment Date</span><div>&#8212; automatically derived from the reconciliation partner line and stored on each <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move.line</code>.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-credit-card" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Payment Days</span><div>&#8212; difference (in days) between the accounting date of the invoice and the accounting date of the payment.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-credit-card" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Plain Payment Days</span><div>&#8212; simplified variant computed only on customer invoices (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">out_invoice</code>) and vendor bills (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">in_invoice</code>); reconciled credit notes count with 0 days in its average.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-credit-card" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Average Payment Period report</span><div>&#8212; a dedicated pivot and graph view (menu: Invoicing / Accounting &gt; Reporting &gt; Average Payment Period) grouped by partner by default; searchable by partner, reference and date, and groupable by partner or date (other fields through a custom group).</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Weighted average calculation</span><div>&#8212; when grouping rows, in the pivot and in the graph, Payment Days is averaged as the absolute value of <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">sum(amount &#215; days) / sum(amount)</code> rather than a plain arithmetic mean, preventing distortion from small-amount outliers.</div></div></div></li></ul>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</span></div>
-<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Viewing the Average Payment Period <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">report</span></h2>
-<ol>
-<li>Open <strong>Accounting</strong> and navigate to <strong>Reporting &gt; Average Payment Period</strong>.</li>
-<li>The pivot view opens pre-grouped by <strong>Partner</strong>, showing for each partner:<ul>
-<li><strong>Balance</strong> &#8212; total reconciled amount.</li>
-<li><strong>Payment Days</strong> &#8212; weighted-average days to payment across all reconciled lines.</li>
-<li><strong>Plain payment days</strong> &#8212; average days for customer invoices and vendor bills only (credit notes excluded).</li>
-</ul>
-</li>
-<li>Use the <strong>search bar</strong> to filter by partner name, reference, or date range. The <strong>Date</strong> filter supports month/quarter/year buckets.</li>
-<li>Switch to the <strong>Graph</strong> view for a visual comparison across partners or time periods.</li>
-<li>Add or remove groupings (e.g. <strong>Date</strong>, <strong>Journal</strong>) via the <strong>Group By</strong> menu to break down the average by period or by journal type.</li>
-</ol>
-<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">How Payment Days are <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">populated</span></h2>
-<p>Payment Days are computed automatically whenever a journal entry line is fully reconciled:</p>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Before you <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">start</span></h2>
+<p>The report only counts invoices that are <strong>fully reconciled</strong> with their payment. Make sure the
+payment methods of your bank journal have an account set (<strong>Invoicing</strong>, or <strong>Accounting</strong> on Enterprise, <strong>&#8594; Configuration &#8594; Journals &#8594;
+Bank</strong>, <strong>Incoming Payments</strong> and <strong>Outgoing Payments</strong> tabs): without it, a payment creates no journal entry, the invoice stays
+<strong>In Payment</strong> and does not reach the report.</p>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">1. Pay an invoice in <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">full</span></h2>
+<p>Open a posted customer invoice or vendor bill and click <strong>Pay</strong>. When the payment
+covers the whole invoice, the receivable or payable line is reconciled with the payment and the
+module stores the payment date and the number of days automatically.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Customer invoice of Client Alfa SRL dated Aug 5 for 2,420.00, with 30 days payment terms, the Paid ribbon and the payment of 09/04/2026, 30 days after the invoice date" src="en/01_factura_platita.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Customer invoice of Client Alfa SRL dated Aug 5 for 2,420.00, with 30 days payment terms, the Paid ribbon and the payment of 09/04/2026, 30 days after the invoice date</span>
+  </div>
+</div>
 <ul>
-<li>The module looks at the <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">full_reconcile_id</code> of each <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">account.move.line</code> and finds the date of the matching counter line (credit side for debit lines and vice versa).</li>
-<li>This date is stored as <strong>Payment Date</strong> on the journal entry line (visible in the Journal Items form under the <strong>Due Date</strong> field group).</li>
-<li>The difference <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">payment_date - invoice_date</code> (in days) is stored as <strong>Payment Days</strong>.</li>
+<li><strong>Payment Days</strong> = accounting date of the payment &#8722; accounting date of the invoice.</li>
+<li>If the invoice is paid in several instalments, the date of the payment that closes it is kept.</li>
+<li>If the reconciliation is removed (on the invoice, the &#9432; icon next to <strong>Paid on &#8230;</strong> &#8594; <strong>Unreconcile</strong>), the payment date and days are
+  cleared and the invoice leaves the report; a new full reconciliation computes them again.</li>
 </ul>
-<p>No manual action is required; values update automatically on reconciliation and de-reconciliation.</p>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">2. Read the report by <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">partner</span></h2>
+<p>Go to <strong>Invoicing</strong> (or <strong>Accounting</strong> on Enterprise) <strong>&#8594; Reporting &#8594; Average Payment Period</strong>. The pivot opens grouped by <strong>Partner</strong>:</p>
+<ul>
+<li><strong>Balance</strong> &#8212; total of the paid invoices: positive for customers, negative for vendors (the grand
+  total mixes both, filter customers or vendors to read it);</li>
+<li><strong>Payment Days</strong> &#8212; average days to payment, <strong>weighted by the invoice amount</strong>;</li>
+<li><strong>Plain payment days</strong> &#8212; simple average of the days, computed on customer invoices and vendor bills;
+  a reconciled credit note counts with 0 days.</li>
+</ul>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Average Payment Period pivot grouped by partner with the Balance, Payment Days and Plain payment days columns" src="en/02_raport_pe_parteneri.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">2</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Average Payment Period pivot grouped by partner with the Balance, Payment Days and Plain payment days columns</span>
+  </div>
+</div>
+<p>Example: an invoice of 1,210.00 paid in 10 days and one of 2,420.00 paid in 30 days give
+<strong>Payment Days</strong> 23.33 and <strong>Plain payment days</strong> 20.00. Unpaid or partially paid invoices are not
+included. Use the <strong>Date</strong> filter of the search bar to select the period, and <strong>Download xlsx</strong> to
+export the table.</p>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">3. Break it down by <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">month</span></h2>
+<p>In the same pivot, click the <strong>Total</strong> column header and choose <strong>Date &#8594; Month</strong>: each partner gets
+one column per month, with the average days of the invoices of that month.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Average Payment Period pivot with partners as rows and the invoice months as columns" src="en/03_raport_pe_luni.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">3</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Average Payment Period pivot with partners as rows and the invoice months as columns</span>
+  </div>
+</div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">4. Compare partners on a <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">graph</span></h2>
+<p>Switch to the <strong>Graph</strong> view: it opens on the <strong>Payment Days</strong> measure, with one bar per partner
+for its weighted average days to payment, the same values as in the pivot.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Average Payment Period bar graph with one bar per partner for the Payment Days measure" src="en/04_grafic_zile_plata.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">4</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Average Payment Period bar graph with one bar per partner for the Payment Days measure</span>
+  </div>
+</div>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.7 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-19)</span></h2>
+<ul>
+<li>Average Payment Period report: the pivot now shows the amount-weighted average of Payment Days,
+  like the graph; before, the pivot showed a plain average (the weighting was only applied to
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_read_group</code>, while the Odoo 19 pivot reads through <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">_read_grouping_sets</code>).</li>
+<li>Dedicated graph view, opening on the Payment Days measure.</li>
+<li>Consultant sheet (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/FISA_CONSULTANT.md</code>) with screenshots, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/USAGE.md</code> rewritten in
+  English with the English screenshots, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">readme/DESCRIPTION.md</code> aligned with the code.</li>
+</ul>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.6 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-19)</span></h2>
+<ul>
+<li>Payment date and payment days on journal items are reset when the full
+  reconciliation is removed; before, the old values stayed on the unpaid
+  item (AVGPAY-001).</li>
+<li>Payment date and payment days are recomputed when an item is reconciled
+  again: Odoo 19 links the full reconciliation through SQL, so the stored
+  fields were not refreshed.</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.5 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-10-11)</span></h2>
 <ul>
 <li>Docs: emoji symbols added to the bold headings of the module description, for a uniform look on the Odoo Apps page. No code change.</li>
@@ -280,22 +351,22 @@
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_actions" target="_blank" rel="noopener"
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_ubl_import" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
           <div class="d-flex align-items-center mb-2">
             <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
               <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">DC</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_actions/icon.png" alt="" loading="lazy"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">UI</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_ubl_import/icon.png" alt="" loading="lazy"
                    class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
             </span>
             <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Database Cleanup Actions</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Other</span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">UBL Invoice Import Base</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting/Accounting</span>
             </span>
           </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Cleaning and other actions</p>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Shared UBL invoice parser and product matcher for the vendor invoice import tools</p>
         </div>
       </a>
     </div>

@@ -6,7 +6,7 @@
 {
     "name": "Average Payment Period",
     "summary": "Computes average duration of cash accounting",
-    "version": "19.0.1.0.5",
+    "version": "19.0.1.0.7",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Accounting & Finance",
