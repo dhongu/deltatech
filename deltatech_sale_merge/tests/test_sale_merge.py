@@ -80,7 +80,7 @@ class TestSaleMerge(SaleCommon):
 
     def test_different_partner_blocked(self):
         so1 = self._order([(self.product, 1)])
-        so2 = self._order([(self.product, 1)], partner_id=self.env["res.partner"].create({"name": "Other"}).id)
+        so2 = self._order([(self.product, 1)], partner_id=self.env["res.partner"].sudo().create({"name": "Other"}).id)
         with self.assertRaises(UserError):
             self._merge(so1 | so2)
         self.assertEqual(so1.state, "draft")
@@ -100,7 +100,7 @@ class TestSaleMerge(SaleCommon):
     def test_different_taxes_not_added(self):
         so1 = self._order([(self.product, 1)])
         so2 = self._order([(self.product, 1)])
-        tax = self.env["account.tax"].create({"name": "Merge tax", "amount": 10.0, "type_tax_use": "sale"})
+        tax = self.env["account.tax"].sudo().create({"name": "Merge tax", "amount": 10.0, "type_tax_use": "sale"})
         so2.order_line.tax_ids = tax
         so1.order_line.tax_ids = False
         self._merge(so1 | so2)
@@ -118,27 +118,37 @@ class TestSaleMerge(SaleCommon):
     def test_online_payment_started_blocked(self):
         so1 = self._order([(self.product, 1)])
         so2 = self._order([(self.product, 1)])
-        provider = self.env["payment.provider"].create({"name": "Merge test", "code": "none"})
-        method = self.env["payment.method"].create({"name": "Merge method", "code": "mergetest"})
-        tx = self.env["payment.transaction"].create(
-            {
-                "provider_id": provider.id,
-                "payment_method_id": method.id,
-                "amount": 1.0,
-                "currency_id": so2.currency_id.id,
-                "partner_id": self.partner.id,
-                "reference": "MERGE-TEST",
-                "state": "pending",
-            }
+        provider = self.env["payment.provider"].sudo().create({"name": "Merge test", "code": "none"})
+        method = (
+            self.env["payment.method"]
+            .sudo()
+            .create({"name": "Merge method", "code": "mergetest", "provider_id": provider.id})
         )
-        so2.transaction_ids = [Command.set(tx.ids)]
+        tx = (
+            self.env["payment.transaction"]
+            .sudo()
+            .create(
+                {
+                    "provider_id": provider.id,
+                    "payment_method_id": method.id,
+                    "amount": 1.0,
+                    "currency_id": so2.currency_id.id,
+                    "partner_id": self.partner.id,
+                    "reference": "MERGE-TEST",
+                    "state": "pending",
+                }
+            )
+        )
+        so2.sudo().transaction_ids = [Command.set(tx.ids)]
         with self.assertRaises(UserError):
             self._merge(so1 | so2)
         self.assertEqual(so1.state, "draft")
 
     def test_different_company_blocked(self):
         so1 = self._order([(self.product, 1)])
-        company = self.env["res.company"].create({"name": "Other merge company"})
+        company = self.env["res.company"].sudo().create({"name": "Other merge company"})
+        self.env.user.sudo().company_ids = [Command.link(company.id)]
+        self.env = self.env(context=dict(self.env.context, allowed_company_ids=[so1.company_id.id, company.id]))
         so2 = self._order([(self.product, 1)], company_id=company.id)
         with self.assertRaises(UserError):
             self._merge(so1 | so2)

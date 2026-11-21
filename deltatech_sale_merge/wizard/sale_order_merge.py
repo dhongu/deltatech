@@ -112,7 +112,9 @@ class SaleOrderMerge(models.TransientModel):
                     )
                 )
         engaged = orders.filtered(
-            lambda o: o.signature or any(tx.state in ("pending", "authorized", "done") for tx in o.transaction_ids)
+            # transaction_ids is restricted to invoicing users; a salesman must still see a started payment
+            lambda o: o.signature
+            or any(tx.state in ("pending", "authorized", "done") for tx in o.sudo().transaction_ids)
         )
         if engaged:
             raise UserError(
