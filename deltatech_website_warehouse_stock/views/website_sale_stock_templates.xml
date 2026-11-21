@@ -78,7 +78,8 @@
                         t-attf-class="o_wh_stock_row o_wh_stock_state_#{warehouse_distribution['state']}"
                     >
                         <i
-                            t-attf-class="o_wh_stock_icon fa fa-fw #{'fa-check-circle' if warehouse_distribution['state'] == 'in_stock' else ('fa-clock-o' if warehouse_distribution['state'] == 'on_order' else 'fa-times-circle')}"
+                            class="o_wh_stock_icon oi oi-fw"
+                            t-att-data-icon="'check_circle' if warehouse_distribution['state'] == 'in_stock' else ('schedule' if warehouse_distribution['state'] == 'on_order' else 'cancel')"
                             role="img"
                             aria-hidden="true"
                         />
@@ -94,7 +95,7 @@
                 <div class="o_wh_stock_card">
                     <div class="o_wh_stock_card_title">
                         <span class="o_wh_stock_card_icon">
-                            <i class="fa fa-map-marker" role="img" aria-label="Warehouses" />
+                            <i class="oi" data-icon="location_on" role="img" aria-label="Warehouses" />
                         </span>
                         <span class="fw-bold">In stock availability</span>
                     </div>
@@ -131,7 +132,7 @@
                         <button type="button" class="btn btn-primary o_wh_stock_check">Check stock</button>
                     </div>
                     <div class="o_wh_stock_result d-none mt-2" role="status" aria-live="polite">
-                        <i class="o_wh_stock_icon fa fa-fw" aria-hidden="true" />
+                        <i class="o_wh_stock_icon oi oi-fw" aria-hidden="true" />
                         <span class="o_wh_stock_message" />
                         <small class="o_wh_stock_note text-muted" />
                     </div>

@@ -1,3 +1,8 @@
+## 20.0.1.14.1 (2026-11-19)
+
+- The loading indicator of the background removal dialog uses the Odoo 20 spinner
+  (`oi oi-spin`, `autorenew`) instead of the Font Awesome one, which no longer has a style.
+
 ## 20.0.1.14.0 (2026-10-22)
 
 - Background removal wizard: new method *Frame only (keep background)*, for product photos on a

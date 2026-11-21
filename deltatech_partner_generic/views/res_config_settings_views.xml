@@ -10,7 +10,8 @@
                     <div class="o_setting_right_pane">
                         <label for="generic_partner_id" />
                         <span
-                            class="fa fa-lg fa-building-o"
+                            class="oi oi-lg"
+                            data-icon="business"
                             title="Values set here are company-specific."
                             role="img"
                             aria-label="Values set here are company-specific."

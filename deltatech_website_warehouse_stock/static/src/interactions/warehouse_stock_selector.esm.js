@@ -2,9 +2,9 @@ import {Interaction} from "@web/public/interaction";
 import {registry} from "@web/core/registry";
 
 const ICONS = {
-    in_stock: "fa-check-circle",
-    on_order: "fa-clock-o",
-    out: "fa-times-circle",
+    in_stock: "check_circle",
+    on_order: "schedule",
+    out: "cancel",
 };
 
 // The stock of every warehouse is already in the page (data attributes of the
@@ -25,7 +25,7 @@ export class WarehouseStockSelector extends Interaction {
         const state = option.dataset.state;
         const result = this.el.querySelector(".o_wh_stock_result");
         result.className = `o_wh_stock_result mt-2 o_wh_stock_state_${state}`;
-        result.querySelector(".o_wh_stock_icon").className = `o_wh_stock_icon fa fa-fw ${ICONS[state] || ""}`;
+        result.querySelector(".o_wh_stock_icon").dataset.icon = ICONS[state] || "";
         result.querySelector(".o_wh_stock_message").textContent = option.dataset.message || "";
         result.querySelector(".o_wh_stock_note").textContent = option.dataset.note || "";
     }

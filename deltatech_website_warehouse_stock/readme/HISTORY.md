@@ -1,3 +1,9 @@
+## 20.0.0.0.8 (2026-11-19)
+
+- The stock icons (in stock, on order, out of stock), the warehouse marker of the card style
+  and the result of the selector are drawn with Material Symbols (`check_circle`, `schedule`,
+  `cancel`, `location_on`); the Font Awesome classes no longer have a style in Odoo 20.
+
 ## 20.0.0.0.7 (2026-10-22)
 
 - After the price also with the boxed call to action: the block goes right under the box
