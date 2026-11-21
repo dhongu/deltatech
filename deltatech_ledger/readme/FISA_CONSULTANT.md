@@ -64,7 +64,7 @@ proveniență, descriere sau dată. Filtrele **Rezervat**, **Activ**, **Anulat**
 ### Pasul 2 — Înregistrarea unui document
 
 Din **Registru → Registru** apăsați **Nou**. Alegeți **Tip înregistrare** (*Intrare* pentru un
-document primit, *Ieșire* pentru unul trimis), verificați **Data înregistrării** (azi, implicit),
+document primit, *Ieșire* pentru unul trimis), verificați **Data înregistrare** (azi, implicit),
 completați **Număr document**, **Contactul** și **Loc origine**, iar pe fila
 *Descriere* o descriere scurtă. La salvare înregistrarea primește numărul (`2026/00123`) și
 starea *Activ*. Dacă există deja o înregistrare cu același tip, număr de document și contact,
@@ -77,7 +77,7 @@ apare un banner galben de posibil duplicat; salvarea rămâne posibilă.
 Din **Registru → Rezervă un număr** alegeți tipul și salvați. Numărul se ia acum din secvență, iar data
 rămâne goală. Un banner albastru arată intervalul în care numărul poate fi datat: de la data
 numărului anterior la data numărului următor. Când documentul este emis, setați **Data
-înregistrării** în acel interval și apăsați **Înregistrează**; înregistrarea devine *Activ*. Butonul
+înregistrare** în acel interval și apăsați **Înregistrează**; înregistrarea devine *Activ*. Butonul
 refuză să lucreze cât timp data este goală.
 
 ![Înregistrare în starea Rezervat: bannerul albastru cu intervalul permis pentru dată, data goală și butonul Înregistrează](../static/description/03_rezervare.png)
@@ -150,7 +150,9 @@ etichetei legăturii. **Manual:** înregistrarea documentului, anularea, tipări
 | Record … cannot be dated after …, the date of the next number … | Data este mai nouă decât a numărului următor | La fel |
 | The date of record … must be in …, the year of its number | Documentul are altă dată decât anul numărului | Rezervați numărul în anul documentului |
 | Set the record date before registering … | Se apasă Înregistrează pe o rezervare fără dată | Setați data înregistrării |
-| Only a Registru / Manager can reactivate a canceled record | Reactivare încercată de un utilizator obișnuit | Rugați un Registru / Manager |
+| Doar un manager de registru poate reactiva o înregistrare anulată. | Reactivare încercată de un utilizator obișnuit | Rugați un Registru / Manager |
+| Selectează înregistrarea de legat. | Pe fila **Legături**, o linie *Înregistrare Odoo* fără înregistrarea aleasă | Alegeți înregistrarea sau ștergeți linia |
+| Introdu adresa web de legat. | Pe fila **Legături**, o linie *Legătură web* fără adresă | Completați adresa sau ștergeți linia |
 | Nu există înregistrări pentru perioada selectată. | La **Tipărește registrul**, perioada (și tipul ales) nu cuprinde nicio înregistrare | Lărgiți perioada sau bifați **Include anulatele** / **Include rezervările nedatate** |
 | Data de început nu poate fi după data de sfârșit. | La **Tipărește registrul**, **De la** este după **Către** | Corectați perioada |
 | The ledger record belongs to a company that is not active | Legătura se creează sau se mută la un registru din altă companie | Activați compania registrului |
