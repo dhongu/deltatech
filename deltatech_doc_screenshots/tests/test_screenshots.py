@@ -16,8 +16,36 @@ class TestDocScreenshotsScreenshots(ScreenshotCase):
         super().setUpClass()
         cls.company = cls.prepare_ro_company()
 
-    def _shots(self):
+    @staticmethod
+    def _demo_xlsx(lang):
+        """Un export XLSX mic, cu sume în formatul ``#,##0.00``, pentru captura din Pasul 4."""
+        import io  # noqa: PLC0415
+
+        from openpyxl import Workbook  # noqa: PLC0415
+
+        ro = lang == "ro_RO"
+        wb = Workbook()
+        ws = wb.active
+        ws.append(["Partener", "Facturat", "Încasat", "Sold"] if ro else ["Partner", "Invoiced", "Paid", "Balance"])
+        for name, invoiced, paid in (
+            ("Ferma Verde SRL", 12345.6, 10000.0),
+            ("Agro Prod SRL", 2780.25, 2780.25),
+            ("Gemini Furniture", 1234567.89, 1000000.0),
+        ):
+            ws.append([name, invoiced, paid, round(invoiced - paid, 2)])
+        for row in ws.iter_rows(min_row=2, min_col=2):
+            for cell in row:
+                cell.number_format = "#,##0.00"
+        ws.column_dimensions["A"].width = 22
+        for col in "BCD":
+            ws.column_dimensions[col].width = 14
+        buf = io.BytesIO()
+        wb.save(buf)
+        return buf.getvalue()
+
+    def _shots(self, lang="ro_RO"):
         action = self.env.ref("base.action_res_company_form")
+        title = "Solduri parteneri" if lang == "ro_RO" else "Partner balances"
         return [
             # formularul companiei demo, cu câmpurile evidențiate ①②
             {
@@ -27,13 +55,15 @@ class TestDocScreenshotsScreenshots(ScreenshotCase):
                 "highlight": ["div[name='name']", "div[name='vat']"],
                 "settle": 2000,
             },
+            # un export XLSX transformat în imagine (Pasul 4)
+            self.xlsx_shot(self._demo_xlsx(lang), "02_export_xlsx.png", title=title, lang=lang),
         ]
 
     def test_capture_fise(self):
         self.capture_screenshots(self._shots(), hide_systray=True)
 
     def test_capture_usage(self):
-        self.capture_screenshots(self._shots(), hide_systray=True, lang="en_US")
+        self.capture_screenshots(self._shots("en_US"), hide_systray=True, lang="en_US")
 
     def _gif_steps(self):
         action = self.env.ref("base.action_partner_form")

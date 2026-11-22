@@ -1062,7 +1062,8 @@ class ScreenshotCase(HttpCase):
         outro_ms=2500,
         hide_systray=True,
         fps=12,
-        scale=1.0,
+        scale=0.8,
+        colors=128,
     ):
         """Înregistrează un GIF animat al unui flux (demo pentru Apps Store / fișă).
 
@@ -1095,8 +1096,14 @@ class ScreenshotCase(HttpCase):
         fondu-nlănțuit în flux; ``intro`` poate fi și un dict cu aceleași chei (plus ``eyebrow``),
         cu valori dependente de limbă, sau ``False``. Slide-ul revine la final ``outro_ms``
         (``0`` = fără). GIF-ul se scrie mereu în ``static/description/`` (``en/`` pentru
-        ``en_US``), și la modulele cu capturile încă în ``readme/screenshots/``. ``viewport`` implicit 1120×700, ca demo-urile de pe Apps Store; ``scale`` îl
-        micșorează la export (ex. 0.75 pentru un fișier mai mic).
+        ``en_US``), și la modulele cu capturile încă în ``readme/screenshots/``. ``viewport`` implicit 1120×700, ca demo-urile de pe Apps Store.
+
+        ``scale`` micșorează cadrele la export: implicit 0.8, deci 1120×700 dă un GIF de
+        896×560. ``colors`` e mărimea paletei globale (implicit 128). Cu 896 px și 128 de
+        culori textul rămâne lizibil, iar fișierul iese cu ~25–30% mai mic decât la 1120 px și
+        256 de culori (``deltatech_chatter``, 85 de cadre: 1,2 MB → ~880 KB); 64 de culori
+        poate strica nuanțele rare, iar 672 px face textul prea mic. La un ``viewport`` mai
+        lat alegeți ``scale`` pentru ~896 px lățime finală (ex. 1600 → 0.56).
 
         Returnează calea GIF-ului.
         """
@@ -1168,7 +1175,7 @@ class ScreenshotCase(HttpCase):
                     rec.hold(s.get("hold"))
                 if slide_png and outro_ms:
                     rec.add_png(slide_png, outro_ms, fade=True)
-                frames, duration = rec.save(dest, scale=scale)
+                frames, duration = rec.save(dest, scale=scale, colors=colors)
             except Exception as exc:  # noqa: BLE001 - re-ridicăm, doar adăugăm diagnosticul
                 detalii = "\n".join(f"  - {e}" for e in dict.fromkeys(js_errors)) or "  (niciuna)"
                 # ecranul din momentul eșecului, în afara modulului (nu în static/description)
