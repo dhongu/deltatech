@@ -4,6 +4,8 @@
   viewport gives a 896×560 GIF) and the new `colors` parameter (default 128) sets the size of the
   global palette, now passed to `GifRecorder.save`. On the `deltatech_chatter` GIF (85 frames) this
   goes from 1.2 MB to about 880 KB with readable text; existing tests need no change.
+- Consultant sheet: GIF size and palette in step 3 and in the checks; the demo GIFs are regenerated
+  at 896×560.
 
 ## 19.0.1.4.1 (2026-11-18)
 
