@@ -73,8 +73,10 @@ def test_capture_gif(self):
 Other keys: `path`, `wait`, `eval`, `move` (cursor only), `press` (`Enter`, `Tab`...), `clear`,
 `hide_cursor`, `hold` (ms). Values may depend on the language, as in `capture_screenshots`;
 `intro={"title": ..., "summary": ..., "features": [...]}` overrides the slide (e.g. Romanian texts
-when `banner.json` is in English) and `intro=False` drops it. The GIF is 1120×700 by default
-(`viewport`); `scale=0.75` makes a smaller file. Time in the GIF is virtual, so the pace does not
+when `banner.json` is in English) and `intro=False` drops it. The browser runs at 1120×700 by default
+(`viewport`) and the GIF is exported at `scale=0.8` (896×560) with a 128-colour palette (`colors`),
+which keeps the text readable at about 25–30% less weight than 1120 px and 256 colours; with a wider
+`viewport`, pick `scale` for a final width of about 896 px (e.g. 1600 → 0.56). Time in the GIF is virtual, so the pace does not
 depend on how fast the server answers, and identical frames are merged. When a step fails, the
 error names the step and saves the screen to a temporary `.error.png`.
 

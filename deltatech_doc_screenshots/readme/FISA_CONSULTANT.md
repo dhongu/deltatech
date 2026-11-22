@@ -107,6 +107,11 @@ iar jos rulează **subtitrări ca la film** (text alb pe o bandă neagră semitr
 pas). GIF-ul începe și se termină cu un slide făcut din `static/description/banner.json` și iconița
 modulului. Aici: un partener nou, cu denumirea și codul fiscal tastate, apoi salvat.
 
+Browserul rulează la 1120×700 (`viewport`), iar GIF-ul se exportă implicit micșorat la `scale=0.8`,
+deci **896×560**, cu o paletă de **128 de culori** (`colors`). Așa textul rămâne lizibil, iar fișierul
+iese cu circa 20–30% mai mic decât la 1120 px și 256 de culori. La un `viewport` mai lat, `scale` se
+alege pentru o lățime finală de circa 896 px (de exemplu 1600 → 0.56).
+
 ![GIF-ul demo: partener nou, cu subtitrări](../static/description/demo.gif)
 
 GIF-ul se scrie **mereu** în `static/description/demo.gif` (română) și `static/description/en/demo.gif`
@@ -149,6 +154,10 @@ verificarea vizuală.
       capturile PNG în `readme/screenshots/`.
 - [ ] Pe cadrele GIF-ului, subtitrarea nu are numere de pas, iar un câmp de la finalul formularului
       rămâne vizibil deasupra ei.
+- [ ] `static/description/demo.gif` are 896 px lățime la viewport-ul implicit 1120×700 și cel mult
+      128 de culori; textul din cadre (listă, formular, subtitrare) se citește.
+- [ ] La un test cu `viewport` mai lat, `scale` e ales pentru circa 896 px lățime finală
+      (de exemplu `viewport=(1600, 1000)` cu `scale=0.56`).
 
 ## 9. Mesaje de eroare frecvente
 
@@ -167,7 +176,7 @@ Generate automat de `tests/test_screenshots.py` al acestui modul, pe compania de
 |---|---|
 | `static/description/01_formular_companie.png` | formularul companiei, în română, cu ①② pe nume și cod fiscal |
 | `static/description/en/01_formular_companie.png` | același formular, în engleză (pentru USAGE.md) |
-| `static/description/demo.gif` | GIF-ul demo în română: partener nou, cu subtitrări |
+| `static/description/demo.gif` | GIF-ul demo în română (896×560, 128 de culori): partener nou, cu subtitrări |
 | `static/description/en/demo.gif` | același GIF, în engleză; pagina de Apps îl arată primul în tabul Overview |
 
 Regenerare: `-i deltatech_doc_screenshots --test-tags=fise_screenshots` (comanda de la secțiunea 5).
