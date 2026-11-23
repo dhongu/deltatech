@@ -5,7 +5,7 @@
 {
     "name": "Mail Signature Templates",
     "summary": "One e-mail signature template per company, with fields, generated for every user",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "support": "support@terrabit.ro",
@@ -20,6 +20,9 @@
     ],
     "demo": ["data/mail_signature_template_demo.xml"],
     "images": ["static/description/main_screenshot.png"],
+    "price": 5.00,
+    "full_price": 5.00,
+    "currency": "EUR",
     "development_status": "Beta",
     "consultant_sheet": "full",
     "maintainers": ["dhongu"],
