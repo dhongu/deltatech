@@ -20,3 +20,15 @@
   again, unless *Refresh automatically* is off on the template.
 - Editing a generated signature by hand turns it into a hand-written one: it is no longer refreshed.
 - The mobile phone comes from the employee (HR app); without it `{{mobile}}` is empty.
+
+**Screens**
+
+![Signature templates list](static/description/en/01_lista_sabloane.png)
+
+![Template form with the editor, logo and fields](static/description/en/02_formular_sablon.png)
+
+![Available fields tab](static/description/en/03_campuri_disponibile.png)
+
+![Generated signature in the preferences of a user](static/description/en/04_semnatura_utilizator.png)
+
+![Preferences window with the Regenerate my signature button](static/description/en/05_preferinte_utilizator.png)
