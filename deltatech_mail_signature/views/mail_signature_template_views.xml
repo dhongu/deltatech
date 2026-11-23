@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="mail_signature_template_view_list" model="ir.ui.view">
+        <field name="name">mail.signature.template.list</field>
+        <field name="model">mail.signature.template</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <field name="auto_refresh" />
+                <field name="active" column_invisible="True" />
+            </list>
+        </field>
+    </record>
+
+    <record id="mail_signature_template_view_form" model="ir.ui.view">
+        <field name="name">mail.signature.template.form</field>
+        <field name="model">mail.signature.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="action_generate_signatures"
+                        type="object"
+                        string="Generate users' signatures"
+                        class="btn-primary"
+                        invisible="not id or not active"
+                        confirm="The signature of the internal users of the company that have no hand-written signature will be replaced. Continue?"
+                    />
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active" />
+                    <field name="active" invisible="1" />
+                    <div class="oe_title">
+                        <label for="name" />
+                        <h1><field name="name" placeholder="e.g. Company signature" /></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company" />
+                            <field name="auto_refresh" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Signature" name="signature">
+                            <field name="body_html" widget="html" options="{'codeview': true, 'height': 250}" />
+                        </page>
+                        <page string="Available fields" name="fields">
+                            <field name="fields_help" nolabel="1" />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mail_signature_template_view_search" model="ir.ui.view">
+        <field name="name">mail.signature.template.search</field>
+        <field name="model">mail.signature.template</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="company_id" groups="base.group_multi_company" />
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]" />
+            </search>
+        </field>
+    </record>
+
+    <record id="mail_signature_template_action" model="ir.actions.act_window">
+        <field name="name">Signature Templates</field>
+        <field name="res_model">mail.signature.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="mail_signature_template_menu"
+        name="Signature Templates"
+        parent="base.menu_users"
+        action="mail_signature_template_action"
+        groups="base.group_system"
+        sequence="30"
+    />
+</odoo>

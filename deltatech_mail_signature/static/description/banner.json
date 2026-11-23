@@ -1,0 +1,10 @@
+{
+  "title": "Mail Signature Templates",
+  "summary": "One uniform e-mail signature per company, generated for every user",
+  "module_icon": true,
+  "features": [
+    "Template with fields: name, phone, company",
+    "Empty lines disappear by themselves",
+    "Generate for all users in one click"
+  ]
+}
