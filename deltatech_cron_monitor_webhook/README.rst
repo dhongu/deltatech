@@ -122,8 +122,14 @@ You can authenticate using the global token in three ways:
 You can test the integration by clicking **Run now** on cron-job.org or
 by visiting the Webhook URL in your browser. Odoo will return a JSON
 response. In case of success, the HTTP status is ``200 OK``. In case of
-error, an appropriate HTTP status code (401, 404, 500) will be returned
-along with the error details in JSON format.
+error, one of these HTTP status codes is returned:
+
+- ``401``: the token is missing or wrong (``Invalid token``).
+- ``404``: the webhook code does not exist or the webhook is disabled
+  (``Invalid webhook code or disabled``).
+- ``409``: the cron job is already running (``Job already running``); it
+  is not started a second time.
+- ``500``: the cron job failed (``Cron execution failed``).
 
 **Success Response:**
 
@@ -136,13 +142,26 @@ along with the error details in JSON format.
 
 - ``status``: ``error``
 - ``message``: Description of the error (e.g., ``Invalid token``,
-  ``Invalid webhook code``, or the Python exception message).
+  ``Job already running``, ``Cron execution failed``).
+- For ``409`` and ``500``, also ``job_name``, ``execution_time`` and
+  ``timestamp``.
 
-If you receive an error, check the ``message`` field in the JSON
-response or the Odoo logs for more details.
+The response never contains the exception text of a failed cron job:
+check the Odoo server log for the error details.
 
 Changelog
 =========
+
+19.0.1.0.4 (2026-11-23)
+-----------------------
+
+- The trigger endpoint no longer reports success when the cron job
+  fails: Odoo 19 returns the failure instead of raising it, and the
+  webhook now answers HTTP 500 with ``"status": "error"``
+  (`#3380 <https://github.com/dhongu/deltatech/issues/3380>`__).
+- A job that is already running answers HTTP 409 (was HTTP 500).
+- Error responses no longer include the exception text; the details stay
+  in the server log.
 
 19.0.1.0.3 (2026-10-29)
 -----------------------

@@ -88,14 +88,17 @@ Porniți sarcina din serviciul extern (sau deschideți adresa în browser). Odoo
 programată și răspunde în JSON:
 
 1. **Găsiți pe ecran:** codul HTTP și câmpurile răspunsului: `status`, `job_name`, `execution_time`,
-   `timestamp` la reușită; `status` și `message` la eroare.
+   `timestamp` la reușită; la eroarea de rulare (HTTP 500 sau 409) aceleași câmpuri plus `message`;
+   la eroarea de acces (HTTP 401 sau 404) doar `status` și `message`.
 2. **Verificați:** `status` = `success` și cod HTTP 200; `job_name` este acțiunea așteptată; efectul
    acțiunii se vede în Odoo (de exemplu datele sincronizate).
 3. **Treceți mai departe:** abia apoi activați programul periodic și alertele din serviciul extern.
 
 Codurile de eroare: **401** — token lipsă sau greșit; **404** — cod webhook inexistent sau webhook
-dezactivat (doar cu tokenul corect; fără token răspunsul este 401); **500** — acțiunea programată a dat eroare (mesajul erorii este în `message` și în jurnalul
-serverului).
+dezactivat (doar cu tokenul corect; fără token răspunsul este 401); **409** — acțiunea rulează deja
+(`message` = `Job already running`), apelul nu o pornește a doua oară; **500** — acțiunea programată a
+dat eroare (`message` = `Cron execution failed`). La 500 răspunsul nu conține textul erorii: cauza se
+citește în jurnalul serverului Odoo.
 
 ### Pasul 4 — Starea unei acțiuni
 
@@ -132,6 +135,10 @@ configurarea serviciului extern.
 - [ ] Apelul cu tokenul corect rulează acțiunea și întoarce `success` (HTTP 200).
 - [ ] Apelul fără token sau cu token greșit întoarce HTTP 401 și nu rulează acțiunea.
 - [ ] Apelul cu tokenul corect al unui cod inexistent sau al unui webhook dezactivat întoarce HTTP 404.
+- [ ] O acțiune care dă eroare întoarce HTTP 500, `status` = `error` și `message` = `Cron execution failed`,
+      fără textul erorii în răspuns; eroarea apare în jurnalul serverului.
+- [ ] Un apel cât timp acțiunea rulează deja întoarce HTTP 409 (`Job already running`) și nu o pornește
+      a doua oară.
 - [ ] Adresa de stare (`/status`) fără token întoarce HTTP 401; cu tokenul corect întoarce `job_name`.
 - [ ] Tokenul trimis în antetul `X-Access-Token` sau în corpul JSON este acceptat.
 - [ ] Două acțiuni nu pot avea același **Cod webhook**.
@@ -142,7 +149,8 @@ configurarea serviciului extern.
 |---|---|---|
 | `Invalid token` (HTTP 401) | Token lipsă, greșit sau tokenul global nu e setat | Verificați **Token global webhook** și varianta de autentificare din serviciul extern |
 | `Invalid webhook code or disabled` (HTTP 404) | Codul nu există sau **Activează webhook-ul** e debifat | Verificați codul și bifa pe acțiunea programată |
-| Mesajul erorii Python (HTTP 500) | Acțiunea programată a eșuat | Citiți `message` și jurnalul serverului; corectați acțiunea |
+| `Job already running` (HTTP 409) | Acțiunea programată rulează deja (din planificator sau dintr-un apel anterior) | Reîncercați după terminarea rulării; dacă apare des, măriți intervalul din serviciul extern |
+| `Cron execution failed` (HTTP 500) | Acțiunea programată a eșuat | Citiți eroarea în jurnalul serverului Odoo; corectați acțiunea |
 | `Codul webhook trebuie să fie unic!` | Același cod pe două acțiuni | Alegeți alt cod |
 
 ## 10. Capturi de ecran
