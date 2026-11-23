@@ -12,16 +12,14 @@
                 class="list-group-item list-group-item-action"
                 t-attf-href="/web/content/{{product.data_sheet_id.id}}?download=true"
             >
-                <i class="fa fa-download me-2" />
-                Show Data Sheet
+                <i class="fa fa-download me-2" />Show Data Sheet
             </a>
             <a
                 t-if="product.safety_data_sheet_id"
                 class="list-group-item list-group-item-action"
                 t-attf-href="/web/content/{{product.safety_data_sheet_id.id}}?download=true"
             >
-                <i class="fa fa-download me-2" />
-                Show Safety Data Sheet
+                <i class="fa fa-download me-2" />Show Safety Data Sheet
             </a>
         </xpath>
     </template>

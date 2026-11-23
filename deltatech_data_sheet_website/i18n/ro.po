@@ -17,10 +17,10 @@ msgstr ""
 
 #. module: deltatech_data_sheet_website
 #: model_terms:ir.ui.view,arch_db:deltatech_data_sheet_website.product_data_sheet
-msgid "Show Data Sheet"
-msgstr "Afișare Fișă Tehnică"
+msgid "<i class=\"fa fa-download me-2\"/>Show Data Sheet"
+msgstr "<i class=\"fa fa-download me-2\"/>Afișare Fișă Tehnică"
 
 #. module: deltatech_data_sheet_website
 #: model_terms:ir.ui.view,arch_db:deltatech_data_sheet_website.product_data_sheet
-msgid "Show Safety Data Sheet"
-msgstr "Afișare Fișă Securitate"
+msgid "<i class=\"fa fa-download me-2\"/>Show Safety Data Sheet"
+msgstr "<i class=\"fa fa-download me-2\"/>Afișare Fișă Securitate"
