@@ -1,6 +1,11 @@
 import json
+from unittest.mock import patch
 
 from odoo.tests import HttpCase, tagged
+from odoo.tools import mute_logger
+
+CONTROLLER_LOGGER = "odoo.addons.deltatech_cron_monitor_webhook.controllers.webhook_controller"
+CRON_LOGGER = "odoo.addons.base.models.ir_cron"
 
 
 @tagged("post_install", "-at_install")
@@ -20,6 +25,19 @@ class TestCronWebhookController(HttpCase):
                 "user_id": cls.env.ref("base.user_admin").id,
                 "enable_webhook": True,
                 "webhook_code": "test_webhook_ctrl",
+            }
+        )
+        cls.failing_cron = cls.env["ir.cron"].create(
+            {
+                "name": "Failing Webhook Cron Job",
+                "model_id": cls.env.ref("base.model_res_partner").id,
+                "state": "code",
+                "code": "raise UserError('boom secret detail')",
+                "interval_number": 1,
+                "interval_type": "days",
+                "user_id": cls.env.ref("base.user_admin").id,
+                "enable_webhook": True,
+                "webhook_code": "test_webhook_fail",
             }
         )
 
@@ -63,3 +81,33 @@ class TestCronWebhookController(HttpCase):
         )
         self.assertEqual(response.status_code, 200, response.text)
         self.assertEqual(json.loads(response.text)["status"], "success")
+
+    def test_trigger_success(self):
+        response = self.url_open("/cron/webhook/test_webhook_ctrl?token=global_secret")
+        self.assertEqual(response.status_code, 200, response.text)
+        data = json.loads(response.text)
+        self.assertEqual(data["status"], "success")
+        self.assertEqual(data["job_name"], "Webhook Cron Job")
+
+    @mute_logger(CONTROLLER_LOGGER)
+    def test_trigger_failing_cron(self):
+        # Odoo returns a display_exception action instead of raising: it must not be reported as success
+        with self.assertLogs(CRON_LOGGER, level="ERROR"):
+            response = self.url_open("/cron/webhook/test_webhook_fail?token=global_secret")
+        self.assertEqual(response.status_code, 500, response.text)
+        data = json.loads(response.text)
+        self.assertEqual(data["status"], "error")
+        self.assertEqual(data["job_name"], "Failing Webhook Cron Job")
+        # The exception details stay in the server log
+        self.assertNotIn("boom secret detail", response.text)
+        self.assertNotIn("Traceback", response.text)
+
+    @mute_logger(CONTROLLER_LOGGER)
+    def test_trigger_already_running(self):
+        IrCron = type(self.env["ir.cron"])
+        with patch.object(IrCron, "_acquire_one_job", return_value=None):
+            response = self.url_open("/cron/webhook/test_webhook_ctrl?token=global_secret")
+        self.assertEqual(response.status_code, 409, response.text)
+        data = json.loads(response.text)
+        self.assertEqual(data["status"], "error")
+        self.assertEqual(data["message"], "Job already running")
