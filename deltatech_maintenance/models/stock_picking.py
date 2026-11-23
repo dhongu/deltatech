@@ -19,12 +19,12 @@ class StockPicking(models.Model):
             if picking.request_id:
                 # Use Odoo's internal record link markup so the frontend renders a clickable link
                 # and opens the related record in a dialog or form view.
-                link = (
-                    f'<a href="#" data-oe-model="stock.picking" data-oe-id="{picking.id}">'  # noqa: B950
-                    f"{picking.display_name}</a>"
+                # Markup.format() escapes display_name, so it cannot inject HTML in the chatter.
+                link = Markup('<a href="#" data-oe-model="stock.picking" data-oe-id="{}">{}</a>').format(
+                    picking.id, picking.display_name
                 )
                 picking.request_id.message_post(
-                    body=Markup(f"Created stock picking {link} for this maintenance request."),
+                    body=Markup("Created stock picking {} for this maintenance request.").format(link),
                     message_type="comment",
                     subtype_xmlid="mail.mt_note",
                 )
