@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mail_signature_template_user,mail.signature.template user,model_mail_signature_template,base.group_user,1,0,0,0
+access_mail_signature_template_admin,mail.signature.template admin,model_mail_signature_template,base.group_system,1,1,1,1
