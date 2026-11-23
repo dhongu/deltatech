@@ -12,14 +12,16 @@ with the address type **Contact**.
 2. **Let the CNP fill in the birthdate and gender** — on a new contact, choose **Person**, then type
    the CNP in the **Personal Data** tab. The birthdate comes from digits 2–7 and the gender from the
    first digit (1 or 5 = Male). Changing the birthdate rewrites the CNP with the new date and a
-   recomputed check digit. The check digit is also corrected silently when you type a CNP with a
-   wrong last digit, so compare the CNP with the identity card.
+   recomputed check digit. When the birthdate taken from the CNP differs from the one already on
+   the contact, a wrong last digit is also corrected silently, so compare the CNP with the identity
+   card; otherwise the CNP is kept as typed and rejected on save.
 
    ![New person Maria Ionescu: CNP 2900315400018 (1), Birthdate Mar 15, 1990 (2) and Gender Female (3) filled in from the CNP](static/description/en/02_cnp_completare_automata.png)
 
 3. **Invalid CNP** — saving an existing contact whose CNP does not have 13 digits or a valid check
-   digit stops with **Validation Error — CNP invalid**. On a new contact, or on import, an invalid
-   CNP is cleared on save without a message.
+   digit stops with **Validation Error — CNP invalid**. On a new contact, created from the form or
+   by import, an invalid CNP is cleared on save without a message; an import that updates existing
+   contacts stops with *CNP invalid*.
 
    ![Validation Error dialog with the message CNP invalid (1), after saving a contact with the CNP 1850101](static/description/en/03_cnp_invalid.png)
 
