@@ -34,8 +34,10 @@ Features:
 - Adds a warning on the Purchase Order if the purchase price is higher
   than the sale price of the corresponding Sale Order line in drop
   shipping flows.
-- Automatically calculates and compares prices excluding VAT for both
-  documents to ensure accuracy.
+- Compares both prices on the same basis: after the line discount,
+  excluding VAT, on the product's base unit of measure and in the
+  company currency (at each order's date), so different currencies,
+  units or discounts on the two documents do not give a wrong warning.
 
 **Table of contents**
 
@@ -44,6 +46,15 @@ Features:
 
 Changelog
 =========
+
+19.0.1.1.4 (2026-11-24)
+-----------------------
+
+- Loss warning on drop-shipping purchase orders: purchase and sale
+  prices are now compared after line discounts, on the product's base
+  unit of measure and in the company currency (at each order's date), so
+  a different currency or unit no longer raises a false warning and a
+  discounted sale below cost is no longer missed (#3384).
 
 19.0.1.1.3 (2026-10-22)
 -----------------------
@@ -85,10 +96,13 @@ Maintainers
 .. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
     :target: https://github.com/dhongu
     :alt: dhongu
+.. |maintainer-VoicuStefan2001| image:: https://github.com/VoicuStefan2001.png?size=40px
+    :target: https://github.com/VoicuStefan2001
+    :alt: VoicuStefan2001
 
-Current maintainer:
+Current maintainers:
 
-|maintainer-dhongu| 
+|maintainer-dhongu| |maintainer-VoicuStefan2001| 
 
 This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_dropshipping>`_ project on GitHub.
 
