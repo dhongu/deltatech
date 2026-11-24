@@ -39,6 +39,7 @@ class MailSignatureTemplate(models.Model):
     body_html = fields.Html(
         string="Signature",
         required=True,
+        # xss-ok: tag-uri sanitizate; lxml scoate on* și javascript:, atributele rămân pentru stilul semnăturii
         sanitize_attributes=False,
         sanitize_style=False,
         help="Write the signature as you want it to look. Write {{name}}, {{phone}}, ... where the data "

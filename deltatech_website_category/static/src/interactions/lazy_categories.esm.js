@@ -47,6 +47,7 @@ export class DeltatechLazyCategories extends Interaction {
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}`);
             }
+            // Checked, xss-ok: HTML randat de QWeb pe server de controllerul modulului, valorile sunt escapate
             list.innerHTML = await this.waitFor(response.text());
         } catch {
             // Leave the branch empty rather than breaking the page; clearing the
