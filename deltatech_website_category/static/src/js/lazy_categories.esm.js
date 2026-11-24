@@ -60,6 +60,7 @@ publicWidget.registry.deltatechLazyCategories = publicWidget.Widget.extend({
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}`);
             }
+            // Checked, xss-ok: HTML randat de QWeb pe server de controllerul modulului, valorile sunt escapate
             list.innerHTML = await response.text();
         } catch {
             // Leave the branch empty rather than breaking the page; clearing the
