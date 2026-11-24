@@ -225,3 +225,9 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:deltatech_reception_note.view_reception_note_create_form
 msgid "or"
 msgstr ""
+
+#. module: deltatech_reception_note
+#. odoo-python
+#: code:addons/deltatech_reception_note/wizard/reception_note.py:0
+msgid "Select at least one purchase order to create a reception note."
+msgstr ""

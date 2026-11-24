@@ -2,6 +2,8 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
+from markupsafe import Markup
+
 from odoo import fields, models
 from odoo.exceptions import UserError
 
@@ -47,10 +49,11 @@ class PurchaseOrder(models.Model):
             if order.ignore_quantities:
                 lines = order.with_company(order.company_id).reduce_from_rfq()
                 if lines:
-                    message = self.env._("Quantities forced on this reception note:<br />")
+                    # the translated templates are trusted HTML; the product data is escaped by format()
+                    message = Markup(self.env._("Quantities forced on this reception note:<br />"))
                     for line in lines:
-                        message += self.env._(
-                            "Product [{product_code}]{product_name}: quantity: {quantity} {uom}<br />"
+                        message += Markup(
+                            self.env._("Product [{product_code}]{product_name}: quantity: {quantity} {uom}<br />")
                         ).format(
                             product_code=line["product_id"].default_code,
                             product_name=line["product_id"].name,
@@ -94,9 +97,10 @@ class PurchaseOrder(models.Model):
                     found_errors.append(
                         self.env._(
                             "The product [%(default_code)s]%(name)s is not found in a sent RFQ. "
-                            "Tick 'Ignore quantities' to receive it anyway."
+                            "Tick 'Ignore quantities' to receive it anyway.",
+                            default_code=line.product_id.default_code,
+                            name=line.product_id.name,
                         )
-                        % {"default_code": line.product_id.default_code, "name": line.product_id.name}
                     )
 
             if not found_errors:
@@ -116,13 +120,11 @@ class PurchaseOrder(models.Model):
                         quantity_errors.append(
                             self.env._(
                                 "The quantity %(quantity)s of the [%(default_code)s] %(name)s product is not found "
-                                "in a sent RFQ. Tick 'Ignore quantities' to receive it anyway."
+                                "in a sent RFQ. Tick 'Ignore quantities' to receive it anyway.",
+                                quantity=missing_qty,
+                                default_code=line.product_id.default_code,
+                                name=line.product_id.name,
                             )
-                            % {
-                                "quantity": missing_qty,
-                                "default_code": line.product_id.default_code,
-                                "name": line.product_id.name,
-                            }
                         )
 
                     else:

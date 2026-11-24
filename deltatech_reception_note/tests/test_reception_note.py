@@ -276,3 +276,12 @@ class TestPurchaseOrderReceptionType(TransactionCase):
         (confirmed | new_note).button_confirm()
         self.assertEqual(new_note.state, "purchase")
         self.assertEqual(rfq_order.order_line.product_qty, 5)
+
+    def test_ignore_quantities_message_is_html(self):
+        """Mesajul cu cantitatile fortate se afiseaza ca HTML in istoric, nu ca text cu <br /> escapat."""
+        note = self._order("note", 3, self.product.uom_id)
+        note.ignore_quantities = True
+        note.button_confirm()
+        body = str(note.message_ids.filtered(lambda m: "TEST_PRODUCT" in (m.body or "")).body)
+        self.assertIn("<br>", body)
+        self.assertNotIn("&lt;br", body)
