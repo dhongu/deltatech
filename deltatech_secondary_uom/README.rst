@@ -186,6 +186,12 @@ the bill of materials must be in bars.
 Changelog
 =========
 
+20.0.1.2.5 (2026-11-24)
+-----------------------
+
+- Demo GIF for the Apps Store page recorded again: each screen opens
+  through its menu, so the top bar shows Sales and Inventory.
+
 20.0.1.2.4 (2026-11-19)
 -----------------------
 
