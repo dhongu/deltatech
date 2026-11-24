@@ -1,3 +1,9 @@
+## 20.0.1.1.2 (2026-11-24)
+
+- The props of the progress dialog are declared in `static propsSchema`, read by
+  `useProps(this.constructor.propsSchema)`: a subclass adds its own props
+  (`deltatech_background_job`, "Run in background").
+
 ## 19.0.1.1.1 (2026-10-23)
 
 - The counter is hidden while `init` prepares the items: it showed "0 / 0".
