@@ -11,6 +11,7 @@ class ProductTemplate(models.Model):
 
     website_short_description = fields.Html(
         "Short description for the website",
+        # xss-ok: ca website_description din website_sale: tag-uri sanitizate, lxml scoate on* și javascript:
         sanitize_attributes=False,
         translate=html_translate,
     )
