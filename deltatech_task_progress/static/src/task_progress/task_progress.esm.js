@@ -51,7 +51,8 @@ function errorMessage(error) {
 export class TaskProgressDialog extends Component {
     static template = "deltatech_task_progress.TaskProgressDialog";
     static components = {Dialog};
-    props = useProps({
+    // A subclass adds its props with static propsSchema = {...TaskProgressDialog.propsSchema, ...}
+    static propsSchema = {
         title: t.string(),
         model: t.string(),
         resId: t.or([t.number(), t.boolean()]),
@@ -72,7 +73,8 @@ export class TaskProgressDialog extends Component {
         detail: t.string(),
         labels: t.object(),
         close: t.function(),
-    });
+    };
+    props = useProps(this.constructor.propsSchema);
 
     setup() {
         this.orm = useService("orm");
