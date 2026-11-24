@@ -1,5 +1,13 @@
 # Changelog
 
+## 19.0.3.12.5 (2026-11-24)
+
+- The migration of the deduction employee from contact to **Employee** (19.0.3.0.0) maps each
+  deduction to the employee of its own company: a contact shared by several companies no longer gets
+  the employee of a single company on all its deductions, and a missing employee is created in the
+  deduction company. On update, deductions already linked to an employee of another company are moved to
+  the employee with the same contact in their company; those without one are reported in the log.
+
 ## 19.0.3.12.4 (2026-11-20)
 
 - An expense entered with the **gross receipt amount** and a single percentage tax excluded from price
