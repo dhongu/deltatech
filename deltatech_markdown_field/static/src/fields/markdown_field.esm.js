@@ -100,6 +100,7 @@ export class MarkdownField extends Component {
         }
         // Fallback degradat: text simplu.
         const div = document.createElement("div");
+        // Checked, xss-ok: HTML-ul editorului de pe pagină, deja afișat acolo; se citește doar textContent
         div.innerHTML = html;
         return (div.textContent || "").trim();
     }
@@ -117,6 +118,7 @@ export class MarkdownField extends Component {
         if (!el) {
             return;
         }
+        // Checked, xss-ok: _mdToHtml trece prin DOMPurify.sanitize sau escapează textul
         el.innerHTML = this._mdToHtml(this.markdownValue);
         this._lastMarkdown = this.markdownValue;
     }
