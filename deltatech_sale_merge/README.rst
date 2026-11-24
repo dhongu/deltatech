@@ -19,16 +19,19 @@ Sale Merge
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_merge
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_sale_merge/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 .. |badge_tests| image:: https://img.shields.io/badge/-9%20automated%20tests-2ea44f.png
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_sale_merge/tests
     :alt: 9 automated tests
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
 Merges several quotations of the same customer into one, from the
 quotations list.
 
-Select two or more quotations, choose *Action > Merge orders* and pick
+Select two or more quotations, choose *Actions > Merge orders* and pick
 the target: the oldest selected quotation, one of the selected ones, or
 a new quotation. Identical lines (same product, description, unit of
 measure, price, discount, taxes and analytic distribution) can be added
@@ -38,8 +41,9 @@ happened.
 
 The merge stops with a clear message, and nothing is changed, if the
 quotations differ in company, customer or its addresses, currency,
-pricelist, fiscal position, payment terms, warehouse or incoterm, or if
-one was already signed or has an online payment started.
+pricelist, fiscal position, payment terms, warehouse (when Inventory is
+installed) or incoterm, or if one was already signed or has an online
+payment started.
 
 **Table of contents**
 
@@ -49,21 +53,71 @@ one was already signed or has an online payment started.
 Usage
 =====
 
-1. Go to *Sales > Orders > Quotations* and select two or more quotations
-   of the same customer.
-2. Choose *Action > Merge orders*.
-3. Choose where to merge (*The oldest selected quotation*, *A selected
+1. Go to *Sales > Orders > Quotations*, remove the *My Quotations*
+   filter if you also want to see your colleagues' quotations, and tick
+   two or more quotations of the same customer. Open the *Actions* menu
+   and choose *Merge orders*.
+
+   |Quotations list with three quotations of the customer Agro Prod SRL
+   ticked and the Actions menu open on the Merge orders entry|
+
+2. Choose where to merge (*The oldest selected quotation*, *A selected
    quotation* or *A new quotation*) and how to treat the lines (*Add up
    identical lines* or *Keep all lines*). Tick *Add a Section per
-   Quotation* to see which lines came from which quotation.
-4. Click *Merge*. The target quotation opens; the others are cancelled
-   and show *Merged Into*.
+   Quotation* to add a section with the number of each merged quotation
+   before the lines copied from it. Lines that are added up into an
+   existing line keep no trace of their origin. If the salespersons or
+   sales teams differ, a warning tells you that the target quotation's
+   value is kept.
+
+   |Merge orders window with the warning about a different salesperson,
+   the Merge Into and Lines options and the Add a Section per Quotation
+   box ticked|
+
+3. Click *Merge*. If the quotations differ in an important way (for
+   example the customer), a message explains why and nothing is changed.
+
+   |Invalid Operation message: the quotations cannot be merged, Customer
+   is different, listing S00004 Terra Construct SRL and S00001 Agro Prod
+   SRL|
+
+4. Otherwise the target quotation opens with the merged lines.
+
+   |Target quotation with the added-up lines Șurub M8 30 and Piuliță M8
+   10, followed by a section per merged quotation|
+
+   On the *Other Info* tab, *Merged From* lists the cancelled
+   quotations, and *Customer Reference* and *Source Document* gather the
+   values of all the merged quotations.
+
+   |Other Info tab of the target quotation with the Customer Reference
+   PO-1058, PO-1041 and the Merged From field|
+
+5. The other quotations are cancelled, not deleted. Each shows *Merged
+   Into* on the *Other Info* tab and a note in the chatter.
+
+   |Cancelled quotation with the Merged Into field pointing to the
+   target quotation and the chatter note Merged into S00001|
 
 When identical lines are added up, the unit price may be recomputed by
 the pricelist for the new quantity (quantity breaks).
 
+.. |Quotations list with three quotations of the customer Agro Prod SRL ticked and the Actions menu open on the Merge orders entry| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_sale_merge/static/description/en/01_selectie_oferte.png
+.. |Merge orders window with the warning about a different salesperson, the Merge Into and Lines options and the Add a Section per Quotation box ticked| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_sale_merge/static/description/en/02_wizard_unire.png
+.. |Invalid Operation message: the quotations cannot be merged, Customer is different, listing S00004 Terra Construct SRL and S00001 Agro Prod SRL| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_sale_merge/static/description/en/03_blocaj_client_diferit.png
+.. |Target quotation with the added-up lines Șurub M8 30 and Piuliță M8 10, followed by a section per merged quotation| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_sale_merge/static/description/en/04_oferta_unita.png
+.. |Other Info tab of the target quotation with the Customer Reference PO-1058, PO-1041 and the Merged From field| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_sale_merge/static/description/en/05_date_pe_oferta_tinta.png
+.. |Cancelled quotation with the Merged Into field pointing to the target quotation and the chatter note Merged into S00001| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_sale_merge/static/description/en/06_oferta_anulata.png
+
 Changelog
 =========
+
+19.0.1.0.1 (2026-11-24)
+-----------------------
+
+- The demo GIF is kept only in English
+  (``static/description/en/demo.gif``), the language of the Apps Store
+  page; the Romanian copy is removed.
 
 19.0.1.0.0
 ----------
@@ -72,6 +126,8 @@ Changelog
   (oldest, selected or new), add up or keep lines, optional section per
   quotation, and links *Merged Into* / *Merged From* on the cancelled
   quotations.
+- Add: consultant sheet with screenshots, English usage guide with
+  screenshots and demo GIF.
 
 Bug Tracker
 ===========

@@ -2,7 +2,7 @@
     "name": "Incoming and Outgoing Document Register",
     "summary": "Register of incoming and outgoing documents",
     "category": "Productivity",
-    "version": "19.0.0.1.2",
+    "version": "19.0.0.1.3",
     "author": "Terrabit, Voicu Stefan",
     "depends": ["base", "mail"],
     "website": "https://www.terrabit.ro",

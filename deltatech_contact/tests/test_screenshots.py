@@ -261,15 +261,4 @@ class TestContactScreenshots(ScreenshotCase or object):
         ]
 
     def test_capture_gif(self):
-        # banner.json e în engleză: slide-ul RO primește textele lui
-        intro_ro = {
-            "title": "Date personale pe contacte",
-            "summary": "CNP validat, carte de identitate și date din CNP",
-            "features": [
-                "Validarea cifrei de control a CNP",
-                "Data nașterii și sexul din CNP",
-                "Fila Date personale",
-            ],
-        }
-        self.capture_gif(self._gif_steps(), intro=intro_ro)
         self.capture_gif(self._gif_steps(), lang="en_US")

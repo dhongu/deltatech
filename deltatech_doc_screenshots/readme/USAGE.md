@@ -80,6 +80,8 @@ which keeps the text readable at about 25–30% less weight than 1120 px and 256
 depend on how fast the server answers, and identical frames are merged. When a step fails, the
 error names the step and saves the screen to a temporary `.error.png`.
 
-Keep `static/description/en/demo.gif` (and `demo.gif` for the Romanian page): `tb-gen-index`
-shows it automatically first in the Overview tab of the Apps Store page, so do not reference it from
-`readme/*.md` as well, or it appears twice.
+Record the GIF in one language only, the language of the Apps Store page: for a page in English
+that is `lang="en_US"`, written to `static/description/en/demo.gif` (a Romanian copy in
+`static/description/demo.gif` is redundant). `tb-gen-index` shows it automatically first in the
+Overview tab of the Apps Store page, so do not reference it from `readme/*.md` as well, or it
+appears twice.

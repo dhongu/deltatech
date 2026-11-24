@@ -259,7 +259,4 @@ class TestSaleMergeScreenshots(ScreenshotCase or object):
         return steps
 
     def test_capture_gif(self):
-        self.capture_gif(self._gif_steps())
-
-    def test_capture_gif_en(self):
         self.capture_gif(self._gif_steps(), lang="en_US")

@@ -1,3 +1,7 @@
+## 19.0.1.5.1 (2026-11-24)
+
+- The demo GIF is kept only in English (`static/description/en/demo.gif`), the language of the Apps Store page; the Romanian copy is removed.
+
 ## 19.0.1.5.0 (2026-11-22)
 
 - `capture_gif`: smaller demo GIFs by default. `scale` defaults to 0.8 (the default 1120×700

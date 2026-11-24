@@ -4,7 +4,7 @@
 {
     "name": "Sale Merge",
     "summary": "Merge several quotations of the same customer into one",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "category": "Sales",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

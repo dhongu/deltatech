@@ -56,6 +56,10 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</span></div>
+
+<div class="rounded-4 border shadow-sm p-2 mb-4" style="background-color:#f4f8f4;">
+  <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" src="en/demo.gif" alt="Animated demo of the module" loading="lazy"/>
+</div>
 <p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Register of incoming and outgoing documents (a "registru de intr&#259;ri-ie&#537;iri"). Every
 document that enters or leaves the company gets one numbered record, so the register can
 be shown to an auditor, printed for a period and searched at any time.</p>
@@ -140,6 +144,16 @@ Purchase, Accounting, Inventory). Nothing has to be configured.</p>
 <li><strong>Reserve a Number</strong> - opens a new record already in the <em>Reserved</em> state.</li>
 <li><strong>Print Ledger</strong> - the PDF report of the register for a period.</li>
 </ul>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Records list: number, date, type, document number, contact and state of each record; the canceled one is muted" src="en/01_lista_registru.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Records list: number, date, type, document number, contact and state of each record; the canceled one is muted</span>
+  </div>
+</div>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">The life of a <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">record</span></h2>
 <p>A record has one of three states:</p>
 <table class="table table-bordered" style="font-size:14px;">
@@ -181,6 +195,16 @@ Purchase, Accounting, Inventory). Nothing has to be configured.</p>
    <em>Description</em> tab, a short description.</li>
 <li>Save. The record gets its number (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">2026/00123</code>) and is <em>Active</em>.</li>
 </ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="An active record: type, date, document number, contact and place of origin filled in" src="en/02_inregistrare_noua.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">2</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">An active record: type, date, document number, contact and place of origin filled in</span>
+  </div>
+</div>
 <p>The record stays editable afterwards, and every change of the type, date, document number
 or contact is logged in the chatter. A canceled record is read-only.</p>
 <p>If a record with the same type, document number and contact already exists, a yellow
@@ -199,6 +223,16 @@ when a document has to be dated in the past.</p>
 <li>Click <strong>Register</strong>. The record becomes <em>Active</em>. The button refuses to work while the
    date is empty.</li>
 </ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="A reserved record: the blue banner shows the interval allowed for the date, and the Register button" src="en/03_rezervare.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">3</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">A reserved record: the blue banner shows the interval allowed for the date, and the Register button</span>
+  </div>
+</div>
 <p>What the date is checked against, on every save:</p>
 <ul>
 <li>it must be in the same year as the number (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">2026/...</code> only accepts dates in 2026);</li>
@@ -212,8 +246,28 @@ The bounds themselves are allowed (several documents can have the same date).</p
 <li>Open the record (a reservation or an active record) and click <strong>Cancel</strong>.</li>
 <li>Write the <strong>reason</strong> in the window that opens and click <strong>Cancel Records</strong>.</li>
 </ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="The cancellation window with the reason filled in" src="en/05_anulare.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">4</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">The cancellation window with the reason filled in</span>
+  </div>
+</div>
 <p>The record becomes <em>Canceled</em>, a red ribbon appears, the reason is shown on the form and
 posted in the chatter, and the number stays in the register.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="A canceled record: red ribbon, the reason banner and a read-only form" src="en/06_inregistrare_anulata.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">5</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">A canceled record: red ribbon, the reason banner and a read-only form</span>
+  </div>
+</div>
 <p>A canceled number is never reused. To see only the canceled records, use the
 <strong>Canceled</strong> filter.</p>
 <p>A <strong>Ledger Manager</strong> sees a <strong>Reactivate</strong> button on a canceled record. It brings the
@@ -236,6 +290,16 @@ type another text to replace it.</li>
 </ul>
 </li>
 </ul>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="The Links tab of a record with a web link and its automatic label" src="en/04_legaturi.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">6</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">The Links tab of a record with a web link and its automatic label</span>
+  </div>
+</div>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Searching and viewing the <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">register</span></h2>
 <p>Use the search box to find a record by number, document number, contact, place of origin,
 description or date. The filters are <strong>Reserved</strong>, <strong>Active</strong>, <strong>Canceled</strong>, <strong>Entry</strong>,
@@ -284,6 +348,26 @@ description or date. The filters are <strong>Reserved</strong>, <strong>Active</
    for the years of the period.</li>
 <li>Click <strong>Print</strong>. The PDF lists the records in order of their number, in landscape.</li>
 </ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="The Print Ledger window: period, record type and the options for canceled and undated records" src="en/07_tiparire.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">7</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">The Print Ledger window: period, record type and the options for canceled and undated records</span>
+  </div>
+</div>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="The printed register: records in the order of their number, with the canceled one and its reason" src="en/08_raport_pdf.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">8</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">The printed register: records in the order of their number, with the canceled one and its reason</span>
+  </div>
+</div>
 <p>To print only some records, select them in the list and choose <strong>Print &gt; Ledger</strong>.</p>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Typical <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">cases</span></h2>
 <p><strong>A document arrives and is registered at once.</strong> Records &gt; New, Entry, fill in, Save.</p>
@@ -299,6 +383,18 @@ Records of the old year stay as they are and can still be edited, within their y
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.0.1.3 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-24)</span></h2>
+<ul>
+<li>The demo GIF is kept only in English (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">static/description/en/demo.gif</code>), the language of the Apps Store page; the Romanian copy is removed.</li>
+</ul>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.0.1.2 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-20)</span></h2>
+<ul>
+<li><strong>Security:</strong> links (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">ledger.link</code>) are now restricted by the company of their
+  register record, like the register itself; a user can no longer read, change or
+  delete the links of a register of a company that is not active, and cannot create
+  or move a link to such a register.</li>
+<li>Consultant sheet (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">FISA_CONSULTANT.md</code>) with screenshots and a demo GIF; screenshots in the usage guide.</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.0.1.1 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-10-09)</span></h2>
 <ul>
 <li>Apps Store banner (banner.json).</li>
@@ -503,6 +599,26 @@ Records of the old year stay as they are and can still be edited, within their y
       </a>
     </div>
     <div class="col-md-3 col-sm-6">
+      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_account_ubl_import" target="_blank" rel="noopener"
+         class="card h-100 text-decoration-none border" style="color:#212529;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center mb-2">
+            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
+              <span class="d-inline-block text-center fw-bold rounded"
+                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">UI</span>
+              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_account_ubl_import/icon.png" alt="" loading="lazy"
+                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
+            </span>
+            <span>
+              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">UBL Invoice Import Base</span>
+              <span class="d-block" style="font-size:13px;color:#3d4752;">Accounting/Accounting</span>
+            </span>
+          </div>
+          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Shared UBL invoice parser and product matcher for the vendor invoice import tools</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-3 col-sm-6">
       <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_actions" target="_blank" rel="noopener"
          class="card h-100 text-decoration-none border" style="color:#212529;">
         <div class="card-body p-3">
@@ -519,26 +635,6 @@ Records of the old year stay as they are and can still be edited, within their y
             </span>
           </div>
           <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Cleaning and other actions</p>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-3 col-sm-6">
-      <a href="https://apps.odoo.com/apps/modules/19.0/deltatech_agreement_management" target="_blank" rel="noopener"
-         class="card h-100 text-decoration-none border" style="color:#212529;">
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center mb-2">
-            <span class="d-inline-block position-relative me-2 flex-shrink-0" style="width:40px;height:40px;">
-              <span class="d-inline-block text-center fw-bold rounded"
-                    style="width:40px;height:40px;line-height:40px;font-size:14px;color:#ffffff;background-color:#006F42;">AM</span>
-              <img src="https://apps.odoocdn.com/apps/assets/19.0/deltatech_agreement_management/icon.png" alt="" loading="lazy"
-                   class="position-absolute top-0 start-0 rounded" style="width:40px;height:40px;border:none;background-color:#ffffff;"/>
-            </span>
-            <span>
-              <span class="d-block fw-semibold" style="font-size:16px;line-height:1.25;">Agreement Management</span>
-              <span class="d-block" style="font-size:13px;color:#3d4752;">Services/Agreement</span>
-            </span>
-          </div>
-          <p class="mb-0" style="font-size:15px;line-height:1.45;color:#3d4752;">Manage agreements numbers, date, state</p>
         </div>
       </a>
     </div>

@@ -112,10 +112,12 @@ deci **896×560**, cu o paletă de **128 de culori** (`colors`). Așa textul ră
 iese cu circa 20–30% mai mic decât la 1120 px și 256 de culori. La un `viewport` mai lat, `scale` se
 alege pentru o lățime finală de circa 896 px (de exemplu 1600 → 0.56).
 
-![GIF-ul demo: partener nou, cu subtitrări](../static/description/demo.gif)
+![GIF-ul demo: partener nou, cu subtitrări](../static/description/en/demo.gif)
 
-GIF-ul se scrie **mereu** în `static/description/demo.gif` (română) și `static/description/en/demo.gif`
-(engleză), chiar dacă modulul își ține capturile PNG încă în `readme/screenshots/`. Pagina de Apps
+GIF-ul se face **într-o singură limbă**, cea a paginii de Apps: pentru o pagină în engleză, cu
+`lang="en_US"`, deci în `static/description/en/demo.gif`; o copie în română în
+`static/description/demo.gif` e redundantă și nu se mai generează. Se scrie acolo chiar dacă modulul
+își ține capturile PNG încă în `readme/screenshots/`. Pagina de Apps
 (generată de `tb-gen-index` ≥ 1.14.0) îl arată singură primul în tabul **Overview**, deci nu se pune în
 `readme/USAGE.md`.
 
@@ -150,11 +152,11 @@ verificarea vizuală.
 - [ ] Rularea unei singure metode (`.test_capture_usage`) scrie doar capturile din `en/`.
 - [ ] Fără `playwright` instalat, testele de capturi sunt sărite, nu picate.
 - [ ] O rulare obișnuită a testelor modulului nu modifică imaginile.
-- [ ] `.test_capture_gif` scrie `static/description/demo.gif` și `en/demo.gif`, și la un modul cu
-      capturile PNG în `readme/screenshots/`.
+- [ ] `.test_capture_gif` scrie doar `static/description/en/demo.gif` (limba paginii de Apps), și la
+      un modul cu capturile PNG în `readme/screenshots/`.
 - [ ] Pe cadrele GIF-ului, subtitrarea nu are numere de pas, iar un câmp de la finalul formularului
       rămâne vizibil deasupra ei.
-- [ ] `static/description/demo.gif` are 896 px lățime la viewport-ul implicit 1120×700 și cel mult
+- [ ] `static/description/en/demo.gif` are 896 px lățime la viewport-ul implicit 1120×700 și cel mult
       128 de culori; textul din cadre (listă, formular, subtitrare) se citește.
 - [ ] La un test cu `viewport` mai lat, `scale` e ales pentru circa 896 px lățime finală
       (de exemplu `viewport=(1600, 1000)` cu `scale=0.56`).
@@ -176,8 +178,7 @@ Generate automat de `tests/test_screenshots.py` al acestui modul, pe compania de
 |---|---|
 | `static/description/01_formular_companie.png` | formularul companiei, în română, cu ①② pe nume și cod fiscal |
 | `static/description/en/01_formular_companie.png` | același formular, în engleză (pentru USAGE.md) |
-| `static/description/demo.gif` | GIF-ul demo în română (896×560, 128 de culori): partener nou, cu subtitrări |
-| `static/description/en/demo.gif` | același GIF, în engleză; pagina de Apps îl arată primul în tabul Overview |
+| `static/description/en/demo.gif` | GIF-ul demo în engleză, limba paginii de Apps (896×560, 128 de culori): partener nou, cu subtitrări; pagina de Apps îl arată primul în tabul Overview |
 
 Regenerare: `-i deltatech_doc_screenshots --test-tags=fise_screenshots` (comanda de la secțiunea 5).
 

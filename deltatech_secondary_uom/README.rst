@@ -129,6 +129,13 @@ Quantity and 10.00 Units in Quantity|
 Changelog
 =========
 
+19.0.1.2.4 (2026-11-24)
+-----------------------
+
+- The demo GIF is kept only in English
+  (``static/description/en/demo.gif``), the language of the Apps Store
+  page; the Romanian copy is removed.
+
 19.0.1.2.3 (2026-11-19)
 -----------------------
 

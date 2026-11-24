@@ -278,22 +278,4 @@ class TestSecondaryUomScreenshots(AccountTestInvoicingCommon, ScreenshotCase or 
         ]
 
     def test_capture_gif(self):
-        # banner.json e în engleză: slide-ul RO primește textele prin `intro`
-        self.capture_gif(
-            self._gif_steps(),
-            viewport=GIF_VIEWPORT,
-            intro={
-                "title": "Unitate de măsură secundară",
-                "summary": "Conversii de unități pe fiecare produs",
-                "features": [
-                    "Unități alternative pe produs",
-                    "Cantitate pe vânzări, achiziții, transferuri",
-                    "Prețul și valoarea rămân pe unitatea de bază",
-                ],
-            },
-        )
-        # GIF-ul RO a salvat oferta cu 3 bare: o readucem la 1 bară pentru cel EN
-        self.env.invalidate_all()
-        self.quote.order_line.secondary_uom_qty = 1.0
-        self.env.flush_all()
         self.capture_gif(self._gif_steps(), viewport=GIF_VIEWPORT, lang="en_US")

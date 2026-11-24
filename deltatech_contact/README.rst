@@ -146,6 +146,21 @@ contact of type **Person** with the address type **Contact**.
 Changelog
 =========
 
+19.0.1.4.16 (2026-11-24)
+------------------------
+
+- The demo GIF is kept only in English
+  (``static/description/en/demo.gif``), the language of the Apps Store
+  page; the Romanian copy is removed.
+
+19.0.1.4.15 (2026-11-14)
+------------------------
+
+- Animated demo for the Apps Store page
+  (``static/description/en/demo.gif``, and ``demo.gif`` in Romanian),
+  recorded by ``test_capture_gif``: a new individual contact where the
+  typed CNP fills in the birthdate and gender.
+
 19.0.1.4.14 (2026-11-03)
 ------------------------
 
