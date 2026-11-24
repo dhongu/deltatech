@@ -3,6 +3,8 @@
 - The props of the progress dialog are declared in `static propsSchema`, read by
   `useProps(this.constructor.propsSchema)`: a subclass adds its own props
   (`deltatech_background_job`, "Run in background").
+- Consultant sheet forward-ported from 19.0, with its screenshots (Odoo 19 UI; to
+  retake on 20.0 once `deltatech_delivery` and `deltatech_ai_purchase_pdf` are migrated).
 
 ## 19.0.1.1.1 (2026-10-23)
 
