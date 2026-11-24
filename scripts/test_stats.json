@@ -287,6 +287,9 @@
       "lines": 78,
       "tests": 10
     },
+    "deltatech_invoice_storable_source": {
+      "tests": 12
+    },
     "deltatech_invoice_to_draft": {
       "coverage": 100.0,
       "lines": 32,
