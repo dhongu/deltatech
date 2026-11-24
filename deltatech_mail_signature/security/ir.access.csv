@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+access_mail_signature_template_user,mail.signature.template user,mail.signature.template,base.group_user,r,
+access_mail_signature_template_admin,mail.signature.template admin,mail.signature.template,base.group_system,crud,
+mail_signature_template_company_rule,Signature template: multi-company,mail.signature.template,,crud,"[('company_id', 'in', company_ids)]"
