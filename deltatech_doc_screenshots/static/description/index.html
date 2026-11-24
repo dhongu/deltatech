@@ -13,7 +13,10 @@
         <span class="d-inline-block rounded-pill fw-semibold me-2 mb-2" style="border:1px dashed #8fd1ad;color:#ffffff;padding:6px 14px;font-size:12px;"><span class="fa fa-balance-scale" style="margin-right:6px;" aria-hidden="true"></span>OPL-1</span>
       </div>
     </div>
-    
+    <div class="flex-shrink-0 rounded-3 px-3 py-3 my-2" style="width:240px;background-color:#00432a;">
+      <div class="fw-semibold" style="font-size:15px;color:#ffffff;">&#10003; 20 automated tests</div>
+      
+    </div>
   </div>
 </div>
 
@@ -149,8 +152,10 @@ to the slide at the end. Each step is a dict; its keys run in this order:</p>
 <p>Other keys: <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">path</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">wait</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">eval</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">move</code> (cursor only), <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">press</code> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Enter</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">Tab</code>...), <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">clear</code>,
 <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hide_cursor</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">hold</code> (ms). Values may depend on the language, as in <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">capture_screenshots</code>;
 <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">intro={"title": ..., "summary": ..., "features": [...]}</code> overrides the slide (e.g. Romanian texts
-when <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">banner.json</code> is in English) and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">intro=False</code> drops it. The GIF is 1120&#215;700 by default
-(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">viewport</code>); <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">scale=0.75</code> makes a smaller file. Time in the GIF is virtual, so the pace does not
+when <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">banner.json</code> is in English) and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">intro=False</code> drops it. The browser runs at 1120&#215;700 by default
+(<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">viewport</code>) and the GIF is exported at <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">scale=0.8</code> (896&#215;560) with a 128-colour palette (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">colors</code>),
+which keeps the text readable at about 25&#8211;30% less weight than 1120 px and 256 colours; with a wider
+<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">viewport</code>, pick <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">scale</code> for a final width of about 896 px (e.g. 1600 &#8594; 0.56). Time in the GIF is virtual, so the pace does not
 depend on how fast the server answers, and identical frames are merged. When a step fails, the
 error names the step and saves the screen to a temporary <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">.error.png</code>.</p>
 <p>Keep <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">static/description/en/demo.gif</code> (and <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">demo.gif</code> for the Romanian page): <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tb-gen-index</code>
@@ -159,6 +164,17 @@ shows it automatically first in the Overview tab of the Apps Store page, so do n
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.3.0 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-22)</span></h2>
+<ul>
+<li>Forward-port of 19.0.1.5.0. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">capture_gif</code>: smaller demo GIFs by default. <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">scale</code> defaults to
+  0.8 (the default 1120&#215;700 viewport gives a 896&#215;560 GIF) and the new <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">colors</code> parameter (default
+  128) sets the size of the global palette, now passed to <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">GifRecorder.save</code>. On the
+  <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">deltatech_chatter</code> GIF (85 frames) this goes from 1.2 MB to about 880 KB with readable text;
+  existing tests need no change.</li>
+<li>Consultant sheet: GIF size and palette in step 3 and in the checks; step 4 (XLSX exports) gets
+  its screenshot (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">02_export_xlsx.png</code>, made by the module test); the demo GIFs are regenerated at
+  896&#215;560.</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">20.0.1.2.0 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-18)</span></h2>
 <ul>
 <li>Forward-port of 19.0.1.2.0 &#8211; 19.0.1.4.0 (see below), adapted to Odoo 20:<ul>
@@ -247,7 +263,7 @@ helpers (<code class="border rounded px-2" style="font-family:ui-monospace,SFMon
 <div class="row text-center mt-4 mb-1 g-3">
   <div class="col-md-6">
     <div class="border rounded-3 px-4 py-2 h-100">
-      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">600+</div>
+      <div class="fw-bold" style="font-size:2.2rem;color:#006F42;line-height:1;">800+</div>
       <div class="mt-2" style="font-size:0.9rem;color:#3d4752;">Modules published on Odoo Apps</div>
     </div>
   </div>
@@ -271,7 +287,7 @@ helpers (<code class="border rounded px-2" style="font-family:ui-monospace,SFMon
 <div class="text-center rounded-4 px-4 pt-3 pb-4 mt-4 mb-3" style="background-color:#00432a;color:#ffffff;">
   <h2 class="fw-bold mb-2" style="color:#ffffff;font-size:26px;letter-spacing:-0.3px;border:none;">Need help getting started?</h2>
   <p class="mx-auto mb-2" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
-     Our 600+ apps on the Odoo Apps Store are used in Odoo implementations across Europe,
+     Our 800+ apps on the Odoo Apps Store are used in Odoo implementations across Europe,
      the Americas, Asia and Africa &mdash; by companies we have never even met. That is the
      advantage of building modules that simply work.</p>
   <p class="mx-auto mb-4" style="color:#bfe3cc;max-width:660px;line-height:1.6;font-size:16px;">
