@@ -1,0 +1,332 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_mail_signature
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-23 17:04+0000\n"
+"PO-Revision-Date: 2026-11-23 17:04+0000\n"
+"Last-Translator: \n"
+"Language-Team: Romanian\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/mail_signature_template.py:0
+msgid ""
+"%(done)s generated, %(skipped)s with a hand-written signature left as they "
+"are."
+msgstr ""
+"%(done)s generate, %(skipped)s cu semnătură scrisă de mână lăsate "
+"neschimbate."
+
+#. module: deltatech_mail_signature
+#: model:ir.model.fields,field_description:deltatech_mail_signature.field_mail_signature_template__active
+msgid "Active"
+msgstr "Activ"
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/mail_signature_template.py:0
+msgid "Add the images with the editor (upload them), not pasted as data."
+msgstr "Adăugați imaginile cu editorul (încărcați-le), nu lipite ca date."
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/mail_signature_template.py:0
+msgid "Address of the company, on one line"
+msgstr "Adresa companiei, pe o singură linie"
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/mail_signature_template.py:0
+msgid "An image of the signature is larger than %s KB."
+msgstr "O imagine a semnăturii depășește %s KB."
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/mail_signature_template.py:0
+msgid ""
+"An image of the signature is not shared. Upload it again with the editor."
+msgstr ""
+"O imagine a semnăturii nu este partajată. Încărcați-o din nou cu editorul."
+
+#. module: deltatech_mail_signature
+#: model_terms:ir.ui.view,arch_db:deltatech_mail_signature.mail_signature_template_view_form
+#: model_terms:ir.ui.view,arch_db:deltatech_mail_signature.mail_signature_template_view_search
+msgid "Archived"
+msgstr "Arhivat"
+
+#. module: deltatech_mail_signature
+#: model:ir.model.fields,field_description:deltatech_mail_signature.field_mail_signature_template__fields_help
+#: model_terms:ir.ui.view,arch_db:deltatech_mail_signature.mail_signature_template_view_form
+msgid "Available fields"
+msgstr "Câmpuri disponibile"
+
+#. module: deltatech_mail_signature
+#: model:ir.model.fields,field_description:deltatech_mail_signature.field_mail_signature_template__company_id
+msgid "Company"
+msgstr "Companie"
+
+#. module: deltatech_mail_signature
+#: model:ir.model,name:deltatech_mail_signature.model_res_partner
+msgid "Contact"
+msgstr "Contact"
+
+#. module: deltatech_mail_signature
+#: model:ir.model.fields,field_description:deltatech_mail_signature.field_mail_signature_template__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_mail_signature
+#: model:ir.model.fields,field_description:deltatech_mail_signature.field_mail_signature_template__create_date
+msgid "Created on"
+msgstr "Creat la"
+
+#. module: deltatech_mail_signature
+#: model:ir.model.fields,field_description:deltatech_mail_signature.field_mail_signature_template__display_name
+#: model:ir.model.fields,field_description:deltatech_mail_signature.field_res_partner__display_name
+#: model:ir.model.fields,field_description:deltatech_mail_signature.field_res_users__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/mail_signature_template.py:0
+msgid "E-mail of the company"
+msgstr "E-mailul companiei"
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/mail_signature_template.py:0
+msgid "E-mail of the user"
+msgstr "E-mailul utilizatorului"
+
+#. module: deltatech_mail_signature
+#: model_terms:ir.ui.view,arch_db:deltatech_mail_signature.mail_signature_template_view_form
+msgid "Generate users' signatures"
+msgstr "Generează semnăturile utilizatorilor"
+
+#. module: deltatech_mail_signature
+#: model:ir.model.fields,field_description:deltatech_mail_signature.field_mail_signature_template__id
+#: model:ir.model.fields,field_description:deltatech_mail_signature.field_res_partner__id
+#: model:ir.model.fields,field_description:deltatech_mail_signature.field_res_users__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/mail_signature_template.py:0
+msgid "Job position of the user"
+msgstr "Funcția utilizatorului"
+
+#. module: deltatech_mail_signature
+#: model:ir.model.fields,field_description:deltatech_mail_signature.field_mail_signature_template__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare de"
+
+#. module: deltatech_mail_signature
+#: model:ir.model.fields,field_description:deltatech_mail_signature.field_mail_signature_template__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare la"
+
+#. module: deltatech_mail_signature
+#: model:ir.model,name:deltatech_mail_signature.model_mail_signature_template
+msgid "Mail Signature Template"
+msgstr "Șablon de semnătură e-mail"
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/mail_signature_template.py:0
+msgid "Mobile phone of the user (needs the HR app)"
+msgstr "Telefonul mobil al utilizatorului (necesită aplicația HR)"
+
+#. module: deltatech_mail_signature
+#: model:ir.model.fields,field_description:deltatech_mail_signature.field_mail_signature_template__name
+msgid "Name"
+msgstr "Nume"
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/mail_signature_template.py:0
+msgid "Name of the company"
+msgstr "Numele companiei"
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/mail_signature_template.py:0
+msgid "Name of the user"
+msgstr "Numele utilizatorului"
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/mail_signature_template.py:0
+msgid "Only administrators can generate the signatures of the users."
+msgstr "Doar administratorii pot genera semnăturile utilizatorilor."
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/mail_signature_template.py:0
+msgid "Phone of the company"
+msgstr "Telefonul companiei"
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/mail_signature_template.py:0
+msgid "Phone of the user"
+msgstr "Telefonul utilizatorului"
+
+#. module: deltatech_mail_signature
+#: model:ir.model.fields,field_description:deltatech_mail_signature.field_mail_signature_template__auto_refresh
+msgid "Refresh automatically"
+msgstr "Reîmprospătează automat"
+
+#. module: deltatech_mail_signature
+#: model_terms:ir.ui.view,arch_db:deltatech_mail_signature.view_users_form_simple_modif_signature
+msgid "Regenerate my signature"
+msgstr "Regenerează semnătura mea"
+
+#. module: deltatech_mail_signature
+#: model_terms:ir.ui.view,arch_db:deltatech_mail_signature.view_users_form_signature
+msgid "Regenerate signature"
+msgstr "Regenerează semnătura"
+
+#. module: deltatech_mail_signature
+#: model:ir.model.fields,field_description:deltatech_mail_signature.field_mail_signature_template__body_html
+#: model_terms:ir.ui.view,arch_db:deltatech_mail_signature.mail_signature_template_view_form
+msgid "Signature"
+msgstr "Semnătură"
+
+#. module: deltatech_mail_signature
+#: model:ir.actions.act_window,name:deltatech_mail_signature.mail_signature_template_action
+#: model:ir.ui.menu,name:deltatech_mail_signature.mail_signature_template_menu
+msgid "Signature Templates"
+msgstr "Șabloane de semnătură"
+
+#. module: deltatech_mail_signature
+#: model:ir.model.fields,field_description:deltatech_mail_signature.field_res_users__mail_signature_generated
+msgid "Signature from the company template"
+msgstr "Semnătură din șablonul companiei"
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/mail_signature_template.py:0
+msgid "Signatures generated"
+msgstr "Semnături generate"
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/mail_signature_template.py:0
+msgid "Tax ID of the company"
+msgstr "Codul fiscal al companiei"
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/mail_signature_template.py:0
+msgid ""
+"The company %(company)s already has an active signature template: %(name)s."
+msgstr "Compania %(company)s are deja un șablon de semnătură activ: %(name)s."
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/res_users.py:0
+msgid "The company %s has no active signature template."
+msgstr "Compania %s nu are un șablon de semnătură activ."
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/mail_signature_template.py:0
+msgid "The images of the signature can only be PNG, JPEG or GIF."
+msgstr "Imaginile semnăturii pot fi doar PNG, JPEG sau GIF."
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/mail_signature_template.py:0
+msgid "The signature can have at most %s images."
+msgstr "Semnătura poate avea cel mult %s imagini."
+
+#. module: deltatech_mail_signature
+#: model_terms:ir.ui.view,arch_db:deltatech_mail_signature.mail_signature_template_view_form
+msgid ""
+"The signature of the internal users of the company that have no hand-written"
+" signature will be replaced. Continue?"
+msgstr ""
+"Semnătura utilizatorilor interni ai companiei care nu au o semnătură scrisă "
+"de mână va fi înlocuită. Continuați?"
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/mail_signature_template.py:0
+msgid ""
+"The signature uses fields that do not exist: %(unknown)s. Valid fields: "
+"%(valid)s."
+msgstr ""
+"Semnătura folosește câmpuri care nu există: %(unknown)s. Câmpuri valide: "
+"%(valid)s."
+
+#. module: deltatech_mail_signature
+#: model:ir.model.fields,help:deltatech_mail_signature.field_res_users__mail_signature_generated
+msgid ""
+"The signature was generated from the signature template of the company. "
+"Editing it by hand clears this mark; a signature without it is never "
+"overwritten by a mass generation."
+msgstr ""
+"Semnătura a fost generată din șablonul de semnătură al companiei. Dacă o "
+"editați manual, marcajul dispare; o semnătură fără marcaj nu este niciodată "
+"suprascrisă de o generare în masă."
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/mail_signature_template.py:0
+msgid "The template is empty."
+msgstr "Șablonul este gol."
+
+#. module: deltatech_mail_signature
+#: model:ir.model,name:deltatech_mail_signature.model_res_users
+msgid "User"
+msgstr "Utilizator"
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/mail_signature_template.py:0
+msgid "Website of the company"
+msgstr "Site-ul companiei"
+
+#. module: deltatech_mail_signature
+#: model:ir.model.fields,help:deltatech_mail_signature.field_mail_signature_template__auto_refresh
+msgid ""
+"When the name, e-mail, phone, job position or mobile phone of a user "
+"changes, the signature generated for them is generated again. Hand-written "
+"signatures are never touched."
+msgstr ""
+"Când se schimbă numele, e-mailul, telefonul, funcția sau telefonul mobil al "
+"unui utilizator, semnătura generată pentru el se generează din nou. "
+"Semnăturile scrise de mână nu sunt atinse niciodată."
+
+#. module: deltatech_mail_signature
+#: model:ir.model.fields,help:deltatech_mail_signature.field_mail_signature_template__body_html
+msgid ""
+"Write the signature as you want it to look. Write {{name}}, {{phone}}, ... "
+"where the data of the user or of the company must appear. A line whose "
+"fields are all empty is not shown."
+msgstr ""
+"Scrieți semnătura așa cum doriți să arate. Scrieți {{name}}, {{phone}}, ... "
+"unde trebuie să apară datele utilizatorului sau ale companiei. O linie ale "
+"cărei câmpuri sunt toate goale nu se afișează."
+
+#. module: deltatech_mail_signature
+#. odoo-python
+#: code:addons/deltatech_mail_signature/models/res_users.py:0
+msgid "You can only regenerate your own signature."
+msgstr "Puteți regenera doar propria semnătură."
+
+#. module: deltatech_mail_signature
+#: model_terms:ir.ui.view,arch_db:deltatech_mail_signature.mail_signature_template_view_form
+msgid "e.g. Company signature"
+msgstr "ex. Semnătura companiei"

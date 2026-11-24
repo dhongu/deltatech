@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+    <record id="mail_signature_template_demo" model="mail.signature.template">
+        <field name="name">Company signature</field>
+        <field name="company_id" ref="base.main_company" />
+        <field name="body_html"><![CDATA[
+<div style="font-family: Arial, sans-serif; font-size: 13px; color: #333;">
+    <p style="margin: 0;"><b>{{name}}</b></p>
+    <p style="margin: 0; color: #017e84;">{{job_title}}</p>
+    <p style="margin: 0;">Tel: {{phone}}</p>
+    <p style="margin: 0;">Mobile: {{mobile}}</p>
+    <p style="margin: 0;"><a href="mailto:{{email}}">{{email}}</a></p>
+    <p style="margin: 8px 0 0 0;"><b>{{company}}</b></p>
+    <p style="margin: 0;">{{company_address}}</p>
+    <p style="margin: 0;"><a href="{{company_website}}">{{company_website}}</a></p>
+    <p style="margin: 0;">Tax ID: {{company_vat}}</p>
+</div>]]></field>
+    </record>
+</odoo>
