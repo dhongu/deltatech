@@ -39,6 +39,7 @@ export class CategoryIconGrid extends Interaction {
 
     start() {
         const template = document.createElement("template");
+        // Checked, xss-ok: HTML randat de QWeb pe server de controllerul modulului, valorile sunt escapate
         template.innerHTML = this.html;
         this.itemsEl.replaceChildren(template.content);
     }
