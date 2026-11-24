@@ -216,9 +216,24 @@ class TestSecondaryUomScreenshots(AccountTestInvoicingCommon, ScreenshotCase or 
         ]
 
     def _gif_steps(self):
-        product_url = f"id={self.profile.id}&model=product.template&view_type=form"
-        so_url = f"id={self.sale_order.id}&model=sale.order&view_type=form"
-        receipt_url = f"id={self.receipt.id}&model=stock.picking&view_type=form"
+        # acțiunea + `menu_id` țin bara de meniu plină în GIF; în 20 meniul Vânzări e inactiv
+        # fără sale_management
+        ref = self.env.ref
+        ref("sale.sale_menu_root").active = True
+        sale_menu = ref("sale.sale_menu_root").id
+        stock_menu = ref("stock.menu_stock_root").id
+        product_url = (
+            f"action={ref('sale.product_template_action').id}&menu_id={sale_menu}"
+            f"&id={self.profile.id}&model=product.template&view_type=form"
+        )
+        so_url = (
+            f"action={ref('sale.action_quotations_with_onboarding').id}&menu_id={sale_menu}"
+            f"&id={self.sale_order.id}&model=sale.order&view_type=form"
+        )
+        receipt_url = (
+            f"action={ref('stock.action_picking_tree_all').id}&menu_id={stock_menu}"
+            f"&id={self.receipt.id}&model=stock.picking&view_type=form"
+        )
         tab = {
             "ro_RO": ".o_notebook .nav-link:has-text('Unități alternative')",
             "en_US": ".o_notebook .nav-link:has-text('Alternative Units')",

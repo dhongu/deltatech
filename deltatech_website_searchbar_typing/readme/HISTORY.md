@@ -1,3 +1,7 @@
+## 20.0.1.1.2 (2026-11-24)
+
+- Animated demo for the Apps Store page (`static/description/en/demo.gif`), recorded by `test_capture_gif` and shown under the hero of the page.
+
 ## 20.0.1.1.1 (2026-11-14)
 
 - Apps Store banner: the "Odoo Online" badge shows that the module has no Python code and installs on
