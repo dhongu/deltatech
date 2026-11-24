@@ -5,7 +5,7 @@
 {
     "name": "Contact Personal Data",
     "summary": "Personal data on contacts: CNP with validation, ID card, birthdate, gender",
-    "version": "19.0.1.4.15",
+    "version": "19.0.1.4.16",
     "author": "Terrabit,Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Administration",

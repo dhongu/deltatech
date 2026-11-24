@@ -403,13 +403,13 @@ class TestDeliveryPaymentScreenshots(ScreenshotCase or object):
         ]
 
     def test_capture_gif(self):
-        """Demo GIF of the Apps page: the checkout of a customer (demo.gif in RO, en/demo.gif in EN)."""
-        for lang in ("ro_RO", "en_US"):
-            self.customer.lang = lang
-            self.order._set_delivery_method(self.carrier_courier)
-            self.order.order_line.product_uom_qty = 2
-            self.env.flush_all()
-            self.capture_gif(self._gif_steps(), login=CUSTOMER_LOGIN, lang=lang)
+        """Demo GIF of the Apps page, in its language (en/demo.gif): the checkout of a customer."""
+        lang = "en_US"
+        self.customer.lang = lang
+        self.order._set_delivery_method(self.carrier_courier)
+        self.order.order_line.product_uom_qty = 2
+        self.env.flush_all()
+        self.capture_gif(self._gif_steps(), login=CUSTOMER_LOGIN, lang=lang)
 
     def test_capture_fise(self):
         self._capture("ro_RO")

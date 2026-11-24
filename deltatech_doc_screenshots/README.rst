@@ -178,19 +178,44 @@ Other keys: ``path``, ``wait``, ``eval``, ``move`` (cursor only),
 (ms). Values may depend on the language, as in ``capture_screenshots``;
 ``intro={"title": ..., "summary": ..., "features": [...]}`` overrides
 the slide (e.g. Romanian texts when ``banner.json`` is in English) and
-``intro=False`` drops it. The GIF is 1120×700 by default (``viewport``);
-``scale=0.75`` makes a smaller file. Time in the GIF is virtual, so the
-pace does not depend on how fast the server answers, and identical
-frames are merged. When a step fails, the error names the step and saves
-the screen to a temporary ``.error.png``.
+``intro=False`` drops it. The browser runs at 1120×700 by default
+(``viewport``) and the GIF is exported at ``scale=0.8`` (896×560) with a
+128-colour palette (``colors``), which keeps the text readable at about
+25–30% less weight than 1120 px and 256 colours; with a wider
+``viewport``, pick ``scale`` for a final width of about 896 px (e.g.
+1600 → 0.56). Time in the GIF is virtual, so the pace does not depend on
+how fast the server answers, and identical frames are merged. When a
+step fails, the error names the step and saves the screen to a temporary
+``.error.png``.
 
-Keep ``static/description/en/demo.gif`` (and ``demo.gif`` for the
-Romanian page): ``tb-gen-index`` shows it automatically first in the
-Overview tab of the Apps Store page, so do not reference it from
-``readme/*.md`` as well, or it appears twice.
+Record the GIF in one language only, the language of the Apps Store
+page: for a page in English that is ``lang="en_US"``, written to
+``static/description/en/demo.gif`` (a Romanian copy in
+``static/description/demo.gif`` is redundant). ``tb-gen-index`` shows it
+automatically first in the Overview tab of the Apps Store page, so do
+not reference it from ``readme/*.md`` as well, or it appears twice.
 
 Changelog
 =========
+
+19.0.1.5.1 (2026-11-24)
+-----------------------
+
+- The demo GIF is kept only in English
+  (``static/description/en/demo.gif``), the language of the Apps Store
+  page; the Romanian copy is removed.
+
+19.0.1.5.0 (2026-11-22)
+-----------------------
+
+- ``capture_gif``: smaller demo GIFs by default. ``scale`` defaults to
+  0.8 (the default 1120×700 viewport gives a 896×560 GIF) and the new
+  ``colors`` parameter (default 128) sets the size of the global
+  palette, now passed to ``GifRecorder.save``. On the
+  ``deltatech_chatter`` GIF (85 frames) this goes from 1.2 MB to about
+  880 KB with readable text; existing tests need no change.
+- Consultant sheet: GIF size and palette in step 3 and in the checks;
+  the demo GIFs are regenerated at 896×560.
 
 19.0.1.4.1 (2026-11-18)
 -----------------------

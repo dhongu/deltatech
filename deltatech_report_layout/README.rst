@@ -33,14 +33,16 @@ professional designs.
 Key Features
 ============
 
-1. **Eight Predefined Layouts**:
+1. **Nine Predefined Layouts**:
 
-   - Adds eight report layouts to the system: Style1, Style2, Band,
-     Modern, Title Box, Compact, Minimal and Accent.
+   - Adds nine report layouts to the system: Grid, Inline, Band, Modern,
+     Title Box, Compact, Minimal, Accent and Card.
    - Each one has its own header, footer and table design: a full-width
      colored header band, a boxed title, a compact one-line header for
      long documents, a black-and-white minimal design or a colored
-     accent bar along the left edge of the content.
+     accent bar along the left edge of the content, or Card: a large
+     colored title, the recipient address in a box with rounded corners
+     and toner-friendly tables without filled areas.
    - Colors follow the primary and secondary colors of the company
      (except Minimal, which is black and white).
 
@@ -75,22 +77,22 @@ Usage
 1. Go to **Settings > General Settings** and, in the **Companies**
    section, click **Configure Document Layout**.
 
-2. Under **Layout**, the eight new layouts (**Style1**, **Style2**,
-   **Band**, **Modern**, **Title Box**, **Compact**, **Minimal** and
-   **Accent**) are listed after the standard ones. Select **Style1**:
-   the preview shows a sample invoice with the logo on the left and the
-   company address aligned to the right.
+2. Under **Layout**, the nine new layouts (**Grid**, **Inline**,
+   **Band**, **Modern**, **Title Box**, **Compact**, **Minimal**,
+   **Accent** and **Card**) are listed after the standard ones. Select
+   **Grid**: the preview shows a sample invoice with the logo on the
+   left and the company address aligned to the right.
 
-   |Configure your document layout dialog with Style1 selected under
+   |Configure your document layout dialog with Grid selected under
    Layout, next to the standard layouts and the other new layouts, and
    the invoice preview on the right|
 
-3. Select **Style2**: the company address sits next to the logo, and the
+3. Select **Inline**: the company address sits next to the logo, and the
    table header and the total use the primary color of the company.
    Change the colors under **Colors** if needed, then click **Continue**
    to save.
 
-   |Configure your document layout dialog with Style2 selected; the
+   |Configure your document layout dialog with Inline selected; the
    table header and the Total row use the primary color|
 
 4. Select **Band**: the document title and the company name sit on a
@@ -120,6 +122,11 @@ Usage
    | **Accent**    | Colored vertical bar along the left edge of the      |
    |               | content, colored title                               |
    +---------------+------------------------------------------------------+
+   | **Card**      | Large colored title on the right, the recipient      |
+   |               | address in a box with rounded corners, tables        |
+   |               | without filled areas (toner friendly), document      |
+   |               | number and page in the footer                        |
+   +---------------+------------------------------------------------------+
 
    |Invoice preview with Modern: logo on the left, title and company
    address on the right, teal table header|
@@ -139,25 +146,60 @@ Usage
 6. Print any document of the company (quotation, invoice, delivery
    slip). It uses the selected layout:
 
-   |Header and footer of a document printed with Style1: logo on the
-   left, company address on the right|
+   |Header and footer of a document printed with Grid: logo on the left,
+   company address on the right|
 
-   |Header and footer of a document printed with Style2: company address
+   |Header and footer of a document printed with Inline: company address
    next to the logo, centered footer|
 
-.. |Configure your document layout dialog with Style1 selected under Layout, next to the standard layouts and the other new layouts, and the invoice preview on the right| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_report_layout/static/description/en/01_macheta_style1.png
-.. |Configure your document layout dialog with Style2 selected; the table header and the Total row use the primary color| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_report_layout/static/description/en/02_macheta_style2.png
+.. |Configure your document layout dialog with Grid selected under Layout, next to the standard layouts and the other new layouts, and the invoice preview on the right| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_report_layout/static/description/en/01_macheta_style1.png
+.. |Configure your document layout dialog with Inline selected; the table header and the Total row use the primary color| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_report_layout/static/description/en/02_macheta_style2.png
 .. |Configure your document layout dialog with Band selected; the invoice preview has the title on a teal band and a teal footer band| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_report_layout/static/description/en/05_macheta_style3.png
 .. |Invoice preview with Modern: logo on the left, title and company address on the right, teal table header| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_report_layout/static/description/en/07_document_style4.png
 .. |Invoice preview with Title Box: title in a box between the logo and the company address| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_report_layout/static/description/en/08_document_style5.png
 .. |Invoice preview with Compact: one-line header, small font and tight margins| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_report_layout/static/description/en/09_document_style6.png
 .. |Invoice preview with Minimal: black and white, company address on the left, logo and title on the right| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_report_layout/static/description/en/10_document_style7.png
 .. |Invoice preview with Accent: teal vertical bar along the left edge of the content| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_report_layout/static/description/en/11_document_style8.png
-.. |Header and footer of a document printed with Style1: logo on the left, company address on the right| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_report_layout/static/description/en/03_document_style1.png
-.. |Header and footer of a document printed with Style2: company address next to the logo, centered footer| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_report_layout/static/description/en/04_document_style2.png
+.. |Header and footer of a document printed with Grid: logo on the left, company address on the right| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_report_layout/static/description/en/03_document_style1.png
+.. |Header and footer of a document printed with Inline: company address next to the logo, centered footer| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_report_layout/static/description/en/04_document_style2.png
 
 Changelog
 =========
+
+19.0.1.4.1 (2026-11-24)
+-----------------------
+
+- The demo GIF is kept only in English
+  (``static/description/en/demo.gif``), the language of the Apps Store
+  page; the Romanian copy is removed.
+
+19.0.1.4.0 (2026-11-20)
+-----------------------
+
+- New Card layout: logo and company details on the left, a large title
+  in the primary color on the right, a rule under the header, the
+  recipient address in a box with rounded corners, tables without filled
+  areas (toner friendly) and the document number with the page in the
+  footer.
+
+19.0.1.3.2 (2026-11-20)
+-----------------------
+
+- Style1 and Style2 renamed to Grid (bordered table, address on the
+  right) and Inline (address next to the logo, striped rows). Only the
+  displayed name changes: the XML IDs stay, so companies that already
+  use them keep their layout.
+
+19.0.1.3.1 (2026-11-16)
+-----------------------
+
+- Empty ``__init__.py`` restored: the OCA tools (manifestoo,
+  oca-checks-odoo-module) do not recognize a module without it, so the
+  CI of the suites that depend on this module failed. The module still
+  has no Python code and still imports on Odoo Online.
+- Explicit Odoo Online marker: ``"online": true`` in
+  ``static/description/banner.json`` (the banner no longer infers it
+  from the missing ``.py`` files).
 
 19.0.1.3.0 (2026-11-16)
 -----------------------

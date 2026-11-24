@@ -1,3 +1,7 @@
+## 19.0.0.1.3 (2026-11-24)
+
+- The demo GIF is kept only in English (`static/description/en/demo.gif`), the language of the Apps Store page; the Romanian copy is removed.
+
 ## 19.0.0.1.2 (2026-11-20)
 
 - **Security:** links (`ledger.link`) are now restricted by the company of their

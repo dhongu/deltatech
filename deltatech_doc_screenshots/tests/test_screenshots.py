@@ -59,12 +59,5 @@ class TestDocScreenshotsScreenshots(ScreenshotCase):
         ]
 
     def test_capture_gif(self):
-        """GIF-ul demo al uneltei (pilot pentru ``capture_gif``), în RO și EN."""
-        # banner.json e în engleză: slide-ul RO primește textele lui
-        intro_ro = {
-            "title": "Capturi pentru documentație",
-            "summary": "Capturile și demo-urile fișei generate din teste",
-            "features": ["Capturi generate din teste", "Pași evidențiați", "GIF-uri demo"],
-        }
-        self.capture_gif(self._gif_steps(), name="demo.gif", intro=intro_ro)
+        """GIF-ul demo al uneltei (pilot pentru ``capture_gif``), în limba paginii de Apps (EN)."""
         self.capture_gif(self._gif_steps(), name="demo.gif", lang="en_US")

@@ -206,12 +206,4 @@ class TestLedgerScreenshots(ScreenshotCase or object):
         ]
 
     def test_capture_gif(self):
-        self.capture_gif(
-            self._gif_steps(),
-            intro={
-                "title": "Registru intrări-ieșiri",
-                "summary": "Registru numerotat al documentelor care intră sau ies din firmă",
-                "features": ["Numerotare anuală fără goluri", "Rezervări și anulări", "Raport PDF pe perioadă"],
-            },
-        )
         self.capture_gif(self._gif_steps(), lang="en_US")

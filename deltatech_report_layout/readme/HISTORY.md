@@ -1,3 +1,7 @@
+## 19.0.1.4.1 (2026-11-24)
+
+- The demo GIF is kept only in English (`static/description/en/demo.gif`), the language of the Apps Store page; the Romanian copy is removed.
+
 ## 19.0.1.4.0 (2026-11-20)
 
 - New Card layout: logo and company details on the left, a large title in the primary color on

@@ -1,3 +1,7 @@
+## 19.0.2.1.11 (2026-11-24)
+
+- The demo GIF is kept only in English (`static/description/en/demo.gif`), the language of the Apps Store page; the Romanian copy is removed.
+
 ## 19.0.2.1.10 (2026-11-20)
 
 - Description: delivery methods read only the tags of the customer's company; payment providers read the tags of
