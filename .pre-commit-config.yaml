@@ -27,8 +27,9 @@ default_language_version:
 repos:
   # Hook-urile comune Terrabit (pyproject)
   - repo: https://github.com/dhongu/terrabit-pre-commit-hooks
-    rev: v1.1.0
+    rev: v1.16.0
     hooks:
+      - id: check-xss-patterns
       - id: update-pyproject-name
   - repo: local
     hooks:
