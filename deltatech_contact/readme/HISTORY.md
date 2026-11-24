@@ -1,3 +1,7 @@
+## 20.0.1.4.14 (2026-11-24)
+
+- Animated demo for the Apps Store page (`static/description/en/demo.gif`), recorded by `test_capture_gif` and shown under the hero of the page.
+
 ## 20.0.1.4.13 (2026-11-03)
 
 - Description rewritten from the code: an invalid CNP is cleared on every new
