@@ -107,9 +107,6 @@ def _banner():
     draw.ellipse((200, 78, 760, 230), fill="#3f8a46")
     for i in range(6):  # brazde
         draw.line((0, 118 - i * 4, width, 104 - i * 4), fill="#2d6e3a", width=1)
-    draw.rounded_rectangle((60, 52, 130, 90), 8, fill="#2d6e3a")  # tractor
-    draw.ellipse((100, 58, 146, 104), fill="#2d6e3a")
-    draw.ellipse((112, 70, 134, 92), fill="#8cc08f")
     return _png(image)
 
 
