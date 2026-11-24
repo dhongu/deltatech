@@ -254,6 +254,9 @@
       "lines": 108,
       "tests": 12
     },
+    "deltatech_invoice_storable_source": {
+      "tests": 12
+    },
     "deltatech_invoice_weight": {
       "coverage": 95.2,
       "lines": 84,
