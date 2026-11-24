@@ -3,7 +3,7 @@
 {
     "name": "Batch Reception Note",
     "summary": "Receive vendor deliveries on reception notes drawn from open purchase quantities",
-    "version": "19.0.0.1.8",
+    "version": "19.0.0.1.9",
     "author": "Terrabit, Dan Stoica",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",

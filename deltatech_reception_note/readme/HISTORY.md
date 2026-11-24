@@ -1,3 +1,8 @@
+## 19.0.0.1.9 (2026-11-24)
+
+- *Create reception note* called without selected purchase orders (no `active_ids` in the context)
+  now shows a clear error message instead of a technical traceback (RECEPTION-005, #3446).
+
 ## 19.0.0.1.8 (2026-11-03)
 
 - Description rewritten after the code: the three purchase order types, the *Create reception note*
