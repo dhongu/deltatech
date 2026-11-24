@@ -8,7 +8,7 @@
             <button name="validate_expenses" position="after">
                 <button
                     name="action_open_import_hr_expenses"
-                    string="Preia cheltuieli HR"
+                    string="Get HR Expenses"
                     invisible="state not in ('draft', 'advance')"
                     type="object"
                 />

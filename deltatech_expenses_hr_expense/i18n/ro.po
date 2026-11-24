@@ -1,0 +1,173 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_expenses_hr_expense
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-24 10:37+0000\n"
+"PO-Revision-Date: 2026-11-24 10:37+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.actions.act_window,name:deltatech_expenses_hr_expense.action_add_expenses_to_deduction
+msgid "Add to Expenses Deduction"
+msgstr "Adaugă în decont de cheltuieli"
+
+#. module: deltatech_expenses_hr_expense
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses_hr_expense.view_expenses_import_hr_form
+msgid "Cancel"
+msgstr "Renunță"
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_import_hr__create_uid
+msgid "Created by"
+msgstr "Creat de"
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_import_hr__create_date
+msgid "Created on"
+msgstr "Creat în"
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_deduction__display_name
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_deduction_line__display_name
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_import_hr__display_name
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_hr_expense__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_import_hr__employee_id
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses_hr_expense.view_expenses_import_hr_form
+msgid "Employee"
+msgstr "Angajat"
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model,name:deltatech_expenses_hr_expense.model_hr_expense
+msgid "Expense"
+msgstr "Cheltuieli"
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_import_hr__expense_ids
+msgid "Expenses"
+msgstr "Cheltuieli"
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model,name:deltatech_expenses_hr_expense.model_deltatech_expenses_deduction
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_import_hr__expenses_deduction_id
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_hr_expense__expenses_deduction_id
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses_hr_expense.view_expenses_import_hr_form
+msgid "Expenses Deduction"
+msgstr "Decont de cheltuieli"
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model,name:deltatech_expenses_hr_expense.model_deltatech_expenses_deduction_line
+msgid "Expenses Deduction Line"
+msgstr "Linie decont cheltuieli"
+
+#. module: deltatech_expenses_hr_expense
+#. odoo-python
+#: code:addons/deltatech_expenses_hr_expense/models/deltatech_expenses_deduction.py:0
+msgid ""
+"Expenses can only be added to an expenses deduction in Draft or Advance "
+"state."
+msgstr ""
+"Cheltuielile pot fi preluate doar într-un decont în starea Draft sau "
+"Advance."
+
+#. module: deltatech_expenses_hr_expense
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses_hr_expense.view_expenses_import_hr_form
+msgid "Get"
+msgstr "Preia"
+
+#. module: deltatech_expenses_hr_expense
+#. odoo-python
+#: code:addons/deltatech_expenses_hr_expense/models/deltatech_expenses_deduction.py:0
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses_hr_expense.view_deltatech_expenses_deduction_form_inherit_hr_expense
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses_hr_expense.view_expenses_import_hr_form
+msgid "Get HR Expenses"
+msgstr "Preia cheltuieli HR"
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_deduction_line__hr_expense_id
+msgid "HR Expense"
+msgstr "Cheltuială HR"
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_deduction__id
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_deduction_line__id
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_import_hr__id
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_hr_expense__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model,name:deltatech_expenses_hr_expense.model_deltatech_expenses_import_hr
+msgid "Import HR Expenses into Expenses Deduction"
+msgstr "Preluare cheltuieli HR în decont de cheltuieli"
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_import_hr__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualizare făcută de"
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_import_hr__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualizare pe"
+
+#. module: deltatech_expenses_hr_expense
+#. odoo-python
+#: code:addons/deltatech_expenses_hr_expense/wizard/expenses_import_hr.py:0
+msgid "Select expenses of the same employee."
+msgstr "Selectați cheltuieli ale aceluiași angajat."
+
+#. module: deltatech_expenses_hr_expense
+#. odoo-python
+#: code:addons/deltatech_expenses_hr_expense/wizard/expenses_import_hr.py:0
+msgid "Select the expenses deduction to add the expenses to."
+msgstr "Selectați decontul de cheltuieli în care se preiau cheltuielile."
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model.fields,help:deltatech_expenses_hr_expense.field_deltatech_expenses_deduction_line__hr_expense_id
+msgid "The HR expense this line was taken from."
+msgstr "Cheltuiala hr.expense din care a fost preluată această linie."
+
+#. module: deltatech_expenses_hr_expense
+#. odoo-python
+#: code:addons/deltatech_expenses_hr_expense/models/deltatech_expenses_deduction.py:0
+msgid ""
+"The following expenses cannot be added to this expenses deduction (different"
+" employee or company, ineligible state or already posted): %s"
+msgstr ""
+"Următoarele cheltuieli nu pot fi preluate în acest decont (angajat/companie "
+"diferite, stare neeligibilă sau deja contabilizate): %s"
+
+#. module: deltatech_expenses_hr_expense
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses_hr_expense.hr_expense_view_form_deduction
+msgid "This expense is included in"
+msgstr "Această cheltuială este preluată într-un"
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model.fields,help:deltatech_expenses_hr_expense.field_hr_expense__expenses_deduction_id
+msgid ""
+"When set, the expense is settled through this Expenses Deduction "
+"(deltatech_expenses) and no journal entry is generated by the standard "
+"Expenses app, so the expense is not recorded twice."
+msgstr ""
+"Dacă este completat, cheltuiala este decontată prin acest Decont de "
+"cheltuieli (deltatech_expenses), iar notele contabile NU se generează din "
+"modulul standard, pentru a evita dublarea cheltuielilor."
+
+#. module: deltatech_expenses_hr_expense
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses_hr_expense.hr_expense_view_form_deduction
+msgid "and is posted there; standard posting is disabled."
+msgstr "și se contabilizează acolo; postarea standard este dezactivată."

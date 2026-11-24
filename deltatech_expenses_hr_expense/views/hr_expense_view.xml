@@ -8,9 +8,9 @@
             <!-- Banner informativ când cheltuiala este decontată prin Decont -->
             <div name="warning_duplicate_receipt_expense" position="before">
                 <div class="alert alert-info" role="alert" invisible="not expenses_deduction_id">
-                    Această cheltuială este preluată într-un
+                    This expense is included in
                     <field name="expenses_deduction_id" readonly="1" nolabel="1" class="oe_inline" />
-                    și se contabilizează acolo; postarea standard este dezactivată.
+                    and is posted there; standard posting is disabled.
                 </div>
             </div>
             <!-- Ascundem butoanele de postare standard când cheltuiala e legată de decont -->
