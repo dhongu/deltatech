@@ -26,42 +26,52 @@ def migrate(cr, version):
         return
 
     env = api.Environment(cr, SUPERUSER_ID, {})
-    Employee = env["hr.employee"]
+    Employee = env["hr.employee"].with_context(active_test=False)
 
+    # maparea se face pe (companie, partener): un contact comun mai multor companii are câte un
+    # angajat în fiecare, iar deducerea trebuie legată de angajatul din compania ei
     cr.execute(
         """
-        SELECT DISTINCT x_old_partner_id
+        SELECT DISTINCT company_id, x_old_partner_id
         FROM deltatech_expenses_deduction
         WHERE x_old_partner_id IS NOT NULL
         """
     )
-    partner_ids = [row[0] for row in cr.fetchall()]
+    pairs = cr.fetchall()
 
-    for partner in env["res.partner"].browse(partner_ids).exists():
-        employee = Employee.search([("work_contact_id", "=", partner.id)], limit=1)
+    for company_id, partner_id in pairs:
+        partner = env["res.partner"].browse(partner_id).exists()
+        if not partner:
+            continue
+        company = env["res.company"].browse(company_id).exists() or env.company
+        employee = Employee.search(
+            [("work_contact_id", "=", partner.id), ("company_id", "=", company.id)],
+            order="active desc, id",
+            limit=1,
+        )
         if not employee:
-            employee = Employee.with_company(partner.company_id or env.company).create(
+            employee = Employee.with_company(company).create(
                 {
                     "name": partner.name or "Angajat",
                     "work_contact_id": partner.id,
-                    "company_id": (partner.company_id or env.company).id,
+                    "company_id": company.id,
                 }
             )
             _logger.info(
-                "deltatech_expenses: creat hr.employee %s pentru partenerul %s",
+                "deltatech_expenses: creat hr.employee %s în compania %s pentru partenerul %s",
                 employee.id,
+                company.id,
                 partner.id,
             )
-        elif not employee.work_contact_id:
-            employee.work_contact_id = partner.id
 
         cr.execute(
             """
             UPDATE deltatech_expenses_deduction
             SET employee_id = %s
             WHERE x_old_partner_id = %s
+              AND company_id IS NOT DISTINCT FROM %s
             """,
-            (employee.id, partner.id),
+            (employee.id, partner.id, company_id),
         )
 
     # partner_id este related stored la employee_id.work_contact_id, deci
