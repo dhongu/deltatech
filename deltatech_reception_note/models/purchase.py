@@ -75,18 +75,47 @@ class PurchaseOrder(models.Model):
     def button_cancel(self):
         notes = self.filtered(lambda o: o.reception_type == "note" and o.rfq_consumption_ids)
         res = super().button_cancel()
-        # Anularea standard poate fi refuzata (ex. receptii validate); restituim doar dupa ce a reusit.
+        # Anularea standard poate fi refuzata (ex. facturi validate); restituim doar dupa ce a reusit.
         notes.filtered(lambda o: o.state == "cancel").restore_to_rfq()
         return res
 
     def restore_to_rfq(self):
-        """Give back to the RFQ lines the quantities consumed by these reception notes."""
-        consumptions = self.rfq_consumption_ids
-        for consumption in consumptions:
-            rfq_line = consumption.rfq_line_id
-            rfq_line.write({"product_qty": rfq_line.product_qty + consumption.quantity})
-        consumptions.rfq_line_id.order_id.filtered("is_empty").write({"is_empty": False})
-        consumptions.unlink()
+        """Give back to the RFQ lines the quantities consumed by these reception notes.
+
+        The quantity already received (validated receipts, also partial ones with a backorder) stays in
+        stock after the cancellation, so it is no longer expected from the vendor and is not given back:
+        it is kept on the oldest consumed RFQ lines, the ones the note drew from first.
+        """
+        for note in self:
+            consumptions = note.rfq_consumption_ids.sorted("id")
+            not_restored = False
+            for product in consumptions.rfq_line_id.product_id:
+                product_uom = product.uom_id
+                received = sum(
+                    line.product_uom_id._compute_quantity(line.qty_received, product_uom, round=False)
+                    for line in note.order_line.filtered(lambda li, p=product: li.product_id == p)
+                )
+                for consumption in consumptions.filtered(lambda c, p=product: c.rfq_line_id.product_id == p):
+                    rfq_line = consumption.rfq_line_id
+                    consumed = rfq_line.product_uom_id._compute_quantity(consumption.quantity, product_uom, round=False)
+                    kept = min(consumed, max(received, 0.0))
+                    received -= kept
+                    if not product_uom.is_zero(kept):
+                        not_restored = True
+                    to_restore = rfq_line.product_uom_id.round(
+                        consumption.quantity - product_uom._compute_quantity(kept, rfq_line.product_uom_id, round=False)
+                    )
+                    if to_restore > 0:
+                        rfq_line.write({"product_qty": rfq_line.product_qty + to_restore})
+                        rfq_line.order_id.filtered("is_empty").write({"is_empty": False})
+            if not_restored:
+                note.message_post(
+                    body=self.env._(
+                        "The quantities already received on this reception note were not given back to the "
+                        "RFQs: the goods are in stock."
+                    )
+                )
+            consumptions.unlink()
 
     def reduce_from_rfq(self):
         self.ensure_one()

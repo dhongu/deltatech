@@ -329,3 +329,33 @@ class TestPurchaseOrderReceptionType(TransactionCase):
         self.assertEqual(rfq_packs.order_line.product_uom_id, pack)
         self.assertEqual(rfq_packs.order_line.product_qty, 1)
         self.assertEqual(rfq_units.order_line.product_qty, 10)
+
+    def test_cancel_note_with_validated_receipt_keeps_rfq(self):
+        """RECEPTION-006: marfa deja receptionata nu se mai restituie in RFQ la anularea notei."""
+        rfq_order = self._order("rfq_only", 10, self.product.uom_id, state="sent")
+        reception_order = self._order("note", 4, self.product.uom_id)
+        reception_order.button_confirm()
+        picking = reception_order.picking_ids
+        picking.move_ids.quantity = 4
+        picking.move_ids.picked = True
+        picking.button_validate()
+        self.assertEqual(picking.state, "done")
+        reception_order.button_cancel()
+        self.assertEqual(reception_order.state, "cancel")
+        self.assertEqual(rfq_order.order_line.product_qty, 6)
+        self.assertFalse(reception_order.rfq_consumption_ids)
+        self.assertTrue(reception_order.message_ids.filtered(lambda m: "in stock" in (m.body or "")))
+
+    def test_cancel_note_with_partial_receipt_gives_back_the_rest(self):
+        """RECEPTION-006: la o receptie partiala se restituie doar cantitatea ramasa pe backorder."""
+        rfq_order = self._order("rfq_only", 10, self.product.uom_id, state="sent")
+        reception_order = self._order("note", 4, self.product.uom_id)
+        reception_order.button_confirm()
+        picking = reception_order.picking_ids
+        picking.move_ids.quantity = 1
+        picking.move_ids.picked = True
+        picking.with_context(cancel_backorder=False)._action_done()
+        self.assertEqual(len(reception_order.picking_ids), 2)
+        reception_order.button_cancel()
+        self.assertEqual(rfq_order.order_line.product_qty, 9)
+        self.assertFalse(reception_order.rfq_consumption_ids)

@@ -18,7 +18,9 @@ reception notes.
 **Reception note.** A purchase order of type *Reception Note* holds the products and quantities
 delivered. When it is confirmed, its quantities are taken from the sent *RFQ Only* orders of the same
 vendor and company, oldest first, in the unit of measure of the product, and the receipt is created by
-the standard confirmation. An *RFQ Only* order that is fully consumed is marked as empty.
+the standard confirmation. An *RFQ Only* order that is fully consumed is marked as empty. Cancelling a
+confirmed reception note gives back to the *RFQ Only* orders the quantities it took and did not receive
+yet.
 
 **Ignore quantities.** If a product or a quantity is not found on a sent *RFQ Only* order, the
 confirmation stops with a message. Tick *Ignore quantities* on the reception note to confirm it anyway;

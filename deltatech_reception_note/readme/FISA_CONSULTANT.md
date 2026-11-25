@@ -162,6 +162,43 @@ starea „Pregătit".
 
 ![Lista Recepții din meniul Pe drum: două recepții WH/IN de la Distribuție Materiale SRL, în starea Pregătit, cu numerele celor două note în coloana Document sursă; recepția comenzii trecute prin Creează RFQ nu mai apare](../static/description/09_receptii_pe_drum.png)
 
+### Pasul 10 — Anularea unei note confirmate
+
+Dacă o notă a fost confirmată greșit (alt furnizor, cantitate tastată greșit) și recepția ei nu a fost
+încă validată, deschideți nota din **Achiziții → Comenzi → Comenzi de achiziție** (coloana **Tip** =
+„Notă recepție") și apăsați **Anulează**. Dacă butonul lipsește, comanda e blocată: un manager de
+achiziții apasă întâi **Redeschide**. Odoo anulează recepția nevalidată, iar modulul pune înapoi pe
+cererile „Doar RFQ" exact cantitățile pe care nota le consumase, fiecare pe linia și în unitatea de
+măsură din care fuseseră scăzute. O cerere golită de notă (marcată **Consumate integral**) redevine
+disponibilă.
+1. **Verificați** că nota are starea **Anulat** (în exemplu, nota cu avizul AV 4526 și 15 saci de ciment).
+2. **Verificați** cererea din care consumase: cantitatea a revenit (cererea de la pasul 8 arată tot 40
+   la ciment, ca și cum nota anulată nu ar fi existat).
+3. **Treceți mai departe**: pentru a corecta nota, apăsați **Setează ca ciornă** (nota reapare în
+   **Note recepție**), modificați-o și confirmați-o din nou; se consumă din cereri o singură dată, cu
+   cantitățile noi.
+
+Dacă o parte din marfă a fost deja recepționată (recepție validată integral sau parțial, cu backorder),
+acea cantitate a intrat în stoc și **nu** se mai restituie în cereri; se restituie doar ce nu a sosit
+(de exemplu cantitatea de pe backorder, pe care Odoo o anulează). În istoricul notei apare mesajul
+„Cantitățile deja recepționate pe această notă nu au fost restituite în RFQ-uri: marfa este în stoc".
+**Recomandare:** după ce marfa a fost recepționată (chiar și parțial), nu anulați nota. Anulați doar
+backorder-ul (dacă există), readăugați manual cantitatea care nu mai vine pe această notă, returnați
+prin retur standard ce s-a recepționat greșit și facturați pe notă (cu politica de facturare pe
+cantități recepționate): factura închide singură 408. Dacă nota trebuie totuși anulată, nu o readuceți
+în ciornă și nu o reconfirmați (ar consuma din nou cererile pentru toată cantitatea și ar crea o
+recepție pentru diferența nesosită), iar factura furnizorului pentru cantitatea recepționată se
+introduce manual, cu contul 408 pus pe linii: 408 + 4426 = 401; verificați cu contabilul conturile din
+localizare. Notele confirmate înainte de versiunea 19.0.0.1.10 a modulului nu au consumul înregistrat
+și nu restituie nimic la anulare; readăugați manual cantitățile.
+
+Readăugarea manuală se face pe cererea „Doar RFQ" din care s-a consumat, dacă ea apare încă la filtrul
+**Cu cantități rămase**. O cerere golită (filtrul **Consumate integral**) nu mai este consumată de
+notele următoare chiar dacă îi completați cantitățile: în acest caz creați o cerere „Doar RFQ" nouă cu
+cantitatea rămasă și apăsați **Setează trimis** (ca la pasul 3).
+
+![Nota de recepție cu avizul AV 4526 în starea Anulat, cu linia Ciment Portland 40 kg (15) și butonul Setează ca ciornă evidențiat](../static/description/10_nota_anulata.png)
+
 ### Note de monografie și raportare
 
 Modulul nu generează note contabile. Recepția creată din nota confirmată și factura furnizorului
@@ -180,7 +217,8 @@ generate de modulul de localizare. Nota de recepție se tipărește cu rapoartel
 
 Ce este automat: copierea cantităților nerecepționate în cererea „Doar RFQ", anularea recepțiilor
 „Pregătit" ale comenzii de pornire, scăderea cantităților de pe cereri la confirmarea notei (cele mai
-vechi întâi, în unitatea produsului), marcarea cererilor golite, mesajul cu cantitățile forțate.
+vechi întâi, în unitatea produsului), marcarea cererilor golite, mesajul cu cantitățile forțate,
+restituirea pe cereri, la anularea unei note, a cantităților care nu au fost recepționate.
 Ce rămâne manual: crearea notei pentru fiecare livrare, numărul avizului, decizia de a forța cantitățile,
 validarea recepției și facturarea.
 
@@ -197,6 +235,10 @@ validarea recepției și facturarea.
 - [ ] O notă cu mai mult decât e pe cereri se oprește cu mesajul de cantitate negăsită.
 - [ ] Cu **Ignoră cantitățile negăsite** bifat, nota se confirmă și istoricul arată cantitățile forțate.
 - [ ] O notă reconfirmată nu mai scade a doua oară din cereri.
+- [ ] Anularea unei note cu recepția nevalidată pune cantitățile înapoi pe cereri, iar după
+      **Setează ca ciornă** și o nouă confirmare cererea are același rest ca după o singură confirmare.
+- [ ] Anularea unei note cu recepția validată nu modifică cererile și lasă mesajul în istoricul notei;
+      la o recepție parțială se restituie doar cantitatea nerecepționată.
 - [ ] Recepția notei confirmate apare în **Pe drum**, iar după validare în **De facturat**.
 - [ ] Notele unei companii nu consumă cererile altei companii.
 
@@ -207,6 +249,8 @@ validarea recepției și facturarea.
 | Produsul [cod] nume nu se găsește într-o CdO trimisă | Produsul nu e pe nicio cerere „Doar RFQ" trimisă a furnizorului (sau cererea e în „CdO", netrimisă) | Marcați cererea cu **Setează trimis**, verificați furnizorul și compania notei sau bifați **Ignoră cantitățile negăsite** |
 | Cantitatea X pentru produsul [cod] nume nu se găsește într-o CdO trimisă | Nota are mai mult decât totalul rămas pe cereri | Corectați cantitatea după aviz sau bifați **Ignoră cantitățile negăsite** |
 | Nu se poate confirma acest tip de comandă | S-a încercat confirmarea unei cereri „Doar RFQ" | Cererile „Doar RFQ" nu se confirmă; recepționați marfa printr-o notă de recepție |
+| Nu se pot anula comenzile de achiziție: … Trebuie să anulați mai întâi facturile furnizor asociate. | Nota pe care încercați să o anulați are o factură de furnizor validată | Dacă factura e în perioada curentă și nedeclarată, readuceți-o în ciornă și anulați-o, apoi anulați nota. Dacă e deja declarată, nu anulați nota: corectați prin retur și factură de stornare pe notă |
+| Cantitățile deja recepționate pe această notă nu au fost restituite în RFQ-uri: marfa este în stoc (mesaj în istoric) | Nota a fost anulată după validarea, totală sau parțială, a recepției | Nimic de corectat pe cereri; nu reconfirmați nota; factura pentru cantitatea recepționată se introduce manual, cu 408 pe linii (pasul 10) |
 | Selectați cel puțin o comandă de achiziție pentru a crea nota de recepție | Acțiunea **Creează RFQ** a fost apelată fără nicio comandă selectată (de ex. dintr-o acțiune automată) | Rulați acțiunea din formularul unei comenzi |
 
 ## 10. Capturi de ecran
@@ -227,6 +271,7 @@ planul de conturi RO. Aceleași shot-uri produc și capturile în engleză din
 | `07_nota_cantitati_fortate.png` | nota confirmată cu Ignoră cantitățile negăsite și mesajul din istoric |
 | `08_cerere_dupa_consum.png` | cererea „Doar RFQ" după consumul notelor |
 | `09_receptii_pe_drum.png` | lista Pe drum cu recepțiile în starea Pregătit |
+| `10_nota_anulata.png` | nota anulată, cu butonul Setează ca ciornă |
 
 Regenerare (doar clasa acestui modul, ca să nu se rescrie capturile altor module):
 
@@ -242,7 +287,8 @@ recepție). Insistați că o cerere „Doar RFQ" se consumă doar dacă este **t
 aceluiași furnizor și aceleiași companii ca nota. Acțiunea apare în interfață ca **Creează RFQ**, deși
 în engleză se numește „Create reception note": ea nu creează nota, ci cererea din care notele
 consumă. Folosirea **Ignoră cantitățile negăsite** trebuie să fie o excepție, verificată după mesajul
-din istoric. Lista **De facturat** arată toate recepțiile validate, facturate sau nu.
+din istoric. O notă greșită se anulează înainte de validarea recepției: așa cantitățile se întorc
+pe cereri; după validare, nota nu se anulează, corecția se face prin retur și factura pe notă. Lista **De facturat** arată toate recepțiile validate, facturate sau nu.
 
 ---
 

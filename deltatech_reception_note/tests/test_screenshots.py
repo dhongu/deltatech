@@ -7,7 +7,8 @@
 #
 # Seed (un singur furnizor, ca notele să consume din aceleași cereri):
 #   - o comandă mai veche trecută prin asistent, a cărei cerere „Doar RFQ" a fost apoi consumată
-#     de două note confirmate (una normală, una cu „Ignoră cantitățile negăsite");
+#     de două note confirmate (una normală, una cu „Ignoră cantitățile negăsite"), plus o notă
+#     confirmată și anulată, care și-a restituit cantitatea;
 #   - comanda din pașii 1-3, trecută prin asistent după note: formularul ei arată la fel ca înainte
 #     (meniul Acțiune și asistentul), iar cererea ei „Doar RFQ" e încă neconsumată;
 #   - o notă în ciornă cu restul cantităților și o notă cu o cantitate prea mare (eroarea).
@@ -94,6 +95,11 @@ class TestReceptionNoteScreenshots(AccountTestInvoicingCommon, ScreenshotCase or
         cls.note_forced.ignore_quantities = True
         # confirmată de admin, în română: mesajul din istoric se scrie în limba celui care confirmă
         cls.note_forced.with_user(admin).with_context(lang="ro_RO").button_confirm()
+
+        # 2b. o notă confirmată greșit și anulată: cantitățile ei se întorc în prima cerere (pasul 10)
+        cls.note_cancelled = cls._order("note", False, [(cls.cement, 15)], delivery_note_no="AV 4526")
+        cls.note_cancelled.button_confirm()
+        cls.note_cancelled.with_user(admin).with_context(lang="ro_RO").button_cancel()
 
         # 3. comanda din pașii 1-3, trecută prin asistent după note: cererea ei e încă neconsumată
         cls.po_open = cls._order("normal", "OF-2026-131", [(cls.cement, 80), (cls.adhesive, 40)])
@@ -236,6 +242,14 @@ class TestReceptionNoteScreenshots(AccountTestInvoicingCommon, ScreenshotCase or
                 "name": "09_receptii_pe_drum.png",
                 "wait": ".o_list_view",
                 "settle": 2000,
+            },
+            # 10. nota anulată: cantitățile s-au întors în cerere, butonul Setează ca ciornă
+            {
+                "url": self._form(self.note_cancelled),
+                "name": "10_nota_anulata.png",
+                "wait": ".o_form_view",
+                "highlight": [".o_statusbar_status", "button[name='button_draft']"],
+                "settle": 2500,
             },
         ]
 

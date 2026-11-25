@@ -64,3 +64,18 @@ installation; the **Purchase → Reception notes** menu appears.
    in **To invoice**, whether they were billed or not.
 
    ![To arrive list with the Ready receipts of the vendor](static/description/en/09_receptii_pe_drum.png)
+
+10. **Cancel a confirmed note** — if a note was confirmed by mistake and its receipt is not validated
+    yet, open it from **Purchase → Orders → Purchase Orders** and click **Cancel**: the note moves to
+    the *Cancelled* state (1). The receipt is cancelled and the quantities the note consumed are given
+    back to the *RFQ Only* requests, on the same lines and in their unit of measure; a request the
+    note had emptied is available again. Click **Set to Draft** (2) to correct the note and confirm it
+    again: the requests are consumed only once. Quantities already received (a validated receipt, also
+    a partial one with a backorder) are in stock and are not given back; a message in the chatter says
+    so. Once goods were received, do not cancel the note: cancel only the backorder, add back by hand
+    what will not come on this note, use a standard return and bill the note. If the note is cancelled
+    anyway, enter the vendor bill by hand, with the goods-received-not-invoiced account (408) on its
+    lines. Add quantities back on a request only while it is not marked *Empty*; an empty request is no
+    longer consumed, so create a new *RFQ Only* request and click **Set as sent**. Notes confirmed before version 19.0.0.1.10 give nothing back when cancelled.
+
+    ![Cancelled reception note with the Set to Draft button](static/description/en/10_nota_anulata.png)

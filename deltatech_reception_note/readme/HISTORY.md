@@ -4,6 +4,9 @@
   and clears *Is empty* on the RFQs it had emptied, so a note can be cancelled, reset to draft and
   confirmed again without consuming the RFQs twice (RECEPTION-006, #3447). The consumption is recorded
   per RFQ line from this version on; notes confirmed before the update give nothing back on cancel.
+- Quantities already received on the note (validated receipt, also a partial one with a backorder) stay
+  in stock and are not given back; a chatter message on the note says so.
+- Consultant sheet and usage guide: step 10, cancelling a confirmed note, with a new screenshot.
 
 ## 19.0.0.1.9 (2026-11-24)
 
