@@ -1,3 +1,10 @@
+## 19.0.0.1.10 (2026-11-25)
+
+- Cancelling a confirmed reception note gives back to the *RFQ Only* orders the quantities it consumed
+  and clears *Is empty* on the RFQs it had emptied, so a note can be cancelled, reset to draft and
+  confirmed again without consuming the RFQs twice (RECEPTION-006, #3447). The consumption is recorded
+  per RFQ line from this version on; notes confirmed before the update give nothing back on cancel.
+
 ## 19.0.0.1.9 (2026-11-24)
 
 - *Create reception note* called without selected purchase orders (no `active_ids` in the context)

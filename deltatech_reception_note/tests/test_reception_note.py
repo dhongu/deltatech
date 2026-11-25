@@ -285,3 +285,47 @@ class TestPurchaseOrderReceptionType(TransactionCase):
         body = str(note.message_ids.filtered(lambda m: "TEST_PRODUCT" in (m.body or "")).body)
         self.assertIn("<br>", body)
         self.assertNotIn("&lt;br", body)
+
+    def test_cancel_note_gives_quantity_back(self):
+        """RECEPTION-006: confirmare, anulare, ciorna si reconfirmare lasa RFQ-ul ca dupa o confirmare."""
+        rfq_order = self._order("rfq_only", 10, self.product.uom_id, state="sent")
+        reception_order = self._order("note", 4, self.product.uom_id)
+        reception_order.button_confirm()
+        self.assertEqual(rfq_order.order_line.product_qty, 6)
+        reception_order.button_cancel()
+        self.assertEqual(reception_order.state, "cancel")
+        self.assertEqual(rfq_order.order_line.product_qty, 10)
+        self.assertFalse(reception_order.rfq_consumption_ids)
+        reception_order.button_draft()
+        reception_order.button_confirm()
+        self.assertEqual(rfq_order.order_line.product_qty, 6)
+
+    def test_cancel_note_reopens_emptied_rfq(self):
+        """RECEPTION-006: un RFQ golit de nota redevine disponibil dupa anularea notei."""
+        rfq_order = self._order("rfq_only", 5, self.product.uom_id, state="sent")
+        reception_order = self._order("note", 5, self.product.uom_id)
+        reception_order.button_confirm()
+        self.assertTrue(rfq_order.is_empty)
+        reception_order.button_cancel()
+        self.assertFalse(rfq_order.is_empty)
+        self.assertEqual(rfq_order.order_line.product_qty, 5)
+        reception_order.button_draft()
+        reception_order.button_confirm()
+        self.assertEqual(rfq_order.order_line.product_qty, 0)
+        self.assertTrue(rfq_order.is_empty)
+
+    def test_cancel_note_over_several_rfqs_in_packs(self):
+        """RECEPTION-006: restituirea se face pe fiecare RFQ consumat, in unitatea liniei RFQ."""
+        pack = self._uom_pack()
+        rfq_packs = self._order("rfq_only", 1, pack, state="sent")
+        rfq_units = self._order("rfq_only", 10, self.product.uom_id, state="sent")
+        reception_order = self._order("note", 15, self.product.uom_id)
+        reception_order.button_confirm()
+        # 22 bucati in RFQ-uri, 15 receptionate: raman 7, indiferent de ordinea consumului
+        remaining = rfq_packs.order_line.product_qty * 12 + rfq_units.order_line.product_qty
+        self.assertAlmostEqual(remaining, 7, places=1)
+        self.assertEqual(len(reception_order.rfq_consumption_ids), 2)
+        reception_order.button_cancel()
+        self.assertEqual(rfq_packs.order_line.product_uom_id, pack)
+        self.assertEqual(rfq_packs.order_line.product_qty, 1)
+        self.assertEqual(rfq_units.order_line.product_qty, 10)

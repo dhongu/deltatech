@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_reception_note_create,access_reception_note_create,deltatech_reception_note.model_reception_note_create,purchase.group_purchase_user,1,1,1,1
+access_purchase_reception_note_consumption_user,access_purchase_reception_note_consumption_user,deltatech_reception_note.model_purchase_reception_note_consumption,purchase.group_purchase_user,1,1,1,1

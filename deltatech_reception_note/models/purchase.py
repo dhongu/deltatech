@@ -22,6 +22,13 @@ class PurchaseOrder(models.Model):
         default=False,
         help="If checked, quantities bigger than those found on rfq's are forced for reception",
     )
+    rfq_consumption_ids = fields.One2many(
+        "purchase.reception.note.consumption",
+        "note_id",
+        string="RFQ consumption",
+        readonly=True,
+        copy=False,
+    )
 
     def action_rfq_send(self):
         if self.reception_type != "note":
@@ -65,6 +72,22 @@ class PurchaseOrder(models.Model):
                 order.with_company(order.company_id).reduce_from_rfq()
         return res
 
+    def button_cancel(self):
+        notes = self.filtered(lambda o: o.reception_type == "note" and o.rfq_consumption_ids)
+        res = super().button_cancel()
+        # Anularea standard poate fi refuzata (ex. receptii validate); restituim doar dupa ce a reusit.
+        notes.filtered(lambda o: o.state == "cancel").restore_to_rfq()
+        return res
+
+    def restore_to_rfq(self):
+        """Give back to the RFQ lines the quantities consumed by these reception notes."""
+        consumptions = self.rfq_consumption_ids
+        for consumption in consumptions:
+            rfq_line = consumption.rfq_line_id
+            rfq_line.write({"product_qty": rfq_line.product_qty + consumption.quantity})
+        consumptions.rfq_line_id.order_id.filtered("is_empty").write({"is_empty": False})
+        consumptions.unlink()
+
     def reduce_from_rfq(self):
         self.ensure_one()
         # only the sent RFQs of the reception note company may be consumed
@@ -79,6 +102,7 @@ class PurchaseOrder(models.Model):
         found_errors = []
         quantity_errors = []
         lines_to_add = []
+        consumption_vals = []
         for line in self.order_line:
             # Nota si RFQ-urile pot fi in unitati diferite (nota in bucati, RFQ in baxuri): consumul
             # se calculeaza in unitatea produsului si se scrie inapoi in unitatea fiecarei linii RFQ.
@@ -140,19 +164,32 @@ class PurchaseOrder(models.Model):
                         rfq_qty = rfq_line.product_uom_id._compute_quantity(
                             rfq_line.product_qty, product_uom, round=False
                         )
+                        if not product_uom.compare(quantity, 0.0) > 0:
+                            break
                         if product_uom.compare(quantity, rfq_qty) < 0:
                             product_qty = product_uom._compute_quantity(
                                 rfq_qty - quantity, rfq_line.product_uom_id, round=False
                             )
-                            rfq_line.write({"product_qty": product_qty})
                             quantity = 0
                         else:
                             quantity -= rfq_qty
-                            rfq_line.write({"product_qty": 0})
+                            product_qty = 0.0
+                        # se retine consumul, in unitatea liniei RFQ (dupa rotunjirea campului), ca anularea
+                        # notei sa poata restitui exact ce s-a scazut
+                        previous_qty = rfq_line.product_qty
+                        rfq_line.write({"product_qty": product_qty})
+                        consumption_vals.append(
+                            {
+                                "note_id": self.id,
+                                "rfq_line_id": rfq_line.id,
+                                "quantity": previous_qty - rfq_line.product_qty,
+                            }
+                        )
                 rfq_lines.order_id.check_if_empty()
         errors = found_errors + quantity_errors
         if errors:
             raise UserError("\n".join(errors))
+        self.env["purchase.reception.note.consumption"].create(consumption_vals)
         return lines_to_add
 
     def check_if_empty(self):
@@ -162,3 +199,17 @@ class PurchaseOrder(models.Model):
                 qty += line.product_qty
             if qty == 0.0:
                 order.write({"is_empty": True})
+
+
+class PurchaseReceptionNoteConsumption(models.Model):
+    _name = "purchase.reception.note.consumption"
+    _description = "Quantity consumed from an RFQ line by a reception note"
+
+    note_id = fields.Many2one("purchase.order", string="Reception note", required=True, ondelete="cascade", index=True)
+    rfq_line_id = fields.Many2one("purchase.order.line", string="RFQ line", required=True, ondelete="cascade")
+    quantity = fields.Float(
+        string="Quantity",
+        digits="Product Unit",
+        required=True,
+        help="Quantity taken from the RFQ line, in the unit of measure of the RFQ line",
+    )
