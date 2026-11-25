@@ -128,8 +128,6 @@ ulterior cu skill-ul `fisa-screenshots`.
 
 - Sigla este singurul element care se schimbă: brandurile care au nevoie de alte date de contact pe
   documente au nevoie de altă soluție (de exemplu companii separate).
-- Textele de ajutor ale câmpurilor sunt scrise în română în cod și apar la fel pentru utilizatorii în
-  altă limbă.
 
 ---
 
