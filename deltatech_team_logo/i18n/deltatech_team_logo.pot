@@ -22,12 +22,6 @@ msgid "Display Name"
 msgstr ""
 
 #. module: deltatech_team_logo
-#: model:ir.model.fields,help:deltatech_team_logo.field_stock_picking__team_id
-msgid ""
-"Echipa de vânzare a comenzii sursă, folosită pentru logo-ul din rapoarte."
-msgstr ""
-
-#. module: deltatech_team_logo
 #: model:ir.model.fields,field_description:deltatech_team_logo.field_crm_team__id
 #: model:ir.model.fields,field_description:deltatech_team_logo.field_stock_picking__id
 msgid "ID"
@@ -41,14 +35,19 @@ msgstr ""
 #. module: deltatech_team_logo
 #: model:ir.model.fields,help:deltatech_team_logo.field_crm_team__logo
 msgid ""
-"Logo afișat în rapoartele (factură, ofertă, aviz) emise pentru această "
-"echipă de vânzare. Dacă este gol, se folosește logo-ul firmei."
+"Logo printed on the reports (invoice, quotation, delivery slip) issued for "
+"this sales team. If empty, the company logo is used."
 msgstr ""
 
 #. module: deltatech_team_logo
 #: model:ir.model,name:deltatech_team_logo.model_crm_team
 #: model:ir.model.fields,field_description:deltatech_team_logo.field_stock_picking__team_id
 msgid "Sales Team"
+msgstr ""
+
+#. module: deltatech_team_logo
+#: model:ir.model.fields,help:deltatech_team_logo.field_stock_picking__team_id
+msgid "Sales team of the source order, used for the logo on the reports."
 msgstr ""
 
 #. module: deltatech_team_logo

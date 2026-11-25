@@ -4,7 +4,7 @@
     "images": ["static/description/main_screenshot.png"],
     "name": "Sales Team Logo",
     "summary": "A different logo on PDF reports for each sales team",
-    "version": "19.0.1.0.3",
+    "version": "19.0.1.0.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "support": "support@terrabit.ro",
