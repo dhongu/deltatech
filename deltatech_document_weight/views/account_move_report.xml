@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template id="report_invoice_document" inherit_id="account.report_invoice_document" priority="100">
-        <xpath expr="//td[@name='account_invoice_line_name']/span[@t-field='line.label']" position="after">
+        <xpath expr="//td[@name='account_invoice_line_name']" position="inside">
             <t t-if="o.company_id.document_weight_on_invoice and line.product_id">
                 <t t-set="x_weights" t-value="line.product_id._get_document_weights(line.quantity, line.product_uom_id)"/>
                 <t t-set="x_labels" t-value="o._get_document_weight_labels()"/>

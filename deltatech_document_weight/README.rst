@@ -67,6 +67,14 @@ The two print options are set per company.
 Changelog
 =========
 
+20.0.1.0.1
+==========
+
+- Fix: the module could not be installed together with
+  ``l10n_ro_invoice_report`` (the invoice report line description is
+  rebuilt there). The invoice line block is now added inside the
+  description cell instead of after a fixed ``span``.
+
 20.0.1.0.0
 ==========
 

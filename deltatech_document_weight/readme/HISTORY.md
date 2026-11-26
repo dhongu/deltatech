@@ -1,3 +1,7 @@
+# 20.0.1.0.1
+
+- Fix: the module could not be installed together with `l10n_ro_invoice_report` (the invoice report line description is rebuilt there). The invoice line block is now added inside the description cell instead of after a fixed `span`.
+
 # 20.0.1.0.0
 
 - Migration to 20.0 from 19.0. The quotation and invoice reports anchor on the new `label` field of the line, and the option is read with the typed `ir.config_parameter` API of Odoo 20 (`get_bool`).
