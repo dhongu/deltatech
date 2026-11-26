@@ -1,3 +1,11 @@
+## 19.0.1.0.6 (2026-11-26)
+
+- Product statistics: each template batch now refreshes its variants before summing
+  them, so best-seller and most-visited sorting no longer use stale counters when the
+  batches run as concurrent queue jobs (#3504).
+- Consultant sheet (Romanian) and usage guide with screenshots; Romanian name for the scheduled
+  action.
+
 ## 19.0.1.0.5 (2026-11-11)
 
 - Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.

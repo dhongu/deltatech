@@ -32,3 +32,20 @@ class TestUpdateProductStatistics(TransactionCase):
 
     def test_update_statistics(self):
         self.env["product.template"]._cron_update_statistics()
+
+    def test_template_totals_use_fresh_variant_values(self):
+        """The template sum must not read stale variant counters (#3504)."""
+        template = self.product_a.product_tmpl_id
+        # Stale values, as left by a variant job that has not run yet.
+        self.product_a.write({"visit_count": 99, "sales_count2": 99})
+        visitor = self.env["website.visitor"].create({"access_token": "f9d2b14a3c3e4b6d8e2a1c5b7d9e0f12"})
+        self.env["website.track"].create(
+            [{"visitor_id": visitor.id, "product_id": self.product_a.id} for _i in range(3)]
+        )
+
+        template._update_statistics()
+
+        self.assertEqual(self.product_a.visit_count, 3)
+        self.assertEqual(self.product_a.sales_count2, 0)
+        self.assertEqual(template.visit_count, 3)
+        self.assertEqual(template.sales_count2, 0)

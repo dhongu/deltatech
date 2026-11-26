@@ -38,6 +38,11 @@
        style="padding:10px 22px;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</a>
@@ -47,11 +52,89 @@
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</span></div>
 <p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">Shoppers like to start with what others buy, visit and rate highly, or with what is in stock. This module adds five such criteria to the product sort options of the website and keeps the figures behind them up to date with a daily scheduled action.</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-sliders" style="" aria-hidden="true"></span></span><div><span class="fw-bold">New sort options</span><div><em>Best sellers</em>, <em>Most Visited</em>, <em>Reviews</em>, <em>Best Review</em> and <em>Availability</em> join the website's product sort list, each with the highest value first.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-shopping-bag" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Sales and visits</span><div><em>Best sellers</em> uses the quantity sold in the last 365 days, read from the sales report for its done states. <em>Most Visited</em> uses the visits recorded for the product page.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Ratings</span><div><em>Reviews</em> orders products by the number of ratings submitted for them, and <em>Best Review</em> by their average.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-cubes" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Stock status</span><div><em>Availability</em> puts first the products whose on-hand quantity is above zero.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Daily refresh</span><div>The scheduled action <em>Products: Update products statistics</em> recomputes the figures once a day for every product and variant, in batches of 2,000, as queued jobs when <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">queue_job</code> is installed.</div></div></div></li></ul>
-<p>It depends on <em>eCommerce</em> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">website_sale</code>) and <em>Inventory</em>. The figures are stored on products and variants, so new sales, visits and ratings count in the sort only after the next run; archived products are skipped. The action runs as the system user and the module has no security groups.</p>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-sliders" style="" aria-hidden="true"></span></span><div><span class="fw-bold">New sort options</span><div><em>Best sellers</em>, <em>Most Visited</em>, <em>Reviews</em>, <em>Best Review</em> and <em>Availability</em> join the website's product sort list, each with the highest value first.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-shopping-bag" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Sales and visits</span><div><em>Best sellers</em> uses the quantity sold in the last 365 days, read from the sales report for its done states. <em>Most Visited</em> uses the visits recorded for the product page.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Ratings</span><div><em>Reviews</em> orders products by the number of ratings submitted for them, and <em>Best Review</em> by their average.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-cubes" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Stock status</span><div><em>Availability</em> puts first the products whose on-hand quantity is above zero.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Daily refresh</span><div>The scheduled action <em>Products: Update products statistics</em> recomputes the figures once a day for every active product, in batches of 2,000 products, as queued jobs when <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">queue_job</code> is installed. Each batch first refreshes all variants of its products, archived ones included, so the product totals never use stale variant figures.</div></div></div></li></ul>
+<p>It depends on <em>eCommerce</em> (<code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">website_sale</code>) and <em>Inventory</em>. The figures are stored on products and variants, so new sales, visits and ratings count in the sort only after the next run; archived products are skipped, while the archived variants of an active product still count in its totals. The action runs as the system user and the module has no security groups.</p>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</span></div>
+<p>The figures behind the new sort options are computed once a day by a scheduled action. Until its
+first run they are all zero, and the new options do not change the order of the products.</p>
+<ol>
+<li>Open the shop (the <em>Shop</em> menu of the website, or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">/shop</code>) and click <em>Sort By</em>. Below the
+   standard Odoo options, the module adds <em>Best sellers</em>, <em>Most Visited</em>, <em>Reviews</em>, <em>Best Review</em>
+   and <em>Availability</em>. Every visitor of the website sees the same list.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="The Shop page with the Sort By list open: below Featured, Newest Arrivals, Name (A-Z) and the two price sorts, the options Best sellers, Most Visited, Reviews, Best Review and Availability are highlighted" src="en/01_optiuni_sortare.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">The Shop page with the Sort By list open: below Featured, Newest Arrivals, Name (A-Z) and the two price sorts, the options Best sellers, Most Visited, Reviews, Best Review and Availability are highlighted</span>
+  </div>
+</div>
+<ol start="2">
+<li>Pick <em>Best sellers</em>. The <em>Sort By</em> button shows the chosen option, and the first products are
+   the ones with the highest quantity on confirmed sales orders in the last 365 days. The other
+   options work the same way: <em>Most Visited</em> uses the visits on the product page, <em>Reviews</em> and
+   <em>Best Review</em> the number and the average of the ratings, <em>Availability</em> the on-hand stock.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="The Shop page sorted by Best sellers: the Sort By button shows the chosen option and the first three products are Scaun de birou ergonomic, Birou reglabil electric and Lamp&#259; de birou LED, in the order of the quantities sold" src="en/02_magazin_cele_mai_vandute.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">2</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">The Shop page sorted by Best sellers: the Sort By button shows the chosen option and the first three products are Scaun de birou ergonomic, Birou reglabil electric and Lamp&#259; de birou LED, in the order of the quantities sold</span>
+  </div>
+</div>
+<ol start="3">
+<li>To make one of them the default sort of the shop, click <em>Editor</em> (top left) on the <em>Shop</em> page,
+   then <em>Edit</em>, and click the product grid. In the right panel, on the <em>Style</em> tab, choose it in <em>Default Sort</em> and click
+   <em>Save</em>. Visitors who do not pick a sort themselves now see the products in that order.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="The website editor on the Shop page: on the Style tab of the right panel, the Default Sort field under Toolbar is highlighted, with the value Featured" src="en/03_sortare_implicita_editor.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">3</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">The website editor on the Shop page: on the Style tab of the right panel, the Default Sort field under Toolbar is highlighted, with the value Featured</span>
+  </div>
+</div>
+<ol start="4">
+<li>With developer mode on, go to <em>Settings &gt; Technical &gt; Automation &gt; Scheduled Actions</em> and open
+   <em>Products: Update products statistics</em>. It runs once a day and recomputes, for every active
+   product, the sales and visits of its variants (archived ones included, refreshed in the same
+   batch before they are summed), the ratings and the stock. <em>Run Manually</em> computes the figures at
+   once, which is useful right after installing the module. With
+   <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">queue_job</code> installed the work is split into queued jobs, and the new order shows once they
+   are done.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="The form of the scheduled action Products: Update products statistics: model Product, Execute Every 1 Days highlighted and the Run Manually button highlighted" src="en/04_actiune_planificata.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">4</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">The form of the scheduled action Products: Update products statistics: model Product, Execute Every 1 Days highlighted and the Run Manually button highlighted</span>
+  </div>
+</div>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.6 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-26)</span></h2>
+<ul>
+<li>Product statistics: each template batch now refreshes its variants before summing
+  them, so best-seller and most-visited sorting no longer use stale counters when the
+  batches run as concurrent queue jobs (#3504).</li>
+<li>Consultant sheet (Romanian) and usage guide with screenshots; Romanian name for the scheduled
+  action.</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.5 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-11)</span></h2>
 <ul>
 <li>Apps Store page: a fuller description (what the module does, the problem it solves, its main functions, dependencies and limits). No change in behavior.</li>

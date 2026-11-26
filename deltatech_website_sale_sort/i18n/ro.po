@@ -80,7 +80,7 @@ msgstr "Șablon produs"
 #: model:ir.cron,cron_name:deltatech_website_sale_sort.ir_cron_product_sale_scheduled
 #: model:ir.cron,name:deltatech_website_sale_sort.ir_cron_product_sale_scheduled
 msgid "Products: Update products statistics"
-msgstr ""
+msgstr "Produse: Actualizare statistici produse"
 
 #. module: deltatech_website_sale_sort
 #: model:ir.model.fields,field_description:deltatech_website_sale_sort.field_product_product__rating_avg2
