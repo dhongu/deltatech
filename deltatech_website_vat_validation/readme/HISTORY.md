@@ -1,3 +1,10 @@
+## 19.0.0.3.1 (2026-11-26)
+
+- A tax code already stored with spaces or punctuation between its last digits (`RO12345678 9 7`)
+  is now recognised as a duplicate when another customer types it without them (`RO1234567897`).
+  Before, the search for candidates missed it and the duplicate was accepted
+  (dhongu/deltatech#3508).
+
 ## 19.0.0.3.0 (2026-11-13)
 
 - A person who fills in a company name and a tax code in the billing address at checkout gets the

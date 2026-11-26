@@ -123,6 +123,21 @@ class TestWebsiteSaleVATValidation(TransactionCase):
         else:
             self.assertTrue(any("contact us" in msg for msg in error_messages))
 
+    def test_13_vat_duplicate_with_separators_in_last_digits(self):
+        """A stored code with spaces or dots between its last digits is the same code written
+        without them (dhongu/deltatech#3508)."""
+        for stored in ("RO12345678 9 7", "RO 1234.567.89-7"):
+            with self.subTest(stored=stored):
+                partner = self.env["res.partner"].create(
+                    {"name": "Firma Existenta SRL", "is_company": True, "country_id": self.country_ro.id}
+                )
+                # written in SQL: the stored spelling must survive any formatting done on create/write
+                self.env.cr.execute("UPDATE res_partner SET vat = %s WHERE id = %s", (stored, partner.id))
+                partner.invalidate_recordset(["vat"])
+                invalid_fields, _missing, _error_messages = self._validate_vat_as("RO1234567897")
+                self.assertIn("vat", invalid_fields)
+                partner.unlink()
+
     def test_12_own_company_vat_is_not_a_duplicate(self):
         """A contact of a company who types the tax code of their own company is not blocked."""
         company = self.env["res.partner"].create(
