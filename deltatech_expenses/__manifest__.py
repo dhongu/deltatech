@@ -5,7 +5,7 @@
 {
     "name": "Expenses Deduction",
     "summary": "Cash advances settled with an expense report (account 542)",
-    "version": "19.0.3.12.4",
+    "version": "19.0.3.12.5",
     "category": "Accounting & Finance",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",

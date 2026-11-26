@@ -1,5 +1,10 @@
 # Changelog
 
+## 19.0.3.12.5 (2026-11-26)
+
+- Moving a **supplier payment allocation** to a line of a done or cancelled deduction is refused, as
+  on create: the destination deduction is now checked as well as the source one (#3975).
+
 ## 19.0.3.12.4 (2026-11-20)
 
 - An expense entered with the **gross receipt amount** and a single percentage tax excluded from price
