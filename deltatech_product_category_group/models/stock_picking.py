@@ -30,7 +30,7 @@ class StockPicking(models.Model):
             user_group_ids = categ_ids.mapped("user_group_id")
             user_group_id = user_group_ids and user_group_ids[0] or False
             # only internal warehouse users that can work in the company of the transfer
-            users = user_group_ids.mapped("user_ids").filtered(
+            users = user_group_ids.mapped("all_user_ids").filtered(
                 lambda user, picking=picking: user.active
                 and not user.share
                 and user in stock_users

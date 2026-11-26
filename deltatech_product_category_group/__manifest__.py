@@ -6,7 +6,7 @@
 {
     "name": "Products Category User Group",
     "summary": "Assign transfer responsibles from the user group of the product category, from a button on the transfer list",
-    "version": "19.0.1.0.10",
+    "version": "19.0.1.0.11",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Sales",
