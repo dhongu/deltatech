@@ -242,3 +242,23 @@ class TestStockPicking(TransactionCase):
         picking.responsible_determination()
         self.assertEqual(picking.user_id, user_b)
         self.assertEqual(picking.user_group_id, group_b)
+
+    def test_user_inheriting_category_group(self):
+        """A user that has the category group only through an implying group is a candidate"""
+        group_stock_user = self.env.ref("stock.group_stock_user")
+        group_g = self.env["res.groups"].create({"name": "Test Implied Category Group"})
+        group_h = self.env["res.groups"].create({"name": "Test Implying Group", "implied_ids": [(6, 0, group_g.ids)]})
+        user_u = self.env["res.users"].create(
+            {
+                "name": "Test Inherited Picker",
+                "login": "test_inherited_picker",
+                "group_ids": [(6, 0, [group_h.id, group_stock_user.id])],
+            }
+        )
+        self.assertNotIn(user_u, group_g.user_ids)
+        self.assertIn(user_u, group_g.all_user_ids)
+        self.parent_category.user_group_id = group_g
+        picking = self._create_picking()
+        picking.responsible_determination()
+        self.assertEqual(picking.user_id, user_u)
+        self.assertEqual(picking.user_group_id, group_g)
