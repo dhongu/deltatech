@@ -26,9 +26,12 @@ SAFE_HTTP_METHODS = ("GET", "HEAD")
 DEFAULT_CLAIM_TIMEOUT_MINUTES = 15  # a claimed job without result is considered lost after this
 DEFAULT_MAX_ATTEMPTS = 3  # offers of a retry-safe job before it is failed
 DEFAULT_DONE_TTL_DAYS = 30
+DEFAULT_DONE_TTL_HOURS = 0  # 0 = finished jobs follow DEFAULT_DONE_TTL_DAYS
 DEFAULT_ERROR_TTL_DAYS = 90
 DEFAULT_PENDING_TTL_HOURS = 0  # 0 = pending jobs never expire
-DEFAULT_PG_DONE_TTL_DAYS = 3  # pg_query pages can be large; their data lives on in the callback's records
+# pg_query pages can be large (a synchronization reads thousands of them) and their data lives on
+# in the callback's records: they go a few hours after they were processed
+DEFAULT_PG_DONE_TTL_HOURS = 6
 
 # pg_query: profile, query and key are plain names (the SQL itself is checked apart, by size)
 PG_NAME_RE = re.compile(r"^[A-Za-z0-9_]{1,64}$")
@@ -564,15 +567,18 @@ class DeltatechTcJob(models.Model):
 
     @api.model
     def _gc_jobs(self):
-        """Daily cleanup (cron): old finished jobs go, stale pending ones may expire.
+        """Hourly cleanup (cron): old finished jobs go, stale pending ones may expire.
 
         Results can carry documents (an SPV download, an HTTP body) and the table
-        otherwise only grows. Errors are kept longer: they are the trace of a real
-        problem. Expiring pending jobs is off by default, so a declaration queued
-        on Friday for a workstation switched off until Monday still goes through.
+        otherwise only grows. ``pg_query`` pages go after a few hours: their data is
+        already in the records of the callback, and a synchronization reads thousands
+        of them. Errors are kept longer: they are the trace of a real problem.
+        Expiring pending jobs is off by default, so a declaration queued on Friday for
+        a workstation switched off until Monday still goes through.
         """
         now = fields.Datetime.now()
         done_days = self._tc_param("done_ttl_days", DEFAULT_DONE_TTL_DAYS)
+        done_hours = self._tc_param("done_ttl_hours", DEFAULT_DONE_TTL_HOURS)
         error_days = self._tc_param("error_ttl_days", DEFAULT_ERROR_TTL_DAYS)
         pending_hours = self._tc_param("pending_ttl_hours", DEFAULT_PENDING_TTL_HOURS)
         Job = self.sudo().with_context(active_test=False)
@@ -592,19 +598,24 @@ class DeltatechTcJob(models.Model):
                 }
             )
         old = Job.browse()
-        pg_days = self._tc_param("pg_done_ttl_days", DEFAULT_PG_DONE_TTL_DAYS)
-        if pg_days:
+        # ``pg_done_ttl_days`` (before 20.0.1.5.0) still counts when only it is set
+        pg_hours = self._tc_param(
+            "pg_done_ttl_hours", self._tc_param("pg_done_ttl_days", 0) * 24 or DEFAULT_PG_DONE_TTL_HOURS
+        )
+        if pg_hours:
             old |= Job.search(
                 [
                     ("job_type", "=", "pg_query"),
                     ("state", "=", "done"),
-                    ("done_at", "<", now - timedelta(days=pg_days)),
+                    ("done_at", "<", now - timedelta(hours=pg_hours)),
                 ]
             )
-        for state, days in (("done", done_days), ("error", error_days)):
-            if not days:
+        # finished jobs: in hours when ``done_ttl_hours`` is set, else in days
+        done_ttl = timedelta(hours=done_hours) if done_hours else timedelta(days=done_days)
+        for state, ttl in (("done", done_ttl), ("error", timedelta(days=error_days))):
+            if not ttl:
                 continue
-            limit = now - timedelta(days=days)
+            limit = now - ttl
             # jobs finished before `done_at` existed on every path count from their creation
             old |= Job.search(
                 [

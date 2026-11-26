@@ -207,14 +207,25 @@ class TestTcPgQuery(TransactionCase):
         self.assertEqual(len(self._chain()), 1)
 
     def test_gc_drops_old_pages_sooner(self):
-        old = fields.Datetime.now() - timedelta(days=5)
+        now = fields.Datetime.now()
         page = self._enqueue()
-        page.write({"state": "done", "done_at": old, "result": _page(["A1"])})
+        page.write({"state": "done", "done_at": now - timedelta(hours=7), "result": _page(["A1"])})
+        fresh = self._enqueue()
+        fresh.write({"state": "done", "done_at": now - timedelta(hours=2), "result": _page(["A2"])})
         ping = self.Job.create({"station_id": self.station.id, "job_type": "ping"})
-        ping.write({"state": "done", "done_at": old})
+        ping.write({"state": "done", "done_at": now - timedelta(days=5)})
         self.Job._gc_jobs()
-        self.assertFalse(page.exists(), "pg_query pages go after 3 days")
+        self.assertFalse(page.exists(), "pg_query pages go after 6 hours")
+        self.assertTrue(fresh.exists(), "a page processed 2 hours ago is kept")
         self.assertTrue(ping.exists(), "other jobs keep the 30-day retention")
+
+    def test_gc_pages_legacy_days_param(self):
+        """``pg_done_ttl_days`` (before the hours) still counts when only it is set."""
+        self.env["ir.config_parameter"].sudo().set_int("deltatech_tc.pg_done_ttl_days", 1)
+        page = self._enqueue()
+        page.write({"state": "done", "done_at": fields.Datetime.now() - timedelta(hours=7)})
+        self.Job._gc_jobs()
+        self.assertTrue(page.exists(), "1 day, not 6 hours")
 
 
 @tagged("post_install", "-at_install")

@@ -70,7 +70,9 @@ System parameters (**Settings → Technical → System Parameters**), all option
 |---|---|---|
 | `deltatech_tc.claim_timeout_minutes` | 15 | A claimed job without result after this long counts as lost. `0` turns recovery off |
 | `deltatech_tc.max_attempts` | 3 | Offers of a retry-safe job before it fails |
-| `deltatech_tc.done_ttl_days` | 30 | Finished jobs older than this are deleted by the daily cleanup (`0` = keep) |
+| `deltatech_tc.done_ttl_days` | 30 | Finished jobs older than this are deleted by the hourly cleanup (`0` = keep) |
+| `deltatech_tc.done_ttl_hours` | 0 | When set, finished jobs go after this many hours instead (`0` = use the days) |
+| `deltatech_tc.pg_done_ttl_hours` | 6 | Finished `pg_query` pages go after this many hours (`0` = like the other jobs) |
 | `deltatech_tc.error_ttl_days` | 90 | Same for jobs in error |
 | `deltatech_tc.pending_ttl_hours` | 0 | Pending jobs no station picked up expire after this long. `0` = never |
 
@@ -110,8 +112,10 @@ lives in `%ProgramData%\Terrabit\tc-postgresql\`:
 station form then shows **Agent** `tc-postgresql`, the features `postgresql,pg:<profile>`
 and the installed queries. The agent updates itself from signed releases.
 
-On the Odoo side, `deltatech_tc.pg_done_ttl_days` (default 3) sets how long finished
-`pg_query` pages are kept.
+On the Odoo side, `deltatech_tc.pg_done_ttl_hours` (default 6) sets how long finished
+`pg_query` pages are kept: their data is already in the records of the calling module, and a
+synchronization reads thousands of them. The former `deltatech_tc.pg_done_ttl_days` still
+counts (in days) when only it is set.
 
 The server applies a 60-second throttle on `last_seen` writes to reduce database
 load when many stations are polling frequently; online detection remains accurate

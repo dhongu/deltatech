@@ -93,8 +93,10 @@ Nu se folosesc conturi contabile. Date minime pentru demo:
    utilizatorul bazei de date trebuie să aibă atunci drept de citire **doar** pe tabelele de care
    are nevoie Odoo. Comanda `tc-postgresql check` verifică totul.
    Detaliile sunt în `readme/CONFIGURE.md`.
-6. Parametrul de sistem `deltatech_tc.pg_done_ttl_days` (implicit 3) spune câte zile se păstrează
-   paginile de interogare PostgreSQL finalizate; celelalte joburi finalizate se păstrează 30 de zile.
+6. Parametrul de sistem `deltatech_tc.pg_done_ttl_hours` (implicit 6) spune câte ore se păstrează
+   paginile de interogare PostgreSQL finalizate; celelalte joburi finalizate se păstrează 30 de zile
+   (`deltatech_tc.done_ttl_days`) sau, dacă e completat, `deltatech_tc.done_ttl_hours` ore. Curățarea
+   rulează din oră în oră.
 
 ## 6. Flux de utilizare
 
@@ -212,7 +214,7 @@ rulează doar instrucțiuni `SELECT`, într-o tranzacție doar de citire. Fiecar
 
 ![Formularul unui job PostgreSQL query (LAN) pe stația Server ERP, Tip job Interogare PostgreSQL (LAN) evidențiat 1, în starea Finalizat, cu tab-ul Rezultat deschis și evidențiat 2: coloanele code, name, price și rândurile ALU-4512 Profil toc 70 mm, ALU-4518 Profil cercevea 70 mm; prețurile vin ca text (41.2500)](../static/description/06_pg_query_pagina.png)
 
-Paginile finalizate se șterg după 3 zile (parametrul `deltatech_tc.pg_done_ttl_days`): datele au
+Paginile finalizate se șterg după 6 ore (parametrul `deltatech_tc.pg_done_ttl_hours`): datele au
 ajuns deja în documentele create de modulul de integrare.
 
 ### Note de monografie și raportare
