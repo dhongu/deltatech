@@ -1,0 +1,8 @@
+{
+  "title": "Document Weight",
+  "summary": "Weights on quotations and invoices",
+  "module_icon": true,
+  "edition": "community",
+  "lang": "en",
+  "features": ["Weights under each product line", "Totals below the amounts", "Switch on or off per company"]
+}
