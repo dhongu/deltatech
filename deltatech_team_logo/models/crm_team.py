@@ -9,6 +9,6 @@ class CrmTeam(models.Model):
     logo = fields.Binary(
         string="Logo",
         attachment=True,
-        help="Logo afișat în rapoartele (factură, ofertă, aviz) emise pentru această "
-        "echipă de vânzare. Dacă este gol, se folosește logo-ul firmei.",
+        help="Logo printed on the reports (invoice, quotation, delivery slip) issued for "
+        "this sales team. If empty, the company logo is used.",
     )

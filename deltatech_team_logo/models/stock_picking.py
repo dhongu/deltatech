@@ -11,7 +11,7 @@ class StockPicking(models.Model):
         string="Sales Team",
         compute="_compute_team_id",
         store=False,
-        help="Echipa de vânzare a comenzii sursă, folosită pentru logo-ul din rapoarte.",
+        help="Sales team of the source order, used for the logo on the reports.",
     )
 
     @api.depends("sale_id", "sale_id.team_id")
