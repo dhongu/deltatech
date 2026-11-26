@@ -1,3 +1,7 @@
+# 19.0.1.2.3 (2026-11-26)
+
+- Fix: products created together in one batch (imports, several variants at once) with GS1 barcode generation now receive distinct GTINs. Before, they all got the same code and the whole batch was rejected as a duplicate barcode.
+
 # 19.0.1.2.2 (2026-11-12)
 
 - Fix: an empty-string Internal Reference (from imports or API calls) is now treated like an empty one, so the code is generated from the category sequence instead of leaving the reference empty and giving a random barcode.

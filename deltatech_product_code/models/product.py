@@ -176,6 +176,11 @@ class ProductTemplate(models.Model):
         # doua produse create simultan nu trebuie sa primeasca acelasi cod
         self.env.cr.execute(SQL("SELECT pg_advisory_xact_lock(hashtext(%s))", "gs1_gtin:" + prefix))
         reference = self._get_gs1_last_reference(prefix) + 1
+        # la crearea in lot produsele nu sunt inca in baza de date: se continua
+        # dupa ultima referinta alocata in acelasi create (vezi ProductProduct.create)
+        pending = self.env.context.get("gs1_pending_references")
+        if pending is not None and prefix in pending:
+            reference = max(reference, pending[prefix] + 1)
         reference_length = 12 - len(prefix)
         if reference >= 10**reference_length:
             raise UserError(
@@ -184,6 +189,8 @@ class ProductTemplate(models.Model):
                     prefix=prefix,
                 )
             )
+        if pending is not None:
+            pending[prefix] = reference
         barcode = prefix + str(reference).zfill(reference_length) + "0"
         return self.env["barcode.nomenclature"].sanitize_ean(barcode)
 
@@ -293,6 +300,11 @@ class ProductProduct(models.Model):
     def create(self, vals_list):
         # In 18.0 this guard was absent — the sequence would overwrite any manually set default_code.
         # In 19.0 we preserve the manually set code (behavior kept intentionally).
+        # referintele GS1 alocate in acest lot, pe prefix -- produsele nu sunt inca in
+        # baza de date, deci fara ele toate ar primi acelasi GTIN
+        code_model = self.env["product.template"]
+        if "gs1_pending_references" not in self.env.context:
+            code_model = code_model.with_context(gs1_pending_references={})
         for vals in vals_list:
             if "default_code" not in vals or vals["default_code"] in ["/", "", False]:
                 categ_id = vals.get("categ_id")
@@ -301,7 +313,7 @@ class ProductProduct(models.Model):
                     categ = self.env["product.category"].browse(categ_id)
                     default_code = vals.get("default_code", False)
                     barcode = vals.get("barcode", False)
-                    values = self.env["product.template"].get_new_code(categ, default_code, barcode)
+                    values = code_model.get_new_code(categ, default_code, barcode)
                     vals.update(values)
                 elif "product_tmpl_id" in vals and vals.get("product_tmpl_id"):
                     # daca se creaza variante din tempalte ele nu o sa aiba categorie asa ca testam pe template daca are categorie de generare coduri
@@ -320,7 +332,7 @@ class ProductProduct(models.Model):
                         ignore_code_template = True
                     if categ:  # nu cred ca poate sa fie fata dar prefer sa nu aflu
                         if not template.default_code or ignore_code_template:
-                            values = self.env["product.template"].get_new_code(
+                            values = code_model.get_new_code(
                                 categ, vals.get("default_code", False), vals.get("barcode", False)
                             )
                             if force_code_template:

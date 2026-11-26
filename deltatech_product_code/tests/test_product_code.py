@@ -333,6 +333,17 @@ class TestProductCode(TransactionCase):
         self.product_category.invalidate_recordset(["gs1_available_count"])
         self.assertEqual(self.product_category.gs1_available_count, 98)
 
+    def test_gs1_barcode_batch_create(self):
+        self.product_category.write({"barcode_source": "gs1", "gs1_company_prefix": "5940000123"})
+        products = self.env["product.product"].create(
+            [
+                {"name": "GS1 batch 1", "categ_id": self.product_category.id},
+                {"name": "GS1 batch 2", "categ_id": self.product_category.id},
+                {"name": "GS1 batch 3", "categ_id": self.product_category.id},
+            ]
+        )
+        self.assertEqual(products.mapped("barcode"), ["5940000123000", "5940000123017", "5940000123024"])
+
     def test_gs1_barcode_skips_used_codes(self):
         self.product_category.write({"barcode_source": "gs1", "gs1_company_prefix": "5940000123"})
         # cod alocat manual (sau importat) si arhivat: se continua peste el
