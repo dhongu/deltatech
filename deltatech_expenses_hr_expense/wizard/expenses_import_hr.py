@@ -35,7 +35,7 @@ class ExpensesImportHr(models.TransientModel):
             expenses = self.env["hr.expense"].browse(ctx["active_ids"]).filtered(lambda e: not e.expenses_deduction_id)
             employees = expenses.employee_id
             if len(employees) > 1:
-                raise UserError(self.env._("Selectați cheltuieli ale aceluiași angajat."))
+                raise UserError(self.env._("Select expenses of the same employee."))
             res["employee_id"] = employees.id
             res["expense_ids"] = [(6, 0, expenses.ids)]
         return res
@@ -43,6 +43,6 @@ class ExpensesImportHr(models.TransientModel):
     def action_import(self):
         self.ensure_one()
         if not self.expenses_deduction_id:
-            raise UserError(self.env._("Selectați decontul de cheltuieli în care se preiau cheltuielile."))
+            raise UserError(self.env._("Select the expenses deduction to add the expenses to."))
         self.expenses_deduction_id._import_hr_expenses(self.expense_ids)
         return {"type": "ir.actions.act_window_close"}

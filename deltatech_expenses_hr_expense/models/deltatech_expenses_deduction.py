@@ -38,7 +38,9 @@ class DeltatechExpensesDeduction(models.Model):
             # `action_import`-ul wizard-ului apelează direct această metodă — fără acest guard,
             # un decont deja Finalizat/Anulat ar putea primi în continuare linii noi (runda 2,
             # tichet POPVAL-COS).
-            raise UserError(self.env._("Cheltuielile pot fi preluate doar într-un decont în starea Draft sau Advance."))
+            raise UserError(
+                self.env._("Expenses can only be added to an expenses deduction in Draft or Advance state.")
+            )
         line_model = self.env["deltatech.expenses.deduction.line"]
         expenses = expenses.filtered(lambda e: not e.expenses_deduction_id)
         invalid = expenses.filtered(
@@ -50,10 +52,10 @@ class DeltatechExpensesDeduction(models.Model):
         if invalid:
             raise UserError(
                 self.env._(
-                    "Următoarele cheltuieli nu pot fi preluate în acest decont (angajat/companie diferite, "
-                    "stare neeligibilă sau deja contabilizate): %s"
+                    "The following expenses cannot be added to this expenses deduction (different "
+                    "employee or company, ineligible state or already posted): %s",
+                    ", ".join(invalid.mapped("name")),
                 )
-                % ", ".join(invalid.mapped("name"))
             )
         for expense in expenses:
             # Suma liniei de decont e mereu brută (TVA inclus), indiferent de flag-ul price_include
@@ -80,10 +82,12 @@ class DeltatechExpensesDeduction(models.Model):
     def action_open_import_hr_expenses(self):
         self.ensure_one()
         if self.state not in ("draft", "advance"):
-            raise UserError(self.env._("Cheltuielile pot fi preluate doar într-un decont în starea Draft sau Advance."))
+            raise UserError(
+                self.env._("Expenses can only be added to an expenses deduction in Draft or Advance state.")
+            )
         return {
             "type": "ir.actions.act_window",
-            "name": self.env._("Preia cheltuieli HR"),
+            "name": self.env._("Get HR Expenses"),
             "res_model": "deltatech.expenses.import.hr",
             "view_mode": "form",
             "target": "new",
@@ -107,7 +111,7 @@ class DeltatechExpensesDeductionLine(models.Model):
         string="HR Expense",
         copy=False,
         readonly=True,
-        help="Cheltuiala hr.expense din care a fost preluată această linie.",
+        help="The HR expense this line was taken from.",
     )
 
     def unlink(self):

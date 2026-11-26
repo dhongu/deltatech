@@ -1,3 +1,10 @@
+## 19.0.1.1.3 (2026-11-24)
+
+- Interface texts (button, wizard, server action, error messages, field helps and the
+  banner on the expense form) are written in English in the source, with the Romanian
+  texts moved to `i18n/ro.po`; users in other languages no longer see Romanian.
+  The `.pot` template is added so the module can be translated.
+
 ## 19.0.1.1.2 (2026-10-09)
 
 - Apps Store banner (banner.json).

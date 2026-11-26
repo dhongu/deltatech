@@ -1,0 +1,165 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_expenses_hr_expense
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-24 10:37+0000\n"
+"PO-Revision-Date: 2026-11-24 10:37+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.actions.act_window,name:deltatech_expenses_hr_expense.action_add_expenses_to_deduction
+msgid "Add to Expenses Deduction"
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses_hr_expense.view_expenses_import_hr_form
+msgid "Cancel"
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_import_hr__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_import_hr__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_deduction__display_name
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_deduction_line__display_name
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_import_hr__display_name
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_hr_expense__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_import_hr__employee_id
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses_hr_expense.view_expenses_import_hr_form
+msgid "Employee"
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model,name:deltatech_expenses_hr_expense.model_hr_expense
+msgid "Expense"
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_import_hr__expense_ids
+msgid "Expenses"
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model,name:deltatech_expenses_hr_expense.model_deltatech_expenses_deduction
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_import_hr__expenses_deduction_id
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_hr_expense__expenses_deduction_id
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses_hr_expense.view_expenses_import_hr_form
+msgid "Expenses Deduction"
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model,name:deltatech_expenses_hr_expense.model_deltatech_expenses_deduction_line
+msgid "Expenses Deduction Line"
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#. odoo-python
+#: code:addons/deltatech_expenses_hr_expense/models/deltatech_expenses_deduction.py:0
+msgid ""
+"Expenses can only be added to an expenses deduction in Draft or Advance "
+"state."
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses_hr_expense.view_expenses_import_hr_form
+msgid "Get"
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#. odoo-python
+#: code:addons/deltatech_expenses_hr_expense/models/deltatech_expenses_deduction.py:0
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses_hr_expense.view_deltatech_expenses_deduction_form_inherit_hr_expense
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses_hr_expense.view_expenses_import_hr_form
+msgid "Get HR Expenses"
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_deduction_line__hr_expense_id
+msgid "HR Expense"
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_deduction__id
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_deduction_line__id
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_import_hr__id
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_hr_expense__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model,name:deltatech_expenses_hr_expense.model_deltatech_expenses_import_hr
+msgid "Import HR Expenses into Expenses Deduction"
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_import_hr__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model.fields,field_description:deltatech_expenses_hr_expense.field_deltatech_expenses_import_hr__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#. odoo-python
+#: code:addons/deltatech_expenses_hr_expense/wizard/expenses_import_hr.py:0
+msgid "Select expenses of the same employee."
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#. odoo-python
+#: code:addons/deltatech_expenses_hr_expense/wizard/expenses_import_hr.py:0
+msgid "Select the expenses deduction to add the expenses to."
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model.fields,help:deltatech_expenses_hr_expense.field_deltatech_expenses_deduction_line__hr_expense_id
+msgid "The HR expense this line was taken from."
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#. odoo-python
+#: code:addons/deltatech_expenses_hr_expense/models/deltatech_expenses_deduction.py:0
+msgid ""
+"The following expenses cannot be added to this expenses deduction (different"
+" employee or company, ineligible state or already posted): %s"
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses_hr_expense.hr_expense_view_form_deduction
+msgid "This expense is included in"
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#: model:ir.model.fields,help:deltatech_expenses_hr_expense.field_hr_expense__expenses_deduction_id
+msgid ""
+"When set, the expense is settled through this Expenses Deduction "
+"(deltatech_expenses) and no journal entry is generated by the standard "
+"Expenses app, so the expense is not recorded twice."
+msgstr ""
+
+#. module: deltatech_expenses_hr_expense
+#: model_terms:ir.ui.view,arch_db:deltatech_expenses_hr_expense.hr_expense_view_form_deduction
+msgid "and is posted there; standard posting is disabled."
+msgstr ""
