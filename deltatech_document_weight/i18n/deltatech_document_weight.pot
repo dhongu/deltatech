@@ -1,0 +1,220 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_document_weight
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-26 07:16+0000\n"
+"PO-Revision-Date: 2026-11-26 07:16+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_document_weight
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_saleorder_document
+msgid ""
+"<br/>\n"
+"                        <em>(estimated values)</em>"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_invoice_document
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_saleorder_document
+msgid ""
+"<br/>\n"
+"                    <em>(estimated values)</em>"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_invoice_document
+msgid ""
+"<br/>\n"
+"                    <strong>Total gross weight:</strong>"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_invoice_document
+msgid ""
+"<br/>\n"
+"                    <strong>Total volume:</strong>"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_invoice_document
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_saleorder_document
+msgid ""
+"<br/>\n"
+"                    Gross weight:"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_invoice_document
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_saleorder_document
+msgid ""
+"<br/>\n"
+"                    Volume:"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_saleorder_document
+msgid "<strong>Total gross weight:</strong>"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_invoice_document
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_saleorder_document
+msgid "<strong>Total net weight:</strong>"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_saleorder_document
+msgid "<strong>Total volume:</strong>"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model:ir.model,name:deltatech_document_weight.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model:ir.model,name:deltatech_document_weight.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_res_config_settings__document_weight_propagate_variants
+msgid "Copy weights to all variants"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_account_move__display_name
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_deltatech_document_weight_mixin__display_name
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_product_product__display_name
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_product_template__display_name
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_res_company__display_name
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_sale_order__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_account_move__id
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_deltatech_document_weight_mixin__id
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_product_product__id
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_product_template__id
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_res_company__id
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_res_config_settings__id
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_sale_order__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model:ir.model,name:deltatech_document_weight.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_product_product__l10n_ro_net_weight
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_product_template__l10n_ro_net_weight
+msgid "Net Weight"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_product_product__l10n_ro_net_weight_uom_name
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_product_template__l10n_ro_net_weight_uom_name
+msgid "Net Weight unit of measure label"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.res_config_settings_view_form_document_weight
+msgid ""
+"Net weight, gross weight and volume under each product and in total on the "
+"customer invoice"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.res_config_settings_view_form_document_weight
+msgid ""
+"Net weight, gross weight and volume under each product and in total on the "
+"quotation report"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_invoice_document
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_saleorder_document
+msgid "Net weight:"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model:ir.model.fields,help:deltatech_document_weight.field_res_company__document_weight_on_invoice
+#: model:ir.model.fields,help:deltatech_document_weight.field_res_config_settings__document_weight_on_invoice
+msgid ""
+"Print the net weight, the gross weight and the volume under each product and"
+" in total on the customer invoice."
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model:ir.model.fields,help:deltatech_document_weight.field_res_company__document_weight_on_sale
+#: model:ir.model.fields,help:deltatech_document_weight.field_res_config_settings__document_weight_on_sale
+msgid ""
+"Print the net weight, the gross weight and the volume under each product and"
+" in total on the quotation / sales order report."
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model:ir.model,name:deltatech_document_weight.model_product_template
+msgid "Product"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model:ir.model,name:deltatech_document_weight.model_product_product
+msgid "Product Variant"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model:ir.model,name:deltatech_document_weight.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model:ir.model,name:deltatech_document_weight.model_deltatech_document_weight_mixin
+msgid "Weights and volume on printed documents"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.res_config_settings_view_form_document_weight
+msgid "Weights on documents"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_res_company__document_weight_on_invoice
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_res_config_settings__document_weight_on_invoice
+msgid "Weights on invoices"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_res_company__document_weight_on_sale
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_res_config_settings__document_weight_on_sale
+msgid "Weights on quotations"
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model:ir.model.fields,help:deltatech_document_weight.field_res_config_settings__document_weight_propagate_variants
+msgid ""
+"When the weight, the volume or the net weight is set on a product template, "
+"write it on all its variants, and give it to the variants created on demand "
+"(dynamic attributes). Odoo already writes the weight and the volume on all "
+"the variants; this adds the net weight and the variants created on demand."
+msgstr ""
+
+#. module: deltatech_document_weight
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.res_config_settings_view_form_document_weight
+msgid ""
+"Write the weight, the volume and the net weight of a template on all its "
+"variants, including the ones created on demand"
+msgstr ""
