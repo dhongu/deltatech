@@ -4,6 +4,7 @@ import logging
 import time
 
 from odoo import fields, http
+from odoo.exceptions import UserError
 from odoo.http import request
 
 _logger = logging.getLogger(__name__)
@@ -62,22 +63,40 @@ class CronWebhookController(http.Controller):
 
         start_time = time.time()
         try:
-            # Execute the cron job
-            cron.with_context(cron_trigger_type="webhook").method_direct_trigger()
-            duration = time.time() - start_time
-
+            # Since Odoo 19 a failing job does not raise: the failure comes back as a
+            # client action (tag ``display_exception``), and ``True`` means success
+            result = cron.with_context(cron_trigger_type="webhook").method_direct_trigger()
+        except UserError:
+            # The only UserError raised by method_direct_trigger: the job is already running
+            _logger.warning("Webhook trigger refused for %s: job already running", webhook_code)
             return self._make_json_response(
-                {
-                    "status": "success",
-                    "job_name": cron.name,
-                    "execution_time": duration,
-                    "timestamp": fields.Datetime.now(),
-                }
+                self._result_payload(cron, start_time, "error", message="Job already running"), status=409
             )
-        except Exception as e:
-            duration = time.time() - start_time
-            _logger.error("Webhook execution failed for %s: %s", webhook_code, str(e))
-            return self._make_json_response({"status": "error", "message": str(e)}, status=500)
+        except Exception:
+            _logger.exception("Webhook execution failed for %s", webhook_code)
+            return self._make_json_response(
+                self._result_payload(cron, start_time, "error", message="Cron execution failed"), status=500
+            )
+
+        if isinstance(result, dict) and result.get("tag") == "display_exception":
+            # The traceback is already in the server log; do not expose it to the caller
+            _logger.error("Webhook execution failed for %s: the cron job raised an exception", webhook_code)
+            return self._make_json_response(
+                self._result_payload(cron, start_time, "error", message="Cron execution failed"), status=500
+            )
+
+        return self._make_json_response(self._result_payload(cron, start_time, "success"))
+
+    def _result_payload(self, cron, start_time, status, message=None):
+        payload = {
+            "status": status,
+            "job_name": cron.name,
+            "execution_time": time.time() - start_time,
+            "timestamp": fields.Datetime.now(),
+        }
+        if message:
+            payload["message"] = message
+        return payload
 
     @http.route("/cron/webhook/<string:webhook_code>/status", type="http", auth="none", methods=["GET"])
     def get_status(self, webhook_code, **kw):

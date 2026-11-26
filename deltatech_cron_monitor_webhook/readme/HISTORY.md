@@ -1,3 +1,9 @@
+## 19.0.1.0.4 (2026-11-23)
+
+- The trigger endpoint no longer reports success when the cron job fails: Odoo 19 returns the failure instead of raising it, and the webhook now answers HTTP 500 with `"status": "error"` ([#3380](https://github.com/dhongu/deltatech/issues/3380)).
+- A job that is already running answers HTTP 409 (was HTTP 500).
+- Error responses no longer include the exception text; the details stay in the server log.
+
 ## 19.0.1.0.3 (2026-10-29)
 
 - The status endpoint `/cron/webhook/<webhook_code>/status` now requires the global token (HTTP 401 without it), like the trigger endpoint.
