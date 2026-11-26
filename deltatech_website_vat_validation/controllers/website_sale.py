@@ -107,14 +107,16 @@ class WebsiteSaleVATValidation(WebsiteSale):
         key = normalize_vat(vat)
         if not key:
             return False
-        # the stored code may carry a prefix or spaces: search on its last digits, which any
-        # spelling keeps together, then compare the normalised forms
+        # the stored code may carry a prefix, spaces or punctuation anywhere, even between its last
+        # digits: search for its characters in order with anything between them, then compare the
+        # normalised forms. The key holds only letters and digits, so it has no wildcard to escape.
+        pattern = "%" + "%".join(key) + "%"
         candidates = (
             request.env["res.partner"]
             .sudo()
             .search(
                 [
-                    ("vat", "ilike", key[-3:]),
+                    ("vat", "=ilike", pattern),
                     ("parent_id", "=", False),
                     ("commercial_partner_id", "!=", own_company.id),
                 ]

@@ -5,7 +5,7 @@
 {
     "name": "Website VAT Validation",
     "summary": "Block duplicate tax codes and e-mails, create the buying company at checkout",
-    "version": "19.0.0.3.0",
+    "version": "19.0.0.3.1",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
