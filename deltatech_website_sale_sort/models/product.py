@@ -29,6 +29,13 @@ class ProductTemplate(models.Model):
     in_stock = fields.Boolean()
 
     def _update_statistics(self):
+        # Refresh the variants in the same transaction before summing them, so
+        # the template totals never read stale variant counters. When the
+        # batches run as concurrent queue jobs, a separate variant job gives no
+        # ordering guarantee (issue #3504). Archived variants are included,
+        # since they are part of the sum below.
+        self.with_context(active_test=False).product_variant_ids._update_statistics()
+
         domain = [
             ("res_model", "=", self._name),
             ("res_id", "in", self.ids),
@@ -62,7 +69,8 @@ class ProductTemplate(models.Model):
 
     @api.model
     def _cron_update_statistics(self):
-        self.env["product.product"]._cron_update_statistics()
+        # Variant statistics are refreshed inside each template batch (see
+        # _update_statistics), so there is no separate variant pass here.
         product_ids = self.search([]).ids
         # With ~476k templates, processing everything in one call accumulated
         # ORM cache across batches (MemoryError) and risked the calling
