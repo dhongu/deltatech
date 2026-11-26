@@ -598,10 +598,7 @@ class DeltatechTcJob(models.Model):
                 }
             )
         old = Job.browse()
-        # ``pg_done_ttl_days`` (before 20.0.1.5.0) still counts when only it is set
-        pg_hours = self._tc_param(
-            "pg_done_ttl_hours", self._tc_param("pg_done_ttl_days", 0) * 24 or DEFAULT_PG_DONE_TTL_HOURS
-        )
+        pg_hours = self._pg_done_ttl_hours()
         if pg_hours:
             old |= Job.search(
                 [
@@ -631,6 +628,23 @@ class DeltatechTcJob(models.Model):
         old.unlink()
         _logger.info("Terrabit Connect queue cleanup: %s jobs deleted, %s expired.", count, len(expired))
         return True
+
+    @api.model
+    def _pg_done_ttl_hours(self):
+        """Hours a finished ``pg_query`` page is kept; ``0`` = like the other finished jobs.
+
+        ``pg_done_ttl_hours`` wins; else ``pg_done_ttl_days`` (before 20.0.1.5.0) counts when it is
+        set, ``0`` included (it meant: no early deletion); else the default.
+        """
+        params = self.env["ir.config_parameter"].sudo()
+        for key, factor in (("pg_done_ttl_hours", 1), ("pg_done_ttl_days", 24)):
+            value = (params.get_str(f"deltatech_tc.{key}") or "").strip()
+            if value:
+                try:
+                    return max(0, int(value)) * factor
+                except ValueError:
+                    continue
+        return DEFAULT_PG_DONE_TTL_HOURS
 
     def _store_result(self, status, result=None, error=None):
         """Record the result reported by the station and trigger processing."""

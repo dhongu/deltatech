@@ -96,7 +96,9 @@ Nu se folosesc conturi contabile. Date minime pentru demo:
 6. Parametrul de sistem `deltatech_tc.pg_done_ttl_hours` (implicit 6) spune câte ore se păstrează
    paginile de interogare PostgreSQL finalizate; celelalte joburi finalizate se păstrează 30 de zile
    (`deltatech_tc.done_ttl_days`) sau, dacă e completat, `deltatech_tc.done_ttl_hours` ore. Curățarea
-   rulează din oră în oră.
+   rulează din oră în oră. Pe o bază mai veche poate exista parametrul
+   `deltatech_tc.pg_done_ttl_days`: dacă e completat doar el, el decide (în zile; `0` = paginile
+   urmează regula celorlalte joburi), nu implicitul de 6 ore.
 
 ## 6. Flux de utilizare
 
@@ -233,7 +235,7 @@ este `station.conf`, prezentat la pasul 2.
 **Ce e automat:** generarea cheii API, actualizarea datelor stației la fiecare heartbeat (inclusiv
 marcajul de simulare și interogările PostgreSQL instalate), preluarea joburilor de către stație,
 reluarea joburilor care se pot repeta, înlănțuirea paginilor unei interogări PostgreSQL,
-curățarea zilnică a joburilor vechi (acțiunea planificată „Terrabit Connect: queue cleanup”).
+curățarea orară a joburilor vechi (acțiunea planificată „Terrabit Connect: queue cleanup”).
 
 **Ce rămâne manual:** înregistrarea stației, importul `station.conf` pe calculator, activarea
 preluării joburilor pe stație, lista aparatelor din rețea pe care stația le poate apela
@@ -260,6 +262,9 @@ preluării joburilor pe stație, lista aparatelor din rețea pe care stația le 
   instalate pe server; un profil fără fișiere `.sql` apare doar cu numele lui.
 - [ ] O interogare cu mai multe pagini lasă în coadă joburi succesive (pagina 0, 1, ...), toate
   **Finalizat**, iar ultimul nu mai are pagină după el.
+- [ ] Acțiunea planificată **Terrabit Connect: queue cleanup** rulează din oră în oră; paginile
+  PostgreSQL **Finalizat** de peste 6 ore dispar la următoarea rulare, iar cu
+  `deltatech_tc.done_ttl_hours` completat dispar și celelalte joburi finalizate mai vechi de atâtea ore.
 
 ## 9. Mesaje de eroare frecvente
 

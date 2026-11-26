@@ -115,7 +115,7 @@ and the installed queries. The agent updates itself from signed releases.
 On the Odoo side, `deltatech_tc.pg_done_ttl_hours` (default 6) sets how long finished
 `pg_query` pages are kept: their data is already in the records of the calling module, and a
 synchronization reads thousands of them. The former `deltatech_tc.pg_done_ttl_days` still
-counts (in days) when only it is set.
+counts (in days) when only it is set; `0` there, as before, keeps the pages like the other jobs.
 
 The server applies a 60-second throttle on `last_seen` writes to reduce database
 load when many stations are polling frequently; online detection remains accurate

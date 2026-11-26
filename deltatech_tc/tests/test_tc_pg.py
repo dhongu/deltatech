@@ -227,6 +227,14 @@ class TestTcPgQuery(TransactionCase):
         self.Job._gc_jobs()
         self.assertTrue(page.exists(), "1 day, not 6 hours")
 
+    def test_gc_pages_legacy_days_zero_keeps_them(self):
+        """``pg_done_ttl_days = 0`` meant no early deletion: the pages follow the other jobs."""
+        self.env["ir.config_parameter"].sudo().set_str("deltatech_tc.pg_done_ttl_days", "0")
+        page = self._enqueue()
+        page.write({"state": "done", "done_at": fields.Datetime.now() - timedelta(days=2)})
+        self.Job._gc_jobs()
+        self.assertTrue(page.exists(), "0 turns the early deletion off, not 6 hours")
+
 
 @tagged("post_install", "-at_install")
 class TestTcPgStation(HttpCase):
