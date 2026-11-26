@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="report_invoice_document" inherit_id="account.report_invoice_document" priority="100">
+        <xpath expr="//td[@name='account_invoice_line_name']/span[@t-field='line.name']" position="after">
+            <t t-if="o.company_id.document_weight_on_invoice and line.product_id">
+                <t t-set="x_weights" t-value="line.product_id._get_document_weights(line.quantity, line.product_uom_id)"/>
+                <t t-set="x_labels" t-value="o._get_document_weight_labels()"/>
+                <div t-if="x_weights['net'] or x_weights['gross'] or x_weights['volume']" class="text-muted small" name="document_weight_line">
+                    Net weight: <span t-out="x_weights['net']" t-options="{'widget': 'float', 'decimal_precision': 'Stock Weight'}"/> <t t-out="x_labels['weight']"/><br/>
+                    Gross weight: <span t-out="x_weights['gross']" t-options="{'widget': 'float', 'decimal_precision': 'Stock Weight'}"/> <t t-out="x_labels['weight']"/><br/>
+                    Volume: <span t-out="x_weights['volume']" t-options="{'widget': 'float', 'decimal_precision': 'Volume'}"/> <t t-out="x_labels['volume']"/><br/>
+                    <em>(estimated values)</em>
+                </div>
+            </t>
+        </xpath>
+        <xpath expr="//div[@id='total']" position="after">
+            <t t-if="o.company_id.document_weight_on_invoice">
+                <t t-set="x_totals" t-value="o._get_document_weight_totals()"/>
+                <t t-set="x_labels" t-value="o._get_document_weight_labels()"/>
+                <div class="text-muted small mb-3" name="document_weight_totals" t-if="x_totals['net'] or x_totals['gross'] or x_totals['volume']">
+                    <strong>Total net weight:</strong> <span t-out="x_totals['net']" t-options="{'widget': 'float', 'decimal_precision': 'Stock Weight'}"/> <t t-out="x_labels['weight']"/><br/>
+                    <strong>Total gross weight:</strong> <span t-out="x_totals['gross']" t-options="{'widget': 'float', 'decimal_precision': 'Stock Weight'}"/> <t t-out="x_labels['weight']"/><br/>
+                    <strong>Total volume:</strong> <span t-out="x_totals['volume']" t-options="{'widget': 'float', 'decimal_precision': 'Volume'}"/> <t t-out="x_labels['volume']"/><br/>
+                    <em>(estimated values)</em>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>

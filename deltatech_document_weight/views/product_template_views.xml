@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="product_template_form_view_document_weight" model="ir.ui.view">
+        <field name="name">product.template.form.document.weight</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view" />
+        <field name="arch" type="xml">
+            <!-- The same markup as in l10n_ro_stock / l10n_ro_stock_base: if one of them is installed too,
+                 the duplicate is removed in _get_view -->
+            <xpath expr="//label[@for='volume']" position="before">
+                <label for="l10n_ro_net_weight" invisible="product_variant_count > 1 and not is_product_variant" />
+                <div
+                    class="o_row"
+                    name="l10n_ro_net_weight"
+                    invisible="product_variant_count > 1 and not is_product_variant"
+                >
+                    <field name="l10n_ro_net_weight" class="oe_inline" style="max-width: 7rem;" />
+                    <span>
+                        <field name="l10n_ro_net_weight_uom_name" />
+                    </span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
