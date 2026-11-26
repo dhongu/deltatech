@@ -17,13 +17,18 @@ msgstr ""
 
 #. module: deltatech_reception_note
 #: model_terms:ir.ui.view,arch_db:deltatech_reception_note.view_reception_note_create_form
+msgid "Apply"
+msgstr "Aplică"
+
+#. module: deltatech_reception_note
+#: model_terms:ir.ui.view,arch_db:deltatech_reception_note.view_reception_note_create_form
 msgid "Are you sure you want to create a reception note?"
 msgstr "Sunteți sigur că doriți crearea unui RFQ?"
 
 #. module: deltatech_reception_note
 #: model_terms:ir.ui.view,arch_db:deltatech_reception_note.view_reception_note_create_form
 msgid "Cancel"
-msgstr ""
+msgstr "Anulează"
 
 #. module: deltatech_reception_note
 #: model_terms:ir.ui.view,arch_db:deltatech_reception_note.purchase_order_form_discount
@@ -35,21 +40,23 @@ msgstr "Confirmă comanda"
 #: model_terms:ir.actions.act_window,help:deltatech_reception_note.view_reception_assigned_action
 #: model_terms:ir.actions.act_window,help:deltatech_reception_note.view_receptions
 msgid "Create a new reception note"
-msgstr "Crează RFQ"
+msgstr "Creează RFQ"
 
 #. module: deltatech_reception_note
 #: model:ir.actions.act_window,name:deltatech_reception_note.action_reception_note_create
 #: model_terms:ir.ui.view,arch_db:deltatech_reception_note.view_reception_note_create_form
 msgid "Create reception note"
-msgstr "Crează RFQ"
+msgstr "Creează RFQ"
 
 #. module: deltatech_reception_note
 #: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create__create_uid
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_reception_note_consumption__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: deltatech_reception_note
 #: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create__create_date
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_reception_note_consumption__create_date
 msgid "Created on"
 msgstr ""
 
@@ -61,20 +68,24 @@ msgstr "Data trimiterii"
 #. module: deltatech_reception_note
 #: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_order__delivery_note_no
 msgid "Delivery Note No"
-msgstr "Nr. Delivery Note"
+msgstr "Nr. aviz însoțire"
 
 #. module: deltatech_reception_note
 #: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create__display_name
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_reception_note_consumption__display_name
 msgid "Display Name"
 msgstr "Nume afișat"
 
 #. module: deltatech_reception_note
 #: model_terms:ir.ui.view,arch_db:deltatech_reception_note.purchase_order_search_type
 msgid "Empty"
-msgstr ""
+msgstr "Consumate integral"
 
 #. module: deltatech_reception_note
 #: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create__id
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_order__id
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_reception_note_consumption__id
 msgid "ID"
 msgstr ""
 
@@ -95,7 +106,7 @@ msgstr "Ignoră cantitățile negăsite"
 #. module: deltatech_reception_note
 #: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_order__is_empty
 msgid "Is empty"
-msgstr ""
+msgstr "Consumat integral"
 
 #. module: deltatech_reception_note
 #: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create____last_update
@@ -104,23 +115,25 @@ msgstr "Ultima modificare la"
 
 #. module: deltatech_reception_note
 #: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create__write_uid
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_reception_note_consumption__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: deltatech_reception_note
 #: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create__write_date
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_reception_note_consumption__write_date
 msgid "Last Updated on"
 msgstr ""
 
 #. module: deltatech_reception_note
 #: model:ir.model.fields.selection,name:deltatech_reception_note.selection__purchase_order__reception_type__normal
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #. module: deltatech_reception_note
 #: model_terms:ir.ui.view,arch_db:deltatech_reception_note.purchase_order_search_type
 msgid "Not empty"
-msgstr ""
+msgstr "Cu cantități rămase"
 
 #. module: deltatech_reception_note
 #: model:ir.ui.menu,name:deltatech_reception_note.menu_action_reception_note_prepare
@@ -130,9 +143,10 @@ msgstr "Note recepție"
 #. module: deltatech_reception_note
 #. odoo-python
 #: code:addons/deltatech_reception_note/models/purchase.py:0
-#, python-format
-msgid "Product [{product_code}]{product_name}: quantity: {quantity} {uom}<br />"
-msgstr "Produs [{product_code}]{product_name}: cantitate: {quantity} {uom}<br />"
+msgid ""
+"Product [{product_code}]{product_name}: quantity: {quantity} {uom}<br />"
+msgstr ""
+"Produs [{product_code}]{product_name}: cantitate: {quantity} {uom}<br />"
 
 #. module: deltatech_reception_note
 #: model:ir.model,name:deltatech_reception_note.model_purchase_order
@@ -142,14 +156,39 @@ msgstr "Comandă de achiziție"
 #. module: deltatech_reception_note
 #. odoo-python
 #: code:addons/deltatech_reception_note/models/purchase.py:0
-#, python-format
 msgid "Quantities forced on this reception note:<br />"
 msgstr "Cantități forțate pe această notă de recepție:<br />"
+
+#. module: deltatech_reception_note
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_reception_note_consumption__quantity
+msgid "Quantity"
+msgstr "Cantitate"
+
+#. module: deltatech_reception_note
+#: model:ir.model,name:deltatech_reception_note.model_purchase_reception_note_consumption
+msgid "Quantity consumed from an RFQ line by a reception note"
+msgstr "Cantitate consumată dintr-o linie RFQ de o notă de recepție"
+
+#. module: deltatech_reception_note
+#: model:ir.model.fields,help:deltatech_reception_note.field_purchase_reception_note_consumption__quantity
+msgid ""
+"Quantity taken from the RFQ line, in the unit of measure of the RFQ line"
+msgstr "Cantitatea luată din linia RFQ, în unitatea de măsură a liniei RFQ"
 
 #. module: deltatech_reception_note
 #: model:ir.model.fields.selection,name:deltatech_reception_note.selection__purchase_order__reception_type__rfq_only
 msgid "RFQ Only"
 msgstr "Doar RFQ"
+
+#. module: deltatech_reception_note
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_order__rfq_consumption_ids
+msgid "RFQ consumption"
+msgstr "Consum din RFQ"
+
+#. module: deltatech_reception_note
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_reception_note_consumption__rfq_line_id
+msgid "RFQ line"
+msgstr "Linie RFQ"
 
 #. module: deltatech_reception_note
 #: model:ir.model.fields.selection,name:deltatech_reception_note.selection__purchase_order__reception_type__note
@@ -163,6 +202,7 @@ msgstr ""
 
 #. module: deltatech_reception_note
 #: model:ir.actions.act_window,name:deltatech_reception_note.prepare_reception_note_action
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_reception_note_consumption__note_id
 msgid "Reception note"
 msgstr "Notă recepție"
 
@@ -181,6 +221,13 @@ msgid "Receptions"
 msgstr "Recepții"
 
 #. module: deltatech_reception_note
+#. odoo-python
+#: code:addons/deltatech_reception_note/wizard/reception_note.py:0
+msgid "Select at least one purchase order to create a reception note."
+msgstr ""
+"Selectați cel puțin o comandă de achiziție pentru a crea nota de recepție."
+
+#. module: deltatech_reception_note
 #: model_terms:ir.ui.view,arch_db:deltatech_reception_note.purchase_order_form_sent
 msgid "Set as sent"
 msgstr "Setează trimis"
@@ -193,8 +240,18 @@ msgid ""
 "The product [%(default_code)s]%(name)s is not found in a sent RFQ. Tick "
 "'Ignore quantities' to receive it anyway."
 msgstr ""
-"Produsul [%(default_code)s]%(name)s nu se găsește într-o CdO trimisă. Bifați "
-"„Ignoră cantitățile negăsite” pentru a-l recepționa oricum."
+"Produsul [%(default_code)s]%(name)s nu se găsește într-o CdO trimisă. Bifați"
+" „Ignoră cantitățile negăsite” pentru a-l recepționa oricum."
+
+#. module: deltatech_reception_note
+#. odoo-python
+#: code:addons/deltatech_reception_note/models/purchase.py:0
+msgid ""
+"The quantities already received on this reception note were not given back "
+"to the RFQs: the goods are in stock."
+msgstr ""
+"Cantitățile deja recepționate pe această notă nu au fost restituite în "
+"RFQ-uri: marfa este în stoc."
 
 #. module: deltatech_reception_note
 #. odoo-python
@@ -226,14 +283,8 @@ msgstr "Tip"
 #. module: deltatech_reception_note
 #. odoo-python
 #: code:addons/deltatech_reception_note/models/purchase.py:0
-#, python-format
 msgid "Unable to confirm"
 msgstr "Nu se poate confirma acest tip de comandă"
-
-#. module: deltatech_reception_note
-#: model_terms:ir.ui.view,arch_db:deltatech_reception_note.view_reception_note_create_form
-msgid "_Apply"
-msgstr "_Aplică"
 
 #. module: deltatech_reception_note
 #: model_terms:ir.ui.view,arch_db:deltatech_reception_note.view_reception_note_create_form

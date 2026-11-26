@@ -9,7 +9,7 @@ covers several orders, or one order arrives in several deliveries.
   confirmed and has a *Set as sent* button;
 - *Reception Note*: the delivery actually received, with the vendor's *Delivery Note No*.
 
-**Create reception note.** On a *Normal* purchase order, *Actions > Create reception note* moves its
+**Create reception note.** On a *Normal* purchase order, *Actions > Create reception note* copies its
 open quantities to a new *RFQ Only* order in the *RFQ Sent* state: same vendor, company, currency,
 fiscal position, payment terms, prices and taxes, and the quantity not received yet on each line. The
 receipts of the source order that are *Ready* are cancelled, so the goods are received only through
@@ -18,7 +18,9 @@ reception notes.
 **Reception note.** A purchase order of type *Reception Note* holds the products and quantities
 delivered. When it is confirmed, its quantities are taken from the sent *RFQ Only* orders of the same
 vendor and company, oldest first, in the unit of measure of the product, and the receipt is created by
-the standard confirmation. An *RFQ Only* order that is fully consumed is marked as empty.
+the standard confirmation. An *RFQ Only* order that is fully consumed is marked as empty. Cancelling a
+confirmed reception note gives back to the *RFQ Only* orders the quantities it took and did not receive
+yet.
 
 **Ignore quantities.** If a product or a quantity is not found on a sent *RFQ Only* order, the
 confirmation stops with a message. Tick *Ignore quantities* on the reception note to confirm it anyway;

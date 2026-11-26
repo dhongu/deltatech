@@ -2,6 +2,8 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
+from markupsafe import Markup
+
 from odoo import fields, models
 from odoo.exceptions import UserError
 
@@ -19,6 +21,13 @@ class PurchaseOrder(models.Model):
         string="Ignore quantities",
         default=False,
         help="If checked, quantities bigger than those found on rfq's are forced for reception",
+    )
+    rfq_consumption_ids = fields.One2many(
+        "purchase.reception.note.consumption",
+        "note_id",
+        string="RFQ consumption",
+        readonly=True,
+        copy=False,
     )
 
     def action_rfq_send(self):
@@ -47,10 +56,11 @@ class PurchaseOrder(models.Model):
             if order.ignore_quantities:
                 lines = order.with_company(order.company_id).reduce_from_rfq()
                 if lines:
-                    message = self.env._("Quantities forced on this reception note:<br />")
+                    # the translated templates are trusted HTML; the product data is escaped by format()
+                    message = Markup(self.env._("Quantities forced on this reception note:<br />"))
                     for line in lines:
-                        message += self.env._(
-                            "Product [{product_code}]{product_name}: quantity: {quantity} {uom}<br />"
+                        message += Markup(
+                            self.env._("Product [{product_code}]{product_name}: quantity: {quantity} {uom}<br />")
                         ).format(
                             product_code=line["product_id"].default_code,
                             product_name=line["product_id"].name,
@@ -61,6 +71,51 @@ class PurchaseOrder(models.Model):
             else:
                 order.with_company(order.company_id).reduce_from_rfq()
         return res
+
+    def button_cancel(self):
+        notes = self.filtered(lambda o: o.reception_type == "note" and o.rfq_consumption_ids)
+        res = super().button_cancel()
+        # Anularea standard poate fi refuzata (ex. facturi validate); restituim doar dupa ce a reusit.
+        notes.filtered(lambda o: o.state == "cancel").restore_to_rfq()
+        return res
+
+    def restore_to_rfq(self):
+        """Give back to the RFQ lines the quantities consumed by these reception notes.
+
+        The quantity already received (validated receipts, also partial ones with a backorder) stays in
+        stock after the cancellation, so it is no longer expected from the vendor and is not given back:
+        it is kept on the oldest consumed RFQ lines, the ones the note drew from first.
+        """
+        for note in self:
+            consumptions = note.rfq_consumption_ids.sorted("id")
+            not_restored = False
+            for product in consumptions.rfq_line_id.product_id:
+                product_uom = product.uom_id
+                received = sum(
+                    line.product_uom_id._compute_quantity(line.qty_received, product_uom, round=False)
+                    for line in note.order_line.filtered(lambda li, p=product: li.product_id == p)
+                )
+                for consumption in consumptions.filtered(lambda c, p=product: c.rfq_line_id.product_id == p):
+                    rfq_line = consumption.rfq_line_id
+                    consumed = rfq_line.product_uom_id._compute_quantity(consumption.quantity, product_uom, round=False)
+                    kept = min(consumed, max(received, 0.0))
+                    received -= kept
+                    if not product_uom.is_zero(kept):
+                        not_restored = True
+                    to_restore = rfq_line.product_uom_id.round(
+                        consumption.quantity - product_uom._compute_quantity(kept, rfq_line.product_uom_id, round=False)
+                    )
+                    if to_restore > 0:
+                        rfq_line.write({"product_qty": rfq_line.product_qty + to_restore})
+                        rfq_line.order_id.filtered("is_empty").write({"is_empty": False})
+            if not_restored:
+                note.message_post(
+                    body=self.env._(
+                        "The quantities already received on this reception note were not given back to the "
+                        "RFQs: the goods are in stock."
+                    )
+                )
+            consumptions.unlink()
 
     def reduce_from_rfq(self):
         self.ensure_one()
@@ -76,6 +131,7 @@ class PurchaseOrder(models.Model):
         found_errors = []
         quantity_errors = []
         lines_to_add = []
+        consumption_vals = []
         for line in self.order_line:
             # Nota si RFQ-urile pot fi in unitati diferite (nota in bucati, RFQ in baxuri): consumul
             # se calculeaza in unitatea produsului si se scrie inapoi in unitatea fiecarei linii RFQ.
@@ -94,9 +150,10 @@ class PurchaseOrder(models.Model):
                     found_errors.append(
                         self.env._(
                             "The product [%(default_code)s]%(name)s is not found in a sent RFQ. "
-                            "Tick 'Ignore quantities' to receive it anyway."
+                            "Tick 'Ignore quantities' to receive it anyway.",
+                            default_code=line.product_id.default_code,
+                            name=line.product_id.name,
                         )
-                        % {"default_code": line.product_id.default_code, "name": line.product_id.name}
                     )
 
             if not found_errors:
@@ -116,13 +173,11 @@ class PurchaseOrder(models.Model):
                         quantity_errors.append(
                             self.env._(
                                 "The quantity %(quantity)s of the [%(default_code)s] %(name)s product is not found "
-                                "in a sent RFQ. Tick 'Ignore quantities' to receive it anyway."
+                                "in a sent RFQ. Tick 'Ignore quantities' to receive it anyway.",
+                                quantity=missing_qty,
+                                default_code=line.product_id.default_code,
+                                name=line.product_id.name,
                             )
-                            % {
-                                "quantity": missing_qty,
-                                "default_code": line.product_id.default_code,
-                                "name": line.product_id.name,
-                            }
                         )
 
                     else:
@@ -138,19 +193,32 @@ class PurchaseOrder(models.Model):
                         rfq_qty = rfq_line.product_uom_id._compute_quantity(
                             rfq_line.product_qty, product_uom, round=False
                         )
+                        if not product_uom.compare(quantity, 0.0) > 0:
+                            break
                         if product_uom.compare(quantity, rfq_qty) < 0:
                             product_qty = product_uom._compute_quantity(
                                 rfq_qty - quantity, rfq_line.product_uom_id, round=False
                             )
-                            rfq_line.write({"product_qty": product_qty})
                             quantity = 0
                         else:
                             quantity -= rfq_qty
-                            rfq_line.write({"product_qty": 0})
+                            product_qty = 0.0
+                        # se retine consumul, in unitatea liniei RFQ (dupa rotunjirea campului), ca anularea
+                        # notei sa poata restitui exact ce s-a scazut
+                        previous_qty = rfq_line.product_qty
+                        rfq_line.write({"product_qty": product_qty})
+                        consumption_vals.append(
+                            {
+                                "note_id": self.id,
+                                "rfq_line_id": rfq_line.id,
+                                "quantity": previous_qty - rfq_line.product_qty,
+                            }
+                        )
                 rfq_lines.order_id.check_if_empty()
         errors = found_errors + quantity_errors
         if errors:
             raise UserError("\n".join(errors))
+        self.env["purchase.reception.note.consumption"].create(consumption_vals)
         return lines_to_add
 
     def check_if_empty(self):
@@ -160,3 +228,17 @@ class PurchaseOrder(models.Model):
                 qty += line.product_qty
             if qty == 0.0:
                 order.write({"is_empty": True})
+
+
+class PurchaseReceptionNoteConsumption(models.Model):
+    _name = "purchase.reception.note.consumption"
+    _description = "Quantity consumed from an RFQ line by a reception note"
+
+    note_id = fields.Many2one("purchase.order", string="Reception note", required=True, ondelete="cascade", index=True)
+    rfq_line_id = fields.Many2one("purchase.order.line", string="RFQ line", required=True, ondelete="cascade")
+    quantity = fields.Float(
+        string="Quantity",
+        digits="Product Unit",
+        required=True,
+        help="Quantity taken from the RFQ line, in the unit of measure of the RFQ line",
+    )

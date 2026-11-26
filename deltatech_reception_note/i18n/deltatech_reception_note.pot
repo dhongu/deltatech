@@ -50,11 +50,13 @@ msgstr ""
 
 #. module: deltatech_reception_note
 #: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create__create_uid
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_reception_note_consumption__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: deltatech_reception_note
 #: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create__create_date
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_reception_note_consumption__create_date
 msgid "Created on"
 msgstr ""
 
@@ -71,6 +73,7 @@ msgstr ""
 #. module: deltatech_reception_note
 #: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_order__display_name
 #: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create__display_name
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_reception_note_consumption__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -82,6 +85,7 @@ msgstr ""
 #. module: deltatech_reception_note
 #: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_order__id
 #: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create__id
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_reception_note_consumption__id
 msgid "ID"
 msgstr ""
 
@@ -104,11 +108,13 @@ msgstr ""
 
 #. module: deltatech_reception_note
 #: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create__write_uid
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_reception_note_consumption__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: deltatech_reception_note
 #: model:ir.model.fields,field_description:deltatech_reception_note.field_reception_note_create__write_date
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_reception_note_consumption__write_date
 msgid "Last Updated on"
 msgstr ""
 
@@ -146,8 +152,34 @@ msgid "Quantities forced on this reception note:<br />"
 msgstr ""
 
 #. module: deltatech_reception_note
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_reception_note_consumption__quantity
+msgid "Quantity"
+msgstr ""
+
+#. module: deltatech_reception_note
+#: model:ir.model,name:deltatech_reception_note.model_purchase_reception_note_consumption
+msgid "Quantity consumed from an RFQ line by a reception note"
+msgstr ""
+
+#. module: deltatech_reception_note
+#: model:ir.model.fields,help:deltatech_reception_note.field_purchase_reception_note_consumption__quantity
+msgid ""
+"Quantity taken from the RFQ line, in the unit of measure of the RFQ line"
+msgstr ""
+
+#. module: deltatech_reception_note
 #: model:ir.model.fields.selection,name:deltatech_reception_note.selection__purchase_order__reception_type__rfq_only
 msgid "RFQ Only"
+msgstr ""
+
+#. module: deltatech_reception_note
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_order__rfq_consumption_ids
+msgid "RFQ consumption"
+msgstr ""
+
+#. module: deltatech_reception_note
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_reception_note_consumption__rfq_line_id
+msgid "RFQ line"
 msgstr ""
 
 #. module: deltatech_reception_note
@@ -162,6 +194,7 @@ msgstr ""
 
 #. module: deltatech_reception_note
 #: model:ir.actions.act_window,name:deltatech_reception_note.prepare_reception_note_action
+#: model:ir.model.fields,field_description:deltatech_reception_note.field_purchase_reception_note_consumption__note_id
 msgid "Reception note"
 msgstr ""
 
@@ -180,6 +213,12 @@ msgid "Receptions"
 msgstr ""
 
 #. module: deltatech_reception_note
+#. odoo-python
+#: code:addons/deltatech_reception_note/wizard/reception_note.py:0
+msgid "Select at least one purchase order to create a reception note."
+msgstr ""
+
+#. module: deltatech_reception_note
 #: model_terms:ir.ui.view,arch_db:deltatech_reception_note.purchase_order_form_sent
 msgid "Set as sent"
 msgstr ""
@@ -190,6 +229,14 @@ msgstr ""
 msgid ""
 "The product [%(default_code)s]%(name)s is not found in a sent RFQ. Tick "
 "'Ignore quantities' to receive it anyway."
+msgstr ""
+
+#. module: deltatech_reception_note
+#. odoo-python
+#: code:addons/deltatech_reception_note/models/purchase.py:0
+msgid ""
+"The quantities already received on this reception note were not given back "
+"to the RFQs: the goods are in stock."
 msgstr ""
 
 #. module: deltatech_reception_note
