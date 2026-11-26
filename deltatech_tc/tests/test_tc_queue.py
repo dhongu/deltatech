@@ -182,6 +182,16 @@ class TestTcQueue(TransactionCase):
         self.assertEqual(job.state, "error")
         self.assertIn("24 hours", job.error)
 
+    def test_gc_finished_jobs_in_hours(self):
+        now = fields.Datetime.now()
+        done = self._job(state="done", done_at=now - timedelta(hours=5))
+        error = self._job(state="error", done_at=now - timedelta(hours=5))
+        self._set_param("done_ttl_hours", "4")
+        self.Job._gc_jobs()
+        self.assertFalse(done.exists(), "finished jobs go after done_ttl_hours")
+        self.assertTrue(error.exists(), "jobs in error keep their days")
+
     def test_cron_is_installed(self):
         cron = self.env.ref("deltatech_tc.ir_cron_deltatech_tc_gc_jobs")
         self.assertEqual(cron.code, "model._gc_jobs()")
+        self.assertEqual((cron.interval_number, cron.interval_type), (1, "hours"))

@@ -19,9 +19,9 @@ Terrabit Connect - Base
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_tc/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-62%20automated%20tests%20%C2%B7%2084%25%20code%20coverage-2ea44f.png
+.. |badge_tests| image:: https://img.shields.io/badge/-62%20automated%20tests%20%C2%B7%2087%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_tc
-    :alt: 62 automated tests · 84% code coverage
+    :alt: 62 automated tests · 87% code coverage
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
@@ -238,8 +238,18 @@ optional:
 +----------------------------------------+---------+-----------------------------+
 | ``deltatech_tc.done_ttl_days``         | 30      | Finished jobs older than    |
 |                                        |         | this are deleted by the     |
-|                                        |         | daily cleanup (``0`` =      |
+|                                        |         | hourly cleanup (``0`` =     |
 |                                        |         | keep)                       |
++----------------------------------------+---------+-----------------------------+
+| ``deltatech_tc.done_ttl_hours``        | 0       | When set, finished jobs go  |
+|                                        |         | after this many hours       |
+|                                        |         | instead (``0`` = use the    |
+|                                        |         | days)                       |
++----------------------------------------+---------+-----------------------------+
+| ``deltatech_tc.pg_done_ttl_hours``     | 6       | Finished ``pg_query`` pages |
+|                                        |         | go after this many hours    |
+|                                        |         | (``0`` = like the other     |
+|                                        |         | jobs)                       |
 +----------------------------------------+---------+-----------------------------+
 | ``deltatech_tc.error_ttl_days``        | 90      | Same for jobs in error      |
 +----------------------------------------+---------+-----------------------------+
@@ -294,8 +304,12 @@ connection. The station form then shows **Agent** ``tc-postgresql``, the
 features ``postgresql,pg:<profile>`` and the installed queries. The
 agent updates itself from signed releases.
 
-On the Odoo side, ``deltatech_tc.pg_done_ttl_days`` (default 3) sets how
-long finished ``pg_query`` pages are kept.
+On the Odoo side, ``deltatech_tc.pg_done_ttl_hours`` (default 6) sets
+how long finished ``pg_query`` pages are kept: their data is already in
+the records of the calling module, and a synchronization reads thousands
+of them. The former ``deltatech_tc.pg_done_ttl_days`` still counts (in
+days) when only it is set; ``0`` there, as before, keeps the pages like
+the other jobs.
 
 The server applies a 60-second throttle on ``last_seen`` writes to
 reduce database load when many stations are polling frequently; online
@@ -563,6 +577,21 @@ once the feature module is installed.
 
 Changelog
 =========
+
+20.0.1.5.0 (2026-11-26)
+-----------------------
+
+- **Finished ``pg_query`` pages go after 6 hours**
+  (``deltatech_tc.pg_done_ttl_hours``), not 3 days: their data is
+  already in the records of the calling module, and a synchronization
+  reads thousands of them (on a trial odoo.sh database, one day of
+  Winarhi pages took 300 MB of the 1 GB).
+  ``deltatech_tc.pg_done_ttl_days`` still counts when only it is set
+  (``0`` = no early deletion, as before).
+- ``deltatech_tc.done_ttl_hours``: finished jobs of any type can go
+  after a number of hours.
+- The queue cleanup runs every hour (was daily); the migration moves the
+  existing cron.
 
 20.0.1.4.1 (2026-11-19)
 -----------------------

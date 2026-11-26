@@ -1,3 +1,12 @@
+## 20.0.1.5.0 (2026-11-26)
+
+- **Finished `pg_query` pages go after 6 hours** (`deltatech_tc.pg_done_ttl_hours`), not 3 days:
+  their data is already in the records of the calling module, and a synchronization reads thousands
+  of them (on a trial odoo.sh database, one day of Winarhi pages took 300 MB of the 1 GB).
+  `deltatech_tc.pg_done_ttl_days` still counts when only it is set (`0` = no early deletion, as before).
+- `deltatech_tc.done_ttl_hours`: finished jobs of any type can go after a number of hours.
+- The queue cleanup runs every hour (was daily); the migration moves the existing cron.
+
 ## 20.0.1.4.1 (2026-11-19)
 
 - Documentation, examples, tests and screenshots use a neutral `erp` profile and a `Server ERP`
