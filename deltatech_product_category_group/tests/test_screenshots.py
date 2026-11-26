@@ -54,7 +54,9 @@ COLUMN = {"ro_RO": "Responsabil", "en_US": "Responsible"}
 
 
 def _list_js(select):
-    return {lang: LIST_JS % {"column": label, "select": "true" if select else "false"} for lang, label in COLUMN.items()}
+    return {
+        lang: LIST_JS % {"column": label, "select": "true" if select else "false"} for lang, label in COLUMN.items()
+    }
 
 
 @tagged("-at_install", "post_install", "fise_screenshots")
