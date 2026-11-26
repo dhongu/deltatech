@@ -965,6 +965,26 @@ class TestExpenses(TransactionCase):
         with self.assertRaises(ValidationError):
             self._allocate(expense_line, bill, 10.0)
 
+    def test_allocation_move_to_locked_deduction_is_refused(self):
+        """EXPENSES-001: o alocare nu poate fi mutată pe o linie dintr-un decont finalizat/anulat."""
+        accountant = self._expenses_user(
+            "expenses_3975_accountant",
+            ["deltatech_expenses.group_expenses_accounting", "account.group_account_invoice"],
+        )
+        bill = self._bill(100.0)
+        open_line = self._new_line(self._new_deduction(100.0), 100.0, type="supplier_payment")
+        allocation = self._allocate(open_line, bill, 50.0)
+        for state in ("done", "cancel"):
+            locked = self._new_deduction(100.0)
+            locked_line = self._new_line(locked, 100.0, type="supplier_payment")
+            locked.sudo().write({"state": state})
+            with self.assertRaises(UserError):
+                allocation.with_user(accountant).write({"line_id": locked_line.id})
+            self.assertEqual(allocation.line_id, open_line)
+        free_line = self._new_line(self._new_deduction(100.0), 100.0, type="supplier_payment")
+        allocation.with_user(accountant).write({"line_id": free_line.id})
+        self.assertEqual(allocation.line_id, free_line)
+
     def test_supplier_payment_allocation_rejects_refund(self):
         """O rambursare de la furnizor (in_refund) nu poate fi stinsă de o plată din avans."""
         refund = self.env["account.move"].create(

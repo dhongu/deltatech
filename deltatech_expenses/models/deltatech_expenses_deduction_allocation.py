@@ -78,7 +78,12 @@ class DeltatechExpensesDeductionAllocation(models.Model):
         return super().create(vals_list)
 
     def write(self, vals):
-        self.line_id._check_deduction_open(self.mapped("expenses_deduction_id"))
+        deductions = self.mapped("expenses_deduction_id")
+        if vals.get("line_id"):
+            # mutarea pe o altă linie: decontul destinație trebuie să fie și el deschis, ca la create
+            target_line = self.env["deltatech.expenses.deduction.line"].browse(vals["line_id"])
+            deductions |= target_line.expenses_deduction_id
+        self.line_id._check_deduction_open(deductions)
         return super().write(vals)
 
     def unlink(self):
