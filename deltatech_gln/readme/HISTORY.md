@@ -10,6 +10,9 @@
   duplicate *GLN* field (and the "same label" warning at every load) is gone.
 - The EDI modules (`deltatech_edi` and its connectors) no longer depend on this module. It is not
   migrated to 20.0, where the GLN is part of `account`.
+- No consultant sheet (`consultant_sheet: none`): a deprecated technical bridge, without a screen or a
+  flow of its own; the GLN a consultant sets up is the standard field, described in the sheet of
+  `deltatech_edi`.
 
 ## 19.0.1.1.1
 

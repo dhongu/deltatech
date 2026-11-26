@@ -17,5 +17,6 @@
     "images": ["static/description/main_screenshot.png"],
     "installable": True,
     "development_status": "Mature",
+    "consultant_sheet": "none",
     "maintainers": ["dhongu"],
 }
