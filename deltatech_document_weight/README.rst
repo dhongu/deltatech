@@ -16,8 +16,11 @@ Document Weight
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_document_weight
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_document_weight/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_fisa|
 
 Prints the net weight, the gross weight and the volume of the goods on
 the quotation and on the customer invoice: under the name of each
@@ -54,8 +57,9 @@ documents**:
 - **Copy weights to all variants** (off by default): when the weight,
   the volume or the net weight is set on a product template, it is
   written on all its variants, and on the variants created on demand
-  (dynamic attributes), for example when a quotation is confirmed.
-  Natively, Odoo only does it for a template with a single variant.
+  (dynamic attributes), for example when the product is added to a
+  quotation line through the product configurator. Natively, Odoo only
+  does it for a template with a single variant.
 
 The two print options are set per company.
 

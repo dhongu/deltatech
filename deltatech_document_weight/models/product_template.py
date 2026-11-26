@@ -69,8 +69,9 @@ class ProductTemplate(models.Model):
         return res
 
     def _create_product_variant(self, combination, log_warning=False):
-        # A variant created on demand (dynamic attributes, e.g. when a quotation is confirmed) does
-        # not get these values from the template. They are read BEFORE super(): the new variant has
+        # A variant created on demand (dynamic attributes, e.g. when the product is added to a
+        # quotation line from the configurator) does not get these values from the template.
+        # They are read BEFORE super(): the new variant has
         # 0 weight and volume, and the compute of the template field would reset them on the template.
         # The source is an existing variant if there is one: from the second variant on, the template
         # field is 0 (see ``_compute_template_field_from_variant_field``).
