@@ -1,3 +1,16 @@
+## 19.0.1.2.0 (2026-11-26)
+
+- **Deprecated.** `gln` is now a bridge: a related field (`readonly=False`) on the standard
+  `global_location_number` of `account_add_gln`, without its own column, so code and data that
+  still read or write `gln` keep working. The module depends on `account_add_gln`.
+- The migration copies `gln` into the standard field where that one is empty; when both are set
+  and differ, the standard value is kept and each partner is logged. The old `gln` column is left
+  in the database, untouched, as a backup.
+- The partner form shows the standard GLN on every partner, not only on delivery addresses; the
+  duplicate *GLN* field (and the "same label" warning at every load) is gone.
+- The EDI modules (`deltatech_edi` and its connectors) no longer depend on this module. It is not
+  migrated to 20.0, where the GLN is part of `account`.
+
 ## 19.0.1.1.1
 
 - Own module icon, instead of the generic gears it had.

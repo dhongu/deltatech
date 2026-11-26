@@ -5,11 +5,11 @@
 {
     "name": "Partner GLN",
     "summary": "Partner Global Location Number",
-    "version": "19.0.1.1.1",
+    "version": "19.0.1.2.0",
     "author": "Terrabit,Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Administration",
-    "depends": ["base"],
+    "depends": ["account_add_gln"],
     "license": "OPL-1",
     "data": [
         "views/res_partner_view.xml",
