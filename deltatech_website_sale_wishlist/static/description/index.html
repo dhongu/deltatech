@@ -32,6 +32,11 @@
        style="padding:10px 22px;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</a>
@@ -46,34 +51,115 @@
 <ol>
 <li>
 <p><strong>Backend Wishlist Visibility</strong>:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-globe" style="" aria-hidden="true"></span></span><div>Adds a dedicated <strong>Wishlists</strong> menu under the eCommerce Catalog.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-credit-card" style="" aria-hidden="true"></span></span><div>Provides a structured list and form view of all wishlist items across the entire platform.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-users" style="" aria-hidden="true"></span></span><div>Allows administrators to see which partners have added which products to their wishlists.</div></div></li></ul>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-globe" style="" aria-hidden="true"></span></span><div>Adds a dedicated <strong>Wishlists</strong> menu under <em>Website &gt; eCommerce &gt; Products</em>.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-credit-card" style="" aria-hidden="true"></span></span><div>Provides a structured list and form view of all wishlist items across the entire platform.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-users" style="" aria-hidden="true"></span></span><div>Allows administrators to see which partners have added which products to their wishlists.</div></div></li></ul>
 </li>
 <li>
 <p><strong>Stock Awareness</strong>:</p>
 <ul>
-<li>Displays real-time <strong>Quantity Available</strong> for each product on a wishlist.</li>
+<li>Displays the <strong>Quantity On Hand</strong> of each product on a wishlist, computed when the list is shown, as the total stock of the warehouses of the companies selected in the company switcher (replenishment goes to the user's default warehouse).</li>
 <li>Helps inventory managers identify demand for out-of-stock items.</li>
 </ul>
 </li>
 <li>
 <p><strong>One-Click Replenishment</strong>:</p>
 <ul>
-<li>Features a <strong>Replenish</strong> button directly in the wishlist list view.</li>
-<li>Allows managers to quickly trigger the replenishment process for products that are highly requested but low on stock.</li>
+<li>Select wishlist lines in the list view and click <strong>Replenish</strong>.</li>
+<li>Each selected line procures one unit of its product in the user's default warehouse, through the product route (a request for quotation with <em>Buy</em>, a manufacturing order with <em>Manufacture</em>).</li>
 </ul>
 </li>
 </ol>
-<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;"><span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">Usage</span></h2>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</span></div>
 <ol>
-<li>Navigate to <strong>Website &gt; eCommerce &gt; Products &gt; Wishlists</strong>.</li>
-<li>Review the list of products added by customers to their wishlists.</li>
-<li>Analyze the <strong>Quantity Available</strong> to see if demand can be met.</li>
-<li>If a popular product is low on stock, select it and click the <strong>Replenish</strong> button to initiate a restock.</li>
-<li>Use this data to inform marketing campaigns or personalized offers for customers with specific items on their wishlists.</li>
+<li>Go to <em>Website &gt; eCommerce &gt; Products &gt; Wishlists</em>. The list shows every product your customers
+   added to their wishlist, on all websites: the customer (<em>Owner</em>), the product, its
+   <em>Quantity On Hand</em> and the price when it was added. <em>Quantity On Hand</em> is the stock of the
+   warehouses of the companies selected in the company switcher. A product wished by several customers shows
+   on one line per customer.</li>
 </ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="The Wishlists list under the eCommerce menu: columns Owner, Product, Quantity On Hand and Price; Lamp&#259; de birou LED is wished by three customers with 0.00 on hand, Scaun de birou ergonomic has 12.00 and Birou reglabil electric 2.00" src="en/01_lista_favorite.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">The Wishlists list under the eCommerce menu: columns Owner, Product, Quantity On Hand and Price; Lamp&#259; de birou LED is wished by three customers with 0.00 on hand, Scaun de birou ergonomic has 12.00 and Birou reglabil electric 2.00</span>
+  </div>
+</div>
+<ol start="2">
+<li>Click a line to open it. The form shows the same data. <em>Quantity On Hand</em> is computed each time
+   it is displayed; it is not stored on the line.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="The form of the wishlist line Ana Popescu - Lamp&#259; de birou LED: Owner Ana Popescu, Product Lamp&#259; de birou LED, Quantity On Hand 0.00 highlighted and Price 149.00" src="en/02_formular_favorit.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">2</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">The form of the wishlist line Ana Popescu - Lamp&#259; de birou LED: Owner Ana Popescu, Product Lamp&#259; de birou LED, Quantity On Hand 0.00 highlighted and Price 149.00</span>
+  </div>
+</div>
+<ol start="3">
+<li>Back in the list, select the lines of the products you want to bring in stock and click
+   <em>Replenish</em>. For <strong>each selected line</strong>, the module procures <strong>one unit</strong> of the product in the
+   stock location of the user's default warehouse, following the product route: a request for
+   quotation with <em>Buy</em> (needs a vendor on the product) or a manufacturing order with
+   <em>Manufacture</em>. If one selected product has no such route, Odoo shows an error and nothing is
+   created for any selected line. A product with the <em>Buy</em> route but no vendor gets no request for
+   quotation, without any message.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="The Wishlists list with two lines selected, Lamp&#259; de birou LED for Ana Popescu and Birou reglabil electric for Mihai Ionescu, and the Replenish button highlighted next to 2 selected" src="en/03_reaprovizionare_selectie.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">3</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">The Wishlists list with two lines selected, Lamp&#259; de birou LED for Ana Popescu and Birou reglabil electric for Mihai Ionescu, and the Replenish button highlighted next to 2 selected</span>
+  </div>
+</div>
+<ol start="4">
+<li>In <em>Purchase &gt; Orders &gt; Requests for Quotation</em>, with the vendor <em>Group RFQ</em> left on
+   <em>On Order</em> (the default), each replenished line created its own request for quotation to the
+   product vendor, with <em>wishlist</em> as source document. With <em>Daily</em>, <em>Weekly</em> or <em>Always</em>, the
+   need is added to an open request of the vendor instead.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="The Requests for Quotation list in Purchase: two new requests to Furnizor Mobilier SRL, in the RFQ status, with the order deadline Today and the totals 1,372.14 lei and 108.17 lei" src="en/04_cereri_oferta.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">4</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">The Requests for Quotation list in Purchase: two new requests to Furnizor Mobilier SRL, in the RFQ status, with the order deadline Today and the totals 1,372.14 lei and 108.17 lei</span>
+  </div>
+</div>
+<ol start="5">
+<li>Open one of them: the line has a quantity of 1. Adjust the quantity if needed, then send or
+   confirm it as usual. Clicking <em>Replenish</em> again creates new requests, it does not update the
+   existing ones.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="A request for quotation in the RFQ status: vendor Furnizor Mobilier SRL highlighted and the line Lamp&#259; de birou LED with Quantity 1.00 highlighted and the 21% VAT tax, total 108.17 lei" src="en/05_cerere_oferta.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">5</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">A request for quotation in the RFQ status: vendor Furnizor Mobilier SRL highlighted and the line Lamp&#259; de birou LED with Quantity 1.00 highlighted and the 21% VAT tax, total 108.17 lei</span>
+  </div>
+</div>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.3 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-26)</span></h2>
+<ul>
+<li>Fix: the quantity on hand of a wishlist item now follows the stock context (warehouse, location, company) and is refreshed when the product or its stock moves change, instead of reusing a value computed for another context (#3505).</li>
+<li>Consultant sheet (RO) and English usage page, with screenshots generated by <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">tests/test_screenshots.py</code>. The description now states that <em>Replenish</em> procures one unit per selected line.</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.2 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-10-09)</span></h2>
 <ul>
 <li>Apps Store banner (banner.json).</li>

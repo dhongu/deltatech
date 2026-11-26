@@ -4,7 +4,7 @@
 
 import logging
 
-from odoo import fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.misc import clean_context
 
@@ -22,9 +22,26 @@ class ProductWishlist(models.Model):
         digits="Product Unit",
     )
 
+    @api.depends("product_id", "product_id.qty_available")
+    @api.depends_context(
+        "lot_id",
+        "owner_id",
+        "package_id",
+        "from_date",
+        "to_date",
+        "location",
+        "warehouse_id",
+        "allowed_company_ids",
+    )
     def _compute_quantities(self):
         for item in self:
             item.qty_available = item.product_id.qty_available
+
+    @api.depends("partner_id", "product_id")
+    def _compute_display_name(self):
+        for item in self:
+            names = [item.partner_id.display_name, item.product_id.display_name]
+            item.display_name = " - ".join(name for name in names if name)
 
     def _search_qty_available(self, operator, value):
         domain = [("qty_available", operator, value)]

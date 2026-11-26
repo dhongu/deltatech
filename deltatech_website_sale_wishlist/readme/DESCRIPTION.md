@@ -7,23 +7,14 @@ Key Features
 ============
 
 1.  **Backend Wishlist Visibility**:
-    *   Adds a dedicated **Wishlists** menu under the eCommerce Catalog.
+    *   Adds a dedicated **Wishlists** menu under *Website > eCommerce > Products*.
     *   Provides a structured list and form view of all wishlist items across the entire platform.
     *   Allows administrators to see which partners have added which products to their wishlists.
 
 2.  **Stock Awareness**:
-    *   Displays real-time **Quantity Available** for each product on a wishlist.
+    *   Displays the **Quantity On Hand** of each product on a wishlist, computed when the list is shown, as the total stock of the warehouses of the companies selected in the company switcher (replenishment goes to the user's default warehouse).
     *   Helps inventory managers identify demand for out-of-stock items.
 
 3.  **One-Click Replenishment**:
-    *   Features a **Replenish** button directly in the wishlist list view.
-    *   Allows managers to quickly trigger the replenishment process for products that are highly requested but low on stock.
-
-Usage
-=====
-
-1.  Navigate to **Website > eCommerce > Products > Wishlists**.
-2.  Review the list of products added by customers to their wishlists.
-3.  Analyze the **Quantity Available** to see if demand can be met.
-4.  If a popular product is low on stock, select it and click the **Replenish** button to initiate a restock.
-5.  Use this data to inform marketing campaigns or personalized offers for customers with specific items on their wishlists.
+    *   Select wishlist lines in the list view and click **Replenish**.
+    *   Each selected line procures one unit of its product in the user's default warehouse, through the product route (a request for quotation with *Buy*, a manufacturing order with *Manufacture*).
