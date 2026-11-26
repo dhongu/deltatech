@@ -16,8 +16,11 @@ eCommerce Wishlist
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_website_sale_wishlist
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_website_sale_wishlist/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_fisa|
 
 eCommerce Wishlist Extension
 ============================
@@ -31,7 +34,8 @@ Key Features
 
 1. **Backend Wishlist Visibility**:
 
-   - Adds a dedicated **Wishlists** menu under the eCommerce Catalog.
+   - Adds a dedicated **Wishlists** menu under *Website > eCommerce >
+     Products*.
    - Provides a structured list and form view of all wishlist items
      across the entire platform.
    - Allows administrators to see which partners have added which
@@ -39,31 +43,84 @@ Key Features
 
 2. **Stock Awareness**:
 
-   - Displays real-time **Quantity Available** for each product on a
-     wishlist.
+   - Displays the **Quantity On Hand** of each product on a wishlist,
+     computed when the list is shown, as the total stock of the
+     warehouses of the companies selected in the company switcher
+     (replenishment goes to the user's default warehouse).
    - Helps inventory managers identify demand for out-of-stock items.
 
 3. **One-Click Replenishment**:
 
-   - Features a **Replenish** button directly in the wishlist list view.
-   - Allows managers to quickly trigger the replenishment process for
-     products that are highly requested but low on stock.
-
-Usage
-=====
-
-1. Navigate to **Website > eCommerce > Products > Wishlists**.
-2. Review the list of products added by customers to their wishlists.
-3. Analyze the **Quantity Available** to see if demand can be met.
-4. If a popular product is low on stock, select it and click the
-   **Replenish** button to initiate a restock.
-5. Use this data to inform marketing campaigns or personalized offers
-   for customers with specific items on their wishlists.
+   - Select wishlist lines in the list view and click **Replenish**.
+   - Each selected line procures one unit of its product in the user's
+     default warehouse, through the product route (a request for
+     quotation with *Buy*, a manufacturing order with *Manufacture*).
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Usage
+=====
+
+1. Go to *Website > eCommerce > Products > Wishlists*. The list shows
+   every product your customers added to their wishlist, on all
+   websites: the customer (*Owner*), the product, its *Quantity On Hand*
+   and the price when it was added. *Quantity On Hand* is the stock of
+   the warehouses of the companies selected in the company switcher. A
+   product wished by several customers shows on one line per customer.
+
+   |The Wishlists list under the eCommerce menu: columns Owner, Product,
+   Quantity On Hand and Price; Lampă de birou LED is wished by three
+   customers with 0.00 on hand, Scaun de birou ergonomic has 12.00 and
+   Birou reglabil electric 2.00|
+
+2. Click a line to open it. The form shows the same data. *Quantity On
+   Hand* is computed each time it is displayed; it is not stored on the
+   line.
+
+   |The form of the wishlist line Ana Popescu - Lampă de birou LED:
+   Owner Ana Popescu, Product Lampă de birou LED, Quantity On Hand 0.00
+   highlighted and Price 149.00|
+
+3. Back in the list, select the lines of the products you want to bring
+   in stock and click *Replenish*. For **each selected line**, the
+   module procures **one unit** of the product in the stock location of
+   the user's default warehouse, following the product route: a request
+   for quotation with *Buy* (needs a vendor on the product) or a
+   manufacturing order with *Manufacture*. If one selected product has
+   no such route, Odoo shows an error and nothing is created for any
+   selected line. A product with the *Buy* route but no vendor gets no
+   request for quotation, without any message.
+
+   |The Wishlists list with two lines selected, Lampă de birou LED for
+   Ana Popescu and Birou reglabil electric for Mihai Ionescu, and the
+   Replenish button highlighted next to 2 selected|
+
+4. In *Purchase > Orders > Requests for Quotation*, with the vendor
+   *Group RFQ* left on *On Order* (the default), each replenished line
+   created its own request for quotation to the product vendor, with
+   *wishlist* as source document. With *Daily*, *Weekly* or *Always*,
+   the need is added to an open request of the vendor instead.
+
+   |The Requests for Quotation list in Purchase: two new requests to
+   Furnizor Mobilier SRL, in the RFQ status, with the order deadline
+   Today and the totals 1,372.14 lei and 108.17 lei|
+
+5. Open one of them: the line has a quantity of 1. Adjust the quantity
+   if needed, then send or confirm it as usual. Clicking *Replenish*
+   again creates new requests, it does not update the existing ones.
+
+   |A request for quotation in the RFQ status: vendor Furnizor Mobilier
+   SRL highlighted and the line Lampă de birou LED with Quantity 1.00
+   highlighted and the 21% VAT tax, total 108.17 lei|
+
+.. |The Wishlists list under the eCommerce menu: columns Owner, Product, Quantity On Hand and Price; Lampă de birou LED is wished by three customers with 0.00 on hand, Scaun de birou ergonomic has 12.00 and Birou reglabil electric 2.00| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_sale_wishlist/static/description/en/01_lista_favorite.png
+.. |The form of the wishlist line Ana Popescu - Lampă de birou LED: Owner Ana Popescu, Product Lampă de birou LED, Quantity On Hand 0.00 highlighted and Price 149.00| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_sale_wishlist/static/description/en/02_formular_favorit.png
+.. |The Wishlists list with two lines selected, Lampă de birou LED for Ana Popescu and Birou reglabil electric for Mihai Ionescu, and the Replenish button highlighted next to 2 selected| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_sale_wishlist/static/description/en/03_reaprovizionare_selectie.png
+.. |The Requests for Quotation list in Purchase: two new requests to Furnizor Mobilier SRL, in the RFQ status, with the order deadline Today and the totals 1,372.14 lei and 108.17 lei| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_sale_wishlist/static/description/en/04_cereri_oferta.png
+.. |A request for quotation in the RFQ status: vendor Furnizor Mobilier SRL highlighted and the line Lampă de birou LED with Quantity 1.00 highlighted and the 21% VAT tax, total 108.17 lei| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_website_sale_wishlist/static/description/en/05_cerere_oferta.png
 
 Changelog
 =========
@@ -75,6 +132,9 @@ Changelog
   context (warehouse, location, company) and is refreshed when the
   product or its stock moves change, instead of reusing a value computed
   for another context (#3505).
+- Consultant sheet (RO) and English usage page, with screenshots
+  generated by ``tests/test_screenshots.py``. The description now states
+  that *Replenish* procures one unit per selected line.
 
 19.0.1.0.2 (2026-10-09)
 -----------------------

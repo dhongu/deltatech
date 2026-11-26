@@ -23,7 +23,7 @@ msgstr "Produse favorite"
 #. module: deltatech_website_sale_wishlist
 #: model:ir.model.fields,field_description:deltatech_website_sale_wishlist.field_product_wishlist__qty_available
 msgid "Quantity On Hand"
-msgstr "Cantitate disponibilă"
+msgstr "Cantitate în stoc"
 
 #. module: deltatech_website_sale_wishlist
 #: model_terms:ir.ui.view,arch_db:deltatech_website_sale_wishlist.product_wishlist_tree

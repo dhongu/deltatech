@@ -37,6 +37,12 @@ class ProductWishlist(models.Model):
         for item in self:
             item.qty_available = item.product_id.qty_available
 
+    @api.depends("partner_id", "product_id")
+    def _compute_display_name(self):
+        for item in self:
+            names = [item.partner_id.display_name, item.product_id.display_name]
+            item.display_name = " - ".join(name for name in names if name)
+
     def _search_qty_available(self, operator, value):
         domain = [("qty_available", operator, value)]
         products = self.env["product.product"]._search(domain)
