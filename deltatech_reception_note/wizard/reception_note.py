@@ -4,6 +4,7 @@
 
 
 from odoo import models
+from odoo.exceptions import UserError
 
 
 class ReceptionNoteCreate(models.TransientModel):
@@ -11,9 +12,10 @@ class ReceptionNoteCreate(models.TransientModel):
     _description = "Reception Note Create Wizard"
 
     def do_create_reception_note(self):
-        active_ids = self.env.context.get("active_ids", False)
-        if active_ids:
-            purchase_ids = self.env["purchase.order"].browse(active_ids)
+        active_ids = self.env.context.get("active_ids") or []
+        purchase_ids = self.env["purchase.order"].browse(active_ids)
+        if not purchase_ids:
+            raise UserError(self.env._("Select at least one purchase order to create a reception note."))
         for purchase in purchase_ids:
             if not purchase.reception_type or purchase.reception_type == "normal":
                 # keep the company, currency and fiscal position of the source order: the

@@ -176,6 +176,32 @@ class TestPurchaseOrderReceptionType(TransactionCase):
         wizard = self.ReceptionNoteCreate.create({})
         wizard.with_context(active_ids=purchase_order.ids).do_create_reception_note()
 
+    def _rfq_only_orders(self):
+        return self.PurchaseOrder.search([("partner_id", "=", self.Partner.id), ("reception_type", "=", "rfq_only")])
+
+    def test_do_create_reception_note_without_active_ids(self):
+        """RECEPTION-005: fara comenzi selectate, wizard-ul da UserError, nu NameError."""
+        wizard = self.ReceptionNoteCreate.create({})
+        with self.assertRaises(UserError):
+            wizard.with_context(active_ids=None).do_create_reception_note()
+        with self.assertRaises(UserError):
+            wizard.with_context(active_ids=[]).do_create_reception_note()
+        self.assertFalse(self._rfq_only_orders())
+
+    def test_do_create_reception_note_one_and_several_orders(self):
+        """RECEPTION-005: o comanda selectata -> un RFQ Only; doua comenzi -> cate unul pentru fiecare."""
+        wizard = self.ReceptionNoteCreate.create({})
+        first = self._order("normal", 10, self.product.uom_id)
+        wizard.with_context(active_ids=first.ids).do_create_reception_note()
+        self.assertEqual(len(self._rfq_only_orders()), 1)
+
+        second = self._order("normal", 4, self.product.uom_id)
+        third = self._order("normal", 6, self.product.uom_id)
+        wizard.with_context(active_ids=(second | third).ids).do_create_reception_note()
+        rfq_orders = self._rfq_only_orders()
+        self.assertEqual(len(rfq_orders), 3)
+        self.assertEqual(sorted(rfq_orders.mapped("order_line.product_qty")), [4, 6, 10])
+
     def _uom_pack(self):
         return self.env["uom.uom"].create(
             {
@@ -250,3 +276,12 @@ class TestPurchaseOrderReceptionType(TransactionCase):
         (confirmed | new_note).button_confirm()
         self.assertEqual(new_note.state, "purchase")
         self.assertEqual(rfq_order.order_line.product_qty, 5)
+
+    def test_ignore_quantities_message_is_html(self):
+        """Mesajul cu cantitatile fortate se afiseaza ca HTML in istoric, nu ca text cu <br /> escapat."""
+        note = self._order("note", 3, self.product.uom_id)
+        note.ignore_quantities = True
+        note.button_confirm()
+        body = str(note.message_ids.filtered(lambda m: "TEST_PRODUCT" in (m.body or "")).body)
+        self.assertIn("<br>", body)
+        self.assertNotIn("&lt;br", body)
