@@ -2,7 +2,10 @@
 # Regression tests for COMPETITOR-001 (SSRF on price fetch)
 from unittest.mock import patch
 
-from odoo.tests.common import TransactionCase, tagged
+import requests
+
+from odoo.tests.common import TransactionCase, _super_send, tagged
+from odoo.tools import mute_logger
 
 MODULE = "odoo.addons.deltatech_competitors_price.models.competitor_price"
 
@@ -60,7 +63,7 @@ class TestCompetitorPriceSsrf(TransactionCase):
             calls.append(u)
             return (responses or {}).get(u) or _Resp(HTML)
 
-        with patch(f"{MODULE}.requests.get", side_effect=_get):
+        with patch(f"{MODULE}.requests.Session.get", side_effect=_get):
             ok = line.action_fetch_price()
         return line, ok, calls
 
@@ -107,3 +110,28 @@ class TestCompetitorPriceSsrf(TransactionCase):
         line, ok, calls = self._fetch(url, responses={url: _Resp(status=302, location=url)})
         self.assertFalse(ok)
         self.assertLessEqual(len(calls), 6)
+
+    def test_connection_is_pinned_to_validated_ip(self):
+        """COMPETITOR-002: a second DNS answer (DNS rebinding) is never used for the connection."""
+        for url in ("http://rebind.example/p/1", "https://rebind.example/p/1"):
+            # the validation lookup gets a public address, any later lookup a loopback one
+            answers = iter([{"93.184.215.14"}, {"127.0.0.1"}])
+            connected = []
+
+            def _connect(address, *args, **kwargs):
+                connected.append(address[0])
+                raise OSError("no network in tests")
+
+            line = self._line(url)
+            with (
+                patch(f"{MODULE}._resolve_host_ips", side_effect=lambda host, port: next(answers)),
+                patch("urllib3.util.connection.create_connection", side_effect=_connect),
+                # Odoo blocks external requests in tests; let it reach urllib3, the socket stays mocked
+                patch.object(
+                    requests.Session, "send", lambda session, request, **kw: _super_send(session, request, **kw)
+                ),
+                mute_logger(MODULE),
+            ):
+                ok = line.action_fetch_price()
+            self.assertFalse(ok, url)
+            self.assertEqual(connected, ["93.184.215.14"], url)
