@@ -13,6 +13,16 @@
                 </pivot>
             </field>
         </record>
+        <record id="view_account_average_payment_report_graph" model="ir.ui.view">
+            <field name="name">account.average.payment.report.graph</field>
+            <field name="model">account.average.payment.report</field>
+            <field name="arch" type="xml">
+                <graph>
+                    <field name="partner_id" />
+                    <field name="payment_days" type="measure" />
+                </graph>
+            </field>
+        </record>
         <record id="view_account_average_payment_report_search" model="ir.ui.view">
             <field name="name">account.average.payment.report.search</field>
             <field name="model">account.average.payment.report</field>

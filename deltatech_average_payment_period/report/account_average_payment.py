@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 
-from odoo import api, fields, models, tools
+from odoo import fields, models, tools
 from odoo.tools import SQL
 
 
@@ -16,7 +16,7 @@ class AccountAveragePaymentReport(models.Model):
     partner_id = fields.Many2one("res.partner", string="Partner", readonly=True)
     date = fields.Date(string="Date")
     payment_date = fields.Date(string="Payment Date", readonly=True)
-    payment_days = fields.Integer(string="Payment Days", readonly=True, aggregator="avg")
+    payment_days = fields.Float(string="Payment Days", readonly=True, aggregator="avg")
     # period_id = fields.Many2one('account.period', string="Period", readonly=True)
     journal_id = fields.Many2one("account.journal", string="Journal", readonly=True)
     move_id = fields.Many2one("account.move", string="Account Move", readonly=True)
@@ -32,58 +32,15 @@ class AccountAveragePaymentReport(models.Model):
     amount = fields.Float("Amount", readonly=True)
     payment_days_simple = fields.Float("Plain payment days", readonly=True, aggregator="avg")
 
-    @api.model
-    def _read_group(
-        self,
-        domain: list,
-        groupby: list[str] = (),
-        aggregates: list[str] = (),
-        having: list = (),
-        offset: int = 0,
-        limit: int | None = None,
-        order: str | None = None,
-    ) -> list[tuple]:
-        new_aggregates = list(aggregates)
-
-        # Check if 'payment_days' is in aggregates (either as 'payment_days' or 'payment_days:avg')
-        payment_days_agg = [agg for agg in aggregates if agg.split(":")[0] == "payment_days"]
-
-        if payment_days_agg:
-            if "weight:sum" not in new_aggregates:
-                new_aggregates.append("weight:sum")
-            if "amount:sum" not in new_aggregates:
-                new_aggregates.append("amount:sum")
-
-        res = super()._read_group(domain, groupby, new_aggregates, having, offset, limit, order)
-
-        if payment_days_agg:
-            # res is a list of tuples: (group_values..., aggregate_values...)
-            # We need to find the indices of payment_days, weight, and amount in the result tuples.
-
-            # Result tuple structure: groupby values followed by aggregate values
-            offset_agg = len(groupby)
-            try:
-                pd_idx = offset_agg + aggregates.index(payment_days_agg[0])
-                weight_idx = offset_agg + new_aggregates.index("weight:sum")
-                amount_idx = offset_agg + new_aggregates.index("amount:sum")
-
-                new_res = []
-                for row in res:
-                    row_list = list(row)
-                    weight = row_list[weight_idx] or 0.0
-                    amount = row_list[amount_idx] or 0.0
-                    if amount != 0.0:
-                        payment_days = weight / amount
-                    else:
-                        payment_days = 0.0
-                    row_list[pd_idx] = abs(payment_days)
-                    # Omit the extra aggregates we added if they weren't requested
-                    new_res.append(tuple(row_list[: offset_agg + len(aggregates)]))
-                return new_res
-            except (ValueError, IndexError):
-                return res
-
-        return res
+    def _read_group_select(self, aggregate_spec, query):
+        # Media zilelor de plată, ponderată cu valoarea: sum(valoare × zile) / sum(valoare).
+        # Se aplică la nivel SQL, ca să fie aceeași în pivot (_read_grouping_sets), grafic și
+        # listă (_read_group); o medie aritmetică ar supraevalua facturile mici plătite târziu.
+        if aggregate_spec == "payment_days:avg":
+            weight = self._field_to_sql(self._table, "weight", query)
+            amount = self._field_to_sql(self._table, "amount", query)
+            return SQL("COALESCE(ABS(SUM(%s) / NULLIF(SUM(%s), 0)), 0)", weight, amount)
+        return super()._read_group_select(aggregate_spec, query)
 
     def _select(self):
         sql = """

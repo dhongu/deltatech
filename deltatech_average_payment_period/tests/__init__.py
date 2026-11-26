@@ -4,3 +4,4 @@
 
 from . import test_average_payment
 from . import test_average_payment_company
+from . import test_screenshots
