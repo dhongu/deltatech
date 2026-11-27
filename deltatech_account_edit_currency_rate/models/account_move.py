@@ -3,7 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tools import float_compare
 
 
@@ -43,23 +43,32 @@ class AccountMove(models.Model):
                     )
         return super().write(vals)
 
+    @api.constrains("currency_rate_custom", "move_type")
+    def _check_currency_rate_custom_invoice_only(self):
+        # CUSTOMRATE-002: the custom rate is applied only on invoices; on a
+        # journal entry it would be shown without being applied to the amounts.
+        for move in self:
+            if move.currency_rate_custom and not move.is_invoice(include_receipts=True):
+                raise ValidationError(
+                    self.env._(
+                        "The custom currency rate can only be set on invoices, not on the journal entry %(move)s.",
+                        move=move.display_name,
+                    )
+                )
+
     def _reverse_moves(self, default_values_list=None, cancel=False):
         # Not copied on duplicate, but a reversal (credit note) is regularized
         # at the rate of the original document, so the custom rate is kept.
         if not default_values_list:
             default_values_list = [{} for _move in self]
         for move, default_values in zip(self, default_values_list, strict=False):
-            if move.currency_rate_custom and "currency_rate_custom" not in default_values:
+            if (
+                move.currency_rate_custom
+                and move.is_invoice(include_receipts=True)
+                and "currency_rate_custom" not in default_values
+            ):
                 default_values["currency_rate_custom"] = move.currency_rate_custom
         return super()._reverse_moves(default_values_list=default_values_list, cancel=cancel)
-
-    @api.onchange("currency_rate_custom")
-    def onchange_currency_rate_custome(self):
-        # Invoices are handled server side through `invoice_currency_rate`;
-        # journal entries keep the interactive recomputation of the balances.
-        moves = self.filtered(lambda m: not m.is_invoice(include_receipts=True))
-        moves.line_ids._compute_currency_rate()
-        moves.line_ids._inverse_amount_currency()
 
 
 class AccountMoveLine(models.Model):
@@ -69,7 +78,7 @@ class AccountMoveLine(models.Model):
     def _compute_currency_rate(self):
         res = super()._compute_currency_rate()
         for line in self:
-            if line.move_id.currency_rate_custom:
+            if line.move_id.currency_rate_custom and line.move_id.is_invoice(include_receipts=True):
                 line.currency_rate = 1 / line.move_id.currency_rate_custom
         return res
 
@@ -78,6 +87,10 @@ class AccountMoveLine(models.Model):
         res = super()._inverse_amount_currency()
 
         for line in self:
-            if line.move_id.currency_rate_custom and not self.env.is_protected(self._fields["balance"], line):
+            if (
+                line.move_id.currency_rate_custom
+                and line.move_id.is_invoice(include_receipts=True)
+                and not self.env.is_protected(self._fields["balance"], line)
+            ):
                 line.balance = line.company_id.currency_id.round(line.amount_currency / line.currency_rate)
         return res

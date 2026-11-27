@@ -98,3 +98,11 @@ msgstr ""
 "Folosiți doar un curs permis de art. 290 din Codul fiscal: cursul BNR, cursul "
 "BCE sau cursul băncii prin care se face decontarea, când contractul prevede "
 "acest lucru."
+
+#. module: deltatech_account_edit_currency_rate
+#. odoo-python
+#: code:addons/deltatech_account_edit_currency_rate/models/account_move.py:0
+msgid ""
+"The custom currency rate can only be set on invoices, not on the journal entry %(move)s."
+msgstr ""
+"Cursul valutar personalizat poate fi setat doar pe facturi, nu și pe nota contabilă %(move)s."
