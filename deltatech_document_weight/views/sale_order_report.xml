@@ -5,10 +5,11 @@
             <t t-if="doc.company_id.document_weight_on_sale and line.product_id and not line.display_type">
                 <t t-set="x_weights" t-value="line.product_id._get_document_weights(line.product_uom_qty, line.product_uom_id)"/>
                 <t t-set="x_labels" t-value="doc._get_document_weight_labels()"/>
-                <div t-if="x_weights['net'] or x_weights['gross'] or x_weights['volume']" class="text-muted small" name="document_weight_line">
-                    Net weight: <span t-out="x_weights['net']" t-options="{'widget': 'float', 'decimal_precision': 'Stock Weight'}"/> <t t-out="x_labels['weight']"/><br/>
+                <t t-set="x_gross_only" t-value="doc.company_id.document_weight_gross_only"/>
+                <div t-if="x_weights['gross'] or (not x_gross_only and (x_weights['net'] or x_weights['volume']))" class="text-muted small" name="document_weight_line">
+                    <t t-if="not x_gross_only">Net weight: <span t-out="x_weights['net']" t-options="{'widget': 'float', 'decimal_precision': 'Stock Weight'}"/> <t t-out="x_labels['weight']"/><br/></t>
                     Gross weight: <span t-out="x_weights['gross']" t-options="{'widget': 'float', 'decimal_precision': 'Stock Weight'}"/> <t t-out="x_labels['weight']"/><br/>
-                    Volume: <span t-out="x_weights['volume']" t-options="{'widget': 'float', 'decimal_precision': 'Volume'}"/> <t t-out="x_labels['volume']"/><br/>
+                    <t t-if="not x_gross_only">Volume: <span t-out="x_weights['volume']" t-options="{'widget': 'float', 'decimal_precision': 'Volume'}"/> <t t-out="x_labels['volume']"/><br/></t>
                     <em>(estimated values)</em>
                 </div>
             </t>
@@ -17,11 +18,12 @@
             <t t-if="doc.company_id.document_weight_on_sale">
                 <t t-set="x_totals" t-value="doc._get_document_weight_totals(lines_to_report)"/>
                 <t t-set="x_labels" t-value="doc._get_document_weight_labels()"/>
-                <div class="row" name="document_weight_totals" t-if="x_totals['net'] or x_totals['gross'] or x_totals['volume']">
+                <t t-set="x_gross_only" t-value="doc.company_id.document_weight_gross_only"/>
+                <div class="row" name="document_weight_totals" t-if="x_totals['gross'] or (not x_gross_only and (x_totals['net'] or x_totals['volume']))">
                     <div class="col-12 text-muted small">
-                        <strong>Total net weight:</strong> <span t-out="x_totals['net']" t-options="{'widget': 'float', 'decimal_precision': 'Stock Weight'}"/> <t t-out="x_labels['weight']"/> &#160;
+                        <t t-if="not x_gross_only"><strong>Total net weight:</strong> <span t-out="x_totals['net']" t-options="{'widget': 'float', 'decimal_precision': 'Stock Weight'}"/> <t t-out="x_labels['weight']"/> &#160;</t>
                         <strong>Total gross weight:</strong> <span t-out="x_totals['gross']" t-options="{'widget': 'float', 'decimal_precision': 'Stock Weight'}"/> <t t-out="x_labels['weight']"/> &#160;
-                        <strong>Total volume:</strong> <span t-out="x_totals['volume']" t-options="{'widget': 'float', 'decimal_precision': 'Volume'}"/> <t t-out="x_labels['volume']"/><br/>
+                        <t t-if="not x_gross_only"><strong>Total volume:</strong> <span t-out="x_totals['volume']" t-options="{'widget': 'float', 'decimal_precision': 'Volume'}"/> <t t-out="x_labels['volume']"/></t><br/>
                         <em>(estimated values)</em>
                     </div>
                 </div>

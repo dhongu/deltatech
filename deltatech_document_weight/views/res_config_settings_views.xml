@@ -22,6 +22,13 @@
                         <field name="document_weight_on_invoice" />
                     </setting>
                     <setting
+                        id="document_weight_gross_only"
+                        company_dependent="1"
+                        help="On the printed documents show only the gross weight, without the net weight and the volume"
+                    >
+                        <field name="document_weight_gross_only" />
+                    </setting>
+                    <setting
                         id="document_weight_propagate_variants"
                         help="Write the weight, the volume and the net weight of a template on all its variants, including the ones created on demand"
                     >

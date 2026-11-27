@@ -123,3 +123,55 @@ class TestDocumentWeight(TransactionCase):
         settings.execute()
         self.assertTrue(self.company.document_weight_on_invoice)
         self.assertFalse(self.company.document_weight_on_sale)
+
+    def test_line_gross_weight_sale(self):
+        order = self._order([(self.product, 3.0, None), (self.light, 4.0, None), (self.product, 2.0, self.dozen)])
+        self.env["sale.order.line"].create({"order_id": order.id, "display_type": "line_section", "name": "Section"})
+        weights = order.order_line.mapped("document_weight_gross")
+        # product 2 kg x 3, no weight, 2 dozens = 24 units x 2 kg, section
+        self.assertEqual(weights, [6.0, 0.0, 48.0, 0.0])
+
+    def test_line_gross_weight_follows_the_quantity(self):
+        line = self._order().order_line
+        line.product_uom_qty = 5.0
+        self.assertEqual(line.document_weight_gross, 10.0)
+
+    def test_line_gross_weight_invoice(self):
+        invoice = self._invoice(qty=2.0)
+        self.assertEqual(invoice.invoice_line_ids.document_weight_gross, 4.0)
+        # the lines without product (taxes, payment terms) have no weight
+        self.assertEqual(sum(invoice.line_ids.mapped("document_weight_gross")), 4.0)
+
+    def test_line_gross_weight_in_the_forms(self):
+        order_view = self.env["sale.order"].get_view(self.env.ref("sale.view_order_form").id)
+        self.assertIn("document_weight_gross", order_view["arch"])
+        move_view = self.env["account.move"].get_view(self.env.ref("account.view_move_form").id)
+        self.assertIn("document_weight_gross", move_view["arch"])
+
+    def test_quotation_report_gross_only(self):
+        self.company.document_weight_gross_only = True
+        html = self._html("sale.action_report_saleorder", self._order())
+        self.assertIn("Gross weight:", html)
+        self.assertIn("Total gross weight:", html)
+        self.assertIn("6.00", html)
+        self.assertNotIn("Net weight:", html)
+        self.assertNotIn("Total net weight:", html)
+        self.assertNotIn("Volume:", html)
+        self.assertNotIn("Total volume:", html)
+
+    def test_invoice_report_gross_only(self):
+        self.company.document_weight_on_invoice = True
+        self.company.document_weight_gross_only = True
+        html = self._html("account.account_invoices", self._invoice())
+        self.assertIn("Total gross weight:", html)
+        self.assertNotIn("Net weight:", html)
+        self.assertNotIn("Total volume:", html)
+
+    def test_gross_only_off_by_default(self):
+        self.assertFalse(self.company.document_weight_gross_only)
+
+    def test_settings_write_gross_only(self):
+        with Form(self.env["res.config.settings"]) as form:
+            form.document_weight_gross_only = True
+        form.save().execute()
+        self.assertTrue(self.company.document_weight_gross_only)

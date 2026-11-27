@@ -28,8 +28,12 @@ product, and in total below the amounts.
 
 The values are estimates: the quantity of the line, converted to the
 unit of measure of the product, multiplied by the weight and the volume
-of the product. Lines whose product has no weight and no volume print
-nothing, and the totals block is left out when all the totals are 0.
+of the product. The estimated gross weight of each line is also
+available as an optional column in the lines of the quotation, the sales
+order and the customer invoice, and a company option prints only the
+gross weight on the documents. Lines whose product has no weight and no
+volume print nothing, and the totals block is left out when all the
+totals are 0.
 
 The net weight is the ``l10n_ro_net_weight`` field of the product. The
 module declares it exactly as ``l10n_ro_stock`` and
@@ -54,6 +58,9 @@ documents**:
 - **Weights on quotations** (on by default): the quotation / sales order
   report.
 - **Weights on invoices** (off by default): the customer invoice.
+- **Only the gross weight** (off by default): on the printed documents
+  shows only the gross weight, per line and in total, without the net
+  weight and the volume.
 - **Copy weights to all variants** (off by default): when the weight,
   the volume or the net weight is set on a product template, it is
   written on all its variants, and on the variants created on demand
@@ -62,10 +69,26 @@ documents**:
   the weight and the volume of a template on all its variants; this
   option adds the net weight and the variants created on demand.
 
-The two print options are set per company.
+The print options are set per company.
+
+In the lines of a quotation, sales order or customer invoice, the
+**Gross weight** column is available in the optional columns selector
+(the icon at the right of the header). It shows the estimated gross
+weight of the line quantity, so it can be used for the transport
+estimate before printing.
 
 Changelog
 =========
+
+20.0.1.1.0
+==========
+
+- New: the estimated gross weight of the line in the list of lines of
+  the quotation / sales order and of the customer invoice (optional
+  column, hidden by default: enable it from the column selector).
+- New: setting **Only the gross weight**, per company. On the printed
+  quotation, sales order and invoice only the gross weight is shown (per
+  line and in total), without the net weight and the volume.
 
 20.0.1.0.1
 ==========
