@@ -1,0 +1,66 @@
+Merges partner records that share the same VAT number, in bulk.
+
+Odoo's own merge wizard walks the foreign keys **group by group**: for every pair it goes through all
+~158 columns that reference `res_partner`. Fine for a handful of duplicates; for thousands of groups
+it means hundreds of thousands of statements and does not finish in any reasonable window.
+
+This module inverts the loops — **one statement per column for the whole batch** — and keeps foreign
+keys enabled throughout, so integrity is guaranteed by PostgreSQL rather than by the procedure being
+right. On a production database of 538.000 partners, merging 5.350 records took about four and a half
+minutes.
+
+**Merge batches.** *Settings > Partner Merge > Merge Batches*. A batch goes through *Analyze*,
+*Simulate*, *Apply* and, once applied, *Verify*. You choose the categories of groups that enter the
+batch, how many groups (*Group Limit*, 0 for all) and whether the absorbed records are deleted or
+archived (*Archive instead of delete*). The *Groups* tab lists each group with the kept record, the
+absorbed ones and their names; *Report* holds the simulation or merge report, and *All groups by
+category* the full classification. Partners are grouped by VAT number and company, so partners of
+different companies are never merged together.
+
+**Safety.** The simulation is not a flag you can forget: it runs the whole merge inside a savepoint
+and rolls it back, so it cannot write even if something is wrong. Applying is a distinct step,
+reserved to the *Partner Merge / Apply* group (system administrators have it), checks that every
+partner of the batch is in your companies and that you may change or delete it, and refuses to
+finish if any reference is left pointing at an absorbed record. *Partner Merge / Prepare and
+simulate* can analyze and simulate, but not apply. *Verify* compares the result with the figures
+taken at the analysis: invoices, sales orders and unreconciled balance per kept record.
+
+**What it does not touch by itself.** Groups are classified A (one record holds the documents, the
+rest are empty), B (documents on a single record), C (invoices spread over several records) and D
+(unreconciled balance on several records). A batch takes A and B by default; C and D move figures
+between ledgers and belong with the accountant. Also left out: groups holding your own company
+record, groups with portal users on more than one record, and groups whose names differ completely
+on the same VAT number.
+
+**Kept record.** Chosen by document volume — most invoices, then most sales orders, then oldest. Since
+that is not the same as name quality, the surviving record is flagged when its name looks mangled at
+import, with the names of the absorbed records alongside for correction.
+
+**Indexes.** When foreign-key columns towards partners have no index, the batch shows a warning and a
+*Create the indexes* button, because deleting partners would otherwise scan those tables for each
+record.
+
+The same procedure also exists as stand-alone SQL scripts, for when it has to be run outside Odoo by
+the database administrator. They are kept in the source repository of the suite
+(`scripts/partner_merge/`) and are not part of the module package downloaded from Odoo Apps.
+
+**Finding duplicates beyond the VAT number.** *Settings > Partner Merge > Find Duplicates* looks for partners
+that are probably the same record, typically individuals created twice by an import or an online
+order, and leaves the decision to you, group by group. It does not change any partner.
+
+- Exact matches on the VAT number (without the country prefix), the phone (E.164, so `0722 …` and
+  `+40 722 …` meet), and the email (lowercase).
+- Similar names (without diacritics or legal forms, words sorted) at the same street or postcode,
+  or similar names alone if you choose so. Names are compared only inside a block (same city, or
+  same first letters), so large databases are not compared all against all.
+- Each group shows its score and the reason ("same phone +40722…", "name 92% + same street").
+  *Merge* opens the standard Odoo merge wizard on the group, where you choose the record to keep.
+  *Not duplicates* remembers the pair, so later scans skip it.
+- Left out: partners of internal users and of your companies, a partner and its own contacts,
+  invoice and delivery addresses of the same customer, partners of different companies, and values
+  shared by too many partners (placeholders, switchboards), which are listed in the report.
+
+The name comparison uses `rapidfuzz` when it is installed on the server. Without it, the scan falls
+back to Python's `difflib`, which is slower and only compares blocks of up to 1,500 partners; the
+larger blocks are listed in the report. `phonenumbers` and `unidecode` are used the same way, if
+present. None of them is required.

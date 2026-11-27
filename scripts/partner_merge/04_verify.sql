@@ -100,5 +100,6 @@ ORDER BY 1;
 \echo '== F. Duplicate pe CUI rămase (progres) =='
 SELECT count(*) AS grupuri_ramase, sum(n) - count(*) AS fise_inca_de_absorbit
 FROM (SELECT count(*) AS n FROM res_partner
-      WHERE active AND is_company AND vat IS NOT NULL AND vat <> ''
-      GROUP BY upper(regexp_replace(vat, '[^0-9A-Za-z]', '', 'g')) HAVING count(*) > 1) t;
+      WHERE active AND is_company AND parent_id IS NULL AND vat IS NOT NULL AND vat <> ''
+      GROUP BY upper(regexp_replace(vat, '[^0-9A-Za-z]', '', 'g')), COALESCE(company_id, 0)
+      HAVING count(*) > 1) t;
