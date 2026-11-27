@@ -29,6 +29,9 @@ class TestFontAwesomeScreenshots(ScreenshotCase or object):
         if ScreenshotCase is None:
             raise unittest.SkipTest("deltatech_doc_screenshots indisponibil")
         super().setUpClass()
+        if "mail.activity.type" not in cls.env:
+            # modulul depinde doar de `web`; exemplele folosesc tipurile de activitate din `mail`
+            raise unittest.SkipTest("mail neinstalat: capturile folosesc mail.activity.type")
         cls.prepare_ro_company(name="Demo Pictograme SRL")
         env = cls.env
         icon_field = '<field name="icon" position="replace"><field name="icon" widget="fontawesome"/></field>'

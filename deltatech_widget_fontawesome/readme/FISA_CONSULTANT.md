@@ -169,6 +169,8 @@ Aceleași capturi, în engleză, sunt în `static/description/en/`, pentru `read
   nume de clase Font Awesome (`fa-...`).
 - Opțiunile scrise pe câmp în view (`options="{...}"`) sunt primite de widget, dar nu sunt folosite:
   pictograma vine întotdeauna din valoarea câmpului.
+- Testele automate ale widget-ului: `static/tests/field_fontawesome.test.js` (Hoot, prin
+  `tests/test_js.py`), inclusiv câmpul gol și înregistrarea nouă (#3511).
 
 ---
 

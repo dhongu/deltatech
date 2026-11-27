@@ -20,6 +20,9 @@
             "deltatech_widget_fontawesome/static/src/js/field_fontawesome.esm.js",
             "deltatech_widget_fontawesome/static/src/js/field_fontawesome.xml",
         ],
+        "web.assets_unit_tests": [
+            "deltatech_widget_fontawesome/static/tests/**/*",
+        ],
     },
     "images": ["static/description/main_screenshot.png"],
 }
