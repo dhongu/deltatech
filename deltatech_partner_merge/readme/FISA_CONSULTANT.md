@@ -49,8 +49,14 @@ ANAF cu datele partenerului de la momentul transmiterii (secțiunea 11).
 | Administrator | are toate drepturile modulului implicit; îmbină și fișele cu emailuri diferite, pe care asistentul standard le refuză celorlalți utilizatori | **Administrare / Setări** (`base.group_system`) |
 | Responsabil nomenclator | rulează căutări de dubluri, marchează grupurile „nu sunt dubluri”, analizează și simulează loturi | **Comasare parteneri / Pregătire și simulare** (`deltatech_partner_merge.group_partner_merge_prepare`) |
 | Responsabil nomenclator cu drept de îmbinare | apasă **Îmbină** pe un grup găsit și finalizează îmbinarea în asistentul standard, doar pentru fișe cu același email (sau toate fără email) | în plus, **Contact: Creare** (`base.group_partner_manager`) |
-| Responsabil comasare în masă | aplică un lot simulat (șterge sau arhivează fișe) | **Comasare parteneri / Aplicare** (`deltatech_partner_merge.group_partner_merge_apply`) |
+| Responsabil comasare în masă | aplică un lot simulat (șterge sau arhivează fișe) | **Comasare parteneri / Aplicare** (`deltatech_partner_merge.group_partner_merge_apply`), care include **Pregătire și simulare**, plus **Contact: Creare** (`base.group_partner_manager`), pentru modificarea și ștergerea fișelor |
 | Contabil | decide pentru grupurile din categoriile C și D ale lotului (facturi sau sold pe mai multe fișe) | — (consultat, nu operează) |
+
+**Aplicare** include **Pregătire și simulare**, iar **Administrare / Setări** include **Aplicare**. Fără
+**Pregătire și simulare**, căutările, grupurile și loturile nu sunt accesibile.
+
+Meniul **Comasare parteneri** stă sub **Setări**. Un utilizator care nu e administrator îl vede doar dacă
+are, pe lângă grupul modulului, și dreptul **Administrare / Drepturi de acces**.
 
 Grupurile modulului se dau din **Setări → Utilizatori și companii → Utilizatori**, pe fișa
 utilizatorului: cu **modul dezvoltator** activat, secțiunea **Extra drepturi**. Fără modul
@@ -62,8 +68,8 @@ toate fără email). Grupurile în care fișele au emailuri diferite, inclusiv u
 litere (ca la cele două fișe **Maria Ionescu**), le îmbină administratorul, sau se uniformizează întâi
 emailul pe fișe.
 
-Roluri recomandate pentru testare: administratorul și un utilizator intern doar cu grupul
-**Comasare parteneri / Pregătire și simulare**, care vede căutările și loturile, dar nu vede butonul
+Roluri recomandate pentru testare: administratorul și un utilizator intern cu grupul
+**Comasare parteneri / Pregătire și simulare** și cu **Administrare / Drepturi de acces**, care vede căutările și loturile, dar nu vede butonul
 **Îmbină** și nu poate aplica un lot.
 
 ## 4. Conturi și date implicate
@@ -113,10 +119,15 @@ RO, monedă RON:
 
 ### Pasul 1 — O căutare nouă și criteriile ei
 
+Căutarea și lotul iau doar partenerii companiilor selectate în comutatorul de companii. Partenerii fără
+companie (comuni) intră doar pentru un utilizator cu acces la toate companiile: comasarea unui partener
+comun mută documente din toate companiile. Selectați companiile înainte de **Caută** sau **Analizează**.
+
 Deschideți **Setări → Comasare parteneri → Caută dubluri** și apăsați **Nou**. Alegeți criteriile:
 
 1. **Potrivire pe**: **Același CUI**, **Același telefon**, **Același email**, **Nume asemănător**. Toate
-   sunt bifate implicit. **Doar persoane fizice** lasă deoparte companiile.
+   sunt bifate implicit. **Doar persoane fizice** lasă deoparte fișele principale ale firmelor (cu CUI);
+   contactele firmelor și partenerii fără CUI rămân în căutare.
 2. **Nume** (apare doar cu **Nume asemănător** bifat):
    - **Potrivire pe nume**: **Nume asemănător și aceeași stradă sau cod poștal** (implicit) sau **Doar
      nume asemănător**. Varianta implicită evită perechile false la numele uzuale (doi oameni diferiți
@@ -233,9 +244,6 @@ Deschideți **Setări → Comasare parteneri → Loturi de comasare** și apăsa
 3. **Arhivează în loc de ștergere**: fișele absorbite sunt dezactivate, nu șterse. Recomandat la
    primele rulări în producție.
 
-Dacă apare avertismentul despre coloane fără index, apăsați **Creează indexurile** înainte de lot:
-fără ele, ștergerea fișelor e foarte lentă.
-
 Apăsați **Analizează**. Analiza nu modifică date de business: grupează partenerii cu același CUI și
 alege, pentru fiecare grup, fișa păstrată.
 
@@ -258,6 +266,10 @@ grupuri și de fișe de absorbit.
 - în tab-ul **Toate grupurile pe categorii**, câte grupuri au rămas în afara lotului și din ce motiv
   (categoriile C și D, grupurile blocate).
 
+Dacă după analiză apare avertismentul despre coloane fără index, apăsați **Creează indexurile** înainte
+de **Simulează**: fără ele, ștergerea fișelor e foarte lentă. Butonul înlocuiește raportul analizei cu
+„N indexuri create.”; simularea scrie apoi raportul ei.
+
 ![Lotul analizat: grupurile pe CUI și fișa păstrată](../static/description/08_lot_comasare_analizat.png)
 
 ### Pasul 8 — Simularea
@@ -269,11 +281,25 @@ aplicarea.
 Liniile „coliziuni” numesc tabelele în care legături duplicate către același partener se elimină
 automat; nu cer nicio acțiune.
 
+Linia **câmpuri goale completate** arată câte câmpuri goale ale fișelor păstrate (email, telefon,
+website, stradă, stradă 2, localitate, cod poștal, funcție) primesc valoarea de pe o fișă absorbită (cea
+modificată cel mai recent). Câmpurile deja completate pe fișa păstrată nu se schimbă.
+
 **Verificați în raport:** prima linie este **SIMULARE — nu s-a modificat nimic**; **referințe rămase**
 este **niciuna — corect**; numărul de fișe șterse sau arhivate este cel din **Fișe de absorbit**.
 
-Abia apoi apăsați **Aplică** și confirmați. Aplicarea refuză să termine dacă rămâne vreo referință
-către o fișă absorbită.
+**Simulează** se poate repeta cât timp lotul e **Analizat** sau **Simulat**. Nu schimbați **Arhivează în
+loc de ștergere**, **Categorii** sau **Limită grupuri** după simulare: categoriile și limita se aplică doar
+la o nouă analiză, iar bifa de arhivare schimbă ce face **Aplică** față de ce a arătat simularea.
+
+Abia apoi apăsați **Aplică** și confirmați mesajul de avertizare (aplicarea elimină definitiv fișele
+absorbite, dacă nu ați ales arhivarea lor). La **Aplică**, modulul verifică din nou că toate fișele lotului
+sunt în companiile utilizatorului și că niciun grup nu amestecă companii; altfel refuză (secțiunea 9).
+Aplicarea refuză să termine și dacă rămâne vreo referință către o fișă absorbită.
+
+**Înapoi la ciornă** (în stările **Analizat** și **Simulat**) șterge grupurile, raportul și clasificarea
+lotului și îl readuce la **Ciornă**. Folosiți-l ca să schimbați **Categorii** sau **Limită grupuri**, sau ca
+să eliberați tabelele de lucru pentru alt lot. Un lot **Aplicat** nu se mai readuce la ciornă.
 
 ![Raportul simulării lotului](../static/description/09_lot_comasare_simulare.png)
 
@@ -314,7 +340,7 @@ De aceea:
 |---|---|---|
 | `base` | partenerii și asistentul standard **Îmbină contacte** | dependență (manifest) |
 | `deltatech_partner_match` | regulile comune de normalizare (CUI, telefon, email, nume) și de comparare a numelor | dependență (manifest) |
-| `account`, `sale` | facturile, soldul și comenzile numărate la analiza și la verificarea lotului | opțional (citite dacă sunt instalate) |
+| `account`, `sale`, `purchase`, `stock` | facturile, soldul, comenzile de vânzare și de achiziție și livrările numărate la analiză (categoria A, fișa păstrată); facturile, comenzile de vânzare și soldul, comparate la verificare | opțional (citite dacă sunt instalate) |
 | `rapidfuzz`, `phonenumbers`, `unidecode` | compararea rapidă a numelor, telefonul internațional, eliminarea diacriticelor | bibliotecă Python opțională |
 | `deltatech/scripts/partner_merge/` | aceeași procedură de lot ca scripturi SQL, pentru rulare în afara Odoo | proces |
 | e-Factura / declarații depuse | documentele deja transmise nu se modifică | proces |
@@ -325,7 +351,8 @@ De aceea:
   propriile contacte, a adreselor de facturare și de livrare ale aceluiași client și a partenerilor
   din companii diferite;
 - reținerea perechilor marcate „nu sunt dubluri” între căutări;
-- la lot: alegerea fișei păstrate, simularea, mutarea documentelor și verificarea.
+- la lot: alegerea fișei păstrate, completarea câmpurilor goale ale ei din fișele absorbite, simularea,
+  mutarea documentelor și verificarea.
 
 **Ce rămâne manual:**
 - decizia pentru fiecare grup găsit de căutare (**Îmbină** sau **Nu sunt dubluri**) și alegerea fișei
@@ -336,7 +363,7 @@ De aceea:
 
 ## 8. Verificări pentru consultant
 
-- [ ] Un utilizator doar cu **Comasare parteneri / Pregătire și simulare** vede **Caută dubluri** și
+- [ ] Un utilizator cu **Comasare parteneri / Pregătire și simulare** și **Administrare / Drepturi de acces** vede **Caută dubluri** și
       **Loturi de comasare**, dar nu vede butoanele **Îmbină** (pe grup) și **Aplică** (pe lot).
 - [ ] Un utilizator cu **Contact: Creare**, care nu e administrator, nu poate îmbina cele două fișe
       **Maria Ionescu** (emailuri scrise diferit); administratorul le poate îmbina.
@@ -379,10 +406,19 @@ De aceea:
 | După **Caută din nou** au dispărut grupurile deja verificate | Căutarea din nou înlocuiește toate grupurile căutării (cere confirmare) | Normal: perechile „nu sunt dubluri” rămân excluse |
 | „Grupul maxim pe o valoare trebuie să fie cel puțin 2.” | **Grup maxim pe o valoare** sub 2 | Alegeți cel puțin 2; implicit, valorile comune mai multor parteneri sunt sărite peste acest prag |
 | În **Raport**: „Nume necomparate în blocul … : N parteneri” | Blocul are mai mulți parteneri decât poate compara motorul (1.500 fără `rapidfuzz`) | Instalați `rapidfuzz` pe server sau alegeți **Primele litere ale numelui** |
+| „Categorii necunoscute: …” | În **Categorii** e altă literă decât A, B, C, D | Scrieți doar literele A–D, separate prin virgulă; spațiile și literele mici nu contează |
+| „Alegeți cel puțin o categorie.” | **Categorii** conține doar virgule sau spații | Completați cel puțin o categorie, de exemplu `A,B` |
+| „Analizați întâi lotul.” | **Simulează** pe un lot care nu e analizat | Reîncărcați lotul și apăsați **Analizează** |
 | „Lotul … este încă în lucru…” | Alt lot e în **Analizat** sau **Simulat**; tabelele de lucru sunt comune | Aplicați celălalt lot sau readuceți-l la ciornă |
 | „Nu aveți dreptul să aplicați un lot de comasare.” | Utilizatorul nu are grupul **Comasare parteneri / Aplicare** | Administratorul îi dă grupul sau aplică el lotul |
+| „Nu aveți permisiunea de a modifica (sau șterge) înregistrările «Contact»…” la **Aplică** | Utilizatorul are **Aplicare**, dar nu are drept de modificare sau ștergere pe parteneri | Administratorul îi dă **Contact: Creare** sau aplică el lotul |
+| „N fișe din acest lot aparțin unor companii la care nu aveți acces…” | Lotul a fost analizat cu o selecție de companii mai largă decât a celui care aplică | **Înapoi la ciornă**, selectați companiile corecte, apoi **Analizează** și **Simulează** din nou |
+| „N fișe ar fi comasate într-o fișă a altei companii…” | Compania unor fișe s-a schimbat după analiză | **Înapoi la ciornă** și **Analizează** din nou |
+| „Lot inconsistent: N fișe indică o fișă păstrată care este ea însăși absorbită…” | Eroare internă la analiză | Nu aplicați; trimiteți lotul echipei tehnice |
+| „Un lot aplicat nu poate fi readus la ciornă.” | Readucere la ciornă cerută pe un lot **Aplicat** | Normal: aplicarea e definitivă; creați un lot nou |
 | „Rulați întâi simularea și citiți-i raportul, apoi aplicați.” | **Aplică** fără simulare | Apăsați **Simulează** |
 | „Au rămas referințe către fișe absorbite… Anulat — nu s-a aplicat nimic.” | O referință către partener n-a putut fi mutată | Nu reîncercați; trimiteți raportul echipei tehnice |
+| „Acest lot nu are un instantaneu propriu… deci nu poate fi verificat.” | **Verifică** pe un lot analizat înainte de actualizarea modulului | Lotul nu se poate verifica din modul; comparați manual balanța și fișele partenerilor |
 | În **Verifică**: **DIFERENȚE GĂSITE** | Totalurile fișei păstrate diferă de cele reținute la analiză | Opriți loturile următoare și investigați grupurile cu diferențe |
 
 ## 10. Capturi de ecran
@@ -441,7 +477,8 @@ Insistați pe două idei: **căutarea nu îmbină nimic singură**, iar **lotul 
 - **Lotul compară CUI-ul cu tot cu prefix:** `RO90000944` și `90000944` nu ajung în același grup de
   lot (spațiile și literele mici nu contează). Căutarea de dubluri le găsește; îmbinați-le din grupul
   ei sau corectați CUI-ul și analizați lotul din nou.
-- **Lotul:** grupează doar persoane juridice active cu același CUI, în aceeași companie. Grupurile cu
+- **Lotul:** grupează doar fișele principale active ale persoanelor juridice (cu CUI, fără firmă-mamă)
+  care au același CUI, în aceeași companie; contactele firmei, care moștenesc CUI-ul, nu intră în lot. Grupurile cu
   fișa propriei companii, cu utilizatori de portal pe mai multe fișe sau cu nume complet diferite sunt
   lăsate deoparte.
 - **Documente transmise:** facturile trimise prin e-Factura și declarațiile depuse rămân la ANAF cu

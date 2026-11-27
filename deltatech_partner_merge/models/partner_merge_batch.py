@@ -231,13 +231,26 @@ class PartnerMergeBatch(models.Model):
         out = []
         cr.execute(SQL(Q.UNIQUE_INDEXES_TO_DEDUPE, mode, mode))
         for tbl, relid, cols, remap_col in cr.fetchall():
-            key_expr = ", ".join(f"COALESCE(m.master_id, x.{c})" if c == remap_col else f"x.{c}" for c in cols)
-            where_cl = ""
+            key_expr = SQL(", ").join(
+                SQL("COALESCE(m.master_id, x.%s)", SQL.identifier(c))
+                if c == remap_col
+                else SQL("x.%s", SQL.identifier(c))
+                for c in cols
+            )
+            where_cl = SQL()
             if mode == "poly":
                 cr.execute(SQL(Q.POLY_MODEL_COL, relid))
                 model_col = cr.fetchone()[0]
-                where_cl = f"WHERE x.{model_col} = 'res.partner'"
-            cr.execute(SQL(Q.DEDUPE_ONE.format(key_expr=key_expr, tbl=tbl, remap_col=remap_col, where_cl=where_cl)))
+                where_cl = SQL("WHERE x.%s = 'res.partner'", SQL.identifier(model_col))
+            cr.execute(
+                SQL(
+                    Q.DEDUPE_ONE,
+                    key_expr=key_expr,
+                    tbl=SQL.identifier(tbl),
+                    remap_col=SQL.identifier(remap_col),
+                    where_cl=where_cl,
+                )
+            )
             if cr.rowcount:
                 out.append((tbl, cr.rowcount))
         return out
@@ -251,7 +264,7 @@ class PartnerMergeBatch(models.Model):
         n = 0
         cr.execute(Q.FK_COLUMNS_ALL)
         for tbl, col in cr.fetchall():
-            cr.execute(SQL(Q.REMAP_FK.format(tbl=tbl, col=col)))
+            cr.execute(SQL(Q.REMAP_FK, tbl=SQL.identifier(tbl), col=SQL.identifier(col)))
             n += cr.rowcount
         cr.execute(Q.REMAP_PARENT)
         n += cr.rowcount
@@ -264,13 +277,13 @@ class PartnerMergeBatch(models.Model):
         n = 0
         cr.execute(Q.POLY_TABLES)
         for tbl, model_col in cr.fetchall():
-            cr.execute(SQL(Q.REMAP_POLY.format(tbl=tbl, model_col=model_col)))
+            cr.execute(SQL(Q.REMAP_POLY, tbl=SQL.identifier(tbl), model_col=SQL.identifier(model_col)))
             n += cr.rowcount
         res["remapped_poly"] = n
 
         n = 0
         for col in Q.FILL_FIELDS:
-            cr.execute(SQL(Q.FILL_ONE.format(col=col)))
+            cr.execute(SQL(Q.FILL_ONE, col=SQL.identifier(col)))
             n += cr.rowcount
         res["filled"] = n
 
@@ -280,12 +293,7 @@ class PartnerMergeBatch(models.Model):
         leftover = []
         cr.execute(Q.POLY_TABLES)
         for tbl, model_col in cr.fetchall():
-            cr.execute(
-                SQL(
-                    f"SELECT count(*) FROM {tbl} WHERE {model_col} = 'res.partner' "
-                    "AND res_id IN (SELECT old_id FROM pm_map)"
-                )
-            )
+            cr.execute(SQL(Q.LEFTOVER_POLY, tbl=SQL.identifier(tbl), model_col=SQL.identifier(model_col)))
             left = cr.fetchone()[0]
             if left:
                 leftover.append((tbl, left))

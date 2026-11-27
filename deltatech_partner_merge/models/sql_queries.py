@@ -204,16 +204,16 @@ UNIQUE_INDEXES_TO_DEDUPE = """
 
 DEDUPE_ONE = """
     WITH t AS (
-      SELECT x.ctid AS cid, ROW({key_expr}) AS k
-      FROM {tbl} x LEFT JOIN pm_map m ON m.old_id = x.{remap_col}
-      {where_cl}
+      SELECT x.ctid AS cid, ROW(%(key_expr)s) AS k
+      FROM %(tbl)s x LEFT JOIN pm_map m ON m.old_id = x.%(remap_col)s
+      %(where_cl)s
     ), dup AS (
       SELECT cid, row_number() OVER (PARTITION BY k ORDER BY cid) AS rn
       FROM t
       WHERE k IS NOT NULL
         AND k IN (SELECT k FROM t WHERE k IS NOT NULL GROUP BY k HAVING count(*) > 1)
     )
-    DELETE FROM {tbl} WHERE ctid IN (SELECT cid FROM dup WHERE rn > 1)
+    DELETE FROM %(tbl)s WHERE ctid IN (SELECT cid FROM dup WHERE rn > 1)
 """
 
 # coloana care ține numele modelului, pentru tabelele polimorfe
@@ -226,13 +226,13 @@ POLY_MODEL_COL = """
 
 # --- pasul 4: remap ---------------------------------------------------------
 FK_COLUMNS_ALL = """
-    SELECT c.conrelid::regclass::text AS tbl, a.attname AS col
+    SELECT (SELECT r.relname FROM pg_class r WHERE r.oid = c.conrelid) AS tbl, a.attname AS col
     FROM pg_constraint c
     JOIN pg_attribute a ON a.attrelid = c.conrelid AND a.attnum = ANY(c.conkey)
     WHERE c.contype = 'f' AND c.confrelid = 'res_partner'::regclass
       AND c.conrelid::regclass::text <> 'res_partner'
 """
-REMAP_FK = "UPDATE {tbl} t SET {col} = m.master_id FROM pm_map m WHERE t.{col} = m.old_id"
+REMAP_FK = "UPDATE %(tbl)s t SET %(col)s = m.master_id FROM pm_map m WHERE t.%(col)s = m.old_id"
 REMAP_PARENT = "UPDATE res_partner p SET parent_id = m.master_id FROM pm_map m WHERE p.parent_id = m.old_id"
 
 # Odoo folosește DOUĂ convenții polimorfe: (res_model, res_id) pentru mail.activity,
@@ -255,20 +255,25 @@ POLY_TABLES = """
                      AND c.data_type IN ('character varying', 'text'))
 """
 REMAP_POLY = (
-    "UPDATE {tbl} t SET res_id = m.master_id FROM pm_map m WHERE t.{model_col} = 'res.partner' AND t.res_id = m.old_id"
+    "UPDATE %(tbl)s t SET res_id = m.master_id FROM pm_map m "
+    "WHERE t.%(model_col)s = 'res.partner' AND t.res_id = m.old_id"
+)
+
+LEFTOVER_POLY = (
+    "SELECT count(*) FROM %(tbl)s WHERE %(model_col)s = 'res.partner' AND res_id IN (SELECT old_id FROM pm_map)"
 )
 
 # --- pasul 5: completarea câmpurilor goale pe master ------------------------
 FILL_FIELDS = ("email", "phone", "website", "street", "street2", "city", "zip", "function")
 FILL_ONE = """
-    UPDATE res_partner mst SET {col} = src.val
+    UPDATE res_partner mst SET %(col)s = src.val
     FROM (
-      SELECT DISTINCT ON (m.master_id) m.master_id, o.{col} AS val
+      SELECT DISTINCT ON (m.master_id) m.master_id, o.%(col)s AS val
       FROM pm_map m JOIN res_partner o ON o.id = m.old_id
-      WHERE o.{col} IS NOT NULL AND o.{col} <> ''
+      WHERE o.%(col)s IS NOT NULL AND o.%(col)s <> ''
       ORDER BY m.master_id, o.write_date DESC
     ) src
-    WHERE mst.id = src.master_id AND (mst.{col} IS NULL OR mst.{col} = '')
+    WHERE mst.id = src.master_id AND (mst.%(col)s IS NULL OR mst.%(col)s = '')
 """
 
 # --- pasul 6: ștergerea sau arhivarea --------------------------------------

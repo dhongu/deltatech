@@ -8,7 +8,11 @@
 - The candidates no longer read `company_registry`, removed from the partner in Odoo 20.
 - *Create indexes* quotes the table and column names (a table name with capitals or special
   characters broke the command).
-- Consultant sheet: *Back to draft* on a scan and the *Largest group on one value* error.
+- Merge in Bulk: the table and column names taken from the PostgreSQL catalog are quoted in all
+  the generated statements (remap, deduplication, filling of empty fields).
+- Consultant sheet completed against the code: access rights and menu, company scope, index
+  creation after the analysis, filling of empty fields, *Back to draft* on scans and batches, the
+  error messages of the batch.
 
 ## 19.0.1.2.1 (2026-11-03)
 
