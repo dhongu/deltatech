@@ -14,16 +14,13 @@ Partner Merge in Bulk
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_partner_merge
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_partner_merge
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_partner_merge/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_partner_merge/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-21%20automated%20tests%20%C2%B7%2085%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_partner_merge
-    :alt: 21 automated tests · 85% code coverage
 
-|badge1| |badge2| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge_fisa|
 
 Merges partner records that share the same VAT number, in bulk.
 
@@ -120,6 +117,19 @@ used the same way, if present. None of them is required.
 
 Changelog
 =========
+
+20.0.1.2.1 (2026-11-27)
+-----------------------
+
+- Migration to Odoo 20.
+- *Merge in Bulk* takes only the parent companies as candidates: on Odoo
+  20 the contacts of a Romanian company carry its VAT number and, with
+  ``l10n_ro_edi``, are also flagged as companies, so they would have
+  been merged into (and deleted with) their own company.
+- *Find Duplicates* with *Individuals only* keeps the contacts of
+  companies among the persons.
+- The candidates no longer read ``company_registry``, removed from the
+  partner in Odoo 20.
 
 19.0.1.2.1 (2026-11-03)
 -----------------------
@@ -261,6 +271,14 @@ Authors
 Maintainers
 -----------
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_partner_merge>`_ project on GitHub.
+.. |maintainer-dhongu| image:: https://github.com/dhongu.png?size=40px
+    :target: https://github.com/dhongu
+    :alt: dhongu
+
+Current maintainer:
+
+|maintainer-dhongu| 
+
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_partner_merge>`_ project on GitHub.
 
 You are welcome to contribute.
