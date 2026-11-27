@@ -145,6 +145,9 @@ class TestSaleXls(TransactionCase):
         self.assertEqual(len(errors), 1)
         self.assertEqual(errors[0]["rows"], {"from": 0, "to": 0})
         self.assertFalse(result["ids"])
+        # base_import reads the same keys as from the standard load
+        self.assertEqual(result["nextrow"], 0)
+        self.assertEqual(errors[0]["field"], "product_id")
         self.assertEqual(order.order_line.mapped("product_uom_qty"), [1.0, 1.0])
 
     def test_load_same_product_matched_by_description(self):
@@ -181,6 +184,63 @@ class TestSaleXls(TransactionCase):
         self.assertEqual(fields, ["product_id", "product_uom_qty", ".id"])
         self.assertEqual(line_1.product_uom_qty, 9.0)
         self.assertEqual(line_2.product_uom_qty, 5.0)
+
+    def test_load_external_id_takes_its_line(self):
+        """The line named by an external id is not reused by a row without ID of the same product."""
+        order = self._create_order([self.product_a, self.product_a])
+        line_1, line_2 = order.order_line
+        xid = line_1.export_data(["id"])["datas"][0][0]
+        fields = ["id", "product_id", "product_uom_qty"]
+        data = [["", "[XLSA] XLS Product A", "4"], [xid, "[XLSA] XLS Product A", "6"]]
+        result = self._import(order, fields, data)
+        self.assertFalse(self._errors(result), result["messages"])
+        self.assertEqual(line_1.product_uom_qty, 6.0)
+        self.assertEqual(line_2.product_uom_qty, 4.0)
+
+    def test_load_same_line_on_two_rows(self):
+        """Two rows with the same external id are an error, not a silent overwrite."""
+        order = self._create_order([self.product_a])
+        line = order.order_line
+        xid = line.export_data(["id"])["datas"][0][0]
+        fields = ["id", "product_id", "product_uom_qty"]
+        data = [[xid, "[XLSA] XLS Product A", "4"], [xid, "[XLSA] XLS Product A", "6"]]
+        result = self._import(order, fields, data)
+        errors = self._errors(result)
+        self.assertEqual(len(errors), 1)
+        self.assertEqual(errors[0]["rows"], {"from": 1, "to": 1})
+        self.assertEqual(line.product_uom_qty, 1.0)
+
+    def test_load_id_not_on_order(self):
+        """An ID of a deleted line or of another order's line is an error, not a new or foreign line."""
+        order = self._create_order([self.product_a, self.product_a])
+        other = self._create_order([self.product_a])
+        deleted = order.order_line[1]
+        deleted_xid = deleted.export_data(["id"])["datas"][0][0]
+        deleted.unlink()
+        for xid in (deleted_xid, other.order_line.export_data(["id"])["datas"][0][0]):
+            fields = ["id", "product_id", "product_uom_qty"]
+            data = [[xid, "[XLSA] XLS Product A", "8"]]
+            result = self._import(order, fields, data)
+            self.assertEqual(len(self._errors(result)), 1, xid)
+        # the same check without a product column
+        fields = [".id", "product_uom_qty"]
+        result = self._import(order, fields, [[str(other.order_line.id), "8"]])
+        self.assertEqual(len(self._errors(result)), 1)
+        self.assertEqual(len(order.order_line), 1)
+        self.assertEqual(order.order_line.product_uom_qty, 1.0)
+        self.assertEqual(other.order_line.product_uom_qty, 1.0)
+
+    def test_load_order_from_reference_text(self):
+        """From the import screen the order_id cell is text: the database id or the order reference."""
+        order = self._create_order([self.product_a])
+        line = order.order_line
+        for value in (str(order.id), order.name):
+            fields = ["order_id", "product_id", "product_uom_qty"]
+            data = [[value, "[XLSA] XLS Product A", "6"]]
+            with patch("odoo.models.BaseModel.load", autospec=True) as mock_load:
+                mock_load.return_value = {"ids": [], "messages": []}
+                self.env["sale.order.line"].load(fields, data)
+            self.assertEqual(data[0][-1], str(line.id), value)
 
     def test_load_external_id_is_kept(self):
         order = self._create_order([self.product_a, self.product_a])

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-31 10:24+0000\n"
-"PO-Revision-Date: 2026-07-31 10:24+0000\n"
+"POT-Creation-Date: 2026-11-27 13:09+0000\n"
+"PO-Revision-Date: 2026-11-27 13:09+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -33,6 +33,29 @@ msgid "ID"
 msgstr ""
 
 #. module: deltatech_sale_xls
+#. odoo-python
+#: code:addons/deltatech_sale_xls/models/sale_order.py:0
+msgid ""
+"Line %(line)s of order %(order)s is on several rows of the file. Each line "
+"can be updated by one row only: add the new line in the order first."
+msgstr ""
+
+#. module: deltatech_sale_xls
+#. odoo-python
+#: code:addons/deltatech_sale_xls/models/sale_order.py:0
+msgid "Order Lines"
+msgstr ""
+
+#. module: deltatech_sale_xls
+#. odoo-python
+#: code:addons/deltatech_sale_xls/models/sale_order.py:0
+msgid ""
+"Product %(product)s is on %(count)s lines of order %(order)s, so the row "
+"cannot be matched to a single line. Add the External ID column (export the "
+"lines with it) or the Description column to identify the line."
+msgstr ""
+
+#. module: deltatech_sale_xls
 #: model:ir.model,name:deltatech_sale_xls.model_sale_order
 msgid "Sales Order"
 msgstr ""
@@ -40,4 +63,22 @@ msgstr ""
 #. module: deltatech_sale_xls
 #: model:ir.model,name:deltatech_sale_xls.model_sale_order_line
 msgid "Sales Order Line"
+msgstr ""
+
+#. module: deltatech_sale_xls
+#. odoo-python
+#: code:addons/deltatech_sale_xls/models/sale_order.py:0
+msgid ""
+"The ID of this row is not a line of order %(order)s: the line was deleted "
+"after the export, or the file belongs to another order. Remove the row, or "
+"clear its ID to match it by product."
+msgstr ""
+
+#. module: deltatech_sale_xls
+#. odoo-python
+#: code:addons/deltatech_sale_xls/models/sale_order.py:0
+msgid ""
+"The file has more rows for product %(product)s than the %(count)s line(s) of"
+" order %(order)s that have it. Add the External ID column (export the lines "
+"with it) to identify the line of each row."
 msgstr ""
