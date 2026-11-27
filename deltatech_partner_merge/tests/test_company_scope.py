@@ -20,7 +20,7 @@ class TestCompanyScope(TransactionCase):
         Partner = cls.env["res.partner"]
 
         def partner(name, vat, company):
-            return Partner.create({"name": name, "vat": vat, "is_company": True, "company_id": company and company.id})
+            return Partner.create({"name": name, "vat": vat, "company_id": company and company.id})
 
         # same VAT inside company A and inside company B
         cls.a1 = partner("Merge Scope Alpha SRL", "RO90000001", cls.company_a)

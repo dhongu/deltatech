@@ -1,3 +1,12 @@
+## 20.0.1.2.1 (2026-11-27)
+
+- Migration to Odoo 20.
+- *Merge in Bulk* takes only the parent companies as candidates: on Odoo 20 the contacts of a
+  Romanian company carry its VAT number and, with `l10n_ro_edi`, are also flagged as companies, so
+  they would have been merged into (and deleted with) their own company.
+- *Find Duplicates* with *Individuals only* keeps the contacts of companies among the persons.
+- The candidates no longer read `company_registry`, removed from the partner in Odoo 20.
+
 ## 19.0.1.2.1 (2026-11-03)
 
 - Description: the stand-alone SQL scripts are kept in the source repository of the suite and are

@@ -106,7 +106,7 @@ class PartnerDuplicateScan(models.Model):
         scope, company_ids = self.env["partner.merge.batch"]._partner_scope()
         query = LOAD_PARTNERS.format(
             scope=scope.replace("company_id", "p.company_id"),
-            individuals="AND NOT p.is_company" if self.individuals_only else "",
+            individuals="AND (p.parent_id IS NOT NULL OR NOT p.is_company)" if self.individuals_only else "",
         )
         self.env.flush_all()
         self.env.cr.execute(SQL(query, company_ids))

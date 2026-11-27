@@ -33,19 +33,22 @@ FK_COLUMNS_WITHOUT_INDEX = """
 # Grupul este (CUI, companie): fișele cu același CUI din companii diferite nu se
 # unifică între ele. company_key = 0 pentru fișele comune (fără companie).
 # {scope} limitează candidații la companiile la care are acces utilizatorul.
+# Pe 20.0 `is_company` e calculat din CUI (l10n_ro_edi), iar contactele unei firme RO
+# moștenesc CUI-ul și au și ele is_company = True: `parent_id IS NULL` le ține în afara
+# lotului, altfel ar fi comasate (și șterse) în firma-mamă.
 BUILD_FACE = """
     DROP TABLE IF EXISTS pm_face CASCADE;
     CREATE TABLE pm_face AS
     WITH norm AS (
-      SELECT id, name, create_date, company_registry, COALESCE(company_id, 0) AS company_key,
+      SELECT id, name, create_date, COALESCE(company_id, 0) AS company_key,
              upper(regexp_replace(vat, '[^0-9A-Za-z]', '', 'g')) AS vat_n
       FROM res_partner
-      WHERE active AND is_company AND vat IS NOT NULL AND vat <> ''
+      WHERE active AND is_company AND parent_id IS NULL AND vat IS NOT NULL AND vat <> ''
         AND ({scope})
     ), grp AS (
       SELECT vat_n, company_key FROM norm GROUP BY vat_n, company_key HAVING count(*) > 1
     )
-    SELECT n.vat_n, n.company_key, n.id, n.name, n.create_date, n.company_registry,
+    SELECT n.vat_n, n.company_key, n.id, n.name, n.create_date,
       {facturi} AS facturi, {comenzi_v} AS comenzi_v, {comenzi_a} AS comenzi_a,
       {livrari} AS livrari,
       (SELECT count(*) FROM res_partner c WHERE c.parent_id = n.id) AS copii,

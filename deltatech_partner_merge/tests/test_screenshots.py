@@ -64,19 +64,19 @@ class TestPartnerMergeScreenshots(AccountTestInvoicingCommon, ScreenshotCase or 
         cls.andrei = partner("Andrei Marin", phone="0268 412 345", city="Brașov")
         cls.elena = partner("Elena Marin", phone="0268 412 345", city="Brașov")
         # adresa de facturare a unui client, cu emailul lui: nu e dublură
-        beta = partner("Beta Distribuție SRL", email="office@beta-distributie.ro", is_company=True, vat="RO90000936")
+        beta = partner("Beta Distribuție SRL", email="office@beta-distributie.ro", vat="RO90000936")
         partner("Beta Distribuție – facturare", email="office@beta-distributie.ro", type="invoice", parent_id=beta.id)
         # un telefon de centrală comun prea multor parteneri
         for i in range(1, 13):
             partner(f"Client magazin {i:02d}", phone="0700 123 123", city="Constanța")
         # firme cu același CUI, pentru căutare și pentru lot
-        cls.alfa = partner("Alfa Construct SRL", vat="RO90000910", is_company=True, city="Ploiești")
-        partner("Alfa Construct S.R.L.", vat="RO 90000910", is_company=True, city="Ploiești")
-        partner("Gamma Logistic SRL", vat="RO90000928", is_company=True, city="Pitești")
-        partner("Gamma Logistic S.R.L.", vat="ro90000928", is_company=True, city="Pitești")
+        cls.alfa = partner("Alfa Construct SRL", vat="RO90000910", city="Ploiești")
+        partner("Alfa Construct S.R.L.", vat="RO 90000910", city="Ploiești")
+        partner("Gamma Logistic SRL", vat="RO90000928", city="Pitești")
+        partner("Gamma Logistic S.R.L.", vat="ro90000928", city="Pitești")
         # același CUI scris o dată fără prefixul RO: îl găsește căutarea, nu și lotul
-        partner("Delta Agro SRL", vat="RO90000944", is_company=True, city="Craiova")
-        partner("Delta Agro S.R.L.", vat="90000944", is_company=True, city="Craiova")
+        partner("Delta Agro SRL", vat="RO90000944", city="Craiova")
+        partner("Delta Agro S.R.L.", vat="90000944", city="Craiova")
         # o factură postată pe una din fișele Alfa: grupul ajunge în categoria A
         invoice = cls.init_invoice("out_invoice", partner=cls.alfa, amounts=[1200.0], post=True)
         cls.invoice = invoice

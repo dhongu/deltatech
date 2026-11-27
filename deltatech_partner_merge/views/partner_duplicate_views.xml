@@ -13,9 +13,9 @@
                 <field name="company_id" groups="base.group_multi_company" optional="hide" />
                 <field name="scan_id" optional="hide" />
                 <field name="state" widget="badge" decoration-success="state == 'merged'" />
-                <button name="action_merge" type="object" string="Merge" icon="fa-compress"
+                <button name="action_merge" type="object" string="Merge" icon="close_fullscreen"
                         invisible="state != 'new'" groups="base.group_partner_manager" />
-                <button name="action_ignore" type="object" string="Not duplicates" icon="fa-ban"
+                <button name="action_ignore" type="object" string="Not duplicates" icon="block"
                         invisible="state != 'new'" />
             </list>
         </field>
@@ -37,7 +37,7 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_open_partners" type="object" class="oe_stat_button" icon="fa-users">
+                        <button name="action_open_partners" type="object" class="oe_stat_button" icon="group" icon_class="oi-filled">
                             <field name="partner_count" widget="statinfo" string="Partners" />
                         </button>
                     </div>

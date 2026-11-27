@@ -1,0 +1,6 @@
+id,name,model_id,group_id/id,operation,domain
+access_partner_merge_batch_prepare,partner.merge.batch prepare,partner.merge.batch,deltatech_partner_merge.group_partner_merge_prepare,crud,
+access_partner_merge_line_prepare,partner.merge.batch.line prepare,partner.merge.batch.line,deltatech_partner_merge.group_partner_merge_prepare,crud,
+access_partner_duplicate_scan_prepare,partner.duplicate.scan prepare,partner.duplicate.scan,deltatech_partner_merge.group_partner_merge_prepare,crud,
+access_partner_duplicate_group_prepare,partner.duplicate.group prepare,partner.duplicate.group,deltatech_partner_merge.group_partner_merge_prepare,crud,
+access_partner_duplicate_ignore_prepare,partner.duplicate.ignore prepare,partner.duplicate.ignore,deltatech_partner_merge.group_partner_merge_prepare,crud,

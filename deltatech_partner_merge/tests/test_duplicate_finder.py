@@ -24,8 +24,8 @@ class TestDuplicateFinder(TransactionCase):
         cls.phone_b = partner("Popescu Ion Dupfind", phone="+40 722 913 456")
         cls.email_a = partner("Dupfind Maria", email="Dupfind.Maria@Example.com ")
         cls.email_b = partner("Dupfind Maria Ionescu", email="dupfind.maria@example.com")
-        cls.vat_a = partner("Dupfind Alfa SRL", vat="RO90000910", is_company=True)
-        cls.vat_b = partner("Dupfind Alfa S.R.L.", vat="90000910", is_company=True)
+        cls.vat_a = partner("Dupfind Alfa SRL", vat="RO90000910")
+        cls.vat_b = partner("Dupfind Alfa S.R.L.", vat="90000910")
         cls.name_a = partner("Gheorghe Dupfindescu", street="Str. Lalelelor nr. 5", city="Cluj-Napoca")
         cls.name_b = partner("Gheorghe Dupfindesc", street="Strada Lalelelor 5", city="Cluj Napoca")
         cls.name_other_street = partner("Gheorghe Dupfindescu", street="Str. Zorilor 12", city="Cluj-Napoca")
@@ -34,7 +34,7 @@ class TestDuplicateFinder(TransactionCase):
         cls.user.partner_id.write({"phone": "0722 913 456", "country_id": ro.id})
         cls.env.company.partner_id.email = "dupfind.maria@example.com"
         # an invoice address carries the email of its company: not a duplicate
-        cls.parent = partner("Dupfind Beta SRL", email="office@dupfind-beta.ro", is_company=True)
+        cls.parent = partner("Dupfind Beta SRL", email="office@dupfind-beta.ro")
         cls.child = partner(
             "Dupfind Beta facturare", email="office@dupfind-beta.ro", type="invoice", parent_id=cls.parent.id
         )

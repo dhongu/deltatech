@@ -31,7 +31,7 @@ class TestVerifyAccounting(AccountTestInvoicingCommon):
         company = cls.env.company
 
         def partner(name, vat):
-            return Partner.create({"name": name, "vat": vat, "is_company": True, "company_id": company.id})
+            return Partner.create({"name": name, "vat": vat, "company_id": company.id})
 
         cls.a1 = partner("Merge Ledger Alpha SRL", "RO92000001")
         cls.a2 = partner("Merge Ledger Alpha S.R.L.", "RO 92000001")

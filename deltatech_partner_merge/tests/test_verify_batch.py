@@ -19,7 +19,7 @@ class TestVerifyBatch(TransactionCase):
         Partner = cls.env["res.partner"]
 
         def partner(name, vat):
-            return Partner.create({"name": name, "vat": vat, "is_company": True, "company_id": cls.company.id})
+            return Partner.create({"name": name, "vat": vat, "company_id": cls.company.id})
 
         # batch A: one group
         cls.a1 = partner("Merge Verify Alpha SRL", "RO91000001")
@@ -93,3 +93,17 @@ class TestVerifyBatch(TransactionCase):
         batch_a.line_ids.write({"snapshot_taken": False})
         with self.assertRaises(UserError):
             batch_a.action_verify()
+
+    def test_contacts_with_company_vat_left_out(self):
+        """On 20.0 the contacts of a RO company inherit its VAT and, with l10n_ro_edi,
+        also is_company = True: they must not be merged into their company."""
+        self._hide_b()
+        contact = self.env["res.partner"].create({"name": "Merge Verify Alpha contact", "parent_id": self.a1.id})
+        self.assertEqual(contact.vat, self.a1.vat)
+        self.env.flush_all()
+        self.env.cr.execute("UPDATE res_partner SET is_company = true WHERE id = %s", [contact.id])
+        self.env.invalidate_all()
+        batch = self._batch("MERGE-002 contacts")
+        self.assertEqual(len(batch.line_ids), 1)
+        self._apply(batch)
+        self.assertTrue(contact.exists())
