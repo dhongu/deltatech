@@ -14,14 +14,14 @@ Import Lines in Transfers and Inventory
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_import_lines_stock
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_import_lines_stock
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_import_lines_stock/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_import_lines_stock/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests%20%C2%B7%2090%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_import_lines_stock
-    :alt: 6 automated tests · 90% code coverage
+.. |badge_tests| image:: https://img.shields.io/badge/-6%20automated%20tests-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_import_lines_stock/tests
+    :alt: 6 automated tests
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
 
@@ -110,6 +110,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_import_lines_stock>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_import_lines_stock>`_ project on GitHub.
 
 You are welcome to contribute.

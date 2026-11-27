@@ -14,13 +14,13 @@ Invoice Storable Products Only from Orders
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_invoice_storable_source
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_invoice_storable_source
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_invoice_storable_source/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_invoice_storable_source/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
 .. |badge_tests| image:: https://img.shields.io/badge/-12%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_invoice_storable_source/tests
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_invoice_storable_source/tests
     :alt: 12 automated tests
 
 |badge1| |badge2| |badge_fisa| |badge_tests|
@@ -97,10 +97,10 @@ Usage
    Marfă depozit, and the Invalid Operation dialog: storable products
    can be billed only from a purchase order|
 
-.. |Invoicing settings, Customer Invoices section: the option Customer invoices for storable products only from sale orders is checked and highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_storable_source/static/description/en/01_setare_facturi_clienti.png
-.. |Invoicing settings, Vendor Bills section: the option Vendor bills for storable products only from purchase orders is checked and highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_storable_source/static/description/en/02_setare_facturi_furnizori.png
-.. |Draft customer invoice for Client Demo SRL with the storable product Marfă depozit, and the Invalid Operation dialog: storable products can be invoiced only from a sale order| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_storable_source/static/description/en/03_factura_client_fara_comanda.png
-.. |Draft vendor bill from Furnizor Demo SRL with the storable product Marfă depozit, and the Invalid Operation dialog: storable products can be billed only from a purchase order| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_invoice_storable_source/static/description/en/04_factura_furnizor_fara_comanda.png
+.. |Invoicing settings, Customer Invoices section: the option Customer invoices for storable products only from sale orders is checked and highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_invoice_storable_source/static/description/en/01_setare_facturi_clienti.png
+.. |Invoicing settings, Vendor Bills section: the option Vendor bills for storable products only from purchase orders is checked and highlighted| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_invoice_storable_source/static/description/en/02_setare_facturi_furnizori.png
+.. |Draft customer invoice for Client Demo SRL with the storable product Marfă depozit, and the Invalid Operation dialog: storable products can be invoiced only from a sale order| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_invoice_storable_source/static/description/en/03_factura_client_fara_comanda.png
+.. |Draft vendor bill from Furnizor Demo SRL with the storable product Marfă depozit, and the Invalid Operation dialog: storable products can be billed only from a purchase order| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_invoice_storable_source/static/description/en/04_factura_furnizor_fara_comanda.png
 
 Changelog
 =========
@@ -142,6 +142,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_invoice_storable_source>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_invoice_storable_source>`_ project on GitHub.
 
 You are welcome to contribute.
