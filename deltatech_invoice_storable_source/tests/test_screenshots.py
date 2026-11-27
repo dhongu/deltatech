@@ -41,8 +41,8 @@ class TestInvoiceStorableSourceScreenshots(AccountTestInvoicingCommon, Screensho
         env.ref("base.user_admin").write({"company_ids": [Command.link(cls.company.id)], "company_id": cls.company.id})
         cls.company.write({"check_storable_sale_source": True, "check_storable_purchase_source": True})
 
-        cls.customer = env["res.partner"].create({"name": "Client Demo SRL", "is_company": True})
-        cls.vendor = env["res.partner"].create({"name": "Furnizor Demo SRL", "is_company": True})
+        cls.customer = env["res.partner"].create({"name": "Client Demo SRL"})
+        cls.vendor = env["res.partner"].create({"name": "Furnizor Demo SRL"})
         cls.product = env["product.product"].create(
             {"name": "Marfă depozit", "is_storable": True, "list_price": 100.0, "standard_price": 60.0}
         )

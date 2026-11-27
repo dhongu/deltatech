@@ -5,7 +5,7 @@
     "images": ["static/description/main_screenshot.png"],
     "name": "Invoice Storable Products Only from Orders",
     "summary": "Block posting invoices with storable products that do not come from a sale or purchase order",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "support": "support@terrabit.ro",
