@@ -1,0 +1,9 @@
+{
+  "title": "Invoice Stock Only from Orders",
+  "summary": "Every invoiced storable line has an order behind it",
+  "features": [
+    "Customer invoices only from sale orders",
+    "Vendor bills only from purchase orders",
+    "Services and order credit notes pass"
+  ]
+}
