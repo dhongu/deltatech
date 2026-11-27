@@ -2,13 +2,13 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
-import base64
 import math
 import os
 import re
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools.binary import BinaryBytes
 
 from ..models.import_lines_mapping import MATCH_KEYS, TARGETS
 
@@ -183,14 +183,14 @@ class ImportLinesWizard(models.TransientModel):
         self.ensure_one()
         if not self.file:
             raise UserError(self.env._("Select the file to import."))
-        return self._read_rows(base64.b64decode(self.file), self.file_name, self.separator)
+        return self._read_rows(self.file.content, self.file_name, self.separator)
 
     @api.model
     def _read_rows(self, data, file_name, separator=False):
         """Read a spreadsheet or a delimited text file with the readers of the standard import."""
         extension = os.path.splitext(file_name or "")[1].lower()
         reader = self.env["base_import.import"].create(
-            {"file": data, "file_name": file_name, "file_type": FILE_TYPES.get(extension, False)}
+            {"file": BinaryBytes(data, file_name), "file_name": file_name, "file_type": FILE_TYPES.get(extension, False)}
         )
         options = {"quoting": '"', "separator": separator or "", "encoding": ""}
         try:

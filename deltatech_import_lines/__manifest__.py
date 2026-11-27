@@ -5,7 +5,7 @@
 {
     "name": "Import Document Lines",
     "summary": "Load document lines from an XLSX, XLS, CSV or TXT file, with column mapping and preview",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Productivity",
@@ -13,8 +13,7 @@
     "license": "OPL-1",
     "consultant_sheet": "full",
     "data": [
-        "security/ir.model.access.csv",
-        "security/import_lines_security.xml",
+        "security/ir.access.csv",
         "views/import_lines_mapping_view.xml",
         "wizard/import_lines_wizard_view.xml",
     ],

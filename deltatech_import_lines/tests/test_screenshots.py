@@ -92,9 +92,9 @@ class TestImportLinesScreenshots(ScreenshotCase or object):
         purchase_tax = env["account.tax"].create(dict(tax_vals, type_tax_use="purchase"))
         taxes = {"taxes_id": [Command.set(sale_tax.ids)], "supplier_taxes_id": [Command.set(purchase_tax.ids)]}
         cls.customer = env["res.partner"].create(
-            {"name": "Client Exemplu SRL", "is_company": True, "property_product_pricelist": pricelist.id}
+            {"name": "Client Exemplu SRL", "property_product_pricelist": pricelist.id}
         )
-        cls.vendor = env["res.partner"].create({"name": "Furnizor Exemplu SRL", "is_company": True})
+        cls.vendor = env["res.partner"].create({"name": "Furnizor Exemplu SRL"})
         product = env["product.product"]
         cls.chair = product.create(
             {"name": "Scaun birou", "default_code": "SC-01", "list_price": 450.0, "is_storable": True, **taxes}
@@ -136,7 +136,7 @@ class TestImportLinesScreenshots(ScreenshotCase or object):
             book.active.append(row)
         buffer = io.BytesIO()
         book.save(buffer)
-        return base64.b64encode(buffer.getvalue())
+        return base64.b64encode(buffer.getvalue()).decode()
 
     def _wizard(self, document, rows, file_name, context=None, **vals):
         ctx = {"active_model": document._name, "active_id": document.id}

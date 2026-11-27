@@ -1,0 +1,9 @@
+id,name,model_id,group_id/id,operation,domain
+access_import_lines_mapping_user,import.lines.mapping user,import.lines.mapping,base.group_user,cru,
+access_import_lines_mapping_system,import.lines.mapping system,import.lines.mapping,base.group_system,crud,
+import_lines_mapping_company_rule,Import lines mapping: multi-company,import.lines.mapping,,crud,"['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]"
+access_import_lines_mapping_column_user,import.lines.mapping.column user,import.lines.mapping.column,base.group_user,crud,
+import_lines_mapping_column_company_rule,Import lines mapping column: multi-company,import.lines.mapping.column,,crud,"['|', ('mapping_id.company_id', '=', False), ('mapping_id.company_id', 'in', company_ids)]"
+access_import_lines_wizard_user,import.lines.wizard user,import.lines.wizard,base.group_user,crud,
+access_import_lines_wizard_column_user,import.lines.wizard.column user,import.lines.wizard.column,base.group_user,crud,
+access_import_lines_wizard_row_user,import.lines.wizard.row user,import.lines.wizard.row,base.group_user,crud,

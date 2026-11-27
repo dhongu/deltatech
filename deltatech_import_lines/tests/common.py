@@ -24,7 +24,7 @@ class ImportLinesCommon(TransactionCase):
             data = buffer.getvalue()
         else:
             data = "\n".join(separator.join(str(value) for value in row) for row in rows).encode()
-        return base64.b64encode(data)
+        return base64.b64encode(data).decode()
 
     def _open_wizard(self, document, rows, file_type="csv", context=None, **vals):
         """Create the wizard for ``document`` with a file of ``rows`` and load its columns."""
