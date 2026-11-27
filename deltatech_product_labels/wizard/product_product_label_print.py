@@ -11,6 +11,7 @@ from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.fields import Domain
 from odoo.tools import BinaryBytes
+from odoo.tools.barcode import check_barcode_encoding
 
 _logger = logging.getLogger(__name__)
 
@@ -340,9 +341,16 @@ class ProductProductLabelLine(models.TransientModel):
     def _compute_barcode_image(self):
         for line in self:
             product = line.product_id
-            if product.barcode:
+            if product.barcode and check_barcode_encoding(product.barcode, "ean13"):
                 drawing = createBarcodeDrawing(
                     "EAN13", value=product.barcode, width=200, height=100, format="svg", humanReadable=True
+                )
+            elif product.barcode:
+                # EAN-13 keeps only the first 12 digits and recomputes the check digit, so an
+                # internal code with a wrong one (or of another length) would print as a
+                # different code, possibly another product's. Code128 prints it as it is.
+                drawing = createBarcodeDrawing(
+                    "Code128", value=product.barcode, width=600, height=100, format="svg", humanReadable=True
                 )
             elif product.default_code:
                 drawing = createBarcodeDrawing(
