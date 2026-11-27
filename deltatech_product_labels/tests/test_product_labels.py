@@ -2,6 +2,7 @@
 # See README.rst file on addons root folder for license details
 
 import base64
+import re
 from unittest.mock import patch
 
 import requests
@@ -291,6 +292,21 @@ class TestProductLabels(TransactionCase):
         wiz, html = self._render_labels(product, "deltatech_product_labels.report_product_product_label")
         self.assertFalse(wiz.label_lines[0].barcode_image)
         self.assertIn("No Code Product", html)
+
+    def test_barcode_image_keeps_non_ean13_code(self):
+        # LABEL-003: EAN-13 recomputes the check digit, so only a valid EAN-13 is drawn as EAN-13;
+        # any other barcode must come out unchanged, in Code128, without an error
+        def printed_text(barcode):
+            product = self.env["product.product"].create({"name": f"Product {barcode}", "barcode": barcode})
+            wiz, _html = self._render_labels(product, "deltatech_product_labels.report_product_product_label")
+            svg = base64.b64decode(wiz.label_lines[0].barcode_image).decode()
+            return re.findall(r">([^<>]+)</text>", svg)
+
+        # wrong check digit (the valid EAN-13 is 5555500000371), another length, letters
+        for barcode in ("5555500000372", "1234567", "ABC-123/X"):
+            self.assertEqual(printed_text(barcode), [barcode])
+        # a valid EAN-13 keeps the EAN-13 symbology, which prints the digits in groups
+        self.assertEqual(printed_text("5901234123457"), ["5", "901234", "123457"])
 
     def test_generate_lots_label_lines_use_lot_name(self):
         # LABEL-002: generated lot names (no lot_id yet) must reach the label lines

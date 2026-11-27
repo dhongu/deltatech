@@ -10,6 +10,7 @@ from reportlab.graphics.barcode import createBarcodeDrawing
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.fields import Domain
+from odoo.tools.barcode import check_barcode_encoding
 
 _logger = logging.getLogger(__name__)
 
@@ -339,11 +340,23 @@ class ProductProductLabelLine(models.TransientModel):
     def _compute_barcode_image(self):
         for line in self:
             line.barcode_image = False
-            if line.product_id.barcode:
+            barcode = line.product_id.barcode
+            if barcode and check_barcode_encoding(barcode, "ean13"):
                 barcode_image = createBarcodeDrawing(
                     "EAN13",
-                    value=line.product_id.barcode,
+                    value=barcode,
                     width=200,
+                    height=100,
+                    humanReadable=True,
+                )
+            elif barcode:
+                # EAN-13 keeps only the first 12 digits and recomputes the check digit, so an
+                # internal code with a wrong one (or of another length) would print as a
+                # different code, possibly another product's. Code128 prints it as it is.
+                barcode_image = createBarcodeDrawing(
+                    "Code128",
+                    value=barcode,
+                    width=600,
                     height=100,
                     humanReadable=True,
                 )
