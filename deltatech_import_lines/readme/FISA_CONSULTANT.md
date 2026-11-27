@@ -284,6 +284,7 @@ de ajustare a inventarului, la fel ca la o numărătoare introdusă manual.
 | Mesaj | Cauză | Remediere |
 |---|---|---|
 | Liniile se pot importa doar în oferte. | comanda de vânzare e confirmată | importați într-o ofertă nouă sau adăugați liniile manual |
+| Ținta … este setată pe mai multe coloane. | două coloane au aceeași valoare în **Importă ca** (la **Previzualizare** sau la **Salvează maparea**) | lăsați ținta pe o singură coloană și goliți **Importă ca** pe celelalte |
 | Mapați o coloană pe ținta Produs. / Cantitate. | lipsește coloana de produs sau de cantitate | alegeți **Importă ca** pe coloana respectivă |
 | Acest document nu folosește țintele: … | o coloană e mapată pe o țintă pe care documentul nu o are (ex. Lot pe o ofertă) | goliți **Importă ca** pe acea coloană |
 | X rânduri au erori. Corectați fișierul sau bifați Omite rândurile cu erori. | previzualizarea are rânduri roșii | corectați fișierul sau omiteți rândurile |

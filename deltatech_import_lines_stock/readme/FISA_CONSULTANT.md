@@ -78,7 +78,7 @@ Date minime pentru demo:
 Scenariul: avizul furnizorului vine în `receptie.xlsx`, cu produse pe lot, apoi gestionarul importă
 numărătoarea de inventar din `inventar.xlsx`. Pașii asistentului (fișier, coloane, previzualizare) sunt cei
 din fișa modulului `deltatech_import_lines`; aici sunt ecranele specifice stocului. Capturile sunt generate de
-testul modulului `deltatech_import_lines` și se află în `deltatech_import_lines/static/description/`.
+testul modulului `deltatech_import_lines` și sunt copiate în `static/description/` al acestui modul.
 
 ### Pasul 1 — Recepție: coloana Lot/Număr de serie
 
@@ -93,7 +93,7 @@ antet (dispare după finalizare sau anulare). În pasul de coloane, mapați o co
   - pe livrări și transferuri interne, lotul trebuie să existe deja.
 - Apăsați **Importă** (sau bifați mai întâi **Omite rândurile cu erori**).
 
-![Previzualizarea pe recepție, cu loturile](../../deltatech_import_lines/static/description/08_receptie_loturi.png)
+![Previzualizarea pe recepție, cu loturile](../static/description/08_receptie_loturi.png)
 
 ### Pasul 2 — Recepția cu liniile importate
 
@@ -101,13 +101,13 @@ Recepția are câte o linie pe produs. Rândurile aceluiași produs cu loturi di
 cu câte o operațiune detaliată pe lot. Mișcările adăugate într-un transfer confirmat se confirmă imediat, iar
 Odoo le unește cu liniile existente ale aceluiași produs. Validarea rămâne pasul standard (**Validează**).
 
-![Recepția, cu liniile importate](../../deltatech_import_lines/static/description/09_receptie_linii_importate.png)
+![Recepția, cu liniile importate](../static/description/09_receptie_linii_importate.png)
 
 ### Pasul 3 — Inventar: butonul „Import cantități numărate"
 
 **Inventar → Operațiuni → Inventariere fizică** → butonul **Import cantități numărate** din antetul listei.
 
-![Inventarul fizic, cu butonul de import](../../deltatech_import_lines/static/description/10_inventar_buton_import.png)
+![Inventarul fizic, cu butonul de import](../static/description/10_inventar_buton_import.png)
 
 ### Pasul 4 — Locația numărată și previzualizarea
 
@@ -123,7 +123,7 @@ previzualizare, ci doar în pasul **Fișier**.
   - cantitatea 0 e acceptată, pentru produsele numărate și găsite lipsă;
   - rândurile aceluiași produs și lot se adună.
 
-![Asistentul de inventar, previzualizarea](../../deltatech_import_lines/static/description/11_inventar_previzualizare.png)
+![Asistentul de inventar, previzualizarea](../static/description/11_inventar_previzualizare.png)
 
 ### Pasul 5 — Cantitățile numărate în inventarul fizic
 
@@ -138,7 +138,7 @@ După import, lista **Inventariere fizică** arată cantitățile din fișier î
   - diferențele mari sunt explicate înainte de aplicare.
 - Abia apoi apăsați **Aplică tot** (sau **Aplică** pe rând).
 
-![Inventarul fizic, cu cantitățile numărate importate](../../deltatech_import_lines/static/description/12_inventar_cantitati_numarate.png)
+![Inventarul fizic, cu cantitățile numărate importate](../static/description/12_inventar_cantitati_numarate.png)
 
 ### Note de monografie și raportare
 
@@ -200,10 +200,10 @@ de ajustare a inventarului, ca la o numărătoare introdusă manual.
 
 ## 10. Capturi de ecran
 
-Modulul nu are capturi proprii: ecranele lui sunt capturate de testul modulului de bază, în
-`deltatech_import_lines/static/description/`, **generate automat** din `deltatech_import_lines/tests/test_screenshots.py`
-(mixinul `ScreenshotCase` din `deltatech_doc_screenshots`, import defensiv), în română, pe compania „Demo
-Import SRL" în RON:
+Ecranele modulului sunt **generate automat** de testul modulului de bază,
+`deltatech_import_lines/tests/test_screenshots.py` (mixinul `ScreenshotCase` din `deltatech_doc_screenshots`,
+import defensiv), în română, pe compania „Demo Import SRL" în RON, în `deltatech_import_lines/static/description/`.
+Copiile lor din `static/description/` al acestui modul se actualizează după fiecare regenerare:
 
 1. `08_receptie_loturi.png` — previzualizarea pe recepție, cu loturile;
 2. `09_receptie_linii_importate.png` — recepția, cu liniile importate;
@@ -217,6 +217,10 @@ Regenerare:
 ./odoo/odoo-bin -c odoo.conf -d <db> \
     -i deltatech_import_lines_sale,deltatech_import_lines_purchase,deltatech_import_lines_stock,deltatech_import_lines_mrp,deltatech_doc_screenshots \
     --test-tags=fise_screenshots --stop-after-init --http-port=8987 --gevent-port=8988
+for f in 08_receptie_loturi 09_receptie_linii_importate 10_inventar_buton_import \
+         11_inventar_previzualizare 12_inventar_cantitati_numarate; do
+    cp deltatech_import_lines/static/description/$f.png deltatech_import_lines_stock/static/description/
+done
 ```
 
 ## 11. Observații pentru manual
