@@ -1,3 +1,10 @@
+## 19.0.2.2.2 (2026-11-13)
+
+**Fixed**
+
+- The *Alternative Code* shown on products, order lines and transfers now refreshes
+  when an existing code is renamed, hidden or shown again.
+
 ## 19.0.2.2.1 (2026-10-22)
 
 - The module is listed on Odoo Apps as *Alternative Product Codes* (was *Products Alternative*),
