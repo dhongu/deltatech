@@ -1,0 +1,11 @@
+{
+  "title": "Import Document Lines",
+  "summary": "Load lines from XLSX, XLS, CSV or TXT files",
+  "icon": "file",
+  "features": [
+    "Column mapping with saved profiles",
+    "Preview with the unmatched rows",
+    "Match by reference, barcode or name"
+  ],
+  "lang": "en"
+}

@@ -1,0 +1,637 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_import_lines
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-26 16:48+0000\n"
+"PO-Revision-Date: 2026-10-26 16:48+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_import_lines
+#. odoo-python
+#: code:addons/deltatech_import_lines/wizard/import_lines_wizard.py:0
+msgid ""
+"%(count)s rows have errors. Fix the file or tick Skip Rows With Errors."
+msgstr ""
+
+#. module: deltatech_import_lines
+#. odoo-python
+#: code:addons/deltatech_import_lines/wizard/import_lines_wizard.py:0
+msgid ""
+"%s is ambiguous (decimal comma or thousands separator): remove the comma for"
+" an integer or use a decimal point for a decimal number"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model_terms:ir.actions.act_window,help:deltatech_import_lines.action_import_lines_mapping
+msgid ""
+"A mapping remembers which file column holds the product, the quantity or the"
+" price, per document type and, optionally, per partner."
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping__active
+msgid "Active"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model_terms:ir.ui.view,arch_db:deltatech_import_lines.import_lines_mapping_form
+#: model_terms:ir.ui.view,arch_db:deltatech_import_lines.import_lines_mapping_search
+msgid "Archived"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model_terms:ir.ui.view,arch_db:deltatech_import_lines.import_lines_wizard_form
+msgid "Back"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_mapping__match_by__barcode
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_wizard__match_by__barcode
+msgid "Barcode"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model_terms:ir.ui.view,arch_db:deltatech_import_lines.import_lines_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping_column__column_index
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_column__column_index
+msgid "Column"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,help:deltatech_import_lines.field_import_lines_mapping_column__column_index
+msgid "Column position in the file, starting with 1."
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,help:deltatech_import_lines.field_import_lines_mapping__separator
+#: model:ir.model.fields,help:deltatech_import_lines.field_import_lines_wizard__separator
+msgid "Column separator for CSV and TXT files. Leave empty to detect it."
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,help:deltatech_import_lines.field_import_lines_mapping_column__header
+msgid ""
+"Column title in the header row. Used before the position when the file has a"
+" header."
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping__column_ids
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__column_ids
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_wizard__state__map
+msgid "Columns"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping__company_id
+msgid "Company"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping__create_uid
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping_column__create_uid
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__create_uid
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_column__create_uid
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_row__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping__create_date
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping_column__create_date
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__create_date
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_column__create_date
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_row__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_row__description
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_mapping_column__target__description
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_wizard_column__target__description
+msgid "Description"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_row__discount
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_mapping_column__target__discount
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_wizard_column__target__discount
+msgid "Discount (%)"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping__display_name
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping_column__display_name
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mixin__display_name
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__display_name
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_column__display_name
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_row__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping__res_model
+#: model_terms:ir.ui.view,arch_db:deltatech_import_lines.import_lines_mapping_search
+msgid "Document Type"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__error_count
+msgid "Error Count"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__file
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_wizard__state__upload
+msgid "File"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__file_name
+msgid "File Name"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_row__product_ref
+msgid "File Product"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_row__uom_name
+msgid "File Unit"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_column__sample
+msgid "First Value"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_row__has_discount
+msgid "Has Discount"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_row__has_price_unit
+msgid "Has Price Unit"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping_column__header
+msgid "Header"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping__has_header
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__has_header
+msgid "Header Row"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping__id
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping_column__id
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mixin__id
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__id
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_column__id
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_row__id
+msgid "ID"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model_terms:ir.ui.view,arch_db:deltatech_import_lines.import_lines_wizard_form
+msgid "Import"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_column__target
+msgid "Import As"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model,name:deltatech_import_lines.model_import_lines_wizard
+msgid "Import Document Lines"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.actions.act_window,name:deltatech_import_lines.action_import_lines_mapping
+msgid "Import Line Mappings"
+msgstr ""
+
+#. module: deltatech_import_lines
+#. odoo-python
+#: code:addons/deltatech_import_lines/wizard/import_lines_wizard.py:0
+#: model:ir.actions.act_window,name:deltatech_import_lines.action_import_lines_wizard
+#: model_terms:ir.ui.view,arch_db:deltatech_import_lines.import_lines_wizard_form
+msgid "Import Lines"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model,name:deltatech_import_lines.model_import_lines_mapping
+msgid "Import Lines Column Mapping"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model,name:deltatech_import_lines.model_import_lines_mapping_column
+msgid "Import Lines Mapping Column"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model,name:deltatech_import_lines.model_import_lines_mixin
+msgid "Import Lines Mixin"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model,name:deltatech_import_lines.model_import_lines_wizard_column
+msgid "Import Lines Wizard Column"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model,name:deltatech_import_lines.model_import_lines_wizard_row
+msgid "Import Lines Wizard Row"
+msgstr ""
+
+#. module: deltatech_import_lines
+#. odoo-python
+#: code:addons/deltatech_import_lines/models/import_lines_mixin.py:0
+msgid "Importing lines is not implemented for %s."
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_mapping__match_by__default_code
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_wizard__match_by__default_code
+msgid "Internal Reference"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_wizard_row__status__invalid_number
+msgid "Invalid number"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_wizard_row__status__invalid_quantity
+msgid "Invalid quantity"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_wizard_row__status__invalid_uom
+msgid "Invalid unit of measure"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping__write_uid
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping_column__write_uid
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__write_uid
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_column__write_uid
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_row__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping__write_date
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping_column__write_date
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__write_date
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_column__write_date
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_row__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: deltatech_import_lines
+#. odoo-python
+#: code:addons/deltatech_import_lines/wizard/import_lines_wizard.py:0
+msgid "Lines cannot be imported in this document."
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_row__lot_name
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_mapping_column__target__lot
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_wizard_column__target__lot
+msgid "Lot/Serial Number"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_wizard_row__status__lot_error
+msgid "Lot/serial error"
+msgstr ""
+
+#. module: deltatech_import_lines
+#. odoo-python
+#: code:addons/deltatech_import_lines/wizard/import_lines_wizard.py:0
+msgid "Map a column to the %s target."
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping_column__mapping_id
+msgid "Mapping"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__mapping_name
+msgid "Mapping Name"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping__match_by
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__match_by
+msgid "Match Product By"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_row__message
+msgid "Message"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping__name
+msgid "Name"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model_terms:ir.ui.view,arch_db:deltatech_import_lines.import_lines_wizard_form
+msgid "Next"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_wizard_row__status__not_allowed
+msgid "Not allowed"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_wizard_row__status__ok
+msgid "OK"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__ok_count
+msgid "Ok Count"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__mapping_for_partner
+msgid "Only For This Partner"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping__partner_id
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_wizard__state__preview
+#: model_terms:ir.ui.view,arch_db:deltatech_import_lines.import_lines_wizard_form
+msgid "Preview"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_row__product_id
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_mapping_column__target__product
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_wizard_column__target__product
+msgid "Product"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_mapping__match_by__name
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_wizard__match_by__name
+msgid "Product Name"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_wizard_row__status__not_found
+msgid "Product not found"
+msgstr ""
+
+#. module: deltatech_import_lines
+#. odoo-python
+#: code:addons/deltatech_import_lines/wizard/import_lines_wizard.py:0
+msgid "Products cannot be matched by %s on this document."
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_row__quantity
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_mapping_column__target__quantity
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_wizard_column__target__quantity
+msgid "Quantity"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model_terms:ir.ui.view,arch_db:deltatech_import_lines.import_lines_wizard_form
+msgid "Reload File"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__res_id
+msgid "Res"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__res_model
+msgid "Res Model"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_row__row_number
+msgid "Row"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__row_ids
+msgid "Rows"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model_terms:ir.ui.view,arch_db:deltatech_import_lines.import_lines_wizard_form
+msgid "Rows ready to import:"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model_terms:ir.ui.view,arch_db:deltatech_import_lines.import_lines_wizard_form
+msgid "Rows with errors, imported only when skipped:"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model_terms:ir.ui.view,arch_db:deltatech_import_lines.import_lines_wizard_form
+msgid "Save Mapping"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model_terms:ir.actions.act_window,help:deltatech_import_lines.action_import_lines_mapping
+msgid "Save a column mapping from the Import Lines wizard"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model_terms:ir.ui.view,arch_db:deltatech_import_lines.import_lines_wizard_form
+msgid "Save the mapping"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__mapping_id
+msgid "Saved Mapping"
+msgstr ""
+
+#. module: deltatech_import_lines
+#. odoo-python
+#: code:addons/deltatech_import_lines/wizard/import_lines_wizard.py:0
+msgid "Select the file to import."
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping__separator
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__separator
+msgid "Separator"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_wizard_row__status__ambiguous
+msgid "Several products"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__show_description
+msgid "Show Description"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__show_discount
+msgid "Show Discount"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__show_lot
+msgid "Show Lot"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__show_price_unit
+msgid "Show Price Unit"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__show_uom
+msgid "Show Uom"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__skip_errors
+msgid "Skip Rows With Errors"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard__state
+msgid "State"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_row__status
+msgid "Status"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model_terms:ir.ui.view,arch_db:deltatech_import_lines.import_lines_wizard_form
+msgid ""
+"Supported files: XLSX, XLS, ODS, CSV and TXT. The first sheet of a "
+"spreadsheet is read."
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_mapping_column__target
+msgid "Target"
+msgstr ""
+
+#. module: deltatech_import_lines
+#. odoo-python
+#: code:addons/deltatech_import_lines/wizard/import_lines_wizard.py:0
+msgid "The %s target is set on more than one column."
+msgstr ""
+
+#. module: deltatech_import_lines
+#. odoo-python
+#: code:addons/deltatech_import_lines/wizard/import_lines_wizard.py:0
+msgid "The file cannot be read: %s"
+msgstr ""
+
+#. module: deltatech_import_lines
+#. odoo-python
+#: code:addons/deltatech_import_lines/wizard/import_lines_wizard.py:0
+msgid "The file has no rows to import."
+msgstr ""
+
+#. module: deltatech_import_lines
+#. odoo-python
+#: code:addons/deltatech_import_lines/wizard/import_lines_wizard.py:0
+msgid "The file has no rows with a product."
+msgstr ""
+
+#. module: deltatech_import_lines
+#. odoo-python
+#: code:addons/deltatech_import_lines/wizard/import_lines_wizard.py:0
+msgid "There are no valid rows to import."
+msgstr ""
+
+#. module: deltatech_import_lines
+#. odoo-python
+#: code:addons/deltatech_import_lines/wizard/import_lines_wizard.py:0
+msgid "This document does not use the targets: %s."
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_column__header
+msgid "Title"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_row__uom_id
+msgid "Unit"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_row__price_unit
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_mapping_column__target__price_unit
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_wizard_column__target__price_unit
+msgid "Unit Price"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_mapping_column__target__uom
+#: model:ir.model.fields.selection,name:deltatech_import_lines.selection__import_lines_wizard_column__target__uom
+msgid "Unit of Measure"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,help:deltatech_import_lines.field_import_lines_mapping__partner_id
+msgid ""
+"When set, the mapping is proposed first for the documents of this partner."
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_column__wizard_id
+#: model:ir.model.fields,field_description:deltatech_import_lines.field_import_lines_wizard_row__wizard_id
+msgid "Wizard"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model_terms:ir.ui.view,arch_db:deltatech_import_lines.import_lines_wizard_form
+msgid "detected"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model_terms:ir.ui.view,arch_db:deltatech_import_lines.import_lines_mapping_form
+msgid "e.g. Vendor price list"
+msgstr ""
+
+#. module: deltatech_import_lines
+#: model_terms:ir.ui.view,arch_db:deltatech_import_lines.import_lines_wizard_form
+msgid "leave empty to update the selected mapping"
+msgstr ""

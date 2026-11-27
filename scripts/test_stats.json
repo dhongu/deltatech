@@ -226,6 +226,12 @@
       "lines": 1091,
       "tests": 88
     },
+    "deltatech_import_lines": {
+      "tests": 5
+    },
+    "deltatech_import_lines_stock": {
+      "tests": 6
+    },
     "deltatech_invoice_delivery": {
       "coverage": 89.3,
       "lines": 84,
@@ -252,6 +258,9 @@
     "deltatech_invoice_receipt": {
       "coverage": 82.4,
       "lines": 108,
+      "tests": 12
+    },
+    "deltatech_invoice_storable_source": {
       "tests": 12
     },
     "deltatech_invoice_weight": {
