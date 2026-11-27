@@ -1,3 +1,11 @@
+## 19.0.1.0.5 (2026-11-27)
+
+- [FIX] Import into an order with lines no longer crashes with `Expected singleton` when the
+  product is on several lines (#3510). The rows keep their ID / External ID when the file has
+  them; otherwise the description narrows the match, and a row that still matches several
+  lines, or a product with more rows than lines, is reported as an import error instead of
+  being assigned to an arbitrary line.
+
 ## 19.0.1.0.4 (2026-11-03)
 
 - Description and banner rewritten after the code: the lines open from the **Order lines**

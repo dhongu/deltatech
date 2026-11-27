@@ -129,6 +129,80 @@ class TestSaleXls(TransactionCase):
         self.assertEqual(fields, ["product_id", "product_uom_qty"])
         self.assertEqual(data, [["XLS Product A", "1"]])
 
+    def _import(self, order, fields, data):
+        return self.env["sale.order.line"].with_context(default_order_id=order.id).load(fields, data)
+
+    def _errors(self, result):
+        return [m for m in result["messages"] if m["type"] == "error"]
+
+    def test_load_same_product_on_two_lines_is_ambiguous(self):
+        """Issue #3510: a product on two lines, without ID or description, is an import error."""
+        order = self._create_order([self.product_a, self.product_a])
+        fields = ["product_id", "product_uom_qty"]
+        data = [["[XLSA] XLS Product A", "7"]]
+        result = self._import(order, fields, data)
+        errors = self._errors(result)
+        self.assertEqual(len(errors), 1)
+        self.assertEqual(errors[0]["rows"], {"from": 0, "to": 0})
+        self.assertFalse(result["ids"])
+        self.assertEqual(order.order_line.mapped("product_uom_qty"), [1.0, 1.0])
+
+    def test_load_same_product_matched_by_description(self):
+        order = self._create_order([self.product_a, self.product_a])
+        line_1, line_2 = order.order_line
+        line_1.name = "Product A - red"
+        line_2.name = "Product A - blue"
+        fields = ["product_id", "name", "product_uom_qty"]
+        data = [["[XLSA] XLS Product A", "Product A - blue", "8"], ["[XLSA] XLS Product A", "Product A - red", "3"]]
+        result = self._import(order, fields, data)
+        self.assertFalse(self._errors(result), result["messages"])
+        self.assertEqual(line_1.product_uom_qty, 3.0)
+        self.assertEqual(line_2.product_uom_qty, 8.0)
+
+    def test_load_same_product_last_free_line(self):
+        """A row with an explicit id takes its line; the other row gets the only line left."""
+        order = self._create_order([self.product_a, self.product_a])
+        line_1, line_2 = order.order_line
+        fields = ["product_id", "product_uom_qty", ".id"]
+        data = [["[XLSA] XLS Product A", "4", ""], ["[XLSA] XLS Product A", "6", str(line_1.id)]]
+        result = self._import(order, fields, data)
+        self.assertFalse(self._errors(result), result["messages"])
+        self.assertEqual(fields.count(".id"), 1)
+        self.assertEqual(line_1.product_uom_qty, 6.0)
+        self.assertEqual(line_2.product_uom_qty, 4.0)
+
+    def test_load_explicit_ids_are_kept(self):
+        order = self._create_order([self.product_a, self.product_a])
+        line_1, line_2 = order.order_line
+        fields = ["product_id", "product_uom_qty", ".id"]
+        data = [["[XLSA] XLS Product A", "5", str(line_2.id)], ["[XLSA] XLS Product A", "9", str(line_1.id)]]
+        result = self._import(order, fields, data)
+        self.assertFalse(self._errors(result), result["messages"])
+        self.assertEqual(fields, ["product_id", "product_uom_qty", ".id"])
+        self.assertEqual(line_1.product_uom_qty, 9.0)
+        self.assertEqual(line_2.product_uom_qty, 5.0)
+
+    def test_load_external_id_is_kept(self):
+        order = self._create_order([self.product_a, self.product_a])
+        line_1 = order.order_line[0]
+        xid = line_1.export_data(["id"])["datas"][0][0]
+        fields = ["id", "product_id", "product_uom_qty"]
+        data = [[xid, "[XLSA] XLS Product A", "12"]]
+        result = self._import(order, fields, data)
+        self.assertFalse(self._errors(result), result["messages"])
+        self.assertEqual(line_1.product_uom_qty, 12.0)
+        self.assertEqual(order.order_line[1].product_uom_qty, 1.0)
+
+    def test_load_more_rows_than_lines(self):
+        order = self._create_order([self.product_a])
+        fields = ["product_id", "product_uom_qty"]
+        data = [["[XLSA] XLS Product A", "2"], ["[XLSA] XLS Product A", "3"]]
+        result = self._import(order, fields, data)
+        errors = self._errors(result)
+        self.assertEqual(len(errors), 1)
+        self.assertEqual(errors[0]["rows"], {"from": 1, "to": 1})
+        self.assertEqual(order.order_line.product_uom_qty, 1.0)
+
     def test_parse_import_data(self):
         """The override only delegates to super; BaseModel has no such method (base_import defines it
         on base_import.import), so calling it on sale.order.line raises AttributeError."""

@@ -6,7 +6,7 @@
     "name": "Sale XLS",
     "summary": "Export sale order lines to Excel and import them back into the order",
     "author": "Terrabit, Voicu Stefan",
-    "version": "19.0.1.0.4",
+    "version": "19.0.1.0.5",
     "license": "OPL-1",
     "website": "https://www.terrabit.ro",
     "category": "Sales",

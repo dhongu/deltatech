@@ -67,32 +67,16 @@ class SaleOrderLine(models.Model):
         if order:
             if order.order_line:
                 product_index = fields.index("product_id") if "product_id" in fields else -1
-                fields.append(".id")
+                if ".id" not in fields:
+                    fields.append(".id")
+                    for record in data:
+                        record.append("")
                 index_id = fields.index(".id")
-                for record in data:
-                    record.append("")
 
                 if product_index != -1:
-                    for record in list(data):
-                        product_name = record[product_index]
-                        product = self.env["product.product"]
-                        # extrage codul din numele produsului care este intre paranteze []
-                        if "[" in product_name and "]" in product_name:
-                            product_code = product_name.split("[")[-1].split("]")[0].strip()
-                            product = self.env["product.product"].search([("default_code", "=", product_code)], limit=1)
-                        if not product:
-                            product_name = product_name.split("[")[0].strip()
-                            product = self.env["product.product"].search([("name", "=", product_name)], limit=1)
-
-                        if not product:
-                            data.remove(record)
-                            continue
-                        if product:
-                            line = order.order_line.filtered(lambda l: l.product_id.id == product.id)
-                            if line:
-                                record[index_id] = str(line.id)
-                            else:
-                                data.remove(record)
+                    errors = self._match_import_lines(order, fields, data, product_index, index_id)
+                    if errors:
+                        return {"ids": False, "messages": errors}
             else:
                 # product_index = fields.index("product_id") if "product_id" in fields else -1
                 # for record in data:
@@ -116,6 +100,76 @@ class SaleOrderLine(models.Model):
                     record.append(order.name)
 
         return super().load(fields, data)
+
+    @api.model
+    def _find_import_product(self, product_name):
+        """Product from the import cell: ``[CODE] Name`` by internal reference, else by exact name."""
+        product = self.env["product.product"]
+        product_name = product_name or ""
+        if "[" in product_name and "]" in product_name:
+            product_code = product_name.split("[")[-1].split("]")[0].strip()
+            product = product.search([("default_code", "=", product_code)], limit=1)
+        if not product:
+            product_name = product_name.split("[")[0].strip()
+            product = product.search([("name", "=", product_name)], limit=1)
+        return product
+
+    @api.model
+    def _match_import_lines(self, order, fields, data, product_index, index_id):
+        """Fill the ``.id`` column of the rows with the order line they update.
+
+        Rows that already carry a database id (``.id``) or an external id (``id``) keep it.
+        The other rows are matched by product among the order lines not taken yet; when several
+        lines have the product, the ``name`` (description) column narrows the match. A row that
+        still matches several lines is not assigned arbitrarily: an import error is returned.
+        A product with more rows than order lines is an error too. Rows with an unknown product,
+        or a product that is not on the order, are dropped.
+        """
+        xid_index = fields.index("id") if "id" in fields else -1
+        name_index = fields.index("name") if "name" in fields else -1
+
+        def has_explicit_id(record):
+            return record[index_id] or (xid_index != -1 and record[xid_index])
+
+        explicit_ids = {int(record[index_id]) for record in data if str(record[index_id]).isdigit()}
+        used = order.order_line.filtered(lambda line: line.id in explicit_ids)
+        errors = []
+        for row, record in enumerate(list(data)):
+            if has_explicit_id(record):
+                continue
+            product = self._find_import_product(record[product_index])
+            product_lines = order.order_line.filtered(lambda line: product and line.product_id == product)
+            if not product_lines:
+                data.remove(record)
+                continue
+            candidates = product_lines - used
+            if len(candidates) > 1 and name_index != -1 and record[name_index]:
+                by_name = candidates.filtered(lambda line: line.name == record[name_index])
+                candidates = by_name or candidates
+            if len(candidates) == 1:
+                record[index_id] = str(candidates.id)
+                used |= candidates
+                continue
+            if candidates:
+                message = self.env._(
+                    "Product %(product)s is on %(count)s lines of order %(order)s, so the row cannot be "
+                    "matched to a single line. Add the ID column (export the lines with it) or the "
+                    "Description column to identify the line.",
+                    product=product.display_name,
+                    count=len(candidates),
+                    order=order.name,
+                )
+            else:
+                message = self.env._(
+                    "The file has more rows for product %(product)s than the %(count)s line(s) of order "
+                    "%(order)s that have it. Add the ID column (export the lines with it) to identify "
+                    "the line of each row.",
+                    product=product.display_name,
+                    count=len(product_lines),
+                    order=order.name,
+                )
+            errors.append({"type": "error", "record": row, "rows": {"from": row, "to": row}, "message": message})
+        return errors
 
     def use_specific_price_formula(self, data, price_index):
         """Some clients may use this import with different price formulas, and it would be easier to make the formula on their database specific modules instead of trying to incorporate it in the general module."""
