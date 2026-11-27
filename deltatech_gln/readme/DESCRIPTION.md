@@ -15,7 +15,9 @@ Key Features
     *   Adds a dedicated **GLN (Global Location Number)** field to the partner form view.
     *   Ensures that GLN data is easily accessible and editable for each business location.
 
-2.  **Compatibility Layer**:
+2.  **Compatibility Layer** (since 19.0.1.2.0):
+    *   `gln` is a related field on the standard `global_location_number` (`account_add_gln`),
+        without its own column; reading or writing `gln` reads or writes the standard GLN.
     *   Acts as a bridge for legacy configurations that require the `deltatech_gln` dependency.
     *   Supports the migration of GLN data to the newer `account_add_gln` standard.
 

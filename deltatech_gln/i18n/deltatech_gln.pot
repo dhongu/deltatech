@@ -33,13 +33,13 @@ msgstr ""
 #. module: deltatech_gln
 #: model:ir.model.fields,field_description:deltatech_gln.field_res_partner__gln
 #: model:ir.model.fields,field_description:deltatech_gln.field_res_users__gln
-msgid "GLN"
+msgid "GLN (deprecated)"
 msgstr ""
 
 #. module: deltatech_gln
 #: model:ir.model.fields,help:deltatech_gln.field_res_partner__gln
 #: model:ir.model.fields,help:deltatech_gln.field_res_users__gln
-msgid "Global Location Number"
+msgid "Deprecated, use the standard Global Location Number field."
 msgstr ""
 
 #. module: deltatech_gln
