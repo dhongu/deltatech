@@ -190,7 +190,11 @@ class ImportLinesWizard(models.TransientModel):
         """Read a spreadsheet or a delimited text file with the readers of the standard import."""
         extension = os.path.splitext(file_name or "")[1].lower()
         reader = self.env["base_import.import"].create(
-            {"file": BinaryBytes(data, file_name), "file_name": file_name, "file_type": FILE_TYPES.get(extension, False)}
+            {
+                "file": BinaryBytes(data, file_name),
+                "file_name": file_name,
+                "file_type": FILE_TYPES.get(extension, False),
+            }
         )
         options = {"quoting": '"', "separator": separator or "", "encoding": ""}
         try:
