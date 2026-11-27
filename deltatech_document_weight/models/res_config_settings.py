@@ -6,6 +6,7 @@ class ResConfigSettings(models.TransientModel):
 
     document_weight_on_sale = fields.Boolean(related="company_id.document_weight_on_sale", readonly=False)
     document_weight_on_invoice = fields.Boolean(related="company_id.document_weight_on_invoice", readonly=False)
+    document_weight_gross_only = fields.Boolean(related="company_id.document_weight_gross_only", readonly=False)
     document_weight_propagate_variants = fields.Boolean(
         string="Copy weights to all variants",
         config_parameter="deltatech_document_weight.propagate_variants",

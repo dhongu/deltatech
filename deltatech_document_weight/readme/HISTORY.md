@@ -1,3 +1,8 @@
+# 20.0.1.1.0
+
+- New: the estimated gross weight of the line in the list of lines of the quotation / sales order and of the customer invoice (optional column, hidden by default: enable it from the column selector).
+- New: setting **Only the gross weight**, per company. On the printed quotation, sales order and invoice only the gross weight is shown (per line and in total), without the net weight and the volume.
+
 # 20.0.1.0.1
 
 - Fix: the module could not be installed together with `l10n_ro_invoice_report` (the invoice report line description is rebuilt there). The invoice line block is now added inside the description cell instead of after a fixed `span`.
