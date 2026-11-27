@@ -97,7 +97,8 @@ RO, monedă RON:
 
 ## 5. Configurare inițială
 
-1. Instalați `deltatech_partner_merge`. Modulul depinde doar de `base`.
+1. Instalați `deltatech_partner_merge`. Modulul depinde de `base` și de `deltatech_partner_match`
+   (regulile comune de normalizare și comparare), instalat automat.
 2. Opțional, pe server: bibliotecile Python `rapidfuzz` (compararea rapidă a numelor), `phonenumbers`
    (telefonul în format internațional) și `unidecode` (eliminarea diacriticelor). Fără ele, modulul
    funcționează, dar compară numele mai încet și doar în blocuri de cel mult 1.500 de parteneri
@@ -165,7 +166,9 @@ durata. Sub rezumat sunt listate valorile sărite (de exemplu telefonul `0700 12
 parteneri, apare ca „12 parteneri cu același telefon +40700123123: săriți”) și blocurile de nume necomparate pentru că erau prea mari.
 
 **Verificați** că valorile sărite sunt într-adevăr centrale sau valori de umplutură. Dacă un telefon
-real e sărit, măriți **Grup maxim pe o valoare** și apăsați **Caută din nou**.
+real e sărit, măriți **Grup maxim pe o valoare** și apăsați **Caută din nou**. Atenție: **Caută din nou**
+cere confirmare și înlocuiește grupurile căutării, inclusiv pe cele deja verificate; perechile marcate
+„nu sunt dubluri” rămân excluse.
 
 ![Tab-ul Raport al căutării, cu valorile sărite](../static/description/03_cautare_dubluri_raport.png)
 
@@ -206,7 +209,7 @@ Implicit e filtrată pe **De verificat**. Scoateți filtrul ca să vedeți și g
 marcate „nu sunt dubluri”. Pe formularul căutării, **Actualizează grupurile îmbinate** trece în
 **Îmbinat** grupurile rămase cu o singură fișă.
 
-**Înapoi la ciornă** (pe formularul unei căutări în starea **Terminat**) șterge grupurile și raportul
+**Înapoi la ciornă** (pe formularul unei căutări în starea **Căutare făcută**) șterge grupurile și raportul
 căutării și o readuce la **Ciornă**, ca să-i schimbați criteriile. Perechile marcate „nu sunt dubluri”
 rămân reținute.
 
@@ -310,6 +313,7 @@ De aceea:
 | Modul / proces | Rol în flux | Tip legătură |
 |---|---|---|
 | `base` | partenerii și asistentul standard **Îmbină contacte** | dependență (manifest) |
+| `deltatech_partner_match` | regulile comune de normalizare (CUI, telefon, email, nume) și de comparare a numelor | dependență (manifest) |
 | `account`, `sale` | facturile, soldul și comenzile numărate la analiza și la verificarea lotului | opțional (citite dacă sunt instalate) |
 | `rapidfuzz`, `phonenumbers`, `unidecode` | compararea rapidă a numelor, telefonul internațional, eliminarea diacriticelor | bibliotecă Python opțională |
 | `deltatech/scripts/partner_merge/` | aceeași procedură de lot ca scripturi SQL, pentru rulare în afara Odoo | proces |
@@ -372,6 +376,7 @@ De aceea:
 | „Nu puteți îmbina un contact cu unul dintre părinții săi.” | În grup e și o companie, și un contact al ei | Scoateți din grup contactul sau compania |
 | „You cannot merge contacts linked to more than one user…” | Mai multe fișe din grup au utilizatori (de exemplu de portal) | Îmbinați doar fișele fără utilizator sau lămuriți întâi conturile de portal |
 | „Asemănarea numelor trebuie să fie între 50 și 100.” | Prag în afara intervalului | Alegeți un prag între 50 și 100 (recomandat 85–95) |
+| După **Caută din nou** au dispărut grupurile deja verificate | Căutarea din nou înlocuiește toate grupurile căutării (cere confirmare) | Normal: perechile „nu sunt dubluri” rămân excluse |
 | „Grupul maxim pe o valoare trebuie să fie cel puțin 2.” | **Grup maxim pe o valoare** sub 2 | Alegeți cel puțin 2; implicit, valorile comune mai multor parteneri sunt sărite peste acest prag |
 | În **Raport**: „Nume necomparate în blocul … : N parteneri” | Blocul are mai mulți parteneri decât poate compara motorul (1.500 fără `rapidfuzz`) | Instalați `rapidfuzz` pe server sau alegeți **Primele litere ale numelui** |
 | „Lotul … este încă în lucru…” | Alt lot e în **Analizat** sau **Simulat**; tabelele de lucru sunt comune | Aplicați celălalt lot sau readuceți-l la ciornă |
