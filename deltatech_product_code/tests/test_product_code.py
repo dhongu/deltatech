@@ -2,6 +2,8 @@
 #              Dorin Hongu <dhongu(@)gmail(.)com
 # See README.rst file on addons root folder for license details
 
+from unittest.mock import patch
+
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import TransactionCase
 
@@ -206,9 +208,9 @@ class TestProductCode(TransactionCase):
                 "categ_id": self.product_category.id,
             }
         )
-        # secventa propunea TEST/0001, deja folosit: se continua peste cel mai mare cod
-        self.assertEqual(product_template.default_code, "TEST/0008")
-        self.assertEqual(self.product_category.sequence_id.number_next_actual, 9)
+        # secventa propunea TEST/0001, deja folosit: se sare doar peste codurile ocupate
+        self.assertEqual(product_template.default_code, "TEST/0003")
+        self.assertEqual(self.product_category.sequence_id.number_next_actual, 4)
 
     def test_new_code_keeps_sequence_when_free(self):
         self.env["product.product"].create({"name": "Manual", "default_code": "TEST/0050"})
@@ -220,6 +222,46 @@ class TestProductCode(TransactionCase):
         )
         # codul dat de secventa e liber, deci nu se sare peste goluri
         self.assertEqual(product_template.default_code, "TEST/0001")
+
+    def test_new_code_ignores_isolated_high_code(self):
+        # cod izolat, mult peste contor (arhivat, ca CP3000023 la Ridacon): nu muta secventa
+        self.env["product.product"].create({"name": "Old", "default_code": "TEST/9000", "active": False})
+        self.env["product.product"].create({"name": "Used", "default_code": "TEST/0001"})
+        product_template = self.env["product.template"].create(
+            {
+                "name": "Test",
+                "categ_id": self.product_category.id,
+            }
+        )
+        self.assertEqual(product_template.default_code, "TEST/0002")
+        self.assertEqual(self.product_category.sequence_id.number_next_actual, 3)
+
+    def test_new_code_long_block_uses_window(self):
+        # bloc mai lung decat limita: rezerva muta secventa doar in fereastra, nu dupa codul izolat
+        for number in (1, 2, 3, 4, 5, 9000):
+            code = f"TEST/{number:04d}"
+            self.env["product.product"].create({"name": code, "default_code": code})
+        module = "odoo.addons.deltatech_product_code.models.product"
+        with patch(module + ".CODE_SKIP_LIMIT", 3), patch(module + ".CODE_SYNC_WINDOW", 100):
+            product_template = self.env["product.template"].create(
+                {
+                    "name": "Test",
+                    "categ_id": self.product_category.id,
+                }
+            )
+        self.assertEqual(product_template.default_code, "TEST/0006")
+
+    def test_new_code_no_free_code_raises(self):
+        for number in (1, 2, 3, 4):
+            code = f"TEST/{number:04d}"
+            self.env["product.product"].create({"name": code, "default_code": code})
+        module = "odoo.addons.deltatech_product_code.models.product"
+        with (
+            patch(module + ".CODE_SKIP_LIMIT", 2),
+            patch.object(type(self.env["product.template"]), "_sync_code_sequence", lambda *args: None),
+            self.assertRaises(UserError),
+        ):
+            self.env["product.template"].create({"name": "Test", "categ_id": self.product_category.id})
 
     def test_new_code_skips_archived_code(self):
         self.env["product.product"].create({"name": "Old", "default_code": "TEST/0001", "active": False})
