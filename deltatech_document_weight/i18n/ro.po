@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-26 07:16+0000\n"
-"PO-Revision-Date: 2026-11-26 07:16+0000\n"
+"POT-Creation-Date: 2026-11-27 08:34+0000\n"
+"PO-Revision-Date: 2026-11-27 08:34+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ro\n"
@@ -28,52 +28,11 @@ msgstr ""
 #. module: deltatech_document_weight
 #: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_invoice_document
 #: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_saleorder_document
-msgid ""
-"<br/>\n"
-"                    <em>(estimated values)</em>"
-msgstr ""
-"<br/>\n"
-"                    <em>(valori estimate)</em>"
+msgid "<em>(estimated values)</em>"
+msgstr "<em>(valori estimate)</em>"
 
 #. module: deltatech_document_weight
 #: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_invoice_document
-msgid ""
-"<br/>\n"
-"                    <strong>Total gross weight:</strong>"
-msgstr ""
-"<br/>\n"
-"                    <strong>Greutate brută totală:</strong>"
-
-#. module: deltatech_document_weight
-#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_invoice_document
-msgid ""
-"<br/>\n"
-"                    <strong>Total volume:</strong>"
-msgstr ""
-"<br/>\n"
-"                    <strong>Volum total:</strong>"
-
-#. module: deltatech_document_weight
-#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_invoice_document
-#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_saleorder_document
-msgid ""
-"<br/>\n"
-"                    Gross weight:"
-msgstr ""
-"<br/>\n"
-"                    Greutate brută:"
-
-#. module: deltatech_document_weight
-#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_invoice_document
-#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_saleorder_document
-msgid ""
-"<br/>\n"
-"                    Volume:"
-msgstr ""
-"<br/>\n"
-"                    Volum:"
-
-#. module: deltatech_document_weight
 #: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_saleorder_document
 msgid "<strong>Total gross weight:</strong>"
 msgstr "<strong>Greutate brută totală:</strong>"
@@ -85,6 +44,7 @@ msgid "<strong>Total net weight:</strong>"
 msgstr "<strong>Greutate netă totală:</strong>"
 
 #. module: deltatech_document_weight
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_invoice_document
 #: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_saleorder_document
 msgid "<strong>Total volume:</strong>"
 msgstr "<strong>Volum total:</strong>"
@@ -92,12 +52,12 @@ msgstr "<strong>Volum total:</strong>"
 #. module: deltatech_document_weight
 #: model:ir.model,name:deltatech_document_weight.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "Companii"
 
 #. module: deltatech_document_weight
 #: model:ir.model,name:deltatech_document_weight.model_res_config_settings
 msgid "Config Settings"
-msgstr ""
+msgstr "Setări de configurare"
 
 #. module: deltatech_document_weight
 #: model:ir.model.fields,field_description:deltatech_document_weight.field_res_config_settings__document_weight_propagate_variants
@@ -106,30 +66,59 @@ msgstr "Copiază greutățile pe toate variantele"
 
 #. module: deltatech_document_weight
 #: model:ir.model.fields,field_description:deltatech_document_weight.field_account_move__display_name
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:deltatech_document_weight.field_deltatech_document_weight_mixin__display_name
 #: model:ir.model.fields,field_description:deltatech_document_weight.field_product_product__display_name
 #: model:ir.model.fields,field_description:deltatech_document_weight.field_product_template__display_name
 #: model:ir.model.fields,field_description:deltatech_document_weight.field_res_company__display_name
 #: model:ir.model.fields,field_description:deltatech_document_weight.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:deltatech_document_weight.field_sale_order__display_name
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_sale_order_line__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nume afișat"
+
+#. module: deltatech_document_weight
+#: model:ir.model.fields,help:deltatech_document_weight.field_account_move_line__document_weight_gross
+#: model:ir.model.fields,help:deltatech_document_weight.field_sale_order_line__document_weight_gross
+msgid ""
+"Estimated gross weight of the quantity on the line, in the weight unit of "
+"the database."
+msgstr "Greutatea brută estimată a cantității de pe linie, în unitatea de greutate a bazei de date."
+
+#. module: deltatech_document_weight
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_account_move_line__document_weight_gross
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_sale_order_line__document_weight_gross
+msgid "Gross weight"
+msgstr "Greutate brută"
+
+#. module: deltatech_document_weight
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_invoice_document
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_saleorder_document
+msgid "Gross weight:"
+msgstr "Greutate brută:"
 
 #. module: deltatech_document_weight
 #: model:ir.model.fields,field_description:deltatech_document_weight.field_account_move__id
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_account_move_line__id
 #: model:ir.model.fields,field_description:deltatech_document_weight.field_deltatech_document_weight_mixin__id
 #: model:ir.model.fields,field_description:deltatech_document_weight.field_product_product__id
 #: model:ir.model.fields,field_description:deltatech_document_weight.field_product_template__id
 #: model:ir.model.fields,field_description:deltatech_document_weight.field_res_company__id
 #: model:ir.model.fields,field_description:deltatech_document_weight.field_res_config_settings__id
 #: model:ir.model.fields,field_description:deltatech_document_weight.field_sale_order__id
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_sale_order_line__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: deltatech_document_weight
 #: model:ir.model,name:deltatech_document_weight.model_account_move
 msgid "Journal Entry"
-msgstr ""
+msgstr "Înregistrare jurnal"
+
+#. module: deltatech_document_weight
+#: model:ir.model,name:deltatech_document_weight.model_account_move_line
+msgid "Journal Item"
+msgstr "Element jurnal"
 
 #. module: deltatech_document_weight
 #: model:ir.model.fields,field_description:deltatech_document_weight.field_product_product__l10n_ro_net_weight
@@ -168,6 +157,27 @@ msgid "Net weight:"
 msgstr "Greutate netă:"
 
 #. module: deltatech_document_weight
+#: model:ir.model.fields,help:deltatech_document_weight.field_res_company__document_weight_gross_only
+#: model:ir.model.fields,help:deltatech_document_weight.field_res_config_settings__document_weight_gross_only
+msgid ""
+"On the printed documents show only the gross weight (per line and in total):"
+" the net weight and the volume are left out."
+msgstr "Pe documentele tipărite se afișează doar greutatea brută (pe linie și în total): greutatea netă și volumul se omit."
+
+#. module: deltatech_document_weight
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.res_config_settings_view_form_document_weight
+msgid ""
+"On the printed documents show only the gross weight, without the net weight "
+"and the volume"
+msgstr "Pe documentele tipărite se afișează doar greutatea brută, fără greutatea netă și volumul"
+
+#. module: deltatech_document_weight
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_res_company__document_weight_gross_only
+#: model:ir.model.fields,field_description:deltatech_document_weight.field_res_config_settings__document_weight_gross_only
+msgid "Only the gross weight"
+msgstr "Doar greutatea brută"
+
+#. module: deltatech_document_weight
 #: model:ir.model.fields,help:deltatech_document_weight.field_res_company__document_weight_on_invoice
 #: model:ir.model.fields,help:deltatech_document_weight.field_res_config_settings__document_weight_on_invoice
 msgid ""
@@ -190,17 +200,28 @@ msgstr ""
 #. module: deltatech_document_weight
 #: model:ir.model,name:deltatech_document_weight.model_product_template
 msgid "Product"
-msgstr ""
+msgstr "Produs"
 
 #. module: deltatech_document_weight
 #: model:ir.model,name:deltatech_document_weight.model_product_product
 msgid "Product Variant"
-msgstr ""
+msgstr "Variantă produs"
 
 #. module: deltatech_document_weight
 #: model:ir.model,name:deltatech_document_weight.model_sale_order
 msgid "Sales Order"
-msgstr ""
+msgstr "Comandă de vânzare"
+
+#. module: deltatech_document_weight
+#: model:ir.model,name:deltatech_document_weight.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Linie comandă vânzare"
+
+#. module: deltatech_document_weight
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_invoice_document
+#: model_terms:ir.ui.view,arch_db:deltatech_document_weight.report_saleorder_document
+msgid "Volume:"
+msgstr "Volum:"
 
 #. module: deltatech_document_weight
 #: model:ir.model,name:deltatech_document_weight.model_deltatech_document_weight_mixin

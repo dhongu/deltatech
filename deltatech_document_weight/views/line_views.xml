@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_order_form_document_weight" model="ir.ui.view">
+        <field name="name">sale.order.form.document.weight</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_uom_qty']" position="after">
+                <field name="document_weight_gross" optional="hide" />
+            </xpath>
+        </field>
+    </record>
+    <record id="view_move_form_document_weight" model="ir.ui.view">
+        <field name="name">account.move.form.document.weight</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_line_ids']/list/field[@name='quantity']" position="after">
+                <field
+                    name="document_weight_gross"
+                    optional="hide"
+                    column_invisible="parent.move_type not in ('out_invoice', 'out_refund')"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

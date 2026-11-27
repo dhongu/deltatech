@@ -16,7 +16,9 @@ dintr-o factură. Modulul tipărește, sub fiecare produs, greutatea netă, greu
 tabelul cu sume, totalurile documentului. Valorile sunt estimări: cantitatea liniei, convertită în unitatea
 de măsură a produsului, înmulțită cu greutatea și volumul din fișa produsului.
 
-Oferta și factura au fiecare opțiunea lor, pe companie. Separat, modulul poate copia greutatea și volumul de
+Oferta și factura au fiecare opțiunea lor, pe companie, iar o a treia opțiune lasă pe document doar greutatea brută.
+Greutatea brută a liniei se vede și în formularul ofertei, comenzii și facturii, ca coloană opțională, utilă la estimarea
+transportului înainte de tipărire. Separat, modulul poate copia greutatea și volumul de
 pe șablonul produsului pe toate variantele lui, inclusiv pe cele create la cerere (atribute dinamice).
 
 ## 2. Bază legală și context
@@ -29,7 +31,7 @@ Contextul e operațional: transportul și vama cer greutatea netă și brută, i
 
 | Rol | Ce face |
 |---|---|
-| Administrator | Pornește sau oprește tipărirea pe oferte și pe facturi, și copierea pe variante, în Setări |
+| Administrator | Pornește sau oprește tipărirea pe oferte și pe facturi, opțiunea „doar greutatea brută" și copierea pe variante, în Setări |
 | Responsabil produse | Completează masa (greutatea brută), greutatea netă și volumul pe fișa produsului |
 | Operator vânzări / facturare | Tipărește oferta sau factura și verifică valorile |
 
@@ -45,8 +47,10 @@ că linia lui rămâne fără bloc.
 2. **Vânzări → Configurare → Setări**, blocul **Greutăți pe documente** (Weights on documents):
    - **Greutăți pe oferte**: **activă implicit**; oferta și comanda de vânzare tipărite arată greutățile.
    - **Greutăți pe facturi**: **oprită implicit**; bifați-o pentru a le tipări pe factura către client.
+   - **Doar greutatea brută**: **oprită implicit**; pe documentul tipărit (ofertă, comandă, factură) apar doar greutatea
+     brută pe linie și greutatea brută totală, fără greutatea netă și volumul.
    - **Copiază greutățile pe toate variantele**: **oprită implicit**, vezi pasul 2 din flux.
-3. Primele două opțiuni se păstrează pe compania activă. A treia e valabilă pentru toată baza de date.
+3. Primele trei opțiuni se păstrează pe compania activă. Ultima e valabilă pentru toată baza de date.
 4. Unitățile afișate (kg, m³ sau lb, ft³ etc.) sunt cele din **Setări → Setări generale → Unități de măsură**
    (Masă și Volum); modulul nu le schimbă.
 5. Câmpurile de greutate de pe produs se văd în tabul **Inventar**, care apare dacă e instalată aplicația Inventar
@@ -82,23 +86,34 @@ Dacă toate atributele produsului sunt dinamice și nu există încă nicio vari
 
 ### Pasul 3 — Oferta
 
-**Vânzări → Comenzi → Oferte**, creați o ofertă cu linii de produs. Greutățile nu apar în formularul ofertei,
-ci doar în documentul tipărit: butonul **Tipăriți** (pe comanda confirmată, meniul ⚙ → **Tipăriți**) sau
+**Vânzări → Comenzi → Oferte**, creați o ofertă cu linii de produs. În formularul ofertei, greutatea brută a liniei se vede
+în coloana opțională **Greutate brută** (vezi mai jos); greutatea netă și volumul apar doar în documentul tipărit: butonul **Tipăriți** (pe comanda confirmată, meniul ⚙ → **Tipăriți**) sau
 **Trimiteți prin e-mail**. Același șablon îl folosește și **Factura pro-forma**. Sub fiecare linie de produs apar
 **Greutate netă**, **Greutate brută**, **Volum** și mențiunea **(valori estimate)**; sub sumele documentului apar
-**Greutate netă totală**, **Greutate brută totală** și **Volum total**.
+**Greutate netă totală**, **Greutate brută totală** și **Volum total**. Cu opțiunea **Doar greutatea brută** bifată,
+rămân doar **Greutate brută** pe linie și **Greutate brută totală**.
+
+**Coloana Greutate brută în formular.** În lista de linii a ofertei sau comenzii, bifați **Greutate brută** în selectorul
+de coloane opționale (iconița din dreapta antetului listei). Coloana arată greutatea brută estimată a cantității de pe
+linie, și se recalculează la schimbarea produsului, a cantității sau a unității de măsură. Antetul nu afișează unitatea:
+este cea de greutate din **Setări → Setări generale → Unități de măsură** (vezi Configurare inițială, pct. 4).
+Alegerea coloanei se păstrează în browserul folosit (pentru oricine lucrează în el) și nu schimbă ecranul de pe alte
+calculatoare; pe alt calculator sau în alt browser coloana trebuie bifată din nou, iar alegerea se poate pierde și dacă
+instalarea altui modul schimbă coloanele listei.
 
 ### Pasul 4 — Factura
 
 Cu opțiunea **Greutăți pe facturi** bifată: **Contabilitate → Clienți → Facturi** (fără Enterprise, aplicația se numește **Facturare**), deschideți factura și
 tipăriți-o din butonul **Tipăriți** din antet (factura postată) sau din ⚙ → **Tipăriți** → **Factură PDF** /
 **PDF fără plată**. Liniile și totalurile arată ca la ofertă; totalurile apar sub tabelul
-cu sume. Fără bifă, factura rămâne neschimbată.
+cu sume. Fără bifă, factura rămâne neschimbată. Coloana opțională **Greutate brută** din formularul facturii apare
+doar la facturile și notele de credit către client și nu depinde de această opțiune.
 
 ### Pasul 5 — Ce nu se tipărește
 
 O linie al cărei produs nu are nici greutate, nici volum nu primește blocul. Rândurile de secțiune și de notă
-nu intră în calcul. Dacă toate totalurile sunt 0, blocul cu totaluri lipsește.
+nu intră în calcul. Dacă toate totalurile sunt 0, blocul cu totaluri lipsește. Cu **Doar greutatea brută** bifată, linia
+unui produs fără masă (greutate brută) nu primește bloc, chiar dacă are greutate netă sau volum. La fel, blocul de totaluri lipsește dacă greutatea brută totală e 0.
 
 ### Note de monografie și raportare
 
@@ -123,6 +138,8 @@ Nu se generează note contabile și nu se modifică niciun raport contabil.
 - [ ] Pe oferta tipărită, valorile liniei = cantitatea (în unitatea produsului) × valoarea din fișa produsului.
 - [ ] La o linie în altă unitate de măsură (de exemplu 2 duzini), valoarea ține cont de conversie (24 de bucăți).
 - [ ] Totalurile de sub tabel = suma valorilor de pe linii.
+- [ ] Coloana opțională **Greutate brută** din formular = valoarea de pe documentul tipărit (cantitate × masa produsului).
+- [ ] Cu **Doar greutatea brută** bifată, documentul tipărit nu mai arată greutatea netă și volumul, nici pe linii, nici în total.
 - [ ] Linia unui produs fără greutate nu are bloc; secțiunile și notele nu intră în total.
 - [ ] Pe factură, după debifarea opțiunii, blocurile dispar.
 - [ ] La produse cu atribute dinamice și bifa pentru variante pornită, varianta nouă are aceleași valori ca cele existente.
@@ -136,6 +153,7 @@ Nu se generează note contabile și nu se modifică niciun raport contabil.
 | Pe factură nu apare nimic, deși opțiunea e bifată | Opțiunea e bifată pe altă companie | Verificați compania activă și compania facturii |
 | Valorile sunt 0 la o variantă creată la cerere | Varianta nouă nu a primit valorile | Bifați **Copiază greutățile pe toate variantele**; varianta nouă preia valorile primei variante existente, deci completați-le pe prima variantă (sau direct pe șablon, dacă nu există încă nicio variantă), din **Vânzări → Produse → Variante produs** (formularul din butonul Variante nu are Greutate netă), sau importați-le |
 | Nu găsesc tabul Inventar sau câmpurile de greutate | Inventarul nu e instalat și opțiunea **Unități de măsură și ambalaje** e inactivă, sau produsul nu e de tip Bunuri | Activați **Unități de măsură și ambalaje** (Vânzări → Configurare → Setări, blocul Catalog produse; sau Contabilitate → Configurare → Setări, blocul Unități și ambalaje; sau în setările Inventar/Achiziții) ori instalați Inventarul; setați tipul produsului la Bunuri |
+| Nu găsesc coloana Greutate brută în formular | Coloana e opțională și ascunsă implicit; pe factură apare doar la facturile către client | Bifați **Greutate brută** în selectorul de coloane al listei de linii |
 | Greutatea apare de două ori pe factură | Sunt instalate și modulul acesta, și `deltatech_invoice_weight` | Opriți opțiunea de factură sau dezinstalați modulul care nu e necesar |
 
 ## 10. Capturi de ecran
@@ -144,7 +162,7 @@ Fișa este **doar text**, fără capturi. Dacă se vor adăuga, capturile planif
 
 | # | Fișier planificat | Conținut |
 |---|---|---|
-| 1 | `01_setari_greutati.png` | Setările Vânzări, blocul Greutăți pe documente, cu cele trei opțiuni |
+| 1 | `01_setari_greutati.png` | Setările Vânzări, blocul Greutăți pe documente, cu cele patru opțiuni |
 | 2 | `02_oferta_pdf.png` | Oferta tipărită, cu greutățile sub linii și totalurile sub sume |
 | 3 | `03_factura_pdf.png` | Factura tipărită, cu aceleași blocuri |
 
@@ -154,10 +172,15 @@ Generarea lor se face cu skill-ul `fisa-screenshots` (test `tests/test_screensho
 ## 11. Observații pentru manual
 
 - Valorile sunt estimări, iar documentul o spune (**valori estimate**); nu înlocuiesc cântărirea reală.
-- Greutatea apare doar în PDF-ul tipărit (inclusiv cel descărcat din portal), nu în formularul ofertei sau al facturii și nici pe pagina ofertei din portal.
+- Greutatea netă și volumul apar doar în PDF-ul tipărit (inclusiv cel descărcat din portal), nu în formular și nici pe pagina ofertei din portal. În formular se vede doar greutatea brută a liniei, în coloana opțională.
+- Opțiunea **Doar greutatea brută** controlează doar documentul tipărit; coloana din formular arată oricum doar greutatea brută.
 - Opțiunea de factură se aplică și notelor de credit către client, care folosesc același șablon.
 - Pe factură, blocurile apar la liniile de produs afișate normal; la facturile cu liniile grupate
   sau cu compoziția restrânsă pe linie, blocul nu apare.
+- Opțiunile de tipărire se aplică PDF-urilor generate de acum înainte. La o factură deja trimisă, retrimiterea și
+  descărcarea din portal folosesc PDF-ul salvat la prima trimitere, deci debifarea unei opțiuni nu îl schimbă.
+- Coloana din formular și PDF-ul tipărit folosesc masa actuală a produsului, nu pe cea de la data documentului: la o
+  factură veche, valorile se schimbă dacă se schimbă masa produsului.
 - Opțiunea de copiere pe variante schimbă comportamentul pentru toate produsele din baza de date, nu doar pentru
   o companie.
 - Modulul conține cod Python, deci nu poate fi instalat pe Odoo Online; necesită Odoo.sh sau on-premise.
