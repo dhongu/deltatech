@@ -26,9 +26,12 @@ numele loturilor înainte de tipărire, iar machetele ZPL pentru imprimante Zebr
 ## 2. Bază legală și context
 
 - Modulul **nu are efect fiscal sau contabil**: nu creează documente contabile și nu modifică stocul.
-- Codul de bare se tipărește ca **EAN-13** când produsul are completat câmpul **Cod de bare**, altfel
-  ca **Code 128** din **Referința internă**. Codurile EAN-13 se obțin de la GS1 România; Odoo nu le
-  alocă.
+- Codul de bare se tipărește ca **EAN-13** doar când **Cod de bare** al produsului este un EAN-13
+  valid: 13 cifre, cu cifra de control corectă. Orice alt cod de bare (altă lungime, cifră de control
+  greșită, litere) se tipărește **neschimbat**, ca **Code 128**. Produsul fără cod de bare primește
+  Code 128 din **Referința internă**. Codurile EAN-13 se obțin de la GS1 România; Odoo nu le alocă.
+  Codurile interne create de firmă, care nu respectă cifra de control, rămân valabile: se tipăresc și
+  se scanează exact cum sunt în Odoo.
 - Pentru produsele urmărite pe loturi (de exemplu alimente), eticheta cu lotul ajută la
   **trasabilitate** (pentru alimente, cerută de Regulamentul (CE) nr. 178/2002, art. 18). Modulul
   doar tipărește lotul; evidența loturilor rămâne în modulul **Inventar**.
@@ -78,8 +81,9 @@ Modulul **nu generează note contabile** și nu atinge conturi. Date minime pent
    cele patru machete implicite (secțiunea 6, pasul 3); nu e nevoie de altă setare.
 2. Pentru etichetele cu lot, bifați **Loturi și numere de serie** în **Inventar → Configurare →
    Setări** și alegeți pe produs **Urmărire** = **După loturi**.
-3. Completați pe produse **Cod de bare** (EAN-13) sau măcar **Referința internă**: fără niciunul din
-   ele eticheta iese fără cod de bare.
+3. Completați pe produse **Cod de bare** sau măcar **Referința internă**: fără niciunul din ele
+   eticheta iese fără cod de bare. Un EAN-13 valid se tipărește ca EAN-13; orice alt cod de bare (de
+   exemplu un cod intern) se tipărește exact cum e scris, ca Code 128.
 4. Opțional: dacă vreți ca butonul standard **Tipărire Etichete** al produsului să deschidă asistentul
    Odoo în locul celui din modul, setați parametrul de sistem `terrabit_labels.override_print_button`
    (secțiunea 6, pasul 10).
@@ -268,7 +272,8 @@ recepție (la evidența în timp real) apar, ca de obicei, la **Validare**, din 
 | Labelary (`api.labelary.com`, serviciu extern) | transformă ZPL în PDF pentru **Previzualizare** |
 
 Ce este automat: cantitatea de etichete propusă din document, adunarea liniilor de comandă pe
-produs, alegerea codului de bare (EAN-13 sau Code 128), macheta propusă (ultima tipărită de
+produs, alegerea codului de bare (EAN-13 pentru un EAN-13 valid, altfel Code 128 cu codul de bare
+neschimbat sau, fără cod de bare, cu referința internă), macheta propusă (ultima tipărită de
 utilizator), numele loturilor la recepție, dimensiunea etichetei ZPL din numele raportului.
 
 Ce rămâne manual: corectarea **Nr. etich.**, alegerea machetei, setarea imprimantei pe formatul de
@@ -284,6 +289,9 @@ hârtie al machetei, crearea machetelor ZPL de client și validarea recepției.
 - [ ] Coala A4 3x8 are 24 de etichete pe pagină; 3 etichete pentru cană și 2 pentru termos ocupă
       primele 5 poziții.
 - [ ] Machetele 40x25 și 100x50 tipăresc câte o etichetă pe pagină, la dimensiunea rolei.
+- [ ] Cana (5940000001018, EAN-13 valid) iese pe etichetă în EAN-13. Un produs cu un cod intern care nu
+      e EAN-13 valid (ex. 5555500000372) iese în Code 128, cu exact același cod (nu 5555500000371), iar
+      un cod de bare cu litere se tipărește fără eroare, tot în Code 128.
 - [ ] Pe etichetă, prețul cănii este 47,19 lei (39,00 + TVA 21%); cu o listă de prețuri aleasă,
       prețul din listă plus TVA.
 - [ ] Din comanda de vânzare, cana apare o singură dată, cu 16 etichete (10 + 6).
@@ -303,7 +311,7 @@ hârtie al machetei, crearea machetelor ZPL de client și validarea recepției.
 | „Previzualizarea este disponibilă doar pentru machetele ZPL (text).” | **Format** este o machetă PDF | Machetele PDF se verifică direct cu **Tipărește** |
 | „Serviciul de previzualizare a etichetelor nu este disponibil: …” | Serverul Odoo nu ajunge la `api.labelary.com` (fără internet, firewall) | Verificați accesul la internet al serverului sau tipăriți o etichetă de probă |
 | „Previzualizarea etichetelor a eșuat: …” | Labelary a refuzat textul ZPL (machetă greșită) sau dimensiunea | Corectați macheta ZPL; verificați lățimea, înălțimea și rezoluția din pasul 8 |
-| Eroare de server la **Tipărește**, cu „Ean13BarcodeWidget” în detalii | **Cod de bare** al produsului conține litere sau alte caractere decât cifre | Corectați codul de bare (EAN-13 are doar cifre) sau goliți-l: se tipărește atunci Code 128 din referința internă |
+| Scanerul citește alt cod decât cel din produs (uneori al altui produs), pe o etichetă tipărită cu o versiune a modulului anterioară 19.0.1.3.5 | Codul intern avea cifra de control greșită și era tipărit ca EAN-13, care recalculează ultima cifră | Retipăriți eticheta: codul se tipărește acum exact cum e în Odoo, ca Code 128 |
 | Eticheta iese fără cod de bare | Produsul nu are nici **Cod de bare**, nici **Referință internă** | Completați unul dintre ele |
 | Etichetele se decalează de la o pagină la alta | Imprimanta are alt format de hârtie decât macheta (ex. A4 în loc de rola de 40×25) | Setați în driverul imprimantei formatul machetei; la coli, dezactivați scalarea „potrivire în pagină” |
 | Eroare la deschiderea asistentului din produs după setarea parametrului | Valoarea parametrului `terrabit_labels.override_print_button` este scrisă cu literă mică (`false`, `true`): se citește ca expresie Python | Scrieți exact `False` sau `True` |
