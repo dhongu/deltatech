@@ -4,7 +4,7 @@
 {
     "name": "FontAwesome Widget",
     "summary": "Field widget that shows the Font Awesome icon stored in a field",
-    "version": "19.0.1.0.4",
+    "version": "19.0.1.0.5",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "license": "OPL-1",
@@ -19,6 +19,9 @@
         "web.assets_backend": [
             "deltatech_widget_fontawesome/static/src/js/field_fontawesome.esm.js",
             "deltatech_widget_fontawesome/static/src/js/field_fontawesome.xml",
+        ],
+        "web.assets_unit_tests": [
+            "deltatech_widget_fontawesome/static/tests/**/*",
         ],
     },
     "images": ["static/description/main_screenshot.png"],

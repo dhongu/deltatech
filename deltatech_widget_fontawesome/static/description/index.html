@@ -32,6 +32,11 @@
        style="padding:10px 22px;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</a>
@@ -54,12 +59,68 @@ modules and for view customisations.</p>
 <ul>
 <li>The widget only displays the icon. It has no picker and no input box, so the value
   is set by code, by import or with another widget in a different view.</li>
-<li>The field must not be empty: the tooltip is built from the stored value, and an
-  empty value raises a JavaScript error in the view.</li>
+<li>An empty field shows nothing: no icon and no tooltip.</li>
 </ul>
+</div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</span></div>
+<p>The module adds no menu. Add the widget to a <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">char</code>, <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">text</code> or <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">selection</code> field that stores a
+Font Awesome class name:</p>
+<pre class="border rounded-3 p-3 my-3" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;"><code class="language-xml">&lt;field name=&quot;icon&quot; widget=&quot;fontawesome&quot;/&gt;
+</code></pre>
+<p>The examples below put the widget on the <strong>Icon</strong> field of the activity types, in developer mode:
+<strong>Settings &#8594; Technical &#8594; Activities &#8594; Activity Types</strong>.</p>
+<ol>
+<li><strong>Icons in a list.</strong> The <strong>Icon</strong> column shows the icon of each activity type instead of its class
+   name. A record with no value has an empty cell.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Activity Types list with six types: the highlighted Icon column shows a check mark for To-Do, an envelope for Email and a phone for Call, while the Customer visit row has an empty cell" src="en/01_lista_tipuri_pictograme.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Activity Types list with six types: the highlighted Icon column shows a check mark for To-Do, an envelope for Email and a phone for Call, while the Customer visit row has an empty cell</span>
+  </div>
+</div>
+<ol start="2">
+<li><strong>Icon in a form.</strong> On the <strong>Call</strong> activity type, the <strong>Icon</strong> field shows the phone icon instead
+   of the text <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">fa-phone</code>. Hovering the icon shows the class name as tooltip. The widget only displays
+   the value: the field cannot be edited in a view that uses it.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Call activity type form with the Phonecall action: the Icon label is highlighted and the phone icon is shown next to it instead of the text fa-phone" src="en/02_formular_pictograma.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">2</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Call activity type form with the Phonecall action: the Icon label is highlighted and the phone icon is shown next to it instead of the text fa-phone</span>
+  </div>
+</div>
+<ol start="3">
+<li><strong>Empty field.</strong> A record with no icon, such as <strong>Customer visit</strong>, opens normally and the field
+   stays empty, with no icon and no tooltip.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Customer visit activity type form with the None action: the Icon label is highlighted, the field next to it is empty and the form is displayed without any error" src="en/03_formular_fara_pictograma.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">3</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Customer visit activity type form with the None action: the Icon label is highlighted, the field next to it is empty and the form is displayed without any error</span>
+  </div>
+</div>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.5 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-27)</span></h2>
+<ul>
+<li>An empty field no longer raises a JavaScript error: the widget shows no icon and no
+  tooltip (<a href="https://github.com/dhongu/deltatech/issues/3511">#3511</a>).</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.4 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-14)</span></h2>
 <ul>
 <li>Apps Store banner: the "Odoo Online" badge shows that the module has no Python code and installs on

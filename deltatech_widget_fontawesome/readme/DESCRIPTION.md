@@ -18,5 +18,4 @@ modules and for view customisations.
 
 - The widget only displays the icon. It has no picker and no input box, so the value
   is set by code, by import or with another widget in a different view.
-- The field must not be empty: the tooltip is built from the stored value, and an
-  empty value raises a JavaScript error in the view.
+- An empty field shows nothing: no icon and no tooltip.

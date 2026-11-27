@@ -4,15 +4,16 @@ import {registry} from "@web/core/registry";
 import {standardFieldProps} from "@web/views/fields/standard_field_props";
 
 export class FieldFontAwesome extends Component {
+    get value() {
+        // Unset fields are `false` in Odoo; normalize to a string.
+        return this.props.record.data[this.props.name] || "";
+    }
     get icon() {
-        // Return this.props.icons[this.props.record.data[this.props.name]];
-        return "fa " + this.props.record.data[this.props.name];
+        return this.value ? `fa ${this.value}` : "";
     }
     get title() {
-        return (
-            this.props.record.data[this.props.name].charAt(0).toUpperCase() +
-            this.props.record.data[this.props.name].slice(1)
-        );
+        const value = this.value;
+        return value ? value.charAt(0).toUpperCase() + value.slice(1) : "";
     }
 }
 
