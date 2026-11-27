@@ -3,6 +3,7 @@
 
 
 from odoo import api, fields, models
+from odoo.exceptions import UserError
 
 
 class SaleOrder(models.Model):
@@ -19,10 +20,10 @@ class SaleOrder(models.Model):
     def action_view_mrp(self):
         self.ensure_one()
         mrps = self.env["mrp.simple"].search([("sale_order_id", "=", self.id)], limit=1)
-        if mrps:
-            mrp_id = mrps[0].id
+        if not mrps:
+            raise UserError(self.env._("There is no simple production linked to this sale order."))
         return {
-            "res_id": mrp_id,
+            "res_id": mrps.id,
             "target": "current",
             "name": self.env._("Simple production"),
             "view_type": "form",

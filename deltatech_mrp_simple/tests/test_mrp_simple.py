@@ -310,3 +310,9 @@ class TestMRPSimple(TransactionCase):
         # the consume move is valued at the cost per dozen
         mrp.do_transfer()
         self.assertAlmostEqual(mrp.consume_id.move_ids.price_unit, 120.0)
+
+    def test_view_mrp_without_simple_production(self):
+        """SIMPLE-007: no UnboundLocalError when the production no longer exists."""
+        order = self.env["sale.order"].create({"partner_id": self.partner_a.id})
+        with self.assertRaises(UserError):
+            order.action_view_mrp()

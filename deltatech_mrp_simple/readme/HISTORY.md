@@ -1,3 +1,10 @@
+## 19.0.1.1.7 (2026-11-27)
+
+- Fixed SIMPLE-007: the production button on the sale order raised an
+  UnboundLocalError when the simple production linked to the order had been
+  deleted but its transfers were still linked. A clear error message is shown
+  instead.
+
 ## 19.0.1.1.6 (2026-11-20)
 
 - Fixed SIMPLE-004: for lines in a unit other than the product unit, the quantity
