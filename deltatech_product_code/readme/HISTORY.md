@@ -1,3 +1,7 @@
+# 20.0.1.2.3 (2026-11-27)
+
+- Fix: a code already used no longer moves the category sequence to the highest code found in the whole table. An old archived code or a hand-typed one far above the counter (e.g. CP3000023 next to CP08xxxx) made the sequence jump to 3000024. The sequence now skips only the codes that are taken; if more than 1000 consecutive codes are taken (large import), the counter moves past the highest code within the next 100000 numbers, and an error is raised if no free code is found.
+
 # 20.0.1.2.2 (2026-11-12)
 
 - Fix: an empty-string Internal Reference (from imports or API calls) is now treated like an empty one, so the code is generated from the category sequence instead of leaving the reference empty and giving a random barcode.

@@ -140,3 +140,13 @@ msgstr ""
 #: model:ir.model.fields,help:deltatech_product_code.field_product_category__prefix_barcode
 msgid "Prefixes 20-29 are reserved by GS1 for internal use; 40-44 belong to GS1 Germany."
 msgstr "Prefixele 20-29 sunt rezervate de GS1 pentru uz intern; 40-44 aparțin GS1 Germania."
+
+#. module: deltatech_product_code
+#. odoo-python
+#: code:addons/deltatech_product_code/models/product.py:0
+msgid ""
+"No free code found in the sequence %(sequence)s after the code %(code)s. "
+"Check the next number of the sequence."
+msgstr ""
+"Nu s-a găsit niciun cod liber în secvența %(sequence)s după codul %(code)s. "
+"Verificați următorul număr al secvenței."
