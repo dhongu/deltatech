@@ -5,7 +5,7 @@
 {
     "name": "Import Lines in Transfers and Inventory",
     "summary": "Load transfer moves and inventory counts from an XLSX, XLS, CSV or TXT file",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Inventory/Inventory",

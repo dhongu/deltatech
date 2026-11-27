@@ -48,7 +48,7 @@ class StockPicking(models.Model):
         if not lot_name:
             return False
         product = row["product"]
-        if product.tracking == "none":
+        if not product.tracking:
             return "lot_error", self.env._("%s is not tracked by lot or serial number.", product.display_name)
         if product.tracking == "serial" and row["quantity"] != 1:
             return "lot_error", self.env._("The quantity of serial number %s must be 1.", lot_name)
@@ -63,7 +63,7 @@ class StockPicking(models.Model):
         vals = {
             "product_id": product.id,
             "product_uom_qty": row["quantity"],
-            "product_uom": (row["uom"] or product.uom_id).id,
+            "uom_id": (row["uom"] or product.uom_id).id,
             "location_id": self.location_id.id,
             "location_dest_id": self.location_dest_id.id,
         }
