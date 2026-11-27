@@ -121,6 +121,7 @@ Modulul nu generează note contabile și nu apare în declarații.
 - [ ] Un produs cu referință scrisă de mână o păstrează, iar codul de bare nu se generează.
 - [ ] Al doilea produs primește numărul următor din secvență, nu același cod.
 - [ ] Salvarea a două produse active cu aceeași referință, în aceeași companie, este refuzată.
+- [ ] Cu un cod arhivat mult peste secvență (ex. `TEST/9000`) și un cod deja folosit (ex. `TEST/0001`), produsul nou primește `TEST/0002`: secvența nu sare la codul mare.
 - [ ] Un produs creat rapid din linia de comandă (doar numele) rămâne fără cod: confirmați cu utilizatorii.
 
 ## 9. Mesaje de eroare frecvente
@@ -130,6 +131,21 @@ Modulul nu generează note contabile și nu apare în declarații.
 | Referința internă 'X' există deja la produsul 'Y'! | alt produs activ, din aceeași companie sau partajat, are aceeași referință | schimbați referința sau arhivați produsul vechi |
 | Prefixul de companie GS1 trebuie să aibă între 6 și 11 cifre. | prefix GS1 scris greșit pe categorie | corectați prefixul primit de la GS1 |
 | Toate codurile GTIN ale prefixului de companie GS1 … sunt folosite. Solicitați un prefix nou la GS1. | plaja prefixului s-a epuizat | cereți un prefix nou de la GS1 |
+| Nu s-a găsit niciun cod liber în secvența … după codul … | peste 1000 de coduri consecutive ocupate și niciun cod liber în următoarele 100 000 de numere | verificați „Următorul număr” al secvenței și codurile existente; mutați secvența peste bloc |
+
+### Secvența a sărit sau propune coduri ocupate
+
+Secvența de pe categorie nu știe de codurile create pe altă cale: import de catalog, coduri scrise de mână, produse arhivate. De aceea poate propune un cod care există deja pe un produs. Modulul procedează astfel:
+
+1. La crearea produsului cere următorul număr din secvență.
+2. Dacă acel cod există deja pe un produs, activ sau arhivat, din orice companie, trece la numărul următor și repetă. Sare doar peste codurile ocupate, nu peste cele libere.
+3. Primul cod liber se pune pe produs, iar secvența continuă de acolo.
+
+Exemplu: secvența este la `CP089485`, iar `CP089485` și `CP089486` există deja. Produsul nou primește `CP089487`, iar următorul va fi `CP089488`.
+
+Un cod izolat, mult mai mare decât secvența, nu mută contorul. Exemplu: un produs arhivat cu codul `CP3000023`, într-o secvență aflată la `CP089485`, nu o duce la `CP3000024`. Contorul se mută peste un cod mare doar dacă mai mult de 1000 de coduri consecutive sunt ocupate (de exemplu după un import mare), și atunci doar în următoarele 100 000 de numere. Dacă nici așa nu se găsește un cod liber, salvarea este refuzată cu mesajul din tabel.
+
+Dacă secvența a sărit totuși (versiunile anterioare 19.0.1.2.3 mutau contorul după cel mai mare cod din tot catalogul), verificați **Următorul număr** în **Setări → Tehnic → Secvențe** și corectați-l la primul număr liber după ultimul cod normal.
 
 ## 10. Capturi de ecran
 
@@ -151,6 +167,7 @@ defensiv), în RO, pe „RO Company”. Regenerare:
 - Referința scrisă de mână nu declanșează generarea codului de bare.
 - Dacă codul de bare calculat din referință există deja pe alt produs, câmpul rămâne gol, fără mesaj.
 - La importuri, o referință goală (inclusiv șir gol) primește cod din secvență.
+- Codurile produselor arhivate se consideră ocupate: un cod arhivat nu se reutilizează la generare.
 
 ---
 

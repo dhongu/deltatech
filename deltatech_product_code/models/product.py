@@ -11,6 +11,11 @@ from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools import SQL
 
+# cate coduri ocupate se sar pe rand, inainte de a muta secventa
+CODE_SKIP_LIMIT = 1000
+# cat de departe de numarul curent cauta rezerva codul cel mai mare
+CODE_SYNC_WINDOW = 100000
+
 
 class ProductCategory(models.Model):
     _inherit = "product.category"
@@ -122,31 +127,50 @@ class ProductTemplate(models.Model):
 
     @api.model
     def _sync_code_sequence(self, sequence):
-        """Muta secventa peste cel mai mare numar deja folosit cu prefixul/sufixul ei.
+        """Rezerva pentru un bloc mare de coduri consecutive deja folosite.
 
-        Contorul secventei nu stie de codurile create pe alte cai (importuri de catalog,
-        renumerotari, coduri scrise manual), asa ca poate propune coduri deja folosite.
+        Muta secventa peste cel mai mare numar folosit cu prefixul/sufixul ei, dar doar in
+        fereastra [urmatorul, urmatorul + CODE_SYNC_WINDOW): un cod izolat, mult mai mare (import
+        vechi, cod scris de mana, produs arhivat), nu trebuie sa duca contorul dupa el.
         """
         if sequence.use_date_range:
             return
         prefix, suffix = sequence._get_prefix_suffix()
         pattern = "^" + re.escape(prefix) + "([0-9]{1,18})" + re.escape(suffix) + "$"
+        current = sequence.number_next_actual
         query = SQL(
-            "SELECT max(substring(default_code FROM %s)::bigint) FROM product_product WHERE default_code ~ %s",
-            pattern,
-            pattern,
+            """SELECT max(number) FROM (
+                   SELECT substring(default_code FROM %(pattern)s)::bigint AS number
+                     FROM product_product WHERE default_code ~ %(pattern)s
+               ) codes WHERE number >= %(low)s AND number < %(high)s""",
+            pattern=pattern,
+            low=current,
+            high=current + CODE_SYNC_WINDOW,
         )
         self.env.cr.execute(query)
         max_number = self.env.cr.fetchone()[0] or 0
-        if max_number >= sequence.number_next_actual:
+        if max_number >= current:
             sequence.sudo().write({"number_next_actual": max_number + 1})
 
     @api.model
     def _get_free_code(self, sequence):
+        """Urmatorul cod liber al secventei: sare doar peste codurile ocupate, nu peste cel mai mare."""
+        for _attempt in range(CODE_SKIP_LIMIT):
+            code = sequence.next_by_id()
+            if not code or not self._is_code_used(code):
+                return code
+        # bloc lung de coduri consecutive ocupate (de ex. dupa un import): se muta secventa in fereastra
+        self._sync_code_sequence(sequence)
         code = sequence.next_by_id()
         if code and self._is_code_used(code):
-            self._sync_code_sequence(sequence)
-            code = sequence.next_by_id()
+            raise UserError(
+                self.env._(
+                    "No free code found in the sequence %(sequence)s after the code %(code)s. "
+                    "Check the next number of the sequence.",
+                    sequence=sequence.display_name,
+                    code=code,
+                )
+            )
         return code
 
     @api.model
