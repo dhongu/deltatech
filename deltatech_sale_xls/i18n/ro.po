@@ -1,13 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* deltatech_purchase_xls
+# 	* deltatech_sale_xls
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0+e\n"
+"Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-23 09:51+0000\n"
-"PO-Revision-Date: 2024-05-23 09:51+0000\n"
+"POT-Creation-Date: 2026-11-27 13:09+0000\n"
+"PO-Revision-Date: 2026-11-27 13:09+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,215 +15,82 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: deltatech_purchase_xls
-#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_export_purchase_line_form
-msgid "Apply"
-msgstr "Aplica"
+#. module: deltatech_sale_xls
+#: model_terms:ir.ui.view,arch_db:deltatech_sale_xls.sale_order_form
+msgid "<span>Order lines</span>"
+msgstr "<span>Linii comandă</span>"
 
-#. module: deltatech_purchase_xls
-#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_export_purchase_line_form
-#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_import_purchase_line_form
-msgid "Cancel"
-msgstr "Anuleaza"
-
-#. module: deltatech_purchase_xls
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__new_product
-msgid "Create missing product"
-msgstr "Creare produs lipsa"
-
-#. module: deltatech_purchase_xls
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_export_purchase_line__create_uid
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__create_uid
-msgid "Created by"
-msgstr "Creat de"
-
-#. module: deltatech_purchase_xls
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_export_purchase_line__create_date
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__create_date
-msgid "Created on"
-msgstr "Creat pe"
-
-#. module: deltatech_purchase_xls
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_export_purchase_line__display_name
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__display_name
+#. module: deltatech_sale_xls
+#: model:ir.model.fields,field_description:deltatech_sale_xls.field_sale_order__display_name
+#: model:ir.model.fields,field_description:deltatech_sale_xls.field_sale_order_line__display_name
 msgid "Display Name"
-msgstr "Nume afisat"
+msgstr "Nume afișat"
 
-#. module: deltatech_purchase_xls
-#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_export_purchase_line_form
-msgid "Exit"
-msgstr ""
-
-#. module: deltatech_purchase_xls
-#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_export_purchase_line_form
-msgid "Export Complete"
-msgstr "Export complet"
-
-#. module: deltatech_purchase_xls
-#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_export_purchase_line_form
-msgid "Export Purchase Line"
-msgstr "Export linie achizitie"
-
-#. module: deltatech_purchase_xls
-#: model:ir.actions.act_window,name:deltatech_purchase_xls.action_working_days_export
-#: model:ir.model,name:deltatech_purchase_xls.model_export_purchase_line
-msgid "Export Purchase Lines"
-msgstr "Export linii achizitie"
-
-#. module: deltatech_purchase_xls
-#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_export_purchase_line_form
-msgid "Export selected purchase order lines"
-msgstr "Exporta liniile selectate din comanda de achizitie"
-
-#. module: deltatech_purchase_xls
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__fields_list
-msgid "Fields"
-msgstr "Campuri"
-
-#. module: deltatech_purchase_xls
-#: model:ir.model.fields,help:deltatech_purchase_xls.field_import_purchase_line__fields_list
-msgid ""
-"Fields and order in the file. Example: "
-"\"product_code,product_name,quantity,price,uom_name\""
-msgstr ""
-"Campuri si ordinea lor in fisier. Exemplu: "
-"\"product_code,product_name,quantity,price,uom_name\""
-
-#. module: deltatech_purchase_xls
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_export_purchase_line__data_file
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__data_file
-msgid "File"
-msgstr ""
-
-#. module: deltatech_purchase_xls
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_export_purchase_line__name
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__filename
-msgid "File Name"
-msgstr "Nume fisier"
-
-#. module: deltatech_purchase_xls
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__has_header
-msgid "Header row"
-msgstr "Rand antet"
-
-#. module: deltatech_purchase_xls
-#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_export_purchase_line_form
-msgid "Here is the exported file:"
-msgstr "Iata fisierul exportat:"
-
-#. module: deltatech_purchase_xls
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_export_purchase_line__id
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__id
+#. module: deltatech_sale_xls
+#: model:ir.model.fields,field_description:deltatech_sale_xls.field_sale_order__id
+#: model:ir.model.fields,field_description:deltatech_sale_xls.field_sale_order_line__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
-#. module: deltatech_purchase_xls
-#: model:ir.actions.act_window,name:deltatech_purchase_xls.action_import_purchase_line
-msgid "Import Purchase Line"
-msgstr "Import linie achizitie"
-
-#. module: deltatech_purchase_xls
-#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_import_purchase_line_form
-msgid "Import Purchase Lines"
-msgstr "Import linii achizitie"
-
-#. module: deltatech_purchase_xls
-#: model:ir.model,name:deltatech_purchase_xls.model_import_purchase_line
-msgid "Import purchase line"
-msgstr "Import linie achizitie"
-
-#. module: deltatech_purchase_xls
+#. module: deltatech_sale_xls
 #. odoo-python
-#: code:addons/deltatech_purchase_xls/wizard/import_purchase_line.py:0
-#, python-format
-msgid "Invalid file format"
-msgstr "Invalid format fisier"
-
-#. module: deltatech_purchase_xls
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__is_amount
-msgid "Is amount"
-msgstr ""
-
-#. module: deltatech_purchase_xls
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_export_purchase_line____last_update
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line____last_update
-msgid "Last Modified on"
-msgstr ""
-
-#. module: deltatech_purchase_xls
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_export_purchase_line__write_uid
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__write_uid
-msgid "Last Updated by"
-msgstr ""
-
-#. module: deltatech_purchase_xls
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_export_purchase_line__write_date
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__write_date
-msgid "Last Updated on"
-msgstr ""
-
-#. module: deltatech_purchase_xls
-#. odoo-python
-#: code:addons/deltatech_purchase_xls/wizard/import_purchase_line.py:0
-#, python-format
-msgid "Product %s does not have UOM %s"
-msgstr "Produsul %s nu are UM %s"
-
-#. module: deltatech_purchase_xls
-#. odoo-python
-#: code:addons/deltatech_purchase_xls/wizard/import_purchase_line.py:0
-#, python-format
-msgid "Product %s not found"
-msgstr "Produsul %s nu a fost gasit"
-
-#. module: deltatech_purchase_xls
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__purchase_id
-msgid "Purchase"
-msgstr "Achizitie"
-
-#. module: deltatech_purchase_xls
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_import_purchase_line__search_by_default_code
-msgid "Search by internal code"
-msgstr "Cauta dupa cod intern"
-
-#. module: deltatech_purchase_xls
-#: model:ir.model.fields,field_description:deltatech_purchase_xls.field_export_purchase_line__state
-msgid "State"
-msgstr "Stare"
-
-#. module: deltatech_purchase_xls
-#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_import_purchase_line_form
+#: code:addons/deltatech_sale_xls/models/sale_order.py:0
 msgid ""
-"The Excel file must contain the following columns:\n"
-"                        product_code, product_name, quantity, price, uom_name"
+"Line %(line)s of order %(order)s is on several rows of the file. Each line "
+"can be updated by one row only: add the new line in the order first."
 msgstr ""
-"Fisierul Excel trebuie sa contina urmatoarele coloane:\n"
-"                        product_code, product_name, quantity, price, uom_name"
+"Linia %(line)s a comenzii %(order)s apare pe mai multe rânduri din fișier. "
+"Fiecare linie poate fi actualizată de un singur rând: adăugați întâi linia "
+"nouă în comandă."
 
-#. module: deltatech_purchase_xls
+#. module: deltatech_sale_xls
 #. odoo-python
-#: code:addons/deltatech_purchase_xls/wizard/import_purchase_line.py:0
-#, python-format
-msgid "The order is in the %s state"
-msgstr "Comanda este in starea %s"
+#: code:addons/deltatech_sale_xls/models/sale_order.py:0
+msgid "Order Lines"
+msgstr "Linii comandă"
 
-#. module: deltatech_purchase_xls
-#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_import_purchase_line_form
-msgid "_Apply"
-msgstr "Aplica"
-
-#. module: deltatech_purchase_xls
-#: model:ir.model.fields.selection,name:deltatech_purchase_xls.selection__export_purchase_line__state__choose
-msgid "choose"
+#. module: deltatech_sale_xls
+#. odoo-python
+#: code:addons/deltatech_sale_xls/models/sale_order.py:0
+msgid ""
+"Product %(product)s is on %(count)s lines of order %(order)s, so the row "
+"cannot be matched to a single line. Add the External ID column (export the "
+"lines with it) or the Description column to identify the line."
 msgstr ""
+"Produsul %(product)s este pe %(count)s linii ale comenzii %(order)s, deci "
+"rândul nu poate fi potrivit cu o singură linie. Adăugați coloana ID extern "
+"(exportați liniile cu ea) sau coloana Descriere ca să identificați linia."
 
-#. module: deltatech_purchase_xls
-#: model:ir.model.fields.selection,name:deltatech_purchase_xls.selection__export_purchase_line__state__get
-msgid "get"
-msgstr ""
+#. module: deltatech_sale_xls
+#: model:ir.model,name:deltatech_sale_xls.model_sale_order
+msgid "Sales Order"
+msgstr "Comandă de vânzare"
 
-#. module: deltatech_purchase_xls
-#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_export_purchase_line_form
-#: model_terms:ir.ui.view,arch_db:deltatech_purchase_xls.view_import_purchase_line_form
-msgid "or"
+#. module: deltatech_sale_xls
+#: model:ir.model,name:deltatech_sale_xls.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Linie comandă vânzare"
+
+#. module: deltatech_sale_xls
+#. odoo-python
+#: code:addons/deltatech_sale_xls/models/sale_order.py:0
+msgid ""
+"The ID of this row is not a line of order %(order)s: the line was deleted "
+"after the export, or the file belongs to another order. Remove the row, or "
+"clear its ID to match it by product."
 msgstr ""
+"ID-ul acestui rând nu este o linie a comenzii %(order)s: linia a fost "
+"ștearsă după export sau fișierul este al altei comenzi. Ștergeți rândul sau "
+"goliți-i ID-ul ca să fie potrivit după produs."
+
+#. module: deltatech_sale_xls
+#. odoo-python
+#: code:addons/deltatech_sale_xls/models/sale_order.py:0
+msgid ""
+"The file has more rows for product %(product)s than the %(count)s line(s) of"
+" order %(order)s that have it. Add the External ID column (export the lines "
+"with it) to identify the line of each row."
+msgstr ""
+"Fișierul are mai multe rânduri pentru produsul %(product)s decât cele "
+"%(count)s linii ale comenzii %(order)s care îl au. Adăugați coloana ID "
+"extern (exportați liniile cu ea) ca să identificați linia fiecărui rând."

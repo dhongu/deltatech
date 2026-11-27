@@ -3,7 +3,7 @@ salesperson export the lines of a sales order to Excel and import them back into
 with the standard Odoo export and import tools.
 
 **Order lines button**: the **Order lines** smart button on the sales order opens the list of its
-lines (**Sale Order Lines**: order, product, quantity, unit price). From this list the lines are
+lines (**Order Lines**: order, product, description, quantity, unit price). From this list the lines are
 exported with the standard **Export**, and a file is loaded with **Import records**; the imported
 lines go into this order.
 
@@ -14,7 +14,13 @@ line of the order.
 line with the same product (quantity, price and the other imported columns). The product is
 recognized by the internal reference between square brackets (`[CODE] Name`, as in the export) or,
 failing that, by its exact name. Rows with a product that is not found or is not on the order are
-skipped.
+skipped. A row that has the **ID** (or **External ID**) column filled in updates exactly that line,
+and two rows with the same ID are an error, as is an ID that is not a line of this order (a line
+deleted after the export, or the file of another order).
+When the product is on several lines, the **Description** column picks the line; if the row still
+matches several lines, or the file has more rows for a product than the order has lines, the import
+stops with an error on that row instead of updating an arbitrary line. The lines named by an ID are
+taken first, so each line of the order is updated by one row at most.
 
 **Price formula hook**: the `use_specific_price_formula` method is called on the imported unit
 prices of a new order, so a customer-specific module can apply its own price rule.
@@ -23,6 +29,7 @@ prices of a new order, so a customer-specific module can apply its own price rul
 
 - When the order already has lines, a row for a new product is skipped without a message; it cannot
   add a line.
-- If the order has two lines with the same product, the import of that product fails.
-- Without the **Order lines** button, the order is read from the **Order Reference** column only
-  when it holds the database id of the order, not its number.
+- If the order has two lines with the same product and the same description, the file must have the
+  **ID** column (export the lines with it) to update them.
+- Without the **Order lines** button, the order is read from the first row of the **Order
+  Reference** column, by its reference (`S00039`) or its database id.

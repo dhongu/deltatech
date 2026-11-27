@@ -3,3 +3,4 @@
 # See README.rst file on addons root folder for license details
 
 from . import test_sale_xls
+from . import test_screenshots
