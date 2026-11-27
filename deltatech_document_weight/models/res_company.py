@@ -15,3 +15,8 @@ class ResCompany(models.Model):
         help="Print the net weight, the gross weight and the volume under each product and in total on "
         "the customer invoice.",
     )
+    document_weight_gross_only = fields.Boolean(
+        string="Only the gross weight",
+        help="On the printed documents show only the gross weight (per line and in total): "
+        "the net weight and the volume are left out.",
+    )
