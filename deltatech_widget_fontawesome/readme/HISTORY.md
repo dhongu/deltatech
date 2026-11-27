@@ -1,3 +1,8 @@
+## 19.0.1.0.5 (2026-11-27)
+
+- An empty field no longer raises a JavaScript error: the widget shows no icon and no
+  tooltip ([#3511](https://github.com/dhongu/deltatech/issues/3511)).
+
 ## 19.0.1.0.4 (2026-11-14)
 
 - Apps Store banner: the "Odoo Online" badge shows that the module has no Python code and installs on

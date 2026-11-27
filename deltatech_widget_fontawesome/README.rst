@@ -16,8 +16,11 @@ FontAwesome Widget
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_widget_fontawesome
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_widget_fontawesome/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 
-|badge1| |badge2|
+|badge1| |badge2| |badge_fisa|
 
 Odoo stores Font Awesome icons as plain class names (for example
 ``fa-truck``), and a form view shows them as raw text. This module adds
@@ -43,16 +46,71 @@ Limitations
 - The widget only displays the icon. It has no picker and no input box,
   so the value is set by code, by import or with another widget in a
   different view.
-- The field must not be empty: the tooltip is built from the stored
-  value, and an empty value raises a JavaScript error in the view.
+- An empty field shows nothing: no icon and no tooltip.
 
 **Table of contents**
 
 .. contents::
    :local:
 
+Usage
+=====
+
+The module adds no menu. Add the widget to a ``char``, ``text`` or
+``selection`` field that stores a Font Awesome class name:
+
+.. code:: xml
+
+   <field name="icon" widget="fontawesome"/>
+
+The examples below put the widget on the **Icon** field of the activity
+types, in developer mode: **Settings → Technical → Activities → Activity
+Types**.
+
+1. **Icons in a list.** The **Icon** column shows the icon of each
+   activity type instead of its class name. A record with no value has
+   an empty cell.
+
+   |Activity Types list with six types: the highlighted Icon column
+   shows a check mark for To-Do, an envelope for Email and a phone for
+   Call, while the Customer visit row has an empty cell|
+
+2. **Icon in a form.** On the **Call** activity type, the **Icon** field
+   shows the phone icon instead of the text ``fa-phone``. Hovering the
+   icon shows the class name as tooltip. The widget only displays the
+   value: the field cannot be edited in a view that uses it.
+
+   |Call activity type form with the Phonecall action: the Icon label is
+   highlighted and the phone icon is shown next to it instead of the
+   text fa-phone|
+
+3. **Empty field.** A record with no icon, such as **Customer visit**,
+   opens normally and the field stays empty, with no icon and no
+   tooltip.
+
+   |Customer visit activity type form with the None action: the Icon
+   label is highlighted, the field next to it is empty and the form is
+   displayed without any error|
+
+.. |Activity Types list with six types: the highlighted Icon column shows a check mark for To-Do, an envelope for Email and a phone for Call, while the Customer visit row has an empty cell| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_widget_fontawesome/static/description/en/01_lista_tipuri_pictograme.png
+.. |Call activity type form with the Phonecall action: the Icon label is highlighted and the phone icon is shown next to it instead of the text fa-phone| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_widget_fontawesome/static/description/en/02_formular_pictograma.png
+.. |Customer visit activity type form with the None action: the Icon label is highlighted, the field next to it is empty and the form is displayed without any error| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_widget_fontawesome/static/description/en/03_formular_fara_pictograma.png
+
 Changelog
 =========
+
+19.0.1.0.5 (2026-11-27)
+-----------------------
+
+- An empty field no longer raises a JavaScript error: the widget shows
+  no icon and no tooltip
+  (`#3511 <https://github.com/dhongu/deltatech/issues/3511>`__).
+
+19.0.1.0.4 (2026-11-14)
+-----------------------
+
+- Apps Store banner: the "Odoo Online" badge shows that the module has
+  no Python code and installs on Odoo Online.
 
 19.0.1.0.3 (2026-11-03)
 -----------------------
