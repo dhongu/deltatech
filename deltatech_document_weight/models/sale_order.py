@@ -25,7 +25,9 @@ class SaleOrderLine(models.Model):
         help="Estimated gross weight of the quantity on the line, in the weight unit of the database.",
     )
 
-    @api.depends("product_id", "product_id.weight", "product_uom_qty", "product_uom_id", "display_type")
+    @api.depends(
+        "product_id", "product_id.weight", "product_id.uom_id", "product_uom_qty", "product_uom_id", "display_type"
+    )
     def _compute_document_weight_gross(self):
         for line in self:
             if line.product_id and not line.display_type:
