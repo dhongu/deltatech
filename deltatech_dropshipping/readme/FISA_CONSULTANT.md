@@ -21,7 +21,9 @@ de achiziție generate din comanda de vânzare. Două probleme apar des:
 
 Modulul `deltatech_dropshipping` adaugă pe transferuri câmpul **Livrare la** (adresa de livrare) și
 afișează pe comanda de achiziție un **avertisment** când prețul de achiziție al unei linii este mai
-mare decât prețul de vânzare al liniei de comandă de vânzare din care provine, ambele fără TVA.
+mare decât prețul de vânzare al liniei de comandă de vânzare din care provine. Cele două prețuri se
+compară pe aceeași bază: după reducerea (discountul) liniei, fără TVA, pe unitatea de măsură de bază
+a produsului și în moneda companiei.
 
 ## 2. Bază legală și context
 
@@ -67,16 +69,28 @@ livrare** adresa de livrare a clientului și adăugați produsul cu ruta de livr
 ### Pasul 2 — Avertismentul de preț pe comanda de achiziție
 
 Deschideți comanda de achiziție generată (**Achiziții → Comenzi → Cereri de ofertă** sau din butonul
-inteligent de pe comanda de vânzare). Dacă prețul unitar de achiziție al unei linii, fără TVA, este
-mai mare decât prețul unitar de vânzare al liniei de vânzare corespunzătoare, fără TVA, sub bara de
-butoane apare un chenar galben: „The following products have a purchase price higher than the sale
-price:”, urmat de câte un rând pe produs, de forma
+inteligent de pe comanda de vânzare). Pentru fiecare linie legată de o linie de vânzare, modulul aduce
+ambele prețuri unitare la aceeași bază înainte să le compare:
+
+- aplică **reducerea (discountul)** liniei (de ex. 100 cu reducere 50% devine 50);
+- scoate **TVA-ul**, inclusiv când taxa este inclusă în preț;
+- raportează prețul la **unitatea de măsură de bază** a produsului (de ex. 120 pe duzină devine
+  10 pe bucată);
+- convertește prețul în **moneda companiei**, la cursul valutar de la data fiecărei comenzi (de ex.
+  10 EUR la cursul 5 devine 50 lei).
+
+Dacă prețul de achiziție astfel obținut este mai mare decât prețul de vânzare, sub bara de butoane
+apare un chenar galben: „The following products have a purchase price higher than the sale price:”,
+urmat de câte un rând pe produs, de forma
 **Produs**: Purchase *preț achiziție* > Sale *preț vânzare* (Diff: *diferență*).
+Cele trei sume sunt prețuri pe unitatea de măsură de bază a produsului, în moneda companiei, afișate
+cu simbolul monedei (de ex. „Purchase 80,00 lei > Sale 50,00 lei (Diff: 30,00 lei)”). Ele pot deci
+diferi de prețurile scrise pe linii, când liniile au altă monedă, altă unitate de măsură sau reducere.
 
 1. **Găsiți** chenarul galben imediat sub antetul comenzii și rândul fiecărui produs afectat.
 2. **Verificați** pentru fiecare rând dacă diferența este reală (preț de furnizor actualizat, preț de
-   vânzare greșit) sau o consecință a unei unități de măsură / monede / reduceri diferite între cele
-   două documente (vezi secțiunea 9).
+   vânzare greșit, reducere prea mare acordată clientului) sau vine dintr-un curs valutar lipsă sau
+   vechi (vezi secțiunea 9).
 3. **Treceți mai departe** — corectați prețul de achiziție (negociere cu furnizorul) sau prețul de
    vânzare (cu acordul vânzărilor), apoi confirmați comanda. Avertismentul dispare automat când
    prețurile nu mai sunt în pierdere. Avertismentul nu blochează confirmarea.
@@ -109,8 +123,10 @@ Modulul nu generează note contabile. Livrarea directă se contabilizează după
 | `stock_dropshipping` | ruta și transferul de livrare directă | dependență (manifest) |
 | `sale_purchase` | legătura dintre linia de achiziție și linia de vânzare | dependență (manifest) |
 
-Ce este automat: calculul adresei **Livrare la** pe transferuri, compararea prețurilor fără TVA și
-afișarea avertismentului.
+Ce este automat: calculul adresei **Livrare la** pe transferuri, aducerea prețurilor la aceeași bază
+(după reducere, fără TVA, pe unitatea de măsură de bază, în moneda companiei), compararea lor și
+afișarea avertismentului. Conversia valutară folosește cursurile din **Contabilitate → Configurare →
+Contabilitate → Monede**.
 Ce rămâne manual: decizia comercială la un avertisment de preț (corectarea prețurilor sau acceptarea
 pierderii).
 
@@ -124,13 +140,22 @@ pierderii).
 - [ ] Cu preț de achiziție mai mic sau egal, chenarul nu apare.
 - [ ] Modificarea prețului de achiziție actualizează imediat avertismentul.
 - [ ] Prețurile comparate sunt fără TVA (o taxă inclusă în preț nu produce un avertisment fals).
+- [ ] Vânzare în altă monedă: vânzare 10 EUR (curs 5) și achiziție 40 lei nu afișează avertisment;
+      achiziție 60 lei îl afișează, cu sumele în moneda companiei.
+- [ ] Altă unitate de măsură: achiziție 120 pe duzină și vânzare 15 pe bucată nu afișează avertisment;
+      achiziție 240 pe duzină îl afișează.
+- [ ] Reducere pe vânzare: vânzare 100 cu reducere 50% și achiziție 80 afișează avertismentul.
+- [ ] Reducere pe achiziție: achiziție 120 cu reducere 60% (= 48) și vânzare 50 nu afișează avertisment.
+- [ ] Modificarea reducerii pe linia comenzii de vânzare actualizează avertismentul de pe comanda de
+      achiziție.
 - [ ] Avertismentul nu împiedică confirmarea comenzii.
 
 ## 9. Mesaje de eroare frecvente
 
 | Mesaj / simptom | Cauză probabilă | Remediere |
 |-----------------|-----------------|-----------|
-| Avertisment de preț deși vânzarea nu este în pierdere | Comparația ignoră unitatea de măsură, moneda și reducerea (discountul) liniilor — problemă cunoscută, [dhongu/deltatech#3384](https://github.com/dhongu/deltatech/issues/3384) | Verificați manual marja când documentele au UM, monedă sau discount diferite |
+| Avertisment de preț deși vânzarea nu este în pierdere, pe documente în valută | Lipsește cursul valutar la data comenzii sau cursul folosit este vechi, iar conversia în moneda companiei dă o sumă greșită | Actualizați cursul în **Contabilitate → Configurare → Contabilitate → Monede** (sau activați actualizarea automată a cursurilor) |
+| Sumele din avertisment diferă de prețurile scrise pe linii | Normal: sumele sunt după reducere, fără TVA, pe unitatea de măsură de bază și în moneda companiei | Comparați marja pe aceeași bază, nu pe prețurile brute ale liniilor |
 | Avertismentul nu apare deloc | Linia de achiziție nu provine dintr-o comandă de vânzare (achiziție creată manual) | Normal: controlul se face doar pe liniile legate de o linie de vânzare |
 | **Livrare la** arată adresa depozitului | Transferul nu este legat de o comandă de vânzare | Verificați originea transferului |
 | **Livrare la** arată adresa de facturare a clientului | Comanda de vânzare nu are **Adresă livrare** separată | Completați adresa de livrare pe comanda de vânzare înainte de confirmare |
@@ -146,8 +171,11 @@ skill-ul `fisa-screenshots`, care generează imaginile din `tests/test_screensho
 
 Prezentați modulul în capitolul de livrare directă, ca două ajutoare: „unde pleacă marfa” (câmpul
 **Livrare la**) și „nu vindem în pierdere” (avertismentul de pe comanda de achiziție). Textul
-avertismentului apare momentan în engleză. Precizați că prețurile se compară fără TVA și că, până la
-rezolvarea problemei cunoscute, comparația nu ține cont de unitatea de măsură, monedă și discount.
+avertismentului apare momentan în engleză. Precizați că prețurile se compară pe aceeași bază — după
+reducerea liniei, fără TVA, pe unitatea de măsură de bază a produsului și în moneda companiei, la
+cursul de la data fiecărei comenzi — și că sumele din avertisment sunt afișate pe această bază, cu
+simbolul monedei companiei. Amintiți că, pe documentele în valută, cursurile valutare trebuie ținute
+la zi.
 
 ---
 

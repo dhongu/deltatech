@@ -3,7 +3,7 @@
 {
     "name": "Drop Shipping Enhanced",
     "summary": "Delivery address in picking",
-    "version": "19.0.1.1.3",
+    "version": "19.0.1.1.4",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "support": "odoo@terrabit.ro",

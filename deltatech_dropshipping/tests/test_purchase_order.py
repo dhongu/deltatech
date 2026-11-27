@@ -84,3 +84,77 @@ class TestPurchaseOrder(TransactionCase):
         self.purchase_order.order_line[0].price_unit = 95.0
         self.purchase_order._compute_purchase_price_warning()
         self.assertFalse(self.purchase_order.purchase_price_warning)
+
+    def _get_foreign_currency(self, rate):
+        """O monedă diferită de a companiei, cu 1 unitate = ``rate`` unități din moneda companiei."""
+        company = self.env.company
+        currency = (
+            self.env["res.currency"]
+            .with_context(active_test=False)
+            .search([("id", "!=", company.currency_id.id), ("name", "in", ["EUR", "USD"])], limit=1)
+        )
+        currency.active = True
+        self.env["res.currency.rate"].search(
+            [("currency_id", "=", currency.id), ("company_id", "in", [company.id, False])]
+        ).unlink()
+        self.env["res.currency.rate"].create(
+            {
+                "name": "2000-01-01",
+                "currency_id": currency.id,
+                "company_id": company.id,
+                "rate": 1.0 / rate,
+            }
+        )
+        return currency
+
+    def test_purchase_price_warning_currency(self):
+        # Vânzare 10 în moneda străină (curs 5) = 50 în moneda companiei; achiziție 40 -> fără avertizare
+        currency = self._get_foreign_currency(5.0)
+        pricelist = self.env["product.pricelist"].create({"name": "Foreign", "currency_id": currency.id})
+        self.sale_order.pricelist_id = pricelist
+        self.assertEqual(self.sale_order.currency_id, currency)
+        self.sale_line.price_unit = 10.0
+        self.purchase_order.order_line[0].price_unit = 40.0
+        self.purchase_order._compute_purchase_price_warning()
+        self.assertFalse(self.purchase_order.purchase_price_warning)
+
+        # Achiziție 60 > 50 -> avertizare
+        self.purchase_order.order_line[0].price_unit = 60.0
+        self.purchase_order._compute_purchase_price_warning()
+        self.assertTrue(self.purchase_order.purchase_price_warning)
+        self.assertIn("60", self.purchase_order.purchase_price_warning)
+        self.assertIn("50", self.purchase_order.purchase_price_warning)
+
+    def test_purchase_price_warning_uom(self):
+        # Achiziție 120 / duzină = 10 / bucată; vânzare 15 / bucată -> fără avertizare
+        dozen = self.env.ref("uom.product_uom_dozen")
+        self.purchase_order.order_line[0].write({"product_uom_id": dozen.id, "price_unit": 120.0})
+        self.sale_line.price_unit = 15.0
+        self.purchase_order._compute_purchase_price_warning()
+        self.assertFalse(self.purchase_order.purchase_price_warning)
+
+        # Achiziție 240 / duzină = 20 / bucată > 15 -> avertizare
+        self.purchase_order.order_line[0].price_unit = 240.0
+        self.purchase_order._compute_purchase_price_warning()
+        self.assertTrue(self.purchase_order.purchase_price_warning)
+
+    def test_purchase_price_warning_discount(self):
+        # Vânzare 100 cu discount 50% = 50; achiziție 80 -> avertizare
+        self.sale_line.write({"price_unit": 100.0, "discount": 50.0})
+        self.purchase_order.order_line[0].price_unit = 80.0
+        self.purchase_order._compute_purchase_price_warning()
+        self.assertTrue(self.purchase_order.purchase_price_warning)
+        self.assertIn("80", self.purchase_order.purchase_price_warning)
+        self.assertIn("50", self.purchase_order.purchase_price_warning)
+
+        # Achiziție 120 cu discount 60% = 48 < 50 -> fără avertizare
+        self.purchase_order.order_line[0].write({"price_unit": 120.0, "discount": 60.0})
+        self.purchase_order._compute_purchase_price_warning()
+        self.assertFalse(self.purchase_order.purchase_price_warning)
+
+    def test_purchase_price_warning_recompute_on_discount(self):
+        # Avertizarea se recalculează la schimbarea discountului (dependență în @api.depends)
+        self.purchase_order.order_line[0].price_unit = 80.0
+        self.assertFalse(self.purchase_order.purchase_price_warning)
+        self.sale_line.discount = 50.0
+        self.assertTrue(self.purchase_order.purchase_price_warning)
