@@ -6,6 +6,9 @@
   they would have been merged into (and deleted with) their own company.
 - *Find Duplicates* with *Individuals only* keeps the contacts of companies among the persons.
 - The candidates no longer read `company_registry`, removed from the partner in Odoo 20.
+- *Create indexes* quotes the table and column names (a table name with capitals or special
+  characters broke the command).
+- Consultant sheet: *Back to draft* on a scan and the *Largest group on one value* error.
 
 ## 19.0.1.2.1 (2026-11-03)
 

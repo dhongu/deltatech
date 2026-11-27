@@ -206,6 +206,10 @@ Implicit e filtrată pe **De verificat**. Scoateți filtrul ca să vedeți și g
 marcate „nu sunt dubluri”. Pe formularul căutării, **Actualizează grupurile îmbinate** trece în
 **Îmbinat** grupurile rămase cu o singură fișă.
 
+**Înapoi la ciornă** (pe formularul unei căutări în starea **Terminat**) șterge grupurile și raportul
+căutării și o readuce la **Ciornă**, ca să-i schimbați criteriile. Perechile marcate „nu sunt dubluri”
+rămân reținute.
+
 ![Lista grupurilor de dubluri, cu stările lor](../static/description/06_grupuri_dubluri_lista.png)
 
 ### Partea B — Comasarea în masă pe același CUI
@@ -368,6 +372,7 @@ De aceea:
 | „Nu puteți îmbina un contact cu unul dintre părinții săi.” | În grup e și o companie, și un contact al ei | Scoateți din grup contactul sau compania |
 | „You cannot merge contacts linked to more than one user…” | Mai multe fișe din grup au utilizatori (de exemplu de portal) | Îmbinați doar fișele fără utilizator sau lămuriți întâi conturile de portal |
 | „Asemănarea numelor trebuie să fie între 50 și 100.” | Prag în afara intervalului | Alegeți un prag între 50 și 100 (recomandat 85–95) |
+| „Grupul maxim pe o valoare trebuie să fie cel puțin 2.” | **Grup maxim pe o valoare** sub 2 | Alegeți cel puțin 2; implicit, valorile comune mai multor parteneri sunt sărite peste acest prag |
 | În **Raport**: „Nume necomparate în blocul … : N parteneri” | Blocul are mai mulți parteneri decât poate compara motorul (1.500 fără `rapidfuzz`) | Instalați `rapidfuzz` pe server sau alegeți **Primele litere ale numelui** |
 | „Lotul … este încă în lucru…” | Alt lot e în **Analizat** sau **Simulat**; tabelele de lucru sunt comune | Aplicați celălalt lot sau readuceți-l la ciornă |
 | „Nu aveți dreptul să aplicați un lot de comasare.” | Utilizatorul nu are grupul **Comasare parteneri / Aplicare** | Administratorul îi dă grupul sau aplică el lotul |

@@ -15,7 +15,7 @@ pm_snapshot), ca un lot pregătit din interfață să poată fi inspectat din ps
 # Pentru instanțe unde nici atât nu e acceptabil, rulează 01_fk_indexes.sql din
 # psql înainte, care folosește CONCURRENTLY.
 FK_COLUMNS_WITHOUT_INDEX = """
-    SELECT c.conrelid::regclass::text AS tbl, a.attname AS col,
+    SELECT (SELECT r.relname FROM pg_class r WHERE r.oid = c.conrelid) AS tbl, a.attname AS col,
            pg_relation_size(c.conrelid) AS tbl_size
     FROM pg_constraint c
     JOIN pg_attribute a ON a.attrelid = c.conrelid AND a.attnum = ANY(c.conkey)

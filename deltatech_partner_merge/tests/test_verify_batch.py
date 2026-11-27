@@ -107,3 +107,16 @@ class TestVerifyBatch(TransactionCase):
         self.assertEqual(len(batch.line_ids), 1)
         self._apply(batch)
         self.assertTrue(contact.exists())
+
+    def test_create_indexes(self):
+        self._hide_b()
+        batch = self._batch("MERGE-002 indexes")
+        batch.action_create_indexes()
+        self.assertEqual(batch.missing_index_count, 0)
+        self.env.cr.execute(
+            "SELECT count(*) FROM pg_constraint c JOIN pg_attribute a ON a.attrelid = c.conrelid "
+            "AND a.attnum = ANY(c.conkey) WHERE c.contype = 'f' AND c.confrelid = 'res_partner'::regclass "
+            "AND c.conrelid::regclass::text <> 'res_partner' AND NOT EXISTS (SELECT 1 FROM pg_index i "
+            "WHERE i.indrelid = c.conrelid AND a.attnum = i.indkey[0])"
+        )
+        self.assertEqual(self.env.cr.fetchone()[0], 0)

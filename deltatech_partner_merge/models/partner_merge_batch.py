@@ -448,7 +448,7 @@ class PartnerMergeBatch(models.Model):
         cr.execute(Q.FK_COLUMNS_WITHOUT_INDEX)
         rows = cr.fetchall()
         for tbl, col, _size in rows:
-            cr.execute(SQL(f'CREATE INDEX ON {tbl} ("{col}")'))
+            cr.execute(SQL("CREATE INDEX ON %s (%s)", SQL.identifier(tbl), SQL.identifier(col)))
         self.missing_index_count = 0
         self.report = self.env._("%s indexes created.", len(rows))
         return True
