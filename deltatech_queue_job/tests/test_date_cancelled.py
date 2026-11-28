@@ -6,17 +6,19 @@ from datetime import datetime, timedelta
 
 from odoo.tests import TransactionCase, tagged
 
-from odoo.addons.queue_job.job import Job
+from odoo.addons.queue_job.delay import DelayableGraph
+from odoo.addons.queue_job.job import CANCELLED, WAIT_DEPENDENCIES, Job
 
 
 @tagged("post_install", "-at_install")
 class TestDateCancelled(TransactionCase):
     """Joburile anulate în lanț trebuie să poată fi curățate de autovacuum.
 
-    ``Job.cancel_dependent_jobs()`` scrie doar starea, printr-un UPDATE brut, iar
-    curățarea standard selectează după ``date_done``/``date_cancelled``: fără
-    dată, joburile rămâneau în tabel pentru totdeauna (189.644 pe o instanță de
-    producție).
+    Vechiul ``Job.cancel_dependent_jobs()`` scria doar starea, printr-un UPDATE
+    brut, iar curățarea standard selectează după ``date_done``/``date_cancelled``:
+    fără dată, joburile rămâneau în tabel pentru totdeauna (189.644 pe o instanță
+    de producție). `queue_job` aliniat cu OCA 20.0 pune data singur; rândurile
+    rămase fără dată le curăță ``_gc_dateless_terminal_jobs()``.
     """
 
     def _create_job(self, state="cancelled", graph_uuid=None, channel="root"):
@@ -33,40 +35,35 @@ class TestDateCancelled(TransactionCase):
         )
 
     def _clear_dates(self, jobs):
-        """Reproduce ce lăsa în urmă UPDATE-ul brut din cancel_dependent_jobs."""
+        """Reproduce ce lăsa în urmă UPDATE-ul brut al vechiului cancel_dependent_jobs."""
         self.env.cr.execute(
             "UPDATE queue_job SET date_cancelled = NULL, date_done = NULL WHERE id IN %s",
             (tuple(jobs.ids),),
         )
         jobs.invalidate_recordset(["date_cancelled", "date_done"])
 
-    def test_patch_stamps_date_cancelled(self):
-        """După anularea dependenților, joburile anulate din graf au dată."""
-        graph = str(uuid_lib.uuid4())
-        parent = self._create_job(graph_uuid=graph)
-        child = self._create_job(graph_uuid=graph)
-        self._clear_dates(parent | child)
-        self.assertFalse(child.date_cancelled)
+    def test_chain_cancel_stamps_date_cancelled(self):
+        """Anularea în lanț lasă o dată de anulare pe dependenți.
 
-        Job.load(self.env, parent.uuid).cancel_dependent_jobs()
+        O face acum `queue_job` (OCA 20.0); testul rămâne ca joburile anulate în
+        lanț să nu se mai adune în tabel dacă `queue_job` ar regresa.
+        """
+        job_root = Job(self.env["queue.job"].search)
+        job_child = Job(self.env["queue.job"].search)
+        job_child.add_depends({job_root})
+        DelayableGraph._ensure_same_graph_uuid([job_root, job_child])
+        job_root.store()
+        job_child.store()
+        record_child = job_child.db_record()
+        self.assertEqual(record_child.state, WAIT_DEPENDENCIES)
 
-        child.invalidate_recordset(["date_cancelled"])
-        self.assertTrue(child.date_cancelled, "Anularea în lanț trebuie să lase o dată de anulare.")
+        job_root.db_record().button_cancelled()
 
-    def test_patch_ignores_jobs_outside_the_graph(self):
-        """Joburile din alt graf nu sunt atinse."""
-        graph = str(uuid_lib.uuid4())
-        parent = self._create_job(graph_uuid=graph)
-        strain = self._create_job(graph_uuid=str(uuid_lib.uuid4()))
-        self._clear_dates(parent | strain)
-
-        Job.load(self.env, parent.uuid).cancel_dependent_jobs()
-
-        strain.invalidate_recordset(["date_cancelled"])
-        self.assertFalse(strain.date_cancelled)
+        self.assertEqual(record_child.state, CANCELLED)
+        self.assertTrue(record_child.date_cancelled, "Anularea în lanț trebuie să lase o dată de anulare.")
 
     def test_gc_removes_dateless_terminal_jobs(self):
-        """Joburile terminale fără dată, dinainte de patch, sunt curățate."""
+        """Joburile terminale rămase fără dată sunt curățate."""
         channel = self.env["queue.job.channel"].search([("complete_name", "=", "root")], limit=1)
         old = self._create_job(channel="root")
         self._clear_dates(old)

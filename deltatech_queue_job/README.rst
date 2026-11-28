@@ -22,9 +22,9 @@ Queue Job Enhancements
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
     :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_queue_job/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-34%20automated%20tests-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_queue_job/tests
-    :alt: 34 automated tests
+.. |badge_tests| image:: https://img.shields.io/badge/-34%20automated%20tests%20%C2%B7%2070%25%20code%20coverage-2ea44f.png
+    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/20.0/deltatech_queue_job
+    :alt: 34 automated tests · 70% code coverage
 
 |badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
@@ -252,8 +252,18 @@ corner confirms that the operation will run in the background|
 Changelog
 =========
 
-20.0.1.4.6 (2026-11-21)
+20.0.1.4.7 (2026-11-28)
 -----------------------
+
+- Removed ``models/job_patch.py``: ``queue_job`` aligned with OCA/queue
+  20.0 (dhongu/queue#10) stamps ``date_cancelled`` itself when it
+  cancels the dependents of a cancelled job, so the patch on
+  ``Job.cancel_dependent_jobs()`` is redundant.
+  ``_gc_dateless_terminal_jobs()`` stays, to collect the dateless jobs
+  left from before.
+
+20.0.1.4.6 (2026-11-21)
+~~~~~~~~~~~~~~~~~~~~~~~
 
 - Migration to Odoo 20.0: typed configuration parameters (``get_int`` /
   ``get_str`` / ``set_*``), Odoo 20 icon on **Generate Key**,

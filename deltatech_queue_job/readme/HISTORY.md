@@ -1,3 +1,10 @@
+## 20.0.1.4.7 (2026-11-28)
+
+- Removed `models/job_patch.py`: `queue_job` aligned with OCA/queue 20.0 (dhongu/queue#10)
+  stamps `date_cancelled` itself when it cancels the dependents of a cancelled job, so the
+  patch on `Job.cancel_dependent_jobs()` is redundant. `_gc_dateless_terminal_jobs()` stays,
+  to collect the dateless jobs left from before.
+
 ## 20.0.1.4.6 (2026-11-21)
 
 - Migration to Odoo 20.0: typed configuration parameters (`get_int` / `get_str` / `set_*`),

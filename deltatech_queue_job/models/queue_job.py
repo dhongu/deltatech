@@ -20,10 +20,10 @@ class QueueJob(models.Model):
         """Șterge și joburile terminale rămase fără dată de finalizare.
 
         Curățarea standard selectează după ``date_done`` sau ``date_cancelled``,
-        deci joburile anulate în lanț de ``cancel_dependent_jobs()`` — care le
-        scria doar starea — nu erau eliminate niciodată. `job_patch` completează
-        data de acum înainte; aici curățăm ce s-a adunat înainte de el, folosind
-        ``date_created``, singurul câmp completat mereu.
+        deci joburile anulate în lanț de vechiul ``cancel_dependent_jobs()`` —
+        care le scria doar starea — nu erau eliminate niciodată. `queue_job`
+        aliniat cu OCA 20.0 pune data singur; aici curățăm ce s-a adunat înainte,
+        folosind ``date_created``, singurul câmp completat mereu.
 
         Metodă proprie, nu override: `queue_job` a înlocuit ``autovacuum()`` (cron
         propriu) cu ``_gc_old_jobs()`` (cronul de bază), deci nu depindem de
