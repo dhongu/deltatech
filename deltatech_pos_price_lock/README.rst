@@ -14,16 +14,13 @@ POS Price Lock
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pos_price_lock
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_pos_price_lock
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_pos_price_lock/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_pos_price_lock/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_pos_price_lock
-    :alt: 4 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge_fisa|
 
 Odoo lets you restrict price changes in the Point of Sale to managers.
 When every employee working at the register is a manager, or when the
@@ -35,9 +32,10 @@ This module adds one more step to the standard restriction:
 - **Managers included**: a new checkbox under *Price Control*, per
   register. When it is ticked, nobody can change the product price on
   the order — cashiers and managers alike.
-- **Every manual path is closed**: the *Price* key of the numpad is
-  disabled, and the price check of *Employees* (``pos_hr``) refuses the
-  change with its usual message.
+- **Every role, the same rule**: the *Price* key of the numpad is
+  disabled for everybody, including the *Manager* role of *Log in with
+  Employees* (``pos_hr``); a register left in price mode switches back
+  to quantity.
 - **Prices still adapt by themselves**: prices recomputed by Odoo —
   pricelists, fiscal positions, taxes included in the price — keep
   working. Only the manual change is blocked.
@@ -67,7 +65,7 @@ Usage
 the register settings|
 
 From now on the *Price* key of the numpad stays disabled for everybody
-on this register, POS managers and employees with advanced rights
+on this register, POS managers and employees with the *Manager* role
 included. *Qty* and *%* keep working as before.
 
 |Register with a product on the order: the Price key of the numpad is
@@ -80,12 +78,19 @@ reload.
 |Product form with the Sales Price field, where a wrong price is
 corrected|
 
-.. |Price Control and Managers included ticked in the Pricing section of the register settings| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pos_price_lock/static/description/en/01_setari_blocare_pret.png
-.. |Register with a product on the order: the Price key of the numpad is disabled for a POS manager| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pos_price_lock/static/description/en/02_pos_tasta_pret_blocata.png
-.. |Product form with the Sales Price field, where a wrong price is corrected| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pos_price_lock/static/description/en/03_corectie_pret_produs.png
+.. |Price Control and Managers included ticked in the Pricing section of the register settings| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pos_price_lock/static/description/en/01_setari_blocare_pret.png
+.. |Register with a product on the order: the Price key of the numpad is disabled for a POS manager| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pos_price_lock/static/description/en/02_pos_tasta_pret_blocata.png
+.. |Product form with the Sales Price field, where a wrong price is corrected| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pos_price_lock/static/description/en/03_corectie_pret_produs.png
 
 Changelog
 =========
+
+20.0.1.1.1 (2026-11-28)
+-----------------------
+
+- Migrated to Odoo 20.0: the lock patches
+  ``PosAccessRightPlugin.disablePriceButton``, the 20.0 access right of
+  the *Price* key (it applies to every pos_hr role).
 
 19.0.1.1.1 (2026-11-28)
 -----------------------
@@ -135,6 +140,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_pos_price_lock>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_pos_price_lock>`_ project on GitHub.
 
 You are welcome to contribute.

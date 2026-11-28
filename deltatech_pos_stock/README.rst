@@ -17,16 +17,13 @@ POS Stock Display
     :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
     :alt: License: LGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pos_stock
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_pos_stock
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_pos_stock/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_pos_stock/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-11%20automated%20tests%20%C2%B7%2093%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_pos_stock
-    :alt: 11 automated tests · 93% code coverage
 
-|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge3| |badge_fisa|
 
 This module extends the Point of Sale functionality to display the stock
 quantity and the price directly on the product cards.
@@ -44,7 +41,7 @@ Key features:
   operations: deliveries, internal transfers, manufacturing).
 - Products with nothing left show the quantity in red; adding one to the
   order raises a warning but does not block the sale.
-- Compatible with the Odoo 19 OWL architecture.
+- Compatible with the Odoo 20 POS (Owl 3).
 - Only displays stock for storable products.
 
 **Table of contents**
@@ -130,13 +127,24 @@ The stock shown is the stock of the register's warehouse: the warehouse
 of its *Operation Type*, or the *Warehouse* set under *Allow Ship
 Later*.
 
-.. |Product Stock block in the Point of Sale settings, with Show stock, Show price and Quantity shown| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pos_stock/static/description/en/01_setari_stoc.png
-.. |Product cards in the register with the price and stock badge, one product out of stock with its quantity highlighted in colour| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pos_stock/static/description/en/02_pos_badge_stoc_pret.png
-.. |Warning shown when a product without stock is added to the order| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pos_stock/static/description/en/03_pos_avertizare_fara_stoc.png
-.. |Register set to Available: the coffee badge shows 20, the stock on hand minus a 5 kg reservation| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pos_stock/static/description/en/04_pos_cantitate_disponibila.png
+.. |Product Stock block in the Point of Sale settings, with Show stock, Show price and Quantity shown| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pos_stock/static/description/en/01_setari_stoc.png
+.. |Product cards in the register with the price and stock badge, one product out of stock with its quantity highlighted in colour| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pos_stock/static/description/en/02_pos_badge_stoc_pret.png
+.. |Warning shown when a product without stock is added to the order| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pos_stock/static/description/en/03_pos_avertizare_fara_stoc.png
+.. |Register set to Available: the coffee badge shows 20, the stock on hand minus a 5 kg reservation| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pos_stock/static/description/en/04_pos_cantitate_disponibila.png
 
 Changelog
 =========
+
+20.0.1.2.5 (2026-11-28)
+-----------------------
+
+- Migrated to Odoo 20.0.
+- Depends on ``pos_stock``, the new core module of the POS stock
+  integration (it holds the register's warehouse).
+- ``free_qty`` on ``product.template`` now comes from core; the module's
+  own field is removed (keeping it made core write the quantity and the
+  products failed to load for POS users).
+- Badge template written for Owl 3.
 
 19.0.1.2.5 (2026-11-28)
 -----------------------
@@ -271,6 +279,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_pos_stock>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_pos_stock>`_ project on GitHub.
 
 You are welcome to contribute.

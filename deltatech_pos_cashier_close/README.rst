@@ -14,16 +14,13 @@ POS Cashier Close Register
     :target: https://odoo-community.org/page/development-status
     :alt: Beta
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
-    :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pos_cashier_close
+    :target: https://github.com/dhongu/deltatech/tree/20.0/deltatech_pos_cashier_close
     :alt: dhongu/deltatech
 .. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
-    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_pos_cashier_close/readme/FISA_CONSULTANT.md
+    :target: https://github.com/dhongu/deltatech/blob/20.0/deltatech_pos_cashier_close/readme/FISA_CONSULTANT.md
     :alt: Fișă consultant
-.. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
-    :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_pos_cashier_close
-    :alt: 4 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge_fisa| |badge_tests|
+|badge1| |badge2| |badge_fisa|
 
 With *Log in with Employees*, Odoo keeps **Close Register** for the
 managers, together with other manager rights such as editing payments,
@@ -33,12 +30,13 @@ them.
 
 This module moves only the button:
 
-- **Cashiers close their own shift**: employees with basic rights get
-  *Close Register* in the menu, where a manager finds it. The closing
-  popup is the usual one.
+- **Cashiers close their own shift**: employees with the *Cashier* role
+  get *Close Register* in the menu, where a manager finds it. The
+  closing popup is the usual one.
 - **Nothing else moves**: the other manager rights stay with the
-  managers. Employees with minimal rights still cannot close, and a cash
-  difference above the authorized amount still needs a manager.
+  managers. *Restrictive* and *Supervised* employees still cannot close,
+  and a cash difference above the authorized amount still needs a
+  manager.
 - **Per register**: a chain keeps the closing with the shop manager
   where it wants to, and gives it to the cashiers where the shop runs on
   shifts.
@@ -55,40 +53,50 @@ Usage
 
 1. Go to *Point of Sale > Configuration > Settings* and select the
    register.
-2. Under *PoS Interface*, enable *Log in with Employees*, save, and set
-   which employees have *Advanced rights*, *Basic rights* and *Minimal
-   rights*.
+2. Under *PoS Interface*, enable *Log in with Employees*, save, and put
+   the employees in the *Manager*, *Cashier*, *Restrictive* and
+   *Supervised* lists.
 3. *Cashiers Close the Register*, next to it, is ticked. Untick it on
    the registers where the closing stays with the manager, and save.
 4. Reload the register page if a session is already open: the setting is
    read when the register loads.
 
-|Log in with Employees with the employees split by rights, and Cashiers
+|Log in with Employees with the employees split by role, and Cashiers
 Close the Register ticked|
 
-An employee with basic rights now opens the menu and finds *Close
+An employee with the *Cashier* role now opens the menu and finds *Close
 Register*.
 
-|Register menu of a cashier with basic rights, with Close Register|
+|Register menu of an employee with the Cashier role, with Close
+Register|
 
 The closing popup is the usual one. With *Set Maximum Difference*, a
 cash difference above the *Authorized Difference* still needs a manager
 to close.
 
-|The usual closing popup, opened by the cashier|
+|The usual closing popup, opened by the cashier, with the counted cash
+typed in|
 
-Employees with minimal rights still do not get *Close Register*.
+*Restrictive* and *Supervised* employees still do not get *Close
+Register*.
 
-|Register menu of an employee with minimal rights, without Close
+|Register menu of an employee with the Restrictive role, without Close
 Register|
 
-.. |Log in with Employees with the employees split by rights, and Cashiers Close the Register ticked| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pos_cashier_close/static/description/en/01_setari_casierii_inchid_casa.png
-.. |Register menu of a cashier with basic rights, with Close Register| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pos_cashier_close/static/description/en/02_pos_meniu_casier.png
-.. |The usual closing popup, opened by the cashier| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pos_cashier_close/static/description/en/03_pos_inchidere_casa.png
-.. |Register menu of an employee with minimal rights, without Close Register| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pos_cashier_close/static/description/en/04_pos_meniu_drepturi_minime.png
+.. |Log in with Employees with the employees split by role, and Cashiers Close the Register ticked| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pos_cashier_close/static/description/en/01_setari_casierii_inchid_casa.png
+.. |Register menu of an employee with the Cashier role, with Close Register| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pos_cashier_close/static/description/en/02_pos_meniu_casier.png
+.. |The usual closing popup, opened by the cashier, with the counted cash typed in| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pos_cashier_close/static/description/en/03_pos_inchidere_casa.png
+.. |Register menu of an employee with the Restrictive role, without Close Register| image:: https://raw.githubusercontent.com/dhongu/deltatech/20.0/deltatech_pos_cashier_close/static/description/en/04_pos_meniu_rol_restrictiv.png
 
 Changelog
 =========
+
+20.0.1.0.1 (2026-11-28)
+-----------------------
+
+- Migrated to Odoo 20.0: *Close Register* goes to the pos_hr *Cashier*
+  role through ``PosAccessRightPlugin.canCloseSession``; *Restrictive*
+  and *Supervised* never get it.
 
 19.0.1.0.1 (2026-11-28)
 -----------------------
@@ -135,6 +143,6 @@ Current maintainer:
 
 |maintainer-dhongu| 
 
-This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/19.0/deltatech_pos_cashier_close>`_ project on GitHub.
+This module is part of the `dhongu/deltatech <https://github.com/dhongu/deltatech/tree/20.0/deltatech_pos_cashier_close>`_ project on GitHub.
 
 You are welcome to contribute.
