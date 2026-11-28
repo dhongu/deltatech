@@ -1,13 +1,19 @@
 import {describe, expect, test} from "@odoo/hoot";
 import {definePosModels} from "@point_of_sale/../tests/unit/data/generate_model_definitions";
+import {patchWithCleanup} from "@web/../tests/web_test_helpers";
 import {setupPosEnv} from "@point_of_sale/../tests/unit/utils";
 
 definePosModels();
 
+// User 2 (Administrator) is a POS manager in the point_of_sale fixtures.
 async function setupStore(config) {
     const store = await setupPosEnv();
-    Object.assign(store.config, config);
-    store.accessRight.loggedCashier._role = "manager";
+    Object.assign(store.config, {module_pos_hr: false, ...config});
+    patchWithCleanup(store.accessRight, {
+        get loggedCashier() {
+            return this.data.models["res.users"].get(2);
+        },
+    });
     return store;
 }
 

@@ -1,26 +1,11 @@
-from odoo import api, fields, models
+from odoo import api, models
 
 
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    # `product.product` carries free_qty, `product.template` does not: core aggregates
-    # qty_available and the forecast onto the template but stops short of the free
-    # quantity. The POS card is handed a template, so the badge needs it here.
-    free_qty = fields.Float(
-        "Free To Use Quantity",
-        compute="_compute_free_qty",
-        compute_sudo=False,
-        digits="Product Unit",
-    )
-
-    def _compute_free_qty(self):
-        variants = self.product_variant_ids._origin
-        per_variant = {p["id"]: p["free_qty"] for p in variants.read(["free_qty"])} if variants else {}
-        for template in self:
-            template.free_qty = sum(
-                per_variant.get(variant.id, 0.0) for variant in template.product_variant_ids._origin
-            )
+    # free_qty (stock minus reservations) is defined on product.template by core since 20.0,
+    # computed with the other quantities in `_compute_quantities`.
 
     @api.model
     def _load_pos_data_fields(self, config):

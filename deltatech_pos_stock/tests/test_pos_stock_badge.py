@@ -46,7 +46,7 @@ class TestPosStockBadge(TestPointOfSaleHttpCommon):
                 openButton.click();
 
                 const badge = await waitFor(() => {
-                    const pos = odoo.__WOWL_DEBUG__?.root?.env?.services?.pos;
+                    const pos = window.posmodel;
                     const template = pos
                         ?.models["product.template"]
                         ?.getAll()
@@ -85,6 +85,8 @@ class TestPosStockBadge(TestPointOfSaleHttpCommon):
         STOCK_SYNCHRONISATION bus notification instead - this proves the badge picks up
         a stock change made *after* the session is loaded, without any page reload."""
         self.main_pos_config.write({"display_stock": True, "display_price": False})
+        # the browser simulates a stock change made elsewhere, which needs the right to write quants
+        self.pos_user.group_ids |= self.env.ref("stock.group_stock_manager")
         self.main_pos_config.with_user(self.pos_user).open_ui()
         self.main_pos_config.current_session_id.set_opening_control(0, "")
         product = self.env["product.product"].create(
@@ -121,7 +123,7 @@ class TestPosStockBadge(TestPointOfSaleHttpCommon):
                 }}
                 openButton.click();
 
-                const pos = await waitFor(() => odoo.__WOWL_DEBUG__?.root?.env?.services?.pos);
+                const pos = await waitFor(() => window.posmodel);
                 const template = await waitFor(() =>
                     pos.models["product.template"]
                         .getAll()

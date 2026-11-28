@@ -14,6 +14,7 @@ import unittest
 
 from odoo import Command
 from odoo.tests import tagged
+from odoo.tools import BinaryBytes
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
@@ -55,7 +56,7 @@ def _picture(colour):
 
     buffer = io.BytesIO()
     Image.new("RGB", (400, 300), colour).save(buffer, format="PNG")
-    return buffer.getvalue()
+    return BinaryBytes(buffer.getvalue())
 
 
 @tagged("-at_install", "post_install", "fise_screenshots")

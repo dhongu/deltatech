@@ -15,6 +15,7 @@ import unittest
 
 from odoo import Command
 from odoo.tests import tagged
+from odoo.tools import BinaryBytes
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
@@ -60,8 +61,8 @@ LOGIN_AS = """
 """
 
 OPEN_MENU = """
-    document.querySelector('.pos-topheader .fa-bars').closest('button').click();
-    await wait('.pos-burger-menu-items');
+    document.querySelector('.pos-topheader [data-icon="menu"]').closest('button').click();
+    await wait('.o_pos_burger_menu_buttons');
     await sleep(600);
 """
 
@@ -70,7 +71,11 @@ CLOSE_REGISTER = """
     await wait('.modal .payment-methods-overview, .modal .modal-body');
     await sleep(1200);
     // the cashier counted exactly the expected cash
-    document.querySelector('.modal button.fa-clone').click();
+    const count = document.querySelector('.modal .cash-input input');
+    count.focus();
+    count.value = document.documentElement.lang.startsWith('ro') ? '89,90' : '89.90';
+    count.dispatchEvent(new Event('input', {bubbles: true}));
+    count.dispatchEvent(new Event('change', {bubbles: true}));
     await sleep(600);
     document.activeElement?.blur();
     await sleep(300);
@@ -87,7 +92,7 @@ def _picture(colour):
 
     buffer = io.BytesIO()
     Image.new("RGB", (400, 300), colour).save(buffer, format="PNG")
-    return buffer.getvalue()
+    return BinaryBytes(buffer.getvalue())
 
 
 @tagged("-at_install", "post_install", "fise_screenshots")
@@ -159,9 +164,9 @@ class TestPosCashierCloseScreenshots(AccountTestInvoicingCommon, ScreenshotCase 
                 "name": "Magazin Centru",
                 "payment_method_ids": [Command.set(cash.ids)],
                 "module_pos_hr": True,
-                "advanced_employee_ids": [Command.set(manager.ids)],
-                "basic_employee_ids": [Command.set(cls.cashier.ids)],
-                "minimal_employee_ids": [Command.set(cls.minimal.ids)],
+                "manager_employee_ids": [Command.set(manager.ids)],
+                "cashier_employee_ids": [Command.set(cls.cashier.ids)],
+                "restrictive_employee_ids": [Command.set(cls.minimal.ids)],
                 "cashier_can_close": True,
             }
         )
@@ -219,8 +224,8 @@ class TestPosCashierCloseScreenshots(AccountTestInvoicingCommon, ScreenshotCase 
         settings = self.env.ref("point_of_sale.action_pos_configuration").id
         pos_menu = self.env.ref("point_of_sale.menu_point_root").id
         close_item = {
-            "ro_RO": ".pos-burger-menu-items .dropdown-item:has-text('Închide casa')",
-            "en_US": ".pos-burger-menu-items .dropdown-item:has-text('Close Register')",
+            "ro_RO": ".o_pos_burger_menu_buttons button:has-text('Închide casa')",
+            "en_US": ".o_pos_burger_menu_buttons button:has-text('Close Register')",
         }
         return [
             {
@@ -228,10 +233,10 @@ class TestPosCashierCloseScreenshots(AccountTestInvoicingCommon, ScreenshotCase 
                 "name": "01_setari_casierii_inchid_casa.png",
                 "wait": ".o_form_view div[name='pos_cashier_can_close']",
                 "timeout": 60000,
-                "eval": "document.querySelector(\"div[name='pos_basic_employee_ids']\")"
+                "eval": "document.querySelector(\"div[name='pos_cashier_employee_ids']\")"
                 ".scrollIntoView({block: 'center'})",
                 "highlight": [
-                    "div[name='pos_basic_employee_ids']",
+                    "div[name='pos_cashier_employee_ids']",
                     "div[name='pos_cashier_can_close']",
                 ],
                 "settle": 2500,
@@ -246,9 +251,9 @@ class TestPosCashierCloseScreenshots(AccountTestInvoicingCommon, ScreenshotCase 
                 "03_pos_inchidere_casa.png",
                 CASHIER,
                 CLOSE_REGISTER,
-                highlight=[".modal button.fa-clone", ".modal .modal-footer .btn-primary"],
+                highlight=[".modal .cash-input", ".modal .modal-footer .btn-primary"],
             ),
-            self._pos("04_pos_meniu_drepturi_minime.png", MINIMAL, OPEN_MENU),
+            self._pos("04_pos_meniu_rol_restrictiv.png", MINIMAL, OPEN_MENU),
         ]
 
     def _capture(self, lang):
@@ -273,18 +278,18 @@ class TestPosCashierCloseScreenshots(AccountTestInvoicingCommon, ScreenshotCase 
             },
             {
                 "caption": "A cashier with basic rights ends the shift",
-                "move": ".pos-topheader .fa-bars",
+                "move": ".pos-topheader [data-icon='menu']",
                 "hold": 1500,
             },
-            {"click": ".pos-topheader button:has(.fa-bars)", "wait_after": ".pos-burger-menu-items"},
+            {"click": ".pos-topheader button:has([data-icon='menu'])", "wait_after": ".o_pos_burger_menu_buttons"},
             {
                 "caption": "Close Register is now in the menu",
-                "move": ".pos-burger-menu-items .dropdown-item:has-text('Close Register')",
+                "move": ".o_pos_burger_menu_buttons button:has-text('Close Register')",
                 "hold": 2000,
             },
             {
                 "caption": "The usual closing popup opens",
-                "click": ".pos-burger-menu-items .dropdown-item:has-text('Close Register')",
+                "click": ".o_pos_burger_menu_buttons button:has-text('Close Register')",
                 "wait_after": ".modal .modal-footer",
                 "hold": 2500,
             },

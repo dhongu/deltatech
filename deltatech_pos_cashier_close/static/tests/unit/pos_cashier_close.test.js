@@ -23,11 +23,14 @@ describe("@deltatech_pos_cashier_close close register", () => {
         expect(store.accessRight.canCloseSession).toBe(false);
     });
 
-    test("restrictive and supervised employees never close the register", async () => {
-        for (const employeeId of [4, 5]) {
-            const store = await setupStore(employeeId, {cashier_can_close: true});
-            expect(store.accessRight.canCloseSession).toBe(false);
-        }
+    test("restrictive employees never close the register", async () => {
+        const store = await setupStore(4, {cashier_can_close: true});
+        expect(store.accessRight.canCloseSession).toBe(false);
+    });
+
+    test("supervised employees never close the register", async () => {
+        const store = await setupStore(5, {cashier_can_close: true});
+        expect(store.accessRight.canCloseSession).toBe(false);
     });
 
     test("managers still close it, as in standard", async () => {
