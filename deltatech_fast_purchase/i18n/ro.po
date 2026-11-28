@@ -26,7 +26,7 @@ msgstr ""
 #. module: deltatech_fast_purchase
 #: model_terms:ir.ui.view,arch_db:deltatech_fast_purchase.purchase_order_form
 msgid "Confirm, Receipt and Bill"
-msgstr "Confimă, Recepție și Factură"
+msgstr "Confirmă, Recepție și Factură"
 
 #. module: deltatech_fast_purchase
 #: model_terms:ir.ui.view,arch_db:deltatech_fast_purchase.purchase_order_form
