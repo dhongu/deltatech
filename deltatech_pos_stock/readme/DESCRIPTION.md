@@ -11,5 +11,5 @@ Key features:
   transfers, manufacturing).
 - Products with nothing left show the quantity in red; adding one to the order raises a
   warning but does not block the sale.
-- Compatible with the Odoo 19 OWL architecture.
+- Compatible with the Odoo 20 POS (Owl 3).
 - Only displays stock for storable products.

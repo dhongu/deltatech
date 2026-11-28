@@ -154,10 +154,9 @@ class TestPosCashierCloseScreenshots(AccountTestInvoicingCommon, ScreenshotCase 
                 "image_1920": _picture((111, 78, 55)),
             }
         )
-        cash_journal = env["account.journal"].search(
-            [*env["account.journal"]._check_company_domain(company), ("type", "=", "cash")], limit=1
+        cash = env["pos.payment.method"].create(
+            {"name": "Cash", "type": "cash", "journal_id": cls.company_data["default_journal_cash"].id}
         )
-        cash = env["pos.payment.method"].create({"name": "Cash", "journal_id": cash_journal.id})
         cash.with_context(lang="ro_RO").name = "Numerar"
         cls.config = env["pos.config"].create(
             {

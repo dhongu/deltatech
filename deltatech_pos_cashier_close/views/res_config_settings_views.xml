@@ -8,7 +8,7 @@
             <xpath expr="//setting[@id='multiple_employee_session']" position="after">
                 <setting
                     id="cashier_can_close"
-                    help="Employees with basic rights close the register"
+                    help="Employees with the Cashier role close the register"
                     invisible="not pos_module_pos_hr"
                 >
                     <field name="pos_cashier_can_close" />

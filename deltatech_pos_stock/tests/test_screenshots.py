@@ -158,7 +158,7 @@ class TestPosStockScreenshots(AccountTestInvoicingCommon, ScreenshotCase or obje
 
         # a card method: a cash method cannot be shared by the two registers
         card = env["pos.payment.method"].create(
-            {"name": "Card", "journal_id": cls.company_data["default_journal_bank"].id}
+            {"name": "Card", "type": "bank", "journal_id": cls.company_data["default_journal_bank"].id}
         )
         common = {
             "payment_method_ids": [Command.set(card.ids)],

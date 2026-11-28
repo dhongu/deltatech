@@ -1,3 +1,12 @@
+## 20.0.1.2.5 (2026-11-28)
+
+- Migrated to Odoo 20.0.
+- Depends on `pos_stock`, the new core module of the POS stock integration (it holds the
+  register's warehouse).
+- `free_qty` on `product.template` now comes from core; the module's own field is removed
+  (keeping it made core write the quantity and the products failed to load for POS users).
+- Badge template written for Owl 3.
+
 ## 19.0.1.2.5 (2026-11-28)
 
 - Romanian translation completed (the Quantity shown setting and the out-of-stock warning).

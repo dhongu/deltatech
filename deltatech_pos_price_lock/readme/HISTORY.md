@@ -1,3 +1,8 @@
+## 20.0.1.1.1 (2026-11-28)
+
+- Migrated to Odoo 20.0: the lock patches `PosAccessRightPlugin.disablePriceButton`, the
+  20.0 access right of the *Price* key (it applies to every pos_hr role).
+
 ## 19.0.1.1.1 (2026-11-28)
 
 - Romanian translation.

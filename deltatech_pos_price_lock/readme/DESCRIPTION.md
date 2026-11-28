@@ -8,8 +8,9 @@ This module adds one more step to the standard restriction:
 - **Managers included**: a new checkbox under *Price Control*, per register. When it is
   ticked, nobody can change the product price on the order — cashiers and managers
   alike.
-- **Every manual path is closed**: the *Price* key of the numpad is disabled, and the
-  price check of *Employees* (`pos_hr`) refuses the change with its usual message.
+- **Every role, the same rule**: the *Price* key of the numpad is disabled for everybody,
+  including the *Manager* role of *Log in with Employees* (`pos_hr`); a register left in
+  price mode switches back to quantity.
 - **Prices still adapt by themselves**: prices recomputed by Odoo — pricelists, fiscal
   positions, taxes included in the price — keep working. Only the manual change is
   blocked.

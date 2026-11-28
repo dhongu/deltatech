@@ -1,3 +1,8 @@
+## 20.0.1.0.1 (2026-11-28)
+
+- Migrated to Odoo 20.0: *Close Register* goes to the pos_hr *Cashier* role through
+  `PosAccessRightPlugin.canCloseSession`; *Restrictive* and *Supervised* never get it.
+
 ## 19.0.1.0.1 (2026-11-28)
 
 - Romanian translation.

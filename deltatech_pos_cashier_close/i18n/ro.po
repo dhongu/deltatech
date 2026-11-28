@@ -34,8 +34,8 @@ msgstr "Nume afișat"
 
 #. module: deltatech_pos_cashier_close
 #: model_terms:ir.ui.view,arch_db:deltatech_pos_cashier_close.res_config_settings_view_form
-msgid "Employees with basic rights close the register"
-msgstr "Angajații cu drepturi de bază închid casa"
+msgid "Employees with the Cashier role close the register"
+msgstr "Angajații cu rolul Casier închid casa"
 
 #. module: deltatech_pos_cashier_close
 #: model:ir.model.fields,field_description:deltatech_pos_cashier_close.field_pos_config__id
@@ -52,10 +52,10 @@ msgstr "Configurarea Punctului de Vânzare"
 #: model:ir.model.fields,help:deltatech_pos_cashier_close.field_pos_config__cashier_can_close
 #: model:ir.model.fields,help:deltatech_pos_cashier_close.field_res_config_settings__pos_cashier_can_close
 msgid ""
-"With 'Log in with Employees', employees with basic rights can close the "
+"With 'Log in with Employees', employees with the Cashier role can close the "
 "register. The other manager rights stay with the managers, and a cash "
 "difference above the authorized amount still needs a manager."
 msgstr ""
-"Cu „Autentificare cu angajați”, angajații cu drepturi de bază pot închide "
-"casa. Celelalte drepturi de manager rămân la manageri, iar o diferență de "
-"numerar peste suma autorizată tot are nevoie de un manager."
+"Cu „Autentificare cu angajați”, angajații cu rolul Casier pot închide casa. "
+"Celelalte drepturi de manager rămân la manageri, iar o diferență de numerar "
+"peste suma autorizată tot are nevoie de un manager."

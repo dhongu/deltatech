@@ -42,7 +42,7 @@ POS (setări) și un casier (vânzare).
 Modulul nu folosește conturi contabile: nu generează note și nu schimbă contabilizarea sesiunii.
 Date minime pentru demo:
 
-- un punct de vânzare (ex. „Magazin Centru”) al cărui **Tip operație** aparține depozitului din
+- un punct de vânzare (ex. „Magazin Centru”) al cărui **Operation Type** (tipul de operație) aparține depozitului din
   care se vinde;
 - 3–4 produse **Bunuri** cu **Urmărește stocul** bifat, **disponibile în POS**, cu stoc diferit
   (ex. Cafea boabe 1 kg — 25, Ceai verde 100 g — 8, Zahăr 1 kg — 0);
@@ -54,14 +54,14 @@ Date minime pentru demo:
 
 ## 5. Configurare inițială
 
-1. Instalați modulul `deltatech_pos_stock` (depinde de `point_of_sale` și `stock`).
+1. Instalați modulul `deltatech_pos_stock` (depinde de `pos_stock`, integrarea standard POS–stoc din Odoo 20).
 2. Pe fiecare produs pe care vreți să-l vedeți cu stoc, bifați **Urmărește stocul** (tab-ul
    **Informații generale**) și **Punct de vânzare** (disponibil în POS). Produsele fără urmărirea
    stocului primesc pe etichetă doar prețul.
 3. Verificați depozitul casei: în **Punct de vânzare → Configurare → Setări**, secțiunea
-   **Inventar**, câmpul **Tip operație** aparține unui depozit, iar eticheta arată stocul acelui
-   depozit (dacă e bifat **Permiteți livrarea mai târziu**, depozitul se vede și se poate schimba în
-   câmpul **Depozit** de sub această opțiune).
+   **Inventar**, câmpul **Operation Type** (tipul de operație) aparține unui depozit, iar eticheta arată stocul acelui
+   depozit (dacă e bifat **Allow Ship Later**, depozitul se vede și se poate schimba în
+   câmpul **Warehouse** de sub această opțiune).
 4. Deschideți **Punct de vânzare → Configurare → Setări**, alegeți casa și setați blocul
    **Stocul produsului** (vezi Pasul 1). Setarea e **pe casă**: fiecare punct de vânzare are
    propriile opțiuni. Meniul **Setări** e vizibil doar utilizatorilor cu drepturi de
@@ -102,9 +102,9 @@ stânga sus al fiecărui card apare eticheta:
 
 Cantitatea se actualizează singură, fără reîncărcarea paginii, când stocul se schimbă: recepții,
 transferuri, ajustări de inventar și vânzările din orice casă. Vânzările scad stocul imediat doar cu
-setarea standard **Gestionare stoc** („Actualizați cantitățile în stoc”; Setări, secțiunea **Inventar**,
-vizibilă în modul dezvoltator, la nivel de companie) pe „În timp real” (implicit); pe „La închiderea
-sesiunii”, transferul se face la închidere și abia atunci scade eticheta. Pe casele cu **Disponibil**, eticheta se
+setarea standard **Inventory Management** („Update quantities in stock”; Setări, secțiunea
+**Inventar**, vizibilă în modul dezvoltator, la nivel de companie) pe „In real time” (implicit); pe
+„At the session closing”, transferul se face la închidere și abia atunci scade eticheta. Pe casele cu **Disponibil**, eticheta se
 actualizează și la rezervarea sau anularea unei livrări.
 
 ![Ecranul de vânzare al casei Magazin Centru: cardurile au eticheta cu prețul cu galben și cantitatea dedesubt; Cafea boabe 1 kg arată 89,90 lei și 25, Zahăr 1 kg arată 0 colorat, ca produs fără stoc, Pungă hârtie are doar prețul](../static/description/02_pos_badge_stoc_pret.png)
@@ -145,7 +145,7 @@ permite configurarea stocului.
 | Modul | Rol |
 |---|---|
 | `point_of_sale` | ecranul de vânzare în care apare eticheta; setările pe casă |
-| `stock` | cantitatea în stoc și rezervările din depozitul casei |
+| `pos_stock` | integrarea standard POS–stoc: depozitul casei, cantitatea în stoc și rezervările |
 | `deltatech_pos_price_sync` | trimite noile prețuri la casele deschise pe același canal ca stocul |
 | `deltatech_pos` / `deltatech_pos_base` (suita bitshop) | bonul fiscal pe casa de marcat; nu sunt influențate de etichetă |
 
@@ -180,8 +180,8 @@ tipului de operație (deci a depozitului) casei, decizia casierului de a vinde s
 | „<produs> nu mai are stoc.” | Cantitatea afișată pe etichetă e 0 sau negativă | Mesaj informativ: vânzarea continuă; verificați stocul în backend dacă marfa e pe raft |
 | Eticheta nu are cantitate, doar preț | Produsul nu are **Urmărește stocul** bifat | Bifați **Urmărește stocul** pe produs, dacă trebuie urmărit |
 | Eticheta lipsește complet | **Afișează stocul** și **Afișează prețul** sunt debifate pe casă | Bifați cel puțin una și reîncărcați POS-ul |
-| Cantitatea diferă de raportul de stoc | Raportul arată toate depozitele; eticheta, doar depozitul casei; sau casa e pe **Disponibil** | Verificați depozitul casei (al **Tipului de operație** sau, cu livrarea mai târziu, câmpul **Depozit**) și **Cantitate afișată** |
-| Cantitatea nu scade după vânzări | **Gestionare stoc** („Actualizați cantitățile în stoc”) e pe „La închiderea sesiunii” | Comportament standard: eticheta scade la închiderea sesiunii; setați „În timp real” dacă trebuie să scadă imediat |
+| Cantitatea diferă de raportul de stoc | Raportul arată toate depozitele; eticheta, doar depozitul casei; sau casa e pe **Disponibil** | Verificați depozitul casei (al **Operation Type** sau, cu livrarea mai târziu, câmpul **Warehouse**) și **Cantitate afișată** |
+| Cantitatea nu scade după vânzări | **Inventory Management** („Update quantities in stock”) e pe „At the session closing” | Comportament standard: eticheta scade la închiderea sesiunii; setați „In real time” dacă trebuie să scadă imediat |
 | Setarea nouă nu se vede pe casă | Sesiunea POS era deschisă înainte de modificare | Reîncărcați pagina POS |
 
 ## 10. Capturi de ecran

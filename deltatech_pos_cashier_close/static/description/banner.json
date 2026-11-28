@@ -4,7 +4,7 @@
   "icon": "user",
   "edition": "community",
   "features": [
-    "Close Register for basic-rights cashiers",
+    "Close Register for the Cashier role",
     "All other manager rights stay locked",
     "Enabled per point of sale"
   ]

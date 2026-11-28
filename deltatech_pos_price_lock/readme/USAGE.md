@@ -7,7 +7,7 @@
 ![Price Control and Managers included ticked in the Pricing section of the register settings](static/description/en/01_setari_blocare_pret.png)
 
 From now on the *Price* key of the numpad stays disabled for everybody on this
-register, POS managers and employees with advanced rights included. *Qty* and *%* keep
+register, POS managers and employees with the *Manager* role included. *Qty* and *%* keep
 working as before.
 
 ![Register with a product on the order: the Price key of the numpad is disabled for a POS manager](static/description/en/02_pos_tasta_pret_blocata.png)

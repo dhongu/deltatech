@@ -31,11 +31,11 @@ de prețuri ale casei), pe care modulul nu le schimbă.
 | Rol | Ce face |
 |---|---|
 | Administrator Odoo (Administrare / Setări) sau manager POS cu drepturi de setări | Bifează **Control preț** și **Inclusiv managerii** pe casă; corectează prețurile în fișa produsului |
-| Casier (Punct de vânzare / Utilizator), inclusiv angajații cu drepturi avansate | Vinde; tasta **Preț** a tastaturii numerice e dezactivată |
+| Casier (Punct de vânzare / Utilizator), inclusiv angajații cu rolul **Manager** | Vinde; tasta **Preț** a tastaturii numerice e dezactivată |
 
 Modulul nu adaugă grupuri sau drepturi proprii. Roluri recomandate pentru testare: un utilizator cu
 **Punct de vânzare / Administrator** (ca să se vadă că blocarea îl include) și, dacă se folosește
-**Autentificare cu angajați**, un angajat cu **Drepturi avansate**.
+**Autentificare cu angajați**, un angajat cu rolul **Manager**.
 
 ## 4. Conturi și date implicate
 
@@ -76,8 +76,8 @@ Deschide casa**) și adaugă un produs în bon. Pe tastatura numerică, tastele 
 active, iar tasta **Preț** e gri și nu reacționează: prețul liniei rămâne cel calculat de Odoo.
 
 Cu **Autentificare cu angajați** (`pos_hr`), regula e aceeași pentru orice angajat, inclusiv cei cu
-**Drepturi avansate**; dacă prețul e modificat pe altă cale decât tastatura numerică, casa afișează
-mesajul standard „Nu aveți permisiunea să modificați prețul unui produs.”
+rolul **Manager**; dacă tastatura era în modul preț când casierul s-a schimbat, casa trece singură
+înapoi pe cantitate.
 
 ![Ecranul de vânzare cu Cafea boabe 1 kg în bon la 89,90 lei; pe tastatura numerică tasta Preț este gri, dezactivată, iar Cant și % rămân active](../static/description/02_pos_tasta_pret_blocata.png)
 
@@ -104,11 +104,11 @@ au prețul din fișa produsului sau din lista de prețuri, fără modificări ma
 | Modul | Rol |
 |---|---|
 | `point_of_sale` | opțiunea standard **Control preț**, pe care modulul o extinde |
-| `pos_hr` | verificarea de preț a angajaților; cu modulul, refuză modificarea și pentru drepturile avansate |
+| `pos_hr` | rolurile angajaților; cu modulul, tasta **Preț** e blocată și pentru rolul **Manager** |
 | `deltatech_pos_price_sync` | trimite prețul corectat în fișa produsului la casele deschise, fără reîncărcare |
 
 **Ce e automat:** dezactivarea tastei **Preț** pentru toți utilizatorii casei, refuzul modificării
-de preț prin verificarea `pos_hr`, recalcularea prețurilor de către Odoo (liste de prețuri, poziții
+de preț și pentru rolurile `pos_hr`, recalcularea prețurilor de către Odoo (liste de prețuri, poziții
 fiscale, taxe incluse).
 
 **Ce rămâne manual:** bifarea opțiunilor pe fiecare casă; corectarea prețurilor în fișa produsului
@@ -118,7 +118,7 @@ sau în listele de prețuri; alegerea listelor de prețuri disponibile pe casă.
 
 - [ ] **Inclusiv managerii** apare sub **Control preț** doar când **Control preț** e bifat.
 - [ ] Cu ambele bifate, un utilizator manager POS are tasta **Preț** dezactivată pe casă.
-- [ ] Cu **Autentificare cu angajați**, un angajat cu **Drepturi avansate** are tot tasta **Preț**
+- [ ] Cu **Autentificare cu angajați**, un angajat cu rolul **Manager** are tot tasta **Preț**
   dezactivată.
 - [ ] Cu **Inclusiv managerii** debifat, managerul poate modifica din nou prețul (comportament standard).
 - [ ] O altă casă, fără opțiune, nu este afectată.
@@ -131,7 +131,6 @@ sau în listele de prețuri; alegerea listelor de prețuri disponibile pe casă.
 | Mesaj / simptom | Cauză | Remediere |
 |---|---|---|
 | Tasta **Preț** e gri pentru toată lumea | **Control preț** + **Inclusiv managerii** bifate pe casă | Comportamentul dorit; corectați prețul în fișa produsului |
-| „Nu aveți permisiunea să modificați prețul unui produs.” | Încercare de modificare a prețului de către un angajat (`pos_hr`) pe o casă blocată | Corectați prețul în fișa produsului sau în lista de prețuri |
 | Managerul încă poate modifica prețul | **Inclusiv managerii** nu e bifat sau casa nu a fost reîncărcată după setare | Bifați opțiunea, salvați și reîncărcați pagina POS |
 | Prețul se schimbă totuși pe bon | Casierul a ales altă listă de prețuri sau o poziție fiscală (prețuri calculate de Odoo, permise) | Limitați listele de prețuri disponibile pe casă |
 
