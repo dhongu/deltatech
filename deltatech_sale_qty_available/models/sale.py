@@ -3,6 +3,8 @@
 # See README.rst file on addons root folder for license details
 
 
+from collections import defaultdict
+
 from odoo import api, fields, models
 from odoo.fields import Domain
 
@@ -42,9 +44,13 @@ class SaleOrder(models.Model):
                         available = line.product_id.qty_available - line.product_id.outgoing_qty
                         is_ready = is_ready or (available >= line.qty_to_deliver)
                 else:
+                    # cererea liniilor aceluiasi produs se cumuleaza: stocul nu se reutilizeaza
+                    demanded = defaultdict(float)
                     for line in order.order_line:
-                        available = line.product_id.qty_available - line.product_id.outgoing_qty
-                        is_ready = is_ready and (available >= line.qty_to_deliver)
+                        product = line.product_id
+                        demanded[product] += line.qty_to_deliver
+                        available = product.qty_available - product.outgoing_qty
+                        is_ready = is_ready and (available >= demanded[product])
 
             if is_ready and order.state not in ["draft", "sent"]:
                 # verific daca comanzile de livrare au stocul rezervat
