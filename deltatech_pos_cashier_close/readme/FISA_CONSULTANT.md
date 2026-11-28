@@ -33,7 +33,7 @@ are nevoie de un manager.
 |---|---|
 | Administrator Odoo (Administrare / Setări) sau manager POS cu drepturi de setări | Activează **Autentificare cu angajați**, împarte angajații pe roluri și bifează **Casierii închid casa** |
 | Angajat cu rolul **Casier** | Vinde, încasează, dă reduceri și face retururi; cu modulul, închide casa la sfârșitul turei |
-| Angajat cu rolul **Restrictive** sau **Supervised** | Vinde (Supervised pregătește comanda, dar nu poate valida plata, pe care o finalizează un Casier sau un Manager); nu primește butonul de închidere |
+| Angajat cu rolul **Restrictive** sau **Supervised** | Vinde (Supervised pregătește comanda, dar nu poate valida plata, pe care o finalizează un alt angajat: Restrictive, Casier sau Manager); nu primește butonul de închidere |
 | Angajat cu rolul **Manager** | Închide casa ca în standard |
 | Angajat legat de un utilizator **Manager POS** | Închide casa și aprobă diferențele de numerar peste limită |
 
@@ -59,7 +59,7 @@ Modulul nu folosește conturi contabile. La închidere, sesiunea se contabilizea
 2. Deschideți **Punct de vânzare → Configurare → Setări** și alegeți casa în câmpul
    **Punct de vânzare** din banda de sus. Meniul **Setări** e vizibil doar utilizatorilor cu
    drepturi de **Administrare / Setări**.
-3. În secțiunea **Interfață PoS**, bifați **Autentificare cu angajați** și salvați; apoi trecați
+3. În secțiunea **Interfață PoS**, bifați **Autentificare cu angajați** și salvați; apoi treceți
    angajații în listele **Manager**, **Casier**, **Restrictive** și **Supervised**. Pe casă se pot
    autentifica doar angajații din aceste liste (plus angajatul legat de utilizatorul care a deschis
    sesiunea).
@@ -99,7 +99,8 @@ bancnote) și apasă **Închide casa**.
   Odoo): cine închide casa vede totalurile sesiunii și poate descărca acest raport.
 - Dacă diferența depășește **Diferența autorizată** setată pe casă, Odoo afișează „Valoarea maximă
   permisă este …” și cere un manager: un angajat legat de un utilizator **Manager POS** se
-  autentifică pe casă (butonul de lacăt) și face el închiderea. Un angajat trecut doar în lista
+  autentifică pe casă (butonul de lacăt; trebuie să fie și el într-o listă a casei, de regulă Manager)
+  și face el închiderea. Un angajat trecut doar în lista
   **Manager**, fără utilizator Manager POS, nu poate aproba diferența.
 
 ![Fereastra Închidere casă deschisă de casierul Ion Marin, cu o comandă de 89,90 lei: numerar la deschidere, plăți 89,90 lei, Numărare numerar completat cu 89,90 lei, diferență 0,00 lei și butonul Închide casa evidențiat](../static/description/03_pos_inchidere_casa.png)
@@ -142,7 +143,8 @@ numărarea numerarului, intervenția managerului la diferențele peste limită.
 - [ ] Angajații **Restrictive** și **Supervised** nu văd **Închide casa**.
 - [ ] Pe o casă cu opțiunea debifată, casierul nu mai vede **Închide casa**.
 - [ ] Casierul nu primește alte drepturi de manager: nu poate edita plățile comenzilor, nu poate crea
-  produse din casă și nu vede raportul de vânzări din meniu.
+  produse din casă și nu vede raportul de vânzări din meniu (verificabil pe o casă cu imprimantă de
+  bonuri).
 - [ ] Cu **Setați diferența maximă** bifat, o diferență peste limită blochează închiderea făcută de casier și
   cere un angajat legat de un utilizator **Manager POS**.
 - [ ] Nota contabilă a sesiunii închise de casier este identică cu cea a unei închideri făcute de
