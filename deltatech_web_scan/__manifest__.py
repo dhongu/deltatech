@@ -11,6 +11,7 @@
     "depends": ["base"],
     "external_dependencies": {"python": ["extruct"]},
     "data": [],
+    "consultant_sheet": "simple",
     "development_status": "Beta",
     "maintainers": ["dhongu"],
     "installable": True,

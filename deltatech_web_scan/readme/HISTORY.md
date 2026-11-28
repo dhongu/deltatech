@@ -3,6 +3,7 @@
 - The message of a *Suspect* price (**Reading message**) is translated and shows the previous and the
   new price formatted for the language of the user, in the currency of the offer, instead of
   "price 48.0 -> 69.9 (46%)" in English with a decimal point.
+- Consultant sheet (`readme/FISA_CONSULTANT.md`, `consultant_sheet: "simple"`).
 
 ## 19.0.1.0.1 (2026-10-22)
 
