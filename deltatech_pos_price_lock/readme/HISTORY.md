@@ -1,3 +1,8 @@
+## 19.0.1.1.1 (2026-11-28)
+
+- Romanian translation.
+- Consultant sheet (RO), usage with screenshots and demo GIF for the Apps Store.
+
 ## 19.0.1.1.0 (2026-10-23)
 
 - Published as a paid module on the Odoo Apps Store (10 EUR, OPL-1 license).

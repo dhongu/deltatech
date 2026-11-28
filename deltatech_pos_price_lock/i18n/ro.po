@@ -1,0 +1,60 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_pos_price_lock
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-28 02:06+0000\n"
+"PO-Revision-Date: 2026-11-28 02:06+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_pos_price_lock
+#: model:ir.model,name:deltatech_pos_price_lock.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_pos_price_lock
+#: model:ir.model.fields,field_description:deltatech_pos_price_lock.field_pos_config__display_name
+#: model:ir.model.fields,field_description:deltatech_pos_price_lock.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_pos_price_lock
+#: model:ir.model.fields,field_description:deltatech_pos_price_lock.field_pos_config__id
+#: model:ir.model.fields,field_description:deltatech_pos_price_lock.field_res_config_settings__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_pos_price_lock
+#: model:ir.model.fields,field_description:deltatech_pos_price_lock.field_pos_config__lock_price_for_managers
+#: model:ir.model.fields,field_description:deltatech_pos_price_lock.field_res_config_settings__pos_lock_price_for_managers
+msgid "Lock Price for Managers"
+msgstr "Blochează prețul și pentru manageri"
+
+#. module: deltatech_pos_price_lock
+#: model_terms:ir.ui.view,arch_db:deltatech_pos_price_lock.res_config_settings_view_form
+msgid "Managers included"
+msgstr "Inclusiv managerii"
+
+#. module: deltatech_pos_price_lock
+#: model:ir.model.fields,help:deltatech_pos_price_lock.field_pos_config__lock_price_for_managers
+#: model:ir.model.fields,help:deltatech_pos_price_lock.field_res_config_settings__pos_lock_price_for_managers
+msgid ""
+"Nobody can change the product price on the order, not even the POS managers."
+" A wrong price is corrected on the product form and reaches the register "
+"from there."
+msgstr ""
+"Nimeni nu poate modifica prețul produsului pe comandă, nici managerii POS. "
+"Un preț greșit se corectează în fișa produsului și ajunge de acolo la casă."
+
+#. module: deltatech_pos_price_lock
+#: model:ir.model,name:deltatech_pos_price_lock.model_pos_config
+msgid "Point of Sale Configuration"
+msgstr "Configurarea Punctului de Vânzare"
