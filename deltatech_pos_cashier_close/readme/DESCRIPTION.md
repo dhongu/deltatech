@@ -1,6 +1,7 @@
 With *Log in with Employees*, Odoo keeps **Close Register** for the managers, together with
-cash in/out, payment editing, product creation and price changes. To let the cashier who
-worked the shift close it, you would have to give all of them.
+other manager rights such as editing payments, creating products and, with *Price Control*,
+changing prices. To let the cashier who worked the shift close it, you would have to give all
+of them.
 
 This module moves only the button:
 
