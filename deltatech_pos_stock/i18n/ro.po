@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0+e\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-23 14:28+0000\n"
-"PO-Revision-Date: 2026-03-23 14:28+0000\n"
+"POT-Creation-Date: 2026-11-28 02:06+0000\n"
+"PO-Revision-Date: 2026-11-28 02:06+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,26 +16,75 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: deltatech_pos_stock
+#. odoo-javascript
+#: code:addons/deltatech_pos_stock/static/src/js/pos_stock_warning.esm.js:0
+msgid "%s is out of stock."
+msgstr "%s nu mai are stoc."
+
+#. module: deltatech_pos_stock
+#: model:ir.model.fields.selection,name:deltatech_pos_stock.selection__pos_config__stock_badge_quantity__available
+msgid "Available"
+msgstr "Disponibil"
+
+#. module: deltatech_pos_stock
 #: model:ir.model,name:deltatech_pos_stock.model_res_config_settings
 msgid "Config Settings"
 msgstr "Setări de configurare"
 
 #. module: deltatech_pos_stock
+#: model:ir.model.fields,field_description:deltatech_pos_stock.field_pos_config__display_name
+#: model:ir.model.fields,field_description:deltatech_pos_stock.field_product_template__display_name
+#: model:ir.model.fields,field_description:deltatech_pos_stock.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:deltatech_pos_stock.field_stock_quant__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_pos_stock
 #: model:ir.model.fields,field_description:deltatech_pos_stock.field_pos_config__display_price
 #: model:ir.model.fields,field_description:deltatech_pos_stock.field_res_config_settings__pos_display_price
 msgid "Display Price in POS badge"
-msgstr ""
+msgstr "Afișează prețul în eticheta din POS"
 
 #. module: deltatech_pos_stock
 #: model:ir.model.fields,field_description:deltatech_pos_stock.field_pos_config__display_stock
 #: model:ir.model.fields,field_description:deltatech_pos_stock.field_res_config_settings__pos_display_stock
 msgid "Display Stock in POS"
-msgstr ""
+msgstr "Afișează stocul în POS"
 
 #. module: deltatech_pos_stock
 #: model_terms:ir.ui.view,arch_db:deltatech_pos_stock.res_config_settings_view_form
 msgid "Display product stock in the POS interface"
+msgstr "Afișează stocul produselor în interfața POS"
+
+#. module: deltatech_pos_stock
+#: model:ir.model.fields,field_description:deltatech_pos_stock.field_product_template__free_qty
+msgid "Free To Use Quantity"
+msgstr "Cantitate liberă de utilizat"
+
+#. module: deltatech_pos_stock
+#: model:ir.model.fields,field_description:deltatech_pos_stock.field_pos_config__id
+#: model:ir.model.fields,field_description:deltatech_pos_stock.field_product_template__id
+#: model:ir.model.fields,field_description:deltatech_pos_stock.field_res_config_settings__id
+#: model:ir.model.fields,field_description:deltatech_pos_stock.field_stock_quant__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_pos_stock
+#: model:ir.model.fields.selection,name:deltatech_pos_stock.selection__pos_config__stock_badge_quantity__on_hand
+msgid "On hand"
+msgstr "În stoc"
+
+#. module: deltatech_pos_stock
+#: model:ir.model.fields,help:deltatech_pos_stock.field_pos_config__stock_badge_quantity
+#: model:ir.model.fields,help:deltatech_pos_stock.field_res_config_settings__pos_stock_badge_quantity
+msgid ""
+"On hand shows the physical stock. Available subtracts what is already "
+"reserved for orders that have not left the warehouse yet, which is what you "
+"want when the picking is validated by the warehouse rather than at the till."
 msgstr ""
+"În stoc arată stocul fizic. Disponibil scade ce este deja rezervat pentru "
+"comenzile care nu au ieșit încă din depozit, util atunci când transferul "
+"este validat de depozit, nu la casă."
 
 #. module: deltatech_pos_stock
 #: model:ir.model,name:deltatech_pos_stock.model_pos_config
@@ -43,14 +92,30 @@ msgid "Point of Sale Configuration"
 msgstr "Configurarea Punctului de Vânzare"
 
 #. module: deltatech_pos_stock
+#: model:ir.model,name:deltatech_pos_stock.model_product_template
+msgid "Product"
+msgstr "Produs"
+
+#. module: deltatech_pos_stock
 #: model_terms:ir.ui.view,arch_db:deltatech_pos_stock.res_config_settings_view_form
 msgid "Product Stock"
 msgstr "Stocul produsului"
 
 #. module: deltatech_pos_stock
-#: model:ir.model,name:deltatech_pos_stock.model_product_product
-msgid "Product Variant"
-msgstr "Variantă produs"
+#: model:ir.model.fields,field_description:deltatech_pos_stock.field_pos_config__stock_badge_quantity
+#: model:ir.model.fields,field_description:deltatech_pos_stock.field_res_config_settings__pos_stock_badge_quantity
+msgid "Quantity on the badge"
+msgstr "Cantitatea din etichetă"
+
+#. module: deltatech_pos_stock
+#: model_terms:ir.ui.view,arch_db:deltatech_pos_stock.res_config_settings_view_form
+msgid "Quantity shown"
+msgstr "Cantitate afișată"
+
+#. module: deltatech_pos_stock
+#: model:ir.model,name:deltatech_pos_stock.model_stock_quant
+msgid "Quants"
+msgstr "Poziții de stoc"
 
 #. module: deltatech_pos_stock
 #: model_terms:ir.ui.view,arch_db:deltatech_pos_stock.res_config_settings_view_form

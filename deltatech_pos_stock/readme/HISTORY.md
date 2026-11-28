@@ -1,3 +1,9 @@
+## 19.0.1.2.5 (2026-11-28)
+
+- Romanian translation completed (the Quantity shown setting and the out-of-stock warning).
+- Description: the on hand / available choice and the out-of-stock warning are listed.
+- Consultant sheet (RO), usage with screenshots and demo GIF for the Apps Store.
+
 ## 19.0.1.2.4 (2026-10-25)
 
 - Tests: the POS badge tests open the register by the button's class, so they also pass
