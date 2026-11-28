@@ -1,3 +1,8 @@
+## 19.0.1.0.20 (2026-11-28)
+
+- Fixed: the Bill Reference of the vendor bill created from a receipt stayed empty; it is now filled
+  with the Supplier Invoice No of the billed receipts.
+
 ## 19.0.1.0.19 (2026-11-03)
 
 - Fixed: the transfer list showed two empty columns on deliveries (the hidden operation type and

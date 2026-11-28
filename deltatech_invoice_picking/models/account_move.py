@@ -50,6 +50,11 @@ class AccountMove(models.Model):
                             "to_invoice": False,
                         }
                     )
+                if not move.ref:
+                    numbers = pickings.filtered(lambda p: p.account_move_id == move).mapped("supplier_invoice_number")  # noqa B023
+                    ref = ", ".join(dict.fromkeys(n for n in numbers if n))
+                    if ref:
+                        move.ref = ref
             for line in res.invoice_line_ids:
                 if line.quantity == 0.0:
                     line.with_context(unlink_all=True).unlink()
