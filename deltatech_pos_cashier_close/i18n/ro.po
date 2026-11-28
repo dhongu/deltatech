@@ -1,0 +1,61 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* deltatech_pos_cashier_close
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-28 02:06+0000\n"
+"PO-Revision-Date: 2026-11-28 02:06+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: deltatech_pos_cashier_close
+#: model:ir.model.fields,field_description:deltatech_pos_cashier_close.field_pos_config__cashier_can_close
+#: model:ir.model.fields,field_description:deltatech_pos_cashier_close.field_res_config_settings__pos_cashier_can_close
+msgid "Cashiers Close the Register"
+msgstr "Casierii închid casa"
+
+#. module: deltatech_pos_cashier_close
+#: model:ir.model,name:deltatech_pos_cashier_close.model_res_config_settings
+msgid "Config Settings"
+msgstr "Setări de configurare"
+
+#. module: deltatech_pos_cashier_close
+#: model:ir.model.fields,field_description:deltatech_pos_cashier_close.field_pos_config__display_name
+#: model:ir.model.fields,field_description:deltatech_pos_cashier_close.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_pos_cashier_close
+#: model_terms:ir.ui.view,arch_db:deltatech_pos_cashier_close.res_config_settings_view_form
+msgid "Employees with the Cashier role close the register"
+msgstr "Angajații cu rolul Casier închid casa"
+
+#. module: deltatech_pos_cashier_close
+#: model:ir.model.fields,field_description:deltatech_pos_cashier_close.field_pos_config__id
+#: model:ir.model.fields,field_description:deltatech_pos_cashier_close.field_res_config_settings__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_pos_cashier_close
+#: model:ir.model,name:deltatech_pos_cashier_close.model_pos_config
+msgid "Point of Sale Configuration"
+msgstr "Configurarea Punctului de Vânzare"
+
+#. module: deltatech_pos_cashier_close
+#: model:ir.model.fields,help:deltatech_pos_cashier_close.field_pos_config__cashier_can_close
+#: model:ir.model.fields,help:deltatech_pos_cashier_close.field_res_config_settings__pos_cashier_can_close
+msgid ""
+"With 'Log in with Employees', employees with the Cashier role can close the "
+"register. The other manager rights stay with the managers, and a cash "
+"difference above the authorized amount still needs a manager."
+msgstr ""
+"Cu „Autentificare cu angajați”, angajații cu rolul Casier pot închide casa. "
+"Celelalte drepturi de manager rămân la manageri, iar o diferență de numerar "
+"peste suma autorizată tot are nevoie de un manager."
