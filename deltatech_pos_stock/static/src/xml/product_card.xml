@@ -4,17 +4,17 @@
         <!-- În 19.0 cardul nu mai are `div.product-information-tag`; badge-ul e poziționat absolut în `article`. -->
         <xpath expr="//div[hasclass('product-content')]" position="before">
             <div
-                t-if="pos and pos.config and (pos.config.display_stock or pos.config.display_price) and props.product"
+                t-if="this.pos and this.pos.config and (this.pos.config.display_stock or this.pos.config.display_price) and this.props.product"
                 class="product-stock-tag"
             >
-                <div t-if="pos.config.display_price and formattedPrice" class="product-price-badge">
-                    <t t-esc="formattedPrice" />
+                <div t-if="this.pos.config.display_price and this.formattedPrice" class="product-price-badge">
+                    <t t-out="this.formattedPrice" />
                 </div>
                 <div
-                    t-if="pos.config.display_stock and props.product.is_storable"
-                    t-attf-class="product-qty {{ stockBadgeClass }}"
+                    t-if="this.pos.config.display_stock and this.props.product.is_storable"
+                    t-attf-class="product-qty {{ this.stockBadgeClass }}"
                 >
-                    <t t-esc="stockQuantity" />
+                    <t t-out="this.stockQuantity" />
                 </div>
             </div>
         </xpath>
