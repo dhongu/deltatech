@@ -81,8 +81,16 @@ patch(CustomerAddress.prototype, {
         }
     },
 
-    async _onChangeCountry() {
+    async _onChangeCountry(init = false) {
         await this.waitFor(super._onChangeCountry(...arguments));
+        // On the first load the saved address keeps its localities and selection.
+        // After a real country change the states are reloaded without a change
+        // event, so the old localities and the old selection must be dropped.
+        if (!init && this.elementCities) {
+            this._changeOption(this.elementCities, []);
+            this.elementCities.value = "";
+            await this.waitFor(this.onChangeCity());
+        }
         this._toggleCityFields();
     },
 
