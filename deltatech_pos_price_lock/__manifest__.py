@@ -1,7 +1,7 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "POS Price Lock",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.1.1",
     "category": "Point of Sale",
     "summary": "Block price changes in the POS for every cashier, managers included",
     "author": "Terrabit, Dorin Hongu",

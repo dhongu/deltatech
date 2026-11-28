@@ -38,6 +38,11 @@
        style="padding:10px 22px;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</a>
   </li>
   <li class="nav-item mx-1 mb-2">
+    <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-usage"
+       data-bs-toggle="pill" data-bs-target="#tb-panel-usage" href="#tb-panel-usage"
+       style="padding:10px 22px;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</a>
+  </li>
+  <li class="nav-item mx-1 mb-2">
     <a class="nav-link fw-semibold rounded-pill border" id="tb-tab-versions"
        data-bs-toggle="pill" data-bs-target="#tb-panel-versions" href="#tb-panel-versions"
        style="padding:10px 22px;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</a>
@@ -46,17 +51,104 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</span></div>
-<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module extends the Point of Sale functionality to display the available stock quantity directly on the product cards.</p>
+
+<div class="rounded-4 border shadow-sm p-2 mb-4" style="background-color:#f4f8f4;">
+  <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" src="en/demo.gif" alt="Animated demo of the module" loading="lazy"/>
+</div>
+<p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">This module extends the Point of Sale functionality to display the stock quantity and the price directly on the product cards.</p>
 <p>Key features:</p>
-<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-cubes" style="" aria-hidden="true"></span></span><div>Shows real-time stock quantity for each product in the POS interface.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-cube" style="" aria-hidden="true"></span></span><div>Shows product price on the same badge.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-cubes" style="" aria-hidden="true"></span></span><div>Stock and price information is displayed as a badge on the product image.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-cubes" style="" aria-hidden="true"></span></span><div>Toggle stock and price visibility through POS settings.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div>Compatible with the Odoo 19 OWL architecture.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-cubes" style="" aria-hidden="true"></span></span><div>Only displays stock for storable products.</div></div></li></ul>
+<ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-cubes" style="" aria-hidden="true"></span></span><div>Shows the stock quantity of the register's warehouse for each product, updated live.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-cube" style="" aria-hidden="true"></span></span><div>Shows product price on the same badge.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-cubes" style="" aria-hidden="true"></span></span><div>Stock and price information is displayed as a badge on the product image.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-cubes" style="" aria-hidden="true"></span></span><div>Toggle stock and price visibility through POS settings.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-cubes" style="" aria-hidden="true"></span></span><div>Choose, per register, whether the badge shows the stock on hand or the available quantity
+  (stock minus everything already reserved for other operations: deliveries, internal
+  transfers, manufacturing).</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-cube" style="" aria-hidden="true"></span></span><div>Products with nothing left show the quantity in red; adding one to the order raises a
+  warning but does not block the sale.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div>Compatible with the Odoo 19 OWL architecture.</div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-cubes" style="" aria-hidden="true"></span></span><div>Only displays stock for storable products.</div></div></li></ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">Part of the Terrabit POS <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">Ecosystem</span></h2>
 <p>This module is a small standalone addition to standard <code class="border rounded px-2" style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;">point_of_sale</code>. It is designed to work
 alongside the rest of the Terrabit POS suite and the official Romanian fiscal compliance modules,
 without any overlap:</p>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">deltatech_pos</span><div>/ <strong>deltatech_pos_base</strong> &#8212; print fiscal receipts and drive cash management on a certified cash register</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">deltatech_ecr_connect</span><div>&#8212; shared fiscal document model, ECR format converter and Terrabit Connect sender</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">deltatech_pos_price_sync</span><div>&#8212; pushes live product price changes to already open POS sessions, using the same live-bus channel as this module</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">deltatech_pos_fix</span><div>&#8212; corrects POS total calculation for tax-included fiscal position mapping</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">l10n_ro_pos_fiscal_compliance</span><div>&#8212; AMEF fiscal receipt tracking, Z report reconciliation and session blocking</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">l10n_ro_anaf_d394_pos</span><div>&#8212; reports POS fiscal receipts in the D394 (op. 2) declaration to ANAF</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">l10n_ro_pos_returns</span><div>&#8212; dedicated return invoice and cash register line for every POS return</div></div></div></li></ul>
 </div>
+<div class="tab-pane fade py-2" id="tb-panel-usage" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
+<div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</span></div>
+<ol>
+<li>Go to <em>Point of Sale &gt; Configuration &gt; Settings</em> and select the register in the
+   <em>Point of Sale</em> field at the top. The setting is per register.</li>
+<li>In the <em>PoS Interface</em> section, under <em>Product Stock</em>, tick <em>Show stock</em> and <em>Show price</em>
+   (both are ticked by default) and choose the <em>Quantity shown</em>:<ul>
+<li><em>On hand</em> (default): the physical stock of the register's warehouse;</li>
+<li><em>Available</em>: the stock minus everything already reserved for other operations
+ (deliveries, internal transfers, manufacturing) that has not left the warehouse yet. Use
+ it where the picking is validated by the warehouse, not at the till.</li>
+</ul>
+</li>
+</ol>
+<p>Save, and reload the register page if a session is already open.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Product Stock block in the Point of Sale settings, with Show stock, Show price and Quantity shown" src="en/01_setari_stoc.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Product Stock block in the Point of Sale settings, with Show stock, Show price and Quantity shown</span>
+  </div>
+</div>
+<ol start="3">
+<li>Open the register. Each product card shows a badge with the price (in yellow) and, for
+   products that track inventory, the quantity in stock. Products with nothing left show the
+   quantity in red. The badge follows stock changes live: receipts, transfers, inventory
+   adjustments and, with <em>Update quantities in stock</em> set to real time (the default), the sales
+   of every register.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Product cards in the register with the price and stock badge, one product out of stock with its quantity highlighted in colour" src="en/02_pos_badge_stoc_pret.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">2</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Product cards in the register with the price and stock badge, one product out of stock with its quantity highlighted in colour</span>
+  </div>
+</div>
+<ol start="4">
+<li>Adding a product with no stock left raises a warning, "<em>product</em> is out of stock.". The
+   sale is not blocked: the product goes on the order as usual. The warning compares the badge
+   with zero; the quantities already on the current order are not subtracted.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Warning shown when a product without stock is added to the order" src="en/03_pos_avertizare_fara_stoc.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">3</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Warning shown when a product without stock is added to the order</span>
+  </div>
+</div>
+<ol start="5">
+<li>On a register set to <em>Available</em>, the badge subtracts the reservations: 25 kg on hand with
+   5 kg reserved for a delivery shows 20.</li>
+</ol>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Register set to Available: the coffee badge shows 20, the stock on hand minus a 5 kg reservation" src="en/04_pos_cantitate_disponibila.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">4</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Register set to Available: the coffee badge shows 20, the stock on hand minus a 5 kg reservation</span>
+  </div>
+</div>
+<p>The stock shown is the stock of the register's warehouse: the warehouse of its <em>Operation Type</em>,
+or the <em>Warehouse</em> set under <em>Allow Ship Later</em>.</p>
+</div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.2.5 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-28)</span></h2>
+<ul>
+<li>Romanian translation completed (the Quantity shown setting and the out-of-stock warning).</li>
+<li>Description: the on hand / available choice and the out-of-stock warning are listed.</li>
+<li>Consultant sheet (RO), usage with screenshots and demo GIF for the Apps Store.</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.2.4 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-10-25)</span></h2>
 <ul>
 <li>Tests: the POS badge tests open the register by the button's class, so they also pass

@@ -19,22 +19,31 @@ POS Stock Display
 .. |badge3| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pos_stock
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_pos_stock/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 .. |badge_tests| image:: https://img.shields.io/badge/-11%20automated%20tests%20%C2%B7%2093%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_pos_stock
     :alt: 11 automated tests · 93% code coverage
 
-|badge1| |badge2| |badge3| |badge_tests|
+|badge1| |badge2| |badge3| |badge_fisa| |badge_tests|
 
-This module extends the Point of Sale functionality to display the
-available stock quantity directly on the product cards.
+This module extends the Point of Sale functionality to display the stock
+quantity and the price directly on the product cards.
 
 Key features:
 
-- Shows real-time stock quantity for each product in the POS interface.
+- Shows the stock quantity of the register's warehouse for each product,
+  updated live.
 - Shows product price on the same badge.
 - Stock and price information is displayed as a badge on the product
   image.
 - Toggle stock and price visibility through POS settings.
+- Choose, per register, whether the badge shows the stock on hand or the
+  available quantity (stock minus everything already reserved for other
+  operations: deliveries, internal transfers, manufacturing).
+- Products with nothing left show the quantity in red; adding one to the
+  order raises a warning but does not block the sale.
 - Compatible with the Odoo 19 OWL architecture.
 - Only displays stock for storable products.
 
@@ -70,8 +79,74 @@ without any overlap:
 - **l10n_ro_pos_returns** — dedicated return invoice and cash register
   line for every POS return
 
+Usage
+=====
+
+1. Go to *Point of Sale > Configuration > Settings* and select the
+   register in the *Point of Sale* field at the top. The setting is per
+   register.
+
+2. In the *PoS Interface* section, under *Product Stock*, tick *Show
+   stock* and *Show price* (both are ticked by default) and choose the
+   *Quantity shown*:
+
+   - *On hand* (default): the physical stock of the register's
+     warehouse;
+   - *Available*: the stock minus everything already reserved for other
+     operations (deliveries, internal transfers, manufacturing) that has
+     not left the warehouse yet. Use it where the picking is validated
+     by the warehouse, not at the till.
+
+   Save, and reload the register page if a session is already open.
+
+   |Product Stock block in the Point of Sale settings, with Show stock,
+   Show price and Quantity shown|
+
+3. Open the register. Each product card shows a badge with the price (in
+   yellow) and, for products that track inventory, the quantity in
+   stock. Products with nothing left show the quantity in red. The badge
+   follows stock changes live: receipts, transfers, inventory
+   adjustments and, with *Update quantities in stock* set to real time
+   (the default), the sales of every register.
+
+   |Product cards in the register with the price and stock badge, one
+   product out of stock with its quantity highlighted in colour|
+
+4. Adding a product with no stock left raises a warning, "*product* is
+   out of stock.". The sale is not blocked: the product goes on the
+   order as usual. The warning compares the badge with zero; the
+   quantities already on the current order are not subtracted.
+
+   |Warning shown when a product without stock is added to the order|
+
+5. On a register set to *Available*, the badge subtracts the
+   reservations: 25 kg on hand with 5 kg reserved for a delivery shows
+   20.
+
+   |Register set to Available: the coffee badge shows 20, the stock on
+   hand minus a 5 kg reservation|
+
+The stock shown is the stock of the register's warehouse: the warehouse
+of its *Operation Type*, or the *Warehouse* set under *Allow Ship
+Later*.
+
+.. |Product Stock block in the Point of Sale settings, with Show stock, Show price and Quantity shown| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pos_stock/static/description/en/01_setari_stoc.png
+.. |Product cards in the register with the price and stock badge, one product out of stock with its quantity highlighted in colour| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pos_stock/static/description/en/02_pos_badge_stoc_pret.png
+.. |Warning shown when a product without stock is added to the order| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pos_stock/static/description/en/03_pos_avertizare_fara_stoc.png
+.. |Register set to Available: the coffee badge shows 20, the stock on hand minus a 5 kg reservation| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pos_stock/static/description/en/04_pos_cantitate_disponibila.png
+
 Changelog
 =========
+
+19.0.1.2.5 (2026-11-28)
+-----------------------
+
+- Romanian translation completed (the Quantity shown setting and the
+  out-of-stock warning).
+- Description: the on hand / available choice and the out-of-stock
+  warning are listed.
+- Consultant sheet (RO), usage with screenshots and demo GIF for the
+  Apps Store.
 
 19.0.1.2.4 (2026-10-25)
 -----------------------

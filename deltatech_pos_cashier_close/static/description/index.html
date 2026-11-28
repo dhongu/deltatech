@@ -51,9 +51,14 @@
 <div class="tab-content">
 <div class="tab-pane fade show active py-2" id="tb-panel-overview" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-star" style="margin-right:6px;" aria-hidden="true"></span>Overview</span></div>
+
+<div class="rounded-4 border shadow-sm p-2 mb-4" style="background-color:#f4f8f4;">
+  <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" src="en/demo.gif" alt="Animated demo of the module" loading="lazy"/>
+</div>
 <p class="mb-4" style="font-size:16px;line-height:1.65;max-width:780px;">With <em>Log in with Employees</em>, Odoo keeps <strong>Close Register</strong> for the managers, together with
-cash in/out, payment editing, product creation and price changes. To let the cashier who
-worked the shift close it, you would have to give all of them.</p>
+other manager rights such as editing payments, creating products and, with <em>Price Control</em>,
+changing prices. To let the cashier who worked the shift close it, you would have to give all
+of them.</p>
 <p>This module moves only the button:</p>
 <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-2 mt-1 mb-4"><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-credit-card" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Cashiers close their own shift</span><div>employees with basic rights get <em>Close Register</em> in the
   menu, where a manager finds it. The closing popup is the usual one.</div></div></div></li><li class="col"><div class="border rounded-3 px-3 py-2 h-100 d-flex align-items-start"><span class="flex-shrink-0 text-center rounded-3 d-inline-block me-2" style="background-color:#DEF1DD;color:#006F42;width:30px;height:30px;line-height:30px;font-size:15px;"><span class="fa fa-check" style="" aria-hidden="true"></span></span><div><span class="fw-bold">Nothing else moves</span><div>the other manager rights stay with the managers. Employees with
@@ -66,18 +71,67 @@ worked the shift close it, you would have to give all of them.</p>
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-book" style="margin-right:6px;" aria-hidden="true"></span>Usage</span></div>
 <ol>
 <li>Go to <em>Point of Sale &gt; Configuration &gt; Settings</em> and select the register.</li>
-<li>Under <em>PoS Interface</em>, enable <em>Log in with Employees</em> and set which employees have basic
-   rights.</li>
-<li><em>Cashiers Close the Register</em>, right below, is ticked. Untick it on the registers where the
+<li>Under <em>PoS Interface</em>, enable <em>Log in with Employees</em>, save, and set which employees have
+   <em>Advanced rights</em>, <em>Basic rights</em> and <em>Minimal rights</em>.</li>
+<li><em>Cashiers Close the Register</em>, next to it, is ticked. Untick it on the registers where the
    closing stays with the manager, and save.</li>
 <li>Reload the register page if a session is already open: the setting is read when the
    register loads.</li>
 </ol>
-<p>An employee with basic rights now opens the menu and finds <em>Close Register</em>. With <em>Cash
-Control</em>, a difference above the authorized amount still needs a manager to close.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Log in with Employees with the employees split by rights, and Cashiers Close the Register ticked" src="en/01_setari_casierii_inchid_casa.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">1</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Log in with Employees with the employees split by rights, and Cashiers Close the Register ticked</span>
+  </div>
+</div>
+<p>An employee with basic rights now opens the menu and finds <em>Close Register</em>.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Register menu of a cashier with basic rights, with Close Register" src="en/02_pos_meniu_casier.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">2</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Register menu of a cashier with basic rights, with Close Register</span>
+  </div>
+</div>
+<p>The closing popup is the usual one. With <em>Set Maximum Difference</em>, a cash difference above the
+<em>Authorized Difference</em> still needs a manager to close.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="The usual closing popup, opened by the cashier" src="en/03_pos_inchidere_casa.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">3</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">The usual closing popup, opened by the cashier</span>
+  </div>
+</div>
+<p>Employees with minimal rights still do not get <em>Close Register</em>.</p>
+<div class="border rounded-4 shadow-sm my-4" style="background-color:#ffffff;">
+  <div class="p-2 rounded-top-4" style="background-color:#f4f8f4;">
+    <img class="img-fluid d-block mx-auto rounded-3" style="max-width:100%;height:auto;" alt="Register menu of an employee with minimal rights, without Close Register" src="en/04_pos_meniu_drepturi_minime.png"/>
+  </div>
+  <div class="d-flex align-items-center px-3 py-2 border-top">
+    <span class="flex-shrink-0 text-center fw-bold rounded-circle d-inline-block me-2"
+          style="background-color:#006F42;color:#ffffff;width:26px;height:26px;line-height:26px;font-size:13px;">4</span>
+    <span style="font-size:14px;line-height:1.4;color:#3d4752;">Register menu of an employee with minimal rights, without Close Register</span>
+  </div>
+</div>
 </div>
 <div class="tab-pane fade py-2" id="tb-panel-versions" style="font-size:16px;line-height:1.65;color:#212529;font-weight:400;">
 <div class="mb-2"><span class="d-inline-block rounded-pill fw-bold text-uppercase" style="background-color:#DEF1DD;color:#006F42;padding:5px 14px;font-size:12px;letter-spacing:0.14em;"><span class="fa fa-history" style="margin-right:6px;" aria-hidden="true"></span>Versions</span></div>
+<h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.1 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-11-28)</span></h2>
+<ul>
+<li>Romanian translation.</li>
+<li>Description: Cash In/Out is not among the manager rights in Odoo 19 (it follows the Odoo
+  user of the register), so it is no longer listed there.</li>
+<li>Consultant sheet (RO), usage with screenshots and demo GIF for the Apps Store.</li>
+</ul>
 <h2 class="mt-5 mb-3" style="border:none;font-family:'Caveat',Georgia,'Times New Roman',serif;font-weight:700;color:#006F42;font-size:36px;line-height:1.1;letter-spacing:0;">19.0.1.0.0 <span style="display:inline-block;padding:0 6px;white-space:nowrap;background-image:url(https://apps.odoo.com/openerp_website/static/src/img/highlights/green_highlight_03.svg);background-position:center 75%;background-repeat:no-repeat;background-size:100% 60%;">(2026-10-23)</span></h2>
 <ul>
 <li>First version: <em>Cashiers Close the Register</em> option, per register, that gives <em>Close
