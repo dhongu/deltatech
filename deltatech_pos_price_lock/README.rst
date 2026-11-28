@@ -16,11 +16,14 @@ POS Price Lock
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pos_price_lock
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_pos_price_lock/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 .. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_pos_price_lock
     :alt: 4 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 Odoo lets you restrict price changes in the Point of Sale to managers.
 When every employee working at the register is a manager, or when the
@@ -60,13 +63,36 @@ Usage
 4. Reload the register page if a session is already open: the setting is
    read when the register loads.
 
+|Price Control and Managers included ticked in the Pricing section of
+the register settings|
+
 From now on the *Price* key of the numpad stays disabled for everybody
-on this register. To change a price, edit the sales price of the
-product; with *POS Price Sync* installed the new price reaches the open
-registers without a reload.
+on this register, POS managers and employees with advanced rights
+included. *Qty* and *%* keep working as before.
+
+|Register with a product on the order: the Price key of the numpad is
+disabled for a POS manager|
+
+To change a price, edit the *Sales Price* of the product; with *POS
+Price Sync* installed the new price reaches the open registers without a
+reload.
+
+|Product form with the Sales Price field, where a wrong price is
+corrected|
+
+.. |Price Control and Managers included ticked in the Pricing section of the register settings| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pos_price_lock/static/description/en/01_setari_blocare_pret.png
+.. |Register with a product on the order: the Price key of the numpad is disabled for a POS manager| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pos_price_lock/static/description/en/02_pos_tasta_pret_blocata.png
+.. |Product form with the Sales Price field, where a wrong price is corrected| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pos_price_lock/static/description/en/03_corectie_pret_produs.png
 
 Changelog
 =========
+
+19.0.1.1.1 (2026-11-28)
+-----------------------
+
+- Romanian translation.
+- Consultant sheet (RO), usage with screenshots and demo GIF for the
+  Apps Store.
 
 19.0.1.1.0 (2026-10-23)
 -----------------------
