@@ -87,7 +87,7 @@ iar mai multe spații consecutive devin unul singur. Astfel, `  DIN933 ` găseș
 
 Clientul deschide produsul din rezultate. Pe pagina produsului, în formularul de cumpărare (zona cu
 cantitatea și butonul de adăugare în coș), apare secțiunea
-**Utilizat la:** (în engleză „User for:”, vezi secțiunea 9) cu valoarea câmpului **Used For**, de
+**Utilizat la:** (în engleză „Used for:”) cu valoarea câmpului **Used For**, de
 ex. „Ford Focus 2005-2011”. Secțiunea lipsește dacă câmpul e gol.
 
 Codurile alternative nu se văd pe ecran pentru vizitatorul public, dar sunt în pagină, ascunse, ca
@@ -152,7 +152,6 @@ codurilor ascunse și completarea câmpului **Used For**.
 |-----------------|-----------------|-----------|
 | Produsul nu e găsit după codul alternativ | produsul nu e publicat pe website sale, ori codul e scris diferit (alt separator, cratimă) | publicați produsul; adăugați și varianta de scriere folosită de clienți ca alt cod alternativ |
 | Clientul nu găsește un produs după un cuvânt din descriere | modulul scoate descrierea din câmpurile căutate, ca să nu aducă rezultate nepotrivite | comportament intenționat; puneți termenul în denumire sau ca un cod alternativ |
-| Pe site-ul în engleză, eticheta apare „User for:” în loc de „Used for:” | greșeală de scriere în șablon; în română eticheta e corectă („Utilizat la:”) | semnalată ca bug ([#3823](https://github.com/dhongu/deltatech/issues/3823)); până la corectare, se poate traduce eticheta în engleză din editorul de traduceri |
 | Codul alternativ nu apare pe pagina produsului | vizitatorul nu e autentificat, toate codurile sunt marcate **Hide**, ori vizualizarea **Alternative code** a fost oprită | autentificați-vă, verificați bifa **Hide** și starea vizualizării |
 | Căutarea întoarce o eroare `list.remove(x)` | versiune veche a modulului, cu afișarea descrierii oprită pe bara de căutare | actualizați modulul (corectat în 19.0.1.0.8) |
 

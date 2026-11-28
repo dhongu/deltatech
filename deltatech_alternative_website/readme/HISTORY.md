@@ -1,3 +1,7 @@
+## 19.0.1.0.14 (2026-11-28)
+
+- Fix: the product page label read "User for:" instead of "Used for:". The source term and the Romanian translation entry were corrected.
+
 ## 19.0.1.0.13 (2026-10-22)
 
 - Listed on Odoo Apps as *Website Alternative Codes* (was *Website alternative code*). The technical name `deltatech_alternative_website` does not change.
