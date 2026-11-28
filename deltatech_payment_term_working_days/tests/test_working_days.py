@@ -4,6 +4,7 @@
 from datetime import date, datetime, time, timedelta
 
 from odoo import Command
+from odoo.exceptions import UserError
 from odoo.tests import Form, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
@@ -126,6 +127,16 @@ class TestPaymentTermWorkingDays(AccountTestInvoicingCommon):
         # Thursday 2026-04-30 + 1 working day: 1 May is still a holiday
         invoice = self._invoice(self._term(1), "2026-04-30")
         self.assertEqual(invoice.invoice_date_due, date(2026, 5, 4))
+
+    def test_empty_calendar_working_days(self):
+        self.calendar.attendance_ids.unlink()
+        with self.assertRaises(UserError):
+            self._invoice(self._term(1), "2026-03-06")
+
+    def test_empty_calendar_postpone(self):
+        self.calendar.attendance_ids.unlink()
+        with self.assertRaises(UserError):
+            self._invoice(self._term(1, "calendar", postpone=True), "2026-03-06")
 
     def test_calendar_term_unchanged(self):
         invoice = self._invoice(self._term(3, "calendar"), "2026-03-06")

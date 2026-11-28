@@ -1,3 +1,9 @@
+## 19.0.1.0.2 (2026-11-28)
+
+- Fix: a company working schedule without any working time (or public holidays
+  covering a whole year) no longer hangs the due date computation or yields a
+  non-working due date. A configuration error is raised instead.
+
 ## 19.0.1.0.1 (2026-10-12)
 
 - Docs: screenshots of the payment term form, of the legal ceiling warning and of

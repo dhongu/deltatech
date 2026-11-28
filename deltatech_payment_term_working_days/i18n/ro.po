@@ -89,3 +89,13 @@ msgid ""
 msgstr ""
 "Zilele lucrătoare sar peste weekenduri și sărbătorile legale ale companiei. "
 "Nu se aplică atunci când scadența este o zi fixă din luna următoare."
+
+#. module: deltatech_payment_term_working_days
+#. odoo-python
+#: code:addons/deltatech_payment_term_working_days/models/working_days.py:0
+msgid ""
+"No working day could be found in a year for the company %(company)s. Check "
+"its working schedule (it has no working time) and its public holidays."
+msgstr ""
+"Nu s-a găsit nicio zi lucrătoare într-un an pentru compania %(company)s. "
+"Verificați programul de lucru (nu are timp de lucru) și sărbătorile legale."
