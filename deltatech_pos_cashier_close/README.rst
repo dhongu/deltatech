@@ -16,16 +16,20 @@ POS Cashier Close Register
 .. |badge2| image:: https://img.shields.io/badge/github-dhongu%2Fdeltatech-lightgray.png?logo=github
     :target: https://github.com/dhongu/deltatech/tree/19.0/deltatech_pos_cashier_close
     :alt: dhongu/deltatech
+.. |badge_fisa| image:: https://img.shields.io/badge/-Fi%C8%99%C4%83%20consultant-2ea44f.png
+    :target: https://github.com/dhongu/deltatech/blob/19.0/deltatech_pos_cashier_close/readme/FISA_CONSULTANT.md
+    :alt: Fișă consultant
 .. |badge_tests| image:: https://img.shields.io/badge/-4%20automated%20tests%20%C2%B7%20100%25%20code%20coverage-2ea44f.png
     :target: https://app.codecov.io/gh/dhongu/deltatech/tree/19.0/deltatech_pos_cashier_close
     :alt: 4 automated tests · 100% code coverage
 
-|badge1| |badge2| |badge_tests|
+|badge1| |badge2| |badge_fisa| |badge_tests|
 
 With *Log in with Employees*, Odoo keeps **Close Register** for the
-managers, together with cash in/out, payment editing, product creation
-and price changes. To let the cashier who worked the shift close it, you
-would have to give all of them.
+managers, together with other manager rights such as editing payments,
+creating products and, with *Price Control*, changing prices. To let the
+cashier who worked the shift close it, you would have to give all of
+them.
 
 This module moves only the button:
 
@@ -51,19 +55,50 @@ Usage
 
 1. Go to *Point of Sale > Configuration > Settings* and select the
    register.
-2. Under *PoS Interface*, enable *Log in with Employees* and set which
-   employees have basic rights.
-3. *Cashiers Close the Register*, right below, is ticked. Untick it on
+2. Under *PoS Interface*, enable *Log in with Employees*, save, and set
+   which employees have *Advanced rights*, *Basic rights* and *Minimal
+   rights*.
+3. *Cashiers Close the Register*, next to it, is ticked. Untick it on
    the registers where the closing stays with the manager, and save.
 4. Reload the register page if a session is already open: the setting is
    read when the register loads.
 
+|Log in with Employees with the employees split by rights, and Cashiers
+Close the Register ticked|
+
 An employee with basic rights now opens the menu and finds *Close
-Register*. With *Cash Control*, a difference above the authorized amount
-still needs a manager to close.
+Register*.
+
+|Register menu of a cashier with basic rights, with Close Register|
+
+The closing popup is the usual one. With *Set Maximum Difference*, a
+cash difference above the *Authorized Difference* still needs a manager
+to close.
+
+|The usual closing popup, opened by the cashier|
+
+Employees with minimal rights still do not get *Close Register*.
+
+|Register menu of an employee with minimal rights, without Close
+Register|
+
+.. |Log in with Employees with the employees split by rights, and Cashiers Close the Register ticked| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pos_cashier_close/static/description/en/01_setari_casierii_inchid_casa.png
+.. |Register menu of a cashier with basic rights, with Close Register| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pos_cashier_close/static/description/en/02_pos_meniu_casier.png
+.. |The usual closing popup, opened by the cashier| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pos_cashier_close/static/description/en/03_pos_inchidere_casa.png
+.. |Register menu of an employee with minimal rights, without Close Register| image:: https://raw.githubusercontent.com/dhongu/deltatech/19.0/deltatech_pos_cashier_close/static/description/en/04_pos_meniu_drepturi_minime.png
 
 Changelog
 =========
+
+19.0.1.0.1 (2026-11-28)
+-----------------------
+
+- Romanian translation.
+- Description: Cash In/Out is not among the manager rights in Odoo 19
+  (it follows the Odoo user of the register), so it is no longer listed
+  there.
+- Consultant sheet (RO), usage with screenshots and demo GIF for the
+  Apps Store.
 
 19.0.1.0.0 (2026-10-23)
 -----------------------
