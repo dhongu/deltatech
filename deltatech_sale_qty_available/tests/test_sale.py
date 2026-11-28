@@ -141,3 +141,12 @@ class TestSale(TransactionCase):
     def test_order_form_view(self):
         arch = self.env["sale.order"].get_view(self.env.ref("sale.view_order_form").id, "form")["arch"]
         self.assertIn('name="qty_available_text"', arch)
+
+    def test_is_ready_shared_stock_one_policy(self):
+        """Doua linii de 6 din acelasi produs cu stoc 10 -> oferta nu e pregatita."""
+        product = self.env["product.product"].create({"name": "Test D", "is_storable": True, "list_price": 10})
+        self.env["stock.quant"]._update_available_quantity(product, self.stock_location, 10)
+        so = self._create_so([(product, 6), (product, 6)], picking_policy="one")
+        self.assertFalse(so.is_ready)
+        so2 = self._create_so([(product, 5), (product, 5)], picking_policy="one")
+        self.assertTrue(so2.is_ready)
