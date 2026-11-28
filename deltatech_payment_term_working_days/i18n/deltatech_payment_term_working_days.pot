@@ -82,3 +82,11 @@ msgid ""
 "Working days skip the weekends and the public holidays of the company. They "
 "are not used when the due date is a fixed day of the next month."
 msgstr ""
+
+#. module: deltatech_payment_term_working_days
+#. odoo-python
+#: code:addons/deltatech_payment_term_working_days/models/working_days.py:0
+msgid ""
+"No working day could be found in a year for the company %(company)s. Check "
+"its working schedule (it has no working time) and its public holidays."
+msgstr ""

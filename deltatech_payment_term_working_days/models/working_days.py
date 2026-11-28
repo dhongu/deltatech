@@ -5,6 +5,8 @@ from datetime import datetime, timedelta
 
 import pytz
 
+from odoo.exceptions import UserError
+
 
 class WorkingDays:
     """Working days of a company: the days of its working schedule minus its public holidays.
@@ -59,18 +61,35 @@ class WorkingDays:
             return False
         return day not in self._year_holidays(day.year)
 
+    def _no_working_day_error(self):
+        return UserError(
+            self.env._(
+                "No working day could be found in a year for the company %(company)s. "
+                "Check its working schedule (it has no working time) and its public holidays.",
+                company=self.company.display_name,
+            )
+        )
+
     def add(self, day, nb_days):
         """The day after `nb_days` working days counted from the day after `day`."""
+        # a stretch of a year without any working day is a configuration error: stop instead of looping forever
+        idle = 0
         while nb_days > 0:
             day += timedelta(days=1)
             if self.is_working(day):
                 nb_days -= 1
+                idle = 0
+            else:
+                idle += 1
+                if idle > 366:
+                    raise self._no_working_day_error()
         return day
 
     def next_working(self, day):
         """`day` itself if it is a working day, else the first working day after it."""
-        # a year without any working day is a configuration error: stop instead of looping forever
         limit = day + timedelta(days=366)
-        while not self.is_working(day) and day < limit:
+        while not self.is_working(day):
+            if day >= limit:
+                raise self._no_working_day_error()
             day += timedelta(days=1)
         return day
