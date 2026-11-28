@@ -1,3 +1,7 @@
+## 19.0.1.0.11 (2026-11-28)
+
+- Fixed Romanian translations (#3955): *Amount* is now "Valoare" (was "Sold"); translated the Change Product Price group, the Propagate Accounts action and the cost price access error; ro.po resynchronised with the .pot.
+
 ## 19.0.1.0.10 (2026-11-03)
 
 - Description rewritten from the code: the transfer value is shown in the transfers list, not on the transfer form.

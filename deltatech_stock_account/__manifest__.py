@@ -5,7 +5,7 @@
 {
     "name": "Stock Account Extension",
     "summary": "Transfer value in the transfers list, category account propagation, cost change control",
-    "version": "19.0.1.0.10",
+    "version": "19.0.1.0.11",
     "author": "Terrabit, Dorin Hongu",
     "website": "https://www.terrabit.ro",
     "category": "Generic Modules",
