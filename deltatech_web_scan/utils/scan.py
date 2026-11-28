@@ -89,7 +89,8 @@ def scan_page(
     :param suspect_change_percent: the jump of price, in percent, from which the price is ``suspect``
     :return: a dictionary: ``state``, ``detail`` (technical, in English), ``source`` (``structured``,
         ``selector``, ``heuristic``), ``product`` (as ``extract_structured``, or None), ``offer``
-        (the one retained, or None), ``url`` (the final address, after redirects), ``fetch`` (the ``FetchResult``)
+        (the one retained, or None), ``url`` (the final address, after redirects), ``fetch`` (the ``FetchResult``);
+        for a ``suspect`` price also ``previous_price`` and ``change`` (in percent), for a translated message
     """
     outcome = {"state": "error", "detail": "", "source": False, "product": None, "offer": None, "url": url}
     result = fetch(url, session=session, user_agent=user_agent, respect_robots=respect_robots, delay=delay)
@@ -128,7 +129,12 @@ def scan_page(
     if previous_price and suspect_change_percent:
         change = abs(offer["price"] - previous_price) / previous_price * 100
         if change > suspect_change_percent:
-            outcome.update(state="suspect", detail=f"price {previous_price} -> {offer['price']} ({change:.0f}%)")
+            outcome.update(
+                state="suspect",
+                detail=f"price {previous_price} -> {offer['price']} ({change:.0f}%)",
+                previous_price=previous_price,
+                change=change,
+            )
             return outcome
     outcome["state"] = "ok"
     return outcome

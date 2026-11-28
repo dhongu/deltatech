@@ -114,6 +114,12 @@ msgstr ""
 #. module: deltatech_web_scan
 #. odoo-python
 #: code:addons/deltatech_web_scan/models/web_scan_source.py:0
+msgid "price %(previous)s -> %(price)s (%(change)s%%)"
+msgstr ""
+
+#. module: deltatech_web_scan
+#. odoo-python
+#: code:addons/deltatech_web_scan/models/web_scan_source.py:0
 msgid "Price to confirm: %(detail)s"
 msgstr ""
 

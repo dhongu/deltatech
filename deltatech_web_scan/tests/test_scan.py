@@ -117,3 +117,19 @@ class TestScanSourceMixin(TransactionCase):
         record.scan_state = "suspect"
         record.action_scan_confirm()
         self.assertEqual(record.scan_state, "ok")
+
+    def test_suspect_message_formatted(self):
+        """The jump of price is translated and its amounts follow the language of the user"""
+        self.env["res.lang"]._activate_lang("ro_RO")
+        record = self.env["web.scan.source.mixin"].new({"scan_url": URL})
+        outcome = {
+            "state": "suspect",
+            "detail": "price 48.0 -> 69.9 (46%)",
+            "previous_price": 48.0,
+            "change": 45.6,
+            "offer": {"price": 69.9, "currency": "RON"},
+        }
+        message = record.with_context(lang="ro_RO")._scan_message(outcome)
+        self.assertIn("69,90", message)
+        self.assertNotIn("69.9", message)
+        self.assertIn("46%", message)
