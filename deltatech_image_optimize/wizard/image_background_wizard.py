@@ -3,6 +3,7 @@
 # See README.rst file on addons root folder for license details
 
 import base64
+import hashlib
 
 from odoo import api, fields, models
 
@@ -108,6 +109,7 @@ class ImageBackgroundWizard(models.TransientModel):
     def _dt_preview_vals(self, record, params):
         data, warning = record._dt_bg_cutout(params)
         return {
+            "source_checksum": self.env["deltatech.image.background.wizard.line"]._dt_source_checksum(record),
             "image_after": data and base64.b64encode(data),
             "warning": warning,
             # un rezultat suspect nu se aplică decât dacă utilizatorul îl bifează
@@ -156,10 +158,20 @@ class ImageBackgroundWizard(models.TransientModel):
                 count=len(self.line_ids),
             )
         else:
-            lines = self.line_ids.filtered(lambda line: line.to_apply and line.image_after)
+            candidates = self.line_ids.filtered(lambda line: line.to_apply and line.image_after)
+            # imaginea sursă s-a schimbat după previzualizare: nu se suprascrie cu rezultatul celei vechi
+            stale = candidates.filtered(lambda line: not line._dt_source_unchanged())
+            lines = candidates - stale
             for line in lines:
                 line._dt_record()._dt_bg_apply(base64.b64decode(line.image_after))
             message = self.env._("Background removed on %(count)s images.", count=len(lines))
+            if stale:
+                message += " " + self.env._(
+                    "%(count)s images were changed after the preview and were skipped: %(names)s. "
+                    "Run the action again to preview the current image.",
+                    count=len(stale),
+                    names=", ".join(stale.mapped("name")),
+                )
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",
@@ -180,6 +192,16 @@ class ImageBackgroundWizardLine(models.TransientModel):
     image_after = fields.Image(string="After", attachment=False)
     warning = fields.Char(readonly=True)
     to_apply = fields.Boolean(string="Apply")
+    source_checksum = fields.Char(readonly=True, help="Fingerprint of the source image at preview time.")
+
+    @api.model
+    def _dt_source_checksum(self, record):
+        data = record[record._dt_bg_image_field]
+        return hashlib.sha1(data or b"").hexdigest()  # noqa: S324 - amprentă, nu criptografie
+
+    def _dt_source_unchanged(self):
+        self.ensure_one()
+        return self.source_checksum == self._dt_source_checksum(self._dt_record())
 
     def _dt_record(self):
         self.ensure_one()

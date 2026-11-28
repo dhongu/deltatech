@@ -1,3 +1,10 @@
+## 19.0.1.14.2 (2026-11-28)
+
+- Background removal wizard: *Apply* no longer overwrites an image that was replaced after the preview
+  was computed. The source image fingerprint is stored with the preview and checked on apply; changed
+  images are skipped and listed in the notification (run the action again, or use *Refresh*, to preview
+  the current image).
+
 ## 19.0.1.14.1 (2026-10-22)
 
 - Consultant sheet: covers the *Frame only (keep background)* method and its *Margin (%)*,
