@@ -1,7 +1,7 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "POS Cashier Close Register",
-    "version": "19.0.1.0.1",
+    "version": "20.0.1.0.1",
     "category": "Point of Sale",
     "summary": "Cashiers close their own register, without the other manager rights",
     "author": "Terrabit, Dorin Hongu",
