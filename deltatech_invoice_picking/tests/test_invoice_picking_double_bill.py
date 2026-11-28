@@ -97,3 +97,9 @@ class TestSupplierInvoiceDoubleBill(common.TransactionCase):
         self.assertNotEqual(new_bill, bill)
         self.assertEqual(new_bill.invoice_line_ids.quantity, 3)
         self.assertEqual(picking.account_move_id, new_bill)
+
+    def test_bill_reference_is_filled(self):
+        order = self._create_order(3)
+        picking = self._receive(order.picking_ids, 3)
+        bill = self._bill(picking, "BILL-REF-001")
+        self.assertEqual(bill.ref, "BILL-REF-001")
