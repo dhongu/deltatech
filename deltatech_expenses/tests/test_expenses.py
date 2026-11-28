@@ -681,6 +681,15 @@ class TestExpenses(TransactionCase):
         self.assertAlmostEqual(voucher.amount_tax, 21.0, places=2)
         self.assertAlmostEqual(voucher.amount_total, 121.0, places=2)
 
+    def test_totals_follow_line_amount_edit_in_same_env(self):
+        """Totalurile citite înainte de editarea unei linii se recalculează fără invalidare manuală."""
+        deduction = self._new_deduction(100.0)
+        line = self._new_line(deduction, 100.0)
+        self.assertAlmostEqual(deduction.difference, 0.0, places=2)
+        line.amount = 200.0
+        self.assertAlmostEqual(deduction.amount_vouchers, 200.0, places=2)
+        self.assertAlmostEqual(deduction.difference, 100.0, places=2)
+
     def test_receipt_rounding_preserves_gross_and_does_not_pay_a_difference(self):
         deduction = self._new_deduction(199.85)
         line = self._new_line(deduction, 199.85, self.tax_21)

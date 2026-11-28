@@ -322,7 +322,16 @@ class DeltatechExpensesDeduction(models.Model):
         if not self.date_expense or self.date_advance > self.date_expense:
             self.date_expense = self.date_advance
 
-    @api.depends("expenses_line_ids.amount", "expenses_line_ids.type", "days", "diem", "advance", "settlement_mode")
+    @api.depends(
+        "expenses_line_ids.amount",
+        "expenses_line_ids.type",
+        "expenses_line_ids.tax_amount",
+        "expenses_line_ids.price_subtotal",
+        "days",
+        "diem",
+        "advance",
+        "settlement_mode",
+    )
     def _compute_amount(self):
         for expense in self:
             total = 0.0
