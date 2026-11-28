@@ -99,6 +99,26 @@ class TestImageBackground(TransactionCase):
         # produsul are 200 px pe latura lungă, plus 10% margine pe fiecare parte
         self.assertEqual(self._decoded(self.product).size, (240, 240))
 
+    def test_stale_preview_does_not_overwrite_new_image(self):
+        action = self.product.action_dt_remove_background()
+        wizard = self.env[action["res_model"]].browse(action["res_id"])
+        img = Image.new("RGB", (400, 300), (10, 200, 10))
+        buf = io.BytesIO()
+        img.save(buf, format="PNG")
+        new_image = base64.b64encode(buf.getvalue())
+        self.product.image_1920 = new_image
+
+        result = wizard.action_apply()
+
+        self.assertEqual(self.product.image_1920, new_image, "the newer image is kept")
+        self.assertNotEqual(self.product.bg_removal_state, "done")
+        self.assertIn("skipped", result["params"]["message"])
+
+        # după refacerea previzualizării, aplicarea merge
+        wizard.action_refresh()
+        wizard.action_apply()
+        self.assertEqual(self.product.bg_removal_state, "done")
+
     def test_solid_color_background(self):
         self._set_param("bg_color", "#FFFFFF")
         self._run(self.product)
