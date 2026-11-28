@@ -1,3 +1,7 @@
+## 19.0.1.2.6 (2026-11-28)
+
+- Fix: changing the country on the address form kept the localities and the selection of the previous country, and hid the free-text city. The localities are now cleared and the selection reset when the country changes; an existing address keeps its locality on the first load.
+
 ## 19.0.1.2.5 (2026-10-09)
 
 - Fix: the upgrade from 18.0 left the old view `address` (inheriting `website_sale.address` on `div_city`) in the database, and every website reported it as a broken template. A migration removes it; the city field is added by the view `address_form_fields`.

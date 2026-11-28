@@ -5,7 +5,7 @@
     "name": "Website City",
     "category": "Website/Website",
     "summary": "Choose the city from a list in eCommerce and portal addresses",
-    "version": "19.0.1.2.5",
+    "version": "19.0.1.2.6",
     "author": "Terrabit, Dorin Hongu",
     "support": "odoo@terrabit.ro",
     "license": "OPL-1",
