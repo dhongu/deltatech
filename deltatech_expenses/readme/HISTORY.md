@@ -1,5 +1,11 @@
 # Changelog
 
+## 19.0.3.12.6 (2026-11-28)
+
+- The totals of an expenses deduction (**Total Amount**, **Vouchers Amount**, **Total Diem** and
+  **Difference**) now depend on the tax and subtotal amounts of the lines, so editing the amount of an
+  existing line no longer leaves stale totals in the cache of the same transaction.
+
 ## 19.0.3.12.5 (2026-11-26)
 
 - Moving a **supplier payment allocation** to a line of a done or cancelled deduction is refused, as
