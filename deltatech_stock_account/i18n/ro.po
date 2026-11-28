@@ -4,12 +4,13 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0+e\n"
+"Project-Id-Version: Odoo Server 19.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-31 07:21+0000\n"
-"PO-Revision-Date: 2024-05-31 07:21+0000\n"
+"POT-Creation-Date: 2026-07-31 10:24+0000\n"
+"PO-Revision-Date: 2026-07-31 10:24+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -18,19 +19,59 @@ msgstr ""
 #. module: deltatech_stock_account
 #: model:ir.model.fields,field_description:deltatech_stock_account.field_stock_picking__amount
 msgid "Amount"
-msgstr "Sold"
+msgstr "Valoare"
+
+#. module: deltatech_stock_account
+#: model:res.groups,name:deltatech_stock_account.group_change_product_price
+msgid "Change Product Price"
+msgstr "Modificare preț produs"
 
 #. module: deltatech_stock_account
 #: model:ir.model.fields,field_description:deltatech_stock_account.field_stock_picking__currency_id
 msgid "Currency"
-msgstr "Moneda"
+msgstr "Monedă"
+
+#. module: deltatech_stock_account
+#: model:ir.model.fields,field_description:deltatech_stock_account.field_product_category__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_account.field_product_product__display_name
+#: model:ir.model.fields,field_description:deltatech_stock_account.field_stock_picking__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: deltatech_stock_account
+#: model:ir.model.fields,field_description:deltatech_stock_account.field_product_category__id
+#: model:ir.model.fields,field_description:deltatech_stock_account.field_product_product__id
+#: model:ir.model.fields,field_description:deltatech_stock_account.field_stock_picking__id
+msgid "ID"
+msgstr "ID"
+
+#. module: deltatech_stock_account
+#: model:ir.model,name:deltatech_stock_account.model_product_category
+msgid "Product Category"
+msgstr "Categorie produs"
+
+#. module: deltatech_stock_account
+#: model:ir.model,name:deltatech_stock_account.model_product_product
+msgid "Product Variant"
+msgstr "Variantă produs"
+
+#. module: deltatech_stock_account
+#: model:ir.actions.server,name:deltatech_stock_account.action_product_category_propagate
+msgid "Propagate Accounts"
+msgstr "Propagare conturi"
 
 #. module: deltatech_stock_account
 #: model:ir.model,name:deltatech_stock_account.model_stock_picking
 msgid "Transfer"
-msgstr ""
+msgstr "Transfer"
+
+#. module: deltatech_stock_account
+#. odoo-python
+#: code:addons/deltatech_stock_account/models/product.py:0
+msgid "You are not allowed to change the cost price of a product."
+msgstr "Nu aveți dreptul să modificați prețul de cost al unui produs."
 
 #. module: deltatech_stock_account
 #: model_terms:ir.ui.view,arch_db:deltatech_stock_account.vpicktree
 msgid "amount"
-msgstr ""
+msgstr "valoare"
