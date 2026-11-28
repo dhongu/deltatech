@@ -1,0 +1,7 @@
+{
+  "title": "POS Price Lock",
+  "summary": "Fixed prices at the till, managers included",
+  "icon": "bag",
+  "edition": "community",
+  "features": ["Block price changes per register", "Numpad Price key disabled", "Pricelists and taxes still apply"]
+}
