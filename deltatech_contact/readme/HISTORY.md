@@ -1,3 +1,7 @@
+## 19.0.1.4.17 (2026-11-28)
+
+- The system parameter `contact.get_name_only` works again in Odoo 19: the display name of a contact of type *Contact* is overridden in `_get_complete_name()` (the old `_get_contact_name()` no longer exists), so the company is no longer shown before the person name (CONTACT-008, dhongu/deltatech#3926).
+
 ## 19.0.1.4.16 (2026-11-24)
 
 - The demo GIF is kept only in English (`static/description/en/demo.gif`), the language of the Apps Store page; the Romanian copy is removed.
