@@ -9,7 +9,6 @@
 #   ./odoo/odoo-bin -c odoo.conf -d <db> \
 #       -i l10n_ro,deltatech_pos_price_lock,deltatech_doc_screenshots \
 #       --test-tags=fise_screenshots --stop-after-init
-import base64
 import io
 import unittest
 
@@ -56,7 +55,7 @@ def _picture(colour):
 
     buffer = io.BytesIO()
     Image.new("RGB", (400, 300), colour).save(buffer, format="PNG")
-    return base64.b64encode(buffer.getvalue())
+    return buffer.getvalue()
 
 
 @tagged("-at_install", "post_install", "fise_screenshots")

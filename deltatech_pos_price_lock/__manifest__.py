@@ -1,7 +1,7 @@
 {
     "images": ["static/description/main_screenshot.png"],
     "name": "POS Price Lock",
-    "version": "19.0.1.1.1",
+    "version": "20.0.1.1.1",
     "category": "Point of Sale",
     "summary": "Block price changes in the POS for every cashier, managers included",
     "author": "Terrabit, Dorin Hongu",
@@ -12,7 +12,7 @@
     ],
     "assets": {
         "point_of_sale._assets_pos": [
-            "deltatech_pos_price_lock/static/src/js/pos_store.esm.js",
+            "deltatech_pos_price_lock/static/src/js/access_right_plugin.esm.js",
         ],
         "web.assets_unit_tests": ["deltatech_pos_price_lock/static/tests/unit/**/*"],
     },
