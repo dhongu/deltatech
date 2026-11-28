@@ -22,7 +22,7 @@ msgstr ""
 
 #. module: deltatech_alternative_website
 #: model_terms:ir.ui.view,arch_db:deltatech_alternative_website.product_used_for
-msgid "<span>User for:</span>"
+msgid "<span>Used for:</span>"
 msgstr ""
 
 #. module: deltatech_alternative_website

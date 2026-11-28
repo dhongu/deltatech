@@ -37,7 +37,7 @@
             <xpath expr="//div[@id='product_detail_main']//form" position="inside">
                 <t t-if="product.used_for">
                     <div>
-                        <span>User for:</span>
+                        <span>Used for:</span>
                         <span itemprop="isConsumableFor" t-field="product.used_for" class="text-muted" />
                     </div>
                     <hr />

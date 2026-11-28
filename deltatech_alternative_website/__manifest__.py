@@ -6,7 +6,7 @@
 {
     "name": "Website Alternative Codes",
     "summary": "Show alternative code in website",
-    "version": "19.0.1.0.13",
+    "version": "19.0.1.0.14",
     "author": "Terrabit, Dorin Hongu",
     "license": "OPL-1",
     "consultant_sheet": "simple",
