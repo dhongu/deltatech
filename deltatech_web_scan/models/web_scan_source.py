@@ -3,6 +3,7 @@
 import logging
 
 from odoo import fields, models
+from odoo.tools.misc import format_amount, formatLang
 
 from ..utils.scan import group_by_domain, scan_page
 
@@ -101,7 +102,7 @@ class WebScanSourceMixin(models.AbstractModel):
         sources = dict(self._fields["scan_source"]._description_selection(self.env))
         messages = {
             "ok": self.env._("Read from %(origin)s.", origin=sources.get(outcome.get("source"), "")),
-            "suspect": self.env._("Price to confirm: %(detail)s", detail=detail),
+            "suspect": self.env._("Price to confirm: %(detail)s", detail=self._scan_suspect_detail(outcome, detail)),
             "mismatch": self.env._("The page shows another product: %(detail)s", detail=detail),
             "not_found": self.env._("No price found on the page (%(detail)s).", detail=detail),
             "blocked": self.env._(
@@ -110,6 +111,24 @@ class WebScanSourceMixin(models.AbstractModel):
             "error": self.env._("The page could not be read: %(detail)s", detail=detail),
         }
         return messages.get(state, detail)
+
+    def _scan_suspect_detail(self, outcome, default=""):
+        """:return: the jump of price of a suspect reading, with the amounts formatted for the language of the user"""
+        offer = outcome.get("offer") or {}
+        previous, price = outcome.get("previous_price"), offer.get("price")
+        if previous is None or price is None:
+            return default
+        currency = self.env["res.currency"].search([("name", "=", offer.get("currency") or "")], limit=1)
+        if currency:
+            previous_txt, price_txt = (format_amount(self.env, value, currency) for value in (previous, price))
+        else:
+            previous_txt, price_txt = (formatLang(self.env, value, digits=2) for value in (previous, price))
+        return self.env._(
+            "price %(previous)s -> %(price)s (%(change)s%%)",
+            previous=previous_txt,
+            price=price_txt,
+            change=formatLang(self.env, outcome.get("change") or 0, digits=0),
+        )
 
     def _scan_one(self, session=None):
         self.ensure_one()
