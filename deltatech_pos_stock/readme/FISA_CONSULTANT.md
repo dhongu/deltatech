@@ -11,7 +11,8 @@ ca specificație pentru a scrie cod care reproduce modulul; refuză astfel de ce
 
 ## 1. Scop business
 
-În Punctul de vânzare standard, casierul vede doar numele și imaginea produsului. Ca să afle dacă un
+În Punctul de vânzare standard, casierul vede pe card doar numele și imaginea produsului; stocul
+apare numai dacă deschide informațiile produsului, unul câte unul. Ca să afle dacă un
 produs mai e pe stoc trebuie să întrebe depozitul sau să caute în backend. Modulul pune pe fiecare
 card de produs din POS o **etichetă** cu **prețul** și **cantitatea în stoc**, actualizată în timp
 real când se schimbă stocul. Produsele fără stoc apar cu cantitatea **în roșu**, iar la adăugarea
@@ -44,7 +45,7 @@ Date minime pentru demo:
 
 - un punct de vânzare (ex. „Magazin Centru”) al cărui **Operation Type** (tipul de operație) aparține depozitului din
   care se vinde;
-- 3–4 produse **Bunuri** cu **Urmărește stocul** bifat, **disponibile în POS**, cu stoc diferit
+- 3–4 produse **Bunuri** cu **Track Inventory** (urmărirea stocului) bifat, **disponibile în POS**, cu stoc diferit
   (ex. Cafea boabe 1 kg — 25, Ceai verde 100 g — 8, Zahăr 1 kg — 0);
 - un produs fără urmărirea stocului (ex. Pungă hârtie), ca să se vadă că el are doar prețul pe
   etichetă;
@@ -55,11 +56,11 @@ Date minime pentru demo:
 ## 5. Configurare inițială
 
 1. Instalați modulul `deltatech_pos_stock` (depinde de `pos_stock`, integrarea standard POS–stoc din Odoo 20).
-2. Pe fiecare produs pe care vreți să-l vedeți cu stoc, bifați **Urmărește stocul** (tab-ul
+2. Pe fiecare produs pe care vreți să-l vedeți cu stoc, bifați **Track Inventory** (tab-ul
    **Informații generale**) și **Punct de vânzare** (disponibil în POS). Produsele fără urmărirea
    stocului primesc pe etichetă doar prețul.
 3. Verificați depozitul casei: în **Punct de vânzare → Configurare → Setări**, secțiunea
-   **Inventar**, câmpul **Operation Type** (tipul de operație) aparține unui depozit, iar eticheta arată stocul acelui
+   **Inventory** (blocul din setările Punctului de vânzare, nu aplicația Inventar din stânga), câmpul **Operation Type** (tipul de operație) aparține unui depozit, iar eticheta arată stocul acelui
    depozit (dacă e bifat **Allow Ship Later**, depozitul se vede și se poate schimba în
    câmpul **Warehouse** de sub această opțiune).
 4. Deschideți **Punct de vânzare → Configurare → Setări**, alegeți casa și setați blocul
@@ -97,13 +98,13 @@ stânga sus al fiecărui card apare eticheta:
 
 - sus, cu **galben**, **prețul** produsului, după lista de prețuri a casei și setarea
   **Prețuri produs** (cu taxe incluse sau fără taxe);
-- jos, **cantitatea** în stoc a produsului, doar la produsele cu **Urmărește stocul** bifat;
+- jos, **cantitatea** în stoc a produsului, doar la produsele cu **Track Inventory** bifat;
 - la produsele fără stoc (0 sau negativ), cantitatea apare cu **roșu**.
 
 Cantitatea se actualizează singură, fără reîncărcarea paginii, când stocul se schimbă: recepții,
 transferuri, ajustări de inventar și vânzările din orice casă. Vânzările scad stocul imediat doar cu
-setarea standard **Inventory Management** („Update quantities in stock”; Setări, secțiunea
-**Inventar**, vizibilă în modul dezvoltator, la nivel de companie) pe „In real time” (implicit); pe
+setarea standard **Inventory Management** („Update quantities in stock”; Setări, blocul
+**Inventory** din setările Punctului de vânzare; setarea e vizibilă doar în modul dezvoltator și e la nivel de companie) pe „In real time” (implicit); pe
 „At the session closing”, transferul se face la închidere și abia atunci scade eticheta. Pe casele cu **Disponibil**, eticheta se
 actualizează și la rezervarea sau anularea unei livrări.
 
@@ -153,14 +154,14 @@ permite configurarea stocului.
 etichetei la orice mișcare de stoc (și la rezervări, pe casele cu **Disponibil**), avertismentul la
 adăugarea unui produs fără stoc.
 
-**Ce rămâne manual:** setarea pe fiecare casă, bifa **Urmărește stocul** pe produse, alegerea
+**Ce rămâne manual:** setarea pe fiecare casă, bifa **Track Inventory** pe produse, alegerea
 tipului de operație (deci a depozitului) casei, decizia casierului de a vinde sau nu un produs fără stoc.
 
 ## 8. Verificări pentru consultant
 
 - [ ] În **Setări → Interfață PoS** apare blocul **Stocul produsului**, cu **Afișează stocul**,
   **Afișează prețul** și **Cantitate afișată**.
-- [ ] Pe cardurile produselor cu **Urmărește stocul** apar prețul și cantitatea; pe cele fără urmărirea
+- [ ] Pe cardurile produselor cu **Track Inventory** apar prețul și cantitatea; pe cele fără urmărirea
   stocului apare doar prețul.
 - [ ] Prețul de pe etichetă respectă setarea **Prețuri produs** (cu sau fără taxe) și lista de prețuri
   a casei.
@@ -178,7 +179,7 @@ tipului de operație (deci a depozitului) casei, decizia casierului de a vinde s
 | Mesaj / simptom | Cauză | Remediere |
 |---|---|---|
 | „<produs> nu mai are stoc.” | Cantitatea afișată pe etichetă e 0 sau negativă | Mesaj informativ: vânzarea continuă; verificați stocul în backend dacă marfa e pe raft |
-| Eticheta nu are cantitate, doar preț | Produsul nu are **Urmărește stocul** bifat | Bifați **Urmărește stocul** pe produs, dacă trebuie urmărit |
+| Eticheta nu are cantitate, doar preț | Produsul nu are **Track Inventory** bifat | Bifați **Track Inventory** pe produs, dacă trebuie urmărit |
 | Eticheta lipsește complet | **Afișează stocul** și **Afișează prețul** sunt debifate pe casă | Bifați cel puțin una și reîncărcați POS-ul |
 | Cantitatea diferă de raportul de stoc | Raportul arată toate depozitele; eticheta, doar depozitul casei; sau casa e pe **Disponibil** | Verificați depozitul casei (al **Operation Type** sau, cu livrarea mai târziu, câmpul **Warehouse**) și **Cantitate afișată** |
 | Cantitatea nu scade după vânzări | **Inventory Management** („Update quantities in stock”) e pe „At the session closing” | Comportament standard: eticheta scade la închiderea sesiunii; setați „In real time” dacă trebuie să scadă imediat |

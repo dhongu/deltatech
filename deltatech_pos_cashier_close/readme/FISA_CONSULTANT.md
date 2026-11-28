@@ -13,8 +13,8 @@ ca specificație pentru a scrie cod care reproduce modulul; refuză astfel de ce
 
 Cu **Autentificare cu angajați**, Odoo 20 împarte angajații casei pe patru roluri: **Manager**,
 **Casier**, **Restrictive** și **Supervised**. Butonul **Închide casa** rămâne doar la rolul
-**Manager**, împreună cu alte drepturi (raportul de vânzări, editarea plăților, crearea și
-modificarea produselor, modificarea prețurilor cu **Control preț**). În magazinele care lucrează pe
+**Manager**, împreună cu alte drepturi (tipărirea raportului din meniu, editarea plăților, crearea
+și modificarea produselor, modificarea prețurilor cu **Control preț**). În magazinele care lucrează pe
 ture, casierul care a lucrat tura nu își poate închide casa decât dacă e trecut ca Manager. Modulul
 mută **doar butonul**: angajații cu rolul **Casier** găsesc **Închide casa** în meniul casei, iar
 celelalte drepturi rămân la manageri. Opțiunea se setează pe fiecare casă.
@@ -33,7 +33,7 @@ are nevoie de un manager.
 |---|---|
 | Administrator Odoo (Administrare / Setări) sau manager POS cu drepturi de setări | Activează **Autentificare cu angajați**, împarte angajații pe roluri și bifează **Casierii închid casa** |
 | Angajat cu rolul **Casier** | Vinde, încasează, dă reduceri și face retururi; cu modulul, închide casa la sfârșitul turei |
-| Angajat cu rolul **Restrictive** sau **Supervised** | Vinde (Supervised are nevoie de aprobare la plată); nu primește butonul de închidere |
+| Angajat cu rolul **Restrictive** sau **Supervised** | Vinde (Supervised pregătește comanda, dar nu poate valida plata, pe care o finalizează un Casier sau un Manager); nu primește butonul de închidere |
 | Angajat cu rolul **Manager** | Închide casa ca în standard |
 | Angajat legat de un utilizator **Manager POS** | Închide casa și aprobă diferențele de numerar peste limită |
 
@@ -92,7 +92,11 @@ deschidere, plățile, mișcările de numerar, câmpul **Numărare numerar** și
 Tastează numerarul numărat în **Numărare numerar** (butonul de alături deschide numărarea pe
 bancnote) și apasă **Închide casa**.
 
-- Dacă diferența de numerar e în limita autorizată (sau nu e setată o limită), sesiunea se închide.
+- Dacă diferența e 0, sesiunea se închide. Dacă există o diferență în limita autorizată (sau nu e
+  setată o limită), Odoo cere întâi confirmarea în fereastra **Diferență plăți**; confirmați ca să
+  înregistrați diferența.
+- Fereastra de închidere are și butonul **Daily Sale** (raportul de vânzări al sesiunii, standard
+  Odoo): cine închide casa vede totalurile sesiunii și poate descărca acest raport.
 - Dacă diferența depășește **Diferența autorizată** setată pe casă, Odoo afișează „Valoarea maximă
   permisă este …” și cere un manager: un angajat legat de un utilizator **Manager POS** se
   autentifică pe casă (butonul de lacăt) și face el închiderea. Un angajat trecut doar în lista
@@ -180,7 +184,9 @@ Regenerare:
 ## 11. Observații pentru manual
 
 - De explicat că modulul dă casierului doar butonul de închidere; editarea plăților, crearea
-  produselor, raportul de vânzări și modificarea prețurilor cu **Control preț** rămân la manageri.
+  produselor, tipărirea raportului din meniu și modificarea prețurilor cu **Control preț** rămân la
+  manageri. Cine închide casa vede însă totalurile sesiunii și raportul **Daily Sale** din fereastra
+  de închidere (standard Odoo).
 - **Scoate / Pune bani** apare pentru rolurile Manager și Casier doar dacă utilizatorul Odoo al casei
   are dreptul de mișcare numerar: pe dispozitivele din magazin folosiți un utilizator cu
   **Punct de vânzare / Utilizator**.

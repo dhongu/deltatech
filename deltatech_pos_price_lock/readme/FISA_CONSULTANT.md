@@ -72,7 +72,7 @@ prețul, ceilalți nu.
 ### Pasul 2 — Tasta Preț dezactivată la casă
 
 Un utilizator cu drepturi de manager POS deschide casa (**Punct de vânzare → Tablou de bord →
-Deschide casa**) și adaugă un produs în bon. Pe tastatura numerică, tastele **Cant** și **%** rămân
+Deschide casa**, sau **Continuați vânzarea** dacă sesiunea e deja deschisă) și adaugă un produs în bon. Pe tastatura numerică, tastele **Cant** și **%** rămân
 active, iar tasta **Preț** e gri și nu reacționează: prețul liniei rămâne cel calculat de Odoo.
 
 Cu **Autentificare cu angajați** (`pos_hr`), regula e aceeași pentru orice angajat, inclusiv cei cu
@@ -107,9 +107,9 @@ au prețul din fișa produsului sau din lista de prețuri, fără modificări ma
 | `pos_hr` | rolurile angajaților; cu modulul, tasta **Preț** e blocată și pentru rolul **Manager** |
 | `deltatech_pos_price_sync` | trimite prețul corectat în fișa produsului la casele deschise, fără reîncărcare |
 
-**Ce e automat:** dezactivarea tastei **Preț** pentru toți utilizatorii casei, refuzul modificării
-de preț și pentru rolurile `pos_hr`, recalcularea prețurilor de către Odoo (liste de prețuri, poziții
-fiscale, taxe incluse).
+**Ce e automat:** dezactivarea tastei **Preț** pentru toți utilizatorii casei, inclusiv angajații
+`pos_hr` cu rolul **Manager**; revenirea automată a tastaturii pe **Cant** la schimbarea casierului;
+recalcularea prețurilor de către Odoo (liste de prețuri, poziții fiscale, taxe incluse).
 
 **Ce rămâne manual:** bifarea opțiunilor pe fiecare casă; corectarea prețurilor în fișa produsului
 sau în listele de prețuri; alegerea listelor de prețuri disponibile pe casă.

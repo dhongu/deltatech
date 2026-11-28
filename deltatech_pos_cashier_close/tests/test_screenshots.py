@@ -2,8 +2,8 @@
 # See README.rst file on addons root folder for license details
 #
 # Screenshots for the consultant sheet (RO) and readme/USAGE.md (EN): the Cashiers Close the
-# Register option next to Log in with Employees, the menu of an employee with basic rights with
-# Close Register in it, the usual closing popup, and the menu of an employee with minimal rights,
+# Register option next to Log in with Employees, the menu of an employee with the Cashier role with
+# Close Register in it, the usual closing popup, and the menu of a Restrictive employee,
 # who still cannot close.
 #
 # Run:
@@ -276,7 +276,7 @@ class TestPosCashierCloseScreenshots(AccountTestInvoicingCommon, ScreenshotCase 
                 "eval": "async () => {" + JS_HELPERS + LOGIN_AS.replace("EMPLOYEE", repr(CASHIER)) + "}",
             },
             {
-                "caption": "A cashier with basic rights ends the shift",
+                "caption": "An employee with the Cashier role ends the shift",
                 "move": ".pos-topheader [data-icon='menu']",
                 "hold": 1500,
             },
