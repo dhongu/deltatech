@@ -101,13 +101,13 @@ class Partner(models.Model):
     gender = fields.Selection([("male", "Male"), ("female", "Female"), ("other", "Other")])
 
     # nu se mai afiseaza compania la contacte
-    def _get_contact_name(self, partner, name):
+    def _get_complete_name(self):
+        self.ensure_one()
+        partner = self
         get_param = self.env["ir.config_parameter"].sudo().get_param
-        contact_get_name = get_param("contact.get_name_only", default=False)
-        if partner.type == "contact" and contact_get_name:
-            return name
-        else:
-            return super()._get_contact_name(partner, name)
+        if self.type == "contact" and get_param("contact.get_name_only", default=False):
+            partner = self.with_context(partner_display_name_hide_company=True)
+        return super(Partner, partner)._get_complete_name()
 
     def _compute_display_name(self):
         res = super()._compute_display_name()
